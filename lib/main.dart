@@ -48,13 +48,13 @@ class MyHomePage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Text(
-                "Hello World!",
+                AppLocalizations.of(context).translate('title'),
                 style: Theme.of(context).textTheme.title,
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 8.0),
               Text(
-                "Let's get it started :)",
+                AppLocalizations.of(context).translate('message'),
                 style: Theme.of(context).textTheme.subtitle,
                 textAlign: TextAlign.center,
               ),
