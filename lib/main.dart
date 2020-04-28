@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'app_localizations.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,24 +14,24 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-//      supportedLocales: [
-//        Locale('en', 'US'),
-//        Locale('ru', 'RU'),
-//      ],
-//      localizationsDelegates: [
-//        AppLocalizations.delegate,
-//        GlobalMaterialLocalizations.delegate,
-//        GlobalWidgetsLocalizations.delegate,
-//      ],
-//      localeResolutionCallback: (locale, supportedLocales) {
-//        for (var supportedLocale in supportedLocales) {
-//          if (supportedLocale.languageCode == locale.languageCode &&
-//              supportedLocale.countryCode == locale.countryCode) {
-//            return supportedLocale;
-//          }
-//        }
-//        return supportedLocales.first;
-//      },
+      supportedLocales: [
+        Locale('en', 'US'),
+        Locale('ru', 'RU'),
+      ],
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      localeResolutionCallback: (locale, supportedLocales) {
+        for (var supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale.languageCode &&
+              supportedLocale.countryCode == locale.countryCode) {
+            return supportedLocale;
+          }
+        }
+        return supportedLocales.first;
+      },
       home: MyHomePage(),
     );
   }
