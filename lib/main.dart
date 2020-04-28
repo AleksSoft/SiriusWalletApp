@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'app_localizations.dart';
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
