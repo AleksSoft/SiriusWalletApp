@@ -5,5 +5,7 @@
   "save": "Save",
   "name": "Name",
   "select_blockchain": "Select blockchain",
-  "name_wrong": "Name is wrong"
+  "name_wrong": "Name is wrong",
+  "smth_wrong": "Something went wrong",
+  "list_empty": "List is empty"
 }
