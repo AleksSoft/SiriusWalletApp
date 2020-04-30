@@ -27,23 +27,57 @@ class AddressList extends StatelessWidget {
                     ),
                     subtitle: Text(
                       _addressList[index].blockchain,
-                      style: Theme.of(context).textTheme.subtitle,
+                      style: Theme.of(context).textTheme.body1,
                     ),
                     children: <Widget>[
-                      Text(
-                        'Address - ${_addressList[index].address}',
-                        style: Theme.of(context).textTheme.caption,
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: UISize.pMedium),
+                        child: Text(
+                          'Address \n${_addressList[index].address}',
+                          style: Theme.of(context).textTheme.caption,
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                       UIHelper.verticalSpaceSmall,
-                      Text(
-                        'PublicKey - ${_addressList[index].publicKey}',
-                        style: Theme.of(context).textTheme.caption,
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: UISize.pMedium),
+                        child: Text(
+                          'PublicKey \n${_addressList[index].publicKey}',
+                          style: Theme.of(context).textTheme.caption,
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                       UIHelper.verticalSpaceSmall,
-                      Text(
-                        'PrivateKey - ${_addressList[index].privateKey}',
-                        style: Theme.of(context).textTheme.caption,
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: UISize.pMedium),
+                        child: Text(
+                          'PrivateKey \n${_addressList[index].privateKey}',
+                          style: Theme.of(context).textTheme.caption,
+                          textAlign: TextAlign.center,
+                        ),
                       ),
+                      ButtonBar(
+                        children: <Widget>[
+                          FlatButton(
+                            child: Text('Sign'),
+                            color: Colors.blue,
+                            onPressed: () {/** */},
+                          ),
+                          FlatButton(
+                            child: Text('Delete'),
+                            color: Colors.red,
+                            onPressed: () =>
+                                BlocProvider.of<AddressListBloc>(context).add(
+                              DeleteAddress(
+                                bWallet: _addressList[index],
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
                     ],
                   );
                 },

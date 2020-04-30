@@ -36,4 +36,15 @@ class AddressRepository {
 
     prefs.setStringList(PrefsKey.address_list, addressList);
   }
+
+  Future<List<BlockchainWallet>> deleteAddress(BlockchainWallet bWallet) async {
+    final prefs = await SharedPreferences.getInstance();
+    List<String> addressList =
+        prefs.getStringList(PrefsKey.address_list) ?? List();
+    addressList.remove(bWallet.toString());
+
+    prefs.setStringList(PrefsKey.address_list, addressList);
+
+    return await fetchAddressesList();
+  }
 }

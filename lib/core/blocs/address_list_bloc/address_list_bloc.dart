@@ -17,6 +17,8 @@ class AddressListBloc extends Bloc<AddressListEvent, AddressListState> {
   Stream<AddressListState> mapEventToState(AddressListEvent event) async* {
     if (event is FetchAddressList) {
       yield* _mapFetchAddressListToState();
+    } else if (event is DeleteAddress) {
+      yield* _mapDeleteAddressToState(event.bWallet);
     }
   }
 
@@ -25,6 +27,19 @@ class AddressListBloc extends Bloc<AddressListEvent, AddressListState> {
     try {
       final List<BlockchainWallet> addressList =
           await _addressRepository.fetchAddressesList();
+      yield addressList.isEmpty
+          ? AddressListEmpty()
+          : AddressListLoaded(addressList: addressList);
+    } catch (_) {
+      yield AddressListError();
+    }
+  }
+
+  Stream<AddressListState> _mapDeleteAddressToState(
+      BlockchainWallet bWallet) async* {
+    try {
+      final List<BlockchainWallet> addressList =
+          await _addressRepository.deleteAddress(bWallet);
       yield addressList.isEmpty
           ? AddressListEmpty()
           : AddressListLoaded(addressList: addressList);
