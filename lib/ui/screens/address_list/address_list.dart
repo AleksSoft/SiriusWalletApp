@@ -62,12 +62,14 @@ class AddressList extends StatelessWidget {
                       ButtonBar(
                         children: <Widget>[
                           FlatButton(
-                            child: Text('Sign'),
+                            child: Text(
+                                AppLocalizations.of(context).translate('sign')),
                             color: Colors.blue,
                             onPressed: () {/** */},
                           ),
                           FlatButton(
-                            child: Text('Delete'),
+                            child: Text(AppLocalizations.of(context)
+                                .translate('delete')),
                             color: Colors.red,
                             onPressed: () =>
                                 BlocProvider.of<AddressListBloc>(context).add(

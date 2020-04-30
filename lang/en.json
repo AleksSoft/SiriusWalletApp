@@ -7,5 +7,7 @@
   "select_blockchain": "Select blockchain",
   "name_wrong": "Name is wrong",
   "smth_wrong": "Something went wrong",
-  "list_empty": "List is empty"
+  "list_empty": "List is empty",
+  "sign": "Sign",
+  "delete": "Delete"
 }
