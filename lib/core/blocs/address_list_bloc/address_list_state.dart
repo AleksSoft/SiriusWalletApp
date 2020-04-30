@@ -14,7 +14,7 @@ class AddressListEmpty extends AddressListState {}
 class AddressListLoading extends AddressListState {}
 
 class AddressListLoaded extends AddressListState {
-  final List<Address> addressList;
+  final List<BlockchainWallet> addressList;
 
   const AddressListLoaded({@required this.addressList})
       : assert(addressList != null);

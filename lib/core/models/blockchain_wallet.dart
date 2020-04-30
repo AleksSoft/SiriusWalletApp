@@ -1,20 +1,20 @@
 import 'dart:convert';
 
-class Address {
+class BlockchainWallet {
   String name;
   String blockchain;
   String address;
   String publicKey;
   String privateKey;
 
-  Address(
+  BlockchainWallet(
       {this.name,
       this.blockchain,
       this.address,
       this.publicKey,
       this.privateKey});
 
-  Address.fromJson(Map<String, dynamic> json) {
+  BlockchainWallet.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     blockchain = json['blockchain'];
     address = json['address'];

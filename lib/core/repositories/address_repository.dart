@@ -6,15 +6,15 @@ import 'package:sirius/core/models/models.dart';
 import 'package:sirius/core/services/blockchain_service.dart';
 
 class AddressRepository {
-  Future<List<Address>> fetchAddressesList() async {
+  Future<List<BlockchainWallet>> fetchAddressesList() async {
     final prefs = await SharedPreferences.getInstance();
-    List<Address> addressList = prefs
+    List<BlockchainWallet> addressList = prefs
         .getStringList(PrefsKey.address_list)
-        .map((a) => Address.fromJson(json.decode(a)))
+        .map((a) => BlockchainWallet.fromJson(json.decode(a)))
         .toList();
 
     if (addressList == null || addressList.isEmpty) {
-      return List<Address>();
+      return List<BlockchainWallet>();
     } else {
       return addressList;
     }
@@ -22,12 +22,16 @@ class AddressRepository {
 
   Future submitAddress(String name, String blockchain) async {
     final prefs = await SharedPreferences.getInstance();
-
     List<String> addressList =
         prefs.getStringList(PrefsKey.address_list) ?? List();
-    Address updated = await BlockchainService.updateEtheriumAddress(
-        Address(name: name, blockchain: blockchain));
+    BlockchainWallet updated =
+        BlockchainWallet(name: name, blockchain: blockchain);
 
+    if (blockchain.startsWith('Bitcoin')) {
+      updated = await BlockchainService.updateBitcoinAddress(updated);
+    } else {
+      updated = await BlockchainService.updateEtheriumAddress(updated);
+    }
     addressList.add(updated.toString());
 
     prefs.setStringList(PrefsKey.address_list, addressList);

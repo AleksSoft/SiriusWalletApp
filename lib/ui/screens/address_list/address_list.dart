@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sirius/core/blocs/address_list_bloc/bloc.dart';
-import 'package:sirius/core/models/models.dart';
+import 'package:sirius/ui/shared/app_localizations.dart';
+import 'package:sirius/ui/shared/ui_helpers.dart';
 
 class AddressList extends StatelessWidget {
   @override
@@ -11,7 +12,7 @@ class AddressList extends StatelessWidget {
         if (state is AddressListLoading) {
           return Center(child: CircularProgressIndicator());
         } else if (state is AddressListLoaded) {
-          List<Address> _addressList = state.addressList ?? List();
+          final _addressList = state.addressList.reversed.toList() ?? List();
           return SafeArea(
             child: Container(
               constraints: BoxConstraints.expand(),
@@ -30,9 +31,19 @@ class AddressList extends StatelessWidget {
                     ),
                     children: <Widget>[
                       Text(
-                        _addressList[index].address,
+                        'Address - ${_addressList[index].address}',
                         style: Theme.of(context).textTheme.caption,
-                      )
+                      ),
+                      UIHelper.verticalSpaceSmall,
+                      Text(
+                        'PublicKey - ${_addressList[index].publicKey}',
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                      UIHelper.verticalSpaceSmall,
+                      Text(
+                        'PrivateKey - ${_addressList[index].privateKey}',
+                        style: Theme.of(context).textTheme.caption,
+                      ),
                     ],
                   );
                 },
@@ -42,7 +53,7 @@ class AddressList extends StatelessWidget {
         } else if (state is AddressListError) {
           return Center(
             child: Text(
-              "Something went wrong",
+              AppLocalizations.of(context).translate('smth_wrong'),
               style: Theme.of(context).textTheme.title.copyWith(
                     color: Colors.red,
                   ),
@@ -51,7 +62,7 @@ class AddressList extends StatelessWidget {
         }
         return Center(
           child: Text(
-            "List is empty",
+            AppLocalizations.of(context).translate('list_empty'),
             style: Theme.of(context).textTheme.title,
           ),
         );

@@ -23,7 +23,7 @@ class AddressListBloc extends Bloc<AddressListEvent, AddressListState> {
   Stream<AddressListState> _mapFetchAddressListToState() async* {
     yield AddressListLoading();
     try {
-      final List<Address> addressList =
+      final List<BlockchainWallet> addressList =
           await _addressRepository.fetchAddressesList();
       yield addressList.isEmpty
           ? AddressListEmpty()

@@ -1,1 +1,1 @@
-export 'address.dart';
+export 'blockchain_wallet.dart';
