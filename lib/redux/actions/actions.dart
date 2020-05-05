@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:sirius/blockchain/blockchain_network_type.dart';
 import 'package:sirius/blockchain/blockchain_protocol_code.dart';
-import 'package:sirius/list/wallet_list.dart';
+import 'package:sirius/containers/wallet_list.dart';
 import 'package:sirius/model/app_tab.dart';
 import 'package:sirius/model/blockchain_wallet.dart';
 

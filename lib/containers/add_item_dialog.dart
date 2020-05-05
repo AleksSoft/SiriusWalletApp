@@ -67,7 +67,6 @@ class AddWalletDialogWidgetState extends State<AddWalletDialogWidget> {
             children: <Widget>[
               Expanded(
                 child: TextField(
-                  autofocus: true,
                   decoration: InputDecoration(
                     labelText: 'Name',
                     hintText: 'My wallet 1',

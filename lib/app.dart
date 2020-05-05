@@ -1,15 +1,20 @@
+import 'package:enum_to_string/enum_to_string.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_redux_dev_tools/flutter_redux_dev_tools.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_dev_tools/redux_dev_tools.dart';
-import 'package:sirius/add_item/add_item_dialog.dart';
-import 'package:sirius/list/wallet_list.dart';
+import 'package:sirius/containers/tab_selector.dart';
 import 'package:sirius/model/app_state.dart';
+import 'package:sirius/presentation/portfolio_screen.dart';
 import 'package:sirius/redux/actions/actions.dart';
 
 import 'app_localizations.dart';
+import 'containers/active_tab.dart';
+import 'containers/home_screen.dart';
+import 'model/app_tab.dart';
 
 class SiriusApp extends StatelessWidget {
   final Store<AppState> store;
@@ -25,7 +30,9 @@ class SiriusApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           brightness: Brightness.light,
-          backgroundColor: Colors.black26,
+          primaryColor: Colors.white,
+          accentColor: CupertinoColors.activeBlue,
+          backgroundColor: CupertinoColors.lightBackgroundGray,
         ),
         supportedLocales: [
           Locale('en', 'US'),
@@ -61,25 +68,30 @@ class MainView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: Icon(Icons.account_balance_wallet),
-        title: Text('SiriusWallet'),
-      ),
-      body: WalletList(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _openAddItemDialog(context),
-        child: Icon(Icons.add),
-      ),
-      endDrawer: Container(
-        width: 240.0,
-        color: Colors.white,
-        child: ReduxDevTools(store),
-      ),
-    );
+    return ActiveTab(builder: (context, activeTab) {
+      return Scaffold(
+        body: _buildBody(activeTab),
+        endDrawer: Container(
+          width: 240.0,
+          color: Colors.white,
+          child: ReduxDevTools(store),
+        ),
+        bottomNavigationBar: TabSelector(),
+      );
+    });
   }
 
-  void _openAddItemDialog(BuildContext context) {
-    showDialog(context: context, builder: (context) => AddWalletDialog());
+  Widget _buildBody(AppTab tab) {
+    switch (tab) {
+      case AppTab.home:
+        return HomeScreen();
+      case AppTab.portfolio:
+        return PortfolioScreen();
+      case AppTab.exchange:
+      case AppTab.orders:
+      case AppTab.more:
+      default:
+        return Scaffold(appBar: AppBar(title: Text(EnumToString.parse(tab))));
+    }
   }
 }
