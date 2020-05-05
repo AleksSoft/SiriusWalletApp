@@ -1,0 +1,1 @@
+enum BlockchainProtocolCode { BTC, ETH }
