@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -6,7 +5,7 @@ import 'package:flutter_echarts/flutter_echarts.dart';
 
 import 'dark_theme_script.dart' show darkThemeScript;
 
-const Map<String, List<num>> baseData = {
+const Map<String, List<num>> _data = {
   "2013/1/25": [2300, 2291.3, 2288.26, 2308.38],
   "2013/1/28": [2295.35, 2346.5, 2295.35, 2346.92],
   "2013/1/29": [2347.22, 2358.98, 2337.35, 2363.8],
@@ -30,26 +29,25 @@ class PortfolioScreen extends StatefulWidget {
 
 class _PortfolioScreenState extends State<PortfolioScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  Map<String, List<num>> _data = {
-    "2013/1/24": [2320.26, 2320.26, 2287.3, 2362.94],
-  };
+  bool _loaded = false;
+  String _xAxisKeys;
+  String _candlestickData;
 
-  getData() async {
-    await Future.delayed(Duration(seconds: 1));
-    this.setState(() {
-      _data.addAll(baseData);
-    });
+  Future _loadData() async {
+    _xAxisKeys = jsonEncode(_data.keys.toList());
+    _candlestickData = jsonEncode(_data.values.toList());
   }
 
   @override
   void initState() {
+    _loadData();
     super.initState();
-
-    this.getData();
   }
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = width * 3 / 4;
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -57,77 +55,87 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
       ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: 250,
-                width: 300,
-                child: Echarts(
-                  extensions: [darkThemeScript],
-                  captureAllGestures: true,
-                  option: '''
-                  {
+        child: Container(
+          height: height,
+          width: width,
+          child: Center(
+            child: Stack(
+              children: <Widget>[
+                Visibility(
+                  visible: !_loaded,
+                  child: Center(child: CircularProgressIndicator()),
+                ),
+                AnimatedOpacity(
+                  duration: Duration(milliseconds: 300),
+                  opacity: _loaded ? 1.0 : 0.0,
+                  child: Echarts(
+                    onLoad: () => setState(() => _loaded = true),
+                    extensions: [darkThemeScript],
+                    captureAllGestures: true,
+                    option: '''
+                    {
     tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-            type: 'cross'
-        }
+          trigger: 'axis',
+          axisPointer: {
+              type: 'cross'
+          }
     },
     grid: {
-        left: '10%',
-        right: '10%',
-        bottom: '15%'
+          left: '15%',
+          right: '5%',
+          bottom: '20%',
+          top: '5%'
     },
     xAxis: {
-        type: 'category',
-        data: ${jsonEncode(_data.keys.toList())},
-        scale: true,
-        boundaryGap: false,
-        axisLine: {onZero: false},
-        splitLine: {show: false},
-        splitNumber: 20,
-        min: 'dataMin',
-        max: 'dataMax'
+          type: 'category',
+          data: $_xAxisKeys,
+          scale: true,
+          boundaryGap: false,
+          axisLine: {onZero: false},
+          splitLine: {show: false},
+          splitNumber: 20,
+          min: 'dataMin',
+          max: 'dataMax'
     },
     yAxis: {
-        scale: true,
-        splitArea: {
-            show: true
-        }
+          scale: true,
+          splitArea: {
+              show: true
+          }
     },
     dataZoom: [
-        {
-            type: 'inside',
-            start: 0,
-            end: 100
-        },
-        {
-            show: true,
-            type: 'slider',
-            top: '90%',
-            start: 50,
-            end: 100
-        }
+          {
+              type: 'inside',
+              start: 30,
+              end: 100
+          },
+          {
+              show: true,
+              type: 'slider',
+              top: '90%',
+              start: 50,
+              end: 100
+          }
     ],
     series: [
-        {
-            name: 'test',
-            type: 'candlestick',
-            data: ${jsonEncode(_data.values.toList())},
-            itemStyle: {
-                color: '#ec0000',
-                color0: '#00da3c',
-                borderColor: '#8A0000',
-                borderColor0: '#008F28'
-            },
-        },
+          {
+              name: 'test',
+              type: 'candlestick',
+              data: $_candlestickData,
+              itemStyle: {
+                  color: '#ec0000',
+                  color0: '#00da3c',
+                  borderColor: '#8A0000',
+                  borderColor0: '#008F28'
+              },
+          },
     ]
 }
-                  ''',
+                    ''',
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

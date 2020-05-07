@@ -4,16 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:redux_dev_tools/redux_dev_tools.dart';
-import 'package:sirius/containers/tab_selector.dart';
 import 'package:sirius/model/app_state.dart';
-import 'package:sirius/presentation/portfolio/portfolio_screen.dart';
+import 'package:sirius/model/app_tab.dart';
 import 'package:sirius/redux/actions/actions.dart';
 
 import 'app_localizations.dart';
 import 'containers/active_tab.dart';
 import 'containers/home_screen.dart';
-import 'model/app_tab.dart';
+import 'containers/tab_selector.dart';
+import 'presentation/portfolio/portfolio_screen.dart';
 
 class SiriusApp extends StatelessWidget {
   final Store<AppState> store;
@@ -53,7 +52,7 @@ class SiriusApp extends StatelessWidget {
         },
         home: StoreBuilder<AppState>(
           onInit: (store) => store.dispatch(FetchWalletsAction()),
-          builder: (context, store) => MainView(store),
+          builder: (context, store) => MainView(),
         ),
       ),
     );
@@ -61,10 +60,6 @@ class SiriusApp extends StatelessWidget {
 }
 
 class MainView extends StatelessWidget {
-  final DevToolsStore<AppState> store;
-
-  MainView(this.store);
-
   @override
   Widget build(BuildContext context) {
     return ActiveTab(builder: (context, activeTab) {

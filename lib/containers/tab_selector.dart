@@ -17,6 +17,7 @@ class TabSelector extends StatelessWidget {
       converter: _ViewModel.fromStore,
       builder: (context, vm) {
         return BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           selectedItemColor: CupertinoColors.activeBlue,
           unselectedItemColor: Colors.black,
           backgroundColor: Colors.white,
