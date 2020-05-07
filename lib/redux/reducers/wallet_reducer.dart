@@ -10,15 +10,12 @@ final walletsReducer = combineReducers<List<BlockchainWallet>>([
 
 List<BlockchainWallet> _addWallet(
     List<BlockchainWallet> wallets, AddWalletAction action) {
-  return List.from(wallets)..add(action.wallet);
+  return wallets..add(action.wallet);
 }
 
 List<BlockchainWallet> _removeWallet(
     List<BlockchainWallet> wallets, RemoveWalletAction action) {
-  return List.from(wallets)
-    ..removeWhere(
-      (wallet) => wallet.name == action.wallet.name,
-    );
+  return wallets..removeWhere((wallet) => wallet.name == action.wallet.name);
 }
 
 List<BlockchainWallet> _loadWallet(

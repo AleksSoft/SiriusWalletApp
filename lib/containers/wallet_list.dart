@@ -29,6 +29,7 @@ class _WalletListState extends State<WalletList> {
               child: _isLoading
                   ? Center(child: CircularProgressIndicator())
                   : ListView.builder(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
                       itemCount: viewModel.wallets.length,
                       itemBuilder: (context, position) => WalletItem(
                         viewModel.wallets[position],

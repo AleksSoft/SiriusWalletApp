@@ -16,15 +16,16 @@ class PrefsMiddleware extends MiddlewareClass<AppState> {
 
   @override
   Future<void> call(Store<AppState> store, action, NextDispatcher next) async {
-    if (action is AddWalletAction || action is RemoveWalletAction) {
+    if (action is AddWalletAction) {
       await _saveItemsToPrefs(store.state.wallets);
     }
-
     if (action is FetchWalletsAction) {
       await _loadItemsFromPrefs(store);
     }
-
     next(action);
+    if (action is RemoveWalletAction) {
+      await _saveItemsToPrefs(store.state.wallets);
+    }
   }
 
   Future _saveItemsToPrefs(List<BlockchainWallet> items) async {
