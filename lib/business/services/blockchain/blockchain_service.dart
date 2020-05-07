@@ -4,11 +4,12 @@ import 'dart:math';
 import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 import 'package:bitcoin_flutter/src/models/networks.dart' as BtcNetworks;
 import 'package:bitcoin_flutter/src/payments/index.dart' show PaymentData;
-import 'package:sirius/blockchain/blockchain_network_type.dart';
-import 'package:sirius/blockchain/blockchain_protocol_code.dart';
-import 'package:sirius/model/blockchain_wallet.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
+
+import 'blockchain_network_type.dart';
+import 'blockchain_protocol_code.dart';
+import 'blockchain_wallet.dart';
 
 class BlockchainService {
   static Future<BlockchainWallet> createPrivateWallet(
@@ -29,7 +30,9 @@ class BlockchainService {
       );
     } else {
       final keyPair = ECPair.makeRandom(
-        network: networkType == BlockchainNetworkType.TEST_NET ? BtcNetworks.testnet : BtcNetworks.bitcoin,
+        network: networkType == BlockchainNetworkType.TEST_NET
+            ? BtcNetworks.testnet
+            : BtcNetworks.bitcoin,
         rng: _rng,
       );
       final address = P2PKH(

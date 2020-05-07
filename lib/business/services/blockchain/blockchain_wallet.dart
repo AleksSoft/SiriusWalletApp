@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:equatable/equatable.dart';
-import 'package:sirius/blockchain/blockchain_network_type.dart';
-import 'package:sirius/blockchain/blockchain_protocol_code.dart';
+
+import 'blockchain_network_type.dart';
+import 'blockchain_protocol_code.dart';
 
 class BlockchainWallet extends Equatable {
   final String name;

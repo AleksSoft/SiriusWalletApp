@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
-
-import 'dark_theme_script.dart' show darkThemeScript;
+import 'package:sirius/ui/charts/scripts/dark_theme_script.dart'
+    show darkThemeScript;
 
 const Map<String, List<num>> _data = {
   "2013/1/25": [2300, 2291.3, 2288.26, 2308.38],
@@ -20,27 +20,25 @@ const Map<String, List<num>> _data = {
   "2013/2/18": [2441.91, 2421.56, 2415.43, 2444.8],
 };
 
-class PortfolioScreen extends StatefulWidget {
-  PortfolioScreen({Key key}) : super(key: key);
+class PortfolioPage extends StatefulWidget {
+  PortfolioPage({Key key}) : super(key: key);
 
   @override
-  _PortfolioScreenState createState() => _PortfolioScreenState();
+  _PortfolioPageState createState() => _PortfolioPageState();
 }
 
-class _PortfolioScreenState extends State<PortfolioScreen> {
+class _PortfolioPageState extends State<PortfolioPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  bool _loaded = false;
-  String _xAxisKeys;
-  String _candlestickData;
+  Stream<Map<String, List<num>>> _dataStream;
 
-  Future _loadData() async {
-    _xAxisKeys = jsonEncode(_data.keys.toList());
-    _candlestickData = jsonEncode(_data.values.toList());
+  Future<Map<String, List<num>>> _getData() async {
+    await Future.delayed(Duration(seconds: 1));
+    return _data;
   }
 
   @override
   void initState() {
-    _loadData();
+    _dataStream = Stream.fromFuture(_getData());
     super.initState();
   }
 
@@ -58,26 +56,26 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
         child: Container(
           height: height,
           width: width,
-          child: Center(
-            child: Stack(
-              children: <Widget>[
-                Visibility(
-                  visible: !_loaded,
-                  child: Center(child: CircularProgressIndicator()),
-                ),
-                AnimatedOpacity(
-                  duration: Duration(milliseconds: 300),
-                  opacity: _loaded ? 1.0 : 0.0,
-                  child: Echarts(
-                    onLoad: () => setState(() => _loaded = true),
-                    extensions: [darkThemeScript],
-                    captureAllGestures: true,
-                    option: '''
-                    {
+          alignment: Alignment.topCenter,
+          child: StreamBuilder<Map<String, List<num>>>(
+              stream: _dataStream,
+              builder: (context, snapshot) {
+                if (snapshot.data == null) {
+                  return Center(child: CircularProgressIndicator());
+                }
+
+                String _xAxisKeys = jsonEncode(_data.keys.toList());
+                String _candlestickData = jsonEncode(_data.values.toList());
+
+                return Echarts(
+                  extensions: [darkThemeScript],
+                  captureAllGestures: true,
+                  option: '''
+                {
     tooltip: {
           trigger: 'axis',
           axisPointer: {
-              type: 'cross'
+            type: 'cross'
           }
     },
     grid: {
@@ -100,43 +98,40 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
     yAxis: {
           scale: true,
           splitArea: {
-              show: true
+            show: true
           }
     },
     dataZoom: [
           {
-              type: 'inside',
-              start: 30,
-              end: 100
+            type: 'inside',
+            start: 30,
+            end: 100
           },
           {
-              show: true,
-              type: 'slider',
-              top: '90%',
-              start: 50,
-              end: 100
+            show: true,
+            type: 'slider',
+            top: '90%',
+            start: 50,
+            end: 100
           }
     ],
     series: [
           {
-              name: 'test',
-              type: 'candlestick',
-              data: $_candlestickData,
-              itemStyle: {
-                  color: '#ec0000',
-                  color0: '#00da3c',
-                  borderColor: '#8A0000',
-                  borderColor0: '#008F28'
-              },
+            name: 'test',
+            type: 'candlestick',
+            data: $_candlestickData,
+            itemStyle: {
+              color: '#ec0000',
+              color0: '#00da3c',
+              borderColor: '#8A0000',
+              borderColor0: '#008F28'
+            },
           },
     ]
 }
-                    ''',
-                  ),
-                ),
-              ],
-            ),
-          ),
+                ''',
+                );
+              }),
         ),
       ),
     );

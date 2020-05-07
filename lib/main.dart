@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:sirius/redux/store.dart';
 
 import 'app.dart';
+import 'locator.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final store = await createStore();
-  runApp(SiriusApp(store));
+  // Register all the services before the app starts
+  setupLocator();
+  // Run application
+  runApp(SiriusApp());
 }
