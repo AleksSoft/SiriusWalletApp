@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -43,16 +44,11 @@ class _AppLocalizationsDelegate
   const _AppLocalizationsDelegate();
 
   @override
-  bool isSupported(Locale locale) {
-    return ['en', 'ru'].contains(locale.languageCode);
-  }
+  bool isSupported(Locale locale) => ['en', 'ru'].contains(locale.languageCode);
 
   @override
-  Future<AppLocalizations> load(Locale locale) async {
-    // AppLocalizations class is where the JSON loading actually runs
-    AppLocalizations localizations = new AppLocalizations(locale);
-    await localizations.load();
-    return localizations;
+  Future<AppLocalizations> load(Locale locale) {
+    return SynchronousFuture<AppLocalizations>(AppLocalizations(locale));
   }
 
   @override
