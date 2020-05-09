@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sirius/ui/views/pages/home_page.dart';
 import 'package:sirius/ui/views/pages/portfolio_page.dart';
 
 class Routes {
@@ -21,6 +22,8 @@ class Routes {
 
   static Widget _buildPage(String name, Object arguments) {
     switch (name) {
+      case home:
+        return HomePage();
       case portfolio:
         return PortfolioPage();
       default:
