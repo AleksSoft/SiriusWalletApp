@@ -22,7 +22,6 @@ dependencies:
   equatable: ^0.6.1
   enum_to_string: ^1.0.9
   tuple: ^1.0.3
-  intl: ^0.16.1
 
   #blockchain
   bitcoin_flutter: ^2.0.0
