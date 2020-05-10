@@ -20,7 +20,7 @@ class SiriusApp extends StatelessWidget {
           brightness: Brightness.light,
           primaryColor: Colors.white,
           accentColor: CupertinoColors.activeBlue,
-          backgroundColor: CupertinoColors.lightBackgroundGray,
+          scaffoldBackgroundColor: CupertinoColors.extraLightBackgroundGray,
         ),
         supportedLocales: [
           Locale('en', 'US'),

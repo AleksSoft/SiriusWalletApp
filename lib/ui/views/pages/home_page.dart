@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sirius/ui/charts/candlesticks.dart';
+import 'package:sirius/ui/widgets/chart_example.dart';
 
 class HomePage extends StatelessWidget {
   final List sampleData = [
@@ -22,28 +24,51 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = width * 3 / 4;
+    final height = MediaQuery.of(context).size.width * 3 / 4;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home'),
-      ),
-      body: SingleChildScrollView(
+      appBar: AppBar(title: Text('Home'), elevation: 0.5),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: SingleChildScrollView(
-          child: Container(
-            height: height,
-            width: width,
-            padding: EdgeInsets.all(16.0),
-            alignment: Alignment.topCenter,
-            child: GestureDetector(
-              child: OHLCVGraph(
-                data: sampleData,
-                enableGridLines: true,
-                volumeProp: 0.2,
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: _buildCard(
+                  height: height,
+                  child: GestureDetector(
+                    child: OHLCVGraph(
+                      data: sampleData,
+                      enableGridLines: true,
+                      volumeProp: 0.2,
+                    ),
+                  ),
+                ),
               ),
-            ),
+              _buildCard(
+                height: height,
+                child: ChartExample(),
+              ),
+            ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Card _buildCard({double height = 300, @required Widget child}) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+      shadowColor: CupertinoColors.extraLightBackgroundGray,
+      elevation: 3.0,
+      child: SizedBox(
+        height: height,
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: child,
         ),
       ),
     );
