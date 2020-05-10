@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:sirius/ui/views/main_view.dart';
+import 'package:sirius/ui/views/root_view.dart';
 
 import 'app_localizations.dart';
 import 'ui/navigation/navigation.dart';
@@ -41,7 +41,7 @@ class SiriusApp extends StatelessWidget {
           return supportedLocales.first;
         },
         onGenerateRoute: (routeSettings) => Routes.generateRoute(routeSettings),
-        home: MainView(),
+        home: RootView(),
       ),
     );
   }

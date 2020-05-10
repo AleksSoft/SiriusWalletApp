@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:sirius/ui/navigation/navigation.dart';
 import 'package:sirius/ui/navigation/routes.dart';
 
-class MainView extends StatefulWidget {
+class RootView extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _MainViewState();
+  State<StatefulWidget> createState() => _RootViewState();
 }
 
-class _MainViewState extends State<MainView> {
+class _RootViewState extends State<RootView> {
   @override
   Widget build(BuildContext context) {
     return NestedNavigators(
@@ -56,27 +56,5 @@ class _MainViewState extends State<MainView> {
         backgroundColor: Colors.white,
       ),
     );
-  }
-
-  List<ListTile> _buildDrawersItems(
-    Map<NestedNavItemKey, NestedNavigatorItem> items,
-    NestedNavItemKey selectedItemKey,
-    Function(NestedNavItemKey) selectNavigator,
-  ) {
-    return items.entries
-        .map((entry) => ListTile(
-              title: Text(
-                entry.value.text,
-                style: TextStyle(
-                  color: entry.key == selectedItemKey ? Colors.blue : null,
-                ),
-              ),
-              trailing: Icon(
-                entry.value.icon,
-                color: entry.key == selectedItemKey ? Colors.blue : null,
-              ),
-              onTap: () => selectNavigator(entry.key),
-            ))
-        .toList();
   }
 }

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:sirius/ui/views/pages/exchange_page.dart';
 import 'package:sirius/ui/views/pages/home_page.dart';
+import 'package:sirius/ui/views/pages/more_page.dart';
+import 'package:sirius/ui/views/pages/orders_page.dart';
 import 'package:sirius/ui/views/pages/portfolio_page.dart';
 
 class Routes {
@@ -26,6 +29,12 @@ class Routes {
         return HomePage();
       case portfolio:
         return PortfolioPage();
+      case exchange:
+        return ExchangePage();
+      case orders:
+        return OrdersPage();
+      case more:
+        return MorePage();
       default:
         return Scaffold(appBar: AppBar(title: Text(name)));
     }
