@@ -77,7 +77,7 @@ class NestedNavigators<T> extends StatefulWidget {
   ///  buildBottomNavigationItem: (key, item, selected) => BottomNavigationBarItem(
   ///          icon: Icon(
   ///            item.icon,
-  ///            color: Colors.blue,
+  ///            color: Colors.blueAccent,
   ///          ),
   ///          title: Text(
   ///            item.text,
@@ -143,11 +143,11 @@ class NestedNavigators<T> extends StatefulWidget {
   ///                Icon(
   ///                  item.icon,
   ///                  size: 24,
-  ///                  color: selected ? Colors.blue : null,
+  ///                  color: selected ? Colors.blueAccent : null,
   ///                ),
   ///                Text(
   ///                  item.text,
-  ///                  style: TextStyle(fontSize: 20, color: selected ? Colors.blue : null),
+  ///                  style: TextStyle(fontSize: 20, color: selected ? Colors.blueAccent : null),
   ///                ),
   ///              ],
   ///            ),
@@ -164,7 +164,7 @@ class NestedNavigators<T> extends StatefulWidget {
   /// For example:
   /// ```dart
   /// bottomNavigationBarTheme: Theme.of(context).copyWith(
-  ///        splashColor: Colors.blue[100],
+  ///        splashColor: Colors.blueAccent[100],
   ///        primaryColor: Colors.red,
   ///      ),
   /// ```

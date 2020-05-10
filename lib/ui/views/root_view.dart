@@ -42,8 +42,7 @@ class _RootViewState extends State<RootView> {
       generateRoute: Routes.generateRoute,
       initialNavigatorKey: NestedNavItemKey.home,
       buildBottomNavigationItem: (key, item, selected) {
-        final color =
-            selected ? CupertinoColors.activeBlue : CupertinoColors.black;
+        final color = selected ? Colors.blueAccent : Colors.black;
         return BottomNavigationBarItem(
           icon: Icon(item.icon, color: color),
           title: Text(

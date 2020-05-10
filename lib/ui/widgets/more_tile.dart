@@ -11,7 +11,7 @@ class MoreTile extends StatelessWidget {
     Key key,
     @required this.icon,
     @required this.title,
-    this.color = CupertinoColors.activeBlue,
+    this.color = Colors.blueAccent,
     this.chevronVisible = true,
   }) : super(key: key);
 
