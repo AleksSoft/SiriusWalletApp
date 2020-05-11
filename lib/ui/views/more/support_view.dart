@@ -12,7 +12,6 @@ class SupportView extends StatelessWidget {
         title: Text('Support'),
         elevation: 0.0,
       ),
-      backgroundColor: Colors.white,
       body: ListView(
         children: <Widget>[
           MenuTile(

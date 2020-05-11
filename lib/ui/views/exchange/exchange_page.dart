@@ -8,7 +8,6 @@ class ExchangePage extends StatelessWidget {
         title: Text('Exchange'),
         elevation: 0.5,
       ),
-      backgroundColor: Colors.white,
       body: Container(),
     );
   }

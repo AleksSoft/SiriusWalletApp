@@ -51,9 +51,6 @@ class _RootViewState extends State<RootView> {
           ),
         );
       },
-      bottomNavigationBarTheme: Theme.of(context).copyWith(
-        backgroundColor: Colors.white,
-      ),
     );
   }
 }

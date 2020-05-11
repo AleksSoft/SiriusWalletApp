@@ -12,7 +12,6 @@ class MorePage extends StatelessWidget {
         title: Text('More'),
         elevation: 0.0,
       ),
-      backgroundColor: Colors.white,
       body: ListView(
         children: <Widget>[
           MenuTile(
@@ -26,6 +25,7 @@ class MorePage extends StatelessWidget {
           MenuTile(
             title: 'Profile',
             icon: Icons.account_circle,
+            onTap: () => Navigator.of(context).pushNamed(Routes.profile),
           ),
           MenuTile(
             title: 'Support',

@@ -19,7 +19,6 @@ class OrdersPage extends StatelessWidget {
           ),
           elevation: 0.5,
         ),
-        backgroundColor: Colors.white,
         body: TabBarView(
           children: <Widget>[
             Center(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sirius/ui/views/exchange/exchange_page.dart';
 import 'package:sirius/ui/views/home/home_page.dart';
 import 'package:sirius/ui/views/more/more_page.dart';
+import 'package:sirius/ui/views/more/profile_view.dart';
 import 'package:sirius/ui/views/more/support_view.dart';
 import 'package:sirius/ui/views/orders/orders_page.dart';
 import 'package:sirius/ui/views/portfolio/portfolio_page.dart';
@@ -16,6 +17,7 @@ class Routes {
   static const orders = '/orders';
   static const more = '/more';
   static const support = '/support';
+  static const profile = '/profile';
 
   static MaterialPageRoute generateRoute(RouteSettings routeSettings) {
     return MaterialPageRoute(
@@ -39,6 +41,8 @@ class Routes {
         return MorePage();
       case support:
         return SupportView();
+      case profile:
+        return ProfileView();
       default:
         return Scaffold(appBar: AppBar(title: Text(name)));
     }
