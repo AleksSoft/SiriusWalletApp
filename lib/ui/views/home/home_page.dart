@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:sirius/ui/charts/candlesticks.dart';
 import 'package:sirius/ui/widgets/chart_example.dart';
 
+import 'home_card.dart';
+
 class HomePage extends StatelessWidget {
   final List sampleData = [
     {"open": 50.0, "high": 100.0, "low": 40.0, "close": 80, "volumeto": 5000.0},
@@ -35,40 +37,19 @@ class HomePage extends StatelessWidget {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
-                child: _buildCard(
-                  height: height,
-                  child: GestureDetector(
-                    child: OHLCVGraph(
-                      data: sampleData,
-                      enableGridLines: true,
-                      volumeProp: 0.2,
-                    ),
-                  ),
-                ),
+                child: HomeCard(
+                    height: height,
+                    child: GestureDetector(
+                      child: OHLCVGraph(
+                        data: sampleData,
+                        enableGridLines: true,
+                        volumeProp: 0.2,
+                      ),
+                    )),
               ),
-              _buildCard(
-                height: height,
-                child: ChartExample(),
-              ),
+              HomeCard(height: height, child: ChartExample()),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Card _buildCard({double height = 300, @required Widget child}) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-      shadowColor: CupertinoColors.extraLightBackgroundGray,
-      elevation: 3.0,
-      child: SizedBox(
-        height: height,
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: child,
         ),
       ),
     );

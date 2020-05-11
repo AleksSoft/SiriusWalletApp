@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sirius/ui/widgets/more_tile.dart';
+import 'package:sirius/ui/navigation/navigation.dart';
+
+import 'menu_tile.dart';
 
 class MorePage extends StatelessWidget {
   @override
@@ -13,23 +15,24 @@ class MorePage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: ListView(
         children: <Widget>[
-          MoreTile(
+          MenuTile(
             title: 'Settings',
             icon: Icons.settings,
           ),
-          MoreTile(
+          MenuTile(
             title: 'Wallets',
             icon: Icons.lock,
           ),
-          MoreTile(
+          MenuTile(
             title: 'Profile',
             icon: Icons.account_circle,
           ),
-          MoreTile(
+          MenuTile(
             title: 'Support',
             icon: Icons.headset,
+            onTap: () => Navigator.of(context).pushNamed(Routes.support),
           ),
-          MoreTile(
+          MenuTile(
             title: 'Terms and conditions',
             icon: Icons.list,
           ),
@@ -37,7 +40,7 @@ class MorePage extends StatelessWidget {
             height: 8.0,
             color: CupertinoColors.extraLightBackgroundGray,
           ),
-          MoreTile(
+          MenuTile(
             title: 'Logout',
             icon: Icons.exit_to_app,
             color: Colors.red,
