@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sirius/ui/charts/candlesticks.dart';
-import 'package:sirius/ui/widgets/chart_example.dart';
+import 'package:sirius/ui/widgets/chart_view.dart';
 
 import 'home_card.dart';
 
@@ -26,30 +25,16 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.width * 3 / 4;
+    final width = MediaQuery.of(context).size.width;
+    final height = width * 3 / 4;
 
     return Scaffold(
       appBar: AppBar(title: Text('Home'), elevation: 0.5),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: HomeCard(
-                    height: height,
-                    child: GestureDetector(
-                      child: OHLCVGraph(
-                        data: sampleData,
-                        enableGridLines: true,
-                        volumeProp: 0.2,
-                      ),
-                    )),
-              ),
-              HomeCard(height: height, child: ChartExample()),
-            ],
-          ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            ChartView(height: height, width: width),
+          ],
         ),
       ),
     );
