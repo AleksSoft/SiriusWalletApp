@@ -59,7 +59,7 @@ class _ChartViewState extends State<ChartView> {
           "autosize": true,
           "symbol": "BITBAY:BTCUSD",
           "interval": "D",
-          "timeframe": "10d",
+//          "timeframe": "10d",
           "timezone": "Etc/UTC",
           "theme": "light",
           "style": "1",
@@ -68,17 +68,27 @@ class _ChartViewState extends State<ChartView> {
           "hide_top_toolbar": true,
           "hide_legend": true,
           "overrides": {
+            "paneProperties.background": "#ffffff",
+//            "paneProperties.vertGridProperties.color": "rgba(0, 0, 0, 0)",
+//            "paneProperties.horzGridProperties.color": "rgba(0, 0, 0, 0)",
+//            "paneProperties.crossHairProperties.color": "rgba(0, 0, 0, 0)",
+//            "mainSeriesProperties.candleStyle.drawBorder": false,
+//            "mainSeriesProperties.candleStyle.upColor": "rgba(48, 209, 88, 1)",
+//            "mainSeriesProperties.candleStyle.downColor": "rgba(255, 59, 48, 1)",
             "mainSeriesProperties.style": 0,
             "volumePaneSize": "tiny",
-            "mainSeriesProperties.showCountdown": false
+//            "scalesProperties.lineColor" : "#ffffff",
+//            "scalesProperties.textColor" : "#ffffff",
+            "mainSeriesProperties.showCountdown": false,
+            "mainSeriesProperties.visible":true,
           },
-          "time_frames": [
-            { "text": "1y", "resolution": "W" },
-            { "text": "6m", "resolution": "D" },
-            { "text": "1m", "resolution": "D" },
-            { "text": "10d", "resolution": "60" },
-            { "text": "3d", "resolution": "60" },
-          ],
+//          "time_frames": [
+//            { "text": "1y", "resolution": "W" },
+//            { "text": "6m", "resolution": "D" },
+//            { "text": "1m", "resolution": "D" },
+//            { "text": "10d", "resolution": "60" },
+//            { "text": "3d", "resolution": "60" },
+//          ],
           "container_id": "chart"
         }
       );
@@ -154,13 +164,11 @@ class _ChartViewState extends State<ChartView> {
             ].toSet(),
             gestureRecognizers: widget.captureAllGestures
                 ? (Set()
-                  ..add(Factory<VerticalDragGestureRecognizer>(() {
-                    return VerticalDragGestureRecognizer()
-                      ..onStart = (DragStartDetails details) {}
-                      ..onUpdate = (DragUpdateDetails details) {}
-                      ..onDown = (DragDownDetails details) {}
-                      ..onCancel = () {}
-                      ..onEnd = (DragEndDetails details) {};
+                  ..add(Factory<ScaleGestureRecognizer>(() {
+                    return ScaleGestureRecognizer()
+                      ..onStart = (ScaleStartDetails details) {}
+                      ..onUpdate = (ScaleUpdateDetails details) {}
+                      ..onEnd = (ScaleEndDetails details) {};
                   }))
                   ..add(Factory<HorizontalDragGestureRecognizer>(() {
                     return HorizontalDragGestureRecognizer()

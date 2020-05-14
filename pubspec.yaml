@@ -18,11 +18,11 @@ dependencies:
   #business
   meta: ^1.1.8
   flutter_secure_storage: ^3.3.3
-  get_it: ^4.0.1
-  equatable: ^0.6.1
+  get_it: ^4.0.2
+  equatable: ^1.1.1
   enum_to_string: ^1.0.9
   tuple: ^1.0.3
-  url_launcher: ^5.4.5
+  url_launcher: ^5.4.7
 
   #blockchain
   bitcoin_flutter: ^2.0.0

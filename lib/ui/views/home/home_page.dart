@@ -7,13 +7,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Home'), elevation: 0.5),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            ChartView(captureAllGestures: true),
-          ],
-        ),
-      ),
+      body: ChartView(captureAllGestures: true),
     );
   }
 }
