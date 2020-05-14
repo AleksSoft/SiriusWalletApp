@@ -54,11 +54,12 @@ class _ChartViewState extends State<ChartView> {
   void init() async {
     await _controller?.evaluateJavascript('''
       $tradingViewScript
-      new TradingView.widget(
+      var chart = new TradingView.widget(
         {
           "autosize": true,
           "symbol": "BITBAY:BTCUSD",
           "interval": "D",
+          "timeframe": "10d",
           "timezone": "Etc/UTC",
           "theme": "light",
           "style": "1",
@@ -66,11 +67,18 @@ class _ChartViewState extends State<ChartView> {
           "enable_publishing": false,
           "hide_top_toolbar": true,
           "hide_legend": true,
-          "save_image": false,
-          "disabled_features": ["use_localstorage_for_settings"],
           "overrides": {
+            "mainSeriesProperties.style": 0,
+            "volumePaneSize": "tiny",
             "mainSeriesProperties.showCountdown": false
           },
+          "time_frames": [
+            { "text": "1y", "resolution": "W" },
+            { "text": "6m", "resolution": "D" },
+            { "text": "1m", "resolution": "D" },
+            { "text": "10d", "resolution": "60" },
+            { "text": "3d", "resolution": "60" },
+          ],
           "container_id": "chart"
         }
       );
@@ -111,60 +119,59 @@ class _ChartViewState extends State<ChartView> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = width * 3 / 4;
+
     // --- FIX_BLINK ---
     return Opacity(
         opacity: _opacity,
         // --- FIX_BLINK ---
-        child: WebView(
-          initialUrl: htmlBase64,
-          javascriptMode: JavascriptMode.unrestricted,
-          onWebViewCreated: (WebViewController webViewController) {
-            _controller = webViewController;
-          },
-          onPageFinished: (String url) {
-            // --- FIX_BLINK ---
-            if (Platform.isAndroid) {
-              setState(() {
-                _opacity = 1.0;
-              });
-            }
-            // --- FIX_BLINK ---
-            init();
-          },
-          javascriptChannels: <JavascriptChannel>[
-            JavascriptChannel(
-                name: 'Messager',
-                onMessageReceived: (JavascriptMessage javascriptMessage) {
-                  widget?.onMessage(javascriptMessage.message);
-                }),
-          ].toSet(),
-          gestureRecognizers: widget.captureAllGestures
-              ? (Set()
-                ..add(Factory<VerticalDragGestureRecognizer>(() {
-                  return VerticalDragGestureRecognizer()
-                    ..onStart = (DragStartDetails details) {}
-                    ..onUpdate = (DragUpdateDetails details) {}
-                    ..onDown = (DragDownDetails details) {}
-                    ..onCancel = () {}
-                    ..onEnd = (DragEndDetails details) {};
-                }))
-                ..add(Factory<HorizontalDragGestureRecognizer>(() {
-                  return HorizontalDragGestureRecognizer()
-                    ..onStart = (DragStartDetails details) {}
-                    ..onUpdate = (DragUpdateDetails details) {}
-                    ..onDown = (DragDownDetails details) {}
-                    ..onCancel = () {}
-                    ..onEnd = (DragEndDetails details) {};
-                }))
-                ..add(Factory<PanGestureRecognizer>(() {
-                  return PanGestureRecognizer()
-                    ..onStart = (DragStartDetails details) {}
-                    ..onUpdate = (DragUpdateDetails details) {}
-                    ..onDown = (DragDownDetails details) {}
-                    ..onCancel = () {}
-                    ..onEnd = (DragEndDetails details) {};
-                })))
-              : null,
+        child: SizedBox(
+          width: width,
+          height: height,
+          child: WebView(
+            initialUrl: htmlBase64,
+            javascriptMode: JavascriptMode.unrestricted,
+            onWebViewCreated: (WebViewController webViewController) {
+              _controller = webViewController;
+            },
+            onPageFinished: (String url) {
+              // --- FIX_BLINK ---
+              if (Platform.isAndroid) {
+                setState(() {
+                  _opacity = 1.0;
+                });
+              }
+              // --- FIX_BLINK ---
+              init();
+            },
+            javascriptChannels: <JavascriptChannel>[
+              JavascriptChannel(
+                  name: 'Messager',
+                  onMessageReceived: (JavascriptMessage javascriptMessage) {
+                    widget?.onMessage(javascriptMessage.message);
+                  }),
+            ].toSet(),
+            gestureRecognizers: widget.captureAllGestures
+                ? (Set()
+                  ..add(Factory<VerticalDragGestureRecognizer>(() {
+                    return VerticalDragGestureRecognizer()
+                      ..onStart = (DragStartDetails details) {}
+                      ..onUpdate = (DragUpdateDetails details) {}
+                      ..onDown = (DragDownDetails details) {}
+                      ..onCancel = () {}
+                      ..onEnd = (DragEndDetails details) {};
+                  }))
+                  ..add(Factory<HorizontalDragGestureRecognizer>(() {
+                    return HorizontalDragGestureRecognizer()
+                      ..onStart = (DragStartDetails details) {}
+                      ..onUpdate = (DragUpdateDetails details) {}
+                      ..onDown = (DragDownDetails details) {}
+                      ..onCancel = () {}
+                      ..onEnd = (DragEndDetails details) {};
+                  })))
+                : null,
+          ),
         ));
   }
 }

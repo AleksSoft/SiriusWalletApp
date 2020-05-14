@@ -300,6 +300,7 @@ class _NestedNavigatorsState<T> extends State<NestedNavigators> {
       );
 
   Widget _buildNativeBottomNavigatorBar() => BottomNavigationBar(
+        backgroundColor: Colors.white,
         type: BottomNavigationBarType.fixed,
         elevation: widget.bottomNavigationBarElevation,
         items: getBottomNavigatorBarItems(),
