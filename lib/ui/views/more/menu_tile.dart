@@ -3,19 +3,23 @@ import 'package:flutter/material.dart';
 
 class MenuTile extends StatelessWidget {
   final IconData icon;
+  final Widget trailing;
   final String title;
   final String subtitle;
   final Color color;
-  final bool chevronVisible;
+  final Color iconColor;
+  final bool showDivider;
   final VoidCallback onTap;
 
   const MenuTile({
     Key key,
     @required this.icon,
     @required this.title,
-    this.subtitle = '',
+    this.subtitle,
+    this.trailing,
     this.color = Colors.blueAccent,
-    this.chevronVisible = true,
+    this.iconColor = Colors.white,
+    this.showDivider = true,
     this.onTap,
   }) : super(key: key);
 
@@ -35,29 +39,19 @@ class MenuTile extends StatelessWidget {
                 title,
                 style: Theme.of(context).textTheme.button,
               ),
-              trailing: _buildTrailing(context),
+              subtitle: subtitle != null ? Text(subtitle) : null,
+              trailing: trailing ?? SizedBox.shrink(),
             ),
-            Divider(
-              height: 0.5,
-              indent: 72.0,
-              endIndent: 24.0,
-            )
+            showDivider
+                ? Divider(
+                    height: 0.5,
+                    indent: 72.0,
+                    endIndent: 24.0,
+                  )
+                : SizedBox.shrink(),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildTrailing(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Text(
-          this.subtitle,
-          style: Theme.of(context).textTheme.caption,
-        ),
-        this.chevronVisible ? Icon(Icons.chevron_right) : SizedBox.shrink()
-      ],
     );
   }
 
@@ -70,11 +64,7 @@ class MenuTile extends StatelessWidget {
       ),
       child: Padding(
         padding: EdgeInsets.all(5.0),
-        child: Icon(
-          icon,
-          color: Colors.white,
-          size: 20.0,
-        ),
+        child: Icon(icon, color: iconColor, size: 20.0),
       ),
     );
   }

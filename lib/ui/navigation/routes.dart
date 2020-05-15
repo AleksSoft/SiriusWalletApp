@@ -3,6 +3,7 @@ import 'package:sirius/ui/views/exchange/exchange_page.dart';
 import 'package:sirius/ui/views/home/home_page.dart';
 import 'package:sirius/ui/views/more/more_page.dart';
 import 'package:sirius/ui/views/more/profile_view.dart';
+import 'package:sirius/ui/views/more/settings_view.dart';
 import 'package:sirius/ui/views/more/support_view.dart';
 import 'package:sirius/ui/views/orders/orders_page.dart';
 import 'package:sirius/ui/views/portfolio/portfolio_page.dart';
@@ -16,6 +17,7 @@ class Routes {
   static const exchange = '/exchange';
   static const orders = '/orders';
   static const more = '/more';
+  static const settings = '/settings';
   static const support = '/support';
   static const profile = '/profile';
 
@@ -39,6 +41,8 @@ class Routes {
         return OrdersPage();
       case more:
         return MorePage();
+      case settings:
+        return SettingsView();
       case support:
         return SupportView();
       case profile:

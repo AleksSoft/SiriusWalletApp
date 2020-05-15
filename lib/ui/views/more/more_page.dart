@@ -17,24 +17,30 @@ class MorePage extends StatelessWidget {
           MenuTile(
             title: 'Settings',
             icon: Icons.settings,
+            onTap: () => Navigator.of(context).pushNamed(Routes.settings),
+            trailing: Icon(Icons.chevron_right),
           ),
           MenuTile(
             title: 'Wallets',
             icon: Icons.lock,
+            trailing: Icon(Icons.chevron_right),
           ),
           MenuTile(
             title: 'Profile',
             icon: Icons.account_circle,
             onTap: () => Navigator.of(context).pushNamed(Routes.profile),
+            trailing: Icon(Icons.chevron_right),
           ),
           MenuTile(
             title: 'Support',
             icon: Icons.headset,
             onTap: () => Navigator.of(context).pushNamed(Routes.support),
+            trailing: Icon(Icons.chevron_right),
           ),
           MenuTile(
             title: 'Terms and conditions',
             icon: Icons.list,
+            trailing: Icon(Icons.chevron_right),
           ),
           Container(
             height: 8.0,
@@ -44,7 +50,7 @@ class MorePage extends StatelessWidget {
             title: 'Logout',
             icon: Icons.exit_to_app,
             color: Colors.red,
-            chevronVisible: false,
+            trailing: Icon(Icons.chevron_right),
           ),
         ],
       ),
