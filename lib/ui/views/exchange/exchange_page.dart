@@ -72,9 +72,11 @@ class _ExchangePageState extends State<ExchangePage> {
                     {
                       tooltip: {
                         trigger: 'item',
-                        axisPointer: {
-                          type: 'shadow'
-                        }
+                        backgroundColor: 'white',
+                        borderColor: 'rgba(209, 209, 214, 1)',
+                        borderWidth: '0.5',
+                        axisPointer: {type: 'shadow'},
+                        textStyle: {color: 'black'},
                       },
                       grid: {
                         left: '5%',
