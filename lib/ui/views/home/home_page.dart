@@ -13,7 +13,6 @@ class HomePage extends StatelessWidget {
           children: [
             ChartView(
               captureAllGestures: true,
-              onLoad: () => print('---chart loaded---'),
             ),
           ],
         ),
