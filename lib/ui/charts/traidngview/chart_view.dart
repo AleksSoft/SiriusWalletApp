@@ -6,7 +6,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
-import 'package:sirius/ui/charts/traidingview/tradingview_script.dart';
+import 'package:sirius/ui/charts/traidngview/tradingview_script.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 /// <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, target-densitydpi=device-dpi" /><style type="text/css">body,html,#chart{height: 100%;width: 100%;margin: 0px;}div {-webkit-tap-highlight-color:rgba(255,255,255,0);}</style></head><body><div id="chart" /></body></html>
@@ -59,36 +59,21 @@ class _ChartViewState extends State<ChartView> {
           "autosize": true,
           "symbol": "BITBAY:BTCUSD",
           "interval": "D",
-//          "timeframe": "10d",
           "timezone": "Etc/UTC",
           "theme": "light",
           "style": "1",
           "locale": "en",
           "enable_publishing": false,
           "hide_top_toolbar": true,
-          "hide_legend": true,
+          "hide_symbol": true,
+          "hide_legend": false,
           "overrides": {
             "paneProperties.background": "#ffffff",
-//            "paneProperties.vertGridProperties.color": "rgba(0, 0, 0, 0)",
-//            "paneProperties.horzGridProperties.color": "rgba(0, 0, 0, 0)",
-//            "paneProperties.crossHairProperties.color": "rgba(0, 0, 0, 0)",
-//            "mainSeriesProperties.candleStyle.drawBorder": false,
-//            "mainSeriesProperties.candleStyle.upColor": "rgba(48, 209, 88, 1)",
-//            "mainSeriesProperties.candleStyle.downColor": "rgba(255, 59, 48, 1)",
             "mainSeriesProperties.style": 0,
             "volumePaneSize": "tiny",
-//            "scalesProperties.lineColor" : "#ffffff",
-//            "scalesProperties.textColor" : "#ffffff",
             "mainSeriesProperties.showCountdown": false,
             "mainSeriesProperties.visible":true,
           },
-//          "time_frames": [
-//            { "text": "1y", "resolution": "W" },
-//            { "text": "6m", "resolution": "D" },
-//            { "text": "1m", "resolution": "D" },
-//            { "text": "10d", "resolution": "60" },
-//            { "text": "3d", "resolution": "60" },
-//          ],
           "container_id": "chart"
         }
       );

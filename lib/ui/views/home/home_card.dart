@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class HomeCard extends StatelessWidget {
   const HomeCard({
     Key key,
-    @required this.height,
-    @required this.child,
+    this.height,
+    this.child,
   }) : super(key: key);
 
   final double height;
@@ -18,12 +18,9 @@ class HomeCard extends StatelessWidget {
       ),
       shadowColor: Colors.grey[100],
       elevation: 4.0,
-      child: SizedBox(
-        height: height,
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: child,
-        ),
+      child: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: child,
       ),
     );
   }
