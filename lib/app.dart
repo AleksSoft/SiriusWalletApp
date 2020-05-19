@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:sirius/ui/common/app_colors.dart';
 import 'package:sirius/ui/views/root_view.dart';
 
 import 'app_localizations.dart';
@@ -18,9 +19,9 @@ class SiriusApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           brightness: Brightness.light,
-          primaryColor: Colors.white,
-          accentColor: Colors.blueAccent,
-          scaffoldBackgroundColor: Colors.white,
+          primaryColor: AppColors.primary,
+          accentColor: AppColors.accent,
+          scaffoldBackgroundColor: AppColors.scaffoldBkg,
         ),
         supportedLocales: [
           Locale('en', 'US'),
