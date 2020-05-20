@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>767234193119-a23h6rtbcsj00t2povoa3fc24aemf378.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.767234193119-a23h6rtbcsj00t2povoa3fc24aemf378</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDV-5HcMoIUio_-LjQ3iS1U4UT0pK1fz-Q</string>
+	<key>GCM_SENDER_ID</key>
+	<string>767234193119</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>app.wallet.antares</string>
+	<key>PROJECT_ID</key>
+	<string>antares-wallet</string>
+	<key>STORAGE_BUCKET</key>
+	<string>antares-wallet.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:767234193119:ios:da950e3eaa469cfd0e1b6a</string>
+	<key>DATABASE_URL</key>
+	<string>https://antares-wallet.firebaseio.com</string>
+</dict>
+</plist>
