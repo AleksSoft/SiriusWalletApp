@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sirius/ui/navigation/navigation.dart';
+import 'package:antares_wallet/ui/navigation/navigation.dart';
 
 import 'menu_tile.dart';
 

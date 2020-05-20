@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:sirius/ui/views/exchange/exchange_page.dart';
-import 'package:sirius/ui/views/home/home_page.dart';
-import 'package:sirius/ui/views/more/more_page.dart';
-import 'package:sirius/ui/views/more/profile_view.dart';
-import 'package:sirius/ui/views/more/settings_view.dart';
-import 'package:sirius/ui/views/more/support_view.dart';
-import 'package:sirius/ui/views/orders/orders_page.dart';
-import 'package:sirius/ui/views/portfolio/portfolio_page.dart';
+import 'package:antares_wallet/ui/views/exchange/exchange_page.dart';
+import 'package:antares_wallet/ui/views/home/home_page.dart';
+import 'package:antares_wallet/ui/views/more/more_page.dart';
+import 'package:antares_wallet/ui/views/more/profile_view.dart';
+import 'package:antares_wallet/ui/views/more/settings_view.dart';
+import 'package:antares_wallet/ui/views/more/support_view.dart';
+import 'package:antares_wallet/ui/views/orders/orders_page.dart';
+import 'package:antares_wallet/ui/views/portfolio/portfolio_page.dart';
 
 class Routes {
   Routes._();

@@ -1,4 +1,4 @@
-import 'package:sirius/business/dto/base_dto.dart';
+import 'package:antares_wallet/business/dto/base_dto.dart';
 
 class PersonalData extends Dto<PersonalData> {
   String fullName = '';

@@ -24,5 +24,5 @@ Future main() async {
   Intl.systemLocale = locale.toString();
 
   // Run application
-  runApp(SiriusApp());
+  runApp(AntaresApp());
 }

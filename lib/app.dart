@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:sirius/ui/common/app_colors.dart';
-import 'package:sirius/ui/views/root_view.dart';
+import 'package:antares_wallet/ui/common/app_colors.dart';
+import 'package:antares_wallet/ui/views/root_view.dart';
 
 import 'app_localizations.dart';
 import 'ui/navigation/navigation.dart';
 
-class SiriusApp extends StatelessWidget {
+class AntaresApp extends StatelessWidget {
   final NestedNavigatorsBloc _bloc = NestedNavigatorsBloc<NestedNavItemKey>();
 
   @override

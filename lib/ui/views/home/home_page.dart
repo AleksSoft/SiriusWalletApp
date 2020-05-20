@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sirius/ui/charts/traidngview/chart_view.dart';
+import 'package:antares_wallet/ui/charts/traidngview/chart_view.dart';
 
 class HomePage extends StatelessWidget {
   @override

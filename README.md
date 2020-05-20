@@ -1,6 +1,6 @@
-# sirius
+# Antares
 
-SiriusWallet app
+Antares Wallet app
 
 ## Getting Started
 

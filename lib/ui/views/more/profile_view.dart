@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:sirius/business/dto/account_data.dart';
-import 'package:sirius/business/dto/personal_data.dart';
-import 'package:sirius/business/view_models/more/profile_view_model.dart';
-import 'package:sirius/ui/common/app_colors.dart';
+import 'package:antares_wallet/business/dto/account_data.dart';
+import 'package:antares_wallet/business/dto/personal_data.dart';
+import 'package:antares_wallet/business/view_models/more/profile_view_model.dart';
+import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:stacked/stacked.dart';
 
 class ProfileView extends StatelessWidget {
@@ -17,8 +17,9 @@ class ProfileView extends StatelessWidget {
       ),
       body: ViewModelBuilder.reactive(
         viewModelBuilder: () => ProfileViewModel(),
-        onModelReady: (model) async => await model.initialise(),
-        builder: (context, model, child) {
+        onModelReady: (ProfileViewModel model) async =>
+            await model.initialise(),
+        builder: (context, ProfileViewModel model, child) {
           if (model.isBusy) {
             return Center(
               child: SingleChildScrollView(),

@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:sirius/business/common/store_keys.dart';
-import 'package:sirius/business/dto/account_data.dart';
-import 'package:sirius/business/dto/personal_data.dart';
-import 'package:sirius/business/services/api/mock_api.dart';
-import 'package:sirius/business/services/key_store_service.dart';
-import 'package:sirius/locator.dart';
+import 'package:antares_wallet/business/common/store_keys.dart';
+import 'package:antares_wallet/business/dto/account_data.dart';
+import 'package:antares_wallet/business/dto/personal_data.dart';
+import 'package:antares_wallet/business/services/api/mock_api.dart';
+import 'package:antares_wallet/business/services/key_store_service.dart';
+import 'package:antares_wallet/locator.dart';
 
 class ProfileManager {
   final _storage = locator<KeyStoreService>();

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:sirius/business/dto/base_dto.dart';
+import 'package:antares_wallet/business/dto/base_dto.dart';
 
 class KeyStoreService {
   final FlutterSecureStorage _storage = FlutterSecureStorage();

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sirius/ui/common/widgets/nothing_view.dart';
+import 'package:antares_wallet/ui/common/widgets/nothing_view.dart';
 
 class PortfolioPage extends StatelessWidget {
   @override

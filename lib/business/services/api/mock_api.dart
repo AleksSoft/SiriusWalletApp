@@ -1,6 +1,6 @@
-import 'package:sirius/business/dto/account_data.dart';
-import 'package:sirius/business/dto/personal_data.dart';
-import 'package:sirius/business/dto/support.dart';
+import 'package:antares_wallet/business/dto/account_data.dart';
+import 'package:antares_wallet/business/dto/personal_data.dart';
+import 'package:antares_wallet/business/dto/support.dart';
 
 class MockApi {
   Future<Support> fetchSupport() async {
