@@ -3,7 +3,7 @@ description: Antares Wallet flutter application.
 
 publish_to: 'none'
 
-version: 1.0.0+1
+version: 0.0.1+1
 
 environment:
   sdk: ">=2.6.0 <3.0.0"
@@ -53,14 +53,19 @@ flutter:
     - lang/en.json
     - lang/ru.json
 
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+  fonts:
+    - family: Proxima Nova
+      fonts:
+        - asset: assets/fonts/Proxima Nova Regular.otf
+        - asset: assets/fonts/Proxima Nova Thin.otf
+          weight: 100
+        - asset: assets/fonts/Proxima Nova Light.otf
+          weight: 300
+        - asset: assets/fonts/Proxima Nova Semibold.otf
+          weight: 700
+        - asset: assets/fonts/Proxima Nova Bold.otf
+          weight: 900
+    - family: Akrobat
+      fonts:
+        - asset: assets/fonts/Akrobat-Bold.otf
+          weight: 900
