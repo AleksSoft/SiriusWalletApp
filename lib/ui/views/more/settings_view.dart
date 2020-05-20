@@ -23,7 +23,6 @@ class SettingsView extends StatelessWidget {
           ),
           MenuTile(
             title: 'Push-notifications',
-            subtitle: '',
             icon: Icons.notifications,
             iconColor: Colors.black,
             color: Colors.transparent,
@@ -47,7 +46,6 @@ class SettingsView extends StatelessWidget {
           ),
           MenuTile(
             title: 'Backup private key',
-            subtitle: '',
             icon: Icons.vpn_key,
             iconColor: Colors.black,
             color: Colors.transparent,
@@ -55,11 +53,11 @@ class SettingsView extends StatelessWidget {
           ),
           MenuTile(
             title: 'About',
-            subtitle: '',
             icon: Icons.info_outline,
             iconColor: Colors.black,
             color: Colors.transparent,
             showDivider: false,
+            onTap: () => showAboutDialog(context: context),
           ),
         ],
       ),

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -23,6 +24,10 @@ Future main() async {
   final locale = window.locale;
   Intl.systemLocale = locale.toString();
 
+  // Firebase
+  // Setup analytics
+  FirebaseAnalytics analytics = FirebaseAnalytics();
+
   // Run application
-  runApp(AntaresApp());
+  runApp(AntaresApp(analytics));
 }

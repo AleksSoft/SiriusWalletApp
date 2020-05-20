@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "antares-wallet",
+  "private_key_id": "9492990311875122cddad56c0cab84777b776329",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDIVjHZw7peHi66\nf+lSX9+quoUZdzObUf9f71Xt9va9ZwMveyUq9BXPej/MBWWVzW+m/1LkFMMOVLTc\noygGXBp82apouF9I8mIuhIF2JAzUS6haeDwgIuyZ3o1HxmYg6M5THHinjR75YYBM\nOldGZ703+IQ4uWUjHJP/NvZxn75lzClKV2Nnxx5cLwLhaIgWzV3H1NNDXWuzBtfM\nhGnkR63hHKcbkrEpZiODeR6FING705U7NhuzfLIFb6hKxfl3HfldncVZ5RWRKQf2\nTKFTzU1c/iSTwaBotRkpD9iuQPypXhxy6osbKE+mPbNwVB0Pr0JisDsDoCAGMqRN\nUMwpVVd7AgMBAAECggEACBKi4y1X8o2jB/gBVu+LbZMjAQZdi1dm/NBzuKlWkOmG\npnJGI16/DOqdiUpAKUEydprxh7Z1k/R7NUjhYyA4WCMpvXBUGGf6PNy/ZXCsrI+V\nQSVchuRTKcdCgUuzmr4cNeJ+74GEvR76ed7/+OHhu2z+fFVYpDQ8Yn8R1JJPyO+d\n91MWps9BjwW18JKtVcJPqgxaxq2+fMxubFYpdoA+XJLFfaGkzNHWcX2Aku65NT3w\ntp44DpaRFyb1kY64toTVVJ8Axf46XYZOXn/diFkm+PLpfTZVnKbBYxje/6TnKckC\nibH4gkcxZTD9rxObNllmkc+FKtkRwpVFecXKaXYxwQKBgQD4oPDTbd21ZntfeCmP\n4HHF4XIkq05WE1EcKxqMbOruH6YP9H/esoaKOnq6SAh08UJwkHEoRwI7jv9SFqm0\nXoSAv5Ysq6ZSkeKBexAsKcTSO7Qoxarx7o6DkkDsQmnYIodtqqJPlEJw39r+CB1n\nIrYDeXc37Z5mnJCe4g9AIO2YtwKBgQDORrlkXUq+ABzME11UoGBo8pOAX5HQneA+\nyY2qQycG5JhtEH7lvgGprcU8TTCw2Y5paq3QfcJFOW2jh+EGonHkcVHztHWzd9fa\n46simKAzEE3MDo7eRLwv0ckemzLEUeptNMJf/oaPE7QzolZIvFwIUKKUIfuBIvv5\nGovY9zMLXQKBgBi7MZlmaVJdAlKpykCUi9yqI0eAfsdTHpNVuktTnj7XiRY3NOz7\nByUC0ihrd+PiB8DYrVjbT16LR9xrgq/9YuLHq/F/lYjLGCPXEPHDqd9brv0LRIjS\nOPzfdHPL22lzbdM70O9niQBfVBJGzl3u9vn7gB9hFIuScVRMmkW/wMKbAoGACa9O\nYwTyTmto7rf2CNQi0qqY/E0AZqAS+D+0VAslGPDAq1Y77wN1xoavHP6uy47bXd2x\nXXmaFm/00tm9Wfdki4o6g8u0PwHgc5l+3nf2BY+9Z1hDovHtN/2MiNBWmNsTu57f\nhWxI2wzcyBPWI0IcvBM1Huldipme5Po3GK+6iM0CgYEAh+IQS81804MPt7gYG6g9\ntwIK1jsG0IM8gK4cReSjwAK2+5zSHTwv/yE5cXvXt1UTABeLItnB41riwxWNClTd\nxI2F2a1fyM5qwGdh3bOvAF52bZUYKRxYk1v0ifOAcox9h2kAlSZqv3WQ69Jx4Psl\nfR6Iin42Md+NOldvEDddG8k=\n-----END PRIVATE KEY-----\n",
+  "client_email": "app-distribution@antares-wallet.iam.gserviceaccount.com",
+  "client_id": "113877286417751587185",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/app-distribution%40antares-wallet.iam.gserviceaccount.com"
+}

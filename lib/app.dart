@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -8,7 +10,11 @@ import 'app_localizations.dart';
 import 'ui/navigation/navigation.dart';
 
 class AntaresApp extends StatelessWidget {
-  final NestedNavigatorsBloc _bloc = NestedNavigatorsBloc<NestedNavItemKey>();
+  final NestedNavigatorsBloc _bloc;
+  final FirebaseAnalytics _analytics;
+
+  AntaresApp(this._analytics)
+      : this._bloc = NestedNavigatorsBloc<NestedNavItemKey>();
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +47,9 @@ class AntaresApp extends StatelessWidget {
           }
           return supportedLocales.first;
         },
+        navigatorObservers: [
+          FirebaseAnalyticsObserver(analytics: _analytics),
+        ],
         onGenerateRoute: (routeSettings) => Routes.generateRoute(routeSettings),
         home: RootView(),
       ),
