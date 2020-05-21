@@ -1,5 +1,5 @@
+import 'package:antares_wallet/ui/views/widgets/nothing_view.dart';
 import 'package:flutter/material.dart';
-import 'package:antares_wallet/ui/common/widgets/nothing_view.dart';
 
 class OrdersPage extends StatelessWidget {
   @override

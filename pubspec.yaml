@@ -18,6 +18,7 @@ dependencies:
   #business
   stacked: ^1.5.2
   meta: ^1.1.8
+  intl: ^0.16.1
   flutter_secure_storage: ^3.3.3
   get_it: ^4.0.2
   equatable: ^1.1.1

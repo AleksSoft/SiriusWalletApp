@@ -17,13 +17,10 @@ class ProfileView extends StatelessWidget {
       ),
       body: ViewModelBuilder.reactive(
         viewModelBuilder: () => ProfileViewModel(),
-        onModelReady: (ProfileViewModel model) async =>
-            await model.initialise(),
+        onModelReady: (ProfileViewModel model) => model.initialise(),
         builder: (context, ProfileViewModel model, child) {
           if (model.isBusy) {
-            return Center(
-              child: SingleChildScrollView(),
-            );
+            return Center(child: CircularProgressIndicator());
           }
           return ListView(
             padding: EdgeInsets.all(16.0),
