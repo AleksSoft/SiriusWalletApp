@@ -11,7 +11,7 @@ class PortfolioHistoryItem extends Dto<PortfolioHistoryItem> {
   double amount = 0;
   int timestamp = 0;
   int transactionHash;
-  List<ExplorerItem> explorerItems;
+  List<ExplorerItem> explorerItems = List();
   TransactionType transactionType;
 
   bool get isDeposit => transactionType == TransactionType.deposit;

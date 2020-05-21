@@ -1,6 +1,8 @@
 import 'package:antares_wallet/business/dto/portfolio_history_item.dart';
 import 'package:antares_wallet/business/view_models/portfolio/portfolio_history_view_model.dart';
+import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:antares_wallet/ui/views/widgets/nothing_view.dart';
+import 'package:clipboard_manager/clipboard_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -32,7 +34,7 @@ class PortfolioHistoryView extends StatelessWidget {
             itemCount: model.historyItems.length,
             padding: EdgeInsets.all(8.0),
             itemBuilder: (context, index) {
-              return PortfolioHistoryCard(item: model.historyItems[index]);
+              return PortfolioHistoryCard(index: index);
             },
           ),
         );
@@ -41,16 +43,17 @@ class PortfolioHistoryView extends StatelessWidget {
   }
 }
 
-class PortfolioHistoryCard extends StatelessWidget {
+class PortfolioHistoryCard extends ViewModelWidget<PortfolioHistoryViewModel> {
+  final int index;
   const PortfolioHistoryCard({
     Key key,
-    @required this.item,
+    @required this.index,
   }) : super(key: key);
 
-  final PortfolioHistoryItem item;
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, PortfolioHistoryViewModel model) {
+    final PortfolioHistoryItem item = model.historyItems[index];
+
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8.0),
@@ -58,7 +61,7 @@ class PortfolioHistoryCard extends StatelessWidget {
       elevation: 5.0,
       shadowColor: Colors.black38,
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -113,6 +116,46 @@ class PortfolioHistoryCard extends StatelessWidget {
                   _buildInfoItem(context, 'Status', item.status),
                 ],
               ),
+            ),
+            SizedBox(height: 16.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                item.explorerItems.isNotEmpty
+                    ? FlatButton(
+                        onPressed: () {},
+                        child: Text(
+                          'View Explorer',
+                          style: Theme.of(context).textTheme.button.copyWith(
+                                color: AppColors.accent,
+                              ),
+                        ),
+                      )
+                    : SizedBox.shrink(),
+                item.transactionHash != null
+                    ? FlatButton(
+                        onPressed: () {
+                          ClipboardManager.copyToClipBoard(
+                                  item.transactionHash.toString())
+                              .then((result) {
+                            final snackBar = SnackBar(
+                              content: Text(
+                                'Transaction hash copied to Clipboard',
+                              ),
+                            );
+                            Scaffold.of(context).showSnackBar(snackBar);
+                          });
+                        },
+                        child: Text(
+                          'Copy',
+                          style: Theme.of(context).textTheme.button.copyWith(
+                                color: AppColors.accent,
+                              ),
+                        ),
+                      )
+                    : SizedBox.shrink(),
+              ],
             ),
           ],
         ),
