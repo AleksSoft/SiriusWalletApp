@@ -5,6 +5,7 @@ import 'package:antares_wallet/ui/views/widgets/nothing_view.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PortfolioHistoryView extends StatelessWidget {
   const PortfolioHistoryView({Key key}) : super(key: key);
@@ -124,7 +125,8 @@ class PortfolioHistoryCard extends ViewModelWidget<PortfolioHistoryViewModel> {
               children: <Widget>[
                 item.explorerItems.isNotEmpty
                     ? FlatButton(
-                        onPressed: () {},
+                        onPressed: () =>
+                            _viewExplorer(context, item.explorerItems),
                         child: Text(
                           'View Explorer',
                           style: Theme.of(context).textTheme.button.copyWith(
@@ -135,18 +137,7 @@ class PortfolioHistoryCard extends ViewModelWidget<PortfolioHistoryViewModel> {
                     : SizedBox.shrink(),
                 item.transactionHash != null
                     ? FlatButton(
-                        onPressed: () {
-                          ClipboardManager.copyToClipBoard(
-                                  item.transactionHash.toString())
-                              .then((result) {
-                            final snackBar = SnackBar(
-                              content: Text(
-                                'Transaction hash copied to Clipboard',
-                              ),
-                            );
-                            Scaffold.of(context).showSnackBar(snackBar);
-                          });
-                        },
+                        onPressed: () => _copyHash(context, item),
                         child: Text(
                           'Copy',
                           style: Theme.of(context).textTheme.button.copyWith(
@@ -179,5 +170,51 @@ class PortfolioHistoryCard extends ViewModelWidget<PortfolioHistoryViewModel> {
         Text(title, style: Theme.of(context).textTheme.caption),
       ],
     );
+  }
+
+  _viewExplorer(BuildContext context, List<ExplorerItem> explorerItems) {
+    List<Widget> widgets = [
+      Text(
+        'Explorer links:',
+        style: Theme.of(context).textTheme.headline5,
+      ),
+      SizedBox(height: 8.0),
+    ]..addAll(explorerItems
+        .map((e) => FlatButton(
+              onPressed: () => _launchURL(e.url),
+              child: Text(e.name),
+            ))
+        .toList());
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        padding: EdgeInsets.only(top: 16.0, left: 8.0, right: 8.0),
+        height: (60 + 50 * (widgets.length - 2)).toDouble(),
+        color: AppColors.primary,
+        child: ListView(children: widgets),
+      ),
+    );
+  }
+
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url, forceWebView: false, forceSafariVC: false);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  _copyHash(BuildContext context, PortfolioHistoryItem item) {
+    ClipboardManager.copyToClipBoard(item.transactionHash.toString())
+        .then((result) {
+      final snackBar = SnackBar(
+        content: Text(
+          'Transaction hash copied to Clipboard',
+        ),
+      );
+      Scaffold.of(context).showSnackBar(snackBar);
+    });
   }
 }

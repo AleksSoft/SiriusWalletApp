@@ -1,5 +1,4 @@
 import 'package:antares_wallet/business/view_models/portfolio/portfolio_history_view_model.dart';
-import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -9,42 +8,20 @@ class PortfolioHistoryFiltersView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: Text(
-          'Cancel',
-          style: Theme.of(context).textTheme.button.copyWith(
-                color: AppColors.accent,
-              ),
-        ),
-        title: Text('Filters'),
-        actions: [
-          Text(
-            'Clear',
-            style: Theme.of(context).textTheme.button.copyWith(
-                  color: AppColors.secondary,
-                ),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          PortfolioHistoryPeriodFilterView(),
+          PortfolioHistoryTransFilterView(),
+          PortfolioHistoryAssetFilterView(),
+          Spacer(),
+          CupertinoButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('Apply'),
           ),
         ],
-        elevation: 0.5,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              PortfolioHistoryPeriodFilterView(),
-              PortfolioHistoryTransFilterView(),
-              PortfolioHistoryAssetFilterView(),
-              Spacer(),
-              CupertinoButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: Text('Apply'),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

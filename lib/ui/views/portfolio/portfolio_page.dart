@@ -3,7 +3,27 @@ import 'package:antares_wallet/ui/views/widgets/nothing_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class PortfolioPage extends StatelessWidget {
+class PortfolioPage extends StatefulWidget {
+  @override
+  _PortfolioPageState createState() => _PortfolioPageState();
+}
+
+class _PortfolioPageState extends State<PortfolioPage>
+    with SingleTickerProviderStateMixin {
+  TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = new TabController(vsync: this, length: 2);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
