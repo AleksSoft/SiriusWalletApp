@@ -181,8 +181,16 @@ class PortfolioHistoryCard extends ViewModelWidget<PortfolioHistoryViewModel> {
       SizedBox(height: 8.0),
     ]..addAll(explorerItems
         .map((e) => FlatButton(
-              onPressed: () => _launchURL(e.url),
-              child: Text(e.name),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _launchURL(e.url);
+              },
+              child: Text(
+                e.name,
+                style: Theme.of(context).textTheme.button.copyWith(
+                      fontSize: 16.0,
+                    ),
+              ),
             ))
         .toList());
 

@@ -51,7 +51,7 @@ class MockApi {
         ..timestamp = 1589919689 //2020-05-19T20:21:29+00:00
         ..explorerItems = <ExplorerItem>[
           ExplorerItem()
-            ..name = 'Smth'
+            ..name = 'Smth else'
             ..url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
         ]
         ..transactionType = TransactionType.withdraw
@@ -67,7 +67,7 @@ class MockApi {
             ..name = 'Lykke'
             ..url = 'https://www.lykke.com',
           ExplorerItem()
-            ..name = 'Smth'
+            ..name = 'Smth else'
             ..url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
         ]
         ..transactionType = TransactionType.withdraw
@@ -83,7 +83,7 @@ class MockApi {
             ..name = 'Lykke'
             ..url = 'https://www.lykke.com',
           ExplorerItem()
-            ..name = 'Smth'
+            ..name = 'Smth else'
             ..url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
         ]
         ..transactionType = TransactionType.deposit
