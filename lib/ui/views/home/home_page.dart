@@ -11,9 +11,9 @@ class HomePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ChartView(
-              captureAllGestures: true,
-            ),
+            // ChartView(
+            //   captureAllGestures: true,
+            // ),
           ],
         ),
       ),

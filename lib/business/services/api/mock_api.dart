@@ -2,6 +2,7 @@ import 'package:antares_wallet/business/dto/account_data.dart';
 import 'package:antares_wallet/business/dto/personal_data.dart';
 import 'package:antares_wallet/business/dto/portfolio_history_item.dart';
 import 'package:antares_wallet/business/dto/support.dart';
+import 'package:antares_wallet/business/view_models/portfolio/portfolio_history_view_model.dart';
 
 class MockApi {
   Future<Support> fetchSupport() async {

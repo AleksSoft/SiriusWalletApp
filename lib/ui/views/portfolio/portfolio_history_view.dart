@@ -1,19 +1,26 @@
 import 'package:antares_wallet/business/dto/portfolio_history_item.dart';
 import 'package:antares_wallet/business/view_models/portfolio/portfolio_history_view_model.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
+import 'package:antares_wallet/ui/views/portfolio/portfolio_history_filters.dart';
 import 'package:antares_wallet/ui/views/widgets/nothing_view.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PortfolioHistoryView extends StatelessWidget {
-  const PortfolioHistoryView({Key key}) : super(key: key);
+  final PanelController _panelController = PanelController();
+
+  PortfolioHistoryView({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder.reactive(
-      viewModelBuilder: () => PortfolioHistoryViewModel(),
+      viewModelBuilder: () => PortfolioHistoryViewModel(
+        onCloseFilter: () => _panelController.close(),
+        onOpenFilter: () => _panelController.open(),
+      ),
       onModelReady: (PortfolioHistoryViewModel model) async {
         await model.initialise();
       },
@@ -29,14 +36,28 @@ class PortfolioHistoryView extends StatelessWidget {
             ),
           );
         }
-        return RefreshIndicator(
-          onRefresh: () async => await model.updateHistory(),
-          child: ListView.builder(
-            itemCount: model.historyItems.length,
-            padding: EdgeInsets.all(8.0),
-            itemBuilder: (context, index) {
-              return PortfolioHistoryCard(index: index);
-            },
+        return Scaffold(
+          body: SlidingUpPanel(
+            panel: PortfolioHistoryFiltersView(),
+            controller: _panelController,
+            minHeight: 0,
+            maxHeight: 350,
+            onPanelClosed: () => model.filterOpened = false,
+            onPanelOpened: () => model.filterOpened = true,
+            body: RefreshIndicator(
+              onRefresh: () async => await model.updateHistory(),
+              child: ListView.builder(
+                itemCount: model.historyItems.length,
+                padding: EdgeInsets.all(8.0),
+                itemBuilder: (context, index) {
+                  return PortfolioHistoryCard(index: index);
+                },
+              ),
+            ),
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () => model.toggleFilter(),
+            child: Icon(model.filterOpened ? Icons.check : Icons.filter_list),
           ),
         );
       },
@@ -112,8 +133,6 @@ class PortfolioHistoryCard extends ViewModelWidget<PortfolioHistoryViewModel> {
                 children: [
                   _buildInfoItem(context, 'Amount', '${item.amount}'),
                   VerticalDivider(),
-                  _buildInfoItem(context, 'Type', item.type),
-                  VerticalDivider(),
                   _buildInfoItem(context, 'Status', item.status),
                 ],
               ),
@@ -155,20 +174,23 @@ class PortfolioHistoryCard extends ViewModelWidget<PortfolioHistoryViewModel> {
   }
 
   Widget _buildInfoItem(BuildContext context, String title, String value) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.max,
-      children: <Widget>[
-        Text(
-          value,
-          style: Theme.of(context).textTheme.button.copyWith(
-                fontWeight: FontWeight.w700,
-                fontSize: 16.0,
-              ),
-        ),
-        Text(title, style: Theme.of(context).textTheme.caption),
-      ],
+    return SizedBox(
+      width: 100,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          Text(
+            value,
+            style: Theme.of(context).textTheme.button.copyWith(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16.0,
+                ),
+          ),
+          Text(title, style: Theme.of(context).textTheme.caption),
+        ],
+      ),
     );
   }
 
@@ -215,8 +237,9 @@ class PortfolioHistoryCard extends ViewModelWidget<PortfolioHistoryViewModel> {
   }
 
   _copyHash(BuildContext context, PortfolioHistoryItem item) {
-    ClipboardManager.copyToClipBoard(item.transactionHash.toString())
-        .then((result) {
+    ClipboardManager.copyToClipBoard(
+      item.transactionHash.toString(),
+    ).then((result) {
       final snackBar = SnackBar(
         content: Text(
           'Transaction hash copied to Clipboard',

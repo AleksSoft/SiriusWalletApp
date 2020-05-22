@@ -31,6 +31,7 @@ class _PortfolioPageState extends State<PortfolioPage>
       child: Scaffold(
         backgroundColor: Colors.grey[100],
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Text('Portfolio'),
           bottom: TabBar(
             indicatorWeight: 1.0,
@@ -46,7 +47,7 @@ class _PortfolioPageState extends State<PortfolioPage>
           children: <Widget>[
             Center(
               child: NothingView(
-                header: 'No assets her yet',
+                header: 'No assets here yet',
                 message: 'Your assets will appear here.',
               ),
             ),

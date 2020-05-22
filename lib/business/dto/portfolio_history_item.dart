@@ -1,8 +1,7 @@
 import 'package:antares_wallet/business/dto/base_dto.dart';
+import 'package:antares_wallet/business/view_models/portfolio/portfolio_history_view_model.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:intl/intl.dart';
-
-enum TransactionType { deposit, withdraw }
 
 class PortfolioHistoryItem extends Dto<PortfolioHistoryItem> {
   String asset = '';
