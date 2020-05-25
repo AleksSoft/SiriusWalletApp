@@ -28,7 +28,7 @@ class PortfolioHistoryView extends StatelessWidget {
         if (model.isBusy) {
           return Center(child: CircularProgressIndicator());
         }
-        if (model.historyItems.isEmpty) {
+        if (model.itemsEmpty) {
           return Center(
             child: NothingView(
               header: 'No history yet',
@@ -40,7 +40,7 @@ class PortfolioHistoryView extends StatelessWidget {
           body: Stack(
             children: [
               RefreshIndicator(
-                displacement: 25.0,
+                displacement: 20.0,
                 onRefresh: () async => await model.updateHistory(),
                 child: ListView.builder(
                   physics: const AlwaysScrollableScrollPhysics(),

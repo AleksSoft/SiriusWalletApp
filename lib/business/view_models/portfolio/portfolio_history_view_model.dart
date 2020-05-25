@@ -39,6 +39,7 @@ class PortfolioHistoryViewModel extends BaseViewModel {
   get filterTimeToStr => DateFormat('d.M.y').format(
         DateTime.fromMillisecondsSinceEpoch(_filter.timeTo),
       );
+  bool get itemsEmpty => _portfolioHistoryItems.isEmpty;
 
   List<PortfolioHistoryItem> get historyItems {
     List<PortfolioHistoryItem> filtered = _portfolioHistoryItems;
