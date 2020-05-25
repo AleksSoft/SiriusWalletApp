@@ -37,8 +37,8 @@ dependencies:
   cupertino_icons: ^0.1.3
   webview_flutter: ^0.3.22+1
   percent_indicator: ^2.1.3
-  modal_progress_hud: ^0.1.3
   sliding_up_panel: ^1.0.2
+  date_range_picker: ^1.0.6
 
   #testing
   mockito: ^4.1.1

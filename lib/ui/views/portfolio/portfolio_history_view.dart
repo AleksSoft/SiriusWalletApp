@@ -1,7 +1,7 @@
 import 'package:antares_wallet/business/dto/portfolio_history_item.dart';
 import 'package:antares_wallet/business/view_models/portfolio/portfolio_history_view_model.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
-import 'package:antares_wallet/ui/views/portfolio/portfolio_history_filters.dart';
+import 'package:antares_wallet/ui/views/portfolio/portfolio_history_filters_view.dart';
 import 'package:antares_wallet/ui/views/widgets/nothing_view.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';
 import 'package:flutter/material.dart';
@@ -37,26 +37,35 @@ class PortfolioHistoryView extends StatelessWidget {
           );
         }
         return Scaffold(
-          body: SlidingUpPanel(
-            panel: PortfolioHistoryFiltersView(),
-            controller: _panelController,
-            minHeight: 0,
-            maxHeight: 350,
-            onPanelClosed: () => model.filterOpened = false,
-            onPanelOpened: () => model.filterOpened = true,
-            body: RefreshIndicator(
-              onRefresh: () async => await model.updateHistory(),
-              child: ListView.builder(
-                itemCount: model.historyItems.length,
-                padding: EdgeInsets.all(8.0),
-                itemBuilder: (context, index) {
-                  return PortfolioHistoryCard(index: index);
-                },
+          body: Stack(
+            children: [
+              RefreshIndicator(
+                displacement: 25.0,
+                onRefresh: () async => await model.updateHistory(),
+                child: ListView.builder(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  itemCount: model.historyItems.length,
+                  padding: EdgeInsets.all(8.0),
+                  itemBuilder: (context, index) {
+                    return PortfolioHistoryCard(index: index);
+                  },
+                ),
               ),
-            ),
+              SlidingUpPanel(
+                panel: PortfolioHistoryFiltersView(),
+                controller: _panelController,
+                minHeight: 0,
+                maxHeight: 350,
+                backdropEnabled: true,
+                onPanelClosed: () => model.updateFilterOpenedState(false),
+                onPanelOpened: () => model.updateFilterOpenedState(true),
+              ),
+            ],
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () => model.toggleFilter(),
+            onPressed: () => model.filterOpened
+                ? model.onCloseFilter()
+                : model.onOpenFilter(),
             child: Icon(model.filterOpened ? Icons.check : Icons.filter_list),
           ),
         );

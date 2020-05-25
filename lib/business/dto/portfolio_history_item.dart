@@ -1,7 +1,8 @@
 import 'package:antares_wallet/business/dto/base_dto.dart';
-import 'package:antares_wallet/business/view_models/portfolio/portfolio_history_view_model.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:intl/intl.dart';
+
+enum TransactionType { deposit, withdraw }
 
 class PortfolioHistoryItem extends Dto<PortfolioHistoryItem> {
   String asset = '';
@@ -16,7 +17,7 @@ class PortfolioHistoryItem extends Dto<PortfolioHistoryItem> {
   bool get isDeposit => transactionType == TransactionType.deposit;
 
   String get dateTime => DateFormat('d.M.y HH:mm:ss').format(
-        DateTime.fromMillisecondsSinceEpoch(timestamp * 1000),
+        DateTime.fromMillisecondsSinceEpoch(timestamp),
       );
 
   @override

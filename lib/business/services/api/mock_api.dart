@@ -2,7 +2,6 @@ import 'package:antares_wallet/business/dto/account_data.dart';
 import 'package:antares_wallet/business/dto/personal_data.dart';
 import 'package:antares_wallet/business/dto/portfolio_history_item.dart';
 import 'package:antares_wallet/business/dto/support.dart';
-import 'package:antares_wallet/business/view_models/portfolio/portfolio_history_view_model.dart';
 
 class MockApi {
   Future<Support> fetchSupport() async {
@@ -49,7 +48,9 @@ class MockApi {
         ..type = 'Undefined'
         ..status = 'Completed'
         ..amount = 0.0037
-        ..timestamp = 1589919689 //2020-05-19T20:21:29+00:00
+        ..timestamp = DateTime.now()
+            .subtract(Duration(days: 1))
+            .millisecondsSinceEpoch // day ago
         ..explorerItems = <ExplorerItem>[
           ExplorerItem()
             ..name = 'Smth else'
@@ -62,7 +63,9 @@ class MockApi {
         ..type = 'Undefined'
         ..status = 'Completed'
         ..amount = 54.02
-        ..timestamp = 1589401289 //2020-05-13T20:21:29+00:00
+        ..timestamp = DateTime.now()
+            .subtract(Duration(days: 7))
+            .millisecondsSinceEpoch // week ago
         ..explorerItems = <ExplorerItem>[
           ExplorerItem()
             ..name = 'Lykke'
@@ -78,7 +81,9 @@ class MockApi {
         ..type = 'Undefined'
         ..status = 'Completed'
         ..amount = 0.002
-        ..timestamp = 1587414089 //2020-04-20T20:21:29+00:00
+        ..timestamp = DateTime.now()
+            .subtract(Duration(days: 30))
+            .millisecondsSinceEpoch // month ago
         ..explorerItems = <ExplorerItem>[
           ExplorerItem()
             ..name = 'Lykke'
@@ -100,7 +105,7 @@ class MockApi {
       ..type = 'Undefined'
       ..status = 'Completed'
       ..amount = 150
-      ..timestamp = 1590002489 //2020-05-20T19:21:29+00:00
+      ..timestamp = DateTime.now().millisecondsSinceEpoch // now
       ..transactionType = TransactionType.deposit);
     return items;
   }

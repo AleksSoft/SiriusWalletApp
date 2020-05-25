@@ -3,63 +3,50 @@ import 'package:antares_wallet/business/services/api/mock_api.dart';
 import 'package:antares_wallet/locator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:stacked/stacked.dart';
+import 'package:intl/intl.dart';
+
+enum PeriodFilter { all, day, week, custom }
+
+enum TransactionTypeFilter { all, deposit, withdraw }
 
 class PortfolioHistoryViewModel extends BaseViewModel {
   final _api = locator<MockApi>();
-
   final VoidCallback onOpenFilter;
   final VoidCallback onCloseFilter;
 
-  PortfolioHistoryViewModel({this.onOpenFilter, this.onCloseFilter}) {
-    setBusy(true);
-  }
+  PortfolioHistoryFilter _filter;
 
-  PeriodFilter _previousPeriodFilter = PeriodFilter.all;
-
-  TransactionType _previousTransTypeFilter = TransactionType.all;
-
-  PeriodFilter _periodFilter = PeriodFilter.all;
-
-  PeriodFilter get periodFilter => _periodFilter;
-
-  set periodFilter(PeriodFilter filter) {
-    _periodFilter = filter;
-    notifyListeners();
-  }
-
-  TransactionType _transTypeFilter = TransactionType.all;
-
-  TransactionType get transTypeFilter => _transTypeFilter;
-
-  set transTypeFilter(TransactionType filter) {
-    _transTypeFilter = filter;
-    notifyListeners();
-  }
+  List<PortfolioHistoryItem> _portfolioHistoryItems = List();
 
   bool _filterOpened = false;
 
-  bool get filterOpened => _filterOpened;
+  String _asset = 'USD';
 
-  set filterOpened(bool opened) {
-    _filterOpened = opened;
-    // save previous filters
-    _previousPeriodFilter = _periodFilter;
-    _previousTransTypeFilter = _transTypeFilter;
-    notifyListeners();
+  PortfolioHistoryViewModel({this.onOpenFilter, this.onCloseFilter}) {
+    _filter = PortfolioHistoryFilter.initial(_asset);
+    setBusy(true);
   }
 
-  List<PortfolioHistoryItem> _portfolioHistoryItems = List();
+  get filterOpened => _filterOpened;
+  get filterPeriod => _filter.period;
+  get filterTransactionType => _filter.transactionType;
+  get filterAsset => _filter.asset;
+  get filterTimeFrom => _filter.timeFrom;
+  get filterTimeTo => _filter.timeTo;
+  get filterTimeFromStr => DateFormat('d.M.y').format(
+        DateTime.fromMillisecondsSinceEpoch(_filter.timeFrom),
+      );
+  get filterTimeToStr => DateFormat('d.M.y').format(
+        DateTime.fromMillisecondsSinceEpoch(_filter.timeTo),
+      );
 
   List<PortfolioHistoryItem> get historyItems {
     List<PortfolioHistoryItem> filtered = _portfolioHistoryItems;
     filtered.sort((a, b) => a.timestamp.compareTo(b.timestamp));
-    if (_transTypeFilter != TransactionType.all) {
-      filtered = _portfolioHistoryItems
-          .where(
-            (i) => i.transactionType == _transTypeFilter,
-          )
-          .toList();
-    }
+    filtered = _portfolioHistoryItems
+        .where((i) => _filter.byTransactionType(i))
+        .where((i) => _filter.byPeriod(i))
+        .toList();
     return filtered.reversed.toList();
   }
 
@@ -73,32 +60,111 @@ class PortfolioHistoryViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  closeFilter() {
-    // restore previous filters
-    _restorePreviousFilters();
-    onCloseFilter();
-  }
-
-  clearFilter() {
-    _periodFilter = PeriodFilter.all;
-    _transTypeFilter = TransactionType.all;
+  void clearFilter() {
+    _filter = PortfolioHistoryFilter.initial(_asset);
     notifyListeners();
   }
 
-  toggleFilter() {
-    if (_filterOpened) {
-      onCloseFilter();
-    } else {
-      onOpenFilter();
-    }
+  void updateFilterPeriod(PeriodFilter filter) {
+    _filter.period = filter;
+    notifyListeners();
   }
 
-  _restorePreviousFilters() {
-    _periodFilter = _previousPeriodFilter;
-    _transTypeFilter = _previousTransTypeFilter;
+  void updateCustomTimeFrom(int timeFrom) {
+    assert(_filter.period == PeriodFilter.custom);
+    _filter.timeFrom = timeFrom;
+    notifyListeners();
+  }
+
+  void updateCustomTimeTo(int timeTo) {
+    assert(_filter.period == PeriodFilter.custom);
+    _filter.timeTo = timeTo;
+    notifyListeners();
+  }
+
+  void updateFilterTransType(TransactionTypeFilter filter) {
+    _filter.transactionType = filter;
+    notifyListeners();
+  }
+
+  void updateFilterOpenedState(bool opened) {
+    _filterOpened = opened;
+    notifyListeners();
   }
 }
 
-enum PeriodFilter { all, day, week, custom }
+class PortfolioHistoryFilter {
+  PeriodFilter _period;
+  TransactionTypeFilter transactionType;
+  String asset;
+  int _timeFrom;
+  int _timeTo;
 
-enum TransactionType { all, deposit, withdraw }
+  PeriodFilter get period => _period;
+  int get timeFrom => _timeFrom;
+  int get timeTo => period == PeriodFilter.custom
+      ? _timeTo
+      : DateTime.now().millisecondsSinceEpoch;
+
+  set period(PeriodFilter filter) {
+    _period = filter;
+    _updateTimeFromByPeriod();
+  }
+
+  set timeFrom(int time) {
+    _timeFrom = time ?? _updateTimeFromByPeriod();
+  }
+
+  set timeTo(int time) {
+    _timeTo = time ?? DateTime.now().millisecondsSinceEpoch;
+  }
+
+  PortfolioHistoryFilter.initial(String asset)
+      : this._period = PeriodFilter.all,
+        this.transactionType = TransactionTypeFilter.all,
+        this.asset = asset,
+        this._timeFrom = 0,
+        this._timeTo = DateTime.now().millisecondsSinceEpoch;
+
+  bool byPeriod(PortfolioHistoryItem item) {
+    switch (this.period) {
+      case PeriodFilter.all:
+        return true;
+      case PeriodFilter.custom:
+        return _timeFrom <= item.timestamp && item.timestamp <= _timeTo;
+      case PeriodFilter.week:
+      case PeriodFilter.day:
+      default:
+        return _timeFrom <= item.timestamp;
+    }
+  }
+
+  bool byTransactionType(PortfolioHistoryItem item) {
+    if (this.transactionType == TransactionTypeFilter.all) return true;
+    switch (item.transactionType) {
+      case TransactionType.deposit:
+        return this.transactionType == TransactionTypeFilter.deposit;
+      case TransactionType.withdraw:
+        return this.transactionType == TransactionTypeFilter.withdraw;
+      default:
+        return true;
+    }
+  }
+
+  _updateTimeFromByPeriod() {
+    DateTime now = DateTime.now();
+    switch (period) {
+      case PeriodFilter.day:
+        _timeFrom = now.subtract(Duration(days: 2)).millisecondsSinceEpoch;
+        break;
+      case PeriodFilter.week:
+      case PeriodFilter.custom:
+        _timeFrom = now.subtract(Duration(days: 8)).millisecondsSinceEpoch;
+        break;
+      case PeriodFilter.all:
+      default:
+        _timeFrom = 0;
+        break;
+    }
+  }
+}
