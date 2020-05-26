@@ -18,42 +18,39 @@ class AntaresApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NestedNavigatorsBlocProvider(
-      bloc: _bloc,
-      child: MaterialApp(
-        title: 'Lykke Wallet',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          brightness: Brightness.light,
-          primaryColor: AppColors.primary,
-          accentColor: AppColors.accent,
-          scaffoldBackgroundColor: AppColors.scaffoldBkg,
-          fontFamily: 'Proxima Nova',
-        ),
-        supportedLocales: [
-          Locale('en', 'US'),
-          Locale('ru', 'RU'),
-        ],
-        localizationsDelegates: [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
-        localeResolutionCallback: (locale, supportedLocales) {
-          for (var supportedLocale in supportedLocales) {
-            if (supportedLocale.languageCode == locale.languageCode &&
-                supportedLocale.countryCode == locale.countryCode) {
-              return supportedLocale;
-            }
-          }
-          return supportedLocales.first;
-        },
-        navigatorObservers: [
-          FirebaseAnalyticsObserver(analytics: _analytics),
-        ],
-        onGenerateRoute: (routeSettings) => Routes.generateRoute(routeSettings),
-        home: RootView(),
+    return MaterialApp(
+      title: 'Lykke Wallet',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        brightness: Brightness.light,
+        primaryColor: AppColors.primary,
+        accentColor: AppColors.accent,
+        scaffoldBackgroundColor: AppColors.scaffoldBkg,
+        fontFamily: 'Proxima Nova',
       ),
+      supportedLocales: [
+        Locale('en', 'US'),
+        Locale('ru', 'RU'),
+      ],
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      localeResolutionCallback: (locale, supportedLocales) {
+        for (var supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale.languageCode &&
+              supportedLocale.countryCode == locale.countryCode) {
+            return supportedLocale;
+          }
+        }
+        return supportedLocales.first;
+      },
+      navigatorObservers: [
+        FirebaseAnalyticsObserver(analytics: _analytics),
+      ],
+      onGenerateRoute: (routeSettings) => Routes.generateRoute(routeSettings),
+      home: NestedNavigatorsBlocProvider(bloc: _bloc, child: RootView()),
     );
   }
 }
