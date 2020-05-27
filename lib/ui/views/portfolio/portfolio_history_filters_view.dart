@@ -1,5 +1,8 @@
+import 'package:antares_wallet/business/dto/asset_dictionary_data.dart';
 import 'package:antares_wallet/business/view_models/portfolio/portfolio_history_view_model.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
+import 'package:antares_wallet/ui/navigation/navigation.dart';
+import 'package:antares_wallet/ui/select_asset_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:date_range_picker/date_range_picker.dart' as DateRagePicker;
@@ -246,6 +249,7 @@ class PortfolioHistoryAssetFilterView
 
   @override
   Widget build(BuildContext context, PortfolioHistoryViewModel model) {
+    bool allSelected = model.filterAsset == null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
@@ -263,20 +267,37 @@ class PortfolioHistoryAssetFilterView
               padding: EdgeInsets.symmetric(horizontal: 8.0),
               backgroundColor: AppColors.primary,
               selectedColor: AppColors.accent,
-              onSelected: (value) {},
-              selected: true,
+              onSelected: (value) {
+                if (value) model.updateFilterAsset(null);
+              },
+              selected: allSelected,
             ),
             ChoiceChip(
-              label: Text('Select single'),
+              label: _getSingleAssetButtonTitle(model.filterAsset),
               padding: EdgeInsets.symmetric(horizontal: 8.0),
               backgroundColor: AppColors.primary,
               selectedColor: AppColors.accent,
-              onSelected: (value) {},
-              selected: false,
+              onSelected: (value) async {
+                if (value) {
+                  final asset = await Navigator.of(context).pushNamed(
+                    Routes.selectAsset,
+                    arguments: SelectAssetArgs(
+                      title: 'Select asset',
+                      selectedAsset: model.filterAsset,
+                    ),
+                  );
+                  model.updateFilterAsset(asset);
+                }
+              },
+              selected: !allSelected,
             ),
           ],
         ),
       ],
     );
+  }
+
+  Widget _getSingleAssetButtonTitle(AssetData asset) {
+    return Text(asset == null ? 'Select single' : asset.symbol);
   }
 }

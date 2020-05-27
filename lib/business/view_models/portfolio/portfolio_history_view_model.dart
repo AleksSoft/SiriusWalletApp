@@ -1,3 +1,4 @@
+import 'package:antares_wallet/business/dto/asset_dictionary_data.dart';
 import 'package:antares_wallet/business/dto/portfolio_history_item.dart';
 import 'package:antares_wallet/business/services/api/mock_api.dart';
 import 'package:antares_wallet/locator.dart';
@@ -20,10 +21,8 @@ class PortfolioHistoryViewModel extends BaseViewModel {
 
   bool _filterOpened = false;
 
-  String _asset = 'USD';
-
   PortfolioHistoryViewModel({this.onOpenFilter, this.onCloseFilter}) {
-    _filter = PortfolioHistoryFilter.initial(_asset);
+    _filter = PortfolioHistoryFilter.initial();
     setBusy(true);
   }
 
@@ -47,6 +46,7 @@ class PortfolioHistoryViewModel extends BaseViewModel {
     filtered = _portfolioHistoryItems
         .where((i) => _filter.byTransactionType(i))
         .where((i) => _filter.byPeriod(i))
+        .where((i) => _filter.byAsset(i))
         .toList();
     return filtered.reversed.toList();
   }
@@ -62,7 +62,7 @@ class PortfolioHistoryViewModel extends BaseViewModel {
   }
 
   void clearFilter() {
-    _filter = PortfolioHistoryFilter.initial(_asset);
+    _filter = PortfolioHistoryFilter.initial();
     notifyListeners();
   }
 
@@ -88,6 +88,11 @@ class PortfolioHistoryViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  void updateFilterAsset(AssetData asset) {
+    _filter.asset = asset;
+    notifyListeners();
+  }
+
   void updateFilterOpenedState(bool opened) {
     _filterOpened = opened;
     notifyListeners();
@@ -97,7 +102,7 @@ class PortfolioHistoryViewModel extends BaseViewModel {
 class PortfolioHistoryFilter {
   PeriodFilter _period;
   TransactionTypeFilter transactionType;
-  String asset;
+  AssetData asset;
   int _timeFrom;
   int _timeTo;
 
@@ -120,10 +125,10 @@ class PortfolioHistoryFilter {
     _timeTo = time ?? DateTime.now().millisecondsSinceEpoch;
   }
 
-  PortfolioHistoryFilter.initial(String asset)
+  PortfolioHistoryFilter.initial()
       : this._period = PeriodFilter.all,
         this.transactionType = TransactionTypeFilter.all,
-        this.asset = asset,
+        this.asset = null,
         this._timeFrom = 0,
         this._timeTo = DateTime.now().millisecondsSinceEpoch;
 
@@ -150,6 +155,10 @@ class PortfolioHistoryFilter {
       default:
         return true;
     }
+  }
+
+  bool byAsset(PortfolioHistoryItem item) {
+    return this.asset == null || this.asset.symbol == item.asset.symbol;
   }
 
   _updateTimeFromByPeriod() {

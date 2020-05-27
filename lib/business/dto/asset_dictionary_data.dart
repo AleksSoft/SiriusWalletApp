@@ -1,8 +1,8 @@
 import 'package:antares_wallet/business/dto/base_dto.dart';
 
 class AssetDictionaryData extends Dto<AssetDictionaryData> {
-  List<AssetData> assetList;
-  List<CategoryData> categoryList;
+  List<AssetData> assetList = List();
+  List<CategoryData> categoryList = List();
 
   @override
   AssetDictionaryData fromJson(Map<String, dynamic> json) {
@@ -92,7 +92,7 @@ class AssetData extends Dto<AssetData> {
 class CategoryData extends Dto<CategoryData> {
   String categoryId;
   String categoryName;
-  String sortPriority;
+  int sortPriority;
 
   @override
   CategoryData fromJson(Map<String, Object> json) {

@@ -2,10 +2,12 @@ import 'package:antares_wallet/business/dto/base_dto.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:intl/intl.dart';
 
+import 'asset_dictionary_data.dart';
+
 enum TransactionType { deposit, withdraw }
 
 class PortfolioHistoryItem extends Dto<PortfolioHistoryItem> {
-  String asset = '';
+  AssetData asset;
   String type = '';
   String status = '';
   double amount = 0;
@@ -22,7 +24,7 @@ class PortfolioHistoryItem extends Dto<PortfolioHistoryItem> {
 
   @override
   PortfolioHistoryItem fromJson(Map<String, dynamic> json) {
-    asset = json['asset'];
+    asset = AssetData().fromJson(json['asset']);
     type = json['type'];
     status = json['status'];
     transactionHash = json['transactionHash'];

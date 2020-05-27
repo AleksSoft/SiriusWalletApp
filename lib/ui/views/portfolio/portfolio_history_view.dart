@@ -108,7 +108,7 @@ class PortfolioHistoryCard extends ViewModelWidget<PortfolioHistoryViewModel> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      item.asset,
+                      item.asset.symbol,
                       style: Theme.of(context).textTheme.button.copyWith(
                             fontWeight: FontWeight.w700,
                             fontSize: 16.0,
