@@ -1,7 +1,11 @@
-import 'package:antares_wallet/ui/views/home/home_assets_view.dart';
-import 'package:antares_wallet/ui/views/home/home_exchange_view.dart';
+import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'home_assets_view.dart';
+import 'home_exchange_view.dart';
+import 'home_luci_view.dart';
+import 'home_my_lykke_view.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -17,6 +21,18 @@ class HomePage extends StatelessWidget {
         children: [
           HomeAssetsView(),
           HomeExchangeView(),
+          HomeLyCIView(),
+          HomeMyLykkeView(),
+          Padding(
+            padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
+            child: Text(
+              '© 2020 Lykke, Inc.',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.button.copyWith(
+                    color: AppColors.secondary,
+                  ),
+            ),
+          )
         ],
       ),
     );

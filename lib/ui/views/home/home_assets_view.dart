@@ -89,7 +89,7 @@ class HomeAssetsView extends StatelessWidget {
               ),
             ),
           ),
-          Divider(height: 0.5),
+          Divider(height: 0.5, indent: 16.0, endIndent: 16.0),
           ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
             leading: Container(
@@ -124,7 +124,6 @@ class HomeAssetsView extends StatelessWidget {
               ),
             ),
           ),
-          Divider(height: 0.5),
           Container(
             height: 64.0,
             decoration: BoxDecoration(
