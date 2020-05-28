@@ -2,6 +2,7 @@ import 'package:antares_wallet/business/dto/portfolio_history_item.dart';
 import 'package:antares_wallet/business/view_models/portfolio/portfolio_history_view_model.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:antares_wallet/ui/views/portfolio/portfolio_history_filters_view.dart';
+import 'package:antares_wallet/ui/views/widgets/default_card.dart';
 import 'package:antares_wallet/ui/views/widgets/nothing_view.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,7 @@ class PortfolioHistoryView extends StatelessWidget {
                 child: ListView.builder(
                   physics: const AlwaysScrollableScrollPhysics(),
                   itemCount: model.historyItems.length,
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.symmetric(vertical: 8.0),
                   itemBuilder: (context, index) {
                     return PortfolioHistoryCard(index: index);
                   },
@@ -85,12 +86,7 @@ class PortfolioHistoryCard extends ViewModelWidget<PortfolioHistoryViewModel> {
   Widget build(BuildContext context, PortfolioHistoryViewModel model) {
     final PortfolioHistoryItem item = model.historyItems[index];
 
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      elevation: 5.0,
-      shadowColor: Colors.black38,
+    return DefaultCard(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
         child: Column(
@@ -118,7 +114,9 @@ class PortfolioHistoryCard extends ViewModelWidget<PortfolioHistoryViewModel> {
                     Text(
                       item.isDeposit ? 'DEPOSIT' : 'WITHDRAW',
                       style: Theme.of(context).textTheme.button.copyWith(
-                            color: item.isDeposit ? Colors.green : Colors.red,
+                            color: item.isDeposit
+                                ? AppColors.green
+                                : AppColors.red,
                             fontWeight: FontWeight.w700,
                             fontSize: 10.0,
                           ),

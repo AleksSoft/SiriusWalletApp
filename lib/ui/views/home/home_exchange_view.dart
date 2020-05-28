@@ -135,7 +135,7 @@ class HomeExchangeView extends StatelessWidget {
                   style: textStyle.copyWith(
                     fontWeight: FontWeight.w400,
                     fontSize: 12.0,
-                    color: Colors.greenAccent[700],
+                    color: AppColors.green,
                   ),
                 ),
               ],
