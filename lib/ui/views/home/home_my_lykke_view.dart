@@ -57,7 +57,7 @@ class HomeMyLykkeView extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Image.asset(
-            'logo_lykke.png',
+            'assets/logo_lykke.png',
             height: 15.0,
             width: 15.0,
           ),
