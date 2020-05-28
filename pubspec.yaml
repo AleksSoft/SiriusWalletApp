@@ -56,18 +56,20 @@ flutter:
   assets:
     - lang/en.json
     - lang/ru.json
+    - logo_lykke.png
+    - logo_lykke_wallet.png
 
   fonts:
-    - family: Proxima Nova
+    - family: Proxima_Nova
       fonts:
-        - asset: assets/fonts/Proxima Nova Regular.otf
-        - asset: assets/fonts/Proxima Nova Thin.otf
+        - asset: assets/fonts/Proxima-Nova-Regular.otf
+        - asset: assets/fonts/Proxima-Nova-Thin.otf
           weight: 100
-        - asset: assets/fonts/Proxima Nova Light.otf
+        - asset: assets/fonts/Proxima-Nova-Light.otf
           weight: 300
-        - asset: assets/fonts/Proxima Nova Semibold.otf
+        - asset: assets/fonts/Proxima-Nova-Semibold.otf
           weight: 700
-        - asset: assets/fonts/Proxima Nova Bold.otf
+        - asset: assets/fonts/Proxima-Nova-Bold.otf
           weight: 900
     - family: Akrobat
       fonts:

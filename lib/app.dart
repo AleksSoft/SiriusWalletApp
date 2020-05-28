@@ -26,7 +26,7 @@ class AntaresApp extends StatelessWidget {
         primaryColor: AppColors.primary,
         accentColor: AppColors.accent,
         scaffoldBackgroundColor: AppColors.scaffoldBkg,
-        fontFamily: 'Proxima Nova',
+        fontFamily: 'Proxima_Nova',
       ),
       supportedLocales: [
         Locale('en', 'US'),
