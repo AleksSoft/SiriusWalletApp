@@ -114,7 +114,7 @@ class HomeExchangeView extends StatelessWidget {
                   ),
                 ),
                 Image.asset(
-                  'logo_lykke.png',
+                  'assets/logo_lykke.png',
                   height: 20.0,
                   width: 20.0,
                 ),

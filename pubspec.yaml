@@ -54,10 +54,10 @@ flutter:
   uses-material-design: true
 
   assets:
-    - lang/en.json
-    - lang/ru.json
-    - logo_lykke.png
-    - logo_lykke_wallet.png
+    - assets/lang/en.json
+    - assets/lang/ru.json
+    - assets/logo_lykke.png
+    - assets/logo_lykke_wallet.png
 
   fonts:
     - family: Proxima_Nova

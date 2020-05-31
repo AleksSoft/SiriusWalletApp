@@ -54,7 +54,7 @@ class HomeLyCIView extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Image.asset(
-                'logo_lykke.png',
+                'assets/logo_lykke.png',
                 height: 16.0,
                 width: 16.0,
               ),
