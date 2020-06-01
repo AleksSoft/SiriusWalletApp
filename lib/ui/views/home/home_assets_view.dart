@@ -77,10 +77,7 @@ class HomeAssetsView extends StatelessWidget {
                 size: 16.0,
               ),
             ),
-            title: Align(
-              alignment: Alignment(-1.25, 0),
-              child: Text('Portfolio'),
-            ),
+            title: Text('Portfolio'),
             trailing: Text(
               'USD 0.00',
               style: TextStyle(
@@ -112,10 +109,7 @@ class HomeAssetsView extends StatelessWidget {
                 size: 16.0,
               ),
             ),
-            title: Align(
-              alignment: Alignment(-1.25, 0),
-              child: Text('Wallets'),
-            ),
+            title: Text('Wallets'),
             trailing: Text(
               'USD 0.00',
               style: TextStyle(
