@@ -1,7 +1,8 @@
-import 'package:antares_wallet/ui/views/portfolio/portfolio_history_view.dart';
-import 'package:antares_wallet/ui/views/widgets/nothing_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'portfolio_assets_view.dart';
+import 'portfolio_history_view.dart';
 
 class PortfolioPage extends StatefulWidget {
   @override
@@ -29,7 +30,6 @@ class _PortfolioPageState extends State<PortfolioPage>
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: Colors.grey[100],
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: Text('Portfolio'),
@@ -45,12 +45,7 @@ class _PortfolioPageState extends State<PortfolioPage>
         ),
         body: TabBarView(
           children: <Widget>[
-            Center(
-              child: NothingView(
-                header: 'No assets here yet',
-                message: 'Your assets will appear here.',
-              ),
-            ),
+            PortfolioAssetsTabView(),
             PortfolioHistoryView(),
           ],
         ),

@@ -22,6 +22,7 @@ class PortfolioHistoryView extends StatelessWidget {
         onCloseFilter: () => _panelController.close(),
         onOpenFilter: () => _panelController.open(),
       ),
+      disposeViewModel: false,
       onModelReady: (PortfolioHistoryViewModel model) async {
         await model.initialise();
       },
