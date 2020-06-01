@@ -1,10 +1,10 @@
+import 'package:antares_wallet/ui/common/app_colors.dart';
+import 'package:antares_wallet/ui/views/root_view.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:antares_wallet/ui/common/app_colors.dart';
-import 'package:antares_wallet/ui/views/root_view.dart';
 
 import 'app_localizations.dart';
 import 'ui/navigation/navigation.dart';
@@ -38,12 +38,20 @@ class AntaresApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
       ],
       localeResolutionCallback: (locale, supportedLocales) {
-        for (var supportedLocale in supportedLocales) {
-          if (supportedLocale.languageCode == locale.languageCode &&
+        if (locale == null) {
+          debugPrint("*language locale is null!!!");
+          return supportedLocales.first;
+        }
+
+        for (Locale supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale.languageCode ||
               supportedLocale.countryCode == locale.countryCode) {
+            debugPrint("*language ok $supportedLocale");
             return supportedLocale;
           }
         }
+
+        debugPrint("*language to fallback ${supportedLocales.first}");
         return supportedLocales.first;
       },
       navigatorObservers: [

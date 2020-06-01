@@ -1,9 +1,6 @@
-import 'dart:ui';
-
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 
 import 'app.dart';
 import 'locator.dart';
@@ -18,11 +15,11 @@ Future main() async {
   setupLocator();
 
   // set up locale (workaround for iOS)
-  while (window.locale == null) {
-    await Future.delayed(const Duration(milliseconds: 1));
-  }
-  final locale = window.locale;
-  Intl.systemLocale = locale.toString();
+//  while (window.locale == null) {
+//    await Future.delayed(const Duration(milliseconds: 1));
+//  }
+//  final locale = window.locale;
+//  Intl.systemLocale = locale.toString();
 
   // Firebase
   // Setup analytics
