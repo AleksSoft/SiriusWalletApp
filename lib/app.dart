@@ -19,7 +19,7 @@ class AntaresApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Lykke Wallet',
+      title: 'Antares Wallet',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.light,
