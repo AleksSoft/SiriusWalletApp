@@ -52,12 +52,15 @@ class PortfolioHistoryView extends StatelessWidget {
                                 onRefresh: () async =>
                                     await model.updateHistory(),
                                 child: ListView.builder(
-                                  physics:
-                                      const AlwaysScrollableScrollPhysics(),
                                   itemCount: model.historyItems.length,
-                                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                                  padding: EdgeInsets.only(
+                                    top: 8.0,
+                                    bottom: 16.0,
+                                  ),
                                   itemBuilder: (context, index) {
-                                    return PortfolioHistoryCard(index: index);
+                                    return PortfolioHistoryListTile(
+                                      index: index,
+                                    );
                                   },
                                 ),
                               ),
@@ -90,9 +93,10 @@ class PortfolioHistoryView extends StatelessWidget {
   }
 }
 
-class PortfolioHistoryCard extends ViewModelWidget<PortfolioHistoryViewModel> {
+class PortfolioHistoryListTile
+    extends ViewModelWidget<PortfolioHistoryViewModel> {
   final int index;
-  const PortfolioHistoryCard({
+  const PortfolioHistoryListTile({
     Key key,
     @required this.index,
   }) : super(key: key);
@@ -102,95 +106,65 @@ class PortfolioHistoryCard extends ViewModelWidget<PortfolioHistoryViewModel> {
     final PortfolioHistoryItem item = model.historyItems[index];
 
     return DefaultCard(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.baseline,
-              textBaseline: TextBaseline.alphabetic,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.baseline,
-                  textBaseline: TextBaseline.alphabetic,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      item.asset.symbol,
-                      style: Theme.of(context).textTheme.button.copyWith(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 16.0,
-                          ),
-                    ),
-                    SizedBox(width: 4.0),
-                    Text(
-                      item.isDeposit ? 'DEPOSIT' : 'WITHDRAW',
-                      style: Theme.of(context).textTheme.button.copyWith(
-                            color: item.isDeposit
-                                ? AppColors.green
-                                : AppColors.red,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 10.0,
-                          ),
-                    ),
-                  ],
-                ),
-                Text(
-                  item.dateTime,
-                  style: Theme.of(context).textTheme.caption.copyWith(
-                        fontSize: 14.0,
-                      ),
-                ),
-              ],
-            ),
-            SizedBox(height: 16.0),
-            IntrinsicHeight(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
+      blurRadius: 4.0,
+      borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+      margin: EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
+      padding: const EdgeInsets.all(16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                textBaseline: TextBaseline.alphabetic,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  _buildInfoItem(context, 'Amount', '${item.amount}'),
-                  VerticalDivider(),
-                  _buildInfoItem(context, 'Status', item.status),
+                  Text(
+                    item.asset.symbol,
+                    style: Theme.of(context).textTheme.button.copyWith(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16.0,
+                        ),
+                  ),
+                  SizedBox(width: 4.0),
+                  Text(
+                    item.isDeposit ? 'DEPOSIT' : 'WITHDRAW',
+                    style: Theme.of(context).textTheme.button.copyWith(
+                          color:
+                              item.isDeposit ? AppColors.green : AppColors.red,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 10.0,
+                        ),
+                  ),
+                  SizedBox(width: 16.0),
+                  Text(
+                    item.amount.toString(),
+                    style: Theme.of(context).textTheme.button.copyWith(
+                          fontSize: 16.0,
+                        ),
+                  ),
                 ],
               ),
-            ),
-            SizedBox(height: 16.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                item.explorerItems.isNotEmpty
-                    ? FlatButton(
-                        onPressed: () =>
-                            _viewExplorer(context, item.explorerItems),
-                        child: Text(
-                          'View Explorer',
-                          style: Theme.of(context).textTheme.button.copyWith(
-                                color: AppColors.accent,
-                              ),
-                        ),
-                      )
-                    : SizedBox.shrink(),
-                item.transactionHash != null
-                    ? FlatButton(
-                        onPressed: () => _copyHash(context, item),
-                        child: Text(
-                          'Copy',
-                          style: Theme.of(context).textTheme.button.copyWith(
-                                color: AppColors.accent,
-                              ),
-                        ),
-                      )
-                    : SizedBox.shrink(),
-              ],
-            ),
-          ],
-        ),
+              SizedBox(height: 8.0),
+              Text(
+                item.dateTime,
+                style: Theme.of(context).textTheme.caption.copyWith(
+                      fontSize: 14.0,
+                    ),
+              ),
+            ],
+          ),
+          Text(
+            item.status,
+            style: Theme.of(context).textTheme.caption.copyWith(
+                  color: AppColors.secondary.withOpacity(0.8),
+                  fontSize: 14.0,
+                ),
+          ),
+        ],
       ),
     );
   }

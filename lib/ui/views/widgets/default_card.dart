@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class DefaultCard extends StatelessWidget {
   final Widget child;
   final Color color;
+  final Color shadowColor;
   final double blurRadius;
   final EdgeInsetsGeometry padding;
   final EdgeInsetsGeometry margin;
@@ -12,6 +13,7 @@ class DefaultCard extends StatelessWidget {
     Key key,
     this.child,
     this.color = Colors.white,
+    this.shadowColor,
     this.blurRadius = 8.0,
     this.padding = const EdgeInsets.all(0.0),
     this.margin = const EdgeInsets.all(8.0),
@@ -29,7 +31,7 @@ class DefaultCard extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             blurRadius: this.blurRadius,
-            color: Colors.grey[400],
+            color: shadowColor ?? Colors.grey[300],
           ),
         ],
       ),
