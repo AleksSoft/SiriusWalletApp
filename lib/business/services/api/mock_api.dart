@@ -9,7 +9,6 @@ class MockApi {
       'http://icons.iconarchive.com/icons/cjdowner/cryptocurrency/32/Lykke-icon.png';
 
   Future<Support> fetchSupport() async {
-    await Future.delayed(Duration(seconds: 1));
     return Support()
       ..helpUrl = 'http://lykke.zendesk.com'
       ..email = 'support@lykke.com'
@@ -17,7 +16,6 @@ class MockApi {
   }
 
   Future<PersonalData> fetchPersonalData() async {
-    await Future.delayed(Duration(seconds: 1));
     return PersonalData()
       ..fullName = 'Test User'
       ..email = 'testuser@test.io'
@@ -26,7 +24,6 @@ class MockApi {
   }
 
   Future<AccountData> fetchAccountLevel() async {
-    await Future.delayed(Duration(seconds: 1));
     return AccountData()
       ..level = 'Beginner'
       ..depositLimit = 0
@@ -35,7 +32,6 @@ class MockApi {
   }
 
   Future<AccountData> upgradeAccountLevel() async {
-    await Future.delayed(Duration(seconds: 1));
     return AccountData()
       ..level = 'Advanced'
       ..depositLimit = 7500
@@ -44,19 +40,13 @@ class MockApi {
   }
 
   Future<List<PortfolioHistoryItem>> fetchPortfolioHistry() async {
-    await Future.delayed(Duration(seconds: 1));
+    AssetDictionaryData assetDictionary = await fetchAssetDictionary();
     List<PortfolioHistoryItem> items = new List();
     items.addAll(<PortfolioHistoryItem>[
       PortfolioHistoryItem()
-        ..asset = (AssetData()
-          ..id = '1'
-          ..categoryId = 'crypto'
-          ..canBeBase = true
-          ..icon = lykkeIconUrl
-          ..displayName = 'Lykke coin'
-          ..symbol = 'LKK'
-          ..toBaseInstrumentAssetPairId = '1'
-          ..toBaseInstrumentIsMultiply = false)
+        ..asset = assetDictionary.assetList.firstWhere(
+          (asset) => asset.id == '3',
+        )
         ..type = 'Undefined'
         ..status = 'Completed'
         ..amount = 0.0037
@@ -71,15 +61,9 @@ class MockApi {
         ..transactionType = TransactionType.withdraw
         ..transactionHash = this.hashCode,
       PortfolioHistoryItem()
-        ..asset = (AssetData()
-          ..id = '2'
-          ..categoryId = 'crypto'
-          ..canBeBase = true
-          ..icon = lykkeIconUrl
-          ..displayName = 'Bitcoin'
-          ..symbol = 'BTC'
-          ..toBaseInstrumentAssetPairId = '2'
-          ..toBaseInstrumentIsMultiply = false)
+        ..asset = assetDictionary.assetList.firstWhere(
+          (asset) => asset.id == '5',
+        )
         ..type = 'Undefined'
         ..status = 'Completed'
         ..amount = 54.02
@@ -97,15 +81,9 @@ class MockApi {
         ..transactionType = TransactionType.withdraw
         ..transactionHash = this.hashCode,
       PortfolioHistoryItem()
-        ..asset = (AssetData()
-          ..id = '3'
-          ..categoryId = 'crypto'
-          ..canBeBase = true
-          ..icon = lykkeIconUrl
-          ..displayName = 'Ethereum classic'
-          ..symbol = 'ETC'
-          ..toBaseInstrumentAssetPairId = '3'
-          ..toBaseInstrumentIsMultiply = false)
+        ..asset = assetDictionary.assetList.firstWhere(
+          (asset) => asset.id == '6',
+        )
         ..type = 'Undefined'
         ..status = 'Completed'
         ..amount = 0.002
@@ -128,16 +106,11 @@ class MockApi {
 
   Future<List<PortfolioHistoryItem>> updatePortfolioHistory() async {
     List<PortfolioHistoryItem> items = await fetchPortfolioHistry();
+    AssetDictionaryData assetDictionary = await fetchAssetDictionary();
     items.add(PortfolioHistoryItem()
-      ..asset = (AssetData()
-        ..id = '4'
-        ..categoryId = 'crypto'
-        ..canBeBase = false
-        ..icon = lykkeIconUrl
-        ..displayName = 'Neo'
-        ..symbol = 'NEO'
-        ..toBaseInstrumentAssetPairId = '4'
-        ..toBaseInstrumentIsMultiply = false)
+      ..asset = assetDictionary.assetList.firstWhere(
+        (asset) => asset.id == '9',
+      )
       ..type = 'Undefined'
       ..status = 'Completed'
       ..amount = 150
@@ -150,57 +123,120 @@ class MockApi {
     List<AssetData> assetList = [
       AssetData()
         ..id = '1'
-        ..categoryId = 'crypto'
+        ..categoryId = 'lykke'
         ..canBeBase = true
         ..icon = lykkeIconUrl
-        ..displayName = 'Lykke coin'
-        ..symbol = 'LKK'
+        ..displayName = 'Lykke Share 1-year Forward'
+        ..symbol = 'LKK1Y'
         ..toBaseInstrumentAssetPairId = '1'
         ..toBaseInstrumentIsMultiply = false,
       AssetData()
         ..id = '2'
+        ..categoryId = 'lykke'
+        ..canBeBase = true
+        ..icon = lykkeIconUrl
+        ..displayName = 'Lykke Share 2-year Forward'
+        ..symbol = 'LKK2Y'
+        ..toBaseInstrumentAssetPairId = '2'
+        ..toBaseInstrumentIsMultiply = false,
+      AssetData()
+        ..id = '3'
+        ..categoryId = 'lykke'
+        ..canBeBase = true
+        ..icon = lykkeIconUrl
+        ..displayName = 'Lykke coin'
+        ..symbol = 'LKK'
+        ..toBaseInstrumentAssetPairId = '3'
+        ..toBaseInstrumentIsMultiply = false,
+      AssetData()
+        ..id = '4'
+        ..categoryId = 'lykke'
+        ..canBeBase = true
+        ..icon = lykkeIconUrl
+        ..displayName = 'LyCI Service Token'
+        ..symbol = 'LYCI'
+        ..toBaseInstrumentAssetPairId = '4'
+        ..toBaseInstrumentIsMultiply = false,
+      AssetData()
+        ..id = '5'
         ..categoryId = 'crypto'
         ..canBeBase = true
         ..icon = lykkeIconUrl
         ..displayName = 'Bitcoin'
         ..symbol = 'BTC'
-        ..toBaseInstrumentAssetPairId = '2'
+        ..toBaseInstrumentAssetPairId = '5'
         ..toBaseInstrumentIsMultiply = false,
       AssetData()
-        ..id = '3'
+        ..id = '6'
+        ..categoryId = 'crypto'
+        ..canBeBase = true
+        ..icon = lykkeIconUrl
+        ..displayName = 'Ethereum'
+        ..symbol = 'ETC'
+        ..toBaseInstrumentAssetPairId = '6'
+        ..toBaseInstrumentIsMultiply = false,
+      AssetData()
+        ..id = '7'
+        ..categoryId = 'crypto'
+        ..canBeBase = true
+        ..icon = lykkeIconUrl
+        ..displayName = 'Litecoin'
+        ..symbol = 'LTC'
+        ..toBaseInstrumentAssetPairId = '7'
+        ..toBaseInstrumentIsMultiply = false,
+      AssetData()
+        ..id = '8'
         ..categoryId = 'crypto'
         ..canBeBase = true
         ..icon = lykkeIconUrl
         ..displayName = 'Ethereum classic'
         ..symbol = 'ETC'
-        ..toBaseInstrumentAssetPairId = '3'
+        ..toBaseInstrumentAssetPairId = '8'
         ..toBaseInstrumentIsMultiply = false,
       AssetData()
-        ..id = '4'
+        ..id = '9'
         ..categoryId = 'crypto'
         ..canBeBase = false
         ..icon = lykkeIconUrl
         ..displayName = 'Neo'
         ..symbol = 'NEO'
-        ..toBaseInstrumentAssetPairId = '4'
+        ..toBaseInstrumentAssetPairId = '9'
         ..toBaseInstrumentIsMultiply = false,
       AssetData()
-        ..id = '5'
+        ..id = '10'
+        ..categoryId = 'currency'
+        ..canBeBase = true
+        ..icon = lykkeIconUrl
+        ..displayName = 'CHF'
+        ..symbol = 'CHF'
+        ..toBaseInstrumentAssetPairId = '10'
+        ..toBaseInstrumentIsMultiply = false,
+      AssetData()
+        ..id = '11'
+        ..categoryId = 'currency'
+        ..canBeBase = true
+        ..icon = lykkeIconUrl
+        ..displayName = 'EUR'
+        ..symbol = 'EUR'
+        ..toBaseInstrumentAssetPairId = '11'
+        ..toBaseInstrumentIsMultiply = false,
+      AssetData()
+        ..id = '12'
         ..categoryId = 'currency'
         ..canBeBase = true
         ..icon = lykkeIconUrl
         ..displayName = 'USD'
         ..symbol = 'USD'
-        ..toBaseInstrumentAssetPairId = '5'
+        ..toBaseInstrumentAssetPairId = '12'
         ..toBaseInstrumentIsMultiply = false,
       AssetData()
-        ..id = '6'
+        ..id = '13'
         ..categoryId = 'currency'
         ..canBeBase = true
         ..icon = lykkeIconUrl
         ..displayName = 'RUB'
         ..symbol = 'RUB'
-        ..toBaseInstrumentAssetPairId = '6'
+        ..toBaseInstrumentAssetPairId = '13'
         ..toBaseInstrumentIsMultiply = false,
     ];
     List<CategoryData> categoryList = [
@@ -209,9 +245,13 @@ class MockApi {
         ..categoryName = 'Currencies'
         ..sortPriority = 1,
       CategoryData()
+        ..categoryId = 'lykke'
+        ..categoryName = 'Lykke'
+        ..sortPriority = 2,
+      CategoryData()
         ..categoryId = 'crypto'
         ..categoryName = 'Crypto'
-        ..sortPriority = 2,
+        ..sortPriority = 3,
     ];
     return AssetDictionaryData()
       ..assetList = assetList

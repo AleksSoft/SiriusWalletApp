@@ -27,49 +27,63 @@ class PortfolioHistoryView extends StatelessWidget {
         await model.initialise();
       },
       builder: (context, PortfolioHistoryViewModel model, child) {
-        if (model.isBusy) {
-          return Center(child: CircularProgressIndicator());
-        }
-        if (model.itemsEmpty) {
-          return Center(
-            child: NothingView(
-              header: 'No history yet',
-              message: 'Your history will appear here.',
-            ),
-          );
-        }
-        return Scaffold(
-          body: Stack(
-            children: [
-              RefreshIndicator(
-                displacement: 20.0,
-                onRefresh: () async => await model.updateHistory(),
-                child: ListView.builder(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  itemCount: model.historyItems.length,
-                  padding: EdgeInsets.symmetric(vertical: 8.0),
-                  itemBuilder: (context, index) {
-                    return PortfolioHistoryCard(index: index);
-                  },
+        return AnimatedSwitcher(
+          switchInCurve: Curves.easeInCubic,
+          switchOutCurve: Curves.easeOutCubic,
+          duration: Duration(milliseconds: 300),
+          child: model.isBusy
+              ? Center(child: CircularProgressIndicator())
+              : AnimatedSwitcher(
+                  switchInCurve: Curves.easeInCubic,
+                  switchOutCurve: Curves.easeOutCubic,
+                  duration: Duration(milliseconds: 300),
+                  child: model.itemsEmpty
+                      ? Center(
+                          child: NothingView(
+                            header: 'No history yet',
+                            message: 'Your history will appear here.',
+                          ),
+                        )
+                      : Scaffold(
+                          body: Stack(
+                            children: [
+                              RefreshIndicator(
+                                displacement: 20.0,
+                                onRefresh: () async =>
+                                    await model.updateHistory(),
+                                child: ListView.builder(
+                                  physics:
+                                      const AlwaysScrollableScrollPhysics(),
+                                  itemCount: model.historyItems.length,
+                                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                                  itemBuilder: (context, index) {
+                                    return PortfolioHistoryCard(index: index);
+                                  },
+                                ),
+                              ),
+                              SlidingUpPanel(
+                                panel: PortfolioHistoryFiltersView(),
+                                controller: _panelController,
+                                minHeight: 0,
+                                maxHeight: 350,
+                                backdropEnabled: true,
+                                onPanelClosed: () =>
+                                    model.updateFilterOpenedState(false),
+                                onPanelOpened: () =>
+                                    model.updateFilterOpenedState(true),
+                              ),
+                            ],
+                          ),
+                          floatingActionButton: FloatingActionButton(
+                            onPressed: () => model.filterOpened
+                                ? model.onCloseFilter()
+                                : model.onOpenFilter(),
+                            child: Icon(model.filterOpened
+                                ? Icons.check
+                                : Icons.filter_list),
+                          ),
+                        ),
                 ),
-              ),
-              SlidingUpPanel(
-                panel: PortfolioHistoryFiltersView(),
-                controller: _panelController,
-                minHeight: 0,
-                maxHeight: 350,
-                backdropEnabled: true,
-                onPanelClosed: () => model.updateFilterOpenedState(false),
-                onPanelOpened: () => model.updateFilterOpenedState(true),
-              ),
-            ],
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () => model.filterOpened
-                ? model.onCloseFilter()
-                : model.onOpenFilter(),
-            child: Icon(model.filterOpened ? Icons.check : Icons.filter_list),
-          ),
         );
       },
     );

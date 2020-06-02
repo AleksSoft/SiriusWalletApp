@@ -3,8 +3,8 @@ import 'package:antares_wallet/business/dto/portfolio_history_item.dart';
 import 'package:antares_wallet/business/services/api/mock_api.dart';
 import 'package:antares_wallet/locator.dart';
 import 'package:flutter/foundation.dart';
-import 'package:stacked/stacked.dart';
 import 'package:intl/intl.dart';
+import 'package:stacked/stacked.dart';
 
 enum PeriodFilter { all, day, week, custom }
 
@@ -52,6 +52,7 @@ class PortfolioHistoryViewModel extends BaseViewModel {
   }
 
   Future initialise() async {
+    await Future.delayed(Duration(milliseconds: 300));
     _portfolioHistoryItems = await _api.fetchPortfolioHistry();
     setBusy(false);
   }

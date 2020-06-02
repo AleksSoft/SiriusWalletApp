@@ -10,16 +10,12 @@ class PortfolioAssetsViewModel extends BaseViewModel {
     setBusy(true);
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   AssetDictionaryData _assetDictionary = AssetDictionaryData();
 
   List<CategoryData> get categoryList => _assetDictionary.categoryList;
 
   Future initialise() async {
+    await Future.delayed(Duration(milliseconds: 300));
     _assetDictionary = await _api.fetchAssetDictionary();
     setBusy(false);
   }
