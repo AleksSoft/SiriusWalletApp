@@ -2,10 +2,10 @@ import 'package:antares_wallet/business/dto/asset_dictionary_data.dart';
 import 'package:antares_wallet/business/view_models/portfolio/portfolio_history_view_model.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:antares_wallet/ui/navigation/navigation.dart';
-import 'package:antares_wallet/ui/select_asset_view.dart';
+import 'package:antares_wallet/ui/views/select_asset_view.dart';
+import 'package:date_range_picker/date_range_picker.dart' as DateRagePicker;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:date_range_picker/date_range_picker.dart' as DateRagePicker;
 import 'package:stacked/stacked.dart';
 
 class PortfolioHistoryFiltersView extends StatelessWidget {
