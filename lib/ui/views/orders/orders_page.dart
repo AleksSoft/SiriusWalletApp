@@ -1,5 +1,7 @@
-import 'package:antares_wallet/ui/views/widgets/nothing_view.dart';
 import 'package:flutter/material.dart';
+
+import 'orders_history_view.dart';
+import 'orders_opened_view.dart';
 
 class OrdersPage extends StatelessWidget {
   @override
@@ -21,18 +23,8 @@ class OrdersPage extends StatelessWidget {
         ),
         body: TabBarView(
           children: <Widget>[
-            Center(
-              child: NothingView(
-                header: 'No open orders yet',
-                message: 'Your orders will appear here once placed.',
-              ),
-            ),
-            Center(
-              child: NothingView(
-                header: 'No history yet',
-                message: 'Your history will appear here.',
-              ),
-            ),
+            OrdersOpenedView(),
+            OrdersHistoryView(),
           ],
         ),
       ),

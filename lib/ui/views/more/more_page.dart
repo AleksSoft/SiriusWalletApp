@@ -1,6 +1,7 @@
+import 'package:antares_wallet/ui/navigation/navigation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:antares_wallet/ui/navigation/navigation.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'menu_tile.dart';
 
@@ -40,6 +41,7 @@ class MorePage extends StatelessWidget {
           MenuTile(
             title: 'Terms and conditions',
             icon: Icons.list,
+            onTap: () => _launchURL('https://www.lykke.com/cp/terms_of_use'),
             trailing: Icon(Icons.chevron_right),
           ),
           Container(
@@ -55,5 +57,13 @@ class MorePage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url, forceWebView: false, forceSafariVC: false);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
