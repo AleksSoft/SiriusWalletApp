@@ -10,8 +10,7 @@ class OrdersHistoryView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder.nonReactive(
       viewModelBuilder: () => OrdersHistoryViewModel(),
-      onModelReady: (OrdersHistoryViewModel model) async =>
-          await model.initialise(),
+      onModelReady: (OrdersHistoryViewModel model) => model.initialise(),
       builder: (context, OrdersHistoryViewModel model, child) {
         return Container(
           alignment: Alignment.topCenter,

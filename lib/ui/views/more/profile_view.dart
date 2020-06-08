@@ -1,10 +1,10 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:antares_wallet/business/dto/account_data.dart';
 import 'package:antares_wallet/business/dto/personal_data.dart';
 import 'package:antares_wallet/business/view_models/more/profile_view_model.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:stacked/stacked.dart';
 
 class ProfileView extends StatelessWidget {
@@ -18,19 +18,23 @@ class ProfileView extends StatelessWidget {
       body: ViewModelBuilder.reactive(
         viewModelBuilder: () => ProfileViewModel(),
         onModelReady: (ProfileViewModel model) => model.initialise(),
-        builder: (context, ProfileViewModel model, child) {
-          if (model.isBusy) {
-            return Center(child: CircularProgressIndicator());
-          }
-          return ListView(
-            padding: EdgeInsets.all(16.0),
-            children: <Widget>[
-              AccountDataView(model),
-              SizedBox(height: 8.0),
-              DepositLimitsView(model.accountData),
-              SizedBox(height: 8.0),
-              PersonalDataView(model.personalData),
-            ],
+        builder: (_, ProfileViewModel model, __) {
+          return AnimatedSwitcher(
+            switchInCurve: Curves.easeInCubic,
+            switchOutCurve: Curves.easeOutCubic,
+            duration: Duration(milliseconds: 300),
+            child: model.isBusy
+                ? Center(child: CircularProgressIndicator())
+                : ListView(
+                    padding: EdgeInsets.all(16.0),
+                    children: <Widget>[
+                      AccountDataView(model),
+                      SizedBox(height: 8.0),
+                      DepositLimitsView(model.accountData),
+                      SizedBox(height: 8.0),
+                      PersonalDataView(model.personalData),
+                    ],
+                  ),
           );
         },
       ),

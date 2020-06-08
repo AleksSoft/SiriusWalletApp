@@ -11,8 +11,7 @@ class PortfolioAssetsTabView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder.nonReactive(
       viewModelBuilder: () => PortfolioAssetsViewModel(),
-      onModelReady: (PortfolioAssetsViewModel model) async =>
-          await model.initialise(),
+      onModelReady: (PortfolioAssetsViewModel model) => model.initialise(),
       disposeViewModel: false,
       builder: (context, PortfolioAssetsViewModel model, child) {
         return ListView(
@@ -70,20 +69,20 @@ class PortfolioCategoryBlockList
       duration: Duration(milliseconds: 300),
       child: model.isBusy
           ? SizedBox.shrink()
-          : ListView(
-              shrinkWrap: true,
+          : Column(
               children: model.categoryList
-                  .map((category) => PortfolioCategoryBlock(category))
+                  .map((category) => _PortfolioCategoryBlock(category))
                   .toList(),
             ),
     );
   }
 }
 
-class PortfolioCategoryBlock extends ViewModelWidget<PortfolioAssetsViewModel> {
+class _PortfolioCategoryBlock
+    extends ViewModelWidget<PortfolioAssetsViewModel> {
   final CategoryData category;
 
-  const PortfolioCategoryBlock(this.category);
+  const _PortfolioCategoryBlock(this.category);
 
   @override
   Widget build(BuildContext context, PortfolioAssetsViewModel model) {

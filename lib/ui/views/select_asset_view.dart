@@ -20,50 +20,70 @@ class SelectAssetArgs {
 class SelectAssetView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final SelectAssetArgs _args = ModalRoute.of(context).settings.arguments;
-
-    return ViewModelBuilder.reactive(
+    return ViewModelBuilder.nonReactive(
       viewModelBuilder: () => SelectAssetViewModel(
-        selectedAsset: _args.selectedAsset,
-        onlyBase: _args.onlyBase,
+        ModalRoute.of(context).settings.arguments,
       ),
       onModelReady: (SelectAssetViewModel model) => model.initialise(),
       builder: (context, SelectAssetViewModel model, child) {
-        final items = model.assetList;
         return Scaffold(
           appBar: AppBar(
-            title: Text(_args.title),
+            title: Text(model.title),
             elevation: 0.5,
-            actions: [
-              IconButton(
-                icon: Icon(Icons.search),
-                onPressed: () => showSearch(
-                  context: context,
-                  delegate: SearchPage<AssetData>(
-                    showItemsOnEmpty: true,
-                    items: items,
-                    searchLabel: _args.title,
-                    filter: (asset) => [
-                      asset.displayName,
-                      asset.symbol,
-                    ],
-                    builder: (asset) => _buildAssetTile(context, asset),
-                  ),
-                ),
-              )
-            ],
+            actions: [_SearchButton()],
           ),
-          body: ListView.builder(
-            itemCount: items.length,
-            itemBuilder: (content, index) =>
-                _buildAssetTile(context, items[index]),
-          ),
+          body: _AssetsList(),
         );
       },
     );
   }
+}
 
-  ListTile _buildAssetTile(BuildContext context, AssetData asset) {
+class _AssetsList extends ViewModelWidget<SelectAssetViewModel> {
+  const _AssetsList({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, SelectAssetViewModel model) {
+    return ListView.builder(
+      itemCount: model.assetList.length,
+      itemBuilder: (content, index) => _AssetTile(model.assetList[index]),
+    );
+  }
+}
+
+class _SearchButton extends ViewModelWidget<SelectAssetViewModel> {
+  @override
+  Widget build(BuildContext context, SelectAssetViewModel model) {
+    return IconButton(
+      icon: Icon(Icons.search),
+      onPressed: () => showSearch(
+        context: context,
+        delegate: SearchPage<AssetData>(
+          showItemsOnEmpty: true,
+          items: model.assetList,
+          searchLabel: model.title,
+          filter: (asset) => [
+            asset.displayName,
+            asset.symbol,
+          ],
+          builder: (asset) => _AssetTile(asset),
+        ),
+      ),
+    );
+  }
+}
+
+class _AssetTile extends StatelessWidget {
+  const _AssetTile(
+    this.asset, {
+    Key key,
+  }) : super(key: key);
+  final AssetData asset;
+
+  @override
+  Widget build(BuildContext context) {
     return ListTile(
       leading: Image.network(asset.icon),
       title: Text(asset.displayName),

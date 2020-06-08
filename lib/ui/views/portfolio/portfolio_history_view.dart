@@ -21,9 +21,7 @@ class PortfolioHistoryView extends StatelessWidget {
         onOpenFilter: () => _panelController.open(),
       ),
       disposeViewModel: false,
-      onModelReady: (PortfolioHistoryViewModel model) async {
-        await model.initialise();
-      },
+      onModelReady: (PortfolioHistoryViewModel model) => model.initialise(),
       builder: (context, PortfolioHistoryViewModel model, child) {
         return AnimatedSwitcher(
           switchInCurve: Curves.easeInCubic,
@@ -56,8 +54,8 @@ class PortfolioHistoryView extends StatelessWidget {
                                     bottom: 16.0,
                                   ),
                                   itemBuilder: (context, index) {
-                                    return PortfolioHistoryListTile(
-                                      index: index,
+                                    return _PortfolioHistoryListTile(
+                                      model.historyItems[index],
                                     );
                                   },
                                 ),
@@ -91,22 +89,16 @@ class PortfolioHistoryView extends StatelessWidget {
   }
 }
 
-class PortfolioHistoryListTile
-    extends ViewModelWidget<PortfolioHistoryViewModel> {
-  final int index;
-  const PortfolioHistoryListTile({
-    Key key,
-    @required this.index,
-  }) : super(key: key);
+class _PortfolioHistoryListTile extends StatelessWidget {
+  final PortfolioHistoryItem _item;
+  const _PortfolioHistoryListTile(this._item, {Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, PortfolioHistoryViewModel model) {
-    final PortfolioHistoryItem item = model.historyItems[index];
-
+  Widget build(BuildContext context) {
     return InkWell(
       onTap: () => Navigator.of(context).pushNamed(
         Routes.historyDetails,
-        arguments: item,
+        arguments: _item,
       ),
       child: Column(
         children: [
@@ -126,7 +118,7 @@ class PortfolioHistoryListTile
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          item.asset.symbol,
+                          _item.asset.symbol,
                           style: Theme.of(context).textTheme.button.copyWith(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 16.0,
@@ -134,9 +126,9 @@ class PortfolioHistoryListTile
                         ),
                         SizedBox(width: 4.0),
                         Text(
-                          item.isDeposit ? 'DEPOSIT' : 'WITHDRAW',
+                          _item.isDeposit ? 'DEPOSIT' : 'WITHDRAW',
                           style: Theme.of(context).textTheme.button.copyWith(
-                                color: item.isDeposit
+                                color: _item.isDeposit
                                     ? AppColors.green
                                     : AppColors.red,
                                 fontWeight: FontWeight.w700,
@@ -145,7 +137,7 @@ class PortfolioHistoryListTile
                         ),
                         SizedBox(width: 16.0),
                         Text(
-                          item.amount.toString(),
+                          _item.amount.toString(),
                           style: Theme.of(context).textTheme.button.copyWith(
                                 fontSize: 16.0,
                               ),
@@ -154,7 +146,7 @@ class PortfolioHistoryListTile
                     ),
                     SizedBox(height: 8.0),
                     Text(
-                      item.dateTime,
+                      _item.dateTime,
                       style: Theme.of(context).textTheme.caption.copyWith(
                             fontSize: 14.0,
                           ),
@@ -162,7 +154,7 @@ class PortfolioHistoryListTile
                   ],
                 ),
                 Text(
-                  item.status,
+                  _item.status,
                   style: Theme.of(context).textTheme.caption.copyWith(
                         color: AppColors.secondary.withOpacity(0.8),
                         fontSize: 14.0,
