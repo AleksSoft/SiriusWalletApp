@@ -4,7 +4,7 @@ import 'package:antares_wallet/locator.dart';
 import 'package:stacked/stacked.dart';
 
 class PortfolioAssetsViewModel extends BaseViewModel {
-  final MockApi _api = locator<MockApi>();
+  final MockApiService _api = locator<MockApiService>();
 
   PortfolioAssetsViewModel() {
     setBusy(true);

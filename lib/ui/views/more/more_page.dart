@@ -1,3 +1,5 @@
+import 'package:antares_wallet/business/services/key_store_service.dart';
+import 'package:antares_wallet/locator.dart';
 import 'package:antares_wallet/ui/navigation/navigation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +53,7 @@ class MorePage extends StatelessWidget {
           MenuTile(
             title: 'Logout',
             icon: Icons.exit_to_app,
+            onTap: () => locator<KeyStoreService>().deleteAll(),
             color: Colors.red,
             trailing: Icon(Icons.chevron_right),
           ),

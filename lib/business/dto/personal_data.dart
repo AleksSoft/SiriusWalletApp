@@ -1,14 +1,18 @@
 import 'package:antares_wallet/business/dto/base_dto.dart';
 
 class PersonalData extends Dto<PersonalData> {
-  String fullName = '';
+  String firstName = '';
+  String lastName = '';
   String email = '';
   String contactPhone = '';
   String country = '';
 
+  String get fullName => '$firstName $lastName';
+
   @override
   PersonalData fromJson(Map<String, Object> json) {
-    fullName = json['fullName'];
+    firstName = json['firstName'];
+    lastName = json['lastName'];
     email = json['email'];
     contactPhone = json['contactPhone'];
     country = json['country'];
@@ -17,12 +21,13 @@ class PersonalData extends Dto<PersonalData> {
 
   @override
   Map<String, Object> toJson() => {
-        'fullName': fullName,
+        'firstName': firstName,
+        'lastName': lastName,
         'email': email,
         'contactPhone': contactPhone,
         'country': country,
       };
 
   @override
-  List<Object> get props => [fullName, email, contactPhone, country];
+  List<Object> get props => [firstName, lastName, email, contactPhone, country];
 }

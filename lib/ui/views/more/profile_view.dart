@@ -1,7 +1,6 @@
-import 'package:antares_wallet/business/dto/account_data.dart';
-import 'package:antares_wallet/business/dto/personal_data.dart';
 import 'package:antares_wallet/business/view_models/more/profile_view_model.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
+import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -15,26 +14,19 @@ class ProfileView extends StatelessWidget {
         title: Text('Profile'),
         elevation: 0.5,
       ),
-      body: ViewModelBuilder.reactive(
+      body: ViewModelBuilder.nonReactive(
         viewModelBuilder: () => ProfileViewModel(),
         onModelReady: (ProfileViewModel model) => model.initialise(),
         builder: (_, ProfileViewModel model, __) {
-          return AnimatedSwitcher(
-            switchInCurve: Curves.easeInCubic,
-            switchOutCurve: Curves.easeOutCubic,
-            duration: Duration(milliseconds: 300),
-            child: model.isBusy
-                ? Center(child: CircularProgressIndicator())
-                : ListView(
-                    padding: EdgeInsets.all(16.0),
-                    children: <Widget>[
-                      AccountDataView(model),
-                      SizedBox(height: 8.0),
-                      DepositLimitsView(model.accountData),
-                      SizedBox(height: 8.0),
-                      PersonalDataView(model.personalData),
-                    ],
-                  ),
+          return ListView(
+            padding: EdgeInsets.all(16.0),
+            children: <Widget>[
+              _AccountDataView(),
+              SizedBox(height: 8.0),
+              _DepositLimitsView(),
+              SizedBox(height: 8.0),
+              _PersonalDataView(),
+            ],
           );
         },
       ),
@@ -42,13 +34,9 @@ class ProfileView extends StatelessWidget {
   }
 }
 
-class AccountDataView extends StatelessWidget {
-  final ProfileViewModel model;
-
-  AccountDataView(this.model);
-
+class _AccountDataView extends ViewModelWidget<ProfileViewModel> {
   @override
-  Widget build(context) {
+  Widget build(BuildContext context, ProfileViewModel model) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
@@ -61,18 +49,23 @@ class AccountDataView extends StatelessWidget {
           contentPadding: EdgeInsets.all(0.0),
           leading: Icon(
             Icons.check_circle_outline,
-            color: Colors.blueAccent,
+            color: AppColors.accent,
             size: 40.0,
           ),
           title: Text(model.accountData.level),
           subtitle: Text('Verified'),
           trailing: OutlineButton(
-            onPressed: () async => await model.upgradeAccount(),
-            borderSide: BorderSide(color: Colors.blueAccent),
+            onPressed: () => Navigator.of(context, rootNavigator: true).push(
+              MaterialPageRoute(
+                fullscreenDialog: true,
+                builder: (BuildContext context) => UpgradeAccountMainView(),
+              ),
+            ),
+            borderSide: BorderSide(color: AppColors.accent),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(4.0),
             ),
-            textColor: Colors.blueAccent,
+            textColor: AppColors.accent,
             child: Text('Upgrade'),
           ),
         ),
@@ -81,13 +74,10 @@ class AccountDataView extends StatelessWidget {
   }
 }
 
-class DepositLimitsView extends StatelessWidget {
-  final AccountData account;
-
-  DepositLimitsView(this.account);
-
+class _DepositLimitsView extends ViewModelWidget<ProfileViewModel> {
   @override
-  Widget build(context) {
+  Widget build(BuildContext context, ProfileViewModel model) {
+    final account = model.accountData;
     if (account.hasNoLimit) return SizedBox.shrink();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -107,7 +97,7 @@ class DepositLimitsView extends StatelessWidget {
           lineHeight: 5.0,
           padding: EdgeInsets.all(0.0),
           percent: account.depositPercent,
-          backgroundColor: Colors.grey.withOpacity(0.1),
+          backgroundColor: AppColors.secondary.withOpacity(0.1),
           progressColor: AppColors.accent,
         ),
         SizedBox(height: 6.0),
@@ -130,13 +120,10 @@ class DepositLimitsView extends StatelessWidget {
   }
 }
 
-class PersonalDataView extends StatelessWidget {
-  final PersonalData data;
-
-  PersonalDataView(this.data);
-
+class _PersonalDataView extends ViewModelWidget<ProfileViewModel> {
   @override
-  Widget build(context) {
+  Widget build(BuildContext context, ProfileViewModel model) {
+    var data = model.personalData;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
@@ -148,7 +135,7 @@ class PersonalDataView extends StatelessWidget {
         ListTile(
           contentPadding: EdgeInsets.all(0.0),
           title: Text('Full Name'),
-          subtitle: Text(data.fullName),
+          subtitle: Text(data.firstName),
         ),
         ListTile(
           contentPadding: EdgeInsets.all(0.0),

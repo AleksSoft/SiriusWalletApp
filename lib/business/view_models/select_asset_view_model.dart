@@ -5,7 +5,7 @@ import 'package:antares_wallet/ui/views/select_asset_view.dart';
 import 'package:stacked/stacked.dart';
 
 class SelectAssetViewModel extends BaseViewModel {
-  final MockApi _api = locator<MockApi>();
+  final MockApiService _api = locator<MockApiService>();
 
   final SelectAssetArgs _selectAssetArgs;
 

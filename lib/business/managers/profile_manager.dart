@@ -7,9 +7,17 @@ import 'package:antares_wallet/business/services/api/mock_api.dart';
 import 'package:antares_wallet/business/services/key_store_service.dart';
 import 'package:antares_wallet/locator.dart';
 
-class ProfileManager {
+class ProfileRepository {
   final _storage = locator<KeyStoreService>();
-  final _api = locator<MockApi>();
+  final _api = locator<MockApiService>();
+
+  PersonalData personalData = PersonalData();
+  AccountData accountData = AccountData();
+
+  Future<void> updateProfile() async {
+    personalData = await loadPersonalData();
+    accountData = await loadAccountData();
+  }
 
   Future<PersonalData> loadPersonalData() async {
     PersonalData data = await _storage.readDto<PersonalData>(

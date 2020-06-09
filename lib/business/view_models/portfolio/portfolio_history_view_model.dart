@@ -11,7 +11,7 @@ enum PeriodFilter { all, day, week, custom }
 enum TransactionTypeFilter { all, deposit, withdraw }
 
 class PortfolioHistoryViewModel extends BaseViewModel {
-  final _api = locator<MockApi>();
+  final _api = locator<MockApiService>();
   final VoidCallback onOpenFilter;
   final VoidCallback onCloseFilter;
 

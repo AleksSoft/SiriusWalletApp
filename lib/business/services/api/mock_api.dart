@@ -4,7 +4,7 @@ import 'package:antares_wallet/business/dto/personal_data.dart';
 import 'package:antares_wallet/business/dto/portfolio_history_item.dart';
 import 'package:antares_wallet/business/dto/support.dart';
 
-class MockApi {
+class MockApiService {
   static const String lykkeIconUrl =
       'http://icons.iconarchive.com/icons/cjdowner/cryptocurrency/32/Lykke-icon.png';
 
@@ -17,7 +17,8 @@ class MockApi {
 
   Future<PersonalData> fetchPersonalData() async {
     return PersonalData()
-      ..fullName = 'Test User'
+      ..firstName = 'User'
+      ..lastName = 'Test'
       ..email = 'testuser@test.io'
       ..contactPhone = '+41 43 508 63 79'
       ..country = 'UK';
