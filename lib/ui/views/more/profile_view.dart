@@ -57,7 +57,7 @@ class _AccountDataView extends ViewModelWidget<ProfileViewModel> {
           trailing: OutlineButton(
             onPressed: () => Navigator.pushNamed(
               context,
-              Routes.upAccQuest,
+              Routes.upAccMain,
               arguments: {hideNavTabBar: true},
             ),
             borderSide: BorderSide(color: AppColors.accent),

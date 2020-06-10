@@ -24,11 +24,6 @@ class MorePage extends StatelessWidget {
             trailing: Icon(Icons.chevron_right),
           ),
           MenuTile(
-            title: 'Wallets',
-            icon: Icons.lock,
-            trailing: Icon(Icons.chevron_right),
-          ),
-          MenuTile(
             title: 'Profile',
             icon: Icons.account_circle,
             onTap: () => Navigator.of(context).pushNamed(Routes.profile),

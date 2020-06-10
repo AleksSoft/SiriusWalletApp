@@ -211,6 +211,7 @@ class _Quest1State extends State<_Quest1> {
               ),
               SizedBox(height: 8.0),
               Divider(height: 1.0),
+              SizedBox(height: 8.0),
               TextField(
                 decoration: InputDecoration.collapsed(
                   hintText: 'Current question type...',
