@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:antares_wallet/ui/common/app_colors.dart';
-import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_quest.dart';
+import 'package:antares_wallet/ui/navigation/navigation.dart';
 import 'package:antares_wallet/ui/views/widgets/default_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,10 +16,6 @@ enum DocType {
 }
 
 class UpgradeAccountDocView extends StatefulWidget {
-  final DocType docType;
-
-  const UpgradeAccountDocView(this.docType, {Key key}) : super(key: key);
-
   @override
   _UpgradeAccountDocViewState createState() => _UpgradeAccountDocViewState();
 }
@@ -37,6 +33,9 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
 
   @override
   Widget build(BuildContext context) {
+    final DocType docType = (ModalRoute.of(context).settings.arguments
+        as Map<String, dynamic>)['docType'];
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Upgrade to Advanced'),
@@ -49,7 +48,7 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              _title,
+              _title(docType),
               style: Theme.of(context).textTheme.button.copyWith(
                     fontSize: 16.0,
                   ),
@@ -117,15 +116,14 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
                               ),
                               alignment: Alignment.bottomCenter,
                               child: Text(
-                                _photoHeader,
+                                _photoHeader(docType),
                                 style: Theme.of(context)
                                     .textTheme
                                     .subtitle1
                                     .copyWith(
                                       fontSize: 12.0,
                                     ),
-                                textAlign: this.widget.docType ==
-                                        DocType.proofOfAddress
+                                textAlign: docType == DocType.proofOfAddress
                                     ? TextAlign.left
                                     : TextAlign.center,
                               ),
@@ -181,9 +179,7 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
                 child: Text('Submit'),
                 onPressed: _image == null
                     ? null
-                    : () => Navigator.of(context, rootNavigator: true).push(
-                          MaterialPageRoute(builder: (context) => _nextRoute),
-                        ),
+                    : () => _pushNextRoute(context, docType),
               ),
             ),
           ],
@@ -192,8 +188,8 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
     );
   }
 
-  String get _title {
-    switch (this.widget.docType) {
+  String _title(DocType docType) {
+    switch (docType) {
       case DocType.passport:
         return 'Passport';
       case DocType.nationalId:
@@ -209,8 +205,8 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
     }
   }
 
-  String get _photoHeader {
-    switch (this.widget.docType) {
+  String _photoHeader(DocType docType) {
+    switch (docType) {
       case DocType.passport:
         return 'Upload a clear and legible picture of the main page of your passport';
       case DocType.nationalId:
@@ -229,17 +225,37 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
     }
   }
 
-  Widget get _nextRoute {
-    switch (this.widget.docType) {
+  void _pushNextRoute(BuildContext context, DocType docType) {
+    switch (docType) {
       case DocType.passport:
       case DocType.nationalId:
       case DocType.drivingLicense:
-        return UpgradeAccountDocView(DocType.selfie);
+        Navigator.pushNamed(
+          context,
+          Routes.upAccDoc,
+          arguments: {
+            'docType': DocType.selfie,
+            hideNavTabBar: true,
+          },
+        );
+        break;
       case DocType.selfie:
-        return UpgradeAccountDocView(DocType.proofOfAddress);
+        Navigator.pushNamed(
+          context,
+          Routes.upAccDoc,
+          arguments: {
+            'docType': DocType.proofOfAddress,
+            hideNavTabBar: true,
+          },
+        );
+        break;
       case DocType.proofOfAddress:
       default:
-        return UpgradeAccountQuestView();
+        Navigator.pushNamed(
+          context,
+          Routes.upAccQuest,
+          arguments: {hideNavTabBar: true},
+        );
     }
   }
 }

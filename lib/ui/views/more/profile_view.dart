@@ -1,6 +1,6 @@
 import 'package:antares_wallet/business/view_models/more/profile_view_model.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
-import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_main.dart';
+import 'package:antares_wallet/ui/navigation/navigation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -55,11 +55,10 @@ class _AccountDataView extends ViewModelWidget<ProfileViewModel> {
           title: Text(model.accountData.level),
           subtitle: Text('Verified'),
           trailing: OutlineButton(
-            onPressed: () => Navigator.of(context, rootNavigator: true).push(
-              MaterialPageRoute(
-                fullscreenDialog: true,
-                builder: (BuildContext context) => UpgradeAccountMainView(),
-              ),
+            onPressed: () => Navigator.pushNamed(
+              context,
+              Routes.upAccQuest,
+              arguments: {hideNavTabBar: true},
             ),
             borderSide: BorderSide(color: AppColors.accent),
             shape: RoundedRectangleBorder(

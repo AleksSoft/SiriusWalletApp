@@ -4,6 +4,11 @@ import 'package:antares_wallet/ui/views/more/more_page.dart';
 import 'package:antares_wallet/ui/views/more/profile_view.dart';
 import 'package:antares_wallet/ui/views/more/settings_view.dart';
 import 'package:antares_wallet/ui/views/more/support_view.dart';
+import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_choose_doc.dart';
+import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_doc.dart';
+import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_main.dart';
+import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_quest.dart';
+import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_result.dart';
 import 'package:antares_wallet/ui/views/orders/orders_page.dart';
 import 'package:antares_wallet/ui/views/portfolio/portfolio_page.dart';
 import 'package:antares_wallet/ui/views/select_asset_view.dart';
@@ -25,9 +30,17 @@ class Routes {
   static const support = '/support';
   static const profile = '/profile';
 
+  //upgrade account flow
+  static const upAccMain = '/upAccMain';
+  static const upAccChooseDoc = '/upAccChooseDoc';
+  static const upAccDoc = '/upAccDoc';
+  static const upAccQuest = '/upAccQuest';
+  static const upAccResult = '/upAccResult';
+
   static MaterialPageRoute generateRoute(RouteSettings routeSettings) {
     return MaterialPageRoute(
       settings: routeSettings,
+      fullscreenDialog: routeSettings.name == upAccMain,
       builder: (context) =>
           _buildPage(routeSettings.name, routeSettings.arguments),
     );
@@ -55,6 +68,16 @@ class Routes {
         return SupportView();
       case profile:
         return ProfileView();
+      case upAccMain:
+        return UpgradeAccountMainView();
+      case upAccChooseDoc:
+        return UpgradeAccountChooseDocView();
+      case upAccDoc:
+        return UpgradeAccountDocView();
+      case upAccQuest:
+        return UpgradeAccountQuestView();
+      case upAccResult:
+        return UpgradeAccountResult();
       default:
         return Scaffold(appBar: AppBar(title: Text(name)));
     }

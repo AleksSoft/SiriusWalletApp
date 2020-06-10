@@ -1,3 +1,4 @@
+import 'package:antares_wallet/ui/navigation/navigation.dart';
 import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_doc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,33 +29,39 @@ class UpgradeAccountChooseDocView extends StatelessWidget {
           ListTile(
             title: Text('Passport'),
             trailing: Icon(CupertinoIcons.forward),
-            onTap: () => Navigator.of(context, rootNavigator: true).push(
-              MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    UpgradeAccountDocView(DocType.passport),
-              ),
+            onTap: () => Navigator.pushNamed(
+              context,
+              Routes.upAccDoc,
+              arguments: {
+                'docType': DocType.passport,
+                hideNavTabBar: true,
+              },
             ),
           ),
           Divider(height: 1.0, indent: 16.0, endIndent: 16.0),
           ListTile(
             title: Text('National ID'),
             trailing: Icon(CupertinoIcons.forward),
-            onTap: () => Navigator.of(context, rootNavigator: true).push(
-              MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    UpgradeAccountDocView(DocType.nationalId),
-              ),
+            onTap: () => Navigator.pushNamed(
+              context,
+              Routes.upAccDoc,
+              arguments: {
+                'docType': DocType.nationalId,
+                hideNavTabBar: true,
+              },
             ),
           ),
           Divider(height: 1.0, indent: 16.0, endIndent: 16.0),
           ListTile(
             title: Text('Driving license'),
             trailing: Icon(CupertinoIcons.forward),
-            onTap: () => Navigator.of(context, rootNavigator: true).push(
-              MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    UpgradeAccountDocView(DocType.drivingLicense),
-              ),
+            onTap: () => Navigator.pushNamed(
+              context,
+              Routes.upAccDoc,
+              arguments: {
+                'docType': DocType.drivingLicense,
+                hideNavTabBar: true,
+              },
             ),
           ),
           Divider(height: 1.0, indent: 16.0, endIndent: 16.0),
