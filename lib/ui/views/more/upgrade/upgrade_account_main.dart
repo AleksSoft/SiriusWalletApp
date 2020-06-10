@@ -1,4 +1,5 @@
 import 'package:antares_wallet/ui/common/app_colors.dart';
+import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_choose_doc.dart';
 import 'package:antares_wallet/ui/views/widgets/default_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,12 @@ class UpgradeAccountMainView extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(8.0)),
             child: CupertinoButton.filled(
               child: Text('Upgrade account'),
-              onPressed: () {},
+              onPressed: () => Navigator.of(context, rootNavigator: true).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      UpgradeAccountChooseDocView(),
+                ),
+              ),
             ),
           ),
         ],
@@ -113,7 +119,7 @@ class _ListView extends StatelessWidget {
           _buildRow('Identity Documents', checked: false),
           _buildRow('Selfie', checked: false),
           _buildRow('Proof of address', checked: false),
-          _buildRow('Questionnarie', checked: false),
+          _buildRow('Questionnaire', checked: false),
         ],
       ),
     );
@@ -128,6 +134,7 @@ class _ListView extends StatelessWidget {
           Icon(
             checked ? CupertinoIcons.check_mark_circled : CupertinoIcons.circle,
             color: checked ? AppColors.accent : AppColors.secondary,
+            size: 22.0,
           ),
           SizedBox(width: 16.0),
           Text(title),
