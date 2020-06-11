@@ -1,8 +1,11 @@
+import 'package:antares_wallet/business/view_models/more/profile_view_model.dart';
+import 'package:antares_wallet/locator.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:antares_wallet/ui/navigation/navigation.dart';
 import 'package:antares_wallet/ui/views/widgets/default_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:stacked/stacked.dart';
 
 class UpgradeAccountMainView extends StatelessWidget {
   @override
@@ -11,39 +14,44 @@ class UpgradeAccountMainView extends StatelessWidget {
       appBar: AppBar(
         elevation: 0.0,
       ),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
-        shrinkWrap: true,
-        physics: BouncingScrollPhysics(),
-        children: [
-          _LevelCard(),
-          const SizedBox(height: 32.0),
-          _LevelHeaderView(),
-          const SizedBox(height: 32.0),
-          _ListView(),
-          const SizedBox(height: 32.0),
-          DefaultCard(
-            blurRadius: 10,
-            shadowColor: AppColors.accent.withOpacity(0.5),
-            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-            child: CupertinoButton.filled(
-              child: Text('Upgrade account'),
-              onPressed: () => Navigator.pushNamed(
-                context,
-                Routes.upAccChooseDoc,
-                arguments: {hideNavTabBar: true},
-              ),
-            ),
-          ),
-        ],
-      ),
+      body: ViewModelBuilder<ProfileViewModel>.nonReactive(
+          viewModelBuilder: () => locator<ProfileViewModel>(),
+          disposeViewModel: false,
+          builder: (context, model, child) {
+            return ListView(
+              padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
+              shrinkWrap: true,
+              physics: BouncingScrollPhysics(),
+              children: [
+                _LevelCard(),
+                const SizedBox(height: 32.0),
+                _LevelHeaderView(),
+                const SizedBox(height: 32.0),
+                _ListView(),
+                const SizedBox(height: 32.0),
+                DefaultCard(
+                  blurRadius: 10,
+                  shadowColor: AppColors.accent.withOpacity(0.5),
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  child: CupertinoButton.filled(
+                    child: Text('Upgrade account'),
+                    onPressed: () => Navigator.pushNamed(
+                      context,
+                      Routes.upAccChooseDoc,
+                      arguments: {hideNavTabBar: true},
+                    ),
+                  ),
+                ),
+              ],
+            );
+          }),
     );
   }
 }
 
-class _LevelCard extends StatelessWidget {
+class _LevelCard extends ViewModelWidget<ProfileViewModel> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(context, model) {
     return DefaultCard(
       padding: const EdgeInsets.all(16.0),
       shadowColor: AppColors.secondary.withOpacity(0.3),
@@ -59,7 +67,7 @@ class _LevelCard extends StatelessWidget {
           ),
           const SizedBox(height: 4.0),
           Text(
-            'Beginner',
+            model.accountData.levelStr,
             style: Theme.of(context).textTheme.headline6.copyWith(
                   fontWeight: FontWeight.w700,
                 ),
@@ -75,9 +83,9 @@ class _LevelCard extends StatelessWidget {
   }
 }
 
-class _LevelHeaderView extends StatelessWidget {
+class _LevelHeaderView extends ViewModelWidget<ProfileViewModel> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(context, model) {
     return Column(
       children: [
         Text(

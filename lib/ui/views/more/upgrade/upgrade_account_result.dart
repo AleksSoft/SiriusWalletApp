@@ -1,9 +1,12 @@
+import 'package:antares_wallet/business/view_models/more/profile_view_model.dart';
+import 'package:antares_wallet/locator.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:antares_wallet/ui/navigation/navigation.dart';
 import 'package:antares_wallet/ui/navigation/routes.dart';
 import 'package:antares_wallet/ui/views/widgets/default_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:stacked/stacked.dart';
 
 class UpgradeAccountResult extends StatelessWidget {
   @override
@@ -95,16 +98,24 @@ class UpgradeAccountResult extends StatelessWidget {
                   blurRadius: 10,
                   shadowColor: AppColors.accent.withOpacity(0.5),
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                  child: CupertinoButton.filled(
-                    disabledColor: Colors.grey.withOpacity(0.7),
-                    child: Text('Ok'),
-                    onPressed: () => NestedNavigatorsBlocProvider.of(context)
-                        .selectAndNavigate(
-                      NestedNavItemKey.more,
-                      (navigator) => navigator.popUntil(
-                        ModalRoute.withName(Routes.profile),
-                      ),
-                    ),
+                  child: ViewModelBuilder<ProfileViewModel>.nonReactive(
+                    viewModelBuilder: () => locator<ProfileViewModel>(),
+                    disposeViewModel: false,
+                    builder: (_, ProfileViewModel model, __) {
+                      return CupertinoButton.filled(
+                          disabledColor: Colors.grey.withOpacity(0.7),
+                          child: Text('Ok'),
+                          onPressed: () {
+                            model.upgradeAccount();
+                            NestedNavigatorsBlocProvider.of(context)
+                                .selectAndNavigate(
+                              NestedNavItemKey.more,
+                              (navigator) => navigator.popUntil(
+                                ModalRoute.withName(Routes.profile),
+                              ),
+                            );
+                          });
+                    },
                   ),
                 ),
               ),
