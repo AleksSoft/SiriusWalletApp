@@ -1,5 +1,7 @@
 import 'package:antares_wallet/ui/views/exchange/exchange_page.dart';
 import 'package:antares_wallet/ui/views/home/home_page.dart';
+import 'package:antares_wallet/ui/views/more/backup/backup_confirm_key_view.dart';
+import 'package:antares_wallet/ui/views/more/backup/backup_copy_key_view.dart';
 import 'package:antares_wallet/ui/views/more/more_page.dart';
 import 'package:antares_wallet/ui/views/more/profile_view.dart';
 import 'package:antares_wallet/ui/views/more/settings_view.dart';
@@ -30,12 +32,16 @@ class Routes {
   static const support = '/support';
   static const profile = '/profile';
 
-  //upgrade account flow
+  // upgrade account flow
   static const upAccMain = '/upAccMain';
   static const upAccChooseDoc = '/upAccChooseDoc';
   static const upAccDoc = '/upAccDoc';
   static const upAccQuest = '/upAccQuest';
   static const upAccResult = '/upAccResult';
+
+  // back up private key flow
+  static const backUpKeyCopy = '/backUpKeyCopy';
+  static const backUpKeyConfirm = '/backUpKeyConfirm';
 
   static MaterialPageRoute generateRoute(RouteSettings routeSettings) {
     return MaterialPageRoute(
@@ -78,6 +84,10 @@ class Routes {
         return UpgradeAccountQuestView();
       case upAccResult:
         return UpgradeAccountResult();
+      case backUpKeyCopy:
+        return BackUpCopyKeyView();
+      case backUpKeyConfirm:
+        return BackUpConfirmKeyView();
       default:
         return Scaffold(appBar: AppBar(title: Text(name)));
     }

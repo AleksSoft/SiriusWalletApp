@@ -70,6 +70,10 @@ class SettingsView extends StatelessWidget {
                   iconColor: Colors.black,
                   color: Colors.transparent,
                   showDivider: false,
+                  onTap: () => Navigator.of(
+                    context,
+                    rootNavigator: true,
+                  ).pushNamed(Routes.backUpKeyCopy),
                 ),
                 MenuTile(
                   title: 'About',
