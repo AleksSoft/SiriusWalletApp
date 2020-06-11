@@ -230,32 +230,29 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
       case DocType.passport:
       case DocType.nationalId:
       case DocType.drivingLicense:
-        Navigator.pushNamed(
+        Navigator.of(
           context,
+          rootNavigator: true,
+        ).pushNamed(
           Routes.upAccDoc,
-          arguments: {
-            'docType': DocType.selfie,
-            hideNavTabBar: true,
-          },
+          arguments: {'docType': DocType.selfie},
         );
         break;
       case DocType.selfie:
-        Navigator.pushNamed(
+        Navigator.of(
           context,
+          rootNavigator: true,
+        ).pushNamed(
           Routes.upAccDoc,
-          arguments: {
-            'docType': DocType.proofOfAddress,
-            hideNavTabBar: true,
-          },
+          arguments: {'docType': DocType.proofOfAddress},
         );
         break;
       case DocType.proofOfAddress:
       default:
-        Navigator.pushNamed(
+        Navigator.of(
           context,
-          Routes.upAccQuest,
-          arguments: {hideNavTabBar: true},
-        );
+          rootNavigator: true,
+        ).pushNamed(Routes.upAccQuest);
     }
   }
 }

@@ -39,9 +39,8 @@ class ProfileRepository {
     return data;
   }
 
-  Future<AccountData> upgradeAccount() async {
-    AccountData data = await _api.upgradeAccountLevel();
-    _storage.write(StoreKeys.accountData, jsonEncode(data.toJson()));
-    return data;
+  Future<void> upgradeAccount() async {
+    accountData = await _api.upgradeAccountLevel();
+    _storage.write(StoreKeys.accountData, jsonEncode(accountData.toJson()));
   }
 }

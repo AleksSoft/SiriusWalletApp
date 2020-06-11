@@ -35,11 +35,10 @@ class UpgradeAccountMainView extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
                   child: CupertinoButton.filled(
                     child: Text('Upgrade account'),
-                    onPressed: () => Navigator.pushNamed(
+                    onPressed: () => Navigator.of(
                       context,
-                      Routes.upAccChooseDoc,
-                      arguments: {hideNavTabBar: true},
-                    ),
+                      rootNavigator: true,
+                    ).pushNamed(Routes.upAccChooseDoc),
                   ),
                 ),
               ],

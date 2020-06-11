@@ -35,11 +35,10 @@ class UpgradeAccountQuestView extends StatelessWidget {
             child: CupertinoButton.filled(
               disabledColor: Colors.grey.withOpacity(0.7),
               child: Text('Submit'),
-              onPressed: () => Navigator.pushNamed(
+              onPressed: () => Navigator.of(
                 context,
-                Routes.upAccResult,
-                arguments: {hideNavTabBar: true},
-              ),
+                rootNavigator: true,
+              ).pushNamed(Routes.upAccResult),
             ),
           ),
         ],
@@ -213,7 +212,6 @@ class _Quest1State extends State<_Quest1> {
               Divider(height: 1.0),
               SizedBox(height: 8.0),
               TextField(
-                expands: true,
                 decoration: InputDecoration.collapsed(
                   hintText: 'Current question type...',
                 ),

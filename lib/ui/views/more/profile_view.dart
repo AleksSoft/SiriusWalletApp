@@ -56,18 +56,20 @@ class _AccountDataView extends ViewModelWidget<ProfileViewModel> {
           ),
           title: Text(model.accountData.levelStr),
           subtitle: Text('Verified'),
-          trailing: OutlineButton(
-            onPressed: () => Navigator.pushNamed(
-              context,
-              Routes.upAccMain,
-              arguments: {hideNavTabBar: true},
+          trailing: Visibility(
+            visible: model.accountData.hasNoLimit,
+            child: OutlineButton(
+              onPressed: () => Navigator.of(
+                context,
+                rootNavigator: true,
+              ).pushNamed(Routes.upAccMain),
+              borderSide: BorderSide(color: AppColors.accent),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              textColor: AppColors.accent,
+              child: Text('Upgrade'),
             ),
-            borderSide: BorderSide(color: AppColors.accent),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4.0),
-            ),
-            textColor: AppColors.accent,
-            child: Text('Upgrade'),
           ),
         ),
       ],

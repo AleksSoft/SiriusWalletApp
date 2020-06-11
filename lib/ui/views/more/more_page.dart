@@ -16,6 +16,7 @@ class MorePage extends StatelessWidget {
         elevation: 0.0,
       ),
       body: ListView(
+        physics: BouncingScrollPhysics(),
         children: <Widget>[
           MenuTile(
             title: 'Settings',
@@ -48,7 +49,12 @@ class MorePage extends StatelessWidget {
           MenuTile(
             title: 'Logout',
             icon: Icons.exit_to_app,
-            onTap: () => locator<KeyStoreService>().deleteAll(),
+            onTap: () {
+              locator<KeyStoreService>().deleteAll();
+              Scaffold.of(context).showSnackBar(
+                SnackBar(content: Text('Local storage cleared')),
+              );
+            },
             color: Colors.red,
             trailing: Icon(Icons.chevron_right),
           ),

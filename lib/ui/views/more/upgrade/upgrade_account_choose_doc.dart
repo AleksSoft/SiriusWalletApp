@@ -29,8 +29,7 @@ class UpgradeAccountChooseDocView extends StatelessWidget {
           ListTile(
             title: Text('Passport'),
             trailing: Icon(CupertinoIcons.forward),
-            onTap: () => Navigator.pushNamed(
-              context,
+            onTap: () => Navigator.of(context, rootNavigator: true).pushNamed(
               Routes.upAccDoc,
               arguments: {
                 'docType': DocType.passport,
@@ -42,8 +41,7 @@ class UpgradeAccountChooseDocView extends StatelessWidget {
           ListTile(
             title: Text('National ID'),
             trailing: Icon(CupertinoIcons.forward),
-            onTap: () => Navigator.pushNamed(
-              context,
+            onTap: () => Navigator.of(context, rootNavigator: true).pushNamed(
               Routes.upAccDoc,
               arguments: {
                 'docType': DocType.nationalId,
@@ -55,8 +53,7 @@ class UpgradeAccountChooseDocView extends StatelessWidget {
           ListTile(
             title: Text('Driving license'),
             trailing: Icon(CupertinoIcons.forward),
-            onTap: () => Navigator.pushNamed(
-              context,
+            onTap: () => Navigator.of(context, rootNavigator: true).pushNamed(
               Routes.upAccDoc,
               arguments: {
                 'docType': DocType.drivingLicense,
