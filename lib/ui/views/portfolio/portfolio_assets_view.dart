@@ -1,5 +1,6 @@
 import 'package:antares_wallet/business/dto/asset_dictionary_data.dart';
 import 'package:antares_wallet/business/view_models/portfolio/portfolio_assets_view_model.dart';
+import 'package:antares_wallet/locator.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,9 +11,9 @@ class PortfolioAssetsTabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder.nonReactive(
-      viewModelBuilder: () => PortfolioAssetsViewModel(),
-      onModelReady: (PortfolioAssetsViewModel model) => model.initialise(),
+      viewModelBuilder: () => locator<PortfolioAssetsViewModel>(),
       disposeViewModel: false,
+      onModelReady: (PortfolioAssetsViewModel model) => model.initialise(),
       builder: (context, PortfolioAssetsViewModel model, child) {
         return ListView(
           physics: BouncingScrollPhysics(),

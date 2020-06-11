@@ -1,5 +1,6 @@
 import 'package:antares_wallet/business/dto/portfolio_history_item.dart';
 import 'package:antares_wallet/business/view_models/portfolio/portfolio_history_view_model.dart';
+import 'package:antares_wallet/locator.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:antares_wallet/ui/navigation/navigation.dart';
 import 'package:antares_wallet/ui/views/portfolio/portfolio_history_filters_view.dart';
@@ -16,12 +17,12 @@ class PortfolioHistoryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder.reactive(
-      viewModelBuilder: () => PortfolioHistoryViewModel(
+      viewModelBuilder: () => locator<PortfolioHistoryViewModel>(),
+      disposeViewModel: false,
+      onModelReady: (PortfolioHistoryViewModel model) => model.initialise(
         onCloseFilter: () => _panelController.close(),
         onOpenFilter: () => _panelController.open(),
       ),
-      disposeViewModel: false,
-      onModelReady: (PortfolioHistoryViewModel model) => model.initialise(),
       builder: (context, PortfolioHistoryViewModel model, child) {
         return AnimatedSwitcher(
           switchInCurve: Curves.easeInCubic,

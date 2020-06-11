@@ -1,4 +1,5 @@
 import 'package:antares_wallet/business/view_models/orders/orders_history_view_model.dart';
+import 'package:antares_wallet/locator.dart';
 import 'package:antares_wallet/ui/views/widgets/nothing_view.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -9,7 +10,8 @@ class OrdersHistoryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder.nonReactive(
-      viewModelBuilder: () => OrdersHistoryViewModel(),
+      viewModelBuilder: () => locator<OrdersHistoryViewModel>(),
+      disposeViewModel: false,
       onModelReady: (OrdersHistoryViewModel model) => model.initialise(),
       builder: (context, OrdersHistoryViewModel model, child) {
         return Container(

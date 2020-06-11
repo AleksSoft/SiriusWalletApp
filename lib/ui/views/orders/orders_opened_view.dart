@@ -1,4 +1,5 @@
 import 'package:antares_wallet/business/view_models/orders/orders_opened_view_model.dart';
+import 'package:antares_wallet/locator.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:antares_wallet/ui/views/widgets/nothing_view.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,8 @@ class OrdersOpenedView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder.nonReactive(
-      viewModelBuilder: () => OrdersOpenedViewModel(),
+      viewModelBuilder: () => locator<OrdersOpenedViewModel>(),
+      disposeViewModel: false,
       onModelReady: (OrdersOpenedViewModel model) => model.initialise(),
       builder: (context, OrdersOpenedViewModel model, child) {
         return Container(

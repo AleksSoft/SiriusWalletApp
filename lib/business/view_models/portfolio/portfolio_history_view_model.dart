@@ -12,8 +12,9 @@ enum TransactionTypeFilter { all, deposit, withdraw }
 
 class PortfolioHistoryViewModel extends BaseViewModel {
   final _api = locator<MockApiService>();
-  final VoidCallback onOpenFilter;
-  final VoidCallback onCloseFilter;
+
+  VoidCallback onOpenFilter;
+  VoidCallback onCloseFilter;
 
   PortfolioHistoryFilter _filter;
 
@@ -21,7 +22,7 @@ class PortfolioHistoryViewModel extends BaseViewModel {
 
   bool _filterOpened = false;
 
-  PortfolioHistoryViewModel({this.onOpenFilter, this.onCloseFilter}) {
+  PortfolioHistoryViewModel() {
     _filter = PortfolioHistoryFilter.initial();
     setBusy(true);
   }
@@ -51,8 +52,10 @@ class PortfolioHistoryViewModel extends BaseViewModel {
     return filtered.reversed.toList();
   }
 
-  Future initialise() async {
-    await Future.delayed(Duration(milliseconds: 300));
+  Future initialise({
+    @required VoidCallback onOpenFilter,
+    @required VoidCallback onCloseFilter,
+  }) async {
     _portfolioHistoryItems = await _api.fetchPortfolioHistry();
     setBusy(false);
   }

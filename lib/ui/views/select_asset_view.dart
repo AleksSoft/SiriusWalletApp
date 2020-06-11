@@ -24,6 +24,7 @@ class SelectAssetView extends StatelessWidget {
       viewModelBuilder: () => SelectAssetViewModel(
         ModalRoute.of(context).settings.arguments,
       ),
+      disposeViewModel: false,
       onModelReady: (SelectAssetViewModel model) => model.initialise(),
       builder: (context, SelectAssetViewModel model, child) {
         return Scaffold(

@@ -1,4 +1,5 @@
 import 'package:antares_wallet/business/view_models/more/profile_view_model.dart';
+import 'package:antares_wallet/locator.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:antares_wallet/ui/navigation/navigation.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,7 +16,8 @@ class ProfileView extends StatelessWidget {
         elevation: 0.5,
       ),
       body: ViewModelBuilder.nonReactive(
-        viewModelBuilder: () => ProfileViewModel(),
+        viewModelBuilder: () => locator<ProfileViewModel>(),
+        disposeViewModel: false,
         onModelReady: (ProfileViewModel model) => model.initialise(),
         builder: (_, ProfileViewModel model, __) {
           return ListView(
@@ -48,7 +50,7 @@ class _AccountDataView extends ViewModelWidget<ProfileViewModel> {
         ListTile(
           contentPadding: EdgeInsets.all(0.0),
           leading: Icon(
-            Icons.check_circle_outline,
+            CupertinoIcons.check_mark_circled,
             color: AppColors.accent,
             size: 40.0,
           ),
@@ -136,21 +138,25 @@ class _PersonalDataView extends ViewModelWidget<ProfileViewModel> {
           title: Text('Full Name'),
           subtitle: Text(data.firstName),
         ),
+        Divider(height: 1.0),
         ListTile(
           contentPadding: EdgeInsets.all(0.0),
           title: Text('Email'),
           subtitle: Text(data.email),
         ),
+        Divider(height: 1.0),
         ListTile(
           contentPadding: EdgeInsets.all(0.0),
           title: Text('Contact Phone'),
           subtitle: Text(data.contactPhone),
         ),
+        Divider(height: 1.0),
         ListTile(
           contentPadding: EdgeInsets.all(0.0),
           title: Text('Country'),
           subtitle: Text(data.country),
         ),
+        Divider(height: 1.0),
       ],
     );
   }
