@@ -26,7 +26,7 @@ class MockApiService {
 
   Future<AccountData> fetchAccountLevel() async {
     return AccountData()
-      ..level = 'Beginner'
+      ..level = AccountLevel.beginner
       ..depositLimit = 0
       ..currentDeposit = 0
       ..currency = 'EUR';
@@ -34,7 +34,7 @@ class MockApiService {
 
   Future<AccountData> upgradeAccountLevel() async {
     return AccountData()
-      ..level = 'Advanced'
+      ..level = AccountLevel.advanced
       ..depositLimit = 7500
       ..currentDeposit = 1370.57
       ..currency = 'EUR';

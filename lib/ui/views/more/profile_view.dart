@@ -54,7 +54,7 @@ class _AccountDataView extends ViewModelWidget<ProfileViewModel> {
             color: AppColors.accent,
             size: 40.0,
           ),
-          title: Text(model.accountData.level),
+          title: Text(model.accountData.levelStr),
           subtitle: Text('Verified'),
           trailing: OutlineButton(
             onPressed: () => Navigator.pushNamed(

@@ -2,7 +2,6 @@ import 'package:antares_wallet/business/dto/asset_dictionary_data.dart';
 import 'package:antares_wallet/business/dto/portfolio_history_item.dart';
 import 'package:antares_wallet/business/services/api/mock_api.dart';
 import 'package:antares_wallet/locator.dart';
-import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
 
@@ -12,9 +11,6 @@ enum TransactionTypeFilter { all, deposit, withdraw }
 
 class PortfolioHistoryViewModel extends BaseViewModel {
   final _api = locator<MockApiService>();
-
-  VoidCallback onOpenFilter;
-  VoidCallback onCloseFilter;
 
   PortfolioHistoryFilter _filter;
 
@@ -52,10 +48,7 @@ class PortfolioHistoryViewModel extends BaseViewModel {
     return filtered.reversed.toList();
   }
 
-  Future initialise({
-    @required VoidCallback onOpenFilter,
-    @required VoidCallback onCloseFilter,
-  }) async {
+  Future initialise() async {
     _portfolioHistoryItems = await _api.fetchPortfolioHistry();
     setBusy(false);
   }

@@ -19,10 +19,7 @@ class PortfolioHistoryView extends StatelessWidget {
     return ViewModelBuilder.reactive(
       viewModelBuilder: () => locator<PortfolioHistoryViewModel>(),
       disposeViewModel: false,
-      onModelReady: (PortfolioHistoryViewModel model) => model.initialise(
-        onCloseFilter: () => _panelController.close(),
-        onOpenFilter: () => _panelController.open(),
-      ),
+      onModelReady: (PortfolioHistoryViewModel model) => model.initialise(),
       builder: (context, PortfolioHistoryViewModel model, child) {
         return AnimatedSwitcher(
           switchInCurve: Curves.easeInCubic,
@@ -62,7 +59,9 @@ class PortfolioHistoryView extends StatelessWidget {
                                 ),
                               ),
                               SlidingUpPanel(
-                                panel: PortfolioHistoryFiltersView(),
+                                panel: PortfolioHistoryFiltersView(
+                                  _panelController,
+                                ),
                                 controller: _panelController,
                                 minHeight: 0,
                                 maxHeight: 350,
@@ -76,8 +75,8 @@ class PortfolioHistoryView extends StatelessWidget {
                           ),
                           floatingActionButton: FloatingActionButton(
                             onPressed: () => model.filterOpened
-                                ? model.onCloseFilter()
-                                : model.onOpenFilter(),
+                                ? _panelController.close()
+                                : _panelController.open(),
                             child: Icon(model.filterOpened
                                 ? Icons.check
                                 : Icons.filter_list),

@@ -6,17 +6,20 @@ import 'package:antares_wallet/ui/views/select_asset_view.dart';
 import 'package:date_range_picker/date_range_picker.dart' as DateRagePicker;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:stacked/stacked.dart';
 
 class PortfolioHistoryFiltersView extends StatelessWidget {
-  const PortfolioHistoryFiltersView({Key key}) : super(key: key);
+  final PanelController _panelController;
+  const PortfolioHistoryFiltersView(this._panelController, {Key key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 50),
-        child: PortfolioHistoryFilterAppBarView(),
+        child: PortfolioHistoryFilterAppBarView(_panelController),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -39,9 +42,9 @@ class PortfolioHistoryFiltersView extends StatelessWidget {
 
 class PortfolioHistoryFilterAppBarView
     extends ViewModelWidget<PortfolioHistoryViewModel> {
-  const PortfolioHistoryFilterAppBarView({
-    Key key,
-  }) : super(key: key);
+  final PanelController _panelController;
+  const PortfolioHistoryFilterAppBarView(this._panelController, {Key key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context, PortfolioHistoryViewModel model) {
@@ -50,7 +53,7 @@ class PortfolioHistoryFilterAppBarView
       automaticallyImplyLeading: false,
       leading: IconButton(
         icon: Icon(Icons.close),
-        onPressed: () => model.onCloseFilter(),
+        onPressed: () => _panelController.close(),
       ),
       title: Text('Filters'),
       actions: [

@@ -81,7 +81,7 @@ class _LevelHeaderView extends StatelessWidget {
     return Column(
       children: [
         Text(
-          'YOUR ACCOUNT',
+          'UPGRADE TO',
           style: Theme.of(context).textTheme.caption.copyWith(
                 fontSize: 10.0,
               ),
