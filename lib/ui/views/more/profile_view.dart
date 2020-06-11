@@ -136,7 +136,7 @@ class _PersonalDataView extends ViewModelWidget<ProfileViewModel> {
         ListTile(
           contentPadding: EdgeInsets.all(0.0),
           title: Text('Full Name'),
-          subtitle: Text(data.firstName),
+          subtitle: Text(data.fullName),
         ),
         Divider(height: 1.0),
         ListTile(

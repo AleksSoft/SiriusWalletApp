@@ -40,6 +40,7 @@ dependencies:
   expandable: ^4.1.4
   flutter_slidable: ^0.5.4
   image_picker: ^0.6.7+1
+  flutter_material_pickers: ^1.5.4
 
 
   flutter_localizations:
