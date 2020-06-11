@@ -1,9 +1,9 @@
-import 'package:antares_wallet/business/dto/base_dto.dart';
+import 'package:antares_wallet/business/models/base_model.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 
 enum AccountLevel { beginner, advanced, pro }
 
-class AccountData extends Dto<AccountData> {
+class AccountData extends BaseModel<AccountData> {
   AccountLevel level;
   String currency = '';
   double depositLimit = 0;

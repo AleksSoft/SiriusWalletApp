@@ -1,4 +1,4 @@
-import 'package:antares_wallet/business/dto/portfolio_history_item.dart';
+import 'package:antares_wallet/business/models/portfolio_history_item.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';
 import 'package:flutter/cupertino.dart';

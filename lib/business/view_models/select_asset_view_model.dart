@@ -1,4 +1,4 @@
-import 'package:antares_wallet/business/dto/asset_dictionary_data.dart';
+import 'package:antares_wallet/business/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/business/services/api/mock_api.dart';
 import 'package:antares_wallet/locator.dart';
 import 'package:antares_wallet/ui/views/select_asset_view.dart';
@@ -7,15 +7,14 @@ import 'package:stacked/stacked.dart';
 class SelectAssetViewModel extends BaseViewModel {
   final MockApiService _api = locator<MockApiService>();
 
-  final SelectAssetArgs _selectAssetArgs;
-
-  SelectAssetViewModel(this._selectAssetArgs) {
-    setBusy(true);
-  }
+  SelectAssetArgs _selectAssetArgs;
 
   AssetDictionaryData _assetDictionary = AssetDictionaryData();
 
-  List<AssetData> get assetList => _assetDictionary.assetList;
+  List<AssetData> get assetList {
+    var list = _assetDictionary.assetList;
+    return isOnlyBase ? list.where((a) => a.canBeBase) : list;
+  }
 
   AssetData get selectedAsset => _selectAssetArgs.selectedAsset;
 
@@ -23,8 +22,8 @@ class SelectAssetViewModel extends BaseViewModel {
 
   String get title => _selectAssetArgs.title;
 
-  Future initialise() async {
-    _assetDictionary = await _api.fetchAssetDictionary();
-    setBusy(false);
+  Future initialise(SelectAssetArgs args) async {
+    _selectAssetArgs = args;
+    _assetDictionary = await runBusyFuture(_api.fetchAssetDictionary());
   }
 }

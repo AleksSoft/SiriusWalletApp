@@ -1,5 +1,8 @@
-import 'package:antares_wallet/business/dto/asset_dictionary_data.dart';
+import 'package:antares_wallet/business/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/business/view_models/select_asset_view_model.dart';
+import 'package:antares_wallet/locator.dart';
+import 'package:antares_wallet/ui/common/app_colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:search_page/search_page.dart';
 import 'package:stacked/stacked.dart';
@@ -12,7 +15,7 @@ class SelectAssetArgs {
   const SelectAssetArgs({
     @required this.title,
     this.selectedAsset,
-    this.onlyBase,
+    this.onlyBase = false,
     Key key,
   });
 }
@@ -20,13 +23,13 @@ class SelectAssetArgs {
 class SelectAssetView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder.nonReactive(
-      viewModelBuilder: () => SelectAssetViewModel(
+    return ViewModelBuilder<SelectAssetViewModel>.nonReactive(
+      viewModelBuilder: () => locator<SelectAssetViewModel>(),
+      disposeViewModel: false,
+      onModelReady: (model) => model.initialise(
         ModalRoute.of(context).settings.arguments,
       ),
-      disposeViewModel: false,
-      onModelReady: (SelectAssetViewModel model) => model.initialise(),
-      builder: (context, SelectAssetViewModel model, child) {
+      builder: (context, model, child) {
         return Scaffold(
           appBar: AppBar(
             title: Text(model.title),
@@ -46,17 +49,20 @@ class _AssetsList extends ViewModelWidget<SelectAssetViewModel> {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, SelectAssetViewModel model) {
+  Widget build(context, model) {
     return ListView.builder(
       itemCount: model.assetList.length,
-      itemBuilder: (content, index) => _AssetTile(model.assetList[index]),
+      itemBuilder: (content, index) {
+        var asset = model.assetList[index];
+        return _AssetTile(asset, model.selectedAsset == asset);
+      },
     );
   }
 }
 
 class _SearchButton extends ViewModelWidget<SelectAssetViewModel> {
   @override
-  Widget build(BuildContext context, SelectAssetViewModel model) {
+  Widget build(context, model) {
     return IconButton(
       icon: Icon(Icons.search),
       onPressed: () => showSearch(
@@ -69,7 +75,7 @@ class _SearchButton extends ViewModelWidget<SelectAssetViewModel> {
             asset.displayName,
             asset.symbol,
           ],
-          builder: (asset) => _AssetTile(asset),
+          builder: (asset) => _AssetTile(asset, model.selectedAsset == asset),
         ),
       ),
     );
@@ -77,18 +83,26 @@ class _SearchButton extends ViewModelWidget<SelectAssetViewModel> {
 }
 
 class _AssetTile extends StatelessWidget {
-  const _AssetTile(
-    this.asset, {
-    Key key,
-  }) : super(key: key);
+  const _AssetTile(this.asset, this.checked, {Key key}) : super(key: key);
   final AssetData asset;
+  final bool checked;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Image.network(asset.icon),
+      leading: Image.asset(
+        'assets/logo_lykke.png',
+        height: 32.0,
+        width: 32.0,
+      ),
       title: Text(asset.displayName),
       subtitle: Text(asset.symbol),
+      trailing: checked
+          ? Icon(
+              CupertinoIcons.check_mark_circled_solid,
+              color: AppColors.accent,
+            )
+          : SizedBox.shrink(),
       onTap: () => Navigator.of(context).pop(asset),
     );
   }

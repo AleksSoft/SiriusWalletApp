@@ -1,6 +1,6 @@
-import 'package:antares_wallet/business/dto/base_dto.dart';
+import 'package:antares_wallet/business/models/base_model.dart';
 
-class AssetDictionaryData extends Dto<AssetDictionaryData> {
+class AssetDictionaryData extends BaseModel<AssetDictionaryData> {
   List<AssetData> assetList = List();
   List<CategoryData> categoryList = List();
 
@@ -37,7 +37,7 @@ class AssetDictionaryData extends Dto<AssetDictionaryData> {
   List<Object> get props => [assetList, categoryList];
 }
 
-class AssetData extends Dto<AssetData> {
+class AssetData extends BaseModel<AssetData> {
   String id;
   String categoryId;
   String displayName;
@@ -89,7 +89,7 @@ class AssetData extends Dto<AssetData> {
       ];
 }
 
-class CategoryData extends Dto<CategoryData> {
+class CategoryData extends BaseModel<CategoryData> {
   String categoryId;
   String categoryName;
   int sortPriority;

@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:antares_wallet/business/common/store_keys.dart';
-import 'package:antares_wallet/business/dto/account_data.dart';
-import 'package:antares_wallet/business/dto/personal_data.dart';
+import 'package:antares_wallet/business/models/account_data.dart';
+import 'package:antares_wallet/business/models/personal_data.dart';
 import 'package:antares_wallet/business/services/api/mock_api.dart';
 import 'package:antares_wallet/business/services/key_store_service.dart';
 import 'package:antares_wallet/locator.dart';

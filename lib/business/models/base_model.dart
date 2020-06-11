@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-abstract class Dto<T> with EquatableMixin {
+abstract class BaseModel<T> with EquatableMixin {
   T fromJson(Map<String, dynamic> json);
 
   external Map<String, dynamic> toJson();

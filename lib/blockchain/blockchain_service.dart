@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:bip39/bip39.dart' as bip39;
 import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 import 'package:bitcoin_flutter/src/models/networks.dart' as BtcNetworks;
 import 'package:bitcoin_flutter/src/payments/index.dart' show PaymentData;
@@ -12,7 +13,7 @@ import 'blockchain_protocol_code.dart';
 import 'blockchain_wallet.dart';
 
 class BlockchainService {
-  static Future<BlockchainWallet> createPrivateWallet(
+  Future<BlockchainWallet> createPrivateWallet(
     String name,
     BlockchainNetworkType networkType,
     BlockchainProtocolCode protocolCode,
@@ -53,6 +54,10 @@ class BlockchainService {
       privateKey: data.privateKey,
       publicKey: data.publicKey,
     );
+  }
+
+  String generateMnemonic() {
+    return bip39.generateMnemonic();
   }
 
   /// deterministic RNG for testing only

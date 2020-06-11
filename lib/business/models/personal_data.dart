@@ -1,6 +1,6 @@
-import 'package:antares_wallet/business/dto/base_dto.dart';
+import 'package:antares_wallet/business/models/base_model.dart';
 
-class PersonalData extends Dto<PersonalData> {
+class PersonalData extends BaseModel<PersonalData> {
   String firstName = '';
   String lastName = '';
   String email = '';

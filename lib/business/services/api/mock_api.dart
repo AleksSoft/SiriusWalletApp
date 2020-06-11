@@ -1,39 +1,39 @@
-import 'package:antares_wallet/business/dto/account_data.dart';
-import 'package:antares_wallet/business/dto/asset_dictionary_data.dart';
-import 'package:antares_wallet/business/dto/personal_data.dart';
-import 'package:antares_wallet/business/dto/portfolio_history_item.dart';
-import 'package:antares_wallet/business/dto/support.dart';
+import 'package:antares_wallet/business/models/account_data.dart';
+import 'package:antares_wallet/business/models/asset_dictionary_data.dart';
+import 'package:antares_wallet/business/models/personal_data.dart';
+import 'package:antares_wallet/business/models/portfolio_history_item.dart';
+import 'package:antares_wallet/business/models/support.dart';
 
 class MockApiService {
   static const String lykkeIconUrl =
-      'http://icons.iconarchive.com/icons/cjdowner/cryptocurrency/32/Lykke-icon.png';
+      'https://logos-download.com/wp-content/uploads/2018/05/Lykke_logo_lkk.png';
 
-  Future<Support> fetchSupport() async {
-    return Support()
-      ..helpUrl = 'http://lykke.zendesk.com'
-      ..email = 'support@lykke.com'
-      ..phone = '+41 43 508 63 79';
-  }
+  final Support _support = Support()
+    ..helpUrl = 'http://lykke.zendesk.com'
+    ..email = 'support@lykke.com'
+    ..phone = '+41 43 508 63 79';
 
-  Future<PersonalData> fetchPersonalData() async {
-    return PersonalData()
-      ..firstName = 'User'
-      ..lastName = 'Test'
-      ..email = 'testuser@test.io'
-      ..contactPhone = '+41 43 508 63 79'
-      ..country = 'UK';
-  }
+  final PersonalData _personalData = PersonalData()
+    ..firstName = 'User'
+    ..lastName = 'Test'
+    ..email = 'testuser@test.io'
+    ..contactPhone = '+41 43 508 63 79'
+    ..country = 'UK';
 
-  Future<AccountData> fetchAccountLevel() async {
-    return AccountData()
-      ..level = AccountLevel.beginner
-      ..depositLimit = 0
-      ..currentDeposit = 0
-      ..currency = 'EUR';
-  }
+  final AccountData _accountData = AccountData()
+    ..level = AccountLevel.beginner
+    ..depositLimit = 0
+    ..currentDeposit = 0
+    ..currency = 'EUR';
+
+  Future<Support> fetchSupport() async => _support;
+
+  Future<PersonalData> fetchPersonalData() async => _personalData;
+
+  Future<AccountData> fetchAccountLevel() async => _accountData;
 
   Future<AccountData> upgradeAccountLevel() async {
-    return AccountData()
+    return _accountData
       ..level = AccountLevel.advanced
       ..depositLimit = 7500
       ..currentDeposit = 1370.57

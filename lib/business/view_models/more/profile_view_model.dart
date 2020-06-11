@@ -1,8 +1,6 @@
-import 'dart:io';
-
-import 'package:antares_wallet/business/dto/account_data.dart';
-import 'package:antares_wallet/business/dto/personal_data.dart';
-import 'package:antares_wallet/business/managers/profile_manager.dart';
+import 'package:antares_wallet/business/models/account_data.dart';
+import 'package:antares_wallet/business/models/personal_data.dart';
+import 'package:antares_wallet/business/repositories/profile_repository.dart';
 import 'package:antares_wallet/locator.dart';
 import 'package:stacked/stacked.dart';
 

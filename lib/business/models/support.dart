@@ -1,6 +1,6 @@
-import 'package:antares_wallet/business/dto/base_dto.dart';
+import 'package:antares_wallet/business/models/base_model.dart';
 
-class Support extends Dto<Support> {
+class Support extends BaseModel<Support> {
   String helpUrl;
   String email;
   String phone;

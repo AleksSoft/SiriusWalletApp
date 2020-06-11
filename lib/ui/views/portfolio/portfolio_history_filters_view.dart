@@ -1,4 +1,4 @@
-import 'package:antares_wallet/business/dto/asset_dictionary_data.dart';
+import 'package:antares_wallet/business/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/business/view_models/portfolio/portfolio_history_view_model.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:antares_wallet/ui/navigation/navigation.dart';

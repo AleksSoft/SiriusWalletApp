@@ -1,4 +1,4 @@
-import 'package:antares_wallet/business/dto/base_dto.dart';
+import 'package:antares_wallet/business/models/base_model.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:intl/intl.dart';
 
@@ -6,7 +6,7 @@ import 'asset_dictionary_data.dart';
 
 enum TransactionType { deposit, withdraw }
 
-class PortfolioHistoryItem extends Dto<PortfolioHistoryItem> {
+class PortfolioHistoryItem extends BaseModel<PortfolioHistoryItem> {
   AssetData asset;
   String type = '';
   String status = '';
@@ -72,7 +72,7 @@ class PortfolioHistoryItem extends Dto<PortfolioHistoryItem> {
       ];
 }
 
-class ExplorerItem extends Dto<ExplorerItem> {
+class ExplorerItem extends BaseModel<ExplorerItem> {
   String name = '';
   String url = '';
 

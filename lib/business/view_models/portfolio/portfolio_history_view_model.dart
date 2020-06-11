@@ -1,5 +1,5 @@
-import 'package:antares_wallet/business/dto/asset_dictionary_data.dart';
-import 'package:antares_wallet/business/dto/portfolio_history_item.dart';
+import 'package:antares_wallet/business/models/asset_dictionary_data.dart';
+import 'package:antares_wallet/business/models/portfolio_history_item.dart';
 import 'package:antares_wallet/business/services/api/mock_api.dart';
 import 'package:antares_wallet/locator.dart';
 import 'package:intl/intl.dart';
@@ -20,7 +20,6 @@ class PortfolioHistoryViewModel extends BaseViewModel {
 
   PortfolioHistoryViewModel() {
     _filter = PortfolioHistoryFilter.initial();
-    setBusy(true);
   }
 
   get filterOpened => _filterOpened;
@@ -49,8 +48,7 @@ class PortfolioHistoryViewModel extends BaseViewModel {
   }
 
   Future initialise() async {
-    _portfolioHistoryItems = await _api.fetchPortfolioHistry();
-    setBusy(false);
+    _portfolioHistoryItems = await runBusyFuture(_api.fetchPortfolioHistry());
   }
 
   Future updateHistory() async {

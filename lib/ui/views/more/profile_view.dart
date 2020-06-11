@@ -21,6 +21,8 @@ class ProfileView extends StatelessWidget {
         onModelReady: (ProfileViewModel model) => model.initialise(),
         builder: (_, ProfileViewModel model, __) {
           return ListView(
+            shrinkWrap: true,
+            physics: BouncingScrollPhysics(),
             padding: EdgeInsets.all(16.0),
             children: <Widget>[
               _AccountDataView(),

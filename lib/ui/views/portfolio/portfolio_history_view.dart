@@ -1,4 +1,4 @@
-import 'package:antares_wallet/business/dto/portfolio_history_item.dart';
+import 'package:antares_wallet/business/models/portfolio_history_item.dart';
 import 'package:antares_wallet/business/view_models/portfolio/portfolio_history_view_model.dart';
 import 'package:antares_wallet/locator.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
@@ -16,11 +16,12 @@ class PortfolioHistoryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder.reactive(
+    return ViewModelBuilder<PortfolioHistoryViewModel>.reactive(
       viewModelBuilder: () => locator<PortfolioHistoryViewModel>(),
       disposeViewModel: false,
-      onModelReady: (PortfolioHistoryViewModel model) => model.initialise(),
-      builder: (context, PortfolioHistoryViewModel model, child) {
+      onModelReady: (model) => model.initialise(),
+      builder: (context, model, child) {
+        print('portfolio history bysy: ${model.isBusy}');
         return AnimatedSwitcher(
           switchInCurve: Curves.easeInCubic,
           switchOutCurve: Curves.easeOutCubic,
