@@ -1,74 +1,63 @@
 import 'package:antares_wallet/business/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/business/view_models/portfolio/portfolio_history_view_model.dart';
+import 'package:antares_wallet/locator.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:antares_wallet/ui/navigation/navigation.dart';
 import 'package:antares_wallet/ui/views/select_asset_view.dart';
 import 'package:date_range_picker/date_range_picker.dart' as DateRagePicker;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:stacked/stacked.dart';
 
 class PortfolioHistoryFiltersView extends StatelessWidget {
-  final PanelController _panelController;
-  const PortfolioHistoryFiltersView(this._panelController, {Key key})
-      : super(key: key);
+  const PortfolioHistoryFiltersView({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 50),
-        child: PortfolioHistoryFilterAppBarView(_panelController),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              PortfolioHistoryPeriodFilterView(),
-              SizedBox(height: 8.0),
-              PortfolioHistoryTransFilterView(),
-              SizedBox(height: 8.0),
-              PortfolioHistoryAssetFilterView(),
-            ],
-          ),
-        ),
-      ),
-    );
+    return ViewModelBuilder<PortfolioHistoryViewModel>.nonReactive(
+        viewModelBuilder: () => locator<PortfolioHistoryViewModel>(),
+        disposeViewModel: false,
+        createNewModelOnInsert: false,
+        builder: (_, model, __) {
+          return Scaffold(
+            appBar: AppBar(
+              elevation: 0,
+              automaticallyImplyLeading: false,
+              leading: IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              title: Text('Filters'),
+              actions: [
+                FlatButton(
+                  onPressed: () => model.clearFilter(),
+                  child: Text('Clear'),
+                )
+              ],
+            ),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    _PortfolioHistoryPeriodFilterView(),
+                    SizedBox(height: 8.0),
+                    _PortfolioHistoryTransFilterView(),
+                    SizedBox(height: 8.0),
+                    _PortfolioHistoryAssetFilterView(),
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
   }
 }
 
-class PortfolioHistoryFilterAppBarView
+class _PortfolioHistoryPeriodFilterView
     extends ViewModelWidget<PortfolioHistoryViewModel> {
-  final PanelController _panelController;
-  const PortfolioHistoryFilterAppBarView(this._panelController, {Key key})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context, PortfolioHistoryViewModel model) {
-    return AppBar(
-      elevation: 0,
-      automaticallyImplyLeading: false,
-      leading: IconButton(
-        icon: Icon(Icons.close),
-        onPressed: () => _panelController.close(),
-      ),
-      title: Text('Filters'),
-      actions: [
-        FlatButton(
-          onPressed: () => model.clearFilter(),
-          child: Text('Clear'),
-        )
-      ],
-    );
-  }
-}
-
-class PortfolioHistoryPeriodFilterView
-    extends ViewModelWidget<PortfolioHistoryViewModel> {
-  const PortfolioHistoryPeriodFilterView({Key key}) : super(key: key);
+  const _PortfolioHistoryPeriodFilterView({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, PortfolioHistoryViewModel model) {
@@ -185,9 +174,9 @@ class PortfolioHistoryPeriodFilterView
   }
 }
 
-class PortfolioHistoryTransFilterView
+class _PortfolioHistoryTransFilterView
     extends ViewModelWidget<PortfolioHistoryViewModel> {
-  const PortfolioHistoryTransFilterView({Key key}) : super(key: key);
+  const _PortfolioHistoryTransFilterView({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, PortfolioHistoryViewModel model) {
@@ -246,9 +235,9 @@ class PortfolioHistoryTransFilterView
   }
 }
 
-class PortfolioHistoryAssetFilterView
+class _PortfolioHistoryAssetFilterView
     extends ViewModelWidget<PortfolioHistoryViewModel> {
-  const PortfolioHistoryAssetFilterView({Key key}) : super(key: key);
+  const _PortfolioHistoryAssetFilterView({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, PortfolioHistoryViewModel model) {

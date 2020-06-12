@@ -3,89 +3,57 @@ import 'package:antares_wallet/business/view_models/portfolio/portfolio_history_
 import 'package:antares_wallet/locator.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:antares_wallet/ui/navigation/navigation.dart';
-import 'package:antares_wallet/ui/views/portfolio/portfolio_history_filters_view.dart';
-import 'package:antares_wallet/ui/views/widgets/nothing_view.dart';
 import 'package:flutter/material.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:stacked/stacked.dart';
 
-class PortfolioHistoryView extends StatelessWidget {
-  final PanelController _panelController = PanelController();
+import 'portfolio_history_filters_view.dart';
 
+class PortfolioHistoryView extends StatelessWidget {
   PortfolioHistoryView({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<PortfolioHistoryViewModel>.reactive(
+    return ViewModelBuilder<PortfolioHistoryViewModel>.nonReactive(
       viewModelBuilder: () => locator<PortfolioHistoryViewModel>(),
       disposeViewModel: false,
+      createNewModelOnInsert: false,
       onModelReady: (model) => model.initialise(),
-      builder: (context, model, child) {
-        print('portfolio history bysy: ${model.isBusy}');
-        return AnimatedSwitcher(
-          switchInCurve: Curves.easeInCubic,
-          switchOutCurve: Curves.easeOutCubic,
-          duration: Duration(milliseconds: 300),
-          child: model.isBusy
-              ? Center(child: CircularProgressIndicator())
-              : AnimatedSwitcher(
-                  switchInCurve: Curves.easeInCubic,
-                  switchOutCurve: Curves.easeOutCubic,
-                  duration: Duration(milliseconds: 300),
-                  child: model.itemsEmpty
-                      ? Center(
-                          child: NothingView(
-                            header: 'No history yet',
-                            message: 'Your history will appear here.',
-                          ),
-                        )
-                      : Scaffold(
-                          body: Stack(
-                            children: [
-                              RefreshIndicator(
-                                displacement: 20.0,
-                                onRefresh: () async =>
-                                    await model.updateHistory(),
-                                child: ListView.builder(
-                                  itemCount: model.historyItems.length,
-                                  padding: EdgeInsets.only(
-                                    top: 8.0,
-                                    bottom: 16.0,
-                                  ),
-                                  itemBuilder: (context, index) {
-                                    return _PortfolioHistoryListTile(
-                                      model.historyItems[index],
-                                    );
-                                  },
-                                ),
-                              ),
-                              SlidingUpPanel(
-                                panel: PortfolioHistoryFiltersView(
-                                  _panelController,
-                                ),
-                                controller: _panelController,
-                                minHeight: 0,
-                                maxHeight: 350,
-                                backdropEnabled: true,
-                                onPanelClosed: () =>
-                                    model.updateFilterOpenedState(false),
-                                onPanelOpened: () =>
-                                    model.updateFilterOpenedState(true),
-                              ),
-                            ],
-                          ),
-                          floatingActionButton: FloatingActionButton(
-                            onPressed: () => model.filterOpened
-                                ? _panelController.close()
-                                : _panelController.open(),
-                            child: Icon(model.filterOpened
-                                ? Icons.check
-                                : Icons.filter_list),
-                          ),
-                        ),
-                ),
+      builder: (_, __, ___) {
+        return Scaffold(
+          body: _HistoryList(),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () => showModalBottomSheet(
+              context: context,
+              builder: (context) => PortfolioHistoryFiltersView(),
+            ),
+            child: Icon(Icons.filter_list),
+          ),
         );
       },
+    );
+  }
+}
+
+class _HistoryList extends ViewModelWidget<PortfolioHistoryViewModel> {
+  const _HistoryList({Key key}) : super(key: key);
+
+  @override
+  Widget build(context, model) {
+    return RefreshIndicator(
+      displacement: 20.0,
+      onRefresh: () => model.updateHistory(),
+      child: ListView.builder(
+        itemCount: model.historyItems.length,
+        padding: EdgeInsets.only(
+          top: 8.0,
+          bottom: 16.0,
+        ),
+        itemBuilder: (context, index) {
+          return _PortfolioHistoryListTile(
+            model.historyItems[index],
+          );
+        },
+      ),
     );
   }
 }

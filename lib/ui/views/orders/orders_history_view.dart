@@ -12,6 +12,7 @@ class OrdersHistoryView extends StatelessWidget {
     return ViewModelBuilder.nonReactive(
       viewModelBuilder: () => locator<OrdersHistoryViewModel>(),
       disposeViewModel: false,
+      createNewModelOnInsert: false,
       onModelReady: (OrdersHistoryViewModel model) => model.initialise(),
       builder: (context, OrdersHistoryViewModel model, child) {
         return Container(

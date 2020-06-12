@@ -17,7 +17,8 @@ class UpgradeAccountMainView extends StatelessWidget {
       body: ViewModelBuilder<ProfileViewModel>.nonReactive(
           viewModelBuilder: () => locator<ProfileViewModel>(),
           disposeViewModel: false,
-          builder: (context, model, child) {
+          createNewModelOnInsert: false,
+          builder: (_, __, ___) {
             return ListView(
               padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
               shrinkWrap: true,

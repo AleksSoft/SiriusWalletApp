@@ -99,7 +99,8 @@ class UpgradeAccountResult extends StatelessWidget {
                   child: ViewModelBuilder<ProfileViewModel>.nonReactive(
                     viewModelBuilder: () => locator<ProfileViewModel>(),
                     disposeViewModel: false,
-                    builder: (_, ProfileViewModel model, __) {
+                    createNewModelOnInsert: false,
+                    builder: (_, model, __) {
                       return CupertinoButton.filled(
                           disabledColor: Colors.grey.withOpacity(0.7),
                           child: Text('Ok'),

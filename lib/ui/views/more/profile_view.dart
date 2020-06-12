@@ -15,9 +15,10 @@ class ProfileView extends StatelessWidget {
         title: Text('Profile'),
         elevation: 0.5,
       ),
-      body: ViewModelBuilder.nonReactive(
+      body: ViewModelBuilder<ProfileViewModel>.nonReactive(
         viewModelBuilder: () => locator<ProfileViewModel>(),
         disposeViewModel: false,
+        createNewModelOnInsert: false,
         onModelReady: (ProfileViewModel model) => model.initialise(),
         builder: (_, ProfileViewModel model, __) {
           return ListView(

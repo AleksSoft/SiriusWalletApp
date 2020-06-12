@@ -18,6 +18,7 @@ class BackUpConfirmKeyView extends StatelessWidget {
       body: ViewModelBuilder<SettingsViewModel>.nonReactive(
         viewModelBuilder: () => locator<SettingsViewModel>(),
         disposeViewModel: false,
+        createNewModelOnInsert: false,
         onModelReady: (model) => model.refreshConfirmKeyVariants(),
         builder: (_, model, __) {
           return ListView(

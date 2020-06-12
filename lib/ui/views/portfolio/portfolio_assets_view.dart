@@ -10,11 +10,12 @@ import 'package:stacked/stacked.dart';
 class PortfolioAssetsTabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder.nonReactive(
+    return ViewModelBuilder<PortfolioAssetsViewModel>.nonReactive(
       viewModelBuilder: () => locator<PortfolioAssetsViewModel>(),
       disposeViewModel: false,
-      onModelReady: (PortfolioAssetsViewModel model) => model.initialise(),
-      builder: (context, PortfolioAssetsViewModel model, child) {
+      createNewModelOnInsert: false,
+      onModelReady: (model) => model.initialise(),
+      builder: (_, __, ___) {
         return ListView(
           physics: BouncingScrollPhysics(),
           padding: EdgeInsets.only(bottom: 16.0),

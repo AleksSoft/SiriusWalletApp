@@ -177,9 +177,7 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
               child: CupertinoButton.filled(
                 disabledColor: Colors.grey.withOpacity(0.7),
                 child: Text('Submit'),
-                onPressed: _image == null
-                    ? null
-                    : () => _pushNextRoute(context, docType),
+                onPressed: () => _pushNextRoute(context, docType),
               ),
             ),
           ],

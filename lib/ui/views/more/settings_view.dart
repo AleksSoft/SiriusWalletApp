@@ -19,6 +19,7 @@ class SettingsView extends StatelessWidget {
       body: ViewModelBuilder<SettingsViewModel>.reactive(
           viewModelBuilder: () => locator<SettingsViewModel>(),
           disposeViewModel: false,
+          createNewModelOnInsert: false,
           onModelReady: (model) => model.initialise(),
           builder: (context, model, child) {
             return ListView(

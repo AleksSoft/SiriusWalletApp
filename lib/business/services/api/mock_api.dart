@@ -116,7 +116,13 @@ class MockApiService {
       ..status = 'Completed'
       ..amount = 150
       ..timestamp = DateTime.now().millisecondsSinceEpoch // now
-      ..transactionType = TransactionType.deposit);
+      ..explorerItems = <ExplorerItem>[
+        ExplorerItem()
+          ..name = 'Lykke'
+          ..url = 'https://www.lykke.com'
+      ]
+      ..transactionType = TransactionType.deposit
+      ..transactionHash = this.hashCode);
     return items;
   }
 

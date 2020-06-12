@@ -19,7 +19,8 @@ class BackUpCopyKeyView extends StatelessWidget {
       body: ViewModelBuilder<SettingsViewModel>.reactive(
         viewModelBuilder: () => locator<SettingsViewModel>(),
         disposeViewModel: false,
-        builder: (_, model, __) {
+        createNewModelOnInsert: false,
+        builder: (_, __, ___) {
           return ListView(
             padding: const EdgeInsets.all(16.0),
             physics: BouncingScrollPhysics(),
@@ -37,7 +38,7 @@ class BackUpCopyKeyView extends StatelessWidget {
               ),
               const SizedBox(height: 24.0),
               _KeyWordsCard(),
-              const SizedBox(height: 16.0),
+              const SizedBox(height: 24.0),
               _SubmitButton(),
             ],
           );
@@ -55,7 +56,7 @@ class _SubmitButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton.filled(
-      child: Text('Create wallets backup'),
+      child: Text('Continue'),
       onPressed: () => Navigator.of(
         context,
         rootNavigator: true,

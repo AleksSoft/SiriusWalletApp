@@ -10,11 +10,12 @@ import 'order_title.dart';
 class OrdersOpenedView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder.nonReactive(
+    return ViewModelBuilder<OrdersOpenedViewModel>.nonReactive(
       viewModelBuilder: () => locator<OrdersOpenedViewModel>(),
       disposeViewModel: false,
-      onModelReady: (OrdersOpenedViewModel model) => model.initialise(),
-      builder: (context, OrdersOpenedViewModel model, child) {
+      createNewModelOnInsert: false,
+      onModelReady: (model) => model.initialise(),
+      builder: (_, model, __) {
         return Container(
           alignment: Alignment.topCenter,
           child: AnimatedSwitcher(

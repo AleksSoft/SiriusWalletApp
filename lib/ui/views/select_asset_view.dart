@@ -26,6 +26,7 @@ class SelectAssetView extends StatelessWidget {
     return ViewModelBuilder<SelectAssetViewModel>.nonReactive(
       viewModelBuilder: () => locator<SelectAssetViewModel>(),
       disposeViewModel: false,
+      createNewModelOnInsert: false,
       onModelReady: (model) => model.initialise(
         ModalRoute.of(context).settings.arguments,
       ),
