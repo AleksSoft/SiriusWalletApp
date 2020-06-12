@@ -46,7 +46,8 @@ class Routes {
   static MaterialPageRoute generateRoute(RouteSettings routeSettings) {
     return MaterialPageRoute(
       settings: routeSettings,
-      fullscreenDialog: routeSettings.name == upAccMain,
+      fullscreenDialog: routeSettings.name == upAccMain ||
+          routeSettings.name == backUpKeyCopy,
       builder: (context) =>
           _buildPage(routeSettings.name, routeSettings.arguments),
     );

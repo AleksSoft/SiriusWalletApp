@@ -17,6 +17,10 @@ class SettingsRepository {
 
   SettingsData get settings => _settingsData;
 
+  List<String> randMnemonicList() {
+    return _bcService.generateMnemonic().split(' ').sublist(0, 2);
+  }
+
   Future<void> loadSettings() async {
     SettingsData data = await _storage.readDto<SettingsData>(
       SettingsData(),
