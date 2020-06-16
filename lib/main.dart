@@ -21,9 +21,9 @@ Future main() async {
   // Run application
   runApp(
     EasyLocalization(
-      supportedLocales: [Locale('en', ''), Locale('ru', '')],
+      supportedLocales: [Locale('en'), Locale('ru')],
       path: 'assets/locales',
-      fallbackLocale: Locale('en', ''),
+      fallbackLocale: Locale('en'),
       child: AntaresApp(analytics),
     ),
   );
