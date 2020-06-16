@@ -1,9 +1,9 @@
+import 'package:antares_wallet/app/app.dart';
+import 'package:antares_wallet/app/locator.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'app.dart';
-import 'locator.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,17 +14,17 @@ Future main() async {
   // Register all the services before the app starts
   setupLocator();
 
-  // set up locale (workaround for iOS)
-//  while (window.locale == null) {
-//    await Future.delayed(const Duration(milliseconds: 1));
-//  }
-//  final locale = window.locale;
-//  Intl.systemLocale = locale.toString();
-
   // Firebase
   // Setup analytics
   FirebaseAnalytics analytics = FirebaseAnalytics();
 
   // Run application
-  runApp(AntaresApp(analytics));
+  runApp(
+    EasyLocalization(
+      supportedLocales: [Locale('en', ''), Locale('ru', '')],
+      path: 'assets/locales',
+      fallbackLocale: Locale('en', ''),
+      child: AntaresApp(analytics),
+    ),
+  );
 }

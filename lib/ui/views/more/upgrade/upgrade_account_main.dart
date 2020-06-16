@@ -1,11 +1,12 @@
-import 'package:antares_wallet/business/view_models/more/profile_view_model.dart';
-import 'package:antares_wallet/locator.dart';
+import 'package:antares_wallet/app/routers/router.gr.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
-import 'package:antares_wallet/ui/navigation/navigation.dart';
-import 'package:antares_wallet/ui/views/widgets/default_card.dart';
+import 'package:antares_wallet/ui/views/more/profile_view_model.dart';
+import 'package:antares_wallet/ui/widgets/default_card.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class UpgradeAccountMainView extends StatelessWidget {
   @override
@@ -15,9 +16,7 @@ class UpgradeAccountMainView extends StatelessWidget {
         elevation: 0.0,
       ),
       body: ViewModelBuilder<ProfileViewModel>.nonReactive(
-          viewModelBuilder: () => locator<ProfileViewModel>(),
-          disposeViewModel: false,
-          createNewModelOnInsert: false,
+          viewModelBuilder: () => ProfileViewModel(),
           builder: (_, __, ___) {
             return ListView(
               padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
@@ -35,11 +34,11 @@ class UpgradeAccountMainView extends StatelessWidget {
                   shadowColor: AppColors.accent.withOpacity(0.5),
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
                   child: CupertinoButton.filled(
-                    child: Text('Upgrade account'),
-                    onPressed: () => Navigator.of(
-                      context,
-                      rootNavigator: true,
-                    ).pushNamed(Routes.upAccChooseDoc),
+                    child: Text('upgrade_account'.tr()),
+                    onPressed: () =>
+                        ExtendedNavigator.ofRouter<Router>().pushNamed(
+                      Routes.upgradeAccountChooseDocRoute,
+                    ),
                   ),
                 ),
               ],
@@ -60,7 +59,7 @@ class _LevelCard extends ViewModelWidget<ProfileViewModel> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'YOUR ACCOUNT',
+            'title_your_account'.tr(),
             style: Theme.of(context).textTheme.caption.copyWith(
                   fontSize: 10.0,
                 ),
@@ -75,7 +74,7 @@ class _LevelCard extends ViewModelWidget<ProfileViewModel> {
           const Divider(),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Text('You can explore the world of crypto'),
+            child: Text('msg_explore_crypto'.tr()),
           ),
         ],
       ),
@@ -89,14 +88,14 @@ class _LevelHeaderView extends ViewModelWidget<ProfileViewModel> {
     return Column(
       children: [
         Text(
-          'UPGRADE TO',
+          'title_upgrade_to'.tr(),
           style: Theme.of(context).textTheme.caption.copyWith(
                 fontSize: 10.0,
               ),
         ),
         const SizedBox(height: 4.0),
         Text(
-          'Advanced',
+          'advanced'.tr(),
           style: Theme.of(context).textTheme.headline6.copyWith(
                 fontWeight: FontWeight.w700,
                 color: AppColors.accent,
@@ -104,7 +103,7 @@ class _LevelHeaderView extends ViewModelWidget<ProfileViewModel> {
         ),
         const SizedBox(height: 8.0),
         Text(
-          '''Upgrade to deposit up to 7 500 EUR monthly and trade without limits and fees''',
+          'msg_upgrade_deposit_to'.tr(args: ['7500']),
           softWrap: true,
           textAlign: TextAlign.center,
         ),
@@ -122,11 +121,11 @@ class _ListView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildRow('Account information', checked: true),
-          _buildRow('Identity Documents', checked: false),
-          _buildRow('Selfie', checked: false),
-          _buildRow('Proof of address', checked: false),
-          _buildRow('Questionnaire', checked: false),
+          _buildRow('account_information'.tr(), checked: true),
+          _buildRow('identity_documents'.tr(), checked: false),
+          _buildRow('selfie'.tr(), checked: false),
+          _buildRow('proof_of_address'.tr(), checked: false),
+          _buildRow('questionnaire'.tr(), checked: false),
         ],
       ),
     );

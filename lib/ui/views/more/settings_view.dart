@@ -1,10 +1,11 @@
-import 'package:antares_wallet/business/view_models/more/settings_view_model.dart';
-import 'package:antares_wallet/locator.dart';
-import 'package:antares_wallet/ui/navigation/routes.dart';
-import 'package:antares_wallet/ui/views/select_asset_view.dart';
+import 'package:antares_wallet/app/routers/router.gr.dart';
+import 'package:antares_wallet/ui/views/more/settings_view_model.dart';
+import 'package:antares_wallet/ui/views/select_asset/select_asset_view.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'menu_tile.dart';
 
@@ -13,37 +14,38 @@ class SettingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: Text('settings'.tr()),
         elevation: 0.0,
       ),
       body: ViewModelBuilder<SettingsViewModel>.reactive(
-          viewModelBuilder: () => locator<SettingsViewModel>(),
-          disposeViewModel: false,
-          createNewModelOnInsert: false,
+          viewModelBuilder: () => SettingsViewModel(),
           onModelReady: (model) => model.initialise(),
-          builder: (context, model, child) {
+          builder: (_, model, __) {
             return ListView(
               children: <Widget>[
                 MenuTile(
-                  title: 'Base Asset',
+                  title: 'base_asset'.tr(),
                   subtitle: model.settings.baseAsset?.symbol ?? '',
                   icon: Icons.looks_one,
                   iconColor: Colors.black,
                   color: Colors.transparent,
                   showDivider: false,
                   onTap: () async {
-                    final asset = await Navigator.of(context).pushNamed(
-                      Routes.selectAsset,
-                      arguments: SelectAssetArgs(
-                        title: 'Select asset',
-                        selectedAsset: model.settings.baseAsset,
+                    final asset =
+                        await ExtendedNavigator.ofRouter<Router>().pushNamed(
+                      Routes.selectAssetRoute,
+                      arguments: SelectAssetViewArguments(
+                        args: SelectAssetArgs(
+                          title: 'select_asset'.tr(),
+                          selectedAsset: model.settings.baseAsset,
+                        ),
                       ),
                     );
                     model.updateBaseAsset(asset);
                   },
                 ),
                 MenuTile(
-                  title: 'Push-notifications',
+                  title: 'push_notifications'.tr(),
                   icon: Icons.notifications,
                   iconColor: Colors.black,
                   color: Colors.transparent,
@@ -54,8 +56,8 @@ class SettingsView extends StatelessWidget {
                   ),
                 ),
                 MenuTile(
-                  title: 'PIN',
-                  subtitle: 'Sigh orders with PIN',
+                  title: 'pin'.tr(),
+                  subtitle: 'sign_order_with_pin'.tr(),
                   icon: Icons.dialpad,
                   iconColor: Colors.black,
                   color: Colors.transparent,
@@ -66,18 +68,16 @@ class SettingsView extends StatelessWidget {
                   ),
                 ),
                 MenuTile(
-                  title: 'Backup private key',
+                  title: 'backup_private_key'.tr(),
                   icon: Icons.vpn_key,
                   iconColor: Colors.black,
                   color: Colors.transparent,
                   showDivider: false,
-                  onTap: () => Navigator.of(
-                    context,
-                    rootNavigator: true,
-                  ).pushNamed(Routes.backUpKeyCopy),
+                  onTap: () => ExtendedNavigator.ofRouter<Router>()
+                      .pushNamed(Routes.backUpCopyKeyRoute),
                 ),
                 MenuTile(
-                  title: 'About',
+                  title: 'about'.tr(),
                   icon: Icons.info_outline,
                   iconColor: Colors.black,
                   color: Colors.transparent,

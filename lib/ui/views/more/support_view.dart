@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'menu_tile.dart';
 
@@ -10,13 +11,13 @@ class SupportView extends StatelessWidget {
     var textStyle = Theme.of(context).textTheme.caption;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Support'),
+        title: Text('support'.tr()),
         elevation: 0.5,
       ),
       body: ListView(
         children: <Widget>[
           MenuTile(
-            title: 'Helpcenter',
+            title: 'helpcenter'.tr(),
             icon: Icons.info_outline,
             onTap: _launchURL,
             trailing: Row(
@@ -28,7 +29,7 @@ class SupportView extends StatelessWidget {
             ),
           ),
           MenuTile(
-            title: 'Email us',
+            title: 'email_us'.tr(),
             icon: Icons.mail_outline,
             onTap: () => launch("mailto:support@lykke.com"),
             trailing: Row(
@@ -40,7 +41,7 @@ class SupportView extends StatelessWidget {
             ),
           ),
           MenuTile(
-            title: 'Call',
+            title: 'сall'.tr(),
             icon: Icons.phone,
             onTap: () => launch("tel:+41435086379"),
             trailing: Row(
@@ -61,7 +62,7 @@ class SupportView extends StatelessWidget {
     if (await canLaunch(url)) {
       await launch(url, forceWebView: false, forceSafariVC: false);
     } else {
-      throw 'Could not launch $url';
+      throw 'msg_could_not_launch_url'.tr(args: [url]);
     }
   }
 }

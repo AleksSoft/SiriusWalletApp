@@ -1,0 +1,133 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+// **************************************************************************
+// AutoRouteGenerator
+// **************************************************************************
+
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:antares_wallet/ui/views/root/root_view.dart';
+import 'package:antares_wallet/models/asset_dictionary_data.dart';
+import 'package:antares_wallet/ui/views/select_asset/select_asset_view.dart';
+import 'package:antares_wallet/ui/views/more/backup/backup_copy_key_view.dart';
+import 'package:antares_wallet/ui/views/more/backup/backup_confirm_key_view.dart';
+import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_main.dart';
+import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_choose_doc.dart';
+import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_doc.dart';
+import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_quest.dart';
+import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_result.dart';
+
+abstract class Routes {
+  static const rootRoute = '/';
+  static const selectAssetRoute = '/select-asset-route';
+  static const backUpCopyKeyRoute = '/back-up-copy-key-route';
+  static const backUpConfirmKeyRoute = '/back-up-confirm-key-route';
+  static const upgradeAccountMainRoute = '/upgrade-account-main-route';
+  static const upgradeAccountChooseDocRoute =
+      '/upgrade-account-choose-doc-route';
+  static const upgradeAccountDocRoute = '/upgrade-account-doc-route';
+  static const upgradeAccountQuestRoute = '/upgrade-account-quest-route';
+  static const upgradeAccountResultRoute = '/upgrade-account-result-route';
+  static const all = {
+    rootRoute,
+    selectAssetRoute,
+    backUpCopyKeyRoute,
+    backUpConfirmKeyRoute,
+    upgradeAccountMainRoute,
+    upgradeAccountChooseDocRoute,
+    upgradeAccountDocRoute,
+    upgradeAccountQuestRoute,
+    upgradeAccountResultRoute,
+  };
+}
+
+class Router extends RouterBase {
+  @override
+  Set<String> get allRoutes => Routes.all;
+
+  @Deprecated('call ExtendedNavigator.ofRouter<Router>() directly')
+  static ExtendedNavigatorState get navigator =>
+      ExtendedNavigator.ofRouter<Router>();
+
+  @override
+  Route<dynamic> onGenerateRoute(RouteSettings settings) {
+    final args = settings.arguments;
+    switch (settings.name) {
+      case Routes.rootRoute:
+        return MaterialPageRoute<dynamic>(
+          builder: (context) => RootView(),
+          settings: settings,
+        );
+      case Routes.selectAssetRoute:
+        if (hasInvalidArgs<SelectAssetViewArguments>(args, isRequired: true)) {
+          return misTypedArgsRoute<SelectAssetViewArguments>(args);
+        }
+        final typedArgs = args as SelectAssetViewArguments;
+        return MaterialPageRoute<AssetData>(
+          builder: (context) => SelectAssetView(typedArgs.args),
+          settings: settings,
+        );
+      case Routes.backUpCopyKeyRoute:
+        return MaterialPageRoute<dynamic>(
+          builder: (context) => BackUpCopyKeyView(),
+          settings: settings,
+          fullscreenDialog: true,
+        );
+      case Routes.backUpConfirmKeyRoute:
+        return MaterialPageRoute<dynamic>(
+          builder: (context) => BackUpConfirmKeyView(),
+          settings: settings,
+        );
+      case Routes.upgradeAccountMainRoute:
+        return MaterialPageRoute<dynamic>(
+          builder: (context) => UpgradeAccountMainView(),
+          settings: settings,
+          fullscreenDialog: true,
+        );
+      case Routes.upgradeAccountChooseDocRoute:
+        return MaterialPageRoute<dynamic>(
+          builder: (context) => UpgradeAccountChooseDocView(),
+          settings: settings,
+        );
+      case Routes.upgradeAccountDocRoute:
+        if (hasInvalidArgs<UpgradeAccountDocViewArguments>(args,
+            isRequired: true)) {
+          return misTypedArgsRoute<UpgradeAccountDocViewArguments>(args);
+        }
+        final typedArgs = args as UpgradeAccountDocViewArguments;
+        return MaterialPageRoute<dynamic>(
+          builder: (context) => UpgradeAccountDocView(typedArgs.docType),
+          settings: settings,
+        );
+      case Routes.upgradeAccountQuestRoute:
+        return MaterialPageRoute<dynamic>(
+          builder: (context) => UpgradeAccountQuestView(),
+          settings: settings,
+        );
+      case Routes.upgradeAccountResultRoute:
+        return MaterialPageRoute<dynamic>(
+          builder: (context) => UpgradeAccountResultView(),
+          settings: settings,
+        );
+      default:
+        return unknownRoutePage(settings.name);
+    }
+  }
+}
+
+// *************************************************************************
+// Arguments holder classes
+// **************************************************************************
+
+//SelectAssetView arguments holder class
+class SelectAssetViewArguments {
+  final SelectAssetArgs args;
+  SelectAssetViewArguments({@required this.args});
+}
+
+//UpgradeAccountDocView arguments holder class
+class UpgradeAccountDocViewArguments {
+  final DocType docType;
+  UpgradeAccountDocViewArguments({@required this.docType});
+}

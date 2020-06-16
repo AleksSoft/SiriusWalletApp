@@ -1,0 +1,37 @@
+import 'package:antares_wallet/models/asset_dictionary_data.dart';
+import 'package:antares_wallet/ui/views/more/backup/backup_confirm_key_view.dart';
+import 'package:antares_wallet/ui/views/more/backup/backup_copy_key_view.dart';
+import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_choose_doc.dart';
+import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_doc.dart';
+import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_quest.dart';
+import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_result.dart';
+import 'package:antares_wallet/ui/views/root/root_view.dart';
+import 'package:antares_wallet/ui/views/select_asset/select_asset_view.dart';
+import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_main.dart';
+
+import 'package:auto_route/auto_route_annotations.dart';
+
+@MaterialAutoRouter()
+class $Router {
+  @initial
+  // InitialView initialViewRoute;
+  // LoginView loginViewRoute;
+  // RegisterEmailView registerEmailViewRoute;
+  // RegisterPasswordView registerPasswordViewRoute;
+  // RegisterDetailsView registerDetailsViewRoute;
+  // RegisterPhoneView registerPhoneViewRoute;
+  // SecretPhraseView secredPhraseViewRoute;
+  // PinView pinViewRoute;
+  RootView rootRoute;
+  @MaterialRoute(returnType: AssetData)
+  SelectAssetView selectAssetRoute;
+  @MaterialRoute(fullscreenDialog: true)
+  BackUpCopyKeyView backUpCopyKeyRoute;
+  BackUpConfirmKeyView backUpConfirmKeyRoute;
+  @MaterialRoute(fullscreenDialog: true)
+  UpgradeAccountMainView upgradeAccountMainRoute;
+  UpgradeAccountChooseDocView upgradeAccountChooseDocRoute;
+  UpgradeAccountDocView upgradeAccountDocRoute;
+  UpgradeAccountQuestView upgradeAccountQuestRoute;
+  UpgradeAccountResultView upgradeAccountResultRoute;
+}

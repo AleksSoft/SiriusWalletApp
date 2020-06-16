@@ -1,15 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'portfolio_assets_view.dart';
 import 'portfolio_history_view.dart';
 
-class PortfolioPage extends StatefulWidget {
+class PortfolioView extends StatefulWidget {
   @override
-  _PortfolioPageState createState() => _PortfolioPageState();
+  _PortfolioViewState createState() => _PortfolioViewState();
 }
 
-class _PortfolioPageState extends State<PortfolioPage>
+class _PortfolioViewState extends State<PortfolioView>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
 
@@ -32,13 +33,13 @@ class _PortfolioPageState extends State<PortfolioPage>
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: Text('Portfolio'),
+          title: Text('portfolio'.tr()),
           bottom: TabBar(
             indicatorWeight: 1.0,
             indicatorColor: Colors.black,
             tabs: <Widget>[
-              Tab(text: 'Assets'),
-              Tab(text: 'History'),
+              Tab(text: 'assets'.tr()),
+              Tab(text: 'history'.tr()),
             ],
           ),
           elevation: 0.5,

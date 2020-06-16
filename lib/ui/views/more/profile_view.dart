@@ -1,24 +1,23 @@
-import 'package:antares_wallet/business/view_models/more/profile_view_model.dart';
-import 'package:antares_wallet/locator.dart';
+import 'package:antares_wallet/app/routers/router.gr.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
-import 'package:antares_wallet/ui/navigation/navigation.dart';
+import 'package:antares_wallet/ui/views/more/profile_view_model.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:stacked/stacked.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
+        title: Text('profile'.tr()),
         elevation: 0.5,
       ),
       body: ViewModelBuilder<ProfileViewModel>.nonReactive(
-        viewModelBuilder: () => locator<ProfileViewModel>(),
-        disposeViewModel: false,
-        createNewModelOnInsert: false,
+        viewModelBuilder: () => ProfileViewModel(),
         onModelReady: (ProfileViewModel model) => model.initialise(),
         builder: (_, ProfileViewModel model, __) {
           return ListView(
@@ -58,20 +57,18 @@ class _AccountDataView extends ViewModelWidget<ProfileViewModel> {
             size: 40.0,
           ),
           title: Text(model.accountData.levelStr),
-          subtitle: Text('Verified'),
+          subtitle: Text('verified'.tr()),
           trailing: Visibility(
             visible: model.accountData.hasNoLimit,
             child: OutlineButton(
-              onPressed: () => Navigator.of(
-                context,
-                rootNavigator: true,
-              ).pushNamed(Routes.upAccMain),
+              onPressed: () => ExtendedNavigator.ofRouter<Router>()
+                  .pushNamed(Routes.upgradeAccountMainRoute),
               borderSide: BorderSide(color: AppColors.accent),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(4.0),
               ),
               textColor: AppColors.accent,
-              child: Text('Upgrade'),
+              child: Text('upgrade'.tr()),
             ),
           ),
         ),
@@ -140,25 +137,25 @@ class _PersonalDataView extends ViewModelWidget<ProfileViewModel> {
         ),
         ListTile(
           contentPadding: EdgeInsets.all(0.0),
-          title: Text('Full Name'),
+          title: Text('full_name'.tr()),
           subtitle: Text(data.fullName),
         ),
         Divider(height: 1.0),
         ListTile(
           contentPadding: EdgeInsets.all(0.0),
-          title: Text('Email'),
+          title: Text('email'.tr()),
           subtitle: Text(data.email),
         ),
         Divider(height: 1.0),
         ListTile(
           contentPadding: EdgeInsets.all(0.0),
-          title: Text('Contact Phone'),
+          title: Text('contact_phone'.tr()),
           subtitle: Text(data.contactPhone),
         ),
         Divider(height: 1.0),
         ListTile(
           contentPadding: EdgeInsets.all(0.0),
-          title: Text('Country'),
+          title: Text('country'.tr()),
           subtitle: Text(data.country),
         ),
         Divider(height: 1.0),

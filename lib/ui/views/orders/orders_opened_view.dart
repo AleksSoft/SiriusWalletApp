@@ -1,19 +1,16 @@
-import 'package:antares_wallet/business/view_models/orders/orders_opened_view_model.dart';
-import 'package:antares_wallet/locator.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
-import 'package:antares_wallet/ui/views/widgets/nothing_view.dart';
+import 'package:antares_wallet/ui/widgets/nothing_view.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import 'order_title.dart';
+import 'orders_opened_view_model.dart';
 
 class OrdersOpenedView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<OrdersOpenedViewModel>.nonReactive(
-      viewModelBuilder: () => locator<OrdersOpenedViewModel>(),
-      disposeViewModel: false,
-      createNewModelOnInsert: false,
+      viewModelBuilder: () => OrdersOpenedViewModel(),
       onModelReady: (model) => model.initialise(),
       builder: (_, model, __) {
         return Container(

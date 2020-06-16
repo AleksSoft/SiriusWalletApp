@@ -1,12 +1,12 @@
-import 'package:antares_wallet/business/models/portfolio_history_item.dart';
-import 'package:antares_wallet/business/view_models/portfolio/portfolio_history_view_model.dart';
-import 'package:antares_wallet/locator.dart';
+import 'package:antares_wallet/app/routers/portfolio_nested_router.gr.dart';
+import 'package:antares_wallet/models/portfolio_history_item.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
-import 'package:antares_wallet/ui/navigation/navigation.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import 'portfolio_history_filters_view.dart';
+import 'portfolio_history_view_model.dart';
 
 class PortfolioHistoryView extends StatelessWidget {
   PortfolioHistoryView({Key key}) : super(key: key);
@@ -14,9 +14,7 @@ class PortfolioHistoryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<PortfolioHistoryViewModel>.nonReactive(
-      viewModelBuilder: () => locator<PortfolioHistoryViewModel>(),
-      disposeViewModel: false,
-      createNewModelOnInsert: false,
+      viewModelBuilder: () => PortfolioHistoryViewModel(),
       onModelReady: (model) => model.initialise(),
       builder: (_, __, ___) {
         return Scaffold(
@@ -65,9 +63,10 @@ class _PortfolioHistoryListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Navigator.of(context).pushNamed(
-        Routes.historyDetails,
-        arguments: _item,
+      onTap: () =>
+          ExtendedNavigator.ofRouter<PortfolioNestedRouter>().pushNamed(
+        Routes.transactionDetailsRoute,
+        arguments: TransactionDetailsViewArguments(details: _item),
       ),
       child: Column(
         children: [

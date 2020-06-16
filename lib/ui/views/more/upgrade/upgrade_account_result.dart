@@ -1,12 +1,14 @@
-import 'package:antares_wallet/business/view_models/more/profile_view_model.dart';
-import 'package:antares_wallet/locator.dart';
+import 'package:antares_wallet/app/routers/router.gr.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
-import 'package:antares_wallet/ui/views/widgets/default_card.dart';
+import 'package:antares_wallet/ui/views/more/profile_view_model.dart';
+import 'package:antares_wallet/ui/widgets/default_card.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:easy_localization/easy_localization.dart';
 
-class UpgradeAccountResult extends StatelessWidget {
+class UpgradeAccountResultView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +27,7 @@ class UpgradeAccountResult extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'We have everything we need!',
+                        'msg_have_everything'.tr(),
                         style: Theme.of(context).textTheme.headline6.copyWith(
                               fontWeight: FontWeight.w600,
                             ),
@@ -60,7 +62,7 @@ class UpgradeAccountResult extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
-                                  'Advanced',
+                                  'advanced'.tr(),
                                   style: Theme.of(context)
                                       .textTheme
                                       .subtitle1
@@ -68,22 +70,22 @@ class UpgradeAccountResult extends StatelessWidget {
                                         fontWeight: FontWeight.w600,
                                       ),
                                 ),
-                                Text('In review'),
+                                Text('in_review'.tr()),
                               ],
                             ),
                             Spacer(),
-                            Text('48h left'),
+                            Text(plural('h_left', 48)),
                           ],
                         ),
                       ),
                       SizedBox(height: 24.0),
                       Text(
-                        'We will check these documents and let you know within 48 hours the status of your account.',
+                        plural('msg_check_doc_hours', 48),
                         textAlign: TextAlign.center,
                       ),
                       SizedBox(height: 16.0),
                       Text(
-                        'If you wish to get a monthly limit tailored for you, no problem! Just upgrade to a Pro Individual account.',
+                        'msg_upgrade_to_pro'.tr(),
                         textAlign: TextAlign.center,
                       )
                     ],
@@ -97,18 +99,14 @@ class UpgradeAccountResult extends StatelessWidget {
                   shadowColor: AppColors.accent.withOpacity(0.5),
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
                   child: ViewModelBuilder<ProfileViewModel>.nonReactive(
-                    viewModelBuilder: () => locator<ProfileViewModel>(),
-                    disposeViewModel: false,
-                    createNewModelOnInsert: false,
+                    viewModelBuilder: () => ProfileViewModel(),
                     builder: (_, model, __) {
                       return CupertinoButton.filled(
                           disabledColor: Colors.grey.withOpacity(0.7),
-                          child: Text('Ok'),
+                          child: Text('ok'.tr()),
                           onPressed: () {
-                            Navigator.of(
-                              context,
-                              rootNavigator: true,
-                            ).popUntil((route) => route.isFirst);
+                            ExtendedNavigator.ofRouter<Router>()
+                                .popUntil((route) => route.isFirst);
                             model.upgradeAccount();
                           });
                     },

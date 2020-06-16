@@ -7,4 +7,5 @@ class AppColors {
   static final Color scaffoldBkg = Colors.white;
   static final Color green = Colors.green;
   static final Color red = Colors.red;
+  static final Color dark = Colors.black;
 }

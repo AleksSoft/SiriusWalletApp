@@ -1,25 +1,25 @@
-import 'package:antares_wallet/business/view_models/more/settings_view_model.dart';
-import 'package:antares_wallet/locator.dart';
-import 'package:antares_wallet/ui/navigation/routes.dart';
-import 'package:antares_wallet/ui/views/widgets/default_card.dart';
+import 'package:antares_wallet/app/routers/router.gr.dart';
+import 'package:antares_wallet/ui/widgets/default_card.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:easy_localization/easy_localization.dart';
+
+import '../settings_view_model.dart';
 
 class BackUpCopyKeyView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
         elevation: 0.0,
-        title: Text('Back up'),
+        title: Text('back_up'.tr()),
       ),
       body: ViewModelBuilder<SettingsViewModel>.reactive(
-        viewModelBuilder: () => locator<SettingsViewModel>(),
-        disposeViewModel: false,
-        createNewModelOnInsert: false,
+        viewModelBuilder: () => SettingsViewModel(),
         builder: (_, __, ___) {
           return ListView(
             padding: const EdgeInsets.all(16.0),
@@ -28,9 +28,7 @@ class BackUpCopyKeyView extends StatelessWidget {
             children: [
               const SizedBox(height: 16.0),
               Text(
-                'Write this 12-word phrase down and keep it somewhere safe.'
-                'Don\'t lose it! Without your phrase, you can\'t access'
-                'your wallet and we can\'t help you.',
+                'msg_back_up_write_down'.tr(),
                 style: Theme.of(context).textTheme.subtitle1.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
@@ -56,11 +54,10 @@ class _SubmitButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton.filled(
-      child: Text('Continue'),
-      onPressed: () => Navigator.of(
-        context,
-        rootNavigator: true,
-      ).pushNamed(Routes.backUpKeyConfirm),
+      child: Text('continue'.tr()),
+      onPressed: () => ExtendedNavigator.ofRouter<Router>().pushNamed(
+        Routes.backUpConfirmKeyRoute,
+      ),
     );
   }
 }
@@ -92,7 +89,7 @@ class _KeyWordsCard extends ViewModelWidget<SettingsViewModel> {
             children: [
               Spacer(),
               FlatButton(
-                child: Text('Copy'),
+                child: Text('copy'.tr()),
                 onPressed: () => _copyKey(
                   context,
                   model.settings.privateKey,
@@ -108,7 +105,7 @@ class _KeyWordsCard extends ViewModelWidget<SettingsViewModel> {
   _copyKey(BuildContext context, String key) {
     ClipboardManager.copyToClipBoard(key).then((result) {
       Scaffold.of(context).showSnackBar(
-        SnackBar(content: Text('Private key copied to Clipboard')),
+        SnackBar(content: Text('msg_key_copied'.tr())),
       );
     });
   }

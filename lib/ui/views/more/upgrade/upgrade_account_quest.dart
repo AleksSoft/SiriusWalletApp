@@ -1,20 +1,25 @@
+import 'package:antares_wallet/app/routers/router.gr.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
-import 'package:antares_wallet/ui/navigation/navigation.dart';
-import 'package:antares_wallet/ui/views/widgets/default_card.dart';
+import 'package:antares_wallet/ui/widgets/default_card.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class UpgradeAccountQuestView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
         title: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Questionnaire'),
-            Text('Step 1 of 3', style: Theme.of(context).textTheme.caption),
+            Text('questionnaire'.tr()),
+            Text(
+              'step_n_of_n'.tr(args: ['1', '3']),
+              style: Theme.of(context).textTheme.caption,
+            ),
           ],
         ),
         centerTitle: true,
@@ -34,11 +39,10 @@ class UpgradeAccountQuestView extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(8.0)),
             child: CupertinoButton.filled(
               disabledColor: Colors.grey.withOpacity(0.7),
-              child: Text('Submit'),
-              onPressed: () => Navigator.of(
-                context,
-                rootNavigator: true,
-              ).pushNamed(Routes.upAccResult),
+              child: Text('submit'.tr()),
+              onPressed: () => ExtendedNavigator.ofRouter<Router>().pushNamed(
+                Routes.upgradeAccountResultRoute,
+              ),
             ),
           ),
         ],
@@ -95,8 +99,8 @@ class _Quest1State extends State<_Quest1> {
                 groupValue: 0,
                 onValueChanged: (value) {},
                 children: {
-                  0: Text('Yes'),
-                  1: Text('No'),
+                  0: Text('yes'.tr()),
+                  1: Text('no'.tr()),
                 },
               ),
             ],
@@ -177,7 +181,7 @@ class _Quest1State extends State<_Quest1> {
                   padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
                   child: TextField(
                     decoration: InputDecoration.collapsed(
-                      hintText: 'Other, please specify',
+                      hintText: 'hint_please_specify'.tr(),
                     ),
                   ),
                 ),
@@ -257,7 +261,7 @@ class _Quest1State extends State<_Quest1> {
                 builder: (FormFieldState<String> state) {
                   return InputDecorator(
                     decoration: InputDecoration.collapsed(
-                      hintText: 'Please select..',
+                      hintText: 'hint_please_select'.tr(),
                     ),
                     isEmpty: _currentSelectedValue == null ||
                         _currentSelectedValue == '',

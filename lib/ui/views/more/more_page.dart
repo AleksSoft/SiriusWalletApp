@@ -1,18 +1,20 @@
-import 'package:antares_wallet/business/services/key_store_service.dart';
-import 'package:antares_wallet/locator.dart';
-import 'package:antares_wallet/ui/navigation/navigation.dart';
+import 'package:antares_wallet/app/routers/more_nested_router.gr.dart';
+import 'package:antares_wallet/services/key_store_service.dart';
+import 'package:antares_wallet/app/locator.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'menu_tile.dart';
 
-class MorePage extends StatelessWidget {
+class MoreView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('More'),
+        title: Text('more'.tr()),
         elevation: 0.0,
       ),
       body: ListView(
@@ -21,19 +23,22 @@ class MorePage extends StatelessWidget {
           MenuTile(
             title: 'Settings',
             icon: Icons.settings,
-            onTap: () => Navigator.of(context).pushNamed(Routes.settings),
+            onTap: () => ExtendedNavigator.ofRouter<MoreNestedRouter>()
+                .pushNamed(Routes.moreSettingsRoute),
             trailing: Icon(Icons.chevron_right),
           ),
           MenuTile(
             title: 'Profile',
             icon: Icons.account_circle,
-            onTap: () => Navigator.of(context).pushNamed(Routes.profile),
+            onTap: () => ExtendedNavigator.ofRouter<MoreNestedRouter>()
+                .pushNamed(Routes.moreProfileRoute),
             trailing: Icon(Icons.chevron_right),
           ),
           MenuTile(
             title: 'Support',
             icon: Icons.headset,
-            onTap: () => Navigator.of(context).pushNamed(Routes.support),
+            onTap: () => ExtendedNavigator.ofRouter<MoreNestedRouter>()
+                .pushNamed(Routes.moreSupportRoute),
             trailing: Icon(Icons.chevron_right),
           ),
           MenuTile(
@@ -52,7 +57,7 @@ class MorePage extends StatelessWidget {
             onTap: () {
               locator<KeyStoreService>().deleteAll();
               Scaffold.of(context).showSnackBar(
-                SnackBar(content: Text('Local storage cleared')),
+                SnackBar(content: Text('msg_storage_cleared'.tr())),
               );
             },
             color: Colors.red,

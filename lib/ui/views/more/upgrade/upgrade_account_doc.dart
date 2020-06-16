@@ -1,11 +1,13 @@
 import 'dart:io';
 
+import 'package:antares_wallet/app/routers/router.gr.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
-import 'package:antares_wallet/ui/navigation/navigation.dart';
-import 'package:antares_wallet/ui/views/widgets/default_card.dart';
+import 'package:antares_wallet/ui/widgets/default_card.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 enum DocType {
   passport,
@@ -16,6 +18,10 @@ enum DocType {
 }
 
 class UpgradeAccountDocView extends StatefulWidget {
+  final DocType docType;
+
+  UpgradeAccountDocView(this.docType);
+
   @override
   _UpgradeAccountDocViewState createState() => _UpgradeAccountDocViewState();
 }
@@ -33,12 +39,9 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
 
   @override
   Widget build(BuildContext context) {
-    final DocType docType = (ModalRoute.of(context).settings.arguments
-        as Map<String, dynamic>)['docType'];
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('Upgrade to Advanced'),
+        title: Text('upgrade_to'.tr(args: ['Advanced'])),
         centerTitle: true,
         elevation: 0.0,
       ),
@@ -48,7 +51,7 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              _title(docType),
+              _title(widget.docType),
               style: Theme.of(context).textTheme.button.copyWith(
                     fontSize: 16.0,
                   ),
@@ -97,7 +100,7 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
                               children: [
                                 Icon(Icons.camera_alt),
                                 SizedBox(width: 4.0),
-                                Text('Change'),
+                                Text('change'.tr()),
                               ],
                             ),
                           ),
@@ -116,16 +119,17 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
                               ),
                               alignment: Alignment.bottomCenter,
                               child: Text(
-                                _photoHeader(docType),
+                                _photoHeader(widget.docType),
                                 style: Theme.of(context)
                                     .textTheme
                                     .subtitle1
                                     .copyWith(
                                       fontSize: 12.0,
                                     ),
-                                textAlign: docType == DocType.proofOfAddress
-                                    ? TextAlign.left
-                                    : TextAlign.center,
+                                textAlign:
+                                    widget.docType == DocType.proofOfAddress
+                                        ? TextAlign.left
+                                        : TextAlign.center,
                               ),
                             ),
                           ),
@@ -146,7 +150,7 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
                                       color: AppColors.accent,
                                     ),
                                     Text(
-                                      'Click to upload photo',
+                                      'msg_upload_photo'.tr(),
                                       style: Theme.of(context)
                                           .textTheme
                                           .button
@@ -176,8 +180,8 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
               borderRadius: BorderRadius.all(Radius.circular(8.0)),
               child: CupertinoButton.filled(
                 disabledColor: Colors.grey.withOpacity(0.7),
-                child: Text('Submit'),
-                onPressed: () => _pushNextRoute(context, docType),
+                child: Text('submit'.tr()),
+                onPressed: () => _pushNextRoute(context, widget.docType),
               ),
             ),
           ],
@@ -189,15 +193,15 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
   String _title(DocType docType) {
     switch (docType) {
       case DocType.passport:
-        return 'Passport';
+        return 'passport'.tr();
       case DocType.nationalId:
-        return 'National Id';
+        return 'national_id'.tr();
       case DocType.drivingLicense:
-        return 'Driving License';
+        return 'driving_license'.tr();
       case DocType.selfie:
-        return 'Selfie';
+        return 'selfie'.tr();
       case DocType.proofOfAddress:
-        return 'Proof of address';
+        return 'proof_of_address'.tr();
       default:
         return '';
     }
@@ -206,18 +210,15 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
   String _photoHeader(DocType docType) {
     switch (docType) {
       case DocType.passport:
-        return 'Upload a clear and legible picture of the main page of your passport';
+        return 'msg_upgrade_passport'.tr();
       case DocType.nationalId:
-        return 'Upload a clear and legible picture of the main page of your national id';
+        return 'msg_upgrade_national_id'.tr();
       case DocType.drivingLicense:
-        return 'Upload a clear and legible picture of the main page of your driver license';
+        return 'msg_upgrade_driving_license'.tr();
       case DocType.selfie:
-        return 'Your selfie should be well lit and in focus';
+        return 'msg_upgrade_selfie'.tr();
       case DocType.proofOfAddress:
-        return 'Please use Bank/Card Statement or Gas/Electricity/Water Bill or Official Governmental Documents\n\n'
-            'The document should display Name, Surname, Street address (Non-P.O Box), Date, Issuer name\n\n'
-            'The document you provide should not be older than 3 months and should be different from your ID document\n\n'
-            'Please note that review might take up to 48 hours';
+        return 'msg_upgrade_proof_of_address'.tr();
       default:
         return '';
     }
@@ -228,29 +229,26 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
       case DocType.passport:
       case DocType.nationalId:
       case DocType.drivingLicense:
-        Navigator.of(
-          context,
-          rootNavigator: true,
-        ).pushNamed(
-          Routes.upAccDoc,
-          arguments: {'docType': DocType.selfie},
+        ExtendedNavigator.ofRouter<Router>().pushNamed(
+          Routes.upgradeAccountDocRoute,
+          arguments: UpgradeAccountDocViewArguments(
+            docType: DocType.selfie,
+          ),
         );
         break;
       case DocType.selfie:
-        Navigator.of(
-          context,
-          rootNavigator: true,
-        ).pushNamed(
-          Routes.upAccDoc,
-          arguments: {'docType': DocType.proofOfAddress},
+        ExtendedNavigator.ofRouter<Router>().pushNamed(
+          Routes.upgradeAccountDocRoute,
+          arguments: UpgradeAccountDocViewArguments(
+            docType: DocType.proofOfAddress,
+          ),
         );
         break;
       case DocType.proofOfAddress:
       default:
-        Navigator.of(
-          context,
-          rootNavigator: true,
-        ).pushNamed(Routes.upAccQuest);
+        ExtendedNavigator.ofRouter<Router>().pushNamed(
+          Routes.upgradeAccountQuestRoute,
+        );
     }
   }
 }

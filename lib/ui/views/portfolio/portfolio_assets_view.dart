@@ -1,19 +1,18 @@
-import 'package:antares_wallet/business/models/asset_dictionary_data.dart';
-import 'package:antares_wallet/business/view_models/portfolio/portfolio_assets_view_model.dart';
-import 'package:antares_wallet/locator.dart';
+import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:easy_localization/easy_localization.dart';
+
+import 'portfolio_assets_view_model.dart';
 
 class PortfolioAssetsTabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<PortfolioAssetsViewModel>.nonReactive(
-      viewModelBuilder: () => locator<PortfolioAssetsViewModel>(),
-      disposeViewModel: false,
-      createNewModelOnInsert: false,
+      viewModelBuilder: () => PortfolioAssetsViewModel(),
       onModelReady: (model) => model.initialise(),
       builder: (_, __, ___) {
         return ListView(
@@ -44,7 +43,7 @@ class PortfolioAssetsHeader extends ViewModelWidget<PortfolioAssetsViewModel> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            'Balance',
+            'balance'.tr(),
             style: Theme.of(context).textTheme.caption.copyWith(fontSize: 14),
           ),
           AnimatedSwitcher(
@@ -125,8 +124,10 @@ class _PortfolioCategoryBlock
                       onPressed: () => con.toggle(),
                       child: Text(
                         con.expanded
-                            ? 'Show less'
-                            : 'Show more (${assets.sublist(3).length})',
+                            ? 'show_less'.tr()
+                            : 'show_more'.tr(
+                                args: [assets.sublist(3).length.toString()],
+                              ),
                       ),
                     );
             },
@@ -182,7 +183,7 @@ class _PortfolioCategoryBlock
           onTap: () {},
           contentPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 4.0),
           leading: Image.asset(
-            'assets/logo_lykke.png',
+            'assets/images/logo_lykke.png',
             height: 24.0,
             width: 24.0,
           ),

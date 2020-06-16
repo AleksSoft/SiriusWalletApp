@@ -1,14 +1,16 @@
-import 'package:antares_wallet/ui/navigation/navigation.dart';
+import 'package:antares_wallet/app/routers/router.gr.dart';
 import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_doc.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class UpgradeAccountChooseDocView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Upgrade to Advanced'),
+        title: Text('upgrade_to'.tr(args: ['Advanced'])),
         centerTitle: true,
         elevation: 0.0,
       ),
@@ -18,7 +20,7 @@ class UpgradeAccountChooseDocView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(24.0),
             child: Text(
-              'Please select the type of identity document',
+              'msg_select_type_doc'.tr(),
               style: Theme.of(context).textTheme.button.copyWith(
                     fontSize: 16.0,
                   ),
@@ -27,38 +29,35 @@ class UpgradeAccountChooseDocView extends StatelessWidget {
           ),
           Divider(height: 1.0),
           ListTile(
-            title: Text('Passport'),
+            title: Text('passport'.tr()),
             trailing: Icon(CupertinoIcons.forward),
-            onTap: () => Navigator.of(context, rootNavigator: true).pushNamed(
-              Routes.upAccDoc,
-              arguments: {
-                'docType': DocType.passport,
-                hideNavTabBar: true,
-              },
+            onTap: () => ExtendedNavigator.ofRouter<Router>().pushNamed(
+              Routes.upgradeAccountDocRoute,
+              arguments: UpgradeAccountDocViewArguments(
+                docType: DocType.passport,
+              ),
             ),
           ),
           Divider(height: 1.0, indent: 16.0, endIndent: 16.0),
           ListTile(
-            title: Text('National ID'),
+            title: Text('national_id'.tr()),
             trailing: Icon(CupertinoIcons.forward),
-            onTap: () => Navigator.of(context, rootNavigator: true).pushNamed(
-              Routes.upAccDoc,
-              arguments: {
-                'docType': DocType.nationalId,
-                hideNavTabBar: true,
-              },
+            onTap: () => ExtendedNavigator.ofRouter<Router>().pushNamed(
+              Routes.upgradeAccountDocRoute,
+              arguments: UpgradeAccountDocViewArguments(
+                docType: DocType.nationalId,
+              ),
             ),
           ),
           Divider(height: 1.0, indent: 16.0, endIndent: 16.0),
           ListTile(
-            title: Text('Driving license'),
+            title: Text('driving_license'.tr()),
             trailing: Icon(CupertinoIcons.forward),
-            onTap: () => Navigator.of(context, rootNavigator: true).pushNamed(
-              Routes.upAccDoc,
-              arguments: {
-                'docType': DocType.drivingLicense,
-                hideNavTabBar: true,
-              },
+            onTap: () => ExtendedNavigator.ofRouter<Router>().pushNamed(
+              Routes.upgradeAccountDocRoute,
+              arguments: UpgradeAccountDocViewArguments(
+                docType: DocType.drivingLicense,
+              ),
             ),
           ),
           Divider(height: 1.0, indent: 16.0, endIndent: 16.0),
