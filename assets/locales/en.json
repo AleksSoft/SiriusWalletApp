@@ -118,5 +118,9 @@
   "copy_hash": "Copy hash",
   "open_explorer": "Open Explorer",
   "details": "Details",
-  "explorer_links": "Explorer links:"
+  "explorer_links": "Explorer links:",
+  "language": "Language",
+  "choose_language": "Choose anguage",
+  "ru": "Russian",
+  "en": "English"
 }

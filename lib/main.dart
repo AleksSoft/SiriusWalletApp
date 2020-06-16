@@ -21,9 +21,11 @@ Future main() async {
   // Run application
   runApp(
     EasyLocalization(
+      useOnlyLangCode: true,
       supportedLocales: [Locale('en'), Locale('ru')],
       path: 'assets/locales',
       fallbackLocale: Locale('en'),
+      preloaderColor: Colors.white,
       child: AntaresApp(analytics),
     ),
   );

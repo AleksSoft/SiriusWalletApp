@@ -118,5 +118,9 @@
   "copy_hash": "Скопировать хэш",
   "open_explorer": "Открыть в браузере",
   "details": "Детали",
-  "explorer_links": "Браузерные ссылки:"
+  "explorer_links": "Браузерные ссылки:",
+  "language": "Язык",
+  "choose_language": "Выберите язык",
+  "ru": "Русский",
+  "en": "Английский"
 }

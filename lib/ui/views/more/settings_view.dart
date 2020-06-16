@@ -77,6 +77,18 @@ class SettingsView extends StatelessWidget {
                       .pushNamed(Routes.backUpCopyKeyRoute),
                 ),
                 MenuTile(
+                  title: 'language'.tr(),
+                  subtitle: context.locale.languageCode,
+                  icon: Icons.language,
+                  iconColor: Colors.black,
+                  color: Colors.transparent,
+                  showDivider: false,
+                  onTap: () => showModalBottomSheet(
+                    context: context,
+                    builder: (context) => _ChooseLanguageView(),
+                  ),
+                ),
+                MenuTile(
                   title: 'about'.tr(),
                   icon: Icons.info_outline,
                   iconColor: Colors.black,
@@ -87,6 +99,40 @@ class SettingsView extends StatelessWidget {
               ],
             );
           }),
+    );
+  }
+}
+
+class _ChooseLanguageView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0.0,
+        leading: IconButton(
+          icon: Icon(Icons.close),
+          onPressed: () => ExtendedNavigator.of(context).pop(),
+        ),
+        title: Text('choose_language'.tr()),
+        centerTitle: true,
+      ),
+      body: Column(
+        children: [
+          _buildListTile(context, 'en'),
+          _buildListTile(context, 'ru'),
+        ],
+      ),
+    );
+  }
+
+  ListTile _buildListTile(BuildContext context, String langCode) {
+    return ListTile(
+      title: Text(langCode.tr()),
+      onTap: () {
+        if (context.locale != Locale(langCode)) {
+          context.locale = Locale(langCode);
+        }
+      },
     );
   }
 }
