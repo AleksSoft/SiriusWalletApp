@@ -5,7 +5,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-import 'portfolio_history_filters_view.dart';
+import 'filters/portfolio_history_filters_view.dart';
 import 'portfolio_history_view_model.dart';
 
 class PortfolioHistoryView extends StatelessWidget {

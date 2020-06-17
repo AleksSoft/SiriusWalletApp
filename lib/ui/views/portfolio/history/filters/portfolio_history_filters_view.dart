@@ -1,5 +1,6 @@
 import 'package:antares_wallet/app/routers/router.gr.dart';
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
+import 'package:antares_wallet/services/repositories/portfolio_history_repository.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:antares_wallet/ui/views/select_asset/select_asset_view.dart';
 import 'package:auto_route/auto_route.dart';
@@ -9,15 +10,15 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import 'portfolio_history_view_model.dart';
+import 'portfolio_history_filters_view_model.dart';
 
 class PortfolioHistoryFiltersView extends StatelessWidget {
   const PortfolioHistoryFiltersView({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<PortfolioHistoryViewModel>.nonReactive(
-        viewModelBuilder: () => PortfolioHistoryViewModel(),
+    return ViewModelBuilder<PortfolioHistoryFiltersViewModel>.nonReactive(
+        viewModelBuilder: () => PortfolioHistoryFiltersViewModel(),
         builder: (_, model, __) {
           return Scaffold(
             appBar: AppBar(
@@ -25,7 +26,7 @@ class PortfolioHistoryFiltersView extends StatelessWidget {
               automaticallyImplyLeading: false,
               leading: IconButton(
                 icon: Icon(Icons.close),
-                onPressed: () => ExtendedNavigator.ofRouter<Router>().pop(),
+                onPressed: () => Navigator.of(context).pop(),
               ),
               title: Text('filters'.tr()),
               actions: [
@@ -56,11 +57,11 @@ class PortfolioHistoryFiltersView extends StatelessWidget {
 }
 
 class _PortfolioHistoryPeriodFilterView
-    extends ViewModelWidget<PortfolioHistoryViewModel> {
+    extends ViewModelWidget<PortfolioHistoryFiltersViewModel> {
   const _PortfolioHistoryPeriodFilterView({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, PortfolioHistoryViewModel model) {
+  Widget build(BuildContext context, PortfolioHistoryFiltersViewModel model) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
@@ -84,7 +85,7 @@ class _PortfolioHistoryPeriodFilterView
               selected: model.filterPeriod == PeriodFilter.all,
             ),
             ChoiceChip(
-              label: Text('n_days'.tr(args: ['1'])),
+              label: Text(plural('n_days', 1)),
               padding: EdgeInsets.symmetric(horizontal: 8.0),
               backgroundColor: AppColors.primary,
               selectedColor: AppColors.accent,
@@ -94,7 +95,7 @@ class _PortfolioHistoryPeriodFilterView
               selected: model.filterPeriod == PeriodFilter.day,
             ),
             ChoiceChip(
-              label: Text('n_weeks'.tr(args: ['1'])),
+              label: Text(plural('n_weeks', 1)),
               padding: EdgeInsets.symmetric(horizontal: 8.0),
               backgroundColor: AppColors.primary,
               selectedColor: AppColors.accent,
@@ -129,7 +130,7 @@ class _PortfolioHistoryPeriodFilterView
 
   Widget _buildCustomPeriodView(
     BuildContext context,
-    PortfolioHistoryViewModel model,
+    PortfolioHistoryFiltersViewModel model,
   ) {
     return GestureDetector(
       onTap: () => _selectDate(context, model),
@@ -154,7 +155,7 @@ class _PortfolioHistoryPeriodFilterView
 
   Future _selectDate(
     BuildContext context,
-    PortfolioHistoryViewModel model,
+    PortfolioHistoryFiltersViewModel model,
   ) async {
     final List<DateTime> picked = await DateRagePicker.showDatePicker(
       context: context,
@@ -175,11 +176,11 @@ class _PortfolioHistoryPeriodFilterView
 }
 
 class _PortfolioHistoryTransFilterView
-    extends ViewModelWidget<PortfolioHistoryViewModel> {
+    extends ViewModelWidget<PortfolioHistoryFiltersViewModel> {
   const _PortfolioHistoryTransFilterView({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, PortfolioHistoryViewModel model) {
+  Widget build(BuildContext context, PortfolioHistoryFiltersViewModel model) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
@@ -236,11 +237,11 @@ class _PortfolioHistoryTransFilterView
 }
 
 class _PortfolioHistoryAssetFilterView
-    extends ViewModelWidget<PortfolioHistoryViewModel> {
+    extends ViewModelWidget<PortfolioHistoryFiltersViewModel> {
   const _PortfolioHistoryAssetFilterView({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, PortfolioHistoryViewModel model) {
+  Widget build(BuildContext context, PortfolioHistoryFiltersViewModel model) {
     bool allSelected = model.filterAsset == null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,

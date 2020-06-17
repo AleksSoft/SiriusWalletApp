@@ -21,28 +21,28 @@ class MoreView extends StatelessWidget {
         physics: BouncingScrollPhysics(),
         children: <Widget>[
           MenuTile(
-            title: 'Settings',
+            title: 'settings'.tr(),
             icon: Icons.settings,
             onTap: () => ExtendedNavigator.ofRouter<MoreNestedRouter>()
                 .pushNamed(Routes.moreSettingsRoute),
             trailing: Icon(Icons.chevron_right),
           ),
           MenuTile(
-            title: 'Profile',
+            title: 'profile'.tr(),
             icon: Icons.account_circle,
             onTap: () => ExtendedNavigator.ofRouter<MoreNestedRouter>()
                 .pushNamed(Routes.moreProfileRoute),
             trailing: Icon(Icons.chevron_right),
           ),
           MenuTile(
-            title: 'Support',
+            title: 'support'.tr(),
             icon: Icons.headset,
             onTap: () => ExtendedNavigator.ofRouter<MoreNestedRouter>()
                 .pushNamed(Routes.moreSupportRoute),
             trailing: Icon(Icons.chevron_right),
           ),
           MenuTile(
-            title: 'Terms and conditions',
+            title: 'tac'.tr(),
             icon: Icons.list,
             onTap: () => _launchURL('https://www.lykke.com/cp/terms_of_use'),
             trailing: Icon(Icons.chevron_right),
@@ -52,7 +52,7 @@ class MoreView extends StatelessWidget {
             color: CupertinoColors.extraLightBackgroundGray,
           ),
           MenuTile(
-            title: 'Logout',
+            title: 'logout'.tr(),
             icon: Icons.exit_to_app,
             onTap: () {
               locator<KeyStoreService>().deleteAll();

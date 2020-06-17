@@ -1,100 +1,84 @@
+import 'package:antares_wallet/app/locator.dart';
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/models/portfolio_history_item.dart';
 import 'package:antares_wallet/services/api/mock_api.dart';
-import 'package:antares_wallet/app/locator.dart';
+import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
+import 'package:observable_ish/observable_ish.dart';
 import 'package:stacked/stacked.dart';
 
 enum PeriodFilter { all, day, week, custom }
 
 enum TransactionTypeFilter { all, deposit, withdraw }
 
-class PortfolioHistoryViewModel extends BaseViewModel {
+@lazySingleton
+class PortfolioHistoryRepository with ReactiveServiceMixin {
   final _api = locator<MockApiService>();
 
-  PortfolioHistoryFilter _filter;
+  List<PortfolioHistoryItem> _historyItems = List();
 
-  List<PortfolioHistoryItem> _portfolioHistoryItems = List();
+  RxValue<_HistoryFilter> _filter =
+      RxValue<_HistoryFilter>(initial: _HistoryFilter.initial());
 
-  bool _filterOpened = false;
+  _HistoryFilter get filter => _filter.value;
 
-  PortfolioHistoryViewModel() {
-    _filter = PortfolioHistoryFilter.initial();
-  }
-
-  get filterOpened => _filterOpened;
-  get filterPeriod => _filter.period;
-  get filterTransactionType => _filter.transactionType;
-  get filterAsset => _filter.asset;
-  get filterTimeFrom => _filter.timeFrom;
-  get filterTimeTo => _filter.timeTo;
-  get filterTimeFromStr => DateFormat('d.M.y').format(
-        DateTime.fromMillisecondsSinceEpoch(_filter.timeFrom),
-      );
-  get filterTimeToStr => DateFormat('d.M.y').format(
-        DateTime.fromMillisecondsSinceEpoch(_filter.timeTo),
-      );
-  bool get itemsEmpty => _portfolioHistoryItems.isEmpty;
-
-  List<PortfolioHistoryItem> get historyItems {
-    List<PortfolioHistoryItem> filtered = _portfolioHistoryItems;
+  List<PortfolioHistoryItem> get items {
+    List<PortfolioHistoryItem> filtered = _historyItems;
     filtered.sort((a, b) => a.timestamp.compareTo(b.timestamp));
-    filtered = _portfolioHistoryItems
-        .where((i) => _filter.byTransactionType(i))
-        .where((i) => _filter.byPeriod(i))
-        .where((i) => _filter.byAsset(i))
+    filtered = _historyItems
+        .where((i) => filter.byTransactionType(i))
+        .where((i) => filter.byPeriod(i))
+        .where((i) => filter.byAsset(i))
         .toList();
     return filtered.reversed.toList();
   }
 
-  Future initialise() async {
-    _portfolioHistoryItems = await runBusyFuture(_api.fetchPortfolioHistry());
+  PortfolioHistoryRepository() {
+    listenToReactiveValues([_filter]);
   }
 
-  Future updateHistory() async {
-    _portfolioHistoryItems = await _api.updatePortfolioHistory();
-    notifyListeners();
+  Future<void> loadHistory() async {
+    _historyItems = await _api.fetchPortfolioHistry();
+  }
+
+  Future<void> updateHistory() async {
+    _historyItems = await _api.updatePortfolioHistory();
   }
 
   void clearFilter() {
-    _filter = PortfolioHistoryFilter.initial();
+    _filter.value = _HistoryFilter.initial();
     notifyListeners();
   }
 
   void updateFilterPeriod(PeriodFilter filter) {
-    _filter.period = filter;
+    _filter.value.period = filter;
     notifyListeners();
   }
 
   void updateCustomTimeFrom(int timeFrom) {
-    assert(_filter.period == PeriodFilter.custom);
-    _filter.timeFrom = timeFrom;
+    assert(filter.period == PeriodFilter.custom);
+    _filter.value.timeFrom = timeFrom;
     notifyListeners();
   }
 
   void updateCustomTimeTo(int timeTo) {
-    assert(_filter.period == PeriodFilter.custom);
-    _filter.timeTo = timeTo;
+    assert(filter.period == PeriodFilter.custom);
+    _filter.value.timeTo = timeTo;
     notifyListeners();
   }
 
   void updateFilterTransType(TransactionTypeFilter filter) {
-    _filter.transactionType = filter;
+    _filter.value.transactionType = filter;
     notifyListeners();
   }
 
   void updateFilterAsset(AssetData asset) {
-    _filter.asset = asset;
-    notifyListeners();
-  }
-
-  void updateFilterOpenedState(bool opened) {
-    _filterOpened = opened;
+    _filter.value.asset = asset;
     notifyListeners();
   }
 }
 
-class PortfolioHistoryFilter {
+class _HistoryFilter {
   PeriodFilter _period;
   TransactionTypeFilter transactionType;
   AssetData asset;
@@ -120,7 +104,7 @@ class PortfolioHistoryFilter {
     _timeTo = time ?? DateTime.now().millisecondsSinceEpoch;
   }
 
-  PortfolioHistoryFilter.initial()
+  _HistoryFilter.initial()
       : this._period = PeriodFilter.all,
         this.transactionType = TransactionTypeFilter.all,
         this.asset = null,

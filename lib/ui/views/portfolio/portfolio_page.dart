@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import 'portfolio_assets_view.dart';
-import 'portfolio_history_view.dart';
+import 'assets/portfolio_assets_view.dart';
+import 'history/portfolio_history_view.dart';
 
 class PortfolioView extends StatefulWidget {
   @override

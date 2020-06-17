@@ -1,8 +1,8 @@
+import 'package:antares_wallet/ui/views/orders/widgets/order_title.dart';
 import 'package:antares_wallet/ui/widgets/nothing_view.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-import 'order_title.dart';
 import 'orders_history_view_model.dart';
 
 class OrdersHistoryView extends StatelessWidget {

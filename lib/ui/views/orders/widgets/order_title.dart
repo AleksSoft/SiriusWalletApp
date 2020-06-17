@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import 'orders_history_view.dart';
-import 'orders_opened_view.dart';
+import 'history/orders_history_view.dart';
+import 'opened/orders_opened_view.dart';
 
 class OrdersView extends StatelessWidget {
   @override

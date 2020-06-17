@@ -82,7 +82,7 @@ class _PortfolioCategoryBlock
     extends ViewModelWidget<PortfolioAssetsViewModel> {
   final CategoryData category;
 
-  _PortfolioCategoryBlock(this.category) : super(reactive: false);
+  _PortfolioCategoryBlock(this.category);
 
   @override
   Widget build(context, model) {
