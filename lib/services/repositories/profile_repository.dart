@@ -5,6 +5,7 @@ import 'package:antares_wallet/app/store_keys.dart';
 import 'package:antares_wallet/models/account_data.dart';
 import 'package:antares_wallet/models/personal_data.dart';
 import 'package:antares_wallet/services/api/mock_api.dart';
+import 'package:antares_wallet/services/isalive_service.dart';
 import 'package:antares_wallet/services/key_store_service.dart';
 import 'package:injectable/injectable.dart';
 

@@ -1,4 +1,3 @@
-import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/models/portfolio_history_item.dart';
 import 'package:antares_wallet/app/locator.dart';
 import 'package:antares_wallet/services/repositories/portfolio_history_repository.dart';

@@ -94,7 +94,11 @@ class SettingsView extends StatelessWidget {
                   iconColor: Colors.black,
                   color: Colors.transparent,
                   showDivider: false,
-                  onTap: () => showAboutDialog(context: context),
+                  onTap: () => showAboutDialog(
+                    context: context,
+                    applicationName: model.isAliveResponce.name,
+                    applicationVersion: model.isAliveResponce.version,
+                  ),
                 ),
               ],
             );

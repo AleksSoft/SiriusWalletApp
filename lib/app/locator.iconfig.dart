@@ -8,6 +8,8 @@ import 'package:antares_wallet/services/repositories/asset_dictionary_repository
 import 'package:antares_wallet/services/blockchain_service.dart';
 import 'package:antares_wallet/services/third_party_services_module.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:antares_wallet/services/api/grpc_client_singleton.dart';
+import 'package:antares_wallet/services/isalive_service.dart';
 import 'package:antares_wallet/services/key_store_service.dart';
 import 'package:antares_wallet/services/api/mock_api.dart';
 import 'package:antares_wallet/services/repositories/portfolio_history_repository.dart';
@@ -22,6 +24,8 @@ void $initGetIt(GetIt g, {String environment}) {
   g.registerLazySingleton<BlockchainService>(() => BlockchainService());
   g.registerLazySingleton<DialogService>(
       () => thirdPartyServicesModule.dialogService);
+  g.registerLazySingleton<GrpcSingleton>(() => GrpcSingleton());
+  g.registerLazySingleton<IsAliveService>(() => IsAliveService());
   g.registerLazySingleton<KeyStoreService>(() => KeyStoreService());
   g.registerLazySingleton<MockApiService>(() => MockApiService());
   g.registerLazySingleton<NavigationService>(

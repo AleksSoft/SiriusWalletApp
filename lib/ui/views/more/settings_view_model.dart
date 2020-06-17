@@ -2,20 +2,20 @@ import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/models/settings_data.dart';
 import 'package:antares_wallet/app/locator.dart';
 import 'package:antares_wallet/services/repositories/settings_repository.dart';
+import 'package:antares_wallet/src/generated/isalive.pb.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 class SettingsViewModel extends BaseViewModel {
   final _repository = locator<SettingsRepository>();
-  final _dialogService = locator<DialogService>();
 
   List<String> _confirmKeyWords = [];
 
   List<String> _confirmKeyVariants = [];
 
   SettingsData get settings => _repository.settings;
+
+  IsAliveResponce get isAliveResponce => _repository.isAliveResponce;
 
   List<String> get confirmKeyWords => _confirmKeyWords;
 
@@ -32,7 +32,9 @@ class SettingsViewModel extends BaseViewModel {
   bool get phraseComplete => wordsMatch && _confirmKeyWords.length == 12;
 
   void initialise() {
-    _repository.loadSettings().whenComplete(() => notifyListeners());
+    _repository.loadSettings();
+    _repository.fetchAlive();
+    notifyListeners();
   }
 
   void updateBaseAsset(AssetData assetData) {

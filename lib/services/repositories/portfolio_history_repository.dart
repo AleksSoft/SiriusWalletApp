@@ -3,7 +3,6 @@ import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/models/portfolio_history_item.dart';
 import 'package:antares_wallet/services/api/mock_api.dart';
 import 'package:injectable/injectable.dart';
-import 'package:intl/intl.dart';
 import 'package:observable_ish/observable_ish.dart';
 import 'package:stacked/stacked.dart';
 
