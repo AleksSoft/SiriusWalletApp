@@ -32,7 +32,7 @@ class SettingsViewModel extends BaseViewModel {
   bool get phraseComplete => wordsMatch && _confirmKeyWords.length == 12;
 
   void initialise() {
-    runBusyFuture(_repository.loadSettings());
+    _repository.loadSettings().whenComplete(() => notifyListeners());
   }
 
   void updateBaseAsset(AssetData assetData) {

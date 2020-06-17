@@ -1,6 +1,8 @@
+import 'package:antares_wallet/app/routers/router.gr.dart';
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:antares_wallet/ui/views/select_asset/select_asset_view_model.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:search_page/search_page.dart';
@@ -103,7 +105,7 @@ class _AssetTile extends StatelessWidget {
               color: AppColors.accent,
             )
           : SizedBox.shrink(),
-      onTap: () => Navigator.of(context).pop(asset),
+      onTap: () => ExtendedNavigator.ofRouter<Router>().pop(asset),
     );
   }
 }

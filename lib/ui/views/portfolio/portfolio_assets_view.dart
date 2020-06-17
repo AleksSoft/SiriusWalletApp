@@ -1,6 +1,5 @@
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
-import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -83,94 +82,48 @@ class _PortfolioCategoryBlock
     extends ViewModelWidget<PortfolioAssetsViewModel> {
   final CategoryData category;
 
-  const _PortfolioCategoryBlock(this.category);
+  _PortfolioCategoryBlock(this.category) : super(reactive: false);
 
   @override
-  Widget build(BuildContext context, PortfolioAssetsViewModel model) {
+  Widget build(context, model) {
     final titleTheme = Theme.of(context).textTheme.headline5.copyWith(
           fontFamily: 'Akrobat',
           fontWeight: FontWeight.w700,
         );
-    final assets = model.getAssetsByCategoryId(category.categoryId);
-    return ExpandableNotifier(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 16.0,
-              top: 16.0,
-              right: 16.0,
-              bottom: 8.0,
-            ),
-            child: Text(
-              category.categoryName,
-              overflow: TextOverflow.ellipsis,
-              style: titleTheme,
-              maxLines: 2,
-            ),
-          ),
-          Divider(height: 1.0, color: AppColors.secondary.withOpacity(0.2)),
-          Expandable(
-            collapsed: _buildCollapsed(assets),
-            expanded: _buildExpanded(assets),
-          ),
-          Builder(
-            builder: (context) {
-              var con = ExpandableController.of(context);
-              return assets.length <= 3
-                  ? SizedBox.shrink()
-                  : CupertinoButton(
-                      onPressed: () => con.toggle(),
-                      child: Text(
-                        con.expanded
-                            ? 'show_less'.tr()
-                            : 'show_more'.tr(
-                                args: [assets.sublist(3).length.toString()],
-                              ),
-                      ),
-                    );
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCollapsed(List<AssetData> assets) {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: assets.length <= 3 ? assets.length : 3,
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
-      itemBuilder: (context, index) => Column(
-        children: [
-          _buildListTile(assets[index]),
-          Divider(height: 1.0, color: AppColors.secondary.withOpacity(0.2)),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildExpanded(List<AssetData> assets) {
+    final assets = model.getCategoryAssets(category.categoryId);
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _buildCollapsed(assets),
-        Container(
-          color: AppColors.secondary.withOpacity(0.1),
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: assets.sublist(3).length,
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            itemBuilder: (context, index) => Column(
-              children: [
-                _buildListTile(assets.sublist(3)[index]),
-                Divider(
-                  height: 1.0,
-                  color: AppColors.secondary.withOpacity(0.2),
-                ),
-              ],
-            ),
+        Padding(
+          padding: const EdgeInsets.only(
+            left: 16.0,
+            top: 16.0,
+            right: 16.0,
+            bottom: 8.0,
           ),
+          child: Text(
+            category.categoryName,
+            overflow: TextOverflow.ellipsis,
+            style: titleTheme,
+            maxLines: 2,
+          ),
+        ),
+        Divider(height: 1.0, color: AppColors.secondary.withOpacity(0.2)),
+        Column(children: assets.map((e) => _buildListTile(e)).toList()),
+        AnimatedSwitcher(
+          duration: Duration(microseconds: 300),
+          child: model.showExpandButton(category.categoryId)
+              ? CupertinoButton(
+                  onPressed: () => model.toggleExpand(category.categoryId),
+                  child: Text(
+                    model.isExpanded(category.categoryId)
+                        ? 'show_less'.tr()
+                        : 'show_more'.tr(
+                            args: [model.moreCount(category.categoryId)],
+                          ),
+                  ),
+                )
+              : SizedBox.shrink(),
         ),
       ],
     );
@@ -178,38 +131,47 @@ class _PortfolioCategoryBlock
 
   Widget _buildListTile(AssetData asset) {
     return Builder(
-      builder: (BuildContext context) {
-        return ListTile(
-          onTap: () {},
-          contentPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 4.0),
-          leading: Image.asset(
-            'assets/images/logo_lykke.png',
-            height: 24.0,
-            width: 24.0,
-          ),
-          title: Text(
-            asset.displayName,
-            style: Theme.of(context).textTheme.subtitle1.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-          ),
-          trailing: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                '${asset.symbol} 0,00',
+      builder: (context) {
+        return Column(
+          children: [
+            ListTile(
+              onTap: () {},
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+              leading: Image.asset(
+                'assets/images/logo_lykke.png',
+                height: 24.0,
+                width: 24.0,
+              ),
+              title: Text(
+                asset.displayName,
                 style: Theme.of(context).textTheme.subtitle1.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
               ),
-              SizedBox(height: 8.0),
-              Text(
-                'USD 0,00',
-                style: Theme.of(context).textTheme.caption,
-              )
-            ],
-          ),
+              trailing: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    '${asset.symbol} 0,00',
+                    style: Theme.of(context).textTheme.subtitle1.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                  SizedBox(height: 8.0),
+                  Text(
+                    'USD 0,00',
+                    style: Theme.of(context).textTheme.caption,
+                  )
+                ],
+              ),
+            ),
+            Divider(
+              height: 1.0,
+              color: AppColors.secondary.withOpacity(0.2),
+            ),
+          ],
         );
       },
     );

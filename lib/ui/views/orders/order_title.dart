@@ -1,25 +1,27 @@
+import 'dart:math';
+
 import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class OrderTile extends StatelessWidget {
   final bool completed;
+  final dynamic item;
 
   const OrderTile({
     this.completed = false,
+    this.item,
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final textStyle = Theme.of(context).textTheme.button;
-    return Slidable(
-      enabled: !completed,
-      actionPane: SlidableDrawerActionPane(),
-      child: Column(
-        children: [
-          Container(
+    return Column(
+      children: [
+        Dismissible(
+          key: Key(item),
+          child: Container(
             margin: EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
             padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
             child: Row(
@@ -138,26 +140,13 @@ class OrderTile extends StatelessWidget {
               ],
             ),
           ),
-          Divider(
-            height: 1.0,
-            color: AppColors.secondary.withOpacity(0.2),
-            indent: 16.0,
-            endIndent: 16.0,
-          ),
-        ],
-      ),
-      secondaryActions: <Widget>[
-        IconSlideAction(
-          caption: 'Edit',
-          color: AppColors.accent,
-          icon: Icons.edit,
-          onTap: () {},
+          onDismissed: (direction) {},
         ),
-        IconSlideAction(
-          caption: 'Cancel',
-          color: AppColors.red,
-          icon: Icons.close,
-          onTap: () {},
+        Divider(
+          height: 1.0,
+          color: AppColors.secondary.withOpacity(0.2),
+          indent: 16.0,
+          endIndent: 16.0,
         ),
       ],
     );

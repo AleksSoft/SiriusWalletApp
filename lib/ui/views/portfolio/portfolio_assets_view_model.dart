@@ -1,21 +1,43 @@
 import 'package:antares_wallet/app/locator.dart';
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
-import 'package:antares_wallet/services/api/mock_api.dart';
+import 'package:antares_wallet/services/repositories/asset_dictionary_repository.dart';
 import 'package:stacked/stacked.dart';
 
 class PortfolioAssetsViewModel extends BaseViewModel {
-  final MockApiService _api = locator<MockApiService>();
+  final _repository = locator<AssetDictionaryRepository>();
 
-  AssetDictionaryData _assetDictionary = AssetDictionaryData();
+  List<String> _expandedCategoryIds = List();
 
-  List<CategoryData> get categoryList => _assetDictionary.categoryList;
+  List<CategoryData> get categoryList => _repository.categoryList;
 
-  Future initialise() async {
-    _assetDictionary = await runBusyFuture(_api.fetchAssetDictionary());
+  void initialise() {
+    _repository.loadAssetDictionary().whenComplete(() => notifyListeners());
   }
 
-  List<AssetData> getAssetsByCategoryId(String categoryId) =>
-      _assetDictionary.assetList
-          .where((asset) => asset.categoryId == categoryId)
-          .toList();
+  List<AssetData> getCategoryAssets(String categoryId) {
+    var list = _repository.assetMap[categoryId] ?? List();
+    return isExpanded(categoryId)
+        ? list
+        : list.sublist(0, list.length <= 3 ? list.length : 3);
+  }
+
+  void toggleExpand(String categoryId) {
+    isExpanded(categoryId)
+        ? _expandedCategoryIds.remove(categoryId)
+        : _expandedCategoryIds.add(categoryId);
+    notifyListeners();
+  }
+
+  bool isExpanded(String categoryId) =>
+      _expandedCategoryIds.contains(categoryId);
+
+  bool showExpandButton(String categoryId) {
+    var list = _repository.assetMap[categoryId] ?? List();
+    return list.length > 3;
+  }
+
+  String moreCount(String categoryId) {
+    var list = _repository.assetMap[categoryId] ?? List();
+    return (list.length - 3).toString();
+  }
 }

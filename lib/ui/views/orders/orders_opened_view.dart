@@ -12,32 +12,22 @@ class OrdersOpenedView extends StatelessWidget {
     return ViewModelBuilder<OrdersOpenedViewModel>.nonReactive(
       viewModelBuilder: () => OrdersOpenedViewModel(),
       onModelReady: (model) => model.initialise(),
-      builder: (_, model, __) {
+      builder: (_, __, ___) {
         return Container(
           alignment: Alignment.topCenter,
-          child: AnimatedSwitcher(
-            duration: Duration(milliseconds: 300),
-            child: model.isBusy
-                ? Center(
-                    child: NothingView(
-                      header: 'No open orders yet',
-                      message: 'Your orders will appear here once placed.',
-                    ),
-                  )
-                : Column(
-                    children: [
-                      OrdersOpenedFilterView(),
-                      ListView(
-                        shrinkWrap: true,
-                        children: [
-                          OrderTile(),
-                          OrderTile(),
-                          OrderTile(),
-                          OrderTile(),
-                        ],
-                      ),
-                    ],
-                  ),
+          child: Column(
+            children: [
+              OrdersOpenedFilterView(),
+              ListView(
+                shrinkWrap: true,
+                children: [
+                  OrderTile(),
+                  OrderTile(),
+                  OrderTile(),
+                  OrderTile(),
+                ],
+              ),
+            ],
           ),
         );
       },
