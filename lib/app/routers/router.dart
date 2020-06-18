@@ -1,4 +1,5 @@
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
+import 'package:antares_wallet/ui/views/asset_info/asset_info_view.dart';
 import 'package:antares_wallet/ui/views/more/backup/backup_confirm_key_view.dart';
 import 'package:antares_wallet/ui/views/more/backup/backup_copy_key_view.dart';
 import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_choose_doc.dart';
@@ -34,4 +35,5 @@ class $Router {
   UpgradeAccountDocView upgradeAccountDocRoute;
   UpgradeAccountQuestView upgradeAccountQuestRoute;
   UpgradeAccountResultView upgradeAccountResultRoute;
+  AssetInfoView assetInfoRoute;
 }

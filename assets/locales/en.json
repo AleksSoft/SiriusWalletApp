@@ -69,6 +69,12 @@
   "hint_please_select": "Please select..",
   "msg_have_everything": "We have everything we need!",
   "in_review": "In review",
+  "n_h": {
+    "zero": "{}h",
+    "one": "{}h",
+    "many": "{}h",
+    "other": "{}h"
+  },
   "h_left": {
     "zero": "{}h left",
     "one": "{}h left",
@@ -105,6 +111,9 @@
     "many": "{} weeks",
     "other": "{} weeks"
   },
+  "week": "Week",
+  "month": "Month",
+  "year": "Year",
   "time_from": "Time from",
   "time_to": "Time to",
   "display_trans": "Display transactions",
@@ -114,6 +123,8 @@
   "assets": "Assets",
   "select_single": "Select single",
   "amount": "Amount",
+  "price": "Price",
+  "total": "Total",
   "status": "Status",
   "trans_hash": "Transaction hash",
   "date": "Date",
@@ -124,5 +135,12 @@
   "language": "Language",
   "choose_language": "Choose anguage",
   "ru": "Russian",
-  "en": "English"
+  "en": "English",
+  "asset_details": "Asset Details",
+  "asset_info": "Asset info",
+  "trades": "Trades",
+  "transfers": "Transfers",
+  "asset_pairs": "Asset pairs",
+  "see_all": "See all",
+  "search": "Search"
 }

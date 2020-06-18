@@ -10,10 +10,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class AntaresApp extends StatelessWidget {
-  final FirebaseAnalytics _analytics;
-
-  AntaresApp(this._analytics);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -31,7 +27,9 @@ class AntaresApp extends StatelessWidget {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       navigatorKey: locator<NavigationService>().navigatorKey,
-      navigatorObservers: [FirebaseAnalyticsObserver(analytics: _analytics)],
+      navigatorObservers: [
+        FirebaseAnalyticsObserver(analytics: FirebaseAnalytics()),
+      ],
       onGenerateRoute: Router().onGenerateRoute,
       home: ExtendedNavigator<Router>(router: Router()),
     );

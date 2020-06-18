@@ -1,5 +1,6 @@
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
+import 'package:antares_wallet/ui/widgets/asset_list_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -19,8 +20,8 @@ class PortfolioAssetsTabView extends StatelessWidget {
           padding: EdgeInsets.only(bottom: 16.0),
           shrinkWrap: true,
           children: [
-            PortfolioAssetsHeader(),
-            PortfolioCategoryBlockList(),
+            _PortfolioAssetsHeader(),
+            _PortfolioCategoryBlockList(),
           ],
         );
       },
@@ -28,7 +29,7 @@ class PortfolioAssetsTabView extends StatelessWidget {
   }
 }
 
-class PortfolioAssetsHeader extends ViewModelWidget<PortfolioAssetsViewModel> {
+class _PortfolioAssetsHeader extends ViewModelWidget<PortfolioAssetsViewModel> {
   @override
   Widget build(BuildContext context, PortfolioAssetsViewModel model) {
     final titleTheme = Theme.of(context).textTheme.headline5.copyWith(
@@ -57,9 +58,9 @@ class PortfolioAssetsHeader extends ViewModelWidget<PortfolioAssetsViewModel> {
   }
 }
 
-class PortfolioCategoryBlockList
+class _PortfolioCategoryBlockList
     extends ViewModelWidget<PortfolioAssetsViewModel> {
-  const PortfolioCategoryBlockList({
+  const _PortfolioCategoryBlockList({
     Key key,
   }) : super(key: key);
 
@@ -82,7 +83,7 @@ class _PortfolioCategoryBlock
     extends ViewModelWidget<PortfolioAssetsViewModel> {
   final CategoryData category;
 
-  _PortfolioCategoryBlock(this.category);
+  _PortfolioCategoryBlock(this.category) : super(reactive: true);
 
   @override
   Widget build(context, model) {
@@ -109,7 +110,11 @@ class _PortfolioCategoryBlock
           ),
         ),
         Divider(height: 1.0, color: AppColors.secondary.withOpacity(0.2)),
-        Column(children: assets.map((e) => _buildListTile(e)).toList()),
+        Column(
+          children: assets
+              .map((e) => AssetListTile(e, onTap: () => model.openAssetInfo(e)))
+              .toList(),
+        ),
         AnimatedSwitcher(
           duration: Duration(microseconds: 300),
           child: model.showExpandButton(category.categoryId)
@@ -126,54 +131,6 @@ class _PortfolioCategoryBlock
               : SizedBox.shrink(),
         ),
       ],
-    );
-  }
-
-  Widget _buildListTile(AssetData asset) {
-    return Builder(
-      builder: (context) {
-        return Column(
-          children: [
-            ListTile(
-              onTap: () {},
-              contentPadding:
-                  EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-              leading: Image.asset(
-                'assets/images/logo_lykke.png',
-                height: 24.0,
-                width: 24.0,
-              ),
-              title: Text(
-                asset.displayName,
-                style: Theme.of(context).textTheme.subtitle1.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-              ),
-              trailing: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    '${asset.symbol} 0,00',
-                    style: Theme.of(context).textTheme.subtitle1.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                  ),
-                  SizedBox(height: 8.0),
-                  Text(
-                    'USD 0,00',
-                    style: Theme.of(context).textTheme.caption,
-                  )
-                ],
-              ),
-            ),
-            Divider(
-              height: 1.0,
-              color: AppColors.secondary.withOpacity(0.2),
-            ),
-          ],
-        );
-      },
     );
   }
 }

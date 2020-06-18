@@ -69,6 +69,12 @@
   "hint_please_select": "Please select..",
   "msg_have_everything": "У нас есть всё, что нужно!",
   "in_review": "В обработке",
+  "n_h": {
+    "zero": "{}h",
+    "one": "{}h",
+    "many": "{}h",
+    "other": "{}h"
+  },
   "h_left": {
     "zero": "{}ч осталось",
     "one": "{}ч осталcя",
@@ -105,6 +111,9 @@
     "many": "{} нд",
     "other": "{} нд"
   },
+  "week": "Week",
+  "month": "Month",
+  "year": "Year",
   "time_from": "От",
   "time_to": "До",
   "display_trans": "Показывать транзакции",
@@ -114,6 +123,8 @@
   "assets": "Ассеты",
   "select_single": "Выбрать один",
   "amount": "Сумма",
+  "price": "Цена",
+  "total": "Всего",
   "status": "Статус",
   "trans_hash": "Хэш транзакции",
   "date": "Дата",
@@ -124,5 +135,12 @@
   "language": "Язык",
   "choose_language": "Выберите язык",
   "ru": "Русский",
-  "en": "Английский"
+  "en": "Английский",
+  "asset_details": "Детали ассета",
+  "asset_info": "Ассет инфо",
+  "trades": "Сделки",
+  "transfers": "Переводы",
+  "asset_pairs": "Пары ассетов",
+  "see_all": "Увидеть все",
+  "search": "Поиск"
 }

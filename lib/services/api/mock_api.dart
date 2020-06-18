@@ -1,5 +1,6 @@
 import 'package:antares_wallet/models/account_data.dart';
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
+import 'package:antares_wallet/models/asset_pair_data.dart';
 import 'package:antares_wallet/models/personal_data.dart';
 import 'package:antares_wallet/models/portfolio_history_item.dart';
 import 'package:antares_wallet/models/support.dart';
@@ -265,5 +266,56 @@ class MockApiService {
     return AssetDictionaryData()
       ..assetList = assetList
       ..categoryList = categoryList;
+  }
+
+  Future<AssetData> fetchBaseAsset() async {
+    return (await fetchAssetDictionary())
+        .assetList
+        .firstWhere((e) => e.id == '12');
+  }
+
+  Future<List<AssetPairData>> fetchAssetPairs() async {
+    return [
+      AssetPairData(
+        mainAssetName: 'USD',
+        mainAssetSymbol: 'USD',
+        secAssetSymbol: 'CHF',
+        mainAssetImgUrl: lykkeIconUrl,
+        mainPrice: 0.95018,
+        basePrice: 0.99,
+        volume: 15.43,
+        change: -0.07,
+      ),
+      AssetPairData(
+        mainAssetName: 'EUR',
+        mainAssetSymbol: 'EUR',
+        secAssetSymbol: 'CHF',
+        mainAssetImgUrl: lykkeIconUrl,
+        mainPrice: 1.06964,
+        basePrice: 1.12,
+        volume: 601.42,
+        change: 0.01,
+      ),
+      AssetPairData(
+        mainAssetName: 'Bitcoin',
+        mainAssetSymbol: 'BTC',
+        secAssetSymbol: 'CHF',
+        mainAssetImgUrl: lykkeIconUrl,
+        mainPrice: 8999.353,
+        basePrice: 9440.01,
+        volume: 1.68,
+        change: 1.11,
+      ),
+      AssetPairData(
+        mainAssetName: 'Ethereum',
+        mainAssetSymbol: 'ETH',
+        secAssetSymbol: 'CHF',
+        mainAssetImgUrl: lykkeIconUrl,
+        mainPrice: 222.00,
+        basePrice: 232.87,
+        volume: 4.59,
+        change: 1.83,
+      ),
+    ];
   }
 }

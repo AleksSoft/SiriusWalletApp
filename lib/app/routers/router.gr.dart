@@ -17,6 +17,7 @@ import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_choose_doc.
 import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_doc.dart';
 import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_quest.dart';
 import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_result.dart';
+import 'package:antares_wallet/ui/views/asset_info/asset_info_view.dart';
 
 abstract class Routes {
   static const rootRoute = '/';
@@ -29,6 +30,7 @@ abstract class Routes {
   static const upgradeAccountDocRoute = '/upgrade-account-doc-route';
   static const upgradeAccountQuestRoute = '/upgrade-account-quest-route';
   static const upgradeAccountResultRoute = '/upgrade-account-result-route';
+  static const assetInfoRoute = '/asset-info-route';
   static const all = {
     rootRoute,
     selectAssetRoute,
@@ -39,6 +41,7 @@ abstract class Routes {
     upgradeAccountDocRoute,
     upgradeAccountQuestRoute,
     upgradeAccountResultRoute,
+    assetInfoRoute,
   };
 }
 
@@ -110,6 +113,16 @@ class Router extends RouterBase {
           builder: (context) => UpgradeAccountResultView(),
           settings: settings,
         );
+      case Routes.assetInfoRoute:
+        if (hasInvalidArgs<AssetInfoViewArguments>(args, isRequired: true)) {
+          return misTypedArgsRoute<AssetInfoViewArguments>(args);
+        }
+        final typedArgs = args as AssetInfoViewArguments;
+        return MaterialPageRoute<dynamic>(
+          builder: (context) =>
+              AssetInfoView(typedArgs.asset, key: typedArgs.key),
+          settings: settings,
+        );
       default:
         return unknownRoutePage(settings.name);
     }
@@ -130,4 +143,11 @@ class SelectAssetViewArguments {
 class UpgradeAccountDocViewArguments {
   final DocType docType;
   UpgradeAccountDocViewArguments({@required this.docType});
+}
+
+//AssetInfoView arguments holder class
+class AssetInfoViewArguments {
+  final AssetData asset;
+  final Key key;
+  AssetInfoViewArguments({@required this.asset, this.key});
 }

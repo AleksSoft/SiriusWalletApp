@@ -1,10 +1,12 @@
 import 'package:antares_wallet/app/locator.dart';
+import 'package:antares_wallet/app/routers/router.gr.dart';
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
-import 'package:antares_wallet/services/repositories/asset_dictionary_repository.dart';
+import 'package:antares_wallet/services/repositories/asset_repository.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:stacked/stacked.dart';
 
 class PortfolioAssetsViewModel extends BaseViewModel {
-  final _repository = locator<AssetDictionaryRepository>();
+  final _repository = locator<AssetRepository>();
 
   List<String> _expandedCategoryIds = List();
 
@@ -39,5 +41,12 @@ class PortfolioAssetsViewModel extends BaseViewModel {
   String moreCount(String categoryId) {
     var list = _repository.assetMap[categoryId] ?? List();
     return (list.length - 3).toString();
+  }
+
+  void openAssetInfo(AssetData asset) {
+    ExtendedNavigator.ofRouter<Router>().pushNamed(
+      Routes.assetInfoRoute,
+      arguments: AssetInfoViewArguments(asset: asset),
+    );
   }
 }
