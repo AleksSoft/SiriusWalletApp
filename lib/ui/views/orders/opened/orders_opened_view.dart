@@ -1,5 +1,7 @@
 import 'package:antares_wallet/ui/common/app_colors.dart';
-import 'package:antares_wallet/ui/views/orders/widgets/order_title.dart';
+import 'package:antares_wallet/ui/views/orders/history/orders_history_view.dart';
+import 'package:antares_wallet/ui/widgets/order_title.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -11,20 +13,21 @@ class OrdersOpenedView extends StatelessWidget {
     return ViewModelBuilder<OrdersOpenedViewModel>.nonReactive(
       viewModelBuilder: () => OrdersOpenedViewModel(),
       onModelReady: (model) => model.initialise(),
-      builder: (_, __, ___) {
+      builder: (_, model, ___) {
         return Container(
           alignment: Alignment.topCenter,
           child: Column(
             children: [
-              OrdersOpenedFilterView(),
+              OrdersListHeaderView(),
               ListView(
                 shrinkWrap: true,
-                children: [
-                  OrderTile(),
-                  OrderTile(),
-                  OrderTile(),
-                  OrderTile(),
-                ],
+                children: model.orderList
+                    .map((order) => OrderTile(
+                          data: order,
+                          dismissible: true,
+                          onDismissed: () => model.cancelOrder(order.id),
+                        ))
+                    .toList(),
               ),
             ],
           ),
@@ -34,45 +37,50 @@ class OrdersOpenedView extends StatelessWidget {
   }
 }
 
-class OrdersOpenedFilterView extends StatelessWidget {
-  const OrdersOpenedFilterView({
-    Key key,
-  }) : super(key: key);
+// class OrdersListHeaderView extends StatelessWidget {
+//   const OrdersListHeaderView({
+//     Key key,
+//   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: SizedBox(
-            height: 40.0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Name / Date',
-                  style: Theme.of(context).textTheme.button.copyWith(
-                        color: AppColors.secondary,
-                      ),
-                ),
-                Text(
-                  'Cancel all',
-                  style: Theme.of(context).textTheme.button.copyWith(
-                        color: AppColors.secondary,
-                      ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Divider(
-          color: AppColors.secondary.withOpacity(0.2),
-          height: 1,
-        ),
-      ],
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.center,
+//       mainAxisAlignment: MainAxisAlignment.start,
+//       children: [
+//         Padding(
+//           padding: const EdgeInsets.symmetric(horizontal: 16.0),
+//           child: SizedBox(
+//             height: 40.0,
+//             child: Row(
+//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//               children: [
+//                 Text(
+//                   'Name / Date',
+//                   style: Theme.of(context).textTheme.button.copyWith(
+//                         color: AppColors.secondary,
+//                       ),
+//                 ),
+//                 CupertinoButton(
+//                   onPressed: null,
+//                   minSize: 40.0,
+//                   padding: const EdgeInsets.all(0.0),
+//                   child: Text(
+//                     'Cancel all',
+//                     style: Theme.of(context).textTheme.button.copyWith(
+//                           color: AppColors.secondary,
+//                         ),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ),
+//         Divider(
+//           color: AppColors.secondary.withOpacity(0.2),
+//           height: 1,
+//         ),
+//       ],
+//     );
+//   }
+// }

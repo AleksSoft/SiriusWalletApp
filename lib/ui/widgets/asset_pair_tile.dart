@@ -2,6 +2,8 @@ import 'package:antares_wallet/models/asset_pair_data.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:flutter/material.dart';
 
+import 'asset_pair_rich_text.dart';
+
 class AssetPairTile extends StatelessWidget {
   final AssetPairData data;
   final bool showTitle;
@@ -46,23 +48,9 @@ class AssetPairTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  RichText(
-                    text: TextSpan(
-                      style: textStyleButton.copyWith(
-                        fontSize: 14.0,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: data.mainAssetSymbol,
-                          style: textStyleButton.copyWith(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        TextSpan(text: ' / '),
-                        TextSpan(text: data.secAssetSymbol),
-                      ],
-                    ),
+                  PairRichText(
+                    symbol1: data.mainAssetSymbol,
+                    symbol2: data.secAssetSymbol,
                   ),
                   Text(
                     'Vol ${data.volume}',

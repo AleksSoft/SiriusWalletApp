@@ -1,6 +1,7 @@
 import 'package:antares_wallet/models/account_data.dart';
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/models/asset_pair_data.dart';
+import 'package:antares_wallet/models/order_data.dart';
 import 'package:antares_wallet/models/personal_data.dart';
 import 'package:antares_wallet/models/portfolio_history_item.dart';
 import 'package:antares_wallet/models/support.dart';
@@ -315,6 +316,115 @@ class MockApiService {
         basePrice: 232.87,
         volume: 4.59,
         change: 1.83,
+      ),
+    ];
+  }
+
+  List<OrderData> fetchOpenedOrders() {
+    return [
+      OrderData(
+        mainAssetSymbol: 'USD',
+        secAssetSymbol: 'CHF',
+        date: '3.6.2020 17:55',
+        avgPrice: 0.986,
+        price: 0.97684,
+        filled: 19,
+        amount: 22,
+        cancelled: false,
+        id: 1,
+      ),
+      OrderData(
+        mainAssetSymbol: 'USD',
+        secAssetSymbol: 'CHF',
+        date: '3.6.2020 17:55',
+        avgPrice: 0.986,
+        price: 0.97684,
+        filled: 16,
+        amount: 22,
+        cancelled: false,
+        id: 2,
+      ),
+      OrderData(
+        mainAssetSymbol: 'USD',
+        secAssetSymbol: 'CHF',
+        date: '3.6.2020 17:55',
+        avgPrice: 0.986,
+        price: 0.97684,
+        filled: 20,
+        amount: 22,
+        cancelled: false,
+        id: 3,
+      ),
+      OrderData(
+        mainAssetSymbol: 'USD',
+        secAssetSymbol: 'CHF',
+        date: '3.6.2020 17:55',
+        avgPrice: 0.986,
+        price: 0.97684,
+        filled: 20,
+        amount: 22,
+        cancelled: false,
+        id: 4,
+      ),
+      OrderData(
+        mainAssetSymbol: 'USD',
+        secAssetSymbol: 'CHF',
+        date: '3.6.2020 17:55',
+        avgPrice: 0.986,
+        price: 0.97684,
+        filled: 20,
+        amount: 22,
+        cancelled: false,
+        id: 5,
+      ),
+    ];
+  }
+
+  List<OrderData> fetchHistoryOrders() {
+    return [
+      OrderData(
+        mainAssetSymbol: 'USD',
+        secAssetSymbol: 'CHF',
+        date: '3.6.2020 17:55',
+        avgPrice: 0.986,
+        price: 0.97684,
+        filled: 22,
+        amount: 22,
+        cancelled: false,
+        id: 6,
+      ),
+      OrderData(
+        mainAssetSymbol: 'USD',
+        secAssetSymbol: 'CHF',
+        date: '3.6.2020 17:55',
+        avgPrice: 0.986,
+        price: 0.97684,
+        filled: 22,
+        amount: 22,
+        cancelled: false,
+        id: 7,
+      ),
+      OrderData(
+        mainAssetSymbol: 'USD',
+        secAssetSymbol: 'CHF',
+        date: '3.6.2020 17:55',
+        avgPrice: 0,
+        price: 0.97684,
+        filled: 0,
+        amount: 22,
+        cancelled: true,
+        id: 8,
+      ),
+      OrderData(
+        mainAssetSymbol: 'USD',
+        secAssetSymbol: 'CHF',
+        date: '3.6.2020 17:55',
+        avgPrice: 0,
+        price: 0.97684,
+        filled: 0,
+        amount: 22,
+        cancelled: true,
+        id: 9,
       ),
     ];
   }

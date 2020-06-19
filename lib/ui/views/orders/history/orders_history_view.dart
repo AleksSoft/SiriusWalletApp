@@ -1,5 +1,5 @@
-import 'package:antares_wallet/ui/views/orders/widgets/order_title.dart';
-import 'package:antares_wallet/ui/widgets/nothing_view.dart';
+import 'package:antares_wallet/ui/common/app_colors.dart';
+import 'package:antares_wallet/ui/widgets/order_title.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -12,29 +12,78 @@ class OrdersHistoryView extends StatelessWidget {
       viewModelBuilder: () => OrdersHistoryViewModel(),
       onModelReady: (model) => model.initialise(),
       builder: (context, OrdersHistoryViewModel model, child) {
-        return Container(
-          alignment: Alignment.topCenter,
-          child: AnimatedSwitcher(
-            duration: Duration(milliseconds: 300),
-            child: model.isBusy
-                ? Center(
-                    child: NothingView(
-                      header: 'No history yet',
-                      message: 'Your history will appear here.',
-                    ),
-                  )
-                : ListView(
-                    shrinkWrap: true,
-                    children: [
-                      OrderTile(completed: true),
-                      OrderTile(completed: true),
-                      OrderTile(completed: true),
-                      OrderTile(completed: true),
-                    ],
-                  ),
-          ),
+        return Column(
+          children: [
+            OrdersListHeaderView(),
+            ListView(
+              shrinkWrap: true,
+              children: model.orderList
+                  .map((order) => OrderTile(data: order, dismissible: false))
+                  .toList(),
+            ),
+          ],
         );
       },
+    );
+  }
+}
+
+class OrdersListHeaderView extends StatelessWidget {
+  const OrdersListHeaderView({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final textStyle = Theme.of(context).textTheme.button.copyWith(
+          color: AppColors.secondary,
+          fontSize: 12.0,
+        );
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Divider(
+          color: AppColors.secondary.withOpacity(0.4),
+          height: 1,
+          indent: 16.0,
+          endIndent: 16.0,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: SizedBox(
+            height: 40.0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  flex: 5,
+                  fit: FlexFit.tight,
+                  child: Text('Pair', style: textStyle),
+                ),
+                Flexible(
+                  flex: 3,
+                  fit: FlexFit.tight,
+                  child: Text('Avg./Price', style: textStyle),
+                ),
+                Flexible(
+                  flex: 3,
+                  fit: FlexFit.tight,
+                  child: Text(
+                    'Filled/Amount',
+                    style: textStyle,
+                    textAlign: TextAlign.right,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Divider(
+          color: AppColors.secondary.withOpacity(0.4),
+          height: 1,
+          indent: 16.0,
+          endIndent: 16.0,
+        ),
+      ],
     );
   }
 }

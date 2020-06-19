@@ -4,14 +4,15 @@
 // InjectableConfigGenerator
 // **************************************************************************
 
-import 'package:antares_wallet/services/blockchain_service.dart';
 import 'package:antares_wallet/services/repositories/asset_repository.dart';
+import 'package:antares_wallet/services/blockchain_service.dart';
 import 'package:antares_wallet/services/third_party_services_module.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:antares_wallet/services/api/grpc_client_singleton.dart';
 import 'package:antares_wallet/services/isalive_service.dart';
 import 'package:antares_wallet/services/key_store_service.dart';
 import 'package:antares_wallet/services/api/mock_api.dart';
+import 'package:antares_wallet/services/repositories/order_repository.dart';
 import 'package:antares_wallet/services/repositories/portfolio_history_repository.dart';
 import 'package:antares_wallet/services/repositories/profile_repository.dart';
 import 'package:antares_wallet/services/repositories/settings_repository.dart';
@@ -29,6 +30,7 @@ void $initGetIt(GetIt g, {String environment}) {
   g.registerLazySingleton<MockApiService>(() => MockApiService());
   g.registerLazySingleton<NavigationService>(
       () => thirdPartyServicesModule.navigationService);
+  g.registerLazySingleton<OrderRepository>(() => OrderRepository());
   g.registerLazySingleton<PortfolioHistoryRepository>(
       () => PortfolioHistoryRepository());
   g.registerLazySingleton<ProfileRepository>(() => ProfileRepository());
