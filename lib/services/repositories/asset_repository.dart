@@ -50,7 +50,7 @@ class AssetRepository {
     }
   }
 
-  Future<void> loadAssetPairs(AssetData asset) async {
+  Future<List<AssetPairData>> loadAssetPairs(AssetData asset) async {
     await loadAllAssetPairs();
     return _assetPairList
         .where((e) =>

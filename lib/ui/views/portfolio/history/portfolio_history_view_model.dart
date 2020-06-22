@@ -1,17 +1,19 @@
-import 'package:antares_wallet/models/portfolio_history_item.dart';
+import 'package:antares_wallet/models/transaction_details.dart';
 import 'package:antares_wallet/app/locator.dart';
 import 'package:antares_wallet/services/repositories/portfolio_history_repository.dart';
 import 'package:stacked/stacked.dart';
 
-class PortfolioHistoryViewModel extends ReactiveViewModel {
+class PortfolioHistoryViewModel extends ReactiveViewModel
+    implements Initialisable {
   final _repository = locator<PortfolioHistoryRepository>();
 
   bool _filterOpened = false;
 
   bool get filterOpened => _filterOpened;
 
-  List<PortfolioHistoryItem> get historyItems => _repository.items;
+  List<TransactionDetails> get historyItems => _repository.items;
 
+  @override
   void initialise() {
     runBusyFuture(_repository.loadHistory());
   }

@@ -1,6 +1,6 @@
 import 'package:antares_wallet/app/locator.dart';
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
-import 'package:antares_wallet/models/portfolio_history_item.dart';
+import 'package:antares_wallet/models/transaction_details.dart';
 import 'package:antares_wallet/services/api/mock_api.dart';
 import 'package:injectable/injectable.dart';
 import 'package:observable_ish/observable_ish.dart';
@@ -14,15 +14,15 @@ enum TransactionTypeFilter { all, deposit, withdraw }
 class PortfolioHistoryRepository with ReactiveServiceMixin {
   final _api = locator<MockApiService>();
 
-  List<PortfolioHistoryItem> _historyItems = List();
+  List<TransactionDetails> _historyItems = List();
 
   RxValue<_HistoryFilter> _filter =
       RxValue<_HistoryFilter>(initial: _HistoryFilter.initial());
 
   _HistoryFilter get filter => _filter.value;
 
-  List<PortfolioHistoryItem> get items {
-    List<PortfolioHistoryItem> filtered = _historyItems;
+  List<TransactionDetails> get items {
+    List<TransactionDetails> filtered = _historyItems;
     filtered.sort((a, b) => a.timestamp.compareTo(b.timestamp));
     filtered = _historyItems
         .where((i) => filter.byTransactionType(i))
@@ -110,7 +110,7 @@ class _HistoryFilter {
         this._timeFrom = 0,
         this._timeTo = DateTime.now().millisecondsSinceEpoch;
 
-  bool byPeriod(PortfolioHistoryItem item) {
+  bool byPeriod(TransactionDetails item) {
     switch (this.period) {
       case PeriodFilter.all:
         return true;
@@ -123,7 +123,7 @@ class _HistoryFilter {
     }
   }
 
-  bool byTransactionType(PortfolioHistoryItem item) {
+  bool byTransactionType(TransactionDetails item) {
     if (this.transactionType == TransactionTypeFilter.all) return true;
     switch (item.transactionType) {
       case TransactionType.deposit:
@@ -135,7 +135,7 @@ class _HistoryFilter {
     }
   }
 
-  bool byAsset(PortfolioHistoryItem item) {
+  bool byAsset(TransactionDetails item) {
     return this.asset == null || this.asset.symbol == item.asset.symbol;
   }
 

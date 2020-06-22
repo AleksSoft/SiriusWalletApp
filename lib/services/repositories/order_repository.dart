@@ -27,6 +27,15 @@ class OrderRepository {
     }
   }
 
+  Future<List<OrderData>> getOrdersBySymbol(String symbol) async {
+    await loadHistoryOrders();
+    return _openedOrders
+        .where((element) =>
+            element.secAssetSymbol == symbol ||
+            element.mainAssetSymbol == symbol)
+        .toList();
+  }
+
   cancelOrder(int orderId) {
     OrderData order = _openedOrders.firstWhere((e) => e.id == orderId);
     if (order != null) {

@@ -18,6 +18,8 @@ import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_doc.dart';
 import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_quest.dart';
 import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_result.dart';
 import 'package:antares_wallet/ui/views/asset_info/asset_info_view.dart';
+import 'package:antares_wallet/ui/views/portfolio/transaction_details_view.dart';
+import 'package:antares_wallet/models/transaction_details.dart';
 
 abstract class Routes {
   static const rootRoute = '/';
@@ -31,6 +33,7 @@ abstract class Routes {
   static const upgradeAccountQuestRoute = '/upgrade-account-quest-route';
   static const upgradeAccountResultRoute = '/upgrade-account-result-route';
   static const assetInfoRoute = '/asset-info-route';
+  static const transactionDetailsRoute = '/transaction-details-route';
   static const all = {
     rootRoute,
     selectAssetRoute,
@@ -42,6 +45,7 @@ abstract class Routes {
     upgradeAccountQuestRoute,
     upgradeAccountResultRoute,
     assetInfoRoute,
+    transactionDetailsRoute,
   };
 }
 
@@ -123,6 +127,17 @@ class Router extends RouterBase {
               AssetInfoView(typedArgs.asset, key: typedArgs.key),
           settings: settings,
         );
+      case Routes.transactionDetailsRoute:
+        if (hasInvalidArgs<TransactionDetailsViewArguments>(args,
+            isRequired: true)) {
+          return misTypedArgsRoute<TransactionDetailsViewArguments>(args);
+        }
+        final typedArgs = args as TransactionDetailsViewArguments;
+        return MaterialPageRoute<dynamic>(
+          builder: (context) => TransactionDetailsView(typedArgs.details),
+          settings: settings,
+          fullscreenDialog: true,
+        );
       default:
         return unknownRoutePage(settings.name);
     }
@@ -150,4 +165,10 @@ class AssetInfoViewArguments {
   final AssetData asset;
   final Key key;
   AssetInfoViewArguments({@required this.asset, this.key});
+}
+
+//TransactionDetailsView arguments holder class
+class TransactionDetailsViewArguments {
+  final TransactionDetails details;
+  TransactionDetailsViewArguments({@required this.details});
 }

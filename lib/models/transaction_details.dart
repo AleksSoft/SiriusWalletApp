@@ -6,7 +6,7 @@ import 'asset_dictionary_data.dart';
 
 enum TransactionType { deposit, withdraw }
 
-class PortfolioHistoryItem extends BaseModel<PortfolioHistoryItem> {
+class TransactionDetails extends BaseModel<TransactionDetails> {
   AssetData asset;
   String type = '';
   String status = '';
@@ -23,7 +23,7 @@ class PortfolioHistoryItem extends BaseModel<PortfolioHistoryItem> {
       );
 
   @override
-  PortfolioHistoryItem fromJson(Map<String, dynamic> json) {
+  TransactionDetails fromJson(Map<String, dynamic> json) {
     asset = AssetData().fromJson(json['asset']);
     type = json['type'];
     status = json['status'];

@@ -3,7 +3,7 @@ import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/models/asset_pair_data.dart';
 import 'package:antares_wallet/models/order_data.dart';
 import 'package:antares_wallet/models/personal_data.dart';
-import 'package:antares_wallet/models/portfolio_history_item.dart';
+import 'package:antares_wallet/models/transaction_details.dart';
 import 'package:antares_wallet/models/support.dart';
 import 'package:injectable/injectable.dart';
 
@@ -44,11 +44,11 @@ class MockApiService {
       ..currency = 'EUR';
   }
 
-  Future<List<PortfolioHistoryItem>> fetchPortfolioHistry() async {
+  Future<List<TransactionDetails>> fetchPortfolioHistry() async {
     AssetDictionaryData assetDictionary = await fetchAssetDictionary();
-    List<PortfolioHistoryItem> items = new List();
-    items.addAll(<PortfolioHistoryItem>[
-      PortfolioHistoryItem()
+    List<TransactionDetails> items = new List();
+    items.addAll(<TransactionDetails>[
+      TransactionDetails()
         ..asset = assetDictionary.assetList.firstWhere(
           (asset) => asset.id == '3',
         )
@@ -65,7 +65,7 @@ class MockApiService {
         ]
         ..transactionType = TransactionType.withdraw
         ..transactionHash = this.hashCode,
-      PortfolioHistoryItem()
+      TransactionDetails()
         ..asset = assetDictionary.assetList.firstWhere(
           (asset) => asset.id == '5',
         )
@@ -85,7 +85,7 @@ class MockApiService {
         ]
         ..transactionType = TransactionType.withdraw
         ..transactionHash = this.hashCode,
-      PortfolioHistoryItem()
+      TransactionDetails()
         ..asset = assetDictionary.assetList.firstWhere(
           (asset) => asset.id == '6',
         )
@@ -109,10 +109,10 @@ class MockApiService {
     return items;
   }
 
-  Future<List<PortfolioHistoryItem>> updatePortfolioHistory() async {
-    List<PortfolioHistoryItem> items = await fetchPortfolioHistry();
+  Future<List<TransactionDetails>> updatePortfolioHistory() async {
+    List<TransactionDetails> items = await fetchPortfolioHistry();
     AssetDictionaryData assetDictionary = await fetchAssetDictionary();
-    items.add(PortfolioHistoryItem()
+    items.add(TransactionDetails()
       ..asset = assetDictionary.assetList.firstWhere(
         (asset) => asset.id == '9',
       )

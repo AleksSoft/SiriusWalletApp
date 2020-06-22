@@ -1,9 +1,9 @@
 import 'package:antares_wallet/app/routers/exchange_nested_router.gr.dart';
 import 'package:antares_wallet/app/routers/more_nested_router.gr.dart';
-import 'package:antares_wallet/app/routers/portfolio_nested_router.gr.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:antares_wallet/ui/views/home/home_view.dart';
 import 'package:antares_wallet/ui/views/orders/orders_view.dart';
+import 'package:antares_wallet/ui/views/portfolio/portfolio_page.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
@@ -29,9 +29,7 @@ class RootView extends StatelessWidget {
             index: model.currentIndex,
             children: [
               HomeView(),
-              ExtendedNavigator<PortfolioNestedRouter>(
-                router: PortfolioNestedRouter(),
-              ),
+              PortfolioView(),
               ExtendedNavigator<ExchangeNestedRouter>(
                 router: ExchangeNestedRouter(),
               ),

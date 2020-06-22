@@ -1,5 +1,5 @@
-import 'package:antares_wallet/ui/views/orders/history/orders_history_view.dart';
 import 'package:antares_wallet/ui/widgets/order_title.dart';
+import 'package:antares_wallet/ui/widgets/orders_list_header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -35,51 +35,3 @@ class OrdersOpenedView extends StatelessWidget {
     );
   }
 }
-
-// class OrdersListHeaderView extends StatelessWidget {
-//   const OrdersListHeaderView({
-//     Key key,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.center,
-//       mainAxisAlignment: MainAxisAlignment.start,
-//       children: [
-//         Padding(
-//           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-//           child: SizedBox(
-//             height: 40.0,
-//             child: Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//               children: [
-//                 Text(
-//                   'Name / Date',
-//                   style: Theme.of(context).textTheme.button.copyWith(
-//                         color: AppColors.secondary,
-//                       ),
-//                 ),
-//                 CupertinoButton(
-//                   onPressed: null,
-//                   minSize: 40.0,
-//                   padding: const EdgeInsets.all(0.0),
-//                   child: Text(
-//                     'Cancel all',
-//                     style: Theme.of(context).textTheme.button.copyWith(
-//                           color: AppColors.secondary,
-//                         ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//         Divider(
-//           color: AppColors.secondary.withOpacity(0.2),
-//           height: 1,
-//         ),
-//       ],
-//     );
-//   }
-// }
