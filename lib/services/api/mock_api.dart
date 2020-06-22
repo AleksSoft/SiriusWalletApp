@@ -331,6 +331,7 @@ class MockApiService {
         filled: 19,
         amount: 22,
         cancelled: false,
+        isSelling: true,
         id: 1,
       ),
       OrderData(
@@ -342,6 +343,7 @@ class MockApiService {
         filled: 16,
         amount: 22,
         cancelled: false,
+        isSelling: true,
         id: 2,
       ),
       OrderData(
@@ -353,6 +355,7 @@ class MockApiService {
         filled: 20,
         amount: 22,
         cancelled: false,
+        isSelling: false,
         id: 3,
       ),
       OrderData(
@@ -364,6 +367,7 @@ class MockApiService {
         filled: 20,
         amount: 22,
         cancelled: false,
+        isSelling: false,
         id: 4,
       ),
       OrderData(
@@ -375,6 +379,7 @@ class MockApiService {
         filled: 20,
         amount: 22,
         cancelled: false,
+        isSelling: true,
         id: 5,
       ),
     ];
@@ -391,6 +396,7 @@ class MockApiService {
         filled: 22,
         amount: 22,
         cancelled: false,
+        isSelling: false,
         id: 6,
       ),
       OrderData(
@@ -402,6 +408,7 @@ class MockApiService {
         filled: 22,
         amount: 22,
         cancelled: false,
+        isSelling: true,
         id: 7,
       ),
       OrderData(
@@ -413,6 +420,7 @@ class MockApiService {
         filled: 0,
         amount: 22,
         cancelled: true,
+        isSelling: false,
         id: 8,
       ),
       OrderData(
@@ -424,6 +432,7 @@ class MockApiService {
         filled: 0,
         amount: 22,
         cancelled: true,
+        isSelling: true,
         id: 9,
       ),
     ];

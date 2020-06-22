@@ -4,6 +4,7 @@ import 'package:antares_wallet/app/routers/portfolio_nested_router.gr.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:antares_wallet/ui/views/home/home_view.dart';
 import 'package:antares_wallet/ui/views/orders/orders_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,7 @@ class RootView extends StatelessWidget {
                 icon: Icon(Icons.home, color: Colors.black),
                 activeIcon: Icon(Icons.home, color: AppColors.accent),
                 title: Text(
-                  'Home',
+                  'home'.tr(),
                   style: model.isSelected(0) ? textStyleSelected : textStyle,
                 ),
               ),
@@ -59,7 +60,7 @@ class RootView extends StatelessWidget {
                 activeIcon:
                     Icon(Icons.account_balance_wallet, color: AppColors.accent),
                 title: Text(
-                  'Portfolio',
+                  'portfolio'.tr(),
                   style: model.isSelected(1) ? textStyleSelected : textStyle,
                 ),
               ),
@@ -67,7 +68,7 @@ class RootView extends StatelessWidget {
                 icon: Icon(Icons.import_export, color: Colors.black),
                 activeIcon: Icon(Icons.import_export, color: AppColors.accent),
                 title: Text(
-                  'Exchange',
+                  'exchange'.tr(),
                   style: model.isSelected(2) ? textStyleSelected : textStyle,
                 ),
               ),
@@ -76,7 +77,7 @@ class RootView extends StatelessWidget {
                 activeIcon:
                     Icon(Icons.check_circle_outline, color: AppColors.accent),
                 title: Text(
-                  'Orders',
+                  'orders'.tr(),
                   style: model.isSelected(3) ? textStyleSelected : textStyle,
                 ),
               ),
@@ -84,7 +85,7 @@ class RootView extends StatelessWidget {
                 icon: Icon(Icons.menu, color: Colors.black),
                 activeIcon: Icon(Icons.menu, color: AppColors.accent),
                 title: Text(
-                  'More',
+                  'more'.tr(),
                   style: model.isSelected(4) ? textStyleSelected : textStyle,
                 ),
               ),

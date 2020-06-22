@@ -1,4 +1,3 @@
-import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:antares_wallet/ui/views/orders/history/orders_history_view.dart';
 import 'package:antares_wallet/ui/widgets/order_title.dart';
 import 'package:flutter/cupertino.dart';

@@ -69,10 +69,32 @@ class OrderTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    PairRichText(
-                      symbol1: data.mainAssetSymbol,
-                      symbol2: data.secAssetSymbol,
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: [
+                        PairRichText(
+                          symbol1: data.mainAssetSymbol,
+                          symbol2: data.secAssetSymbol,
+                        ),
+                        SizedBox(width: 8.0),
+                        Visibility(
+                          visible: !data.cancelled,
+                          child: Text(
+                            data.isSelling ? 'SELL' : 'BUY',
+                            style: textStyleButton.copyWith(
+                              fontSize: 10.0,
+                              fontWeight: FontWeight.w600,
+                              color: data.isSelling
+                                  ? AppColors.red
+                                  : AppColors.green,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
+                    SizedBox(height: 4.0),
                     Text(
                       data.date,
                       style: textStyleButton.copyWith(
@@ -94,6 +116,7 @@ class OrderTile extends StatelessWidget {
                       data.cancelled ? '--' : data.avgPrice.toString(),
                       style: textStyleButton.copyWith(fontSize: 16.0),
                     ),
+                    SizedBox(height: 4.0),
                     Text(
                       data.price.toString(),
                       style: textStyleButton.copyWith(
@@ -116,6 +139,7 @@ class OrderTile extends StatelessWidget {
                       textAlign: TextAlign.right,
                       style: textStyleButton.copyWith(fontSize: 16.0),
                     ),
+                    SizedBox(height: 4.0),
                     Text(
                       data.amount.toString(),
                       textAlign: TextAlign.right,

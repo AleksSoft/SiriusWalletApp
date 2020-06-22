@@ -9,6 +9,7 @@ class OrderData extends BaseModel {
   double filled;
   double amount;
   bool cancelled;
+  bool isSelling;
   int id;
 
   OrderData({
@@ -20,6 +21,7 @@ class OrderData extends BaseModel {
     this.filled,
     this.amount,
     this.cancelled,
+    this.isSelling,
     this.id,
   });
 
@@ -33,6 +35,7 @@ class OrderData extends BaseModel {
     filled = json['filled'];
     amount = json['amount'];
     cancelled = json['cancelled'];
+    isSelling = json['isSelling'];
     id = json['id'];
     return this;
   }
@@ -48,6 +51,7 @@ class OrderData extends BaseModel {
     data['filled'] = this.filled;
     data['amount'] = this.amount;
     data['cancelled'] = this.cancelled;
+    data['isSelling'] = this.isSelling;
     data['id'] = this.id;
     return data;
   }
@@ -62,6 +66,7 @@ class OrderData extends BaseModel {
         filled,
         amount,
         cancelled,
+        isSelling,
         id,
       ];
 }
