@@ -1,0 +1,5 @@
+// to generate routes run this:
+flutter pub run build_runner build --delete-conflicting-outputs
+
+// to generate code from proto file run this:
+protoc --dart_out=grpc:PATH_TO_GENERATED -Iprotos PATH_TO_PROTO/NAME.proto

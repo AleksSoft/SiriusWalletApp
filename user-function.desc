@@ -1,0 +1,38 @@
+
+·
+google/protobuf/empty.protogoogle.protobuf"
+EmptyBv
+com.google.protobufB
+EmptyProtoPZ'github.com/golang/protobuf/ptypes/emptyø¢GPBªGoogle.Protobuf.WellKnownTypesbproto3
+•
+asset_dictionary.protoantaresWalletgoogle/protobuf/empty.proto"†
+AssetsDictionaryResponse<
+
+categories (2.antaresWallet.AssetCategoryR
+categories,
+assets (2.antaresWallet.AssetRassets"M
+AssetCategory
+id (	Rid
+name (	Rname
+iconUrl (	RiconUrl"Ù
+Asset
+id (	Rid
+name (	Rname
+symbol (	Rsymbol
+accuracy (Raccuracy
+	kycNeeded (R	kycNeeded
+
+categoryId (	R
+categoryId 
+cardDeposit (RcardDeposit"
+swiftDeposit (RswiftDeposit,
+blockchainDeposit	 (RblockchainDeposit(
+swiftWithdrawal
+ (RswiftWithdrawal,
+forwardWithdrawal (RforwardWithdrawal2
+crosschainWithdrawal (RcrosschainWithdrawal
+	isTrusted (R	isTrusted
+	canBeBase (R	canBeBase2a
+
+ApiServiceS
+AssetsDictionary.google.protobuf.Empty'.antaresWallet.AssetsDictionaryResponseB0ª-Swisschain.Lykke.AntaresWalletApi.ApiContractbproto3
