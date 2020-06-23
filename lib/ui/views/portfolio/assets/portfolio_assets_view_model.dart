@@ -5,15 +5,18 @@ import 'package:antares_wallet/services/repositories/asset_repository.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:stacked/stacked.dart';
 
-class PortfolioAssetsViewModel extends BaseViewModel {
+class PortfolioAssetsViewModel extends BaseViewModel implements Initialisable {
   final _repository = locator<AssetRepository>();
 
   List<String> _expandedCategoryIds = List();
 
   List<CategoryData> get categoryList => _repository.categoryList;
 
+  @override
   void initialise() {
-    _repository.loadAssetDictionary().whenComplete(() => notifyListeners());
+    runBusyFuture(_repository.loadAssetDictionary());
+    // _repository.loadTestAssetDictionary();
+    notifyListeners();
   }
 
   List<AssetData> getCategoryAssets(String categoryId) {

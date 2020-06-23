@@ -17,7 +17,6 @@ const htmlBase64 =
 class ChartView extends StatefulWidget {
   ChartView({
     Key key,
-    this.option,
     this.extraScript = '',
     this.onMessage,
     this.theme,
@@ -25,7 +24,6 @@ class ChartView extends StatefulWidget {
     this.onLoad,
   }) : super(key: key);
 
-  final String option;
   final String extraScript;
   final void Function(String message) onMessage;
   final String theme;
@@ -39,17 +37,9 @@ class ChartView extends StatefulWidget {
 class _ChartViewState extends State<ChartView> {
   WebViewController _controller;
 
-  String _currentOption;
-
   // --- FIX_BLINK ---
   double _opacity = Platform.isAndroid ? 0.0 : 1.0;
   // --- FIX_BLINK ---
-
-  @override
-  void initState() {
-    super.initState();
-    _currentOption = widget.option;
-  }
 
   void init() async {
     await _controller?.evaluateJavascript('''
@@ -61,12 +51,13 @@ class _ChartViewState extends State<ChartView> {
           "interval": "D",
           "timezone": "Etc/UTC",
           "theme": "light",
-          "style": "1",
+          "style": "3",
           "locale": "en",
           "enable_publishing": false,
           "hide_top_toolbar": true,
           "hide_symbol": true,
-          "hide_legend": false,
+          "hide_legend": true,
+          "hideideas": true,
           "overrides": {
             "paneProperties.background": "#ffffff",
             "mainSeriesProperties.style": 0,
@@ -82,24 +73,6 @@ class _ChartViewState extends State<ChartView> {
     if (widget.onLoad != null) {
       widget.onLoad();
     }
-  }
-
-  void update(String preOption) async {
-    _currentOption = widget.option;
-    if (_currentOption != preOption) {
-      await _controller?.evaluateJavascript('''
-        try {
-          
-        } catch(e) {
-        }
-      ''');
-    }
-  }
-
-  @override
-  void didUpdateWidget(ChartView oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    update(oldWidget.option);
   }
 
   // --- FIX_IOS_LEAK ---

@@ -1,5 +1,6 @@
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/models/asset_pair_data.dart';
+import 'package:antares_wallet/ui/charts/traidngview/chart_view.dart';
 import 'package:antares_wallet/ui/widgets/asset_list_tile.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_list_title_view.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
@@ -27,11 +28,9 @@ class AssetInfoDetailsView extends StatelessWidget {
       builder: (_, model, ___) => ListView(
         children: [
           AssetListTile(model.asset),
-          const SizedBox(height: 16.0),
-          Container(
-            height: 200.0,
-            alignment: Alignment.center,
-            child: Text('Chart placeholder'),
+          SizedBox(
+            height: 250,
+            child: ChartView(captureAllGestures: true),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 16.0),

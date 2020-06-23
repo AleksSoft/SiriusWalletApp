@@ -10,7 +10,7 @@ import 'dart:async' as $async;
 import 'dart:core' as $core;
 
 import 'package:grpc/service_api.dart' as $grpc;
-import 'google/protobuf/empty.pb.dart' as $0;
+import 'protobuf/empty.pb.dart' as $0;
 import 'asset_dictionary.pb.dart' as $1;
 export 'asset_dictionary.pb.dart';
 

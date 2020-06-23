@@ -13,7 +13,6 @@ class PortfolioAssetsTabView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<PortfolioAssetsViewModel>.nonReactive(
       viewModelBuilder: () => PortfolioAssetsViewModel(),
-      onModelReady: (model) => model.initialise(),
       builder: (_, __, ___) {
         return ListView(
           physics: BouncingScrollPhysics(),
