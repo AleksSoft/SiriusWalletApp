@@ -23,7 +23,7 @@ class AssetPairTile extends StatelessWidget {
     final textStyleButton = Theme.of(context).textTheme.button;
 
     return InkWell(
-      onTap: () => ExtendedNavigator.of(context).pushNamed(
+      onTap: () => ExtendedNavigator.ofRouter<Router>().pushNamed(
         Routes.pairTradingView,
         arguments: PairTradingViewArguments(data: data),
       ),
