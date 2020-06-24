@@ -4,6 +4,7 @@ import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:antares_wallet/ui/widgets/asset_list_tile.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_list_title_view.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
+import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sparkline/flutter_sparkline.dart';
@@ -25,62 +26,87 @@ class AssetInfoDetailsView extends StatelessWidget {
         );
 
     return ViewModelBuilder<AssetInfoDetailsViewModel>.reactive(
-      viewModelBuilder: () => AssetInfoDetailsViewModel(asset),
-      builder: (_, model, ___) => ListView(
-        children: [
-          AssetListTile(model.asset),
-          const SizedBox(height: 16.0),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              child: model.mockMarkets.isNotEmpty
-                  ? Sparkline(
-                      data: model.mockMarkets.map((e) => e.high).toList(),
-                      lineWidth: 1.0,
-                      fillMode: FillMode.below,
-                      lineColor: AppColors.accent.withOpacity(0.7),
-                      fillGradient: new LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          AppColors.accent.withOpacity(0.2),
-                          AppColors.accent.withOpacity(0.1),
-                        ],
-                      ),
-                    )
-                  : Center(child: CircularProgressIndicator()),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.baseline,
-              textBaseline: TextBaseline.alphabetic,
-              children: [
-                Text('asset_pairs'.tr(), style: titleTheme),
-                CupertinoButton(
-                  child: Text('see_all'.tr()),
-                  onPressed: model.seeAllActive
-                      ? () => _showSearch(context, model)
-                      : null,
+        viewModelBuilder: () => AssetInfoDetailsViewModel(asset),
+        builder: (_, model, ___) {
+          final markets = model.mockMarkets;
+          return ListView(
+            children: [
+              AssetListTile(model.asset),
+              const SizedBox(height: 16.0),
+              ChipsChoice<AssetInfoPeriod>.single(
+                value: model.selectedPeriod,
+                itemConfig: ChipsChoiceItemConfig(
+                  selectedColor: AppColors.accent,
+                  unselectedColor: AppColors.secondary,
+                  showCheckmark: false,
+                  elevation: 3.0,
+                  unselectedBorderOpacity: 0.0,
                 ),
-              ],
-            ),
-          ),
-          AssetPairListHeaderView(),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
-            child: Column(
-              children: model.assetPairsShort
-                  .map((e) => AssetPairTile(data: e))
-                  .toList(),
-            ),
-          ),
-        ],
-      ),
-    );
+                options: ChipsChoiceOption.listFrom<AssetInfoPeriod, String>(
+                  source: AssetInfoPeriod.values
+                      .map((e) => model.getPeriodStr(e))
+                      .toList(),
+                  value: (i, v) => AssetInfoPeriod.values[i],
+                  label: (i, v) => v,
+                ),
+                onChanged: (val) => model.updatePeriod(val),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  child: markets.isNotEmpty
+                      ? Sparkline(
+                          data: markets.map((e) => e.high).toList(),
+                          lineWidth: 1.0,
+                          fallbackHeight: 160,
+                          fillMode: FillMode.below,
+                          lineColor: AppColors.accent.withOpacity(0.7),
+                          fillGradient: new LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              AppColors.accent.withOpacity(0.2),
+                              AppColors.accent.withOpacity(0.1),
+                            ],
+                          ),
+                        )
+                      : Container(
+                          height: 160.0,
+                          alignment: Alignment.center,
+                          child: CircularProgressIndicator(),
+                        ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
+                  children: [
+                    Text('asset_pairs'.tr(), style: titleTheme),
+                    CupertinoButton(
+                      child: Text('see_all'.tr()),
+                      onPressed: model.seeAllActive
+                          ? () => _showSearch(context, model)
+                          : null,
+                    ),
+                  ],
+                ),
+              ),
+              AssetPairListHeaderView(),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+                child: Column(
+                  children: model.assetPairsShort
+                      .map((e) => AssetPairTile(data: e))
+                      .toList(),
+                ),
+              ),
+            ],
+          );
+        });
   }
 
   Future<AssetPairData> _showSearch(

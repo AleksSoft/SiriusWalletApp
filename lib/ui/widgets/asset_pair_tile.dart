@@ -24,19 +24,22 @@ class AssetPairTile extends StatelessWidget {
         SizedBox(height: 8.0),
         Visibility(
           visible: showTitle,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.network(data.mainAssetImgUrl, height: 16.0, width: 16.0),
-              SizedBox(width: 4.0),
-              Text(
-                data.mainAssetName,
-                style: Theme.of(context).textTheme.subtitle2.copyWith(
-                      fontSize: 14.0,
-                      color: Colors.grey[600],
-                    ),
-              ),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 4.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.network(data.mainAssetImgUrl, height: 16.0, width: 16.0),
+                SizedBox(width: 4.0),
+                Text(
+                  data.mainAssetName,
+                  style: Theme.of(context).textTheme.subtitle2.copyWith(
+                        fontSize: 14.0,
+                        color: Colors.grey[600],
+                      ),
+                ),
+              ],
+            ),
           ),
         ),
         Row(
@@ -52,6 +55,7 @@ class AssetPairTile extends StatelessWidget {
                     symbol1: data.mainAssetSymbol,
                     symbol2: data.secAssetSymbol,
                   ),
+                  const SizedBox(height: 4.0),
                   Text(
                     'Vol ${data.volume}',
                     style: textStyleButton.copyWith(
@@ -76,6 +80,7 @@ class AssetPairTile extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
+                  const SizedBox(height: 4.0),
                   Text(
                     '${data.mainAssetSymbol} ${data.mainPrice}',
                     style: textStyleButton.copyWith(
