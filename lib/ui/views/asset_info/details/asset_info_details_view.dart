@@ -1,11 +1,12 @@
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/models/asset_pair_data.dart';
-import 'package:antares_wallet/ui/charts/traidngview/chart_view.dart';
+import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:antares_wallet/ui/widgets/asset_list_tile.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_list_title_view.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sparkline/flutter_sparkline.dart';
 import 'package:search_page/search_page.dart';
 import 'package:stacked/stacked.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -28,9 +29,28 @@ class AssetInfoDetailsView extends StatelessWidget {
       builder: (_, model, ___) => ListView(
         children: [
           AssetListTile(model.asset),
-          SizedBox(
-            height: 250,
-            child: ChartView(captureAllGestures: true),
+          const SizedBox(height: 16.0),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: model.mockMarkets.isNotEmpty
+                  ? Sparkline(
+                      data: model.mockMarkets.map((e) => e.high).toList(),
+                      lineWidth: 1.0,
+                      fillMode: FillMode.below,
+                      lineColor: AppColors.accent.withOpacity(0.7),
+                      fillGradient: new LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          AppColors.accent.withOpacity(0.2),
+                          AppColors.accent.withOpacity(0.1),
+                        ],
+                      ),
+                    )
+                  : Center(child: CircularProgressIndicator()),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 16.0),

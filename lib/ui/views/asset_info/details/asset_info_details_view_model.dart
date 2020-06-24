@@ -1,7 +1,11 @@
+import 'dart:convert' show json;
+
 import 'package:antares_wallet/app/locator.dart';
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/models/asset_pair_data.dart';
+import 'package:antares_wallet/models/market_model.dart';
 import 'package:antares_wallet/services/repositories/asset_repository.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:stacked/stacked.dart';
 
 class AssetInfoDetailsViewModel extends BaseViewModel implements Initialisable {
@@ -9,6 +13,8 @@ class AssetInfoDetailsViewModel extends BaseViewModel implements Initialisable {
   final AssetData _asset;
 
   AssetInfoDetailsViewModel(this._asset);
+
+  List<MarketModel> mockMarkets = List();
 
   List<AssetPairData> _assetPairs = List();
 
@@ -26,5 +32,12 @@ class AssetInfoDetailsViewModel extends BaseViewModel implements Initialisable {
   @override
   void initialise() async {
     _assetPairs = await runBusyFuture(_repository.loadAssetPairs(asset));
+    mockMarkets = (await _loadMarkets()).data;
+    notifyListeners();
+  }
+
+  Future<MarketData> _loadMarkets() async {
+    final market = await rootBundle.loadString('assets/json/market.json');
+    return MarketData.fromJson(json.decode(market));
   }
 }

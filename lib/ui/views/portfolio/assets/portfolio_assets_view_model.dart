@@ -13,9 +13,9 @@ class PortfolioAssetsViewModel extends BaseViewModel implements Initialisable {
   List<CategoryData> get categoryList => _repository.categoryList;
 
   @override
-  void initialise() {
-    runBusyFuture(_repository.loadAssetDictionary());
-    // _repository.loadTestAssetDictionary();
+  void initialise() async {
+    await _repository.loadAssetDictionary();
+    // _repository.loadTestAssetDictionary();s
     notifyListeners();
   }
 
