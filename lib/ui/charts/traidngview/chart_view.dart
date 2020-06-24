@@ -1,5 +1,3 @@
-library flutter_echarts;
-
 // --- FIX_BLINK ---
 import 'dart:io' show Platform;
 
@@ -51,7 +49,7 @@ class _ChartViewState extends State<ChartView> {
           "interval": "D",
           "timezone": "Etc/UTC",
           "theme": "light",
-          "style": "3",
+          "style": "1",
           "locale": "en",
           "enable_publishing": false,
           "hide_top_toolbar": true,

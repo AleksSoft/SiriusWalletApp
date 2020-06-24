@@ -1,4 +1,5 @@
 import 'package:antares_wallet/models/asset_pair_data.dart';
+import 'package:antares_wallet/ui/charts/traidngview/chart_view.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:antares_wallet/ui/common/app_sizes.dart';
 import 'package:antares_wallet/ui/common/app_ui_helpers.dart';
@@ -51,15 +52,13 @@ class PairTradingView extends StatelessWidget {
               AppUiHelpers.vSpaceExtraLarge,
               SizedBox(
                 height: 300,
-                child: AnimatedSwitcher(
-                  duration: Duration(milliseconds: 300),
-                  child: !model.isBusy
-                      ? _Chart(
-                          candlestickData: model.candleData,
-                          xAxisKeys: model.marketsAxis,
-                        )
-                      : CircularProgressIndicator(),
+                child: ChartView(
+                  captureAllGestures: true,
                 ),
+                // child: _Chart(
+                //   candlestickData: model.candleData,
+                //   xAxisKeys: model.marketsAxis,
+                // ),
               ),
               AppUiHelpers.vSpaceExtraLarge,
             ],
