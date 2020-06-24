@@ -33,7 +33,6 @@ class PairTradingView extends StatelessWidget {
                 ],
               ),
             ),
-            elevation: 0.5,
           ),
           body: ListView(
             children: [],

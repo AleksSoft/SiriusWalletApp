@@ -1,6 +1,7 @@
 import 'package:antares_wallet/app/routers/router.gr.dart';
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
+import 'package:antares_wallet/ui/common/app_sizes.dart';
 import 'package:antares_wallet/ui/views/select_asset/select_asset_view_model.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
@@ -35,7 +36,6 @@ class SelectAssetView extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: Text(model.title),
-            elevation: 0.5,
             actions: [_SearchButton()],
           ),
           body: _AssetsList(),
@@ -94,8 +94,8 @@ class _AssetTile extends StatelessWidget {
     return ListTile(
       leading: Image.asset(
         'assets/images/logo_lykke.png',
-        height: 32.0,
-        width: 32.0,
+        height: AppSizes.extraLarge,
+        width: AppSizes.extraLarge,
       ),
       title: Text(asset.displayName),
       subtitle: Text(asset.symbol),

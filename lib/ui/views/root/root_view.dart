@@ -39,55 +39,61 @@ class RootView extends StatelessWidget {
               ),
             ],
           ),
-          bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            currentIndex: model.currentIndex,
-            onTap: (val) => model.updatePage(val),
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            items: [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home, color: Colors.black),
-                activeIcon: Icon(Icons.home, color: AppColors.accent),
-                title: Text(
-                  'home'.tr(),
-                  style: model.isSelected(0) ? textStyleSelected : textStyle,
+          bottomNavigationBar: Container(
+            decoration: BoxDecoration(
+              boxShadow: [BoxShadow(color: AppColors.secondary, blurRadius: 8)],
+            ),
+            child: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              currentIndex: model.currentIndex,
+              onTap: (val) => model.updatePage(val),
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              items: [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home, color: Colors.black),
+                  activeIcon: Icon(Icons.home, color: AppColors.accent),
+                  title: Text(
+                    'home'.tr(),
+                    style: model.isSelected(0) ? textStyleSelected : textStyle,
+                  ),
                 ),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.account_balance_wallet, color: Colors.black),
-                activeIcon:
-                    Icon(Icons.account_balance_wallet, color: AppColors.accent),
-                title: Text(
-                  'portfolio'.tr(),
-                  style: model.isSelected(1) ? textStyleSelected : textStyle,
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.account_balance_wallet, color: Colors.black),
+                  activeIcon: Icon(Icons.account_balance_wallet,
+                      color: AppColors.accent),
+                  title: Text(
+                    'portfolio'.tr(),
+                    style: model.isSelected(1) ? textStyleSelected : textStyle,
+                  ),
                 ),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.import_export, color: Colors.black),
-                activeIcon: Icon(Icons.import_export, color: AppColors.accent),
-                title: Text(
-                  'exchange'.tr(),
-                  style: model.isSelected(2) ? textStyleSelected : textStyle,
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.import_export, color: Colors.black),
+                  activeIcon:
+                      Icon(Icons.import_export, color: AppColors.accent),
+                  title: Text(
+                    'exchange'.tr(),
+                    style: model.isSelected(2) ? textStyleSelected : textStyle,
+                  ),
                 ),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.check_circle_outline, color: Colors.black),
-                activeIcon:
-                    Icon(Icons.check_circle_outline, color: AppColors.accent),
-                title: Text(
-                  'orders'.tr(),
-                  style: model.isSelected(3) ? textStyleSelected : textStyle,
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.check_circle_outline, color: Colors.black),
+                  activeIcon:
+                      Icon(Icons.check_circle_outline, color: AppColors.accent),
+                  title: Text(
+                    'orders'.tr(),
+                    style: model.isSelected(3) ? textStyleSelected : textStyle,
+                  ),
                 ),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.menu, color: Colors.black),
-                activeIcon: Icon(Icons.menu, color: AppColors.accent),
-                title: Text(
-                  'more'.tr(),
-                  style: model.isSelected(4) ? textStyleSelected : textStyle,
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.menu, color: Colors.black),
+                  activeIcon: Icon(Icons.menu, color: AppColors.accent),
+                  title: Text(
+                    'more'.tr(),
+                    style: model.isSelected(4) ? textStyleSelected : textStyle,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },

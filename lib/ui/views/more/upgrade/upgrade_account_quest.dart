@@ -1,5 +1,7 @@
 import 'package:antares_wallet/app/routers/router.gr.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
+import 'package:antares_wallet/ui/common/app_sizes.dart';
+import 'package:antares_wallet/ui/common/app_ui_helpers.dart';
 import 'package:antares_wallet/ui/widgets/default_card.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,20 +25,19 @@ class UpgradeAccountQuestView extends StatelessWidget {
           ],
         ),
         centerTitle: true,
-        elevation: 0.0,
       ),
       body: ListView(
         physics: BouncingScrollPhysics(),
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppSizes.medium),
         shrinkWrap: true,
         children: [
           _Quest1(),
-          SizedBox(height: 8.0),
+          AppUiHelpers.vSpaceSmall,
           DefaultCard(
             blurRadius: 10,
             margin: const EdgeInsets.all(0.0),
             shadowColor: AppColors.accent.withOpacity(0.5),
-            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+            borderRadius: BorderRadius.all(Radius.circular(AppSizes.small)),
             child: CupertinoButton.filled(
               disabledColor: Colors.grey.withOpacity(0.7),
               child: Text('submit'.tr()),
@@ -78,11 +79,13 @@ class _Quest1State extends State<_Quest1> {
     return Builder(
       builder: (BuildContext context) {
         return Container(
-          margin: const EdgeInsets.symmetric(vertical: 8.0),
-          padding: const EdgeInsets.all(16.0),
+          margin: const EdgeInsets.symmetric(vertical: AppSizes.small),
+          padding: const EdgeInsets.all(AppSizes.medium),
           decoration: BoxDecoration(
             color: AppColors.primary,
-            borderRadius: BorderRadius.all(const Radius.circular(8.0)),
+            borderRadius: BorderRadius.all(
+              const Radius.circular(AppSizes.small),
+            ),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -93,7 +96,7 @@ class _Quest1State extends State<_Quest1> {
                       fontWeight: FontWeight.w600,
                     ),
               ),
-              SizedBox(height: 8.0),
+              AppUiHelpers.vSpaceSmall,
               CupertinoSegmentedControl(
                 padding: const EdgeInsets.all(0.0),
                 groupValue: 0,
@@ -114,11 +117,13 @@ class _Quest1State extends State<_Quest1> {
     return Builder(
       builder: (BuildContext context) {
         return Container(
-          margin: const EdgeInsets.symmetric(vertical: 8.0),
-          padding: const EdgeInsets.all(16.0),
+          margin: const EdgeInsets.symmetric(vertical: AppSizes.small),
+          padding: const EdgeInsets.all(AppSizes.medium),
           decoration: BoxDecoration(
             color: AppColors.primary,
-            borderRadius: BorderRadius.all(const Radius.circular(8.0)),
+            borderRadius: BorderRadius.all(
+              const Radius.circular(AppSizes.small),
+            ),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -129,10 +134,10 @@ class _Quest1State extends State<_Quest1> {
                       fontWeight: FontWeight.w600,
                     ),
               ),
-              SizedBox(height: 8.0),
+              AppUiHelpers.vSpaceSmall,
               Divider(height: 1.0),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(AppSizes.small),
                 child: Row(
                   children: [
                     Text('Variant 1'),
@@ -143,7 +148,7 @@ class _Quest1State extends State<_Quest1> {
               ),
               Divider(height: 1.0),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(AppSizes.small),
                 child: Row(
                   children: [
                     Text('Variant 2'),
@@ -154,7 +159,7 @@ class _Quest1State extends State<_Quest1> {
               ),
               Divider(height: 1.0),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(AppSizes.small),
                 child: Row(
                   children: [
                     Text('Variant 3'),
@@ -165,7 +170,7 @@ class _Quest1State extends State<_Quest1> {
               ),
               Divider(height: 1.0),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(AppSizes.small),
                 child: Row(
                   children: [
                     Text('Variant 4'),
@@ -178,7 +183,12 @@ class _Quest1State extends State<_Quest1> {
               Visibility(
                 visible: withText,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
+                  padding: const EdgeInsets.fromLTRB(
+                    AppSizes.small,
+                    AppSizes.small,
+                    AppSizes.small,
+                    0.0,
+                  ),
                   child: TextField(
                     decoration: InputDecoration.collapsed(
                       hintText: 'hint_please_specify'.tr(),
@@ -197,11 +207,13 @@ class _Quest1State extends State<_Quest1> {
     return Builder(
       builder: (BuildContext context) {
         return Container(
-          margin: const EdgeInsets.symmetric(vertical: 8.0),
-          padding: const EdgeInsets.all(16.0),
+          margin: const EdgeInsets.symmetric(vertical: AppSizes.small),
+          padding: const EdgeInsets.all(AppSizes.medium),
           decoration: BoxDecoration(
             color: AppColors.primary,
-            borderRadius: BorderRadius.all(const Radius.circular(8.0)),
+            borderRadius: BorderRadius.all(
+              const Radius.circular(AppSizes.small),
+            ),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -212,9 +224,9 @@ class _Quest1State extends State<_Quest1> {
                       fontWeight: FontWeight.w600,
                     ),
               ),
-              SizedBox(height: 8.0),
+              AppUiHelpers.vSpaceSmall,
               Divider(height: 1.0),
-              SizedBox(height: 8.0),
+              AppUiHelpers.vSpaceSmall,
               TextField(
                 decoration: InputDecoration.collapsed(
                   hintText: 'Current question type...',
@@ -239,11 +251,13 @@ class _Quest1State extends State<_Quest1> {
     return Builder(
       builder: (BuildContext context) {
         return Container(
-          margin: const EdgeInsets.symmetric(vertical: 8.0),
-          padding: const EdgeInsets.all(16.0),
+          margin: const EdgeInsets.symmetric(vertical: AppSizes.small),
+          padding: const EdgeInsets.all(AppSizes.medium),
           decoration: BoxDecoration(
             color: AppColors.primary,
-            borderRadius: BorderRadius.all(const Radius.circular(8.0)),
+            borderRadius: BorderRadius.all(
+              const Radius.circular(AppSizes.small),
+            ),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -254,9 +268,9 @@ class _Quest1State extends State<_Quest1> {
                       fontWeight: FontWeight.w600,
                     ),
               ),
-              SizedBox(height: 8.0),
+              AppUiHelpers.vSpaceSmall,
               Divider(height: 1.0),
-              SizedBox(height: 8.0),
+              AppUiHelpers.vSpaceSmall,
               FormField<String>(
                 builder: (FormFieldState<String> state) {
                   return InputDecorator(

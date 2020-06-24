@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:antares_wallet/app/routers/router.gr.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
+import 'package:antares_wallet/ui/common/app_sizes.dart';
+import 'package:antares_wallet/ui/common/app_ui_helpers.dart';
 import 'package:antares_wallet/ui/widgets/default_card.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
@@ -43,10 +45,12 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
       appBar: AppBar(
         title: Text('upgrade_to'.tr(args: ['Advanced'])),
         centerTitle: true,
-        elevation: 0.0,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 24.0),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSizes.extraLarge,
+          vertical: AppSizes.large,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -57,16 +61,18 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
                   ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 24.0),
+            AppUiHelpers.vSpaceLarge,
             Flexible(
               child: DefaultCard(
-                borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                borderRadius:
+                    const BorderRadius.all(Radius.circular(AppSizes.small)),
                 child: Stack(
                   children: [
                     _image != null
                         ? SizedBox.expand(
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
+                              borderRadius:
+                                  BorderRadius.circular(AppSizes.small),
                               child: Image.file(
                                 _image,
                                 alignment: Alignment.center,
@@ -84,13 +90,14 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
                           child: Container(
                             width: 102,
                             height: 36,
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(AppSizes.small),
                             alignment: Alignment.center,
                             decoration: new BoxDecoration(
                               color: AppColors.primary.withOpacity(0.8),
                               borderRadius: new BorderRadius.only(
-                                topRight: const Radius.circular(8.0),
-                                bottomLeft: const Radius.circular(8.0),
+                                topRight: const Radius.circular(AppSizes.small),
+                                bottomLeft:
+                                    const Radius.circular(AppSizes.small),
                               ),
                             ),
                             child: Row(
@@ -99,7 +106,7 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(Icons.camera_alt),
-                                SizedBox(width: 4.0),
+                                AppUiHelpers.hSpaceExtraSmall,
                                 Text('change'.tr()),
                               ],
                             ),
@@ -115,7 +122,7 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
                             flex: 45,
                             child: Container(
                               margin: const EdgeInsets.symmetric(
-                                horizontal: 32.0,
+                                horizontal: AppSizes.extraLarge,
                               ),
                               alignment: Alignment.bottomCenter,
                               child: Text(
@@ -137,8 +144,8 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
                             flex: 55,
                             child: Container(
                               margin: const EdgeInsets.symmetric(
-                                horizontal: 32.0,
-                                vertical: 16.0,
+                                horizontal: AppSizes.extraLarge,
+                                vertical: AppSizes.medium,
                               ),
                               alignment: Alignment.bottomCenter,
                               child: InkWell(
@@ -173,11 +180,11 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
                 ),
               ),
             ),
-            SizedBox(height: 16.0),
+            AppUiHelpers.vSpaceMedium,
             DefaultCard(
               blurRadius: _image == null ? 0 : 10,
               shadowColor: AppColors.accent.withOpacity(0.5),
-              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              borderRadius: BorderRadius.all(Radius.circular(AppSizes.small)),
               child: CupertinoButton.filled(
                 disabledColor: Colors.grey.withOpacity(0.7),
                 child: Text('submit'.tr()),

@@ -1,6 +1,8 @@
 import 'package:antares_wallet/app/routers/router.gr.dart';
 import 'package:antares_wallet/models/asset_pair_data.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
+import 'package:antares_wallet/ui/common/app_sizes.dart';
+import 'package:antares_wallet/ui/common/app_ui_helpers.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
@@ -28,17 +30,20 @@ class AssetPairTile extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const SizedBox(height: 8.0),
+          AppUiHelpers.vSpaceSmall,
           Visibility(
             visible: showTitle,
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 4.0),
+              padding: const EdgeInsets.only(bottom: AppSizes.extraSmall),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Image.network(data.mainAssetImgUrl,
-                      height: 16.0, width: 16.0),
-                  SizedBox(width: 4.0),
+                  Image.network(
+                    data.mainAssetImgUrl,
+                    height: AppSizes.medium,
+                    width: AppSizes.medium,
+                  ),
+                  AppUiHelpers.hSpaceExtraSmall,
                   Text(
                     data.mainAssetName,
                     style: Theme.of(context).textTheme.subtitle2.copyWith(
@@ -63,7 +68,7 @@ class AssetPairTile extends StatelessWidget {
                       symbol1: data.mainAssetSymbol,
                       symbol2: data.secAssetSymbol,
                     ),
-                    const SizedBox(height: 4.0),
+                    AppUiHelpers.vSpaceExtraSmall,
                     Text(
                       'Vol ${data.volume}',
                       style: textStyleButton.copyWith(
@@ -88,7 +93,7 @@ class AssetPairTile extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(height: 4.0),
+                    AppUiHelpers.vSpaceExtraSmall,
                     Text(
                       '${data.mainAssetSymbol} ${data.mainPrice}',
                       style: textStyleButton.copyWith(
@@ -103,11 +108,16 @@ class AssetPairTile extends StatelessWidget {
                 flex: 1,
                 fit: FlexFit.tight,
                 child: Container(
-                  margin: EdgeInsets.only(left: 8.0, bottom: 16.0),
-                  padding: EdgeInsets.symmetric(vertical: 3.0),
+                  margin: const EdgeInsets.only(
+                    left: AppSizes.small,
+                    bottom: AppSizes.medium,
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: AppSizes.extraSmall,
+                  ),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4.0),
+                    borderRadius: BorderRadius.circular(AppSizes.extraSmall),
                     color: _color.withOpacity(0.2),
                   ),
                   child: Text(
@@ -122,7 +132,7 @@ class AssetPairTile extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 8.0),
+          AppUiHelpers.vSpaceSmall,
           Divider(color: AppColors.secondary.withOpacity(0.4), height: 1),
         ],
       ),

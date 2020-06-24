@@ -1,5 +1,7 @@
 import 'package:antares_wallet/app/routers/router.gr.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
+import 'package:antares_wallet/ui/common/app_sizes.dart';
+import 'package:antares_wallet/ui/common/app_ui_helpers.dart';
 import 'package:antares_wallet/ui/views/more/profile_view_model.dart';
 import 'package:antares_wallet/ui/widgets/default_card.dart';
 import 'package:auto_route/auto_route.dart';
@@ -12,27 +14,31 @@ class UpgradeAccountMainView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-      ),
+      appBar: AppBar(elevation: 0.0),
       body: ViewModelBuilder<ProfileViewModel>.nonReactive(
           viewModelBuilder: () => ProfileViewModel(),
           builder: (_, __, ___) {
             return ListView(
-              padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
+              padding: const EdgeInsets.fromLTRB(
+                AppSizes.medium,
+                AppSizes.small,
+                AppSizes.medium,
+                AppSizes.medium,
+              ),
               shrinkWrap: true,
               physics: BouncingScrollPhysics(),
               children: [
                 _LevelCard(),
-                const SizedBox(height: 32.0),
+                AppUiHelpers.vSpaceExtraLarge,
                 _LevelHeaderView(),
-                const SizedBox(height: 32.0),
+                AppUiHelpers.vSpaceExtraLarge,
                 _ListView(),
-                const SizedBox(height: 32.0),
+                AppUiHelpers.vSpaceExtraLarge,
                 DefaultCard(
                   blurRadius: 10,
                   shadowColor: AppColors.accent.withOpacity(0.5),
-                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  borderRadius:
+                      BorderRadius.all(Radius.circular(AppSizes.small)),
                   child: CupertinoButton.filled(
                     child: Text('upgrade_account'.tr()),
                     onPressed: () =>
@@ -52,7 +58,7 @@ class _LevelCard extends ViewModelWidget<ProfileViewModel> {
   @override
   Widget build(context, model) {
     return DefaultCard(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(AppSizes.medium),
       shadowColor: AppColors.secondary.withOpacity(0.3),
       blurRadius: 10,
       child: Column(
@@ -64,7 +70,7 @@ class _LevelCard extends ViewModelWidget<ProfileViewModel> {
                   fontSize: 10.0,
                 ),
           ),
-          const SizedBox(height: 4.0),
+          AppUiHelpers.vSpaceExtraSmall,
           Text(
             model.accountData.levelStr,
             style: Theme.of(context).textTheme.headline6.copyWith(
@@ -73,7 +79,7 @@ class _LevelCard extends ViewModelWidget<ProfileViewModel> {
           ),
           const Divider(),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            padding: const EdgeInsets.symmetric(vertical: AppSizes.small),
             child: Text('msg_explore_crypto'.tr()),
           ),
         ],
@@ -93,7 +99,7 @@ class _LevelHeaderView extends ViewModelWidget<ProfileViewModel> {
                 fontSize: 10.0,
               ),
         ),
-        const SizedBox(height: 4.0),
+        AppUiHelpers.vSpaceExtraSmall,
         Text(
           'advanced'.tr(),
           style: Theme.of(context).textTheme.headline6.copyWith(
@@ -101,7 +107,7 @@ class _LevelHeaderView extends ViewModelWidget<ProfileViewModel> {
                 color: AppColors.accent,
               ),
         ),
-        const SizedBox(height: 8.0),
+        AppUiHelpers.vSpaceSmall,
         Text(
           'msg_upgrade_deposit_to'.tr(args: ['7500']),
           softWrap: true,
@@ -133,7 +139,7 @@ class _ListView extends StatelessWidget {
 
   Widget _buildRow(String title, {bool checked = false}) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
+      padding: const EdgeInsets.only(bottom: AppSizes.small),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -142,7 +148,7 @@ class _ListView extends StatelessWidget {
             color: checked ? AppColors.accent : AppColors.secondary,
             size: 22.0,
           ),
-          SizedBox(width: 16.0),
+          AppUiHelpers.hSpaceMedium,
           Text(title),
         ],
       ),

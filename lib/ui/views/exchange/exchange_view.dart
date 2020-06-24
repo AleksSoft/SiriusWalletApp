@@ -1,4 +1,5 @@
 import 'package:antares_wallet/ui/common/app_colors.dart';
+import 'package:antares_wallet/ui/common/app_sizes.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_list_title_view.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,6 @@ class ExchangeView extends StatelessWidget {
                 onPressed: () {},
               ),
             ],
-            elevation: 0,
           ),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -36,7 +36,9 @@ class ExchangeView extends StatelessWidget {
               AssetPairListHeaderView(),
               Expanded(
                 child: ListView(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSizes.medium,
+                  ),
                   children: model.assetPairs
                       .map((e) => AssetPairTile(data: e, showTitle: true))
                       .toList(),

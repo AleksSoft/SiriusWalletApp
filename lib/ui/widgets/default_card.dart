@@ -1,3 +1,4 @@
+import 'package:antares_wallet/ui/common/app_sizes.dart';
 import 'package:flutter/material.dart';
 
 class DefaultCard extends StatelessWidget {
@@ -14,10 +15,12 @@ class DefaultCard extends StatelessWidget {
     this.child,
     this.color = Colors.white,
     this.shadowColor,
-    this.blurRadius = 8.0,
+    this.blurRadius = AppSizes.small,
     this.padding = const EdgeInsets.all(0.0),
-    this.margin = const EdgeInsets.all(8.0),
-    this.borderRadius = const BorderRadius.all(Radius.circular(16.0)),
+    this.margin = const EdgeInsets.all(AppSizes.small),
+    this.borderRadius = const BorderRadius.all(
+      Radius.circular(AppSizes.medium),
+    ),
   }) : super(key: key);
 
   @override

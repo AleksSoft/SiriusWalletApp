@@ -1,4 +1,5 @@
 import 'package:antares_wallet/app/routers/router.gr.dart';
+import 'package:antares_wallet/ui/common/app_sizes.dart';
 import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_doc.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,13 +13,12 @@ class UpgradeAccountChooseDocView extends StatelessWidget {
       appBar: AppBar(
         title: Text('upgrade_to'.tr(args: ['Advanced'])),
         centerTitle: true,
-        elevation: 0.0,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.all(AppSizes.large),
             child: Text(
               'msg_select_type_doc'.tr(),
               style: Theme.of(context).textTheme.button.copyWith(
@@ -38,7 +38,8 @@ class UpgradeAccountChooseDocView extends StatelessWidget {
               ),
             ),
           ),
-          Divider(height: 1.0, indent: 16.0, endIndent: 16.0),
+          Divider(
+              height: 1.0, indent: AppSizes.medium, endIndent: AppSizes.medium),
           ListTile(
             title: Text('national_id'.tr()),
             trailing: Icon(CupertinoIcons.forward),
@@ -49,7 +50,8 @@ class UpgradeAccountChooseDocView extends StatelessWidget {
               ),
             ),
           ),
-          Divider(height: 1.0, indent: 16.0, endIndent: 16.0),
+          Divider(
+              height: 1.0, indent: AppSizes.medium, endIndent: AppSizes.medium),
           ListTile(
             title: Text('driving_license'.tr()),
             trailing: Icon(CupertinoIcons.forward),
@@ -60,7 +62,11 @@ class UpgradeAccountChooseDocView extends StatelessWidget {
               ),
             ),
           ),
-          Divider(height: 1.0, indent: 16.0, endIndent: 16.0),
+          Divider(
+            height: 1.0,
+            indent: AppSizes.medium,
+            endIndent: AppSizes.medium,
+          ),
         ],
       ),
     );

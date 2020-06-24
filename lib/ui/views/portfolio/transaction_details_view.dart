@@ -2,6 +2,8 @@ import 'package:antares_wallet/app/locator.dart';
 import 'package:antares_wallet/app/routers/router.gr.dart';
 import 'package:antares_wallet/models/transaction_details.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
+import 'package:antares_wallet/ui/common/app_sizes.dart';
+import 'package:antares_wallet/ui/common/app_ui_helpers.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,7 +21,6 @@ class TransactionDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0.5,
         title: _buildTitleByType(details.transactionType),
       ),
       body: Column(
@@ -36,7 +37,7 @@ class TransactionDetailsView extends StatelessWidget {
                     height: 56.0,
                     width: 56.0,
                   ),
-                  SizedBox(width: 8.0),
+                  AppUiHelpers.hSpaceSmall,
                   Text(
                     details.asset.displayName,
                     style: Theme.of(context).textTheme.headline6.copyWith(
@@ -50,12 +51,12 @@ class TransactionDetailsView extends StatelessWidget {
           Flexible(
             flex: 5,
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(AppSizes.medium),
               child: Column(
                 children: [
                   _buildTile('amount'.tr(), details.amount.toString()),
                   _buildTile('status'.tr(), details.status),
-                  Divider(height: 32.0),
+                  Divider(height: AppSizes.extraLarge),
                   _buildTile(
                     'trans_hash'.tr(),
                     details.transactionHash.toString(),
@@ -100,12 +101,12 @@ class TransactionDetailsView extends StatelessWidget {
               fontSize: 18.0,
             );
         return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          padding: const EdgeInsets.symmetric(vertical: AppSizes.small),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(title, style: titleStyle),
-              SizedBox(width: 16.0),
+              AppUiHelpers.hSpaceMedium,
               Expanded(
                 child: selectable
                     ? SelectableText(
@@ -149,7 +150,7 @@ class TransactionDetailsView extends StatelessWidget {
   _viewExplorer(BuildContext context, List<ExplorerItem> explorerItems) {
     List<Widget> widgets = [
       Text('explorer_links'.tr(), style: Theme.of(context).textTheme.headline5),
-      SizedBox(height: 8.0),
+      AppUiHelpers.vSpaceSmall,
     ]..addAll(explorerItems
         .map((e) => FlatButton(
               onPressed: () {
@@ -169,7 +170,11 @@ class TransactionDetailsView extends StatelessWidget {
       context: context,
       backgroundColor: Colors.transparent,
       builder: (context) => Container(
-        padding: EdgeInsets.only(top: 16.0, left: 8.0, right: 8.0),
+        padding: const EdgeInsets.only(
+          top: AppSizes.medium,
+          left: AppSizes.small,
+          right: AppSizes.small,
+        ),
         height: (60 + 50 * (widgets.length - 2)).toDouble(),
         color: AppColors.primary,
         child: ListView(children: widgets),

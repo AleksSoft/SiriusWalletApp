@@ -1,6 +1,7 @@
 import 'package:antares_wallet/app/routers/more_nested_router.gr.dart';
 import 'package:antares_wallet/services/key_store_service.dart';
 import 'package:antares_wallet/app/locator.dart';
+import 'package:antares_wallet/ui/common/app_sizes.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,6 @@ class MoreView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('more'.tr()),
-        elevation: 0.0,
       ),
       body: ListView(
         physics: BouncingScrollPhysics(),
@@ -48,7 +48,7 @@ class MoreView extends StatelessWidget {
             trailing: Icon(Icons.chevron_right),
           ),
           Container(
-            height: 8.0,
+            height: AppSizes.small,
             color: CupertinoColors.extraLightBackgroundGray,
           ),
           MenuTile(

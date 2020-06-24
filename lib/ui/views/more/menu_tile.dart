@@ -1,3 +1,4 @@
+import 'package:antares_wallet/ui/common/app_sizes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -46,7 +47,7 @@ class MenuTile extends StatelessWidget {
                 ? Divider(
                     height: 0.5,
                     indent: 72.0,
-                    endIndent: 24.0,
+                    endIndent: AppSizes.large,
                   )
                 : SizedBox.shrink(),
           ],
@@ -60,10 +61,10 @@ class MenuTile extends StatelessWidget {
       elevation: 0.0,
       color: color,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(AppSizes.small),
       ),
       child: Padding(
-        padding: EdgeInsets.all(5.0),
+        padding: const EdgeInsets.all(AppSizes.extraSmall),
         child: Icon(icon, color: iconColor, size: 20.0),
       ),
     );

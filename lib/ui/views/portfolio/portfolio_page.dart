@@ -42,7 +42,6 @@ class _PortfolioViewState extends State<PortfolioView>
               Tab(text: 'history'.tr()),
             ],
           ),
-          elevation: 0.5,
         ),
         body: TabBarView(
           children: <Widget>[

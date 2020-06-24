@@ -1,5 +1,6 @@
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
+import 'package:antares_wallet/ui/common/app_sizes.dart';
 import 'package:antares_wallet/ui/widgets/asset_list_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ class PortfolioAssetsTabView extends StatelessWidget {
       builder: (_, __, ___) {
         return ListView(
           physics: BouncingScrollPhysics(),
-          padding: EdgeInsets.only(bottom: 16.0),
+          padding: EdgeInsets.only(bottom: AppSizes.medium),
           shrinkWrap: true,
           children: [
             _PortfolioAssetsHeader(),
@@ -37,7 +38,7 @@ class _PortfolioAssetsHeader extends ViewModelWidget<PortfolioAssetsViewModel> {
         );
     return Container(
       alignment: Alignment.center,
-      padding: EdgeInsets.symmetric(vertical: 16.0),
+      padding: EdgeInsets.symmetric(vertical: AppSizes.medium),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -96,10 +97,10 @@ class _PortfolioCategoryBlock
       children: [
         Padding(
           padding: const EdgeInsets.only(
-            left: 16.0,
-            top: 16.0,
-            right: 16.0,
-            bottom: 8.0,
+            left: AppSizes.medium,
+            top: AppSizes.medium,
+            right: AppSizes.medium,
+            bottom: AppSizes.small,
           ),
           child: Text(
             category.categoryName,

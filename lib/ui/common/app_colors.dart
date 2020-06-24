@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static final Color primary = Colors.white;
-  static final Color accent = CupertinoColors.systemBlue;
-  static final Color secondary = Colors.grey[400];
-  static final Color scaffoldBkg = Colors.white;
-  static final Color green = Colors.green;
-  static final Color red = Colors.red;
-  static final Color dark = Colors.black;
+  static const Color primary = Colors.white;
+  static const Color accent = Colors.blue;
+  static const Color secondary = Colors.grey;
+  static const Color scaffoldBkg = Colors.white;
+  static const Color green = Colors.green;
+  static const Color red = Colors.red;
+  static const Color dark = Colors.black87;
 }

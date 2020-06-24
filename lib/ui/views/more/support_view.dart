@@ -12,7 +12,6 @@ class SupportView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('support'.tr()),
-        elevation: 0.5,
       ),
       body: ListView(
         children: <Widget>[

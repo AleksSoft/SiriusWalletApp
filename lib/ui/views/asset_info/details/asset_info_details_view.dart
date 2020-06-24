@@ -1,6 +1,8 @@
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/models/asset_pair_data.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
+import 'package:antares_wallet/ui/common/app_sizes.dart';
+import 'package:antares_wallet/ui/common/app_ui_helpers.dart';
 import 'package:antares_wallet/ui/widgets/asset_list_tile.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_list_title_view.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
@@ -32,7 +34,7 @@ class AssetInfoDetailsView extends StatelessWidget {
           return ListView(
             children: [
               AssetListTile(model.asset),
-              const SizedBox(height: 16.0),
+              AppUiHelpers.vSpaceMedium,
               ChipsChoice<AssetInfoPeriod>.single(
                 value: model.selectedPeriod,
                 itemConfig: ChipsChoiceItemConfig(
@@ -52,7 +54,8 @@ class AssetInfoDetailsView extends StatelessWidget {
                 onChanged: (val) => model.updatePeriod(val),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: AppSizes.medium),
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
                   child: markets.isNotEmpty
@@ -79,7 +82,7 @@ class AssetInfoDetailsView extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 16.0),
+                padding: const EdgeInsets.only(left: AppSizes.medium),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -97,7 +100,12 @@ class AssetInfoDetailsView extends StatelessWidget {
               ),
               AssetPairListHeaderView(),
               Padding(
-                padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+                padding: const EdgeInsets.fromLTRB(
+                  AppSizes.medium,
+                  0.0,
+                  AppSizes.medium,
+                  AppSizes.medium,
+                ),
                 child: Column(
                   children: model.assetPairsShort
                       .map((e) => AssetPairTile(data: e))
@@ -126,7 +134,7 @@ class AssetInfoDetailsView extends StatelessWidget {
         ],
         builder: (pair) => Padding(
           padding: const EdgeInsets.symmetric(
-            horizontal: 16.0,
+            horizontal: AppSizes.medium,
           ),
           child: AssetPairTile(
             data: pair,

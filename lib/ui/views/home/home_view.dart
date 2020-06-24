@@ -1,4 +1,6 @@
 import 'package:antares_wallet/ui/common/app_colors.dart';
+import 'package:antares_wallet/ui/common/app_sizes.dart';
+import 'package:antares_wallet/ui/common/app_ui_helpers.dart';
 import 'package:antares_wallet/ui/widgets/default_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +14,6 @@ class HomeView extends StatelessWidget {
       appBar: AppBar(
         centerTitle: false,
         title: Text('app_title'.tr()),
-        elevation: 0.5,
       ),
       body: ListView(
         children: [
@@ -21,7 +22,12 @@ class HomeView extends StatelessWidget {
           _LyCIView(),
           _MyLykkeView(),
           Padding(
-            padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
+            padding: EdgeInsets.fromLTRB(
+              AppSizes.medium,
+              AppSizes.small,
+              AppSizes.medium,
+              AppSizes.medium,
+            ),
             child: Text(
               '© 2020 Lykke, Inc.',
               textAlign: TextAlign.center,
@@ -51,9 +57,9 @@ class _AssetsView extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(
-              left: 16.0,
-              right: 16.0,
-              top: 16.0,
+              left: AppSizes.medium,
+              right: AppSizes.medium,
+              top: AppSizes.medium,
             ),
             child: Row(
               textBaseline: TextBaseline.alphabetic,
@@ -81,15 +87,16 @@ class _AssetsView extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: AppSizes.medium),
             child: Text(
               'USD 0.00',
               style: Theme.of(context).textTheme.caption,
             ),
           ),
-          SizedBox(height: 8.0),
+          AppUiHelpers.vSpaceSmall,
           ListTile(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: AppSizes.medium),
             leading: Container(
               width: 28,
               height: 28,
@@ -99,7 +106,7 @@ class _AssetsView extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(30.0)),
                 boxShadow: [
                   BoxShadow(
-                    blurRadius: 8.0,
+                    blurRadius: AppSizes.small,
                     color: AppColors.accent.withOpacity(0.4),
                   ),
                 ],
@@ -107,21 +114,26 @@ class _AssetsView extends StatelessWidget {
               child: Icon(
                 Icons.account_balance_wallet,
                 color: AppColors.primary,
-                size: 16.0,
+                size: AppSizes.medium,
               ),
             ),
             title: Text('portfolio'.tr()),
             trailing: Text(
               'USD 0.00',
               style: TextStyle(
-                fontSize: 16.0,
+                fontSize: AppSizes.medium,
                 fontWeight: FontWeight.w600,
               ),
             ),
           ),
-          Divider(height: 0.5, indent: 16.0, endIndent: 16.0),
+          Divider(
+            height: 0.5,
+            indent: AppSizes.medium,
+            endIndent: AppSizes.medium,
+          ),
           ListTile(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: AppSizes.medium),
             leading: Container(
               width: 28,
               height: 28,
@@ -131,7 +143,7 @@ class _AssetsView extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(30.0)),
                 boxShadow: [
                   BoxShadow(
-                    blurRadius: 8.0,
+                    blurRadius: AppSizes.small,
                     color: Colors.yellow[900].withOpacity(0.4),
                   ),
                 ],
@@ -139,14 +151,14 @@ class _AssetsView extends StatelessWidget {
               child: Icon(
                 Icons.lock,
                 color: AppColors.primary,
-                size: 16.0,
+                size: AppSizes.medium,
               ),
             ),
             title: Text('wallets'.tr()),
             trailing: Text(
               'USD 0.00',
               style: TextStyle(
-                fontSize: 16.0,
+                fontSize: AppSizes.medium,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -156,7 +168,7 @@ class _AssetsView extends StatelessWidget {
             decoration: BoxDecoration(
               color: AppColors.accent,
               borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(16.0),
+                bottom: Radius.circular(AppSizes.medium),
               ),
             ),
             child: Row(
@@ -178,7 +190,7 @@ class _AssetsView extends StatelessWidget {
                           color: AppColors.primary,
                         ),
                       ),
-                      SizedBox(height: 4.0),
+                      AppUiHelpers.vSpaceExtraSmall,
                       Text(
                         'Deposit',
                         style: Theme.of(context).textTheme.button.copyWith(
@@ -189,8 +201,8 @@ class _AssetsView extends StatelessWidget {
                   ),
                 ),
                 VerticalDivider(
-                  indent: 16.0,
-                  endIndent: 16.0,
+                  indent: AppSizes.medium,
+                  endIndent: AppSizes.medium,
                   color: AppColors.primary.withOpacity(0.5),
                 ),
                 CupertinoButton(
@@ -209,7 +221,7 @@ class _AssetsView extends StatelessWidget {
                           color: AppColors.primary,
                         ),
                       ),
-                      SizedBox(height: 4.0),
+                      AppUiHelpers.vSpaceExtraSmall,
                       Text(
                         'Withdraw',
                         style: Theme.of(context).textTheme.button.copyWith(
@@ -220,8 +232,8 @@ class _AssetsView extends StatelessWidget {
                   ),
                 ),
                 VerticalDivider(
-                  indent: 16.0,
-                  endIndent: 16.0,
+                  indent: AppSizes.medium,
+                  endIndent: AppSizes.medium,
                   color: AppColors.primary.withOpacity(0.5),
                 ),
                 CupertinoButton(
@@ -237,7 +249,7 @@ class _AssetsView extends StatelessWidget {
                         size: 18.0,
                         color: AppColors.primary,
                       ),
-                      SizedBox(height: 4.0),
+                      AppUiHelpers.vSpaceExtraSmall,
                       Text(
                         'Support',
                         style: Theme.of(context).textTheme.button.copyWith(
@@ -265,7 +277,7 @@ class _ExchangeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultCard(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppSizes.medium),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -295,24 +307,24 @@ class _ExchangeView extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(height: 16.0),
+            AppUiHelpers.vSpaceLarge,
             SizedBox(
               height: 80.0,
               child: Row(
                 children: [
                   _buildPairContainer(context),
-                  SizedBox(width: 8.0),
+                  AppUiHelpers.vSpaceSmall,
                   _buildPairContainer(context),
                 ],
               ),
             ),
-            SizedBox(height: 8.0),
+            AppUiHelpers.vSpaceSmall,
             SizedBox(
               height: 80.0,
               child: Row(
                 children: [
                   _buildPairContainer(context),
-                  SizedBox(width: 8.0),
+                  AppUiHelpers.vSpaceSmall,
                   _buildPairContainer(context),
                 ],
               ),
@@ -328,10 +340,10 @@ class _ExchangeView extends StatelessWidget {
     return Flexible(
       flex: 1,
       child: Container(
-        padding: EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(AppSizes.small),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          borderRadius: BorderRadius.all(Radius.circular(AppSizes.small)),
           border: Border.all(color: AppColors.secondary.withOpacity(0.2)),
         ),
         child: Column(
@@ -417,20 +429,20 @@ class _LyCIView extends StatelessWidget {
           _buildListTile(context),
           Divider(
             height: 1.0,
-            indent: 16.0,
-            endIndent: 16.0,
+            indent: AppSizes.medium,
+            endIndent: AppSizes.medium,
           ),
           _buildListTile(context),
           Divider(
             height: 1.0,
-            indent: 16.0,
-            endIndent: 16.0,
+            indent: AppSizes.medium,
+            endIndent: AppSizes.medium,
           ),
           _buildListTile(context),
           Divider(
             height: 1.0,
-            indent: 16.0,
-            endIndent: 16.0,
+            indent: AppSizes.medium,
+            endIndent: AppSizes.medium,
           ),
           CupertinoButton(
             onPressed: () {},
@@ -452,10 +464,10 @@ class _LyCIView extends StatelessWidget {
             children: [
               Image.asset(
                 'assets/images/logo_lykke.png',
-                height: 16.0,
-                width: 16.0,
+                height: AppSizes.medium,
+                width: AppSizes.medium,
               ),
-              SizedBox(width: 4.0),
+              AppUiHelpers.hSpaceExtraSmall,
               Text(
                 'LyCI Service Token',
                 style: Theme.of(context).textTheme.subtitle2.copyWith(
@@ -464,7 +476,7 @@ class _LyCIView extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 4.0),
+          AppUiHelpers.vSpaceExtraSmall,
           Text(
             'LYCI 0,00',
             style: Theme.of(context).textTheme.subtitle2.copyWith(
@@ -475,10 +487,10 @@ class _LyCIView extends StatelessWidget {
       ),
       subtitle: Text('USD 0,00'),
       trailing: SizedBox(
-        height: 32.0,
+        height: AppSizes.extraLarge,
         child: CupertinoButton.filled(
-          padding: EdgeInsets.symmetric(horizontal: 32.0),
-          borderRadius: const BorderRadius.all(Radius.circular(24.0)),
+          padding: const EdgeInsets.symmetric(horizontal: AppSizes.extraLarge),
+          borderRadius: const BorderRadius.all(Radius.circular(AppSizes.large)),
           child: Text(
             'Buy now',
             style: Theme.of(context).textTheme.button.copyWith(
@@ -498,7 +510,7 @@ class _LyCIView extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.accent.withOpacity(0.8),
         borderRadius: BorderRadius.vertical(
-          top: Radius.circular(16.0),
+          top: Radius.circular(AppSizes.medium),
         ),
       ),
       alignment: Alignment.center,
@@ -517,7 +529,7 @@ class _LyCIView extends StatelessWidget {
             height: 0.5,
             width: 120,
             color: AppColors.primary,
-            margin: EdgeInsets.all(16.0),
+            margin: const EdgeInsets.all(AppSizes.small),
           ),
           Text(
             'WHAT MATTERS TO YOU',
@@ -542,7 +554,7 @@ class _MyLykkeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultCard(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppSizes.medium),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -554,7 +566,7 @@ class _MyLykkeView extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
             ),
-            SizedBox(height: 8.0),
+            AppUiHelpers.vSpaceLarge,
             Divider(height: 1.0),
             _buildListTile(context),
             Divider(height: 1.0),
@@ -562,7 +574,7 @@ class _MyLykkeView extends StatelessWidget {
             Divider(height: 1.0),
             _buildListTile(context),
             Divider(height: 1.0),
-            SizedBox(height: 16.0),
+            AppUiHelpers.vSpaceLarge,
             CupertinoButton.filled(
               padding: EdgeInsets.all(0.0),
               child: Text('buy_now'.tr()),
@@ -589,10 +601,10 @@ class _MyLykkeView extends StatelessWidget {
         children: [
           Image.asset(
             'assets/images/logo_lykke.png',
-            height: 15.0,
-            width: 15.0,
+            height: AppSizes.medium,
+            width: AppSizes.medium,
           ),
-          SizedBox(width: 4.0),
+          AppUiHelpers.hSpaceExtraSmall,
           Text(
             'LyCI Service Token',
             style: Theme.of(context).textTheme.caption,
@@ -609,7 +621,7 @@ class _MyLykkeView extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
           ),
-          SizedBox(height: 4.0),
+          AppUiHelpers.vSpaceExtraSmall,
           Text(
             'USD 0,00',
             style: Theme.of(context).textTheme.caption,

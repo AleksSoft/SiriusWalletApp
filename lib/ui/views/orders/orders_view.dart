@@ -20,7 +20,6 @@ class OrdersView extends StatelessWidget {
               Tab(text: 'history'.tr()),
             ],
           ),
-          elevation: 0.5,
         ),
         body: TabBarView(
           children: <Widget>[

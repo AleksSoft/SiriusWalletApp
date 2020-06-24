@@ -1,4 +1,6 @@
 import 'package:antares_wallet/app/routers/router.gr.dart';
+import 'package:antares_wallet/ui/common/app_sizes.dart';
+import 'package:antares_wallet/ui/common/app_ui_helpers.dart';
 import 'package:antares_wallet/ui/widgets/default_card.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';
@@ -15,18 +17,17 @@ class BackUpCopyKeyView extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        elevation: 0.0,
         title: Text('back_up'.tr()),
       ),
       body: ViewModelBuilder<SettingsViewModel>.reactive(
         viewModelBuilder: () => SettingsViewModel(),
         builder: (_, __, ___) {
           return ListView(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(AppSizes.medium),
             physics: BouncingScrollPhysics(),
             shrinkWrap: true,
             children: [
-              const SizedBox(height: 16.0),
+              AppUiHelpers.vSpaceMedium,
               Text(
                 'msg_back_up_write_down'.tr(),
                 style: Theme.of(context).textTheme.subtitle1.copyWith(
@@ -34,9 +35,9 @@ class BackUpCopyKeyView extends StatelessWidget {
                     ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 24.0),
+              AppUiHelpers.vSpaceLarge,
               _KeyWordsCard(),
-              const SizedBox(height: 24.0),
+              AppUiHelpers.vSpaceLarge,
               _SubmitButton(),
             ],
           );
@@ -76,7 +77,7 @@ class _KeyWordsCard extends ViewModelWidget<SettingsViewModel> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(AppSizes.medium),
             child: SelectableText(
               model.settings.privateKey,
               style: Theme.of(context).textTheme.headline6.copyWith(

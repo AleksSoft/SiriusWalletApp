@@ -1,5 +1,7 @@
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
+import 'package:antares_wallet/ui/common/app_sizes.dart';
+import 'package:antares_wallet/ui/common/app_ui_helpers.dart';
 import 'package:flutter/material.dart';
 
 class AssetListTile extends StatelessWidget {
@@ -14,13 +16,13 @@ class AssetListTile extends StatelessWidget {
         ListTile(
           onTap: onTap,
           contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16.0,
-            vertical: 4.0,
+            horizontal: AppSizes.medium,
+            vertical: AppSizes.extraSmall,
           ),
           leading: Image.asset(
             'assets/images/logo_lykke.png',
-            height: 24.0,
-            width: 24.0,
+            height: AppSizes.large,
+            width: AppSizes.large,
           ),
           title: Text(
             asset.displayName,
@@ -38,7 +40,7 @@ class AssetListTile extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
               ),
-              SizedBox(height: 8.0),
+              AppUiHelpers.vSpaceSmall,
               Text(
                 'USD 0,00',
                 style: Theme.of(context).textTheme.caption,

@@ -1,5 +1,7 @@
 import 'package:antares_wallet/app/routers/router.gr.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
+import 'package:antares_wallet/ui/common/app_sizes.dart';
+import 'package:antares_wallet/ui/common/app_ui_helpers.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,7 +17,6 @@ class BackUpConfirmKeyView extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        elevation: 0.0,
         title: Text('back_up'.tr()),
       ),
       body: ViewModelBuilder<SettingsViewModel>.nonReactive(
@@ -23,12 +24,12 @@ class BackUpConfirmKeyView extends StatelessWidget {
         onModelReady: (model) => model.refreshConfirmKeyVariants(),
         builder: (_, model, __) {
           return ListView(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(AppSizes.medium),
             physics: BouncingScrollPhysics(),
             shrinkWrap: true,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                padding: const EdgeInsets.symmetric(vertical: AppSizes.medium),
                 child: Text(
                   'msg_back_up_confirm'.tr(),
                   style: Theme.of(context).textTheme.subtitle1.copyWith(
@@ -38,7 +39,7 @@ class BackUpConfirmKeyView extends StatelessWidget {
                 ),
               ),
               _Chips(),
-              SizedBox(height: 16.0),
+              AppUiHelpers.vSpaceMedium,
               _SubmitButton(),
             ],
           );

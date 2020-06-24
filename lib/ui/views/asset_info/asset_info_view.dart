@@ -46,7 +46,6 @@ class _AssetInfoViewState extends State<AssetInfoView>
               Tab(text: 'transfers'.tr()),
             ],
           ),
-          elevation: 0.5,
         ),
         body: TabBarView(
           children: <Widget>[

@@ -15,7 +15,6 @@ class SettingsView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('settings'.tr()),
-        elevation: 0.0,
       ),
       body: ViewModelBuilder<SettingsViewModel>.reactive(
           viewModelBuilder: () => SettingsViewModel(),
@@ -112,7 +111,6 @@ class _ChooseLanguageView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0.0,
         leading: IconButton(
           icon: Icon(Icons.close),
           onPressed: () => ExtendedNavigator.of(context).pop(),

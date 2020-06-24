@@ -1,6 +1,8 @@
 import 'package:antares_wallet/app/routers/router.gr.dart';
 import 'package:antares_wallet/models/transaction_details.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
+import 'package:antares_wallet/ui/common/app_sizes.dart';
+import 'package:antares_wallet/ui/common/app_ui_helpers.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
@@ -18,8 +20,8 @@ class TransactionTile extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 8.0),
-            padding: const EdgeInsets.all(16.0),
+            margin: const EdgeInsets.symmetric(horizontal: AppSizes.small),
+            padding: const EdgeInsets.all(AppSizes.medium),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -39,7 +41,7 @@ class TransactionTile extends StatelessWidget {
                                 fontSize: 16.0,
                               ),
                         ),
-                        SizedBox(width: 4.0),
+                        AppUiHelpers.hSpaceExtraSmall,
                         Text(
                           _item.isDeposit ? 'DEPOSIT' : 'WITHDRAW',
                           style: Theme.of(context).textTheme.button.copyWith(
@@ -50,7 +52,7 @@ class TransactionTile extends StatelessWidget {
                                 fontSize: 10.0,
                               ),
                         ),
-                        SizedBox(width: 16.0),
+                        AppUiHelpers.hSpaceMedium,
                         Text(
                           _item.amount.toString(),
                           style: Theme.of(context).textTheme.button.copyWith(
@@ -59,7 +61,7 @@ class TransactionTile extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 8.0),
+                    AppUiHelpers.vSpaceSmall,
                     Text(
                       _item.dateTime,
                       style: Theme.of(context).textTheme.caption.copyWith(

@@ -2,6 +2,8 @@ import 'package:antares_wallet/app/routers/router.gr.dart';
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/services/repositories/portfolio_history_repository.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
+import 'package:antares_wallet/ui/common/app_sizes.dart';
+import 'package:antares_wallet/ui/common/app_ui_helpers.dart';
 import 'package:antares_wallet/ui/views/select_asset/select_asset_view.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:date_range_picker/date_range_picker.dart' as DateRagePicker;
@@ -22,7 +24,6 @@ class PortfolioHistoryFiltersView extends StatelessWidget {
         builder: (_, model, __) {
           return Scaffold(
             appBar: AppBar(
-              elevation: 0,
               automaticallyImplyLeading: false,
               leading: IconButton(
                 icon: Icon(Icons.close),
@@ -38,14 +39,14 @@ class PortfolioHistoryFiltersView extends StatelessWidget {
             ),
             body: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(AppSizes.medium),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     _PortfolioHistoryPeriodFilterView(),
-                    SizedBox(height: 8.0),
+                    AppUiHelpers.vSpaceSmall,
                     _PortfolioHistoryTransFilterView(),
-                    SizedBox(height: 8.0),
+                    AppUiHelpers.vSpaceSmall,
                     _PortfolioHistoryAssetFilterView(),
                   ],
                 ),
@@ -76,7 +77,7 @@ class _PortfolioHistoryPeriodFilterView
           children: [
             ChoiceChip(
               label: Text('all'.tr()),
-              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              padding: EdgeInsets.symmetric(horizontal: AppSizes.small),
               backgroundColor: AppColors.primary,
               selectedColor: AppColors.accent,
               onSelected: (value) {
@@ -86,7 +87,7 @@ class _PortfolioHistoryPeriodFilterView
             ),
             ChoiceChip(
               label: Text(plural('n_days', 1)),
-              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              padding: EdgeInsets.symmetric(horizontal: AppSizes.small),
               backgroundColor: AppColors.primary,
               selectedColor: AppColors.accent,
               onSelected: (value) {
@@ -96,7 +97,7 @@ class _PortfolioHistoryPeriodFilterView
             ),
             ChoiceChip(
               label: Text(plural('n_weeks', 1)),
-              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              padding: EdgeInsets.symmetric(horizontal: AppSizes.small),
               backgroundColor: AppColors.primary,
               selectedColor: AppColors.accent,
               onSelected: (value) {
@@ -106,7 +107,7 @@ class _PortfolioHistoryPeriodFilterView
             ),
             ChoiceChip(
               label: Text('custom'.tr()),
-              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              padding: EdgeInsets.symmetric(horizontal: AppSizes.small),
               backgroundColor: AppColors.primary,
               selectedColor: AppColors.accent,
               onSelected: (value) {
@@ -142,7 +143,11 @@ class _PortfolioHistoryPeriodFilterView
             title: Text('time_from'.tr()),
             trailing: Text(model.filterTimeFromStr),
           ),
-          Divider(height: 1.0, indent: 16.0, endIndent: 16.0),
+          Divider(
+            height: 1.0,
+            indent: AppSizes.medium,
+            endIndent: AppSizes.medium,
+          ),
           ListTile(
             dense: true,
             title: Text('time_to'.tr()),
@@ -195,7 +200,7 @@ class _PortfolioHistoryTransFilterView
           children: [
             ChoiceChip(
               label: Text('all'.tr()),
-              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: AppSizes.small),
               backgroundColor: AppColors.primary,
               selectedColor: AppColors.accent,
               onSelected: (value) {
@@ -207,7 +212,7 @@ class _PortfolioHistoryTransFilterView
             ),
             ChoiceChip(
               label: Text('deposit'.tr()),
-              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: AppSizes.small),
               backgroundColor: AppColors.primary,
               selectedColor: AppColors.accent,
               onSelected: (value) {
@@ -219,7 +224,7 @@ class _PortfolioHistoryTransFilterView
             ),
             ChoiceChip(
               label: Text('withdraw'.tr()),
-              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: AppSizes.small),
               backgroundColor: AppColors.primary,
               selectedColor: AppColors.accent,
               onSelected: (value) {
@@ -257,7 +262,7 @@ class _PortfolioHistoryAssetFilterView
           children: [
             ChoiceChip(
               label: Text('all'.tr()),
-              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: AppSizes.small),
               backgroundColor: AppColors.primary,
               selectedColor: AppColors.accent,
               onSelected: (value) {
@@ -267,7 +272,7 @@ class _PortfolioHistoryAssetFilterView
             ),
             ChoiceChip(
               label: _getSingleAssetButtonTitle(model.filterAsset),
-              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: AppSizes.small),
               backgroundColor: AppColors.primary,
               selectedColor: AppColors.accent,
               onSelected: (value) async {

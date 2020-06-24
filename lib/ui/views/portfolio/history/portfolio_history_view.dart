@@ -1,3 +1,4 @@
+import 'package:antares_wallet/ui/common/app_sizes.dart';
 import 'package:antares_wallet/ui/widgets/transaction_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -39,8 +40,8 @@ class _HistoryList extends ViewModelWidget<PortfolioHistoryViewModel> {
       child: ListView.builder(
         itemCount: model.historyItems.length,
         padding: EdgeInsets.only(
-          top: 8.0,
-          bottom: 16.0,
+          top: AppSizes.small,
+          bottom: AppSizes.medium,
         ),
         itemBuilder: (context, index) =>
             TransactionTile(model.historyItems[index]),
