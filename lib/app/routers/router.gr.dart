@@ -20,6 +20,8 @@ import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_result.dart
 import 'package:antares_wallet/ui/views/asset_info/asset_info_view.dart';
 import 'package:antares_wallet/ui/views/portfolio/transaction_details_view.dart';
 import 'package:antares_wallet/models/transaction_details.dart';
+import 'package:antares_wallet/ui/views/pair_trading/pair_trading_view.dart';
+import 'package:antares_wallet/models/asset_pair_data.dart';
 
 abstract class Routes {
   static const rootRoute = '/';
@@ -34,6 +36,7 @@ abstract class Routes {
   static const upgradeAccountResultRoute = '/upgrade-account-result-route';
   static const assetInfoRoute = '/asset-info-route';
   static const transactionDetailsRoute = '/transaction-details-route';
+  static const pairTradingView = '/pair-trading-view';
   static const all = {
     rootRoute,
     selectAssetRoute,
@@ -46,6 +49,7 @@ abstract class Routes {
     upgradeAccountResultRoute,
     assetInfoRoute,
     transactionDetailsRoute,
+    pairTradingView,
   };
 }
 
@@ -138,6 +142,15 @@ class Router extends RouterBase {
           settings: settings,
           fullscreenDialog: true,
         );
+      case Routes.pairTradingView:
+        if (hasInvalidArgs<PairTradingViewArguments>(args, isRequired: true)) {
+          return misTypedArgsRoute<PairTradingViewArguments>(args);
+        }
+        final typedArgs = args as PairTradingViewArguments;
+        return MaterialPageRoute<dynamic>(
+          builder: (context) => PairTradingView(data: typedArgs.data),
+          settings: settings,
+        );
       default:
         return unknownRoutePage(settings.name);
     }
@@ -171,4 +184,10 @@ class AssetInfoViewArguments {
 class TransactionDetailsViewArguments {
   final TransactionDetails details;
   TransactionDetailsViewArguments({@required this.details});
+}
+
+//PairTradingView arguments holder class
+class PairTradingViewArguments {
+  final AssetPairData data;
+  PairTradingViewArguments({@required this.data});
 }

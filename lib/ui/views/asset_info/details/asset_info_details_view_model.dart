@@ -71,7 +71,7 @@ class AssetInfoDetailsViewModel extends BaseViewModel implements Initialisable {
     }
   }
 
-  /// ToDo: this is just example method; needs to be changed
+  // TODO: this is just example method; needs to be changed
   List<MarketModel> _filteredMarkets() {
     int length = _mockMarkets.length;
     int start = 0;

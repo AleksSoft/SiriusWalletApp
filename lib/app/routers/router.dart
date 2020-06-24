@@ -6,6 +6,7 @@ import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_choose_doc.
 import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_doc.dart';
 import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_quest.dart';
 import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_result.dart';
+import 'package:antares_wallet/ui/views/pair_trading/pair_trading_view.dart';
 import 'package:antares_wallet/ui/views/portfolio/transaction_details_view.dart';
 import 'package:antares_wallet/ui/views/root/root_view.dart';
 import 'package:antares_wallet/ui/views/select_asset/select_asset_view.dart';
@@ -39,4 +40,5 @@ class $Router {
   AssetInfoView assetInfoRoute;
   @MaterialRoute(fullscreenDialog: true)
   TransactionDetailsView transactionDetailsRoute;
+  PairTradingView pairTradingView;
 }

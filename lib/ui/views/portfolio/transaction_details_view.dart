@@ -1,3 +1,4 @@
+import 'package:antares_wallet/app/locator.dart';
 import 'package:antares_wallet/app/routers/router.gr.dart';
 import 'package:antares_wallet/models/transaction_details.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
@@ -5,6 +6,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:stacked_services/stacked_services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -185,10 +187,11 @@ class TransactionDetailsView extends StatelessWidget {
 
   _copyHash(BuildContext context, String hash) {
     ClipboardManager.copyToClipBoard(hash).then((result) {
-      final snackBar = SnackBar(
-        content: Text('msg_hash_copied'.tr()),
+      final String message = 'msg_hash_copied'.tr();
+      locator<SnackbarService>().showCustomSnackBar(
+        message: message,
+        duration: Duration(seconds: 2),
       );
-      Scaffold.of(context).showSnackBar(snackBar);
     });
   }
 }
