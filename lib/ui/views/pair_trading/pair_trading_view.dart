@@ -5,7 +5,6 @@ import 'package:antares_wallet/ui/common/app_sizes.dart';
 import 'package:antares_wallet/ui/common/app_ui_helpers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_echarts/flutter_echarts.dart';
 import 'package:stacked/stacked.dart';
 import 'dart:math' as math;
 
@@ -52,106 +51,13 @@ class PairTradingView extends StatelessWidget {
               AppUiHelpers.vSpaceExtraLarge,
               SizedBox(
                 height: 300,
-                child: ChartView(
-                  captureAllGestures: true,
-                ),
-                // child: _Chart(
-                //   candlestickData: model.candleData,
-                //   xAxisKeys: model.marketsAxis,
-                // ),
+                // child: ChartView(captureAllGestures: true),
               ),
               AppUiHelpers.vSpaceExtraLarge,
             ],
           ),
         );
       },
-    );
-  }
-}
-
-class _Chart extends StatelessWidget {
-  //[open, close, lowest, highest]
-  final List<List<num>> candlestickData;
-  final List<String> xAxisKeys;
-  const _Chart({
-    @required this.xAxisKeys,
-    @required this.candlestickData,
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Echarts(
-      captureAllGestures: true,
-      option: '''
-                  {
-                    tooltip: {
-                      trigger: 'item',
-                      axisPointer: {
-                        type: 'shadow'
-                      }
-                    },
-                    grid: {
-                      left: '5%',
-                      right: '15%',
-                      bottom: '10%',
-                      top: '5%',
-                      borderColor: 'rgba(209, 209, 214, 1)',
-                    },
-                    xAxis: {
-                      type: 'category',
-                      data: $xAxisKeys,
-                      scale: false,
-                      boundaryGap: false,
-                      axisLine: {
-                        lineStyle: {
-                          color: 'rgba(209, 209, 214, 1)'
-                        },
-                        show: false
-                      },
-                      splitLine: {show: false},
-                      splitNumber: 20,
-                      min: 'dataMin',
-                      max: 'dataMax'
-                    },
-                    yAxis: {
-                      scale: true,
-                      position: 'right',
-                      axisLine: {
-                        lineStyle: {
-                          color: 'rgba(209, 209, 214, 1)'
-                        },
-                        show: false
-                      },
-                    },
-                    dataZoom: [
-                      {
-                        type: 'inside',
-                        start: 30,
-                        end: 100
-                      },
-                      {
-                        show: false,
-                        type: 'slider',
-                        top: '90%',
-                        start: 50,
-                        end: 100
-                      }
-                    ],
-                    series: [
-                      {
-                        name: 'candle_test',
-                        type: 'candlestick',
-                        data: $candlestickData,
-                        itemStyle: {
-                          color: 'rgba(52, 199, 89, 1)',
-                          borderColor: 'rgba(52, 199, 89, 1)',
-                          color0: 'rgba(255, 59, 48, 1)',
-                          borderColor0: 'rgba(255, 59, 48, 1)'
-                        },
-                      },
-                    ]
-                  }''',
     );
   }
 }

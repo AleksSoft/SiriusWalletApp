@@ -1,5 +1,7 @@
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/ui/views/asset_info/asset_info_view.dart';
+import 'package:antares_wallet/ui/views/initial/initial_view.dart';
+import 'package:antares_wallet/ui/views/login/login_view.dart';
 import 'package:antares_wallet/ui/views/more/backup/backup_confirm_key_view.dart';
 import 'package:antares_wallet/ui/views/more/backup/backup_copy_key_view.dart';
 import 'package:antares_wallet/ui/views/more/upgrade/upgrade_account_choose_doc.dart';
@@ -17,8 +19,8 @@ import 'package:auto_route/auto_route_annotations.dart';
 @MaterialAutoRouter()
 class $Router {
   @initial
-  // InitialView initialViewRoute;
-  // LoginView loginViewRoute;
+  InitialView initialViewRoute;
+  LoginView loginViewRoute;
   // RegisterEmailView registerEmailViewRoute;
   // RegisterPasswordView registerPasswordViewRoute;
   // RegisterDetailsView registerDetailsViewRoute;
