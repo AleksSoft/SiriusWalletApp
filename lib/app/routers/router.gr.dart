@@ -9,7 +9,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:antares_wallet/ui/views/initial/initial_view.dart';
 import 'package:antares_wallet/ui/views/login/login_view.dart';
-import 'package:antares_wallet/ui/views/root/root_view.dart';
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/ui/views/select_asset/select_asset_view.dart';
 import 'package:antares_wallet/ui/views/more/backup/backup_copy_key_view.dart';
@@ -28,7 +27,6 @@ import 'package:antares_wallet/models/asset_pair_data.dart';
 abstract class Routes {
   static const initialViewRoute = '/';
   static const loginViewRoute = '/login-view-route';
-  static const rootRoute = '/root-route';
   static const selectAssetRoute = '/select-asset-route';
   static const backUpCopyKeyRoute = '/back-up-copy-key-route';
   static const backUpConfirmKeyRoute = '/back-up-confirm-key-route';
@@ -44,7 +42,6 @@ abstract class Routes {
   static const all = {
     initialViewRoute,
     loginViewRoute,
-    rootRoute,
     selectAssetRoute,
     backUpCopyKeyRoute,
     backUpConfirmKeyRoute,
@@ -79,11 +76,6 @@ class Router extends RouterBase {
       case Routes.loginViewRoute:
         return MaterialPageRoute<dynamic>(
           builder: (context) => LoginView(),
-          settings: settings,
-        );
-      case Routes.rootRoute:
-        return MaterialPageRoute<dynamic>(
-          builder: (context) => RootView(),
           settings: settings,
         );
       case Routes.selectAssetRoute:

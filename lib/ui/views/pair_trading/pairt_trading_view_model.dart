@@ -7,10 +7,7 @@ import 'package:stacked/stacked.dart';
 class PairTradingViewModel extends BaseViewModel implements Initialisable {
   List<MarketModel> _mockMarkets = List();
 
-  List<String> get marketsAxis => _mockMarkets.map((e) => '${e.date}').toList();
-
-  List<List<num>> get candleData =>
-      _mockMarkets.map((e) => [e.open, e.close, e.low, e.high]).toList();
+  List<MarketModel> get mockMarkets => _mockMarkets;
 
   @override
   void initialise() async {

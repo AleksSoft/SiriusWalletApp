@@ -25,7 +25,7 @@ dependencies:
   enum_to_string: ^1.0.9
   url_launcher: ^5.4.11
   clipboard_manager: ^0.0.4
-  collection: ^1.14.13
+  collection: ^1.14.12
   json_serializable: ^3.3.0
 
   auto_route:
@@ -56,8 +56,8 @@ dependencies:
     sdk: flutter
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+  # flutter_test:
+  #   sdk: flutter
 
   build_runner:
   auto_route_generator:

@@ -12,11 +12,12 @@ class LoginViewModel extends BaseViewModel implements Initialisable {
   void initialise() {}
 
   login() {
-    _storage.write(StoreKeys.token,
-        '9459110ef8e94498b87807d00a9c947014e1c77192fc4b28aed5cd2ecf99f2e2');
     runBusyFuture(Future.delayed(Duration(milliseconds: 500)).then((value) {
-      ExtendedNavigator.ofRouter<Router>()
-          .pushNamedAndRemoveUntil(Routes.rootRoute, (route) => route.isFirst);
+      ExtendedNavigator.ofRouter<Router>().pop();
+      _storage.write(
+        StoreKeys.token,
+        '9459110ef8e94498b87807d00a9c947014e1c77192fc4b28aed5cd2ecf99f2e2',
+      );
     }));
   }
 }
