@@ -10,7 +10,6 @@ class OrdersHistoryView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<OrdersHistoryViewModel>.nonReactive(
       viewModelBuilder: () => OrdersHistoryViewModel(),
-      onModelReady: (model) => model.initialise(),
       builder: (context, OrdersHistoryViewModel model, child) {
         return Column(
           children: [

@@ -11,7 +11,6 @@ class OrdersOpenedView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<OrdersOpenedViewModel>.nonReactive(
       viewModelBuilder: () => OrdersOpenedViewModel(),
-      onModelReady: (model) => model.initialise(),
       builder: (_, model, ___) {
         return Container(
           alignment: Alignment.topCenter,

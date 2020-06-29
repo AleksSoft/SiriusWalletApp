@@ -313,7 +313,7 @@ class _ExchangeView extends StatelessWidget {
               child: Row(
                 children: [
                   _buildPairContainer(context),
-                  AppUiHelpers.vSpaceSmall,
+                  AppUiHelpers.hSpaceSmall,
                   _buildPairContainer(context),
                 ],
               ),
@@ -324,7 +324,7 @@ class _ExchangeView extends StatelessWidget {
               child: Row(
                 children: [
                   _buildPairContainer(context),
-                  AppUiHelpers.vSpaceSmall,
+                  AppUiHelpers.hSpaceSmall,
                   _buildPairContainer(context),
                 ],
               ),
