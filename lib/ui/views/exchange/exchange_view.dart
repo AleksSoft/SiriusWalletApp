@@ -1,7 +1,9 @@
+import 'package:antares_wallet/app/routers/router.gr.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:antares_wallet/ui/common/app_sizes.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_list_title_view.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:stacked/stacked.dart';
@@ -40,7 +42,15 @@ class ExchangeView extends StatelessWidget {
                     horizontal: AppSizes.medium,
                   ),
                   children: model.assetPairs
-                      .map((e) => AssetPairTile(data: e, showTitle: true))
+                      .map((e) => AssetPairTile(
+                            data: e,
+                            showTitle: true,
+                            onTap: () =>
+                                ExtendedNavigator.ofRouter<Router>().pushNamed(
+                              Routes.pairTradingView,
+                              arguments: PairTradingViewArguments(data: e),
+                            ),
+                          ))
                       .toList(),
                 ),
               ),

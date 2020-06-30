@@ -1,9 +1,7 @@
-import 'package:antares_wallet/app/routers/router.gr.dart';
 import 'package:antares_wallet/models/asset_pair_data.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:antares_wallet/ui/common/app_sizes.dart';
 import 'package:antares_wallet/ui/common/app_ui_helpers.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import 'asset_pair_rich_text.dart';
@@ -11,10 +9,12 @@ import 'asset_pair_rich_text.dart';
 class AssetPairTile extends StatelessWidget {
   final AssetPairData data;
   final bool showTitle;
+  final VoidCallback onTap;
 
   const AssetPairTile({
     @required this.data,
     this.showTitle = false,
+    this.onTap,
     Key key,
   }) : super(key: key);
 
@@ -23,10 +23,7 @@ class AssetPairTile extends StatelessWidget {
     final textStyleButton = Theme.of(context).textTheme.button;
 
     return InkWell(
-      onTap: () => ExtendedNavigator.ofRouter<Router>().pushNamed(
-        Routes.pairTradingView,
-        arguments: PairTradingViewArguments(data: data),
-      ),
+      onTap: onTap,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

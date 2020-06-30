@@ -3,14 +3,18 @@ import 'package:antares_wallet/models/market_model.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:antares_wallet/ui/common/app_sizes.dart';
 import 'package:antares_wallet/ui/common/app_ui_helpers.dart';
+import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
 import 'package:antares_wallet/ui/widgets/tradelog_tile.dart';
 import 'package:antares_wallet/ui/widgets/volume_ask_tile.dart';
 import 'package:antares_wallet/ui/widgets/volume_bid_tile.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:search_page/search_page.dart';
 import 'package:stacked/stacked.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'dart:math' as math;
 
 import 'pairt_trading_view_model.dart';
@@ -28,7 +32,7 @@ class PairTradingView extends StatelessWidget {
           appBar: AppBar(
             centerTitle: true,
             title: FlatButton(
-              onPressed: () {},
+              onPressed: () => _showSearch(context, model),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -83,6 +87,38 @@ class PairTradingView extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Future<AssetPairData> _showSearch(
+    BuildContext context,
+    PairTradingViewModel model,
+  ) {
+    return showSearch(
+      context: context,
+      delegate: SearchPage<AssetPairData>(
+        showItemsOnEmpty: true,
+        items: model.assetPairs,
+        searchLabel: 'search'.tr(),
+        filter: (pair) => [
+          pair.mainAssetName,
+          pair.mainAssetSymbol,
+          pair.secAssetSymbol,
+        ],
+        builder: (pair) => Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSizes.medium,
+          ),
+          child: AssetPairTile(
+            data: pair,
+            showTitle: true,
+            onTap: () {
+              ExtendedNavigator.of(context).pop();
+              model.updateAssetPair(pair);
+            },
+          ),
+        ),
+      ),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:antares_wallet/app/routers/router.gr.dart';
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/models/asset_pair_data.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
@@ -6,6 +7,7 @@ import 'package:antares_wallet/ui/common/app_ui_helpers.dart';
 import 'package:antares_wallet/ui/widgets/asset_list_tile.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_list_title_view.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -108,7 +110,14 @@ class AssetInfoDetailsView extends StatelessWidget {
                 ),
                 child: Column(
                   children: model.assetPairsShort
-                      .map((e) => AssetPairTile(data: e))
+                      .map((e) => AssetPairTile(
+                            data: e,
+                            onTap: () =>
+                                ExtendedNavigator.ofRouter<Router>().pushNamed(
+                              Routes.pairTradingView,
+                              arguments: PairTradingViewArguments(data: e),
+                            ),
+                          ))
                       .toList(),
                 ),
               ),
@@ -139,6 +148,10 @@ class AssetInfoDetailsView extends StatelessWidget {
           child: AssetPairTile(
             data: pair,
             showTitle: true,
+            onTap: () => ExtendedNavigator.ofRouter<Router>().pushNamed(
+              Routes.pairTradingView,
+              arguments: PairTradingViewArguments(data: pair),
+            ),
           ),
         ),
       ),
