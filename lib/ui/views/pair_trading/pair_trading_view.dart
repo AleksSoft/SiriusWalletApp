@@ -3,6 +3,7 @@ import 'package:antares_wallet/models/market_model.dart';
 import 'package:antares_wallet/ui/common/app_colors.dart';
 import 'package:antares_wallet/ui/common/app_sizes.dart';
 import 'package:antares_wallet/ui/common/app_ui_helpers.dart';
+import 'package:antares_wallet/ui/widgets/tradelog_tile.dart';
 import 'package:antares_wallet/ui/widgets/volume_ask_tile.dart';
 import 'package:antares_wallet/ui/widgets/volume_bid_tile.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,7 +22,7 @@ class PairTradingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<PairTradingViewModel>.reactive(
-      viewModelBuilder: () => PairTradingViewModel(),
+      viewModelBuilder: () => PairTradingViewModel(data),
       builder: (_, model, __) {
         return Scaffold(
           appBar: AppBar(
@@ -32,7 +33,7 @@ class PairTradingView extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    '${data.mainAssetSymbol}/${data.secAssetSymbol}',
+                    model.assetPairHeader,
                     style: TextStyle(fontSize: 16.0),
                   ),
                   Padding(
@@ -234,6 +235,8 @@ class _Orderbook extends StatelessWidget {
                   ],
                 ),
               ),
+              Divider(color: AppColors.secondary.withOpacity(0.4), height: 1),
+              AppUiHelpers.vSpaceExtraSmall,
               VolumeBidTile(volume: '1 566,28', bid: '0,94305', percent: 0.7),
               VolumeBidTile(volume: '50 000,00', bid: '0,94305', percent: 0.99),
               VolumeBidTile(volume: '93,09', bid: '0,94270', percent: 0.6),
@@ -280,31 +283,33 @@ class _Orderbook extends StatelessWidget {
                   ],
                 ),
               ),
+              Divider(color: AppColors.secondary.withOpacity(0.4), height: 1),
+              AppUiHelpers.vSpaceExtraSmall,
               VolumeAskTile(volume: '2,00', ask: '0,94606', percent: 0.35),
               VolumeAskTile(volume: '50 000,00', ask: '0,94660', percent: 0.99),
               VolumeAskTile(volume: '648,69', ask: '0,95867', percent: 0.7),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
+              VolumeAskTile(volume: null, ask: null, percent: null),
+              VolumeAskTile(volume: null, ask: null, percent: null),
+              VolumeAskTile(volume: null, ask: null, percent: null),
+              VolumeAskTile(volume: null, ask: null, percent: null),
+              VolumeAskTile(volume: null, ask: null, percent: null),
+              VolumeAskTile(volume: null, ask: null, percent: null),
+              VolumeAskTile(volume: null, ask: null, percent: null),
+              VolumeAskTile(volume: null, ask: null, percent: null),
+              VolumeAskTile(volume: null, ask: null, percent: null),
+              VolumeAskTile(volume: null, ask: null, percent: null),
+              VolumeAskTile(volume: null, ask: null, percent: null),
+              VolumeAskTile(volume: null, ask: null, percent: null),
+              VolumeAskTile(volume: null, ask: null, percent: null),
+              VolumeAskTile(volume: null, ask: null, percent: null),
+              VolumeAskTile(volume: null, ask: null, percent: null),
+              VolumeAskTile(volume: null, ask: null, percent: null),
+              VolumeAskTile(volume: null, ask: null, percent: null),
+              VolumeAskTile(volume: null, ask: null, percent: null),
+              VolumeAskTile(volume: null, ask: null, percent: null),
+              VolumeAskTile(volume: null, ask: null, percent: null),
+              VolumeAskTile(volume: null, ask: null, percent: null),
+              VolumeAskTile(volume: null, ask: null, percent: null),
             ],
           ),
         ),
@@ -313,11 +318,67 @@ class _Orderbook extends StatelessWidget {
   }
 }
 
-class _Tradelog extends StatelessWidget {
+class _Tradelog extends ViewModelWidget<PairTradingViewModel> {
   const _Tradelog({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Center(child: Text('tradelog'));
+  Widget build(context, model) {
+    final titleStyle = Theme.of(context).textTheme.caption.copyWith(
+          color: AppColors.secondary,
+          fontSize: 12.0,
+        );
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppSizes.medium),
+      child: Column(
+        children: [
+          SizedBox(
+            height: AppSizes.extraLarge,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  flex: 3,
+                  fit: FlexFit.tight,
+                  child: Text(
+                    'Price (${model.assetPair.secAssetSymbol})',
+                    style: titleStyle,
+                  ),
+                ),
+                Flexible(
+                  flex: 2,
+                  fit: FlexFit.tight,
+                  child: Text(
+                    'Trade size (${model.assetPair.mainAssetSymbol})',
+                    style: titleStyle,
+                    textAlign: TextAlign.right,
+                  ),
+                ),
+                Flexible(
+                  flex: 3,
+                  fit: FlexFit.tight,
+                  child: Text(
+                    'Time',
+                    style: titleStyle,
+                    textAlign: TextAlign.right,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Divider(color: AppColors.secondary.withOpacity(0.4), height: 1),
+          AppUiHelpers.vSpaceExtraSmall,
+          TradelogTile(
+              price: '0,95285', tradeSize: '7,93', time: '29.06 23:29:58'),
+          TradelogTile(
+              price: '0,95285', tradeSize: '7,93', time: '29.06 23:29:58'),
+          TradelogTile(
+              price: '0,95285', tradeSize: '7,93', time: '29.06 23:29:58'),
+          TradelogTile(
+              price: '0,95285', tradeSize: '7,93', time: '29.06 23:29:58'),
+          TradelogTile(
+              price: '0,95285', tradeSize: '7,93', time: '29.06 23:29:58'),
+        ],
+      ),
+    );
   }
 }
