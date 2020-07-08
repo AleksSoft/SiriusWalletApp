@@ -29,7 +29,7 @@ class UpgradeAccountResultView extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'msg_have_everything'.tr(),
+                        'msg_have_everything'.tr,
                         style: Theme.of(context).textTheme.headline6.copyWith(
                               fontWeight: FontWeight.w600,
                             ),
@@ -64,7 +64,7 @@ class UpgradeAccountResultView extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
-                                  'advanced'.tr(),
+                                  'advanced'.tr,
                                   style: Theme.of(context)
                                       .textTheme
                                       .subtitle1
@@ -72,7 +72,7 @@ class UpgradeAccountResultView extends StatelessWidget {
                                         fontWeight: FontWeight.w600,
                                       ),
                                 ),
-                                Text('in_review'.tr()),
+                                Text('in_review'.tr),
                               ],
                             ),
                             Spacer(),
@@ -87,7 +87,7 @@ class UpgradeAccountResultView extends StatelessWidget {
                       ),
                       AppUiHelpers.vSpaceMedium,
                       Text(
-                        'msg_upgrade_to_pro'.tr(),
+                        'msg_upgrade_to_pro'.tr,
                         textAlign: TextAlign.center,
                       )
                     ],
@@ -107,7 +107,7 @@ class UpgradeAccountResultView extends StatelessWidget {
                     builder: (_, model, __) {
                       return CupertinoButton.filled(
                           disabledColor: Colors.grey.withOpacity(0.7),
-                          child: Text('ok'.tr()),
+                          child: Text('ok'.tr),
                           onPressed: () {
                             ExtendedNavigator.ofRouter<Router>()
                                 .popUntil((route) => route.isFirst);

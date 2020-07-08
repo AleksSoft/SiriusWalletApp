@@ -1,5 +1,6 @@
 import 'package:antares_wallet/app/routes/app_routes.dart';
 import 'package:antares_wallet/app/ui/app_themes.dart';
+import 'package:antares_wallet/app/ui/app_translations.dart';
 import 'package:antares_wallet/ui/pages/initial/initial_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,12 +27,14 @@ void main() async {
         showPerformanceOverlay: false,
         showSemanticsDebugger: false,
         enableLog: true,
+        defaultTransition: Transition.native,
+        initialRoute: InitialPage.route,
+        getPages: AppRoutes.routes,
+        translations: AppTranslations(),
         locale: Locale('en'),
         title: 'Antares Wallet',
         theme: AppThemes.light,
         themeMode: ThemeMode.system,
-        getPages: AppRoutes.routes,
-        initialRoute: InitialPage.route,
       ),
     ),
   );

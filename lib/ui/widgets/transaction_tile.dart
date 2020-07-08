@@ -11,10 +11,11 @@ class TransactionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => ExtendedNavigator.ofRouter<Router>().pushNamed(
-        Routes.transactionDetailsRoute,
-        arguments: TransactionDetailsViewArguments(details: _item),
-      ),
+      // TODO: tbd routing
+      // onTap: () => ExtendedNavigator.ofRouter<Router>().pushNamed(
+      //   Routes.transactionDetailsRoute,
+      //   arguments: TransactionDetailsViewArguments(details: _item),
+      // ),
       child: Column(
         children: [
           Container(

@@ -40,7 +40,7 @@ class UpgradeAccountMainView extends StatelessWidget {
                   borderRadius:
                       BorderRadius.all(Radius.circular(AppSizes.small)),
                   child: CupertinoButton.filled(
-                    child: Text('upgrade_account'.tr()),
+                    child: Text('upgrade_account'.tr),
                     onPressed: () =>
                         ExtendedNavigator.ofRouter<Router>().pushNamed(
                       Routes.upgradeAccountChooseDocRoute,
@@ -65,7 +65,7 @@ class _LevelCard extends ViewModelWidget<ProfileViewModel> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'title_your_account'.tr(),
+            'title_your_account'.tr,
             style: Theme.of(context).textTheme.caption.copyWith(
                   fontSize: 10.0,
                 ),
@@ -80,7 +80,7 @@ class _LevelCard extends ViewModelWidget<ProfileViewModel> {
           const Divider(),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: AppSizes.small),
-            child: Text('msg_explore_crypto'.tr()),
+            child: Text('msg_explore_crypto'.tr),
           ),
         ],
       ),
@@ -94,14 +94,14 @@ class _LevelHeaderView extends ViewModelWidget<ProfileViewModel> {
     return Column(
       children: [
         Text(
-          'title_upgrade_to'.tr(),
+          'title_upgrade_to'.tr,
           style: Theme.of(context).textTheme.caption.copyWith(
                 fontSize: 10.0,
               ),
         ),
         AppUiHelpers.vSpaceExtraSmall,
         Text(
-          'advanced'.tr(),
+          'advanced'.tr,
           style: Theme.of(context).textTheme.headline6.copyWith(
                 fontWeight: FontWeight.w700,
                 color: AppColors.accent,
@@ -127,11 +127,11 @@ class _ListView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildRow('account_information'.tr(), checked: true),
-          _buildRow('identity_documents'.tr(), checked: false),
-          _buildRow('selfie'.tr(), checked: false),
-          _buildRow('proof_of_address'.tr(), checked: false),
-          _buildRow('questionnaire'.tr(), checked: false),
+          _buildRow('account_information'.tr, checked: true),
+          _buildRow('identity_documents'.tr, checked: false),
+          _buildRow('selfie'.tr, checked: false),
+          _buildRow('proof_of_address'.tr, checked: false),
+          _buildRow('questionnaire'.tr, checked: false),
         ],
       ),
     );

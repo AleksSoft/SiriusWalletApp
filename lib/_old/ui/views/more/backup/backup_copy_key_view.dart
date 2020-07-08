@@ -17,7 +17,7 @@ class BackUpCopyKeyView extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: Text('back_up'.tr()),
+        title: Text('back_up'.tr),
       ),
       body: ViewModelBuilder<SettingsViewModel>.reactive(
         viewModelBuilder: () => SettingsViewModel(),
@@ -29,7 +29,7 @@ class BackUpCopyKeyView extends StatelessWidget {
             children: [
               AppUiHelpers.vSpaceMedium,
               Text(
-                'msg_back_up_write_down'.tr(),
+                'msg_back_up_write_down'.tr,
                 style: Theme.of(context).textTheme.subtitle1.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
@@ -55,7 +55,7 @@ class _SubmitButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton.filled(
-      child: Text('continue'.tr()),
+      child: Text('continue'.tr),
       onPressed: () => ExtendedNavigator.ofRouter<Router>().pushNamed(
         Routes.backUpConfirmKeyRoute,
       ),
@@ -90,7 +90,7 @@ class _KeyWordsCard extends ViewModelWidget<SettingsViewModel> {
             children: [
               Spacer(),
               FlatButton(
-                child: Text('copy'.tr()),
+                child: Text('copy'.tr),
                 onPressed: () => _copyKey(
                   context,
                   model.settings.privateKey,
@@ -106,7 +106,7 @@ class _KeyWordsCard extends ViewModelWidget<SettingsViewModel> {
   _copyKey(BuildContext context, String key) {
     ClipboardManager.copyToClipBoard(key).then((result) {
       Scaffold.of(context).showSnackBar(
-        SnackBar(content: Text('msg_key_copied'.tr())),
+        SnackBar(content: Text('msg_key_copied'.tr)),
       );
     });
   }

@@ -43,7 +43,7 @@ class _PortfolioAssetsHeader extends ViewModelWidget<PortfolioAssetsViewModel> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            'balance'.tr(),
+            'balance'.tr,
             style: Theme.of(context).textTheme.caption.copyWith(fontSize: 14),
           ),
           AnimatedSwitcher(
@@ -122,7 +122,7 @@ class _PortfolioCategoryBlock
                   onPressed: () => model.toggleExpand(category.categoryId),
                   child: Text(
                     model.isExpanded(category.categoryId)
-                        ? 'show_less'.tr()
+                        ? 'show_less'.tr
                         : 'show_more'.tr(
                             args: [model.moreCount(category.categoryId)],
                           ),

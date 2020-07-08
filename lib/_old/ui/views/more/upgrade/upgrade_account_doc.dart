@@ -107,7 +107,7 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
                               children: [
                                 Icon(Icons.camera_alt),
                                 AppUiHelpers.hSpaceExtraSmall,
-                                Text('change'.tr()),
+                                Text('change'.tr),
                               ],
                             ),
                           ),
@@ -157,7 +157,7 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
                                       color: AppColors.accent,
                                     ),
                                     Text(
-                                      'msg_upload_photo'.tr(),
+                                      'msg_upload_photo'.tr,
                                       style: Theme.of(context)
                                           .textTheme
                                           .button
@@ -187,7 +187,7 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
               borderRadius: BorderRadius.all(Radius.circular(AppSizes.small)),
               child: CupertinoButton.filled(
                 disabledColor: Colors.grey.withOpacity(0.7),
-                child: Text('submit'.tr()),
+                child: Text('submit'.tr),
                 onPressed: () => _pushNextRoute(context, widget.docType),
               ),
             ),
@@ -200,15 +200,15 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
   String _title(DocType docType) {
     switch (docType) {
       case DocType.passport:
-        return 'passport'.tr();
+        return 'passport'.tr;
       case DocType.nationalId:
-        return 'national_id'.tr();
+        return 'national_id'.tr;
       case DocType.drivingLicense:
-        return 'driving_license'.tr();
+        return 'driving_license'.tr;
       case DocType.selfie:
-        return 'selfie'.tr();
+        return 'selfie'.tr;
       case DocType.proofOfAddress:
-        return 'proof_of_address'.tr();
+        return 'proof_of_address'.tr;
       default:
         return '';
     }
@@ -217,15 +217,15 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
   String _photoHeader(DocType docType) {
     switch (docType) {
       case DocType.passport:
-        return 'msg_upgrade_passport'.tr();
+        return 'msg_upgrade_passport'.tr;
       case DocType.nationalId:
-        return 'msg_upgrade_national_id'.tr();
+        return 'msg_upgrade_national_id'.tr;
       case DocType.drivingLicense:
-        return 'msg_upgrade_driving_license'.tr();
+        return 'msg_upgrade_driving_license'.tr;
       case DocType.selfie:
-        return 'msg_upgrade_selfie'.tr();
+        return 'msg_upgrade_selfie'.tr;
       case DocType.proofOfAddress:
-        return 'msg_upgrade_proof_of_address'.tr();
+        return 'msg_upgrade_proof_of_address'.tr;
       default:
         return '';
     }

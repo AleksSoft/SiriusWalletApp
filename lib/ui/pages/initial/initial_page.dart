@@ -1,5 +1,6 @@
-import 'package:antares_wallet/controllers/initial/initial_controller.dart';
 import 'package:flutter/material.dart';
+
+import 'initial_controller.dart';
 
 class InitialPage extends StatelessWidget {
   static final String route = '/';

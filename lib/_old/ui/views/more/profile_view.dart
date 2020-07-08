@@ -15,7 +15,7 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('profile'.tr()),
+        title: Text('profile'.tr),
       ),
       body: ViewModelBuilder<ProfileViewModel>.nonReactive(
         viewModelBuilder: () => ProfileViewModel(),
@@ -58,7 +58,7 @@ class _AccountDataView extends ViewModelWidget<ProfileViewModel> {
             size: 40.0,
           ),
           title: Text(model.accountData.levelStr),
-          subtitle: Text('verified'.tr()),
+          subtitle: Text('verified'.tr),
           trailing: Visibility(
             visible: model.accountData.hasNoLimit,
             child: OutlineButton(
@@ -69,7 +69,7 @@ class _AccountDataView extends ViewModelWidget<ProfileViewModel> {
                 borderRadius: BorderRadius.circular(AppSizes.extraSmall),
               ),
               textColor: AppColors.accent,
-              child: Text('upgrade'.tr()),
+              child: Text('upgrade'.tr),
             ),
           ),
         ),
@@ -138,25 +138,25 @@ class _PersonalDataView extends ViewModelWidget<ProfileViewModel> {
         ),
         ListTile(
           contentPadding: const EdgeInsets.all(0.0),
-          title: Text('full_name'.tr()),
+          title: Text('full_name'.tr),
           subtitle: Text(data.fullName),
         ),
         Divider(height: 1.0),
         ListTile(
           contentPadding: const EdgeInsets.all(0.0),
-          title: Text('email'.tr()),
+          title: Text('email'.tr),
           subtitle: Text(data.email),
         ),
         Divider(height: 1.0),
         ListTile(
           contentPadding: const EdgeInsets.all(0.0),
-          title: Text('contact_phone'.tr()),
+          title: Text('contact_phone'.tr),
           subtitle: Text(data.contactPhone),
         ),
         Divider(height: 1.0),
         ListTile(
           contentPadding: const EdgeInsets.all(0.0),
-          title: Text('country'.tr()),
+          title: Text('country'.tr),
           subtitle: Text(data.country),
         ),
         Divider(height: 1.0),

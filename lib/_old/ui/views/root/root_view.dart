@@ -53,7 +53,7 @@ class RootView extends StatelessWidget {
                   icon: Icon(Icons.home, color: Colors.black),
                   activeIcon: Icon(Icons.home, color: AppColors.accent),
                   title: Text(
-                    'home'.tr(),
+                    'home'.tr,
                     style: model.isSelected(0) ? textStyleSelected : textStyle,
                   ),
                 ),
@@ -62,7 +62,7 @@ class RootView extends StatelessWidget {
                   activeIcon: Icon(Icons.account_balance_wallet,
                       color: AppColors.accent),
                   title: Text(
-                    'portfolio'.tr(),
+                    'portfolio'.tr,
                     style: model.isSelected(1) ? textStyleSelected : textStyle,
                   ),
                 ),
@@ -71,7 +71,7 @@ class RootView extends StatelessWidget {
                   activeIcon:
                       Icon(Icons.import_export, color: AppColors.accent),
                   title: Text(
-                    'exchange'.tr(),
+                    'exchange'.tr,
                     style: model.isSelected(2) ? textStyleSelected : textStyle,
                   ),
                 ),
@@ -80,7 +80,7 @@ class RootView extends StatelessWidget {
                   activeIcon:
                       Icon(Icons.check_circle_outline, color: AppColors.accent),
                   title: Text(
-                    'orders'.tr(),
+                    'orders'.tr,
                     style: model.isSelected(3) ? textStyleSelected : textStyle,
                   ),
                 ),
@@ -88,7 +88,7 @@ class RootView extends StatelessWidget {
                   icon: Icon(Icons.menu, color: Colors.black),
                   activeIcon: Icon(Icons.menu, color: AppColors.accent),
                   title: Text(
-                    'more'.tr(),
+                    'more'.tr,
                     style: model.isSelected(4) ? textStyleSelected : textStyle,
                   ),
                 ),

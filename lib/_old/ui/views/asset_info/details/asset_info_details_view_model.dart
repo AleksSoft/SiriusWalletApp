@@ -62,12 +62,12 @@ class AssetInfoDetailsViewModel extends BaseViewModel implements Initialisable {
       case AssetInfoPeriod.h24:
         return plural('n_h', 24);
       case AssetInfoPeriod.week:
-        return 'week'.tr();
+        return 'week'.tr;
       case AssetInfoPeriod.month:
-        return 'month'.tr();
+        return 'month'.tr;
       case AssetInfoPeriod.year:
       default:
-        return 'year'.tr();
+        return 'year'.tr;
     }
   }
 

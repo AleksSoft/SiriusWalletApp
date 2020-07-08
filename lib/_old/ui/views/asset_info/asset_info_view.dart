@@ -36,14 +36,14 @@ class _AssetInfoViewState extends State<AssetInfoView>
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('asset_info'.tr()),
+          title: Text('asset_info'.tr),
           bottom: TabBar(
             indicatorWeight: 1.0,
             indicatorColor: Colors.black,
             tabs: <Widget>[
-              Tab(text: 'details'.tr()),
-              Tab(text: 'trades'.tr()),
-              Tab(text: 'transfers'.tr()),
+              Tab(text: 'details'.tr),
+              Tab(text: 'trades'.tr),
+              Tab(text: 'transfers'.tr),
             ],
           ),
         ),

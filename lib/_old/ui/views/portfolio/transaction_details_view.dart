@@ -54,15 +54,15 @@ class TransactionDetailsView extends StatelessWidget {
               padding: const EdgeInsets.all(AppSizes.medium),
               child: Column(
                 children: [
-                  _buildTile('amount'.tr(), details.amount.toString()),
-                  _buildTile('status'.tr(), details.status),
+                  _buildTile('amount'.tr, details.amount.toString()),
+                  _buildTile('status'.tr, details.status),
                   Divider(height: AppSizes.extraLarge),
                   _buildTile(
-                    'trans_hash'.tr(),
+                    'trans_hash'.tr,
                     details.transactionHash.toString(),
                     selectable: true,
                   ),
-                  _buildTile('date'.tr(), details.dateTime),
+                  _buildTile('date'.tr, details.dateTime),
                   Spacer(),
                   ButtonBar(
                     children: [
@@ -71,14 +71,14 @@ class TransactionDetailsView extends StatelessWidget {
                           context,
                           details.transactionHash.toString(),
                         ),
-                        child: Text('copy_hash'.tr()),
+                        child: Text('copy_hash'.tr),
                       ),
                       CupertinoButton(
                         onPressed: () => _viewExplorer(
                           context,
                           details.explorerItems,
                         ),
-                        child: Text('open_explorer'.tr()),
+                        child: Text('open_explorer'.tr),
                       ),
                     ],
                   )
@@ -131,25 +131,25 @@ class TransactionDetailsView extends StatelessWidget {
     String titlePrefix;
     switch (type) {
       case TransactionType.deposit:
-        titlePrefix = 'deposit'.tr();
+        titlePrefix = 'deposit'.tr;
         break;
       case TransactionType.withdraw:
-        titlePrefix = 'withdrawal'.tr();
+        titlePrefix = 'withdrawal'.tr;
         break;
     }
     return Builder(
       builder: (context) {
         if (titlePrefix == null) {
-          return Text('details'.tr());
+          return Text('details'.tr);
         }
-        return Text('$titlePrefix ${'details'.tr()}');
+        return Text('$titlePrefix ${'details'.tr}');
       },
     );
   }
 
   _viewExplorer(BuildContext context, List<ExplorerItem> explorerItems) {
     List<Widget> widgets = [
-      Text('explorer_links'.tr(), style: Theme.of(context).textTheme.headline5),
+      Text('explorer_links'.tr, style: Theme.of(context).textTheme.headline5),
       AppUiHelpers.vSpaceSmall,
     ]..addAll(explorerItems
         .map((e) => FlatButton(
@@ -192,7 +192,7 @@ class TransactionDetailsView extends StatelessWidget {
 
   _copyHash(BuildContext context, String hash) {
     ClipboardManager.copyToClipBoard(hash).then((result) {
-      final String message = 'msg_hash_copied'.tr();
+      final String message = 'msg_hash_copied'.tr;
       locator<SnackbarService>().showCustomSnackBar(
         message: message,
         duration: Duration(seconds: 2),

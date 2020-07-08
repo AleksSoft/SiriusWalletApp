@@ -14,7 +14,7 @@ class SettingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('settings'.tr()),
+        title: Text('settings'.tr),
       ),
       body: ViewModelBuilder<SettingsViewModel>.reactive(
           viewModelBuilder: () => SettingsViewModel(),
@@ -23,7 +23,7 @@ class SettingsView extends StatelessWidget {
             return ListView(
               children: <Widget>[
                 MenuTile(
-                  title: 'base_asset'.tr(),
+                  title: 'base_asset'.tr,
                   subtitle: model.settings.baseAsset?.symbol ?? '',
                   icon: Icons.looks_one,
                   iconColor: Colors.black,
@@ -35,7 +35,7 @@ class SettingsView extends StatelessWidget {
                       Routes.selectAssetRoute,
                       arguments: SelectAssetViewArguments(
                         args: SelectAssetArgs(
-                          title: 'select_asset'.tr(),
+                          title: 'select_asset'.tr,
                           selectedAsset: model.settings.baseAsset,
                         ),
                       ),
@@ -44,7 +44,7 @@ class SettingsView extends StatelessWidget {
                   },
                 ),
                 MenuTile(
-                  title: 'push_notifications'.tr(),
+                  title: 'push_notifications'.tr,
                   icon: Icons.notifications,
                   iconColor: Colors.black,
                   color: Colors.transparent,
@@ -55,8 +55,8 @@ class SettingsView extends StatelessWidget {
                   ),
                 ),
                 MenuTile(
-                  title: 'pin'.tr(),
-                  subtitle: 'sign_order_with_pin'.tr(),
+                  title: 'pin'.tr,
+                  subtitle: 'sign_order_with_pin'.tr,
                   icon: Icons.dialpad,
                   iconColor: Colors.black,
                   color: Colors.transparent,
@@ -67,7 +67,7 @@ class SettingsView extends StatelessWidget {
                   ),
                 ),
                 MenuTile(
-                  title: 'backup_private_key'.tr(),
+                  title: 'backup_private_key'.tr,
                   icon: Icons.vpn_key,
                   iconColor: Colors.black,
                   color: Colors.transparent,
@@ -76,7 +76,7 @@ class SettingsView extends StatelessWidget {
                       .pushNamed(Routes.backUpCopyKeyRoute),
                 ),
                 MenuTile(
-                  title: 'language'.tr(),
+                  title: 'language'.tr,
                   subtitle: context.locale.languageCode,
                   icon: Icons.language,
                   iconColor: Colors.black,
@@ -88,7 +88,7 @@ class SettingsView extends StatelessWidget {
                   ),
                 ),
                 MenuTile(
-                  title: 'about'.tr(),
+                  title: 'about'.tr,
                   icon: Icons.info_outline,
                   iconColor: Colors.black,
                   color: Colors.transparent,
@@ -115,7 +115,7 @@ class _ChooseLanguageView extends StatelessWidget {
           icon: Icon(Icons.close),
           onPressed: () => ExtendedNavigator.of(context).pop(),
         ),
-        title: Text('choose_language'.tr()),
+        title: Text('choose_language'.tr),
         centerTitle: true,
       ),
       body: Column(

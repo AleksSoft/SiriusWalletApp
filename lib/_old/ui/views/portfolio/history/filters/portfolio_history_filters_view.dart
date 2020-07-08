@@ -29,11 +29,11 @@ class PortfolioHistoryFiltersView extends StatelessWidget {
                 icon: Icon(Icons.close),
                 onPressed: () => Navigator.of(context).pop(),
               ),
-              title: Text('filters'.tr()),
+              title: Text('filters'.tr),
               actions: [
                 FlatButton(
                   onPressed: () => model.clearFilter(),
-                  child: Text('clear'.tr()),
+                  child: Text('clear'.tr),
                 )
               ],
             ),
@@ -67,7 +67,7 @@ class _PortfolioHistoryPeriodFilterView
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Text(
-          'period'.tr(),
+          'period'.tr,
           style: Theme.of(context).textTheme.headline6.copyWith(
                 fontWeight: FontWeight.w700,
               ),
@@ -76,7 +76,7 @@ class _PortfolioHistoryPeriodFilterView
           alignment: WrapAlignment.start,
           children: [
             ChoiceChip(
-              label: Text('all'.tr()),
+              label: Text('all'.tr),
               padding: EdgeInsets.symmetric(horizontal: AppSizes.small),
               backgroundColor: AppColors.primary,
               selectedColor: AppColors.accent,
@@ -106,7 +106,7 @@ class _PortfolioHistoryPeriodFilterView
               selected: model.filterPeriod == PeriodFilter.week,
             ),
             ChoiceChip(
-              label: Text('custom'.tr()),
+              label: Text('custom'.tr),
               padding: EdgeInsets.symmetric(horizontal: AppSizes.small),
               backgroundColor: AppColors.primary,
               selectedColor: AppColors.accent,
@@ -140,7 +140,7 @@ class _PortfolioHistoryPeriodFilterView
         children: [
           ListTile(
             dense: true,
-            title: Text('time_from'.tr()),
+            title: Text('time_from'.tr),
             trailing: Text(model.filterTimeFromStr),
           ),
           Divider(
@@ -150,7 +150,7 @@ class _PortfolioHistoryPeriodFilterView
           ),
           ListTile(
             dense: true,
-            title: Text('time_to'.tr()),
+            title: Text('time_to'.tr),
             trailing: Text(model.filterTimeToStr),
           ),
         ],
@@ -190,7 +190,7 @@ class _PortfolioHistoryTransFilterView
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Text(
-          'display_trans'.tr(),
+          'display_trans'.tr,
           style: Theme.of(context).textTheme.headline6.copyWith(
                 fontWeight: FontWeight.w700,
               ),
@@ -199,7 +199,7 @@ class _PortfolioHistoryTransFilterView
           alignment: WrapAlignment.start,
           children: [
             ChoiceChip(
-              label: Text('all'.tr()),
+              label: Text('all'.tr),
               padding: const EdgeInsets.symmetric(horizontal: AppSizes.small),
               backgroundColor: AppColors.primary,
               selectedColor: AppColors.accent,
@@ -211,7 +211,7 @@ class _PortfolioHistoryTransFilterView
                   model.filterTransactionType == TransactionTypeFilter.all,
             ),
             ChoiceChip(
-              label: Text('deposit'.tr()),
+              label: Text('deposit'.tr),
               padding: const EdgeInsets.symmetric(horizontal: AppSizes.small),
               backgroundColor: AppColors.primary,
               selectedColor: AppColors.accent,
@@ -223,7 +223,7 @@ class _PortfolioHistoryTransFilterView
                   model.filterTransactionType == TransactionTypeFilter.deposit,
             ),
             ChoiceChip(
-              label: Text('withdraw'.tr()),
+              label: Text('withdraw'.tr),
               padding: const EdgeInsets.symmetric(horizontal: AppSizes.small),
               backgroundColor: AppColors.primary,
               selectedColor: AppColors.accent,
@@ -252,7 +252,7 @@ class _PortfolioHistoryAssetFilterView
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Text(
-          'assets'.tr(),
+          'assets'.tr,
           style: Theme.of(context).textTheme.headline6.copyWith(
                 fontWeight: FontWeight.w700,
               ),
@@ -261,7 +261,7 @@ class _PortfolioHistoryAssetFilterView
           alignment: WrapAlignment.start,
           children: [
             ChoiceChip(
-              label: Text('all'.tr()),
+              label: Text('all'.tr),
               padding: const EdgeInsets.symmetric(horizontal: AppSizes.small),
               backgroundColor: AppColors.primary,
               selectedColor: AppColors.accent,
@@ -281,7 +281,7 @@ class _PortfolioHistoryAssetFilterView
                   Routes.selectAssetRoute,
                   arguments: SelectAssetViewArguments(
                     args: SelectAssetArgs(
-                      title: 'select_asset'.tr(),
+                      title: 'select_asset'.tr,
                       selectedAsset: model.filterAsset,
                     ),
                   ),
@@ -297,6 +297,6 @@ class _PortfolioHistoryAssetFilterView
   }
 
   Widget _getSingleAssetButtonTitle(AssetData asset) {
-    return Text(asset == null ? 'select_single'.tr() : asset.symbol);
+    return Text(asset == null ? 'select_single'.tr : asset.symbol);
   }
 }

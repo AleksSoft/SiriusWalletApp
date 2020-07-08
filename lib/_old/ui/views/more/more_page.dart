@@ -15,34 +15,34 @@ class MoreView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('more'.tr()),
+        title: Text('more'.tr),
       ),
       body: ListView(
         physics: BouncingScrollPhysics(),
         children: <Widget>[
           MenuTile(
-            title: 'settings'.tr(),
+            title: 'settings'.tr,
             icon: Icons.settings,
             onTap: () => ExtendedNavigator.ofRouter<MoreNestedRouter>()
                 .pushNamed(Routes.moreSettingsRoute),
             trailing: Icon(Icons.chevron_right),
           ),
           MenuTile(
-            title: 'profile'.tr(),
+            title: 'profile'.tr,
             icon: Icons.account_circle,
             onTap: () => ExtendedNavigator.ofRouter<MoreNestedRouter>()
                 .pushNamed(Routes.moreProfileRoute),
             trailing: Icon(Icons.chevron_right),
           ),
           MenuTile(
-            title: 'support'.tr(),
+            title: 'support'.tr,
             icon: Icons.headset,
             onTap: () => ExtendedNavigator.ofRouter<MoreNestedRouter>()
                 .pushNamed(Routes.moreSupportRoute),
             trailing: Icon(Icons.chevron_right),
           ),
           MenuTile(
-            title: 'tac'.tr(),
+            title: 'tac'.tr,
             icon: Icons.list,
             onTap: () => _launchURL('https://www.lykke.com/cp/terms_of_use'),
             trailing: Icon(Icons.chevron_right),
@@ -52,12 +52,12 @@ class MoreView extends StatelessWidget {
             color: CupertinoColors.extraLightBackgroundGray,
           ),
           MenuTile(
-            title: 'logout'.tr(),
+            title: 'logout'.tr,
             icon: Icons.exit_to_app,
             onTap: () {
               locator<KeyStoreService>().deleteAll();
               Scaffold.of(context).showSnackBar(
-                SnackBar(content: Text('msg_storage_cleared'.tr())),
+                SnackBar(content: Text('msg_storage_cleared'.tr)),
               );
             },
             color: Colors.red,

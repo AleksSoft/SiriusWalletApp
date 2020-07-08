@@ -11,12 +11,12 @@ class SupportView extends StatelessWidget {
     var textStyle = Theme.of(context).textTheme.caption;
     return Scaffold(
       appBar: AppBar(
-        title: Text('support'.tr()),
+        title: Text('support'.tr),
       ),
       body: ListView(
         children: <Widget>[
           MenuTile(
-            title: 'helpcenter'.tr(),
+            title: 'helpcenter'.tr,
             icon: Icons.info_outline,
             onTap: _launchURL,
             trailing: Row(
@@ -28,7 +28,7 @@ class SupportView extends StatelessWidget {
             ),
           ),
           MenuTile(
-            title: 'email_us'.tr(),
+            title: 'email_us'.tr,
             icon: Icons.mail_outline,
             onTap: () => launch("mailto:support@lykke.com"),
             trailing: Row(
@@ -40,7 +40,7 @@ class SupportView extends StatelessWidget {
             ),
           ),
           MenuTile(
-            title: 'сall'.tr(),
+            title: 'сall'.tr,
             icon: Icons.phone,
             onTap: () => launch("tel:+41435086379"),
             trailing: Row(

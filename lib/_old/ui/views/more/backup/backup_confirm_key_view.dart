@@ -17,7 +17,7 @@ class BackUpConfirmKeyView extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: Text('back_up'.tr()),
+        title: Text('back_up'.tr),
       ),
       body: ViewModelBuilder<SettingsViewModel>.nonReactive(
         viewModelBuilder: () => SettingsViewModel(),
@@ -31,7 +31,7 @@ class BackUpConfirmKeyView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: AppSizes.medium),
                 child: Text(
-                  'msg_back_up_confirm'.tr(),
+                  'msg_back_up_confirm'.tr,
                   style: Theme.of(context).textTheme.subtitle1.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -85,7 +85,7 @@ class _SubmitButton extends ViewModelWidget<SettingsViewModel> {
   Widget build(context, model) {
     return CupertinoButton.filled(
       disabledColor: Colors.grey.withOpacity(0.7),
-      child: Text('create_wallets_backup'.tr()),
+      child: Text('create_wallets_backup'.tr),
       onPressed: model.phraseComplete
           ? () => ExtendedNavigator.ofRouter<Router>()
               .popUntil((route) => route.isFirst)

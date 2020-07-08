@@ -17,7 +17,7 @@ class UpgradeAccountQuestView extends StatelessWidget {
         title: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('questionnaire'.tr()),
+            Text('questionnaire'.tr),
             Text(
               'step_n_of_n'.tr(args: ['1', '3']),
               style: Theme.of(context).textTheme.caption,
@@ -40,7 +40,7 @@ class UpgradeAccountQuestView extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(AppSizes.small)),
             child: CupertinoButton.filled(
               disabledColor: Colors.grey.withOpacity(0.7),
-              child: Text('submit'.tr()),
+              child: Text('submit'.tr),
               onPressed: () => ExtendedNavigator.ofRouter<Router>().pushNamed(
                 Routes.upgradeAccountResultRoute,
               ),
@@ -102,8 +102,8 @@ class _Quest1State extends State<_Quest1> {
                 groupValue: 0,
                 onValueChanged: (value) {},
                 children: {
-                  0: Text('yes'.tr()),
-                  1: Text('no'.tr()),
+                  0: Text('yes'.tr),
+                  1: Text('no'.tr),
                 },
               ),
             ],
@@ -191,7 +191,7 @@ class _Quest1State extends State<_Quest1> {
                   ),
                   child: TextField(
                     decoration: InputDecoration.collapsed(
-                      hintText: 'hint_please_specify'.tr(),
+                      hintText: 'hint_please_specify'.tr,
                     ),
                   ),
                 ),
@@ -275,7 +275,7 @@ class _Quest1State extends State<_Quest1> {
                 builder: (FormFieldState<String> state) {
                   return InputDecorator(
                     decoration: InputDecoration.collapsed(
-                      hintText: 'hint_please_select'.tr(),
+                      hintText: 'hint_please_select'.tr,
                     ),
                     isEmpty: _currentSelectedValue == null ||
                         _currentSelectedValue == '',

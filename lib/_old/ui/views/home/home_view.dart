@@ -13,7 +13,7 @@ class HomeView extends StatelessWidget {
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
         centerTitle: false,
-        title: Text('app_title'.tr()),
+        title: Text('app_title'.tr),
       ),
       body: ListView(
         children: [
@@ -117,7 +117,7 @@ class _AssetsView extends StatelessWidget {
                 size: AppSizes.medium,
               ),
             ),
-            title: Text('portfolio'.tr()),
+            title: Text('portfolio'.tr),
             trailing: Text(
               'USD 0.00',
               style: TextStyle(
@@ -154,7 +154,7 @@ class _AssetsView extends StatelessWidget {
                 size: AppSizes.medium,
               ),
             ),
-            title: Text('wallets'.tr()),
+            title: Text('wallets'.tr),
             trailing: Text(
               'USD 0.00',
               style: TextStyle(
@@ -446,7 +446,7 @@ class _LyCIView extends StatelessWidget {
           ),
           CupertinoButton(
             onPressed: () {},
-            child: Text('learn_more'.tr()),
+            child: Text('learn_more'.tr),
           ),
         ],
       ),
@@ -577,7 +577,7 @@ class _MyLykkeView extends StatelessWidget {
             AppUiHelpers.vSpaceLarge,
             CupertinoButton.filled(
               padding: EdgeInsets.all(0.0),
-              child: Text('buy_now'.tr()),
+              child: Text('buy_now'.tr),
               onPressed: () {},
             )
           ],

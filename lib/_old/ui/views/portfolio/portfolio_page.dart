@@ -33,13 +33,13 @@ class _PortfolioViewState extends State<PortfolioView>
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: Text('portfolio'.tr()),
+          title: Text('portfolio'.tr),
           bottom: TabBar(
             indicatorWeight: 1.0,
             indicatorColor: Colors.black,
             tabs: <Widget>[
-              Tab(text: 'assets'.tr()),
-              Tab(text: 'history'.tr()),
+              Tab(text: 'assets'.tr),
+              Tab(text: 'history'.tr),
             ],
           ),
         ),

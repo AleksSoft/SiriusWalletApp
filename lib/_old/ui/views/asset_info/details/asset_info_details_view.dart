@@ -88,9 +88,9 @@ class AssetInfoDetailsView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.baseline,
                   textBaseline: TextBaseline.alphabetic,
                   children: [
-                    Text('asset_pairs'.tr(), style: titleTheme),
+                    Text('asset_pairs'.tr, style: titleTheme),
                     CupertinoButton(
-                      child: Text('see_all'.tr()),
+                      child: Text('see_all'.tr),
                       onPressed: model.seeAllActive
                           ? () => _showSearch(context, model)
                           : null,
@@ -126,7 +126,7 @@ class AssetInfoDetailsView extends StatelessWidget {
       delegate: SearchPage<AssetPairData>(
         showItemsOnEmpty: true,
         items: model.assetPairs,
-        searchLabel: 'search'.tr(),
+        searchLabel: 'search'.tr,
         filter: (pair) => [
           pair.mainAssetName,
           pair.mainAssetSymbol,

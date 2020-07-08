@@ -20,7 +20,7 @@ class UpgradeAccountChooseDocView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(AppSizes.large),
             child: Text(
-              'msg_select_type_doc'.tr(),
+              'msg_select_type_doc'.tr,
               style: Theme.of(context).textTheme.button.copyWith(
                     fontSize: 16.0,
                   ),
@@ -29,7 +29,7 @@ class UpgradeAccountChooseDocView extends StatelessWidget {
           ),
           Divider(height: 1.0),
           ListTile(
-            title: Text('passport'.tr()),
+            title: Text('passport'.tr),
             trailing: Icon(CupertinoIcons.forward),
             onTap: () => ExtendedNavigator.ofRouter<Router>().pushNamed(
               Routes.upgradeAccountDocRoute,
@@ -41,7 +41,7 @@ class UpgradeAccountChooseDocView extends StatelessWidget {
           Divider(
               height: 1.0, indent: AppSizes.medium, endIndent: AppSizes.medium),
           ListTile(
-            title: Text('national_id'.tr()),
+            title: Text('national_id'.tr),
             trailing: Icon(CupertinoIcons.forward),
             onTap: () => ExtendedNavigator.ofRouter<Router>().pushNamed(
               Routes.upgradeAccountDocRoute,
@@ -53,7 +53,7 @@ class UpgradeAccountChooseDocView extends StatelessWidget {
           Divider(
               height: 1.0, indent: AppSizes.medium, endIndent: AppSizes.medium),
           ListTile(
-            title: Text('driving_license'.tr()),
+            title: Text('driving_license'.tr),
             trailing: Icon(CupertinoIcons.forward),
             onTap: () => ExtendedNavigator.ofRouter<Router>().pushNamed(
               Routes.upgradeAccountDocRoute,

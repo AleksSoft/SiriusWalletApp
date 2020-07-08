@@ -11,13 +11,13 @@ class OrdersView extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('orders'.tr()),
+          title: Text('orders'.tr),
           bottom: TabBar(
             indicatorWeight: 1.0,
             indicatorColor: Colors.black,
             tabs: <Widget>[
-              Tab(text: 'opened'.tr()),
-              Tab(text: 'history'.tr()),
+              Tab(text: 'opened'.tr),
+              Tab(text: 'history'.tr),
             ],
           ),
         ),
