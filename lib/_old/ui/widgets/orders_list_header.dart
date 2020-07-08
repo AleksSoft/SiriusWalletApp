@@ -1,9 +1,9 @@
-import 'package:antares_wallet/app/ui/app_colors.dart';
-import 'package:antares_wallet/app/ui/app_sizes.dart';
+import 'package:antares_wallet/ui/common/app_colors.dart';
+import 'package:antares_wallet/ui/common/app_sizes.dart';
 import 'package:flutter/material.dart';
 
-class AssetPairListHeaderView extends StatelessWidget {
-  const AssetPairListHeaderView({Key key}) : super(key: key);
+class OrdersListHeaderView extends StatelessWidget {
+  const OrdersListHeaderView({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,20 +29,20 @@ class AssetPairListHeaderView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Flexible(
-                  flex: 2,
+                  flex: 5,
                   fit: FlexFit.tight,
-                  child: Text('Name / Vol', style: textStyle),
+                  child: Text('Pair', style: textStyle),
                 ),
                 Flexible(
-                  flex: 2,
+                  flex: 3,
                   fit: FlexFit.tight,
-                  child: Text('Last price', style: textStyle),
+                  child: Text('Avg./Price', style: textStyle),
                 ),
                 Flexible(
-                  flex: 1,
+                  flex: 3,
                   fit: FlexFit.tight,
                   child: Text(
-                    '24h Chg %',
+                    'Filled/Amount',
                     style: textStyle,
                     textAlign: TextAlign.right,
                   ),

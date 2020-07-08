@@ -1,4 +1,4 @@
-import 'package:antares_wallet/app/ui/app_sizes.dart';
+import 'package:antares_wallet/ui/common/app_sizes.dart';
 import 'package:flutter/material.dart';
 
 class DefaultCard extends StatelessWidget {

@@ -1,18 +1,23 @@
+import 'package:antares_wallet/app/locator.dart';
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/models/transaction_details.dart';
 import 'package:antares_wallet/services/api/mock_api.dart';
-import 'package:get/get.dart';
+import 'package:injectable/injectable.dart';
+import 'package:observable_ish/observable_ish.dart';
+import 'package:stacked/stacked.dart';
 
 enum PeriodFilter { all, day, week, custom }
 
 enum TransactionTypeFilter { all, deposit, withdraw }
 
-class PortfolioHistoryRepository {
-  final _api = Get.find<MockApiService>();
+@lazySingleton
+class PortfolioHistoryRepository with ReactiveServiceMixin {
+  final _api = locator<MockApiService>();
 
   List<TransactionDetails> _historyItems = List();
 
-  final _filter = _HistoryFilter.initial().obs;
+  RxValue<_HistoryFilter> _filter =
+      RxValue<_HistoryFilter>(initial: _HistoryFilter.initial());
 
   _HistoryFilter get filter => _filter.value;
 
@@ -27,6 +32,10 @@ class PortfolioHistoryRepository {
     return filtered.reversed.toList();
   }
 
+  PortfolioHistoryRepository() {
+    listenToReactiveValues([_filter]);
+  }
+
   Future<void> loadHistory() async {
     _historyItems = await _api.fetchPortfolioHistry();
   }
@@ -37,28 +46,34 @@ class PortfolioHistoryRepository {
 
   void clearFilter() {
     _filter.value = _HistoryFilter.initial();
+    notifyListeners();
   }
 
   void updateFilterPeriod(PeriodFilter filter) {
     _filter.value.period = filter;
+    notifyListeners();
   }
 
   void updateCustomTimeFrom(int timeFrom) {
     assert(filter.period == PeriodFilter.custom);
     _filter.value.timeFrom = timeFrom;
+    notifyListeners();
   }
 
   void updateCustomTimeTo(int timeTo) {
     assert(filter.period == PeriodFilter.custom);
     _filter.value.timeTo = timeTo;
+    notifyListeners();
   }
 
   void updateFilterTransType(TransactionTypeFilter filter) {
     _filter.value.transactionType = filter;
+    notifyListeners();
   }
 
   void updateFilterAsset(AssetData asset) {
     _filter.value.asset = asset;
+    notifyListeners();
   }
 }
 

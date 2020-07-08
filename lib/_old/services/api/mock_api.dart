@@ -5,7 +5,9 @@ import 'package:antares_wallet/models/order_data.dart';
 import 'package:antares_wallet/models/personal_data.dart';
 import 'package:antares_wallet/models/transaction_details.dart';
 import 'package:antares_wallet/models/support.dart';
+import 'package:injectable/injectable.dart';
 
+@lazySingleton
 class MockApiService {
   static const String lykkeIconUrl =
       'https://logos-download.com/wp-content/uploads/2018/05/Lykke_logo_lkk.png';

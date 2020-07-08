@@ -1,7 +1,7 @@
-import 'package:antares_wallet/app/ui/app_colors.dart';
-import 'package:antares_wallet/app/ui/app_sizes.dart';
-import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
+import 'package:antares_wallet/ui/common/app_colors.dart';
+import 'package:antares_wallet/ui/common/app_sizes.dart';
+import 'package:antares_wallet/ui/common/app_ui_helpers.dart';
 import 'package:flutter/material.dart';
 
 class AssetListTile extends StatelessWidget {

@@ -1,7 +1,9 @@
-import 'package:antares_wallet/app/ui/app_colors.dart';
-import 'package:antares_wallet/app/ui/app_sizes.dart';
-import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
+import 'package:antares_wallet/app/routers/router.gr.dart';
 import 'package:antares_wallet/models/asset_pair_data.dart';
+import 'package:antares_wallet/ui/common/app_colors.dart';
+import 'package:antares_wallet/ui/common/app_sizes.dart';
+import 'package:antares_wallet/ui/common/app_ui_helpers.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import 'asset_pair_rich_text.dart';

@@ -1,9 +1,11 @@
+import 'package:antares_wallet/app/locator.dart';
 import 'package:antares_wallet/models/order_data.dart';
 import 'package:antares_wallet/services/api/mock_api.dart';
-import 'package:get/get.dart';
+import 'package:injectable/injectable.dart';
 
+@lazySingleton
 class OrderRepository {
-  final _api = Get.find<MockApiService>();
+  final _api = locator<MockApiService>();
 
   List<OrderData> _openedOrders = List();
 
