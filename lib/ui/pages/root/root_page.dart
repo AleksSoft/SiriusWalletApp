@@ -1,5 +1,7 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
+import 'package:antares_wallet/ui/pages/exchange/exchange_page.dart';
 import 'package:antares_wallet/ui/pages/home/home_page.dart';
+import 'package:antares_wallet/ui/pages/more/more_page.dart';
 import 'package:antares_wallet/ui/pages/orders/orders_page.dart';
 import 'package:antares_wallet/ui/pages/portfolio/portfolio_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,13 +11,12 @@ import 'package:get/get.dart';
 import 'root_controller.dart';
 
 class RootPage extends StatelessWidget {
-  static final String route = '/root';
-
   @override
   Widget build(BuildContext context) {
     final styleSel = Get.textTheme.caption.copyWith(color: AppColors.accent);
     final style = Get.textTheme.caption.copyWith(color: AppColors.dark);
     return GetBuilder<RootController>(
+      init: RootController(),
       builder: (_) {
         return Scaffold(
           body: IndexedStack(
@@ -23,13 +24,9 @@ class RootPage extends StatelessWidget {
             children: [
               HomePage(),
               PortfolioPage(),
-              ExtendedNavigator<ExchangeNestedRouter>(
-                router: ExchangeNestedRouter(),
-              ),
+              ExchangePage(),
               OrdersPage(),
-              ExtendedNavigator<MoreNestedRouter>(
-                router: MoreNestedRouter(),
-              ),
+              MorePage(),
             ],
           ),
           bottomNavigationBar: Container(

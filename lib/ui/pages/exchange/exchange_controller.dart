@@ -7,7 +7,8 @@ class ExchangeController extends GetxController {
 
   List<AssetPairData> get assetPairs => _repository.assetPairs;
 
-  void initialise() async {
+  @override
+  void onInit() async {
     await _repository.loadAllAssetPairs();
     update();
   }

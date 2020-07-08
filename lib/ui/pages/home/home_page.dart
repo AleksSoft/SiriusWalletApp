@@ -1,16 +1,15 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
-import 'package:antares_wallet/ui/pages/home/home_controller.dart';
 import 'package:antares_wallet/ui/widgets/default_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'home_controller.dart';
+
 class HomePage extends StatelessWidget {
   static final String route = '/home';
-
-  final HomeController c = HomeController.con;
 
   @override
   Widget build(BuildContext context) {
@@ -20,28 +19,33 @@ class HomePage extends StatelessWidget {
         centerTitle: false,
         title: Text('app_title'.tr),
       ),
-      body: ListView(
-        children: [
-          _AssetsView(),
-          _ExchangeView(),
-          _LyCIView(),
-          _MyLykkeView(),
-          Padding(
-            padding: EdgeInsets.fromLTRB(
-              AppSizes.medium,
-              AppSizes.small,
-              AppSizes.medium,
-              AppSizes.medium,
-            ),
-            child: Text(
-              '© 2020 Lykke, Inc.',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.button.copyWith(
-                    color: AppColors.secondary,
-                  ),
-            ),
-          )
-        ],
+      body: GetBuilder<HomeController>(
+        init: HomeController(),
+        builder: (_) {
+          return ListView(
+            children: [
+              _AssetsView(),
+              _ExchangeView(),
+              _LyCIView(),
+              _MyLykkeView(),
+              Padding(
+                padding: EdgeInsets.fromLTRB(
+                  AppSizes.medium,
+                  AppSizes.small,
+                  AppSizes.medium,
+                  AppSizes.medium,
+                ),
+                child: Text(
+                  '© 2020 Lykke, Inc.',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.button.copyWith(
+                        color: AppColors.secondary,
+                      ),
+                ),
+              )
+            ],
+          );
+        },
       ),
     );
   }
@@ -318,7 +322,7 @@ class _ExchangeView extends StatelessWidget {
               child: Row(
                 children: [
                   _buildPairContainer(context),
-                  AppUiHelpers.vSpaceSmall,
+                  AppUiHelpers.hSpaceSmall,
                   _buildPairContainer(context),
                 ],
               ),
@@ -329,7 +333,7 @@ class _ExchangeView extends StatelessWidget {
               child: Row(
                 children: [
                   _buildPairContainer(context),
-                  AppUiHelpers.vSpaceSmall,
+                  AppUiHelpers.hSpaceSmall,
                   _buildPairContainer(context),
                 ],
               ),

@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'widgets/menu_tile.dart';
 
-class MoreView extends StatelessWidget {
+class MorePage extends StatelessWidget {
   static final String route = '/more';
   @override
   Widget build(BuildContext context) {

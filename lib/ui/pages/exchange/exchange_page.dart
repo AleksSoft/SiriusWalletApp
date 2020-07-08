@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 
 import 'exchange_controller.dart';
 
-class ExchangeView extends StatelessWidget {
+class ExchangePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ExchangeController>(

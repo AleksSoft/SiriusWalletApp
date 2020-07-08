@@ -14,9 +14,9 @@ class PortfolioHistoryController extends GetxController {
   List<TransactionDetails> get historyItems => _repository.items;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    _repository.loadHistory();
+    await _repository.loadHistory();
     update();
   }
 
