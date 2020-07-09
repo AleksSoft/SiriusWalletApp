@@ -105,12 +105,7 @@ class UpgradeAccountResultPage extends StatelessWidget {
                       return CupertinoButton.filled(
                         disabledColor: Colors.grey.withOpacity(0.7),
                         child: Text('ok'.tr),
-                        // TODO: tbd routing
-                        // onPressed: () {
-                        //   ExtendedNavigator.ofRouter<Router>()
-                        //       .popUntil((route) => route.isFirst);
-                        //   model.upgradeAccount();
-                        // },
+                        onPressed: () => _.upgradeAccount(),
                       );
                     },
                   ),

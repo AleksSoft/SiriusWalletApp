@@ -19,6 +19,6 @@ class ProfileController extends GetxController {
 
   void upgradeAccount() async {
     await _repository.upgradeAccount();
-    update();
+    Get.until((route) => route.isFirst);
   }
 }

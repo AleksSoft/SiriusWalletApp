@@ -1,6 +1,7 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
+import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -61,9 +62,7 @@ class _AccountDataView extends StatelessWidget {
           trailing: Visibility(
             visible: c.accountData.hasNoLimit,
             child: OutlineButton(
-              // TODO: tbd routing
-              // onPressed: () => ExtendedNavigator.ofRouter<Router>()
-              //     .pushNamed(Routes.upgradeAccountMainRoute),
+              onPressed: () => Get.toNamed(UpgradeAccountMainPage.route),
               borderSide: BorderSide(color: AppColors.accent),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppSizes.extraSmall),

@@ -21,10 +21,8 @@ class SelectAssetArgs {
   });
 }
 
-class SelectAssetView extends StatelessWidget {
-  final SelectAssetArgs args;
-
-  SelectAssetView(this.args);
+class SelectAssetPage extends StatelessWidget {
+  static final String route = '/select-asset';
 
   @override
   Widget build(BuildContext context) {

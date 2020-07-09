@@ -1,5 +1,6 @@
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/services/repositories/portfolio_history_repository.dart';
+import 'package:antares_wallet/ui/pages/select_asset/select_asset_view.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -46,8 +47,20 @@ class PortfolioHistoryFiltersController extends GetxController {
     update();
   }
 
-  void updateFilterAsset(AssetData asset) {
-    _repository.updateFilterAsset(asset);
+  void updateFilterAsset() async {
+    final asset = await Get.toNamed(
+      SelectAssetPage.route,
+      arguments: SelectAssetArgs(
+        title: 'select_asset'.tr,
+        selectedAsset: filterAsset,
+      ),
+    );
+    _repository.updateFilterAsset(asset as AssetData);
+    update();
+  }
+
+  void clearFilterAsset() {
+    _repository.updateFilterAsset(null);
     update();
   }
 }

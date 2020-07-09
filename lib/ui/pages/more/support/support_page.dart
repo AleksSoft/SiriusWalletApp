@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 import 'support_controller.dart';
 
-class SupportView extends StatelessWidget {
+class SupportPage extends StatelessWidget {
   static final String route = '/support';
   @override
   Widget build(BuildContext context) {

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
+import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_quest.dart';
 import 'package:antares_wallet/ui/widgets/default_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,17 +18,16 @@ enum DocType {
   proofOfAddress,
 }
 
-class UpgradeAccountDocView extends StatefulWidget {
+class UpgradeAccountDocPage extends StatefulWidget {
   static final String route = '/upgrade-account-doc';
-  final DocType docType;
 
-  UpgradeAccountDocView(this.docType);
+  final DocType docType = Get.arguments as DocType;
 
   @override
-  _UpgradeAccountDocViewState createState() => _UpgradeAccountDocViewState();
+  _UpgradeAccountDocPageState createState() => _UpgradeAccountDocPageState();
 }
 
-class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
+class _UpgradeAccountDocPageState extends State<UpgradeAccountDocPage> {
   File _image;
   final picker = ImagePicker();
 
@@ -187,7 +187,7 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
               child: CupertinoButton.filled(
                 disabledColor: Colors.grey.withOpacity(0.7),
                 child: Text('submit'.tr),
-                onPressed: () => _pushNextRoute(context, widget.docType),
+                onPressed: () => _pushNextRoute(widget.docType),
               ),
             ),
           ],
@@ -230,34 +230,25 @@ class _UpgradeAccountDocViewState extends State<UpgradeAccountDocView> {
     }
   }
 
-  void _pushNextRoute(BuildContext context, DocType docType) {
+  void _pushNextRoute(DocType docType) {
     switch (docType) {
       case DocType.passport:
       case DocType.nationalId:
       case DocType.drivingLicense:
-        // TODO: tbd routing
-        // ExtendedNavigator.ofRouter<Router>().pushNamed(
-        //   Routes.upgradeAccountDocRoute,
-        //   arguments: UpgradeAccountDocViewArguments(
-        //     docType: DocType.selfie,
-        //   ),
-        // );
+        Get.toNamed(
+          UpgradeAccountDocPage.route,
+          arguments: DocType.selfie,
+        );
         break;
       case DocType.selfie:
-        // TODO: tbd routing
-        // ExtendedNavigator.ofRouter<Router>().pushNamed(
-        //   Routes.upgradeAccountDocRoute,
-        //   arguments: UpgradeAccountDocViewArguments(
-        //     docType: DocType.proofOfAddress,
-        //   ),
-        // );
+        Get.toNamed(
+          UpgradeAccountDocPage.route,
+          arguments: DocType.proofOfAddress,
+        );
         break;
       case DocType.proofOfAddress:
       default:
-      // TODO: tbd routing
-      // ExtendedNavigator.ofRouter<Router>().pushNamed(
-      //   Routes.upgradeAccountQuestRoute,
-      // );
+        Get.toNamed(UpgradeAccountQuestPage.route);
     }
   }
 }

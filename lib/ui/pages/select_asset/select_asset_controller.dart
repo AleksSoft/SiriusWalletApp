@@ -7,7 +7,7 @@ class SelectAssetController extends GetxController {
   static SelectAssetController get con => Get.find();
   final MockApiService _api = Get.find<MockApiService>();
 
-  SelectAssetArgs _selectAssetArgs;
+  SelectAssetArgs _selectAssetArgs = Get.arguments as SelectAssetArgs;
 
   AssetDictionaryData _assetDictionary = AssetDictionaryData();
 
@@ -22,8 +22,8 @@ class SelectAssetController extends GetxController {
 
   String get title => _selectAssetArgs.title;
 
-  Future initialise(SelectAssetArgs args) async {
-    _selectAssetArgs = args;
+  @override
+  void onInit() async {
     _assetDictionary = await _api.fetchAssetDictionary();
     update();
   }

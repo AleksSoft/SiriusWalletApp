@@ -1,7 +1,6 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
-import 'package:antares_wallet/models/asset_pair_data.dart';
 import 'package:antares_wallet/models/market_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,11 +9,10 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'dart:math' as math;
 
-import 'pairt_trading_view_model.dart';
+import 'pairt_trading_controller.dart';
 
-class PairTradingView extends StatelessWidget {
-  final AssetPairData data;
-  PairTradingView({@required this.data});
+class PairTradingPage extends StatelessWidget {
+  static final String route = '/pair-trading';
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +28,7 @@ class PairTradingView extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    '${data.mainAssetSymbol}/${data.secAssetSymbol}',
+                    '${_.data.mainAssetSymbol}/${_.data.secAssetSymbol}',
                     style: TextStyle(fontSize: 16.0),
                   ),
                   Padding(

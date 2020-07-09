@@ -1,4 +1,5 @@
 import 'package:antares_wallet/app/ui/app_sizes.dart';
+import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_doc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,45 +28,33 @@ class UpgradeAccountChooseDocPage extends StatelessWidget {
           ListTile(
             title: Text('passport'.tr),
             trailing: Icon(CupertinoIcons.forward),
-            // TODO: tbd routing
-            // onTap: () => ExtendedNavigator.ofRouter<Router>().pushNamed(
-            //   Routes.upgradeAccountDocRoute,
-            //   arguments: UpgradeAccountDocViewArguments(
-            //     docType: DocType.passport,
-            //   ),
-            // ),
+            onTap: () => Get.toNamed(
+              UpgradeAccountDocPage.route,
+              arguments: DocType.passport,
+            ),
           ),
           Divider(
               height: 1.0, indent: AppSizes.medium, endIndent: AppSizes.medium),
           ListTile(
             title: Text('national_id'.tr),
             trailing: Icon(CupertinoIcons.forward),
-            // TODO: tbd routing
-            // onTap: () => ExtendedNavigator.ofRouter<Router>().pushNamed(
-            //   Routes.upgradeAccountDocRoute,
-            //   arguments: UpgradeAccountDocViewArguments(
-            //     docType: DocType.nationalId,
-            //   ),
-            // ),
+            onTap: () => Get.toNamed(
+              UpgradeAccountDocPage.route,
+              arguments: DocType.nationalId,
+            ),
           ),
           Divider(
               height: 1.0, indent: AppSizes.medium, endIndent: AppSizes.medium),
           ListTile(
             title: Text('driving_license'.tr),
             trailing: Icon(CupertinoIcons.forward),
-            // TODO: tbd routing
-            // onTap: () => ExtendedNavigator.ofRouter<Router>().pushNamed(
-            //   Routes.upgradeAccountDocRoute,
-            //   arguments: UpgradeAccountDocViewArguments(
-            //     docType: DocType.drivingLicense,
-            //   ),
-            // ),
+            onTap: () => Get.toNamed(
+              UpgradeAccountDocPage.route,
+              arguments: DocType.drivingLicense,
+            ),
           ),
           Divider(
-            height: 1.0,
-            indent: AppSizes.medium,
-            endIndent: AppSizes.medium,
-          ),
+              height: 1.0, indent: AppSizes.medium, endIndent: AppSizes.medium),
         ],
       ),
     );

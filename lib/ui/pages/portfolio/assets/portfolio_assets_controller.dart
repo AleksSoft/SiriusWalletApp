@@ -1,5 +1,6 @@
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/services/repositories/asset_repository.dart';
+import 'package:antares_wallet/ui/pages/asset_info/asset_info_page.dart';
 import 'package:get/get.dart';
 
 class PortfolioAssetsController extends GetxController {
@@ -46,8 +47,6 @@ class PortfolioAssetsController extends GetxController {
     return (list.length - 3).toString();
   }
 
-  void openAssetInfo(AssetData asset) {
-    // TODO: add asset info route properly
-    // Get.toNamed(AppRoutes.assetInfoRoute, arguments: asset);
-  }
+  void openAssetInfo(AssetData asset) =>
+      Get.toNamed(AssetInfoPage.route, arguments: asset);
 }

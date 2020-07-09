@@ -1,7 +1,8 @@
-import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/models/settings_data.dart';
 import 'package:antares_wallet/services/repositories/settings_repository.dart';
 import 'package:antares_wallet/src/generated/isalive.pb.dart';
+import 'package:antares_wallet/ui/pages/more/settings/backup/backup_copy_key_page.dart';
+import 'package:antares_wallet/ui/pages/select_asset/select_asset_view.dart';
 import 'package:collection/collection.dart';
 import 'package:get/get.dart';
 
@@ -39,8 +40,15 @@ class SettingsController extends GetxController {
     update();
   }
 
-  void updateBaseAsset(AssetData assetData) async {
-    await _repository.updateBaseAsset(assetData);
+  Future updateBaseAsset() async {
+    final asset = await Get.toNamed(
+      SelectAssetPage.route,
+      arguments: SelectAssetArgs(
+        title: 'select_asset'.tr,
+        selectedAsset: settings.baseAsset,
+      ),
+    );
+    await _repository.updateBaseAsset(asset);
     update();
   }
 
@@ -61,4 +69,6 @@ class SettingsController extends GetxController {
       });
     }
   }
+
+  void backupPrivateKey() => Get.toNamed(BackUpCopyKeyPage.route);
 }

@@ -1,10 +1,13 @@
 import 'dart:convert' show json;
 
+import 'package:antares_wallet/models/asset_pair_data.dart';
 import 'package:antares_wallet/models/market_model.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:get/get.dart';
 
 class PairTradingController extends GetxController {
+  final AssetPairData data = Get.arguments as AssetPairData;
+
   List<MarketModel> _mockMarkets = List();
 
   List<MarketModel> get mockMarkets => _mockMarkets;

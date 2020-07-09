@@ -9,6 +9,8 @@ import 'package:get/get.dart';
 import '../settings_controller.dart';
 
 class BackUpConfirmKeyPage extends StatelessWidget {
+  static final String route = '/back-up-confirm-key';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,11 +40,9 @@ class BackUpConfirmKeyPage extends StatelessWidget {
               CupertinoButton.filled(
                 disabledColor: Colors.grey.withOpacity(0.7),
                 child: Text('create_wallets_backup'.tr),
-                // TODO: tbd routing
-                // onPressed: model.phraseComplete
-                //     ? () => ExtendedNavigator.ofRouter<Router>()
-                //         .popUntil((route) => route.isFirst)
-                //     : null,
+                onPressed: _.phraseComplete
+                    ? () => Get.until((route) => route.isFirst)
+                    : null,
               ),
             ],
           );

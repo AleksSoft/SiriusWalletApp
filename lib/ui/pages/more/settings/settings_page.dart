@@ -24,20 +24,7 @@ class SettingsPage extends StatelessWidget {
                   iconColor: Colors.black,
                   color: Colors.transparent,
                   showDivider: false,
-                  onTap: () async {
-                    // TODO: tbd routing
-                    // final asset =
-                    //     await ExtendedNavigator.ofRouter<Router>().pushNamed(
-                    //   Routes.selectAssetRoute,
-                    //   arguments: SelectAssetViewArguments(
-                    //     args: SelectAssetArgs(
-                    //       title: 'select_asset'.tr,
-                    //       selectedAsset: model.settings.baseAsset,
-                    //     ),
-                    //   ),
-                    // );
-                    // model.updateBaseAsset(asset);
-                  },
+                  onTap: () => _.updateBaseAsset(),
                 ),
                 MenuTile(
                   title: 'push_notifications'.tr,
@@ -68,9 +55,7 @@ class SettingsPage extends StatelessWidget {
                   iconColor: Colors.black,
                   color: Colors.transparent,
                   showDivider: false,
-                  // TODO: tbd routing
-                  // onTap: () => ExtendedNavigator.ofRouter<Router>()
-                  //     .pushNamed(Routes.backUpCopyKeyRoute),
+                  onTap: () => _.backupPrivateKey(),
                 ),
                 MenuTile(
                   title: 'language'.tr,

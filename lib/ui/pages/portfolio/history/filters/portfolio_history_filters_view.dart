@@ -248,7 +248,7 @@ class _PortfolioHistoryAssetFilterView extends StatelessWidget {
               backgroundColor: AppColors.primary,
               selectedColor: AppColors.accent,
               onSelected: (value) {
-                if (value) c.updateFilterAsset(null);
+                if (value) c.clearFilterAsset();
               },
               selected: allSelected,
             ),
@@ -257,17 +257,7 @@ class _PortfolioHistoryAssetFilterView extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: AppSizes.small),
               backgroundColor: AppColors.primary,
               selectedColor: AppColors.accent,
-              onSelected: (value) async {
-                // TODO: finish refactoring nav to selectassetview
-                // final asset = Get.toNamed(
-                //   AppRoutes.selectAssetRoute,
-                //   arguments: SelectAssetArgs(
-                //     title: 'select_asset'.tr,
-                //     selectedAsset: c.filterAsset,
-                //   ),
-                // );
-                // c.updateFilterAsset(asset as AssetData);
-              },
+              onSelected: (value) => c.updateFilterAsset(),
               selected: !allSelected,
             ),
           ],
