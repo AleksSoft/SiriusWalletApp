@@ -1,16 +1,14 @@
-import 'package:antares_wallet/app/locator.dart';
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/models/asset_pair_data.dart';
 import 'package:antares_wallet/services/api/grpc_client_singleton.dart';
 import 'package:antares_wallet/services/api/mock_api.dart';
+import 'package:antares_wallet/src/generated/asset_dictionary.pb.dart';
 import 'package:antares_wallet/src/generated/asset_dictionary.pbgrpc.dart';
 import 'package:antares_wallet/src/generated/protobuf/empty.pb.dart';
-import 'package:injectable/injectable.dart';
+import 'package:get/get.dart';
 
-@lazySingleton
 class AssetRepository {
-  final _api = locator<MockApiService>();
-  final _grpc = locator<GrpcSingleton>();
+  final _api = Get.find<MockApiService>();
 
   AssetsDictionaryResponse _assetDictionaryResponse =
       AssetsDictionaryResponse();
@@ -35,7 +33,8 @@ class AssetRepository {
   List<AssetPairData> get assetPairs => _assetPairList;
 
   Future<void> loadTestAssetDictionary() async {
-    var client = ApiServiceClient(_grpc.client, options: _grpc.secureOptions);
+    var client = ApiServiceClient(GrpcSingleton.client,
+        options: GrpcSingleton.secureOptions);
     _assetDictionaryResponse = await client.assetsDictionary(Empty());
     print(_assetDictionaryResponse);
   }

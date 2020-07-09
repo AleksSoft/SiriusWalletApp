@@ -2,7 +2,6 @@
 // import 'dart:math';
 
 import 'package:bip39/bip39.dart' as bip39;
-import 'package:injectable/injectable.dart';
 // import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 // import 'package:bitcoin_flutter/src/models/networks.dart' as BtcNetworks;
 // import 'package:bitcoin_flutter/src/payments/index.dart' show PaymentData;
@@ -18,7 +17,6 @@ enum BlockchainNetworkType {
 
 enum BlockchainProtocolCode { BTC, ETH }
 
-@lazySingleton
 class BlockchainService {
   // Future<BlockchainWallet> createPrivateWallet(
   //   String name,

@@ -1,8 +1,9 @@
+import 'package:antares_wallet/app/ui/app_colors.dart';
+import 'package:antares_wallet/app/ui/app_sizes.dart';
+import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/models/asset_pair_data.dart';
-import 'package:antares_wallet/ui/common/app_colors.dart';
-import 'package:antares_wallet/ui/common/app_sizes.dart';
-import 'package:antares_wallet/ui/common/app_ui_helpers.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'asset_pair_rich_text.dart';
 
@@ -20,10 +21,10 @@ class AssetPairTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textStyleButton = Theme.of(context).textTheme.button;
+    final textStyleButton = Get.textTheme.button;
 
     return InkWell(
-      onTap: onTap,
+      onTap: () => onTap(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
