@@ -208,7 +208,7 @@ class _CandleChartView extends StatelessWidget {
           primaryYAxis: NumericAxis(
             interval: 50,
             opposedPosition: true,
-            labelStyle: ChartTextStyle(color: AppColors.secondary),
+            labelStyle: TextStyle(color: AppColors.secondary),
             axisLine: AxisLine(width: 0),
           ),
           series: <CandleSeries<MarketModel, DateTime>>[
