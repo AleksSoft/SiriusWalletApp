@@ -1,3 +1,4 @@
+import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/ui/pages/more/settings/backup/backup_confirm_key_view.dart';
@@ -18,7 +19,6 @@ class BackUpCopyKeyPage extends StatelessWidget {
         title: Text('back_up'.tr),
       ),
       body: GetBuilder<SettingsController>(
-        init: SettingsController(),
         builder: (_) {
           return ListView(
             padding: const EdgeInsets.all(AppSizes.medium),
@@ -87,8 +87,13 @@ class _KeyWordsCard extends StatelessWidget {
 
   _copyKey(BuildContext context, String key) {
     ClipboardManager.copyToClipBoard(key).then((result) {
-      Scaffold.of(context).showSnackBar(
-        SnackBar(content: Text('msg_key_copied'.tr)),
+      Get.rawSnackbar(
+        messageText: Text(
+          'msg_key_copied'.tr,
+          style: Get.textTheme.button.apply(
+            color: AppColors.primary,
+          ),
+        ),
       );
     });
   }

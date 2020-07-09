@@ -238,12 +238,14 @@ class _UpgradeAccountDocPageState extends State<UpgradeAccountDocPage> {
         Get.toNamed(
           UpgradeAccountDocPage.route,
           arguments: DocType.selfie,
+          preventDuplicates: false,
         );
         break;
       case DocType.selfie:
         Get.toNamed(
           UpgradeAccountDocPage.route,
           arguments: DocType.proofOfAddress,
+          preventDuplicates: false,
         );
         break;
       case DocType.proofOfAddress:

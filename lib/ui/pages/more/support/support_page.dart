@@ -45,7 +45,7 @@ class SupportPage extends StatelessWidget {
                 ),
               ),
               MenuTile(
-                title: 'сall'.tr,
+                title: 'call'.tr,
                 icon: Icons.phone,
                 onTap: () => launch("tel:+41435086379"),
                 trailing: Row(
@@ -68,7 +68,7 @@ class SupportPage extends StatelessWidget {
     if (await canLaunch(url)) {
       await launch(url, forceWebView: false, forceSafariVC: false);
     } else {
-      throw 'msg_could_not_launch_url'.trArgs([url]);
+      Get.rawSnackbar(message: 'msg_could_not_launch_url'.trArgs([url]));
     }
   }
 }

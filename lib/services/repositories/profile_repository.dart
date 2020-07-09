@@ -21,18 +21,22 @@ class ProfileRepository {
 
   Future<PersonalData> loadPersonalData() async {
     var str = await _storage.read(AppStorageKeys.personalData);
-    PersonalData data = PersonalData().fromJson(json.decode(str));
 
-    data = data ?? await _api.fetchPersonalData();
+    PersonalData data = str == null
+        ? await _api.fetchPersonalData()
+        : PersonalData().fromJson(json.decode(str));
+
     _storage.write(AppStorageKeys.personalData, jsonEncode(data.toJson()));
     return data;
   }
 
   Future<AccountData> loadAccountData() async {
     var str = await _storage.read(AppStorageKeys.accountData);
-    AccountData data = AccountData().fromJson(json.decode(str));
 
-    data = data ?? await _api.fetchAccountLevel();
+    AccountData data = str == null
+        ? await _api.fetchAccountLevel()
+        : AccountData().fromJson(json.decode(str));
+
     _storage.write(AppStorageKeys.accountData, jsonEncode(data.toJson()));
     return data;
   }

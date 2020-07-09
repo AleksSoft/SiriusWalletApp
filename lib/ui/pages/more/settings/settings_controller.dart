@@ -33,10 +33,10 @@ class SettingsController extends GetxController {
   bool get phraseComplete => wordsMatch && _confirmKeyWords.length == 12;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    _repository.loadSettings();
-    _repository.fetchAlive();
+    await _repository.loadSettings();
+    refreshConfirmKeyVariants();
     update();
   }
 

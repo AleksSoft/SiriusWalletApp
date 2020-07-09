@@ -1,5 +1,8 @@
 import 'package:antares_wallet/app/common/app_storage_keys.dart';
 import 'package:antares_wallet/bindings/initial_binding.dart';
+import 'package:antares_wallet/bindings/profile_binding.dart';
+import 'package:antares_wallet/bindings/settings_binding.dart';
+import 'package:antares_wallet/bindings/support_binding.dart';
 import 'package:antares_wallet/ui/pages/asset_info/asset_info_page.dart';
 import 'package:antares_wallet/ui/pages/initial/initial_page.dart';
 import 'package:antares_wallet/ui/pages/login/login_page.dart';
@@ -36,14 +39,17 @@ class AppRoutes {
     GetPage(
       name: SettingsPage.route,
       page: () => SettingsPage(),
+      binding: SettingsBinding(),
     ),
     GetPage(
       name: ProfilePage.route,
       page: () => ProfilePage(),
+      binding: ProfileBinding(),
     ),
     GetPage(
       name: SupportPage.route,
       page: () => SupportPage(),
+      binding: SupportBinding(),
     ),
     GetPage(
       name: UpgradeAccountMainPage.route,

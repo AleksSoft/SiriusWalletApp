@@ -30,9 +30,10 @@ class SettingsRepository {
 
   Future<void> loadSettings() async {
     var settingsStr = await _storage.read(AppStorageKeys.settingsData);
-    SettingsData data = SettingsData().fromJson(json.decode(settingsStr));
 
-    data = data ?? await _fetchDefaultSettings();
+    SettingsData data = settingsStr == null
+        ? await _fetchDefaultSettings()
+        : SettingsData().fromJson(json.decode(settingsStr));
 
     if (_settingsData != data) {
       _settingsData = data;
