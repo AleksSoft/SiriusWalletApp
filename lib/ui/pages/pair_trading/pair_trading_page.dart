@@ -89,7 +89,7 @@ class PairTradingPage extends StatelessWidget {
 
   Future<AssetPairData> _showSearch() {
     return showSearch(
-      context: Get.context,
+      context: Get.overlayContext,
       delegate: SearchPage<AssetPairData>(
         showItemsOnEmpty: true,
         items: PairTradingController.con.assetPairs,
