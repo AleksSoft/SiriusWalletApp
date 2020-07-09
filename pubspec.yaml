@@ -55,7 +55,6 @@ flutter:
 
   assets:
     - assets/json/
-    - assets/locales/
     - assets/images/
     - assets/fonts/
 
