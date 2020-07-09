@@ -2,6 +2,7 @@ import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/models/asset_pair_data.dart';
+import 'package:antares_wallet/ui/pages/pair_trading/pair_trading_page.dart';
 import 'package:antares_wallet/ui/widgets/asset_list_tile.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_list_title_view.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
@@ -102,7 +103,13 @@ class AssetInfoDetailsView extends StatelessWidget {
                 ),
                 child: Column(
                   children: _.assetPairsShort
-                      .map((e) => AssetPairTile(data: e))
+                      .map((e) => AssetPairTile(
+                            data: e,
+                            onTap: () => Get.toNamed(
+                              PairTradingPage.route,
+                              arguments: e,
+                            ),
+                          ))
                       .toList(),
                 ),
               ),
@@ -133,6 +140,10 @@ class AssetInfoDetailsView extends StatelessWidget {
           child: AssetPairTile(
             data: pair,
             showTitle: true,
+            onTap: () => Get.toNamed(
+              PairTradingPage.route,
+              arguments: pair,
+            ),
           ),
         ),
       ),
