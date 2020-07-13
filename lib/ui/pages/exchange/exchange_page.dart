@@ -1,5 +1,6 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
+import 'package:antares_wallet/ui/pages/pair_trading/pair_trading_page.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_list_title_view.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,12 @@ class ExchangePage extends StatelessWidget {
                     horizontal: AppSizes.medium,
                   ),
                   children: _.assetPairs
-                      .map((e) => AssetPairTile(data: e, showTitle: true))
+                      .map((e) => AssetPairTile(
+                            data: e,
+                            showTitle: true,
+                            onTap: () => Get.toNamed(PairTradingPage.route,
+                                arguments: e),
+                          ))
                       .toList(),
                 ),
               ),

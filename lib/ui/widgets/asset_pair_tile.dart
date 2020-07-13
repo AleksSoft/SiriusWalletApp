@@ -24,7 +24,7 @@ class AssetPairTile extends StatelessWidget {
     final textStyleButton = Get.textTheme.button;
 
     return InkWell(
-      onTap: () => onTap(),
+      onTap: onTap,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
