@@ -2,9 +2,9 @@ import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/models/asset_pair_data.dart';
 import 'package:antares_wallet/services/api/grpc_client_singleton.dart';
 import 'package:antares_wallet/services/api/mock_api.dart';
-import 'package:antares_wallet/src/generated/asset_dictionary.pb.dart';
-import 'package:antares_wallet/src/generated/asset_dictionary.pbgrpc.dart';
-import 'package:antares_wallet/src/generated/protobuf/empty.pb.dart';
+import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:antares_wallet/src/apiservice.pbgrpc.dart';
+import 'package:antares_wallet/src/google/protobuf/empty.pb.dart';
 import 'package:get/get.dart';
 
 class AssetRepository {

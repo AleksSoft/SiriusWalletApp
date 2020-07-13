@@ -75,11 +75,7 @@ class SettingsPage extends StatelessWidget {
                   iconColor: Colors.black,
                   color: Colors.transparent,
                   showDivider: false,
-                  onTap: () => showAboutDialog(
-                    context: context,
-                    applicationName: _.isAliveResponce.name,
-                    applicationVersion: _.isAliveResponce.version,
-                  ),
+                  onTap: () => showAboutDialog(context: context),
                 ),
               ],
             );

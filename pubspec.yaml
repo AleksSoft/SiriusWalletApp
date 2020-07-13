@@ -41,6 +41,8 @@ dependencies:
   chips_choice: ^1.2.0
   syncfusion_flutter_charts: ^18.2.44
 
+  protoc_plugin: ^19.0.1
+
   flutter_localizations:
     sdk: flutter
 

@@ -5,8 +5,6 @@ import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/models/settings_data.dart';
 import 'package:antares_wallet/services/api/mock_api.dart';
 import 'package:antares_wallet/services/blockchain_service.dart';
-import 'package:antares_wallet/services/isalive_service.dart';
-import 'package:antares_wallet/src/generated/isalive.pb.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -14,15 +12,10 @@ class SettingsRepository {
   final _storage = GetStorage();
   final _bcService = Get.find<BlockchainService>();
   final _api = Get.find<MockApiService>();
-  final _isAliveService = Get.find<IsAliveService>();
 
   SettingsData _settingsData = SettingsData();
 
-  IsAliveResponce _isAliveResponce;
-
   SettingsData get settings => _settingsData;
-
-  IsAliveResponce get isAliveResponce => _isAliveResponce;
 
   List<String> randMnemonicList() {
     return _bcService.generateMnemonic().split(' ').sublist(0, 2);
@@ -61,9 +54,5 @@ class SettingsRepository {
       ..pushEnable = false
       ..signWithPin = false
       ..privateKey = key;
-  }
-
-  Future<void> fetchAlive() async {
-    _isAliveResponce = await _isAliveService.check();
   }
 }
