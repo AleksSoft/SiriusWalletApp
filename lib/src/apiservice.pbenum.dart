@@ -13,13 +13,12 @@ class Side extends $pb.ProtobufEnum {
   static const Side buy = Side._(0, 'buy');
   static const Side sell = Side._(1, 'sell');
 
-  static const $core.List<Side> values = <Side>[
+  static const $core.List<Side> values = <Side> [
     buy,
     sell,
   ];
 
-  static final $core.Map<$core.int, Side> _byValue =
-      $pb.ProtobufEnum.initByValue(values);
+  static final $core.Map<$core.int, Side> _byValue = $pb.ProtobufEnum.initByValue(values);
   static Side valueOf($core.int value) => _byValue[value];
 
   const Side._($core.int v, $core.String n) : super(v, n);
@@ -31,15 +30,14 @@ class CandleType extends $pb.ProtobufEnum {
   static const CandleType Mid = CandleType._(2, 'Mid');
   static const CandleType Trades = CandleType._(3, 'Trades');
 
-  static const $core.List<CandleType> values = <CandleType>[
+  static const $core.List<CandleType> values = <CandleType> [
     Bid,
     Ask,
     Mid,
     Trades,
   ];
 
-  static final $core.Map<$core.int, CandleType> _byValue =
-      $pb.ProtobufEnum.initByValue(values);
+  static final $core.Map<$core.int, CandleType> _byValue = $pb.ProtobufEnum.initByValue(values);
   static CandleType valueOf($core.int value) => _byValue[value];
 
   const CandleType._($core.int v, $core.String n) : super(v, n);
@@ -57,7 +55,7 @@ class CandleInterval extends $pb.ProtobufEnum {
   static const CandleInterval Week = CandleInterval._(8, 'Week');
   static const CandleInterval Month = CandleInterval._(9, 'Month');
 
-  static const $core.List<CandleInterval> values = <CandleInterval>[
+  static const $core.List<CandleInterval> values = <CandleInterval> [
     Min5,
     Min15,
     Min30,
@@ -70,9 +68,9 @@ class CandleInterval extends $pb.ProtobufEnum {
     Month,
   ];
 
-  static final $core.Map<$core.int, CandleInterval> _byValue =
-      $pb.ProtobufEnum.initByValue(values);
+  static final $core.Map<$core.int, CandleInterval> _byValue = $pb.ProtobufEnum.initByValue(values);
   static CandleInterval valueOf($core.int value) => _byValue[value];
 
   const CandleInterval._($core.int v, $core.String n) : super(v, n);
 }
+
