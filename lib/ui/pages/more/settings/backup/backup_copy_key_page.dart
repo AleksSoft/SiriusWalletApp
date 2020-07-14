@@ -61,7 +61,8 @@ class _KeyWordsCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(AppSizes.medium),
             child: SelectableText(
-              c.settings.privateKey,
+              // c.settings.privateKey,
+              '',
               style: Theme.of(context).textTheme.headline6.copyWith(
                     fontWeight: FontWeight.bold,
                     fontSize: 18.0,
@@ -75,7 +76,8 @@ class _KeyWordsCard extends StatelessWidget {
                 child: Text('copy'.tr),
                 onPressed: () => _copyKey(
                   context,
-                  c.settings.privateKey,
+                  // c.settings.privateKey,
+                  '',
                 ),
               ),
             ],

@@ -19,7 +19,7 @@ class SettingsPage extends StatelessWidget {
               children: <Widget>[
                 MenuTile(
                   title: 'base_asset'.tr,
-                  subtitle: _.settings.baseAsset?.symbol ?? '',
+                  subtitle: _.settings.baseAsset?.name ?? '',
                   icon: Icons.looks_one,
                   iconColor: Colors.black,
                   color: Colors.transparent,

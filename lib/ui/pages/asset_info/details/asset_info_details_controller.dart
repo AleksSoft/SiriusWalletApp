@@ -4,6 +4,7 @@ import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/models/asset_pair_data.dart';
 import 'package:antares_wallet/models/market_model.dart';
 import 'package:antares_wallet/services/repositories/asset_repository.dart';
+import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:get/get.dart';
 
@@ -17,7 +18,7 @@ enum AssetInfoPeriod {
 class AssetInfoDetailsController extends GetxController {
   final _repository = Get.find<AssetRepository>();
 
-  final AssetData _asset = Get.arguments as AssetData;
+  final Asset _asset = Get.arguments as Asset;
 
   AssetInfoPeriod _selectedPeriod = AssetInfoPeriod.h24;
 
@@ -32,7 +33,7 @@ class AssetInfoDetailsController extends GetxController {
     return _assetPairs.sublist(0, maxSize);
   }
 
-  AssetData get asset => _asset;
+  Asset get asset => _asset;
 
   bool get seeAllActive => _assetPairs.length > 3;
 

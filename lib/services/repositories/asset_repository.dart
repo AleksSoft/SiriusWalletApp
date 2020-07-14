@@ -1,6 +1,5 @@
-import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/models/asset_pair_data.dart';
-import 'package:antares_wallet/services/api/grpc_client_singleton.dart';
+import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/services/api/mock_api.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/src/apiservice.pbgrpc.dart';
@@ -10,52 +9,41 @@ import 'package:get/get.dart';
 class AssetRepository {
   final _api = Get.find<MockApiService>();
 
-  AssetsDictionaryResponse _assetDictionaryResponse =
-      AssetsDictionaryResponse();
+  AssetsDictionaryResponse _assetDictionary = AssetsDictionaryResponse();
 
-  AssetDictionaryData _assetDictionary = AssetDictionaryData();
-
-  AssetData _baseAsset = AssetData();
+  String _baseAssetId;
 
   List<AssetPairData> _assetPairList = List();
 
-  Map<String, List<AssetData>> assetMap = Map();
+  Map<String, List<Asset>> assetMap = Map();
 
-  AssetsDictionaryResponse get assetDictionaryResponse =>
-      _assetDictionaryResponse;
+  AssetsDictionaryResponse get assetDictionary => _assetDictionary;
 
-  List<CategoryData> get categoryList => _assetDictionary.categoryList;
+  List<AssetCategory> get categoryList => _assetDictionary.categories;
 
-  List<AssetData> get assetList => _assetDictionary.assetList;
+  List<Asset> get assetList => _assetDictionary.assets;
 
-  AssetData get baseAsset => _baseAsset;
+  Asset get baseAsset =>
+      _assetDictionary.assets.firstWhere((a) => a.id == _baseAssetId);
 
   List<AssetPairData> get assetPairs => _assetPairList;
 
-  Future<void> loadTestAssetDictionary() async {
-    var client = ApiServiceClient(GrpcSingleton.client,
-        options: GrpcSingleton.secureOptions);
-    _assetDictionaryResponse = await client.assetsDictionary(Empty());
-    print(_assetDictionaryResponse);
-  }
-
   Future<void> loadAssetDictionary() async {
-    if (_assetDictionary == AssetDictionaryData()) {
-      _assetDictionary = await _api.fetchAssetDictionary();
-      categoryList.forEach((category) {
-        assetMap.putIfAbsent(
-          category.categoryId,
-          () => assetList
-              .where((asset) => asset.categoryId == category.categoryId)
-              .toList(),
-        );
-      });
-    }
+    _assetDictionary = await ApiService.client.assetsDictionary(Empty());
+    categoryList.forEach((category) {
+      assetMap.putIfAbsent(
+        category.id,
+        () => assetList
+            .where((asset) => asset.categoryId == category.id)
+            .toList(),
+      );
+    });
   }
 
   Future<void> loadBaseAsset() async {
-    if (_baseAsset == AssetData()) {
-      _baseAsset = await _api.fetchBaseAsset();
+    if (_baseAssetId == null) {
+      _baseAssetId =
+          (await ApiService.client.getBaseAsset(Empty())).baseAsset.assetId;
     }
   }
 
@@ -65,7 +53,7 @@ class AssetRepository {
     }
   }
 
-  Future<List<AssetPairData>> loadAssetPairs(AssetData asset) async {
+  Future<List<AssetPairData>> loadAssetPairs(Asset asset) async {
     await loadAllAssetPairs();
     return _assetPairList
         .where((e) =>

@@ -1,6 +1,6 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
-import 'package:antares_wallet/models/asset_dictionary_data.dart';
+import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/widgets/asset_list_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +14,11 @@ class PortfolioAssetsTabView extends StatelessWidget {
     return GetBuilder<PortfolioAssetsController>(
       init: PortfolioAssetsController(),
       builder: (_) {
+        if (_.categoryList.isEmpty) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
         return ListView(
           physics: BouncingScrollPhysics(),
           padding: EdgeInsets.only(bottom: AppSizes.medium),
@@ -24,7 +29,7 @@ class PortfolioAssetsTabView extends StatelessWidget {
               children: _.categoryList
                   .map((category) => _PortfolioCategoryBlock(
                         category,
-                        _.getCategoryAssets(category.categoryId),
+                        _.getCategoryAssets(category.id),
                       ))
                   .toList(),
             ),
@@ -61,8 +66,8 @@ class _PortfolioAssetsHeader extends StatelessWidget {
 
 class _PortfolioCategoryBlock extends StatelessWidget {
   final c = PortfolioAssetsController.con;
-  final CategoryData category;
-  final List assets;
+  final AssetCategory category;
+  final List<Asset> assets;
 
   _PortfolioCategoryBlock(this.category, this.assets);
 
@@ -83,7 +88,7 @@ class _PortfolioCategoryBlock extends StatelessWidget {
             bottom: AppSizes.small,
           ),
           child: Text(
-            category.categoryName,
+            category.name,
             overflow: TextOverflow.ellipsis,
             style: titleTheme,
             maxLines: 2,
@@ -97,14 +102,13 @@ class _PortfolioCategoryBlock extends StatelessWidget {
         ),
         AnimatedSwitcher(
           duration: Duration(microseconds: 300),
-          child: c.showExpandButton(category.categoryId)
+          child: c.showExpandButton(category.id)
               ? CupertinoButton(
-                  onPressed: () => c.toggleExpand(category.categoryId),
+                  onPressed: () => c.toggleExpand(category.id),
                   child: Text(
-                    c.isExpanded(category.categoryId)
+                    c.isExpanded(category.id)
                         ? 'show_less'.tr
-                        : 'show_more'
-                            .trArgs([c.moreCount(category.categoryId)]),
+                        : 'show_more'.trArgs([c.moreCount(category.id)]),
                   ),
                 )
               : SizedBox.shrink(),

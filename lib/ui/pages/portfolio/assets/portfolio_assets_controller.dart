@@ -1,5 +1,5 @@
-import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/services/repositories/asset_repository.dart';
+import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/asset_info/asset_info_page.dart';
 import 'package:get/get.dart';
 
@@ -10,17 +10,16 @@ class PortfolioAssetsController extends GetxController {
 
   List<String> _expandedCategoryIds = List();
 
-  List<CategoryData> get categoryList => _repository.categoryList;
+  List<AssetCategory> get categoryList => _repository.categoryList;
 
   @override
   void onInit() async {
     super.onInit();
     await _repository.loadAssetDictionary();
-    // _repository.loadTestAssetDictionary();
     update();
   }
 
-  List<AssetData> getCategoryAssets(String categoryId) {
+  List<Asset> getCategoryAssets(String categoryId) {
     var list = _repository.assetMap[categoryId] ?? List();
     return isExpanded(categoryId)
         ? list
@@ -47,6 +46,6 @@ class PortfolioAssetsController extends GetxController {
     return (list.length - 3).toString();
   }
 
-  void openAssetInfo(AssetData asset) =>
+  void openAssetInfo(Asset asset) =>
       Get.toNamed(AssetInfoPage.route, arguments: asset);
 }
