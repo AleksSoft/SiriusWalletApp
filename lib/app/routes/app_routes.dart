@@ -4,6 +4,7 @@ import 'package:antares_wallet/bindings/profile_binding.dart';
 import 'package:antares_wallet/bindings/settings_binding.dart';
 import 'package:antares_wallet/bindings/support_binding.dart';
 import 'package:antares_wallet/ui/pages/asset_info/asset_info_page.dart';
+import 'package:antares_wallet/ui/pages/exchange/watch_lists/watch_lists_page.dart';
 import 'package:antares_wallet/ui/pages/initial/initial_page.dart';
 import 'package:antares_wallet/ui/pages/login/login_page.dart';
 import 'package:antares_wallet/ui/pages/more/profile/profile_page.dart';
@@ -94,6 +95,10 @@ class AppRoutes {
     GetPage(
       name: TransactionDetailsPage.route,
       page: () => TransactionDetailsPage(),
+    ),
+    GetPage(
+      name: WatchListsPage.route,
+      page: () => WatchListsPage(),
     ),
   ];
 }
