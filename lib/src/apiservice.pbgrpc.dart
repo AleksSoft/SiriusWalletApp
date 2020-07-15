@@ -27,6 +27,12 @@ class ApiServiceClient extends $grpc.Client {
           ($0.Empty value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $1.BaseAssetResponse.fromBuffer(value));
+  static final _$getAssetPairs =
+      $grpc.ClientMethod<$0.Empty, $1.AssetPairsResponse>(
+          '/antaresWallet.ApiService/GetAssetPairs',
+          ($0.Empty value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $1.AssetPairsResponse.fromBuffer(value));
   static final _$getPrices =
       $grpc.ClientMethod<$1.PricesRequest, $1.PricesResponse>(
           '/antaresWallet.ApiService/GetPrices',
@@ -250,6 +256,14 @@ class ApiServiceClient extends $grpc.Client {
       {$grpc.CallOptions options}) {
     final call = $createCall(
         _$getBaseAsset, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
+  $grpc.ResponseFuture<$1.AssetPairsResponse> getAssetPairs($0.Empty request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$getAssetPairs, $async.Stream.fromIterable([request]),
         options: options);
     return $grpc.ResponseFuture(call);
   }
@@ -585,6 +599,13 @@ abstract class ApiServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
         ($1.BaseAssetResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.Empty, $1.AssetPairsResponse>(
+        'GetAssetPairs',
+        getAssetPairs_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
+        ($1.AssetPairsResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$1.PricesRequest, $1.PricesResponse>(
         'GetPrices',
         getPrices_Pre,
@@ -887,6 +908,11 @@ abstract class ApiServiceBase extends $grpc.Service {
     return getBaseAsset(call, await request);
   }
 
+  $async.Future<$1.AssetPairsResponse> getAssetPairs_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.Empty> request) async {
+    return getAssetPairs(call, await request);
+  }
+
   $async.Future<$1.PricesResponse> getPrices_Pre(
       $grpc.ServiceCall call, $async.Future<$1.PricesRequest> request) async {
     return getPrices(call, await request);
@@ -1086,6 +1112,8 @@ abstract class ApiServiceBase extends $grpc.Service {
   $async.Future<$1.AssetsDictionaryResponse> assetsDictionary(
       $grpc.ServiceCall call, $0.Empty request);
   $async.Future<$1.BaseAssetResponse> getBaseAsset(
+      $grpc.ServiceCall call, $0.Empty request);
+  $async.Future<$1.AssetPairsResponse> getAssetPairs(
       $grpc.ServiceCall call, $0.Empty request);
   $async.Future<$1.PricesResponse> getPrices(
       $grpc.ServiceCall call, $1.PricesRequest request);

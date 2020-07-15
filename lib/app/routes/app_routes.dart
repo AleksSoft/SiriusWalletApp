@@ -99,6 +99,7 @@ class AppRoutes {
     GetPage(
       name: WatchListsPage.route,
       page: () => WatchListsPage(),
+      fullscreenDialog: true,
     ),
   ];
 }

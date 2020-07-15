@@ -311,6 +311,14 @@ const BaseAssetResponse_BaseAsset$json = const {
   ],
 };
 
+const AssetPairsResponse$json = const {
+  '1': 'AssetPairsResponse',
+  '2': const [
+    const {'1': 'assetPairs', '3': 1, '4': 3, '5': 11, '6': '.antaresWallet.AssetPair', '10': 'assetPairs'},
+    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorV2', '10': 'error'},
+  ],
+};
+
 const CandlesResponse$json = const {
   '1': 'CandlesResponse',
   '2': const [
@@ -965,6 +973,18 @@ const Asset$json = const {
     const {'1': 'crosschainWithdrawal', '3': 12, '4': 1, '5': 8, '10': 'crosschainWithdrawal'},
     const {'1': 'isTrusted', '3': 13, '4': 1, '5': 8, '10': 'isTrusted'},
     const {'1': 'canBeBase', '3': 14, '4': 1, '5': 8, '10': 'canBeBase'},
+  ],
+};
+
+const AssetPair$json = const {
+  '1': 'AssetPair',
+  '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'accuracy', '3': 2, '4': 1, '5': 5, '10': 'accuracy'},
+    const {'1': 'baseAssetId', '3': 3, '4': 1, '5': 9, '10': 'baseAssetId'},
+    const {'1': 'invertedAccuracy', '3': 4, '4': 1, '5': 5, '10': 'invertedAccuracy'},
+    const {'1': 'name', '3': 5, '4': 1, '5': 9, '10': 'name'},
+    const {'1': 'quotingAssetId', '3': 6, '4': 1, '5': 9, '10': 'quotingAssetId'},
   ],
 };
 

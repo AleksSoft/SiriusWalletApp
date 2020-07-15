@@ -1457,6 +1457,43 @@ class BaseAssetResponse extends $pb.GeneratedMessage {
   ErrorV2 ensureError() => $_ensure(1);
 }
 
+class AssetPairsResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('AssetPairsResponse', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..pc<AssetPair>(1, 'assetPairs', $pb.PbFieldType.PM, protoName: 'assetPairs', subBuilder: AssetPair.create)
+    ..aOM<ErrorV2>(2, 'error', subBuilder: ErrorV2.create)
+    ..hasRequiredFields = false
+  ;
+
+  AssetPairsResponse._() : super();
+  factory AssetPairsResponse() => create();
+  factory AssetPairsResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AssetPairsResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  AssetPairsResponse clone() => AssetPairsResponse()..mergeFromMessage(this);
+  AssetPairsResponse copyWith(void Function(AssetPairsResponse) updates) => super.copyWith((message) => updates(message as AssetPairsResponse));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static AssetPairsResponse create() => AssetPairsResponse._();
+  AssetPairsResponse createEmptyInstance() => create();
+  static $pb.PbList<AssetPairsResponse> createRepeated() => $pb.PbList<AssetPairsResponse>();
+  @$core.pragma('dart2js:noInline')
+  static AssetPairsResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AssetPairsResponse>(create);
+  static AssetPairsResponse _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<AssetPair> get assetPairs => $_getList(0);
+
+  @$pb.TagNumber(2)
+  ErrorV2 get error => $_getN(1);
+  @$pb.TagNumber(2)
+  set error(ErrorV2 v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasError() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearError() => clearField(2);
+  @$pb.TagNumber(2)
+  ErrorV2 ensureError() => $_ensure(1);
+}
+
 class CandlesResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('CandlesResponse', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
     ..pc<Candle>(1, 'candles', $pb.PbFieldType.PM, subBuilder: Candle.create)
@@ -5376,6 +5413,87 @@ class Asset extends $pb.GeneratedMessage {
   $core.bool hasCanBeBase() => $_has(13);
   @$pb.TagNumber(14)
   void clearCanBeBase() => clearField(14);
+}
+
+class AssetPair extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('AssetPair', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOS(1, 'id')
+    ..a<$core.int>(2, 'accuracy', $pb.PbFieldType.O3)
+    ..aOS(3, 'baseAssetId', protoName: 'baseAssetId')
+    ..a<$core.int>(4, 'invertedAccuracy', $pb.PbFieldType.O3, protoName: 'invertedAccuracy')
+    ..aOS(5, 'name')
+    ..aOS(6, 'quotingAssetId', protoName: 'quotingAssetId')
+    ..hasRequiredFields = false
+  ;
+
+  AssetPair._() : super();
+  factory AssetPair() => create();
+  factory AssetPair.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AssetPair.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  AssetPair clone() => AssetPair()..mergeFromMessage(this);
+  AssetPair copyWith(void Function(AssetPair) updates) => super.copyWith((message) => updates(message as AssetPair));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static AssetPair create() => AssetPair._();
+  AssetPair createEmptyInstance() => create();
+  static $pb.PbList<AssetPair> createRepeated() => $pb.PbList<AssetPair>();
+  @$core.pragma('dart2js:noInline')
+  static AssetPair getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AssetPair>(create);
+  static AssetPair _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get id => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set id($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get accuracy => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set accuracy($core.int v) { $_setSignedInt32(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasAccuracy() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearAccuracy() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get baseAssetId => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set baseAssetId($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasBaseAssetId() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearBaseAssetId() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.int get invertedAccuracy => $_getIZ(3);
+  @$pb.TagNumber(4)
+  set invertedAccuracy($core.int v) { $_setSignedInt32(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasInvertedAccuracy() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearInvertedAccuracy() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.String get name => $_getSZ(4);
+  @$pb.TagNumber(5)
+  set name($core.String v) { $_setString(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasName() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearName() => clearField(5);
+
+  @$pb.TagNumber(6)
+  $core.String get quotingAssetId => $_getSZ(5);
+  @$pb.TagNumber(6)
+  set quotingAssetId($core.String v) { $_setString(5, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasQuotingAssetId() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearQuotingAssetId() => clearField(6);
 }
 
 class PriceUpdate extends $pb.GeneratedMessage {
