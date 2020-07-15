@@ -1,6 +1,6 @@
-import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/models/transaction_details.dart';
 import 'package:antares_wallet/services/api/mock_api.dart';
+import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:get/get.dart';
 
 enum PeriodFilter { all, day, week, custom }
@@ -57,7 +57,7 @@ class PortfolioHistoryRepository {
     _filter.value.transactionType = filter;
   }
 
-  void updateFilterAsset(AssetData asset) {
+  void updateFilterAsset(Asset asset) {
     _filter.value.asset = asset;
   }
 }
@@ -65,7 +65,7 @@ class PortfolioHistoryRepository {
 class _HistoryFilter {
   PeriodFilter _period;
   TransactionTypeFilter transactionType;
-  AssetData asset;
+  Asset asset;
   int _timeFrom;
   int _timeTo;
 

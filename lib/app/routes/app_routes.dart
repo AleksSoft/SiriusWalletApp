@@ -12,14 +12,14 @@ import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_doc
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_main.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_quest.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_result.dart';
-import 'package:antares_wallet/ui/pages/more/settings/backup/backup_confirm_key_view.dart';
+import 'package:antares_wallet/ui/pages/more/settings/backup/backup_confirm_key_page.dart';
 import 'package:antares_wallet/ui/pages/more/settings/backup/backup_copy_key_page.dart';
 import 'package:antares_wallet/ui/pages/more/settings/settings_page.dart';
 import 'package:antares_wallet/ui/pages/more/support/support_page.dart';
 import 'package:antares_wallet/ui/pages/pair_trading/pair_trading_page.dart';
 import 'package:antares_wallet/ui/pages/portfolio/transaction_details/transaction_details_page.dart';
 import 'package:antares_wallet/ui/pages/root/root_page.dart';
-import 'package:antares_wallet/ui/pages/select_asset/select_asset_view.dart';
+import 'package:antares_wallet/ui/pages/select_asset/select_asset_page.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 

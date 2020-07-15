@@ -1,7 +1,7 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
-import 'package:antares_wallet/ui/pages/more/settings/backup/backup_confirm_key_view.dart';
+import 'package:antares_wallet/ui/pages/more/settings/backup/backup_confirm_key_page.dart';
 import 'package:antares_wallet/ui/pages/more/settings/settings_controller.dart';
 import 'package:antares_wallet/ui/widgets/default_card.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';

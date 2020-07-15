@@ -1,22 +1,32 @@
-import 'package:antares_wallet/models/asset_dictionary_data.dart';
-import 'package:antares_wallet/services/api/mock_api.dart';
-import 'package:antares_wallet/ui/pages/select_asset/select_asset_view.dart';
+import 'package:antares_wallet/services/repositories/asset_repository.dart';
+import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+
+class SelectAssetArgs {
+  final String title;
+  final Asset selectedAsset;
+  final bool onlyBase;
+
+  const SelectAssetArgs({
+    @required this.title,
+    this.selectedAsset,
+    this.onlyBase = false,
+  });
+}
 
 class SelectAssetController extends GetxController {
   static SelectAssetController get con => Get.find();
-  final MockApiService _api = Get.find<MockApiService>();
+  final _repository = Get.find<AssetRepository>();
 
   SelectAssetArgs _selectAssetArgs = Get.arguments as SelectAssetArgs;
 
-  AssetDictionaryData _assetDictionary = AssetDictionaryData();
-
-  List<AssetData> get assetList {
-    var list = _assetDictionary.assetList;
+  List<Asset> get assetList {
+    var list = _repository.assetList;
     return isOnlyBase ? list.where((a) => a.canBeBase) : list;
   }
 
-  AssetData get selectedAsset => _selectAssetArgs.selectedAsset;
+  Asset get selectedAsset => _selectAssetArgs.selectedAsset;
 
   bool get isOnlyBase => _selectAssetArgs.onlyBase;
 
@@ -24,7 +34,7 @@ class SelectAssetController extends GetxController {
 
   @override
   void onInit() async {
-    _assetDictionary = await _api.fetchAssetDictionary();
+    _repository.loadAssetDictionary();
     update();
   }
 }

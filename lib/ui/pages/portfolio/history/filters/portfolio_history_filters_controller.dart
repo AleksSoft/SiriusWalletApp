@@ -1,6 +1,7 @@
-import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/services/repositories/portfolio_history_repository.dart';
-import 'package:antares_wallet/ui/pages/select_asset/select_asset_view.dart';
+import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:antares_wallet/ui/pages/select_asset/select_asset_controller.dart';
+import 'package:antares_wallet/ui/pages/select_asset/select_asset_page.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -10,14 +11,20 @@ class PortfolioHistoryFiltersController extends GetxController {
   final _repository = Get.find<PortfolioHistoryRepository>();
 
   PeriodFilter get filterPeriod => _repository.filter.period;
+
   TransactionTypeFilter get filterTransactionType =>
       _repository.filter.transactionType;
-  AssetData get filterAsset => _repository.filter.asset;
+
+  Asset get filterAsset => _repository.filter.asset;
+
   int get filterTimeFrom => _repository.filter.timeFrom;
+
   int get filterTimeTo => _repository.filter.timeTo;
+
   String get filterTimeFromStr => DateFormat('d.M.y').format(
         DateTime.fromMillisecondsSinceEpoch(_repository.filter.timeFrom),
       );
+
   String get filterTimeToStr => DateFormat('d.M.y').format(
         DateTime.fromMillisecondsSinceEpoch(_repository.filter.timeTo),
       );
@@ -55,7 +62,7 @@ class PortfolioHistoryFiltersController extends GetxController {
         selectedAsset: filterAsset,
       ),
     );
-    _repository.updateFilterAsset(asset as AssetData);
+    _repository.updateFilterAsset(asset as Asset);
     update();
   }
 

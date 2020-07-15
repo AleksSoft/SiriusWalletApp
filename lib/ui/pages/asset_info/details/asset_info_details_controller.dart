@@ -1,6 +1,5 @@
 import 'dart:convert' show json;
 
-import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/models/asset_pair_data.dart';
 import 'package:antares_wallet/models/market_model.dart';
 import 'package:antares_wallet/services/repositories/asset_repository.dart';
