@@ -4,15 +4,15 @@ import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'watch_lists_controller.dart';
+import 'watchlists_controller.dart';
 
-class WatchListsPage extends StatelessWidget {
-  static final String route = '/watch-lists';
+class WatchlistsPage extends StatelessWidget {
+  static final String route = '/watchlists';
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<WatchListsController>(
-      init: WatchListsController(),
+    return GetBuilder<WatchlistsController>(
+      init: WatchlistsController(),
       builder: (_) {
         return Scaffold(
           appBar: AppBar(
@@ -68,7 +68,7 @@ class WatchListsPage extends StatelessWidget {
   }
 
   _showOptions(Watchlist watchlist) {
-    Get.bottomSheet(GetBuilder<WatchListsController>(
+    Get.bottomSheet(GetBuilder<WatchlistsController>(
       builder: (_) {
         return SizedBox(
           height: 250.0,

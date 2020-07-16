@@ -1,9 +1,10 @@
 import 'package:antares_wallet/services/repositories/watch_lists_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:antares_wallet/ui/pages/exchange/watchlists/edit/edit_watchlist_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
-class WatchListsController extends GetxController {
+class WatchlistsController extends GetxController {
   final _repository = Get.find<WatchListsRepository>();
 
   List<Watchlist> get items => _repository.items;
@@ -41,17 +42,19 @@ class WatchListsController extends GetxController {
     return options;
   }
 
-  create() {
-    // Get.toNamed(EditWatchListPage.route);
+  create() async {
+    await Get.toNamed(EditWatchlistPage.route, arguments: items.first);
+    update();
   }
 
   _copy(Watchlist watchlist) async {
-    await _repository.copy(watchlist);
+    await _repository.add(watchlist..name = '${watchlist.name} Copy');
     update();
   }
 
   _edit(Watchlist watchlist) async {
-    await _repository.update(watchlist);
+    await Get.toNamed(EditWatchlistPage.route, arguments: watchlist);
+    _repository.updateWatchLists();
     update();
   }
 

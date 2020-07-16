@@ -1,6 +1,6 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
-import 'package:antares_wallet/ui/pages/exchange/watch_lists/watch_lists_page.dart';
+import 'package:antares_wallet/ui/pages/exchange/watchlists/watchlists_page.dart';
 import 'package:antares_wallet/ui/pages/pair_trading/pair_trading_page.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_list_title_view.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
@@ -19,7 +19,7 @@ class ExchangePage extends StatelessWidget {
           appBar: AppBar(
             leading: IconButton(
               icon: Icon(Icons.edit, color: AppColors.accent),
-              onPressed: () => Get.toNamed(WatchListsPage.route),
+              onPressed: () => Get.toNamed(WatchlistsPage.route),
             ),
             title: Text('exchange'.tr),
             actions: [

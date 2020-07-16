@@ -17,8 +17,6 @@ class AssetRepository {
 
   Map<String, List<Asset>> assetMap = Map();
 
-  AssetsDictionaryResponse get assetDictionary => _assetDictionary;
-
   List<AssetCategory> get categoryList => _assetDictionary.categories;
 
   List<Asset> get assetList => _assetDictionary.assets;
@@ -60,5 +58,10 @@ class AssetRepository {
             e.secAssetSymbol == asset.symbol ||
             e.mainAssetSymbol == asset.symbol)
         .toList();
+  }
+
+  Future<void> getAssetPairs() async {
+    var response = await ApiService.client.getAssetPairs(Empty());
+    response.assetPairs;
   }
 }

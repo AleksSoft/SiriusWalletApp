@@ -33,11 +33,11 @@ class WatchListsRepository {
     _selected = _items.firstWhere((e) => e.id == id);
   }
 
-  Future<void> copy(Watchlist watchlist) async {
+  Future<void> add(Watchlist watchlist) async {
     try {
       final response = await ApiService.client.addWatchlist(
         AddWatchlistRequest()
-          ..name = '${watchlist.name} Copy'
+          ..name = watchlist.name
           ..order = watchlist.order
           ..assetIds.addAll(watchlist.assetIds),
       );
