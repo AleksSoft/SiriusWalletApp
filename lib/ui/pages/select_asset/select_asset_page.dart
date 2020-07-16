@@ -18,6 +18,9 @@ class SelectAssetPage extends StatelessWidget {
       builder: (_) {
         return Scaffold(
           appBar: AppBar(
+            leading: BackButton(
+              onPressed: () => _.back(),
+            ),
             title: Text(_.title),
             actions: [_SearchButton()],
           ),
@@ -72,13 +75,11 @@ class _AssetTile extends StatelessWidget {
       ),
       title: Text(asset.name),
       subtitle: Text(asset.symbol),
-      trailing: checked
-          ? Icon(
-              CupertinoIcons.check_mark_circled_solid,
-              color: AppColors.accent,
-            )
-          : SizedBox.shrink(),
-      onTap: () => Get.back(result: asset),
+      trailing: Visibility(
+        visible: checked,
+        child: Icon(Icons.check, color: AppColors.accent),
+      ),
+      onTap: () => SelectAssetController.con.select(asset),
     );
   }
 }

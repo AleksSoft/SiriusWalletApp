@@ -1,16 +1,22 @@
+import 'package:antares_wallet/services/repositories/asset_repository.dart';
 import 'package:antares_wallet/services/repositories/settings_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:antares_wallet/ui/pages/select_asset/select_asset_controller.dart';
+import 'package:antares_wallet/ui/pages/select_asset/select_asset_page.dart';
 import 'package:get/get.dart';
 
 class SettingsController extends GetxController {
   static SettingsController get con => Get.find();
   final _repository = Get.find<SettingsRepository>();
+  final _assetRepo = Get.find<AssetRepository>();
 
   List<String> _confirmKeyWords = [];
 
   List<String> _confirmKeyVariants = [];
 
   AppSettingsResponse_AppSettingsData get settings => _repository.settings;
+
+  Asset get baseAsset => _assetRepo.baseAsset;
 
   List<String> get confirmKeyWords => _confirmKeyWords;
 
@@ -36,15 +42,16 @@ class SettingsController extends GetxController {
   }
 
   Future updateBaseAsset() async {
-    // final asset = await Get.toNamed(
-    //   SelectAssetPage.route,
-    //   arguments: SelectAssetArgs(
-    //     title: 'select_asset'.tr,
-    //     selectedAsset: settings.result,
-    //   ),
-    // );
-    // await _repository.updateBaseAsset(asset);
-    // update();
+    final asset = await Get.toNamed(
+      SelectAssetPage.route,
+      arguments: SelectAssetArgs(
+        title: 'select_asset'.tr,
+        selectedAsset: baseAsset,
+      ),
+    );
+    await _repository.updateBaseAsset(asset);
+    await _assetRepo.loadBaseAsset();
+    update();
   }
 
   void refreshConfirmKeyVariants() {

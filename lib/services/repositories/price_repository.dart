@@ -22,7 +22,6 @@ class PriceRepository {
 
   _updatePrice(PriceUpdate priceUpdate) {
     int index = _currentPrices.indexOf(priceUpdate);
-    print(priceUpdate);
     if (index < 0) {
       _currentPrices.add(priceUpdate);
     } else {

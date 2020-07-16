@@ -36,13 +36,5 @@ class SettingsRepository {
     }
   }
 
-  Future<void> updateBaseAsset(assetData) async {
-    // if (assetData != null && _settingsData.baseAsset != assetData) {
-    //   _settingsData.baseAsset = assetData;
-    //   _storage.write(
-    //     AppStorageKeys.settingsData,
-    //     jsonEncode(_settingsData.toJson()),
-    //   );
-    // }
-  }
+  Future<void> updateBaseAsset(Asset asset) async {}
 }
