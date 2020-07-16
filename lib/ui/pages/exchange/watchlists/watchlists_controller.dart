@@ -18,13 +18,12 @@ class WatchlistsController extends GetxController {
   }
 
   Future<void> updateWatchlists() async {
-    await _repository.updateWatchLists();
+    await _repository.loadWatchLists();
   }
 
   select(String id) {
     _repository.select(id);
     update();
-    Get.back();
   }
 
   List<WatchlistOption> options(Watchlist wl) {
@@ -43,23 +42,26 @@ class WatchlistsController extends GetxController {
   }
 
   create() async {
-    await Get.toNamed(EditWatchlistPage.route, arguments: items.first);
+    await Get.toNamed(EditWatchlistPage.route);
     update();
   }
 
   _copy(Watchlist watchlist) async {
-    await _repository.add(watchlist..name = '${watchlist.name} Copy');
+    await _repository.add(AddWatchlistRequest()
+      ..name = '${watchlist.name} Copy'
+      ..assetIds.addAll(watchlist.assetIds));
     update();
   }
 
   _edit(Watchlist watchlist) async {
     await Get.toNamed(EditWatchlistPage.route, arguments: watchlist);
-    _repository.updateWatchLists();
+    _repository.loadWatchLists();
     update();
   }
 
   _delete(Watchlist watchlist) async {
     await _repository.delete(watchlist);
+    if (watchlist.id == selected.id) select(items.first.id);
     update();
   }
 }

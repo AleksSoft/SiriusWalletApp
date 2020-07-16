@@ -1,7 +1,8 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
-import 'package:antares_wallet/models/asset_pair_data.dart';
+import 'package:antares_wallet/services/api/mock_api.dart';
+import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/pair_trading/pair_trading_page.dart';
 import 'package:antares_wallet/ui/widgets/asset_list_tile.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_list_title_view.dart';
@@ -87,8 +88,7 @@ class AssetInfoDetailsView extends StatelessWidget {
                     Text('asset_pairs'.tr, style: titleTheme),
                     CupertinoButton(
                       child: Text('see_all'.tr),
-                      onPressed:
-                          _.seeAllActive ? () => _showSearch(context, _) : null,
+                      onPressed: _.seeAllActive ? () => _showSearch(_) : null,
                     ),
                   ],
                 ),
@@ -104,7 +104,9 @@ class AssetInfoDetailsView extends StatelessWidget {
                 child: Column(
                   children: _.assetPairsShort
                       .map((e) => AssetPairTile(
-                            data: e,
+                            imgUrl: MockApiService.lykkeIconUrl,
+                            mainAsset: Asset.getDefault(),
+                            quotingAsset: Asset.getDefault(),
                             onTap: () => Get.toNamed(
                               PairTradingPage.route,
                               arguments: e,
@@ -118,27 +120,24 @@ class AssetInfoDetailsView extends StatelessWidget {
         });
   }
 
-  Future<AssetPairData> _showSearch(
-    BuildContext context,
-    AssetInfoDetailsController model,
-  ) {
+  Future<AssetPair> _showSearch(AssetInfoDetailsController c) {
     return showSearch(
-      context: context,
-      delegate: SearchPage<AssetPairData>(
+      context: Get.overlayContext,
+      delegate: SearchPage<AssetPair>(
         showItemsOnEmpty: true,
-        items: model.assetPairs,
+        items: c.assetPairs,
         searchLabel: 'search'.tr,
         filter: (pair) => [
-          pair.mainAssetName,
-          pair.mainAssetSymbol,
-          pair.secAssetSymbol,
+          pair.name,
         ],
         builder: (pair) => Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: AppSizes.medium,
           ),
           child: AssetPairTile(
-            data: pair,
+            imgUrl: MockApiService.lykkeIconUrl,
+            mainAsset: Asset.getDefault(),
+            quotingAsset: Asset.getDefault(),
             showTitle: true,
             onTap: () => Get.toNamed(
               PairTradingPage.route,

@@ -13,10 +13,10 @@ class WatchListsRepository {
   Watchlist get selected => _selected;
 
   WatchListsRepository() {
-    updateWatchLists().whenComplete(() => _selected = _items.first);
+    loadWatchLists().whenComplete(() => _selected = _items.first);
   }
 
-  Future<void> updateWatchLists() async {
+  Future<void> loadWatchLists() async {
     try {
       final response = await ApiService.client.getWatchlists(Empty());
       _items = response.result;
@@ -33,14 +33,9 @@ class WatchListsRepository {
     _selected = _items.firstWhere((e) => e.id == id);
   }
 
-  Future<void> add(Watchlist watchlist) async {
+  Future<void> add(AddWatchlistRequest request) async {
     try {
-      final response = await ApiService.client.addWatchlist(
-        AddWatchlistRequest()
-          ..name = watchlist.name
-          ..order = watchlist.order
-          ..assetIds.addAll(watchlist.assetIds),
-      );
+      final response = await ApiService.client.addWatchlist(request);
       _items.add(response.result);
     } catch (e) {
       Get.defaultDialog(
@@ -51,15 +46,9 @@ class WatchListsRepository {
     }
   }
 
-  Future<void> update(Watchlist watchlist) async {
+  Future<void> update(UpdateWatchlistRequest request) async {
     try {
-      final response = await ApiService.client.updateWatchlist(
-        UpdateWatchlistRequest()
-          ..id = watchlist.id
-          ..name = watchlist.name
-          ..order = watchlist.order
-          ..assetIds.addAll(watchlist.assetIds),
-      );
+      final response = await ApiService.client.updateWatchlist(request);
       Watchlist item = _items.firstWhere((e) => e.id == response.result.id);
       if (item != null) item = response.result;
     } catch (e) {

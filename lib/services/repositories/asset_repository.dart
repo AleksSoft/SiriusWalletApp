@@ -1,19 +1,14 @@
-import 'package:antares_wallet/models/asset_pair_data.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
-import 'package:antares_wallet/services/api/mock_api.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/src/apiservice.pbgrpc.dart';
 import 'package:antares_wallet/src/google/protobuf/empty.pb.dart';
-import 'package:get/get.dart';
 
 class AssetRepository {
-  final _api = Get.find<MockApiService>();
-
   AssetsDictionaryResponse _assetDictionary = AssetsDictionaryResponse();
 
   String _baseAssetId;
 
-  List<AssetPairData> _assetPairList = List();
+  List<AssetPair> _assetPairList = List();
 
   Map<String, List<Asset>> assetMap = Map();
 
@@ -24,7 +19,7 @@ class AssetRepository {
   Asset get baseAsset =>
       _assetDictionary.assets.firstWhere((a) => a.id == _baseAssetId);
 
-  List<AssetPairData> get assetPairs => _assetPairList;
+  List<AssetPair> get assetPairs => _assetPairList;
 
   Future<void> loadAssetDictionary() async {
     _assetDictionary = await ApiService.client.assetsDictionary(Empty());
@@ -36,32 +31,29 @@ class AssetRepository {
             .toList(),
       );
     });
+    await loadBaseAsset();
   }
 
   Future<void> loadBaseAsset() async {
-    if (_baseAssetId == null) {
-      _baseAssetId =
-          (await ApiService.client.getBaseAsset(Empty())).baseAsset.assetId;
-    }
+    _baseAssetId =
+        (await ApiService.client.getBaseAsset(Empty())).baseAsset.assetId;
   }
 
-  Future<void> loadAllAssetPairs() async {
-    if (_assetPairList.isEmpty) {
-      _assetPairList = await _api.fetchAssetPairs();
-    }
-  }
-
-  Future<List<AssetPairData>> loadAssetPairs(Asset asset) async {
-    await loadAllAssetPairs();
-    return _assetPairList
-        .where((e) =>
-            e.secAssetSymbol == asset.symbol ||
-            e.mainAssetSymbol == asset.symbol)
-        .toList();
-  }
-
-  Future<void> getAssetPairs() async {
+  Future<void> loadAssetPairs() async {
     var response = await ApiService.client.getAssetPairs(Empty());
-    response.assetPairs;
+    _assetPairList = response.assetPairs;
+  }
+
+  Future<Asset> assetFromId(String id) async {
+    if (_assetDictionary.assets.isEmpty) await loadAssetDictionary();
+
+    return assetList.firstWhere((a) => a.id == id);
+  }
+
+  Future<List<AssetPair>> pairsForAsset(String assetId) async {
+    if (_assetPairList.isEmpty) await loadAssetPairs();
+    return _assetPairList
+        .where((a) => a.baseAssetId == assetId || a.quotingAssetId == assetId)
+        .toList();
   }
 }

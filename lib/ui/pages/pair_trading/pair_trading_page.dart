@@ -1,8 +1,9 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
-import 'package:antares_wallet/models/asset_pair_data.dart';
 import 'package:antares_wallet/models/market_model.dart';
+import 'package:antares_wallet/services/api/mock_api.dart';
+import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
 import 'package:antares_wallet/ui/widgets/tradelog_tile.dart';
 import 'package:antares_wallet/ui/widgets/volume_ask_tile.dart';
@@ -87,24 +88,24 @@ class PairTradingPage extends StatelessWidget {
     );
   }
 
-  Future<AssetPairData> _showSearch() {
+  Future<AssetPair> _showSearch() {
     return showSearch(
       context: Get.overlayContext,
-      delegate: SearchPage<AssetPairData>(
+      delegate: SearchPage<AssetPair>(
         showItemsOnEmpty: true,
         items: PairTradingController.con.assetPairs,
         searchLabel: 'search'.tr,
         filter: (pair) => [
-          pair.mainAssetName,
-          pair.mainAssetSymbol,
-          pair.secAssetSymbol,
+          pair.name,
         ],
         builder: (pair) => Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: AppSizes.medium,
           ),
           child: AssetPairTile(
-            data: pair,
+            imgUrl: MockApiService.lykkeIconUrl,
+            mainAsset: Asset.getDefault(),
+            quotingAsset: Asset.getDefault(),
             showTitle: true,
             onTap: () {
               Get.back();
@@ -368,7 +369,7 @@ class _Tradelog extends StatelessWidget {
                   flex: 3,
                   fit: FlexFit.tight,
                   child: Text(
-                    'Price (${c.assetPair.secAssetSymbol})',
+                    'Price (symbol)',
                     style: titleStyle,
                   ),
                 ),
@@ -376,7 +377,7 @@ class _Tradelog extends StatelessWidget {
                   flex: 2,
                   fit: FlexFit.tight,
                   child: Text(
-                    'Trade size (${c.assetPair.mainAssetSymbol})',
+                    'Trade size (symbol)',
                     style: titleStyle,
                     textAlign: TextAlign.right,
                   ),

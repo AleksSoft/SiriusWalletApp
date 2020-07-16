@@ -1,19 +1,23 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
-import 'package:antares_wallet/models/asset_pair_data.dart';
+import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'asset_pair_rich_text.dart';
 
 class AssetPairTile extends StatelessWidget {
-  final AssetPairData data;
+  final String imgUrl;
+  final Asset mainAsset;
+  final Asset quotingAsset;
   final bool showTitle;
   final VoidCallback onTap;
 
   const AssetPairTile({
-    @required this.data,
+    @required this.imgUrl,
+    @required this.mainAsset,
+    @required this.quotingAsset,
     this.showTitle = false,
     this.onTap,
     Key key,
@@ -37,13 +41,13 @@ class AssetPairTile extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Image.network(
-                    data.mainAssetImgUrl,
+                    imgUrl,
                     height: AppSizes.medium,
                     width: AppSizes.medium,
                   ),
                   AppUiHelpers.hSpaceExtraSmall,
                   Text(
-                    data.mainAssetName,
+                    mainAsset.name,
                     style: Theme.of(context).textTheme.subtitle2.copyWith(
                           fontSize: 14.0,
                           color: Colors.grey[600],
@@ -63,12 +67,12 @@ class AssetPairTile extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     PairRichText(
-                      symbol1: data.mainAssetSymbol,
-                      symbol2: data.secAssetSymbol,
+                      symbol1: mainAsset.symbol,
+                      symbol2: quotingAsset.symbol,
                     ),
                     AppUiHelpers.vSpaceExtraSmall,
                     Text(
-                      'Vol ${data.volume}',
+                      'Vol volume',
                       style: textStyleButton.copyWith(
                         fontSize: 12.0,
                         color: AppColors.secondary,
@@ -85,7 +89,7 @@ class AssetPairTile extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      '${data.mainPrice}',
+                      'mainPrice',
                       style: textStyleButton.copyWith(
                         fontSize: 16.0,
                         fontWeight: FontWeight.w600,
@@ -93,7 +97,7 @@ class AssetPairTile extends StatelessWidget {
                     ),
                     AppUiHelpers.vSpaceExtraSmall,
                     Text(
-                      '${data.mainAssetSymbol} ${data.mainPrice}',
+                      '${mainAsset.symbol} mainPrice',
                       style: textStyleButton.copyWith(
                         fontSize: 12.0,
                         color: AppColors.secondary,
@@ -119,7 +123,7 @@ class AssetPairTile extends StatelessWidget {
                     color: _color.withOpacity(0.2),
                   ),
                   child: Text(
-                    '${data.change}%',
+                    'change%',
                     textAlign: TextAlign.end,
                     style: textStyleButton.copyWith(
                       fontSize: 12.0,
@@ -138,11 +142,12 @@ class AssetPairTile extends StatelessWidget {
   }
 
   Color get _color {
-    if (data.change > 0) {
-      return AppColors.green;
-    } else if (data.change < 0) {
-      return AppColors.red;
-    }
     return AppColors.secondary;
+    // if (data.change > 0) {
+    //   return AppColors.green;
+    // } else if (data.change < 0) {
+    //   return AppColors.red;
+    // }
+    // return AppColors.secondary;
   }
 }

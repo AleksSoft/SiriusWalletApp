@@ -32,7 +32,10 @@ class WatchlistsPage extends StatelessWidget {
               itemBuilder: (context, index) {
                 var item = _.items[index];
                 return ListTile(
-                  onTap: () => _.select(item.id),
+                  onTap: () {
+                    _.select(item.id);
+                    Get.back();
+                  },
                   leading: Container(
                     width: AppSizes.extraLarge,
                     alignment: Alignment.center,
@@ -80,7 +83,13 @@ class WatchlistsPage extends StatelessWidget {
             body: ListView(
               children: _
                   .options(watchlist)
-                  .map((e) => ListTile(onTap: e.action, title: Text(e.name)))
+                  .map((e) => ListTile(
+                        onTap: () {
+                          Get.back();
+                          e.action();
+                        },
+                        title: Text(e.name),
+                      ))
                   .toList(),
             ),
           ),

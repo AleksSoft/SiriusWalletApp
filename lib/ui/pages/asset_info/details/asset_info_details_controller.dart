@@ -1,6 +1,5 @@
 import 'dart:convert' show json;
 
-import 'package:antares_wallet/models/asset_pair_data.dart';
 import 'package:antares_wallet/models/market_model.dart';
 import 'package:antares_wallet/services/repositories/asset_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
@@ -23,11 +22,11 @@ class AssetInfoDetailsController extends GetxController {
 
   List<MarketModel> _mockMarkets = List();
 
-  List<AssetPairData> _assetPairs = List();
+  List<AssetPair> _assetPairs = List();
 
-  List<AssetPairData> get assetPairs => _assetPairs;
+  List<AssetPair> get assetPairs => _assetPairs;
 
-  List<AssetPairData> get assetPairsShort {
+  List<AssetPair> get assetPairsShort {
     var maxSize = _assetPairs.length <= 3 ? _assetPairs.length : 3;
     return _assetPairs.sublist(0, maxSize);
   }
@@ -43,7 +42,7 @@ class AssetInfoDetailsController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    _assetPairs = await _repository.loadAssetPairs(asset);
+    _assetPairs = await _repository.pairsForAsset(asset.id);
     _mockMarkets = await _loadMarkets();
     update();
   }

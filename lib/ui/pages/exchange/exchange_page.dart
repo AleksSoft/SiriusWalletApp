@@ -1,5 +1,7 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
+import 'package:antares_wallet/services/api/mock_api.dart';
+import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/exchange/watchlists/watchlists_page.dart';
 import 'package:antares_wallet/ui/pages/pair_trading/pair_trading_page.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_list_title_view.dart';
@@ -41,7 +43,9 @@ class ExchangePage extends StatelessWidget {
                   ),
                   children: _.assetPairs
                       .map((e) => AssetPairTile(
-                            data: e,
+                            imgUrl: MockApiService.lykkeIconUrl,
+                            mainAsset: Asset.getDefault(),
+                            quotingAsset: Asset.getDefault(),
                             showTitle: true,
                             onTap: () => Get.toNamed(PairTradingPage.route,
                                 arguments: e),
