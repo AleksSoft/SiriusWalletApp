@@ -30,12 +30,6 @@ class SelectAssetController extends GetxController {
 
   String get title => (Get.arguments as SelectAssetArgs).title;
 
-  @override
-  void onInit() async {
-    _repository.loadAssetDictionary();
-    update();
-  }
-
   back() => Get.back(result: selectedAsset);
 
   select(Asset asset) {

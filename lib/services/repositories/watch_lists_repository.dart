@@ -10,7 +10,7 @@ class WatchListsRepository {
 
   Watchlist _selected = Watchlist.getDefault();
 
-  Watchlist get selected => _selected;
+  Watchlist get activeWatchlist => _selected;
 
   WatchListsRepository() {
     loadWatchLists().whenComplete(() => _selected = _items.first);

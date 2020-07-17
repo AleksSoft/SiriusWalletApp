@@ -21,6 +21,10 @@ class AssetRepository {
 
   List<AssetPair> get assetPairs => _assetPairList;
 
+  AssetRepository() {
+    loadAssetDictionary();
+  }
+
   Future<void> loadAssetDictionary() async {
     _assetDictionary = await ApiService.client.assetsDictionary(Empty());
     categoryList.forEach((category) {
@@ -42,6 +46,14 @@ class AssetRepository {
   Future<void> loadAssetPairs() async {
     var response = await ApiService.client.getAssetPairs(Empty());
     _assetPairList = response.assetPairs;
+  }
+
+  List<AssetPair> watchedAssetPairs(Watchlist watchlist) {
+    List<AssetPair> result = List();
+    watchlist.assetIds.forEach((id) {
+      result.add(_assetPairList.firstWhere((ap) => ap.id == id));
+    });
+    return result;
   }
 
   Future<Asset> assetFromId(String id) async {

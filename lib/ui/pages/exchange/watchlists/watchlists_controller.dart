@@ -1,5 +1,6 @@
 import 'package:antares_wallet/services/repositories/watch_lists_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:antares_wallet/ui/pages/exchange/exchange_controller.dart';
 import 'package:antares_wallet/ui/pages/exchange/watchlists/edit/edit_watchlist_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
@@ -9,7 +10,7 @@ class WatchlistsController extends GetxController {
 
   List<Watchlist> get items => _repository.items;
 
-  Watchlist get selected => _repository.selected;
+  Watchlist get selected => _repository.activeWatchlist;
 
   @override
   void onInit() {
@@ -23,6 +24,7 @@ class WatchlistsController extends GetxController {
 
   select(String id) {
     _repository.select(id);
+    Get.find<ExchangeController>().rebuildAssetPairList();
     update();
   }
 

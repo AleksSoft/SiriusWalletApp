@@ -47,8 +47,10 @@ class ExchangePage extends StatelessWidget {
                             mainAsset: Asset.getDefault(),
                             quotingAsset: Asset.getDefault(),
                             showTitle: true,
-                            onTap: () => Get.toNamed(PairTradingPage.route,
-                                arguments: e),
+                            onTap: () => Get.toNamed(
+                              PairTradingPage.route,
+                              arguments: e,
+                            ),
                           ))
                       .toList(),
                 ),

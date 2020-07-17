@@ -12,13 +12,6 @@ class PortfolioAssetsController extends GetxController {
 
   List<AssetCategory> get categoryList => _repository.categoryList;
 
-  @override
-  void onInit() async {
-    super.onInit();
-    await _repository.loadAssetDictionary();
-    update();
-  }
-
   List<Asset> getCategoryAssets(String categoryId) {
     var list = _repository.assetMap[categoryId] ?? List();
     return isExpanded(categoryId)
