@@ -11,9 +11,9 @@ class InitialPageBinding extends Bindings {
   void dependencies() {
     Get.lazyPut<MockApiService>(() => MockApiService());
     Get.put<AssetRepository>(AssetRepository());
+    Get.put<WatchListsRepository>(WatchListsRepository());
     Get.put<OrderRepository>(OrderRepository());
     Get.put<PortfolioHistoryRepository>(PortfolioHistoryRepository());
-    Get.put<WatchListsRepository>(WatchListsRepository());
     Get.put<PriceRepository>(PriceRepository());
   }
 }

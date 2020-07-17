@@ -41,9 +41,9 @@ class AssetInfoDetailsController extends GetxController {
 
   @override
   void onInit() async {
-    super.onInit();
     _assetPairs = await _repository.pairsForAsset(asset.id);
     _mockMarkets = await _loadMarkets();
+    super.onInit();
     update();
   }
 

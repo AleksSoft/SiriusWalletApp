@@ -19,8 +19,8 @@ class SettingsRepository {
     return _bcService.generateMnemonic().split(' ').sublist(0, 2);
   }
 
-  Future<void> init() async {
-    await _getSettings();
+  SettingsRepository() {
+    _getSettings();
   }
 
   Future<void> _getSettings() async {
@@ -35,6 +35,4 @@ class SettingsRepository {
       _storage.write(AppStorageKeys.settingsData, data.writeToJson());
     }
   }
-
-  Future<void> updateBaseAsset(Asset asset) async {}
 }

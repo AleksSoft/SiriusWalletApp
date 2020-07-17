@@ -33,14 +33,6 @@ class SettingsController extends GetxController {
 
   bool get phraseComplete => wordsMatch && _confirmKeyWords.length == 12;
 
-  @override
-  void onInit() async {
-    super.onInit();
-    await _repository.init();
-    // refreshConfirmKeyVariants();
-    update();
-  }
-
   Future updateBaseAsset() async {
     final asset = await Get.toNamed(
       SelectAssetPage.route,
@@ -49,8 +41,7 @@ class SettingsController extends GetxController {
         selectedAsset: baseAsset,
       ),
     );
-    await _repository.updateBaseAsset(asset);
-    await _assetRepo.loadBaseAsset();
+    await _assetRepo.setBaseAsset(asset.id);
     update();
   }
 

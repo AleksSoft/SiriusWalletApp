@@ -35,10 +35,10 @@ class AssetRepository {
             .toList(),
       );
     });
-    await loadBaseAsset();
+    await getBaseAsset();
   }
 
-  Future<void> loadBaseAsset() async {
+  Future<void> getBaseAsset() async {
     _baseAssetId =
         (await ApiService.client.getBaseAsset(Empty())).baseAsset.assetId;
   }
@@ -46,7 +46,7 @@ class AssetRepository {
   Future<void> setBaseAsset(String id) async {
     await ApiService.client
         .setBaseAsset(BaseAssetUpdateRequest()..baseAssetId = id);
-    await loadBaseAsset();
+    await getBaseAsset();
   }
 
   Future<void> loadAssetPairs() async {
@@ -54,7 +54,8 @@ class AssetRepository {
     _assetPairList = response.assetPairs;
   }
 
-  List<AssetPair> watchedAssetPairs(Watchlist watchlist) {
+  Future<List<AssetPair>> watchedAssetPairs(Watchlist watchlist) async {
+    if (_assetPairList.isEmpty) await loadAssetPairs();
     List<AssetPair> result = List();
     watchlist.assetIds.forEach((id) {
       result.add(_assetPairList.firstWhere((ap) => ap.id == id));

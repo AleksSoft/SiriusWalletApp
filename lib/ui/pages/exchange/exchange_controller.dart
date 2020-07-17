@@ -13,17 +13,24 @@ class ExchangeController extends GetxController {
 
   @override
   void onInit() async {
-    super.onInit();
     await rebuildAssetPairList();
+    super.onInit();
+    update();
   }
 
   rebuildAssetPairList() async {
-    _assetPairs = _assetsRepo.watchedAssetPairs(
-      _watchlistsRepo.activeWatchlist,
-    );
-    _assetPairs.map((e) => null)
-
-    update();
+    _assetPairs =
+        (await _assetsRepo.watchedAssetPairs(_watchlistsRepo.activeWatchlist))
+            .map((e) => ExchangeAssetPair(
+                  '',
+                  Asset.getDefault(),
+                  Asset.getDefault(),
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                ))
+            .toList();
   }
 }
 

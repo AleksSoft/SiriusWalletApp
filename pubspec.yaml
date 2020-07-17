@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
 
   #business
-  get: ^3.2.2
+  get: ^3.3.0
   get_storage: ^1.2.1
   equatable: ^1.2.0
   grpc: ^2.2.0
