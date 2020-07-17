@@ -15,6 +15,37 @@ import 'apiservice.pbenum.dart';
 
 export 'apiservice.pbenum.dart';
 
+class BaseAssetUpdateRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('BaseAssetUpdateRequest', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOS(1, 'baseAssetId', protoName: 'baseAssetId')
+    ..hasRequiredFields = false
+  ;
+
+  BaseAssetUpdateRequest._() : super();
+  factory BaseAssetUpdateRequest() => create();
+  factory BaseAssetUpdateRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory BaseAssetUpdateRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  BaseAssetUpdateRequest clone() => BaseAssetUpdateRequest()..mergeFromMessage(this);
+  BaseAssetUpdateRequest copyWith(void Function(BaseAssetUpdateRequest) updates) => super.copyWith((message) => updates(message as BaseAssetUpdateRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static BaseAssetUpdateRequest create() => BaseAssetUpdateRequest._();
+  BaseAssetUpdateRequest createEmptyInstance() => create();
+  static $pb.PbList<BaseAssetUpdateRequest> createRepeated() => $pb.PbList<BaseAssetUpdateRequest>();
+  @$core.pragma('dart2js:noInline')
+  static BaseAssetUpdateRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<BaseAssetUpdateRequest>(create);
+  static BaseAssetUpdateRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get baseAssetId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set baseAssetId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasBaseAssetId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearBaseAssetId() => clearField(1);
+}
+
 class PricesRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('PricesRequest', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
     ..pPS(1, 'assetPairIds', protoName: 'assetPairIds')

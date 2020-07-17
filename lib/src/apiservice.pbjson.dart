@@ -39,6 +39,13 @@ const CandleInterval$json = const {
   ],
 };
 
+const BaseAssetUpdateRequest$json = const {
+  '1': 'BaseAssetUpdateRequest',
+  '2': const [
+    const {'1': 'baseAssetId', '3': 1, '4': 1, '5': 9, '10': 'baseAssetId'},
+  ],
+};
+
 const PricesRequest$json = const {
   '1': 'PricesRequest',
   '2': const [

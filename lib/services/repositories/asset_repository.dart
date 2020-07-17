@@ -43,6 +43,12 @@ class AssetRepository {
         (await ApiService.client.getBaseAsset(Empty())).baseAsset.assetId;
   }
 
+  Future<void> setBaseAsset(String id) async {
+    await ApiService.client
+        .setBaseAsset(BaseAssetUpdateRequest()..baseAssetId = id);
+    await loadBaseAsset();
+  }
+
   Future<void> loadAssetPairs() async {
     var response = await ApiService.client.getAssetPairs(Empty());
     _assetPairList = response.assetPairs;
