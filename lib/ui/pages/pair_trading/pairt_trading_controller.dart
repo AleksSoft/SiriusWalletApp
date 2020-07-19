@@ -25,10 +25,9 @@ class PairTradingController extends GetxController {
 
   @override
   void onInit() async {
-    super.onInit();
     await _repository.loadAssetPairs();
     _mockMarkets = await _loadMarkets();
-    update();
+    super.onInit();
   }
 
   void updateAssetPair(AssetPair data) {

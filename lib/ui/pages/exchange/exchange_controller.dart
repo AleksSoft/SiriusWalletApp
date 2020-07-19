@@ -15,7 +15,6 @@ class ExchangeController extends GetxController {
   void onInit() async {
     await rebuildAssetPairList();
     super.onInit();
-    update();
   }
 
   rebuildAssetPairList() async {
@@ -31,6 +30,7 @@ class ExchangeController extends GetxController {
                   0.0,
                 ))
             .toList();
+    update();
   }
 }
 

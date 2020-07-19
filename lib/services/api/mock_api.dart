@@ -1,6 +1,5 @@
 import 'package:antares_wallet/models/account_data.dart';
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
-import 'package:antares_wallet/models/asset_pair_data.dart';
 import 'package:antares_wallet/models/order_data.dart';
 import 'package:antares_wallet/models/personal_data.dart';
 import 'package:antares_wallet/models/transaction_details.dart';
