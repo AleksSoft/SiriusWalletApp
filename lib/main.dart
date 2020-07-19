@@ -35,7 +35,6 @@ void main() async {
         title: 'Antares Wallet',
         theme: AppThemes.light,
         themeMode: ThemeMode.system,
-        smartManagement: SmartManagement.onlyBuilder,
       ),
     ),
   );

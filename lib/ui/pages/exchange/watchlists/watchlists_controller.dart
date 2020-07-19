@@ -1,11 +1,14 @@
+import 'package:antares_wallet/app/common/app_storage_keys.dart';
 import 'package:antares_wallet/services/repositories/watch_lists_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/exchange/exchange_controller.dart';
 import 'package:antares_wallet/ui/pages/exchange/watchlists/edit/edit_watchlist_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class WatchlistsController extends GetxController {
+  final _storage = GetStorage();
   final _repository = Get.find<WatchListsRepository>();
 
   List<Watchlist> get items => _repository.items;
@@ -13,9 +16,9 @@ class WatchlistsController extends GetxController {
   Watchlist get selected => _repository.activeWatchlist;
 
   @override
-  void onInit() {
+  void onInit() async {
+    await updateWatchlists();
     super.onInit();
-    updateWatchlists().whenComplete(() => update());
   }
 
   Future<void> updateWatchlists() async {
@@ -24,6 +27,7 @@ class WatchlistsController extends GetxController {
 
   select(String id) {
     _repository.select(id);
+    _storage.write(AppStorageKeys.watchlist, id);
     Get.find<ExchangeController>().rebuildAssetPairList();
     update();
   }

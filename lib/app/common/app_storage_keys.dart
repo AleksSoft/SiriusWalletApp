@@ -5,4 +5,5 @@ class AppStorageKeys {
   static final String accountData = 'key_account_data';
   static final String settingsData = 'key_settings_data';
   static final String baseAsset = 'key_base_asset';
+  static final String watchlist = 'key_watchlist';
 }
