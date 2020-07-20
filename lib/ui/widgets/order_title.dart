@@ -1,7 +1,7 @@
-import 'package:antares_wallet/models/order_data.dart';
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
+import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -9,12 +9,10 @@ import 'asset_pair_rich_text.dart';
 
 class OrderTile extends StatelessWidget {
   final VoidCallback onDismissed;
-  final bool dismissible;
-  final OrderData data;
+  final LimitOrderModel data;
 
   const OrderTile({
     @required this.data,
-    this.dismissible = false,
     this.onDismissed,
     Key key,
   }) : super(key: key);
@@ -23,7 +21,7 @@ class OrderTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final textStyleButton = Theme.of(context).textTheme.button;
 
-    if (dismissible) {
+    if (onDismissed != null) {
       return Dismissible(
         key: Key(data.id.toString()),
         onDismissed: (direction) => onDismissed(),
@@ -54,9 +52,7 @@ class OrderTile extends StatelessWidget {
 
   Widget _buildBody(TextStyle textStyleButton) {
     return Container(
-      color: data.cancelled
-          ? AppColors.secondary.withOpacity(0.2)
-          : AppColors.primary,
+      color: AppColors.primary,
       padding: const EdgeInsets.symmetric(horizontal: AppSizes.medium),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -77,28 +73,29 @@ class OrderTile extends StatelessWidget {
                       textBaseline: TextBaseline.alphabetic,
                       children: [
                         PairRichText(
-                          symbol1: data.mainAssetSymbol,
-                          symbol2: data.secAssetSymbol,
+                          symbol1: data.asset,
+                          symbol2: data.asset,
                         ),
                         AppUiHelpers.hSpaceSmall,
-                        Visibility(
-                          visible: !data.cancelled,
-                          child: Text(
-                            data.isSelling ? 'SELL' : 'BUY',
-                            style: textStyleButton.copyWith(
-                              fontSize: 10.0,
-                              fontWeight: FontWeight.w600,
-                              color: data.isSelling
-                                  ? AppColors.red
-                                  : AppColors.green,
-                            ),
-                          ),
-                        ),
+                        // Visibility(
+                        //   visible: !data.cancelled,
+                        //   child: Text(
+                        //     data.isSelling ? 'SELL' : 'BUY',
+                        //     style: textStyleButton.copyWith(
+                        //       fontSize: 10.0,
+                        //       fontWeight: FontWeight.w600,
+                        //       color: data.isSelling
+                        //           ? AppColors.red
+                        //           : AppColors.green,
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                     AppUiHelpers.vSpaceExtraSmall,
                     Text(
-                      data.date,
+                      'some date',
+                      // data.date,
                       style: textStyleButton.copyWith(
                         fontSize: 12.0,
                         color: AppColors.secondary,
@@ -115,7 +112,8 @@ class OrderTile extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      data.cancelled ? '--' : data.avgPrice.toString(),
+                      // data.cancelled ? '--' : data.avgPrice.toString(),
+                      data.totalCost,
                       style: textStyleButton.copyWith(fontSize: 16.0),
                     ),
                     AppUiHelpers.vSpaceExtraSmall,
@@ -137,13 +135,14 @@ class OrderTile extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      data.cancelled ? '--' : data.filled.toString(),
+                      // data.cancelled ? '--' : data.filled.toString(),
+                      data.remainingVolume,
                       textAlign: TextAlign.right,
                       style: textStyleButton.copyWith(fontSize: 16.0),
                     ),
                     AppUiHelpers.vSpaceExtraSmall,
                     Text(
-                      data.amount.toString(),
+                      data.remainingOtherVolume,
                       textAlign: TextAlign.right,
                       style: textStyleButton.copyWith(
                         fontSize: 12.0,

@@ -1,3 +1,4 @@
+import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/widgets/order_title.dart';
 import 'package:antares_wallet/ui/widgets/orders_list_header.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +15,10 @@ class AssetInfoTradesView extends StatelessWidget {
         physics: BouncingScrollPhysics(),
         children: [
           OrdersListHeaderView(),
-          Column(
-            children: _.orders.map((e) => OrderTile(data: e)).toList(),
+          ListView(
+            children: _.orders
+                .map((e) => OrderTile(data: LimitOrderModel.getDefault()))
+                .toList(),
           ),
         ],
       ),

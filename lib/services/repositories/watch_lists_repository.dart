@@ -25,7 +25,7 @@ class WatchListsRepository {
 
   Future<void> getWatchLists() async {
     try {
-      final response = await ApiService.client.getWatchList(Empty());
+      final response = await ApiService.client.getWatchlists(Empty());
       _items = response.result;
     } catch (e) {
       Get.defaultDialog(
