@@ -128,13 +128,12 @@ const CancelOrderRequest$json = const {
 const TradesRequest$json = const {
   '1': 'TradesRequest',
   '2': const [
-    const {'1': 'walletId', '3': 1, '4': 1, '5': 9, '10': 'walletId'},
-    const {'1': 'assetPairId', '3': 2, '4': 1, '5': 9, '9': 0, '10': 'assetPairId'},
-    const {'1': 'take', '3': 3, '4': 1, '5': 5, '10': 'take'},
-    const {'1': 'skip', '3': 4, '4': 1, '5': 5, '10': 'skip'},
-    const {'1': 'from', '3': 5, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '9': 1, '10': 'from'},
-    const {'1': 'to', '3': 6, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '9': 2, '10': 'to'},
-    const {'1': 'tradeType', '3': 7, '4': 1, '5': 9, '9': 3, '10': 'tradeType'},
+    const {'1': 'assetPairId', '3': 1, '4': 1, '5': 9, '9': 0, '10': 'assetPairId'},
+    const {'1': 'take', '3': 2, '4': 1, '5': 5, '10': 'take'},
+    const {'1': 'skip', '3': 3, '4': 1, '5': 5, '10': 'skip'},
+    const {'1': 'from', '3': 4, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '9': 1, '10': 'from'},
+    const {'1': 'to', '3': 5, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '9': 2, '10': 'to'},
+    const {'1': 'tradeType', '3': 6, '4': 1, '5': 9, '9': 3, '10': 'tradeType'},
   ],
   '8': const [
     const {'1': 'optional_assetPairId'},

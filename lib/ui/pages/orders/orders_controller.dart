@@ -1,5 +1,6 @@
 import 'package:antares_wallet/services/repositories/order_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
 import 'package:get/get.dart';
 
 class OrdersController extends GetxController {
@@ -16,27 +17,28 @@ class OrdersController extends GetxController {
   set trades(List<TradesResponse_TradeModel> value) =>
       this._trades.value = value;
 
-  @override
-  void onInit() async {
-    await getOrders();
-    super.onInit();
-  }
+  getOrders() async => orders = await _repository.getOrders();
 
-  getOrders() async {
-    orders = await _repository.getOrders();
-  }
+  getTrades(
+    int take,
+    int skip, {
+    String assetPairId,
+    String tradeType,
+    Timestamp fromDate,
+    Timestamp toDate,
+  }) async =>
+      trades = await _repository.getTrades(
+        take: take,
+        skip: skip,
+        assetPairId: assetPairId,
+        tradeType: tradeType,
+        fromDate: fromDate,
+        toDate: toDate,
+      );
 
-  getTrades() async {
-    // trades = await _repository.getTrades();
-  }
+  cancelOrder(String id) async => await _repository.cancelOrder(id);
 
-  cancelOrder(String id) async {
-    await _repository.cancelOrder(id);
-  }
-
-  cancelAllOrders() async {
-    await _repository.cancelAllOrders();
-  }
+  cancelAllOrders() async => await _repository.cancelAllOrders();
 
   placeLimitOrder(
     String assetId,

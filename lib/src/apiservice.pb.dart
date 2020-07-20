@@ -465,33 +465,32 @@ enum TradesRequest_OptionalTradeType {
 
 class TradesRequest extends $pb.GeneratedMessage {
   static const $core.Map<$core.int, TradesRequest_OptionalAssetPairId> _TradesRequest_OptionalAssetPairIdByTag = {
-    2 : TradesRequest_OptionalAssetPairId.assetPairId,
+    1 : TradesRequest_OptionalAssetPairId.assetPairId,
     0 : TradesRequest_OptionalAssetPairId.notSet
   };
   static const $core.Map<$core.int, TradesRequest_OptionalFromDate> _TradesRequest_OptionalFromDateByTag = {
-    5 : TradesRequest_OptionalFromDate.from,
+    4 : TradesRequest_OptionalFromDate.from,
     0 : TradesRequest_OptionalFromDate.notSet
   };
   static const $core.Map<$core.int, TradesRequest_OptionalToDate> _TradesRequest_OptionalToDateByTag = {
-    6 : TradesRequest_OptionalToDate.to,
+    5 : TradesRequest_OptionalToDate.to,
     0 : TradesRequest_OptionalToDate.notSet
   };
   static const $core.Map<$core.int, TradesRequest_OptionalTradeType> _TradesRequest_OptionalTradeTypeByTag = {
-    7 : TradesRequest_OptionalTradeType.tradeType,
+    6 : TradesRequest_OptionalTradeType.tradeType,
     0 : TradesRequest_OptionalTradeType.notSet
   };
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('TradesRequest', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
-    ..oo(0, [2])
-    ..oo(1, [5])
-    ..oo(2, [6])
-    ..oo(3, [7])
-    ..aOS(1, 'walletId', protoName: 'walletId')
-    ..aOS(2, 'assetPairId', protoName: 'assetPairId')
-    ..a<$core.int>(3, 'take', $pb.PbFieldType.O3)
-    ..a<$core.int>(4, 'skip', $pb.PbFieldType.O3)
-    ..aOM<$3.Timestamp>(5, 'from', subBuilder: $3.Timestamp.create)
-    ..aOM<$3.Timestamp>(6, 'to', subBuilder: $3.Timestamp.create)
-    ..aOS(7, 'tradeType', protoName: 'tradeType')
+    ..oo(0, [1])
+    ..oo(1, [4])
+    ..oo(2, [5])
+    ..oo(3, [6])
+    ..aOS(1, 'assetPairId', protoName: 'assetPairId')
+    ..a<$core.int>(2, 'take', $pb.PbFieldType.O3)
+    ..a<$core.int>(3, 'skip', $pb.PbFieldType.O3)
+    ..aOM<$3.Timestamp>(4, 'from', subBuilder: $3.Timestamp.create)
+    ..aOM<$3.Timestamp>(5, 'to', subBuilder: $3.Timestamp.create)
+    ..aOS(6, 'tradeType', protoName: 'tradeType')
     ..hasRequiredFields = false
   ;
 
@@ -523,71 +522,62 @@ class TradesRequest extends $pb.GeneratedMessage {
   void clearOptionalTradeType() => clearField($_whichOneof(3));
 
   @$pb.TagNumber(1)
-  $core.String get walletId => $_getSZ(0);
+  $core.String get assetPairId => $_getSZ(0);
   @$pb.TagNumber(1)
-  set walletId($core.String v) { $_setString(0, v); }
+  set assetPairId($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasWalletId() => $_has(0);
+  $core.bool hasAssetPairId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearWalletId() => clearField(1);
+  void clearAssetPairId() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get assetPairId => $_getSZ(1);
+  $core.int get take => $_getIZ(1);
   @$pb.TagNumber(2)
-  set assetPairId($core.String v) { $_setString(1, v); }
+  set take($core.int v) { $_setSignedInt32(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasAssetPairId() => $_has(1);
+  $core.bool hasTake() => $_has(1);
   @$pb.TagNumber(2)
-  void clearAssetPairId() => clearField(2);
+  void clearTake() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.int get take => $_getIZ(2);
+  $core.int get skip => $_getIZ(2);
   @$pb.TagNumber(3)
-  set take($core.int v) { $_setSignedInt32(2, v); }
+  set skip($core.int v) { $_setSignedInt32(2, v); }
   @$pb.TagNumber(3)
-  $core.bool hasTake() => $_has(2);
+  $core.bool hasSkip() => $_has(2);
   @$pb.TagNumber(3)
-  void clearTake() => clearField(3);
+  void clearSkip() => clearField(3);
 
   @$pb.TagNumber(4)
-  $core.int get skip => $_getIZ(3);
+  $3.Timestamp get from => $_getN(3);
   @$pb.TagNumber(4)
-  set skip($core.int v) { $_setSignedInt32(3, v); }
+  set from($3.Timestamp v) { setField(4, v); }
   @$pb.TagNumber(4)
-  $core.bool hasSkip() => $_has(3);
+  $core.bool hasFrom() => $_has(3);
   @$pb.TagNumber(4)
-  void clearSkip() => clearField(4);
+  void clearFrom() => clearField(4);
+  @$pb.TagNumber(4)
+  $3.Timestamp ensureFrom() => $_ensure(3);
 
   @$pb.TagNumber(5)
-  $3.Timestamp get from => $_getN(4);
+  $3.Timestamp get to => $_getN(4);
   @$pb.TagNumber(5)
-  set from($3.Timestamp v) { setField(5, v); }
+  set to($3.Timestamp v) { setField(5, v); }
   @$pb.TagNumber(5)
-  $core.bool hasFrom() => $_has(4);
+  $core.bool hasTo() => $_has(4);
   @$pb.TagNumber(5)
-  void clearFrom() => clearField(5);
+  void clearTo() => clearField(5);
   @$pb.TagNumber(5)
-  $3.Timestamp ensureFrom() => $_ensure(4);
+  $3.Timestamp ensureTo() => $_ensure(4);
 
   @$pb.TagNumber(6)
-  $3.Timestamp get to => $_getN(5);
+  $core.String get tradeType => $_getSZ(5);
   @$pb.TagNumber(6)
-  set to($3.Timestamp v) { setField(6, v); }
+  set tradeType($core.String v) { $_setString(5, v); }
   @$pb.TagNumber(6)
-  $core.bool hasTo() => $_has(5);
+  $core.bool hasTradeType() => $_has(5);
   @$pb.TagNumber(6)
-  void clearTo() => clearField(6);
-  @$pb.TagNumber(6)
-  $3.Timestamp ensureTo() => $_ensure(5);
-
-  @$pb.TagNumber(7)
-  $core.String get tradeType => $_getSZ(6);
-  @$pb.TagNumber(7)
-  set tradeType($core.String v) { $_setString(6, v); }
-  @$pb.TagNumber(7)
-  $core.bool hasTradeType() => $_has(6);
-  @$pb.TagNumber(7)
-  void clearTradeType() => clearField(7);
+  void clearTradeType() => clearField(6);
 }
 
 class WatchlistRequest extends $pb.GeneratedMessage {

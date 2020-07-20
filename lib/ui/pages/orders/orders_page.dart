@@ -8,10 +8,10 @@ import 'orders_controller.dart';
 
 class OrdersPage extends StatelessWidget {
   static final String route = '/orders';
+  final c = OrdersController.con;
+  
   @override
   Widget build(BuildContext context) {
-    final c = OrdersController.con;
-
     return DefaultTabController(
       length: 2,
       child: Scaffold(

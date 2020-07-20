@@ -22,7 +22,6 @@ class OrderRepository {
   }
 
   Future<List<TradesResponse_TradeModel>> getTrades({
-    @required String walletId,
     @required int take,
     @required int skip,
     String assetPairId,
@@ -32,7 +31,6 @@ class OrderRepository {
   }) async {
     try {
       var request = TradesRequest()
-        ..walletId = walletId
         ..take = take
         ..skip = skip
         ..assetPairId = assetPairId
