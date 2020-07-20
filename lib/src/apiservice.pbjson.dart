@@ -71,6 +71,16 @@ const CandlesRequest$json = const {
   ],
 };
 
+const MarketsRequest$json = const {
+  '1': 'MarketsRequest',
+  '2': const [
+    const {'1': 'assetPairId', '3': 1, '4': 1, '5': 9, '9': 0, '10': 'assetPairId'},
+  ],
+  '8': const [
+    const {'1': 'optional_assetPairId'},
+  ],
+};
+
 const LimitOrdersRequest$json = const {
   '1': 'LimitOrdersRequest',
   '2': const [
@@ -112,6 +122,25 @@ const CancelOrderRequest$json = const {
   '1': 'CancelOrderRequest',
   '2': const [
     const {'1': 'orderId', '3': 1, '4': 1, '5': 9, '10': 'orderId'},
+  ],
+};
+
+const TradesRequest$json = const {
+  '1': 'TradesRequest',
+  '2': const [
+    const {'1': 'walletId', '3': 1, '4': 1, '5': 9, '10': 'walletId'},
+    const {'1': 'assetPairId', '3': 2, '4': 1, '5': 9, '9': 0, '10': 'assetPairId'},
+    const {'1': 'take', '3': 3, '4': 1, '5': 5, '10': 'take'},
+    const {'1': 'skip', '3': 4, '4': 1, '5': 5, '10': 'skip'},
+    const {'1': 'from', '3': 5, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '9': 1, '10': 'from'},
+    const {'1': 'to', '3': 6, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '9': 2, '10': 'to'},
+    const {'1': 'tradeType', '3': 7, '4': 1, '5': 9, '9': 3, '10': 'tradeType'},
+  ],
+  '8': const [
+    const {'1': 'optional_assetPairId'},
+    const {'1': 'optional_fromDate'},
+    const {'1': 'optional_toDate'},
+    const {'1': 'optional_tradeType'},
   ],
 };
 
@@ -341,6 +370,29 @@ const BalancesResponse$json = const {
   ],
 };
 
+const MarketsResponse$json = const {
+  '1': 'MarketsResponse',
+  '2': const [
+    const {'1': 'markets', '3': 1, '4': 3, '5': 11, '6': '.antaresWallet.MarketsResponse.MarketModel', '10': 'markets'},
+    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorV2', '10': 'error'},
+  ],
+  '3': const [MarketsResponse_MarketModel$json],
+};
+
+const MarketsResponse_MarketModel$json = const {
+  '1': 'MarketModel',
+  '2': const [
+    const {'1': 'assetPair', '3': 1, '4': 1, '5': 9, '10': 'assetPair'},
+    const {'1': 'volume24H', '3': 2, '4': 1, '5': 9, '10': 'volume24H'},
+    const {'1': 'priceChange24H', '3': 3, '4': 1, '5': 9, '10': 'priceChange24H'},
+    const {'1': 'lastPrice', '3': 4, '4': 1, '5': 9, '10': 'lastPrice'},
+    const {'1': 'bid', '3': 5, '4': 1, '5': 9, '10': 'bid'},
+    const {'1': 'ask', '3': 6, '4': 1, '5': 9, '10': 'ask'},
+    const {'1': 'high', '3': 7, '4': 1, '5': 9, '10': 'high'},
+    const {'1': 'low', '3': 8, '4': 1, '5': 9, '10': 'low'},
+  ],
+};
+
 const LimitOrdersResponse$json = const {
   '1': 'LimitOrdersResponse',
   '2': const [
@@ -408,6 +460,31 @@ const CancelOrderResponse$json = const {
   '2': const [
     const {'1': 'payload', '3': 1, '4': 1, '5': 8, '10': 'payload'},
     const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.Error', '10': 'error'},
+  ],
+};
+
+const TradesResponse$json = const {
+  '1': 'TradesResponse',
+  '2': const [
+    const {'1': 'trades', '3': 1, '4': 3, '5': 11, '6': '.antaresWallet.TradesResponse.TradeModel', '10': 'trades'},
+    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorV2', '10': 'error'},
+  ],
+  '3': const [TradesResponse_TradeModel$json],
+};
+
+const TradesResponse_TradeModel$json = const {
+  '1': 'TradeModel',
+  '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'orderId', '3': 2, '4': 1, '5': 9, '10': 'orderId'},
+    const {'1': 'assetPairId', '3': 3, '4': 1, '5': 9, '10': 'assetPairId'},
+    const {'1': 'price', '3': 4, '4': 1, '5': 9, '10': 'price'},
+    const {'1': 'direction', '3': 5, '4': 1, '5': 9, '10': 'direction'},
+    const {'1': 'baseAssetName', '3': 6, '4': 1, '5': 9, '10': 'baseAssetName'},
+    const {'1': 'baseVolume', '3': 7, '4': 1, '5': 9, '10': 'baseVolume'},
+    const {'1': 'quoteAssetName', '3': 8, '4': 1, '5': 9, '10': 'quoteAssetName'},
+    const {'1': 'quoteVolume', '3': 9, '4': 1, '5': 9, '10': 'quoteVolume'},
+    const {'1': 'timestamp', '3': 10, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'timestamp'},
   ],
 };
 

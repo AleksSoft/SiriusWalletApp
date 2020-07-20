@@ -171,6 +171,50 @@ class CandlesRequest extends $pb.GeneratedMessage {
   $3.Timestamp ensureTo() => $_ensure(4);
 }
 
+enum MarketsRequest_OptionalAssetPairId {
+  assetPairId, 
+  notSet
+}
+
+class MarketsRequest extends $pb.GeneratedMessage {
+  static const $core.Map<$core.int, MarketsRequest_OptionalAssetPairId> _MarketsRequest_OptionalAssetPairIdByTag = {
+    1 : MarketsRequest_OptionalAssetPairId.assetPairId,
+    0 : MarketsRequest_OptionalAssetPairId.notSet
+  };
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('MarketsRequest', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..oo(0, [1])
+    ..aOS(1, 'assetPairId', protoName: 'assetPairId')
+    ..hasRequiredFields = false
+  ;
+
+  MarketsRequest._() : super();
+  factory MarketsRequest() => create();
+  factory MarketsRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory MarketsRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  MarketsRequest clone() => MarketsRequest()..mergeFromMessage(this);
+  MarketsRequest copyWith(void Function(MarketsRequest) updates) => super.copyWith((message) => updates(message as MarketsRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static MarketsRequest create() => MarketsRequest._();
+  MarketsRequest createEmptyInstance() => create();
+  static $pb.PbList<MarketsRequest> createRepeated() => $pb.PbList<MarketsRequest>();
+  @$core.pragma('dart2js:noInline')
+  static MarketsRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<MarketsRequest>(create);
+  static MarketsRequest _defaultInstance;
+
+  MarketsRequest_OptionalAssetPairId whichOptionalAssetPairId() => _MarketsRequest_OptionalAssetPairIdByTag[$_whichOneof(0)];
+  void clearOptionalAssetPairId() => clearField($_whichOneof(0));
+
+  @$pb.TagNumber(1)
+  $core.String get assetPairId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set assetPairId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasAssetPairId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearAssetPairId() => clearField(1);
+}
+
 enum LimitOrdersRequest_OptionalAssetPairId {
   assetPairId, 
   notSet
@@ -397,6 +441,153 @@ class CancelOrderRequest extends $pb.GeneratedMessage {
   $core.bool hasOrderId() => $_has(0);
   @$pb.TagNumber(1)
   void clearOrderId() => clearField(1);
+}
+
+enum TradesRequest_OptionalAssetPairId {
+  assetPairId, 
+  notSet
+}
+
+enum TradesRequest_OptionalFromDate {
+  from, 
+  notSet
+}
+
+enum TradesRequest_OptionalToDate {
+  to, 
+  notSet
+}
+
+enum TradesRequest_OptionalTradeType {
+  tradeType, 
+  notSet
+}
+
+class TradesRequest extends $pb.GeneratedMessage {
+  static const $core.Map<$core.int, TradesRequest_OptionalAssetPairId> _TradesRequest_OptionalAssetPairIdByTag = {
+    2 : TradesRequest_OptionalAssetPairId.assetPairId,
+    0 : TradesRequest_OptionalAssetPairId.notSet
+  };
+  static const $core.Map<$core.int, TradesRequest_OptionalFromDate> _TradesRequest_OptionalFromDateByTag = {
+    5 : TradesRequest_OptionalFromDate.from,
+    0 : TradesRequest_OptionalFromDate.notSet
+  };
+  static const $core.Map<$core.int, TradesRequest_OptionalToDate> _TradesRequest_OptionalToDateByTag = {
+    6 : TradesRequest_OptionalToDate.to,
+    0 : TradesRequest_OptionalToDate.notSet
+  };
+  static const $core.Map<$core.int, TradesRequest_OptionalTradeType> _TradesRequest_OptionalTradeTypeByTag = {
+    7 : TradesRequest_OptionalTradeType.tradeType,
+    0 : TradesRequest_OptionalTradeType.notSet
+  };
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('TradesRequest', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..oo(0, [2])
+    ..oo(1, [5])
+    ..oo(2, [6])
+    ..oo(3, [7])
+    ..aOS(1, 'walletId', protoName: 'walletId')
+    ..aOS(2, 'assetPairId', protoName: 'assetPairId')
+    ..a<$core.int>(3, 'take', $pb.PbFieldType.O3)
+    ..a<$core.int>(4, 'skip', $pb.PbFieldType.O3)
+    ..aOM<$3.Timestamp>(5, 'from', subBuilder: $3.Timestamp.create)
+    ..aOM<$3.Timestamp>(6, 'to', subBuilder: $3.Timestamp.create)
+    ..aOS(7, 'tradeType', protoName: 'tradeType')
+    ..hasRequiredFields = false
+  ;
+
+  TradesRequest._() : super();
+  factory TradesRequest() => create();
+  factory TradesRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory TradesRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  TradesRequest clone() => TradesRequest()..mergeFromMessage(this);
+  TradesRequest copyWith(void Function(TradesRequest) updates) => super.copyWith((message) => updates(message as TradesRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static TradesRequest create() => TradesRequest._();
+  TradesRequest createEmptyInstance() => create();
+  static $pb.PbList<TradesRequest> createRepeated() => $pb.PbList<TradesRequest>();
+  @$core.pragma('dart2js:noInline')
+  static TradesRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<TradesRequest>(create);
+  static TradesRequest _defaultInstance;
+
+  TradesRequest_OptionalAssetPairId whichOptionalAssetPairId() => _TradesRequest_OptionalAssetPairIdByTag[$_whichOneof(0)];
+  void clearOptionalAssetPairId() => clearField($_whichOneof(0));
+
+  TradesRequest_OptionalFromDate whichOptionalFromDate() => _TradesRequest_OptionalFromDateByTag[$_whichOneof(1)];
+  void clearOptionalFromDate() => clearField($_whichOneof(1));
+
+  TradesRequest_OptionalToDate whichOptionalToDate() => _TradesRequest_OptionalToDateByTag[$_whichOneof(2)];
+  void clearOptionalToDate() => clearField($_whichOneof(2));
+
+  TradesRequest_OptionalTradeType whichOptionalTradeType() => _TradesRequest_OptionalTradeTypeByTag[$_whichOneof(3)];
+  void clearOptionalTradeType() => clearField($_whichOneof(3));
+
+  @$pb.TagNumber(1)
+  $core.String get walletId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set walletId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasWalletId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearWalletId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get assetPairId => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set assetPairId($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasAssetPairId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearAssetPairId() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.int get take => $_getIZ(2);
+  @$pb.TagNumber(3)
+  set take($core.int v) { $_setSignedInt32(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasTake() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearTake() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.int get skip => $_getIZ(3);
+  @$pb.TagNumber(4)
+  set skip($core.int v) { $_setSignedInt32(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasSkip() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearSkip() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $3.Timestamp get from => $_getN(4);
+  @$pb.TagNumber(5)
+  set from($3.Timestamp v) { setField(5, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasFrom() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearFrom() => clearField(5);
+  @$pb.TagNumber(5)
+  $3.Timestamp ensureFrom() => $_ensure(4);
+
+  @$pb.TagNumber(6)
+  $3.Timestamp get to => $_getN(5);
+  @$pb.TagNumber(6)
+  set to($3.Timestamp v) { setField(6, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasTo() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearTo() => clearField(6);
+  @$pb.TagNumber(6)
+  $3.Timestamp ensureTo() => $_ensure(5);
+
+  @$pb.TagNumber(7)
+  $core.String get tradeType => $_getSZ(6);
+  @$pb.TagNumber(7)
+  set tradeType($core.String v) { $_setString(6, v); }
+  @$pb.TagNumber(7)
+  $core.bool hasTradeType() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearTradeType() => clearField(7);
 }
 
 class WatchlistRequest extends $pb.GeneratedMessage {
@@ -1587,6 +1778,144 @@ class BalancesResponse extends $pb.GeneratedMessage {
   Error ensureError() => $_ensure(1);
 }
 
+class MarketsResponse_MarketModel extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('MarketsResponse.MarketModel', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOS(1, 'assetPair', protoName: 'assetPair')
+    ..aOS(2, 'volume24H', protoName: 'volume24H')
+    ..aOS(3, 'priceChange24H', protoName: 'priceChange24H')
+    ..aOS(4, 'lastPrice', protoName: 'lastPrice')
+    ..aOS(5, 'bid')
+    ..aOS(6, 'ask')
+    ..aOS(7, 'high')
+    ..aOS(8, 'low')
+    ..hasRequiredFields = false
+  ;
+
+  MarketsResponse_MarketModel._() : super();
+  factory MarketsResponse_MarketModel() => create();
+  factory MarketsResponse_MarketModel.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory MarketsResponse_MarketModel.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  MarketsResponse_MarketModel clone() => MarketsResponse_MarketModel()..mergeFromMessage(this);
+  MarketsResponse_MarketModel copyWith(void Function(MarketsResponse_MarketModel) updates) => super.copyWith((message) => updates(message as MarketsResponse_MarketModel));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static MarketsResponse_MarketModel create() => MarketsResponse_MarketModel._();
+  MarketsResponse_MarketModel createEmptyInstance() => create();
+  static $pb.PbList<MarketsResponse_MarketModel> createRepeated() => $pb.PbList<MarketsResponse_MarketModel>();
+  @$core.pragma('dart2js:noInline')
+  static MarketsResponse_MarketModel getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<MarketsResponse_MarketModel>(create);
+  static MarketsResponse_MarketModel _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get assetPair => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set assetPair($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasAssetPair() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearAssetPair() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get volume24H => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set volume24H($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasVolume24H() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearVolume24H() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get priceChange24H => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set priceChange24H($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasPriceChange24H() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearPriceChange24H() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.String get lastPrice => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set lastPrice($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasLastPrice() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearLastPrice() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.String get bid => $_getSZ(4);
+  @$pb.TagNumber(5)
+  set bid($core.String v) { $_setString(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasBid() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearBid() => clearField(5);
+
+  @$pb.TagNumber(6)
+  $core.String get ask => $_getSZ(5);
+  @$pb.TagNumber(6)
+  set ask($core.String v) { $_setString(5, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasAsk() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearAsk() => clearField(6);
+
+  @$pb.TagNumber(7)
+  $core.String get high => $_getSZ(6);
+  @$pb.TagNumber(7)
+  set high($core.String v) { $_setString(6, v); }
+  @$pb.TagNumber(7)
+  $core.bool hasHigh() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearHigh() => clearField(7);
+
+  @$pb.TagNumber(8)
+  $core.String get low => $_getSZ(7);
+  @$pb.TagNumber(8)
+  set low($core.String v) { $_setString(7, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasLow() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearLow() => clearField(8);
+}
+
+class MarketsResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('MarketsResponse', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..pc<MarketsResponse_MarketModel>(1, 'markets', $pb.PbFieldType.PM, subBuilder: MarketsResponse_MarketModel.create)
+    ..aOM<ErrorV2>(2, 'error', subBuilder: ErrorV2.create)
+    ..hasRequiredFields = false
+  ;
+
+  MarketsResponse._() : super();
+  factory MarketsResponse() => create();
+  factory MarketsResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory MarketsResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  MarketsResponse clone() => MarketsResponse()..mergeFromMessage(this);
+  MarketsResponse copyWith(void Function(MarketsResponse) updates) => super.copyWith((message) => updates(message as MarketsResponse));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static MarketsResponse create() => MarketsResponse._();
+  MarketsResponse createEmptyInstance() => create();
+  static $pb.PbList<MarketsResponse> createRepeated() => $pb.PbList<MarketsResponse>();
+  @$core.pragma('dart2js:noInline')
+  static MarketsResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<MarketsResponse>(create);
+  static MarketsResponse _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<MarketsResponse_MarketModel> get markets => $_getList(0);
+
+  @$pb.TagNumber(2)
+  ErrorV2 get error => $_getN(1);
+  @$pb.TagNumber(2)
+  set error(ErrorV2 v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasError() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearError() => clearField(2);
+  @$pb.TagNumber(2)
+  ErrorV2 ensureError() => $_ensure(1);
+}
+
 class LimitOrdersResponse_OrdersPayload extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('LimitOrdersResponse.OrdersPayload', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
     ..pc<LimitOrderModel>(1, 'orders', $pb.PbFieldType.PM, subBuilder: LimitOrderModel.create)
@@ -1998,6 +2327,166 @@ class CancelOrderResponse extends $pb.GeneratedMessage {
   void clearError() => clearField(2);
   @$pb.TagNumber(2)
   Error ensureError() => $_ensure(1);
+}
+
+class TradesResponse_TradeModel extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('TradesResponse.TradeModel', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOS(1, 'id')
+    ..aOS(2, 'orderId', protoName: 'orderId')
+    ..aOS(3, 'assetPairId', protoName: 'assetPairId')
+    ..aOS(4, 'price')
+    ..aOS(5, 'direction')
+    ..aOS(6, 'baseAssetName', protoName: 'baseAssetName')
+    ..aOS(7, 'baseVolume', protoName: 'baseVolume')
+    ..aOS(8, 'quoteAssetName', protoName: 'quoteAssetName')
+    ..aOS(9, 'quoteVolume', protoName: 'quoteVolume')
+    ..aOM<$3.Timestamp>(10, 'timestamp', subBuilder: $3.Timestamp.create)
+    ..hasRequiredFields = false
+  ;
+
+  TradesResponse_TradeModel._() : super();
+  factory TradesResponse_TradeModel() => create();
+  factory TradesResponse_TradeModel.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory TradesResponse_TradeModel.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  TradesResponse_TradeModel clone() => TradesResponse_TradeModel()..mergeFromMessage(this);
+  TradesResponse_TradeModel copyWith(void Function(TradesResponse_TradeModel) updates) => super.copyWith((message) => updates(message as TradesResponse_TradeModel));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static TradesResponse_TradeModel create() => TradesResponse_TradeModel._();
+  TradesResponse_TradeModel createEmptyInstance() => create();
+  static $pb.PbList<TradesResponse_TradeModel> createRepeated() => $pb.PbList<TradesResponse_TradeModel>();
+  @$core.pragma('dart2js:noInline')
+  static TradesResponse_TradeModel getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<TradesResponse_TradeModel>(create);
+  static TradesResponse_TradeModel _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get id => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set id($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get orderId => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set orderId($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasOrderId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearOrderId() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get assetPairId => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set assetPairId($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasAssetPairId() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearAssetPairId() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.String get price => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set price($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasPrice() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearPrice() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.String get direction => $_getSZ(4);
+  @$pb.TagNumber(5)
+  set direction($core.String v) { $_setString(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasDirection() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearDirection() => clearField(5);
+
+  @$pb.TagNumber(6)
+  $core.String get baseAssetName => $_getSZ(5);
+  @$pb.TagNumber(6)
+  set baseAssetName($core.String v) { $_setString(5, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasBaseAssetName() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearBaseAssetName() => clearField(6);
+
+  @$pb.TagNumber(7)
+  $core.String get baseVolume => $_getSZ(6);
+  @$pb.TagNumber(7)
+  set baseVolume($core.String v) { $_setString(6, v); }
+  @$pb.TagNumber(7)
+  $core.bool hasBaseVolume() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearBaseVolume() => clearField(7);
+
+  @$pb.TagNumber(8)
+  $core.String get quoteAssetName => $_getSZ(7);
+  @$pb.TagNumber(8)
+  set quoteAssetName($core.String v) { $_setString(7, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasQuoteAssetName() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearQuoteAssetName() => clearField(8);
+
+  @$pb.TagNumber(9)
+  $core.String get quoteVolume => $_getSZ(8);
+  @$pb.TagNumber(9)
+  set quoteVolume($core.String v) { $_setString(8, v); }
+  @$pb.TagNumber(9)
+  $core.bool hasQuoteVolume() => $_has(8);
+  @$pb.TagNumber(9)
+  void clearQuoteVolume() => clearField(9);
+
+  @$pb.TagNumber(10)
+  $3.Timestamp get timestamp => $_getN(9);
+  @$pb.TagNumber(10)
+  set timestamp($3.Timestamp v) { setField(10, v); }
+  @$pb.TagNumber(10)
+  $core.bool hasTimestamp() => $_has(9);
+  @$pb.TagNumber(10)
+  void clearTimestamp() => clearField(10);
+  @$pb.TagNumber(10)
+  $3.Timestamp ensureTimestamp() => $_ensure(9);
+}
+
+class TradesResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('TradesResponse', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..pc<TradesResponse_TradeModel>(1, 'trades', $pb.PbFieldType.PM, subBuilder: TradesResponse_TradeModel.create)
+    ..aOM<ErrorV2>(2, 'error', subBuilder: ErrorV2.create)
+    ..hasRequiredFields = false
+  ;
+
+  TradesResponse._() : super();
+  factory TradesResponse() => create();
+  factory TradesResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory TradesResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  TradesResponse clone() => TradesResponse()..mergeFromMessage(this);
+  TradesResponse copyWith(void Function(TradesResponse) updates) => super.copyWith((message) => updates(message as TradesResponse));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static TradesResponse create() => TradesResponse._();
+  TradesResponse createEmptyInstance() => create();
+  static $pb.PbList<TradesResponse> createRepeated() => $pb.PbList<TradesResponse>();
+  @$core.pragma('dart2js:noInline')
+  static TradesResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<TradesResponse>(create);
+  static TradesResponse _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<TradesResponse_TradeModel> get trades => $_getList(0);
+
+  @$pb.TagNumber(2)
+  ErrorV2 get error => $_getN(1);
+  @$pb.TagNumber(2)
+  set error(ErrorV2 v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasError() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearError() => clearField(2);
+  @$pb.TagNumber(2)
+  ErrorV2 ensureError() => $_ensure(1);
 }
 
 class WatchlistsResponse extends $pb.GeneratedMessage {
