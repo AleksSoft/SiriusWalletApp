@@ -1,10 +1,8 @@
-import 'package:antares_wallet/models/order_data.dart';
-import 'package:antares_wallet/services/repositories/order_repository.dart';
+import 'package:antares_wallet/services/repositories/orders_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:get/get.dart';
 
 class AssetInfoTradesController extends GetxController {
-  final _repository = Get.find<OrderRepository>();
   final AssetPair _asset = Get.arguments as AssetPair;
 
   List<LimitOrderModel> _orders = List();
@@ -13,7 +11,7 @@ class AssetInfoTradesController extends GetxController {
 
   @override
   void onInit() async {
-    _orders = await _repository.getOrders(assetPairId: _asset.id);
+    _orders = await OrdersRepository.getOrders(assetPairId: _asset.id);
     super.onInit();
   }
 }

@@ -49,13 +49,13 @@ class AssetRepository {
     await getBaseAsset();
   }
 
-  Future<void> loadAssetPairs() async {
-    var response = await ApiService.client.getAssetPairs(Empty());
-    _assetPairList = response.assetPairs;
+  Future<List<AssetPair>> getAssetPairs() async {
+    return _assetPairList =
+        (await ApiService.client.getAssetPairs(Empty())).assetPairs;
   }
 
   Future<List<AssetPair>> watchedAssetPairs(Watchlist watchlist) async {
-    if (_assetPairList.isEmpty) await loadAssetPairs();
+    if (_assetPairList.isEmpty) await getAssetPairs();
     List<AssetPair> result = List();
     watchlist.assetIds.forEach((id) {
       result.add(_assetPairList.firstWhere((ap) => ap.id == id));
@@ -70,7 +70,7 @@ class AssetRepository {
   }
 
   Future<List<AssetPair>> pairsForAsset(String assetId) async {
-    if (_assetPairList.isEmpty) await loadAssetPairs();
+    if (_assetPairList.isEmpty) await getAssetPairs();
     return _assetPairList
         .where((a) => a.baseAssetId == assetId || a.quotingAssetId == assetId)
         .toList();

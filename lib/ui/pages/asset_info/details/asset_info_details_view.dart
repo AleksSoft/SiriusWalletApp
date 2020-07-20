@@ -3,7 +3,7 @@ import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/services/api/mock_api.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
-import 'package:antares_wallet/ui/pages/pair_trading/pair_trading_page.dart';
+import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
 import 'package:antares_wallet/ui/widgets/asset_list_tile.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_list_title_view.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
@@ -108,7 +108,7 @@ class AssetInfoDetailsView extends StatelessWidget {
                             mainAsset: Asset.getDefault(),
                             quotingAsset: Asset.getDefault(),
                             onTap: () => Get.toNamed(
-                              PairTradingPage.route,
+                              TradingPage.route,
                               arguments: e,
                             ),
                           ))
@@ -140,7 +140,7 @@ class AssetInfoDetailsView extends StatelessWidget {
             quotingAsset: Asset.getDefault(),
             showTitle: true,
             onTap: () => Get.toNamed(
-              PairTradingPage.route,
+              TradingPage.route,
               arguments: pair,
             ),
           ),

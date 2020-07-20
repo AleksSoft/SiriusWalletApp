@@ -4,8 +4,8 @@ import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
-class OrderRepository {
-  Future<List<LimitOrderModel>> getOrders({String assetPairId}) async {
+class OrdersRepository {
+  static Future<List<LimitOrderModel>> getOrders({String assetPairId}) async {
     try {
       var request = LimitOrdersRequest();
       if (assetPairId != null) request.assetPairId = assetPairId;
@@ -21,7 +21,7 @@ class OrderRepository {
     }
   }
 
-  Future<List<TradesResponse_TradeModel>> getTrades({
+  static Future<List<TradesResponse_TradeModel>> getTrades({
     @required int take,
     @required int skip,
     String assetPairId,
@@ -49,7 +49,7 @@ class OrderRepository {
     }
   }
 
-  Future<bool> cancelOrder(String orderId) async {
+  static Future<bool> cancelOrder(String orderId) async {
     try {
       final response = await ApiService.client.cancelOrder(
         CancelOrderRequest()..orderId = orderId,
@@ -65,7 +65,7 @@ class OrderRepository {
     }
   }
 
-  Future<bool> cancelAllOrders() async {
+  static Future<bool> cancelAllOrders() async {
     try {
       final response = await ApiService.client.cancelAllOrders(
         CancelOrdersRequest(),
@@ -81,7 +81,7 @@ class OrderRepository {
     }
   }
 
-  Future<OrderModel> placeLimitOrder({
+  static Future<OrderModel> placeLimitOrder({
     @required String assetPairId,
     @required String assetId,
     @required double volume,
@@ -106,7 +106,7 @@ class OrderRepository {
     }
   }
 
-  Future<OrderModel> placeMarketOrder({
+  static Future<OrderModel> placeMarketOrder({
     @required String assetPairId,
     @required String assetId,
     @required double volume,

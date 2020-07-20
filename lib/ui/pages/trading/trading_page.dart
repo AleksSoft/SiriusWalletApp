@@ -16,15 +16,15 @@ import 'package:search_page/search_page.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'dart:math' as math;
 
-import 'pairt_trading_controller.dart';
+import 'trading_controller.dart';
 
-class PairTradingPage extends StatelessWidget {
+class TradingPage extends StatelessWidget {
   static final String route = '/pair-trading';
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<PairTradingController>(
-      init: PairTradingController(),
+    return GetBuilder<TradingController>(
+      init: TradingController(),
       builder: (_) {
         return Scaffold(
           appBar: AppBar(
@@ -93,7 +93,7 @@ class PairTradingPage extends StatelessWidget {
       context: Get.overlayContext,
       delegate: SearchPage<AssetPair>(
         showItemsOnEmpty: true,
-        items: PairTradingController.con.assetPairs,
+        items: TradingController.con.assetPairs,
         searchLabel: 'search'.tr,
         filter: (pair) => [
           pair.name,
@@ -109,7 +109,7 @@ class PairTradingPage extends StatelessWidget {
             showTitle: true,
             onTap: () {
               Get.back();
-              PairTradingController.con.updateAssetPair(pair);
+              TradingController.con.updateAssetPair(pair);
             },
           ),
         ),
@@ -349,7 +349,7 @@ class _Orderbook extends StatelessWidget {
 }
 
 class _Tradelog extends StatelessWidget {
-  final c = PairTradingController.con;
+  final c = TradingController.con;
   @override
   Widget build(context) {
     final titleStyle = Get.textTheme.caption.copyWith(

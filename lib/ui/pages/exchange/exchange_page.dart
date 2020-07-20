@@ -3,7 +3,7 @@ import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/services/api/mock_api.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/exchange/watchlists/watchlists_page.dart';
-import 'package:antares_wallet/ui/pages/pair_trading/pair_trading_page.dart';
+import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_list_title_view.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +14,7 @@ import 'exchange_controller.dart';
 class ExchangePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ExchangeController>(
+    return GetX<ExchangeController>(
       init: ExchangeController(),
       builder: (_) {
         return Scaffold(
@@ -48,7 +48,7 @@ class ExchangePage extends StatelessWidget {
                             quotingAsset: Asset.getDefault(),
                             showTitle: true,
                             onTap: () => Get.toNamed(
-                              PairTradingPage.route,
+                              TradingPage.route,
                               arguments: e,
                             ),
                           ))

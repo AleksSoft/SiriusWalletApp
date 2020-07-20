@@ -1,35 +1,51 @@
-import 'package:antares_wallet/services/repositories/watch_lists_repository.dart';
+import 'package:antares_wallet/app/common/app_storage_keys.dart';
+import 'package:antares_wallet/services/repositories/watchists_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/exchange/exchange_controller.dart';
 import 'package:antares_wallet/ui/pages/exchange/watchlists/edit/edit_watchlist_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class WatchlistsController extends GetxController {
-  final _repository = Get.find<WatchListsRepository>();
+  final _storage = GetStorage();
 
-  List<Watchlist> get items => _repository.items;
+  final _watchlists = List<Watchlist>().obs;
+  List<Watchlist> get watchlists => this._watchlists.value;
+  set watchlists(List<Watchlist> value) => this._watchlists.value = value;
 
-  Watchlist get selected => _repository.activeWatchlist;
+  final _selected = Watchlist().obs;
+  get selected => this._selected.value;
+  set selected(value) => this._selected.value = value;
 
   @override
   void onInit() async {
-    await updateWatchlists();
+    // load all watchlists
+    await getWatchlists();
+
+    // set selected watchlist
+    String id = _storage.read(AppStorageKeys.watchlistId);
+    if (id == null || id.isEmpty) {
+      selected = watchlists.first;
+    } else {
+      selected = await WatchlistsRepository.getWatchlist(id);
+    }
+
     super.onInit();
   }
 
-  Future<void> updateWatchlists() async {
-    await _repository.getWatchLists();
+  getWatchlists() async {
+    watchlists = await WatchlistsRepository.getWatchlists();
   }
 
-  select(String id) {
-    _repository.select(id);
-    Get.find<ExchangeController>().rebuildAssetPairList();
-    update();
+  select(String id) async {
+    selected = watchlists.firstWhere((w) => w.id == id);
+    _storage.write(AppStorageKeys.watchlistId, id);
+    await Get.find<ExchangeController>().rebuildAssetPairList();
   }
 
   List<WatchlistOption> options(Watchlist wl) {
-    var watchlist = items.firstWhere((i) => i.id == wl.id);
+    var watchlist = watchlists.firstWhere((i) => i.id == wl.id);
     if (watchlist == null) return null;
 
     var options = [WatchlistOption('Make a copy', () => _copy(watchlist))];
@@ -45,26 +61,26 @@ class WatchlistsController extends GetxController {
 
   create() async {
     await Get.toNamed(EditWatchlistPage.route);
-    update();
   }
 
   _copy(Watchlist watchlist) async {
-    await _repository.add(AddWatchlistRequest()
-      ..name = '${watchlist.name} Copy'
-      ..assetIds.addAll(watchlist.assetIds));
-    update();
+    await WatchlistsRepository.addWatchlist(
+      '${watchlist.name} Copy',
+      2,
+      watchlist.assetIds,
+    );
+    await getWatchlists();
   }
 
   _edit(Watchlist watchlist) async {
     await Get.toNamed(EditWatchlistPage.route, arguments: watchlist);
-    _repository.getWatchLists();
-    update();
+    await getWatchlists();
   }
 
   _delete(Watchlist watchlist) async {
-    await _repository.delete(watchlist);
-    if (watchlist.id == selected.id) select(items.first.id);
-    update();
+    await WatchlistsRepository.deleteWatchlist(watchlist.id);
+    if (watchlist.id == selected.id) select(watchlists.first.id);
+    await getWatchlists();
   }
 }
 

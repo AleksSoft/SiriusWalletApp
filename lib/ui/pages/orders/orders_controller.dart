@@ -1,12 +1,10 @@
-import 'package:antares_wallet/services/repositories/order_repository.dart';
+import 'package:antares_wallet/services/repositories/orders_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
 import 'package:get/get.dart';
 
 class OrdersController extends GetxController {
   static OrdersController get con => Get.find();
-
-  final _repository = Get.find<OrderRepository>();
 
   final _orders = List<LimitOrderModel>().obs;
   List<LimitOrderModel> get orders => this._orders.value;
@@ -17,7 +15,7 @@ class OrdersController extends GetxController {
   set trades(List<TradesResponse_TradeModel> value) =>
       this._trades.value = value;
 
-  getOrders() async => orders = await _repository.getOrders();
+  getOrders() async => orders = await OrdersRepository.getOrders();
 
   getTrades(
     int take,
@@ -27,7 +25,7 @@ class OrdersController extends GetxController {
     Timestamp fromDate,
     Timestamp toDate,
   }) async =>
-      trades = await _repository.getTrades(
+      trades = await OrdersRepository.getTrades(
         take: take,
         skip: skip,
         assetPairId: assetPairId,
@@ -36,9 +34,9 @@ class OrdersController extends GetxController {
         toDate: toDate,
       );
 
-  cancelOrder(String id) async => await _repository.cancelOrder(id);
+  cancelOrder(String id) async => await OrdersRepository.cancelOrder(id);
 
-  cancelAllOrders() async => await _repository.cancelAllOrders();
+  cancelAllOrders() async => await OrdersRepository.cancelAllOrders();
 
   placeLimitOrder(
     String assetId,
@@ -46,7 +44,7 @@ class OrdersController extends GetxController {
     double volume,
     double price,
   ) async =>
-      await _repository.placeLimitOrder(
+      await OrdersRepository.placeLimitOrder(
         assetId: assetId,
         assetPairId: assetPairId,
         volume: volume,
@@ -58,7 +56,7 @@ class OrdersController extends GetxController {
     String assetPairId,
     double volume,
   ) async =>
-      await _repository.placeMarketOrder(
+      await OrdersRepository.placeMarketOrder(
         assetId: assetId,
         assetPairId: assetPairId,
         volume: volume,

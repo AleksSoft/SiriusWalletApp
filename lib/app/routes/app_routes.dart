@@ -18,10 +18,10 @@ import 'package:antares_wallet/ui/pages/more/settings/backup/backup_confirm_key_
 import 'package:antares_wallet/ui/pages/more/settings/backup/backup_copy_key_page.dart';
 import 'package:antares_wallet/ui/pages/more/settings/settings_page.dart';
 import 'package:antares_wallet/ui/pages/more/support/support_page.dart';
-import 'package:antares_wallet/ui/pages/pair_trading/pair_trading_page.dart';
 import 'package:antares_wallet/ui/pages/portfolio/transaction_details/transaction_details_page.dart';
 import 'package:antares_wallet/ui/pages/root/root_page.dart';
 import 'package:antares_wallet/ui/pages/select_asset/select_asset_page.dart';
+import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -90,8 +90,8 @@ class AppRoutes {
       page: () => AssetInfoPage(),
     ),
     GetPage(
-      name: PairTradingPage.route,
-      page: () => PairTradingPage(),
+      name: TradingPage.route,
+      page: () => TradingPage(),
     ),
     GetPage(
       name: TransactionDetailsPage.route,

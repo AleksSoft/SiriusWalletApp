@@ -6,8 +6,8 @@ import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:get/get.dart';
 
-class PairTradingController extends GetxController {
-  static PairTradingController get con => Get.find();
+class TradingController extends GetxController {
+  static TradingController get con => Get.find();
 
   final _repository = Get.find<AssetRepository>();
   List<MarketModel> _mockMarkets = List();
@@ -25,7 +25,7 @@ class PairTradingController extends GetxController {
 
   @override
   void onInit() async {
-    await _repository.loadAssetPairs();
+    await _repository.getAssetPairs();
     _mockMarkets = await _loadMarkets();
     super.onInit();
   }

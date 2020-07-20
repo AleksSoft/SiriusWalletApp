@@ -1,11 +1,10 @@
 import 'package:antares_wallet/services/repositories/asset_repository.dart';
-import 'package:antares_wallet/services/repositories/watch_lists_repository.dart';
+import 'package:antares_wallet/services/repositories/watchists_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class EditWatchlistController extends GetxController {
-  final _watchlistRepo = Get.find<WatchListsRepository>();
   final _assetRepo = Get.find<AssetRepository>();
 
   final TextEditingController nameController = TextEditingController();
@@ -26,27 +25,29 @@ class EditWatchlistController extends GetxController {
 
   @override
   void onInit() async {
-    super.onInit();
     nameController.text = name;
     if (modeEdit) {
       _originalWatchlist.assetIds.forEach((id) {
         _checkedAssetPairs.add(assetPairs.firstWhere((ap) => ap.id == id));
       });
     }
-    update();
+    super.onInit();
   }
 
   Future<void> perform() async {
     if (modeEdit) {
-      await _watchlistRepo.update(UpdateWatchlistRequest()
-        ..id = _originalWatchlist.id
-        ..name = nameController.text
-        ..order = _originalWatchlist.order
-        ..assetIds.addAll(_checkedAssetPairs.map((chap) => chap.id)));
+      await WatchlistsRepository.updateWatchlist(
+        _originalWatchlist.id,
+        nameController.text,
+        _originalWatchlist.order,
+        _checkedAssetPairs.map((chap) => chap.id),
+      );
     } else {
-      await _watchlistRepo.add(AddWatchlistRequest()
-        ..name = nameController.text
-        ..assetIds.addAll(_checkedAssetPairs.map((chap) => chap.id)));
+      await WatchlistsRepository.addWatchlist(
+        nameController.text,
+        2,
+        _checkedAssetPairs.map((chap) => chap.id),
+      );
     }
     Get.back();
   }

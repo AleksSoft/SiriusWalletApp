@@ -11,8 +11,7 @@ class WatchlistsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<WatchlistsController>(
-      init: WatchlistsController(),
+    return GetX<WatchlistsController>(
       builder: (_) {
         return Scaffold(
           appBar: AppBar(
@@ -26,11 +25,11 @@ class WatchlistsPage extends StatelessWidget {
             ],
           ),
           body: RefreshIndicator(
-            onRefresh: () => _.updateWatchlists(),
+            onRefresh: () => _.getWatchlists(),
             child: ListView.separated(
-              itemCount: _.items.length,
+              itemCount: _.watchlists.length,
               itemBuilder: (context, index) {
-                var item = _.items[index];
+                var item = _.watchlists[index];
                 return ListTile(
                   onTap: () {
                     _.select(item.id);
