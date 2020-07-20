@@ -1,9 +1,13 @@
+import 'package:antares_wallet/app/common/app_storage_keys.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/src/google/protobuf/empty.pb.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class WatchListsRepository {
+  final _storage = GetStorage();
+
   List<Watchlist> _items = List();
 
   List<Watchlist> get items => _items;
@@ -13,12 +17,15 @@ class WatchListsRepository {
   Watchlist get activeWatchlist => _selected;
 
   WatchListsRepository() {
-    loadWatchLists().whenComplete(() => _selected = _items.first);
+    getWatchLists().whenComplete(() {
+      _selected = _items.first;
+      _storage.write(AppStorageKeys.watchlistId, _selected.id);
+    });
   }
 
-  Future<void> loadWatchLists() async {
+  Future<void> getWatchLists() async {
     try {
-      final response = await ApiService.client.getWatchlists(Empty());
+      final response = await ApiService.client.getWatchList(Empty());
       _items = response.result;
     } catch (e) {
       Get.defaultDialog(
@@ -29,8 +36,25 @@ class WatchListsRepository {
     }
   }
 
+  Future<Watchlist> getWatchList(String id) async {
+    try {
+      final response = await ApiService.client.getWatchlist(
+        WatchlistRequest()..id = id,
+      );
+      return response.result;
+    } catch (e) {
+      Get.defaultDialog(
+        title: 'Error (${e.code})',
+        middleText: e.message,
+        onConfirm: () => Get.back(),
+      );
+    }
+    return null;
+  }
+
   void select(String id) {
     _selected = _items.firstWhere((e) => e.id == id);
+    _storage.write(AppStorageKeys.watchlistId, _selected.id);
   }
 
   Future<void> add(AddWatchlistRequest request) async {

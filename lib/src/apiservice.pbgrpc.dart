@@ -350,7 +350,7 @@ class ApiServiceClient extends $grpc.Client {
     return $grpc.ResponseFuture(call);
   }
 
-  $grpc.ResponseFuture<$1.WatchlistsResponse> getWatchlists($0.Empty request,
+  $grpc.ResponseFuture<$1.WatchlistsResponse> getWatchList($0.Empty request,
       {$grpc.CallOptions options}) {
     final call = $createCall(
         _$getWatchlists, $async.Stream.fromIterable([request]),
