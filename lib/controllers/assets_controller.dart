@@ -42,6 +42,9 @@ class AssetsController extends GetxController {
 
   Asset assetFromId(String id) => assetList.firstWhere((a) => a.id == id);
 
+  AssetPair assetPairFromId(String id) =>
+      assetPairs.firstWhere((a) => a.id == id);
+
   List<AssetPair> pairsForAssetId(String id) => assetPairs
       .where((a) => a.baseAssetId == id || a.quotingAssetId == id)
       .toList();

@@ -15,6 +15,7 @@ dependencies:
   #business
   get:
   get_storage: ^1.2.1
+  intl: ^0.16.1
   equatable: ^1.2.0
   grpc: ^2.2.0
   protobuf: ^1.0.1

@@ -30,13 +30,13 @@ class OrdersRepository {
     Timestamp toDate,
   }) async {
     try {
-      var request = TradesRequest()
-        ..take = take
-        ..skip = skip
-        ..assetPairId = assetPairId
-        ..tradeType = tradeType
-        ..from = fromDate
-        ..to = toDate;
+      var request = TradesRequest();
+      request.take = take;
+      request.skip = skip;
+      if (assetPairId != null) request.assetPairId = assetPairId;
+      if (fromDate != null) request.from = fromDate;
+      if (toDate != null) request.to = toDate;
+
       final response = await ApiService.client.getTrades(request);
       return response.trades;
     } catch (e) {

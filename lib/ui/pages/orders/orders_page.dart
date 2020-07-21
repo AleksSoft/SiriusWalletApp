@@ -1,10 +1,15 @@
-import 'package:antares_wallet/ui/widgets/order_title.dart';
-import 'package:antares_wallet/ui/widgets/orders_list_header.dart';
+import 'package:antares_wallet/app/ui/app_colors.dart';
+import 'package:antares_wallet/app/ui/app_sizes.dart';
+import 'package:antares_wallet/controllers/assets_controller.dart';
+import 'package:antares_wallet/ui/pages/orders/order_details/order_details_page.dart';
+import 'package:antares_wallet/ui/pages/orders/widgets/order_history_tile.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
 import 'orders_controller.dart';
+import 'widgets/order_open_tile.dart';
 
 class OrdersPage extends StatelessWidget {
   static final String route = '/orders';
@@ -30,38 +35,66 @@ class OrdersPage extends StatelessWidget {
           children: <Widget>[
             Column(
               children: [
-                OrdersListHeaderView(),
+                ButtonBar(
+                  alignment: MainAxisAlignment.end,
+                  buttonPadding: const EdgeInsets.all(0.0),
+                  children: <Widget>[
+                    CupertinoButton(
+                      onPressed: () => c.cancelAllOrders(),
+                      child: Text('Cancel all',
+                          style: Get.textTheme.button.copyWith(
+                            color: AppColors.accent,
+                            fontSize: 14.0,
+                          )),
+                    )
+                  ],
+                ),
                 GetX<OrdersController>(
                   initState: (state) => c.getOrders(),
                   builder: (_) {
                     return ListView(
                       shrinkWrap: true,
-                      children: c.orders
-                          .map((order) => OrderTile(
-                                data: order,
-                                onDismissed: () => c.cancelOrder(order.id),
-                              ))
-                          .toList(),
+                      children: c.orders.map((order) {
+                        var pair = AssetsController.con
+                            .assetPairFromId(order.assetPair);
+                        return OrderOpenTile(
+                          data: OrderOpenData(
+                            baseAssetName: pair.name.split('/')[0],
+                            quoteAssetName: pair.name.split('/')[1],
+                            date: order.dateTime,
+                            amount: order.volume,
+                            price: order.price,
+                            filled: (double.parse(order.remainingVolume) *
+                                    100 /
+                                    double.parse(order.volume))
+                                .toString(),
+                            orderType: order.orderType,
+                          ),
+                          onDismissed: () => c.cancelOrder(order.id),
+                          onTap: () => Get.toNamed(OrderDetailsPage.route),
+                        );
+                      }).toList(),
                     );
                   },
                 ),
               ],
             ),
-            Column(
-              children: [
-                OrdersListHeaderView(),
-                GetX<OrdersController>(
-                  initState: (state) => c.getTrades(10, 0),
-                  builder: (_) {
-                    return ListView(
-                      shrinkWrap: true,
-                      children: c.orders
-                          .map((order) => OrderTile(data: order))
-                          .toList(),
-                    );
-                  },
-                ),
-              ],
+            GetX<OrdersController>(
+              initState: (state) => c.getTrades(10, 0),
+              builder: (_) {
+                return RefreshIndicator(
+                  onRefresh: () => c.getTrades(10, 0),
+                  child: ListView(
+                    padding: const EdgeInsets.only(top: AppSizes.small),
+                    shrinkWrap: true,
+                    children: c.trades
+                        .map((trade) => OrderHistoryTile(
+                              data: OrderHistoryData.fromTradeModel(trade),
+                            ))
+                        .toList(),
+                  ),
+                );
+              },
             ),
           ],
         ),
