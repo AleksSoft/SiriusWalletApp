@@ -58,18 +58,7 @@ class OrdersPage extends StatelessWidget {
                         var pair = AssetsController.con
                             .assetPairFromId(order.assetPair);
                         return OrderOpenTile(
-                          data: OrderOpenData(
-                            baseAssetName: pair.name.split('/')[0],
-                            quoteAssetName: pair.name.split('/')[1],
-                            date: order.dateTime,
-                            amount: order.volume,
-                            price: order.price,
-                            filled: (double.parse(order.remainingVolume) *
-                                    100 /
-                                    double.parse(order.volume))
-                                .toString(),
-                            orderType: order.orderType,
-                          ),
+                          data: OrderOpenData.fromPairAndOrder(pair, order),
                           onDismissed: () => c.cancelOrder(order.id),
                           onTap: () => Get.toNamed(OrderDetailsPage.route),
                         );

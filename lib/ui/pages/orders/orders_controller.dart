@@ -34,9 +34,15 @@ class OrdersController extends GetxController {
         toDate: toDate,
       );
 
-  cancelOrder(String id) async => await OrdersRepository.cancelOrder(id);
+  cancelOrder(String id) async {
+    await OrdersRepository.cancelOrder(id);
+    await getOrders();
+  }
 
-  cancelAllOrders() async => await OrdersRepository.cancelAllOrders();
+  cancelAllOrders() async {
+    await OrdersRepository.cancelAllOrders();
+    await getOrders();
+  }
 
   placeLimitOrder(
     String assetId,

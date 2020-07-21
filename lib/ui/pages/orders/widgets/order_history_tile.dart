@@ -35,9 +35,9 @@ class OrderHistoryData {
         this.quoteVolume = model.quoteVolume,
         this.price = model.price,
         this.direction = model.direction,
-        this.date = DateFormat().addPattern('yy.MM.dd hh:mm:ss').format(
-              DateTime.fromMicrosecondsSinceEpoch(
-                model.timestamp.seconds.toInt(),
+        this.date = DateFormat().addPattern('dd.MM.yy HH:mm:ss').format(
+              DateTime.fromMillisecondsSinceEpoch(
+                model.timestamp.seconds.toInt() * 1000,
               ),
             );
 

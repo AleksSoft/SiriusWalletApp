@@ -7,13 +7,14 @@ import 'package:antares_wallet/ui/widgets/default_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class OrderOpenData {
   final String baseAssetName;
   final String quoteAssetName;
-  final String amount;
+  final double amount;
+  final double remainingVolume;
   final String price;
-  final String filled;
   final String orderType;
   final String date;
 
@@ -21,11 +22,30 @@ class OrderOpenData {
     @required this.baseAssetName,
     @required this.quoteAssetName,
     @required this.amount,
+    @required this.remainingVolume,
     @required this.price,
-    @required this.filled,
     @required this.date,
     @required this.orderType,
   });
+
+  OrderOpenData.fromPairAndOrder(AssetPair pair, LimitOrderModel order)
+      : this.baseAssetName = pair.name.split('/')[0],
+        this.quoteAssetName = pair.name.split('/')[1],
+        this.amount = double.parse(order.volume),
+        this.remainingVolume = double.parse(order.remainingVolume),
+        this.price = order.price,
+        this.orderType = order.orderType,
+        this.date = DateFormat().addPattern('dd.MM.yy HH:mm:ss').format(
+              DateTime.parse(order.dateTime),
+            );
+
+  int get filled {
+    if (isSell) {
+      return ((amount - remainingVolume) * 100 ~/ amount).toInt();
+    } else {
+      return (remainingVolume * 100 ~/ amount).toInt();
+    }
+  }
 
   bool get isSell => orderType.toLowerCase() == 'sell'.toLowerCase();
 }
@@ -136,7 +156,7 @@ class OrderOpenTile extends StatelessWidget {
                       children: [
                         _buildInfoItem(
                           'Amount (${data.baseAssetName})',
-                          data.amount,
+                          data.amount.toString(),
                         ),
                         VerticalDivider(),
                         _buildInfoItem(
@@ -146,7 +166,7 @@ class OrderOpenTile extends StatelessWidget {
                         VerticalDivider(),
                         _buildInfoItem(
                           'Filled',
-                          data.filled,
+                          '${data.filled}%',
                         ),
                       ],
                     ),
