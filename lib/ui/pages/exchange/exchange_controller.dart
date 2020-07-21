@@ -6,18 +6,13 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class ExchangeController extends GetxController {
+  static ExchangeController get con => Get.find();
   final _assetsController = Get.find<AssetsController>();
 
   final _assetPairs = List<ExchangeAssetPair>().obs;
   List<ExchangeAssetPair> get assetPairs => this._assetPairs.value;
   set assetPairs(List<ExchangeAssetPair> value) =>
       this._assetPairs.value = value;
-
-  @override
-  void onInit() async {
-    await rebuildAssetPairList();
-    super.onInit();
-  }
 
   Future<void> rebuildAssetPairList() async {
     String id = GetStorage().read(AppStorageKeys.watchlistId);

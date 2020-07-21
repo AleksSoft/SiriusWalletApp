@@ -9,8 +9,7 @@ class AssetInfoTransfersController extends GetxController {
 
   @override
   void onInit() async {
-    super.onInit();
     await _repository.loadHistory();
-    update();
+    super.onInit();
   }
 }

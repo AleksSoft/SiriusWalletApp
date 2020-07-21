@@ -12,9 +12,8 @@ class ProfileController extends GetxController {
 
   @override
   void onInit() async {
-    super.onInit();
     await _repository.updateProfile();
-    update();
+    super.onInit();
   }
 
   void upgradeAccount() async {
