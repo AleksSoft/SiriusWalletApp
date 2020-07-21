@@ -8,79 +8,89 @@ import 'watchlists_controller.dart';
 
 class WatchlistsPage extends StatelessWidget {
   static final String route = '/watchlists';
+  final c = WatchlistsController.con;
 
   @override
   Widget build(BuildContext context) {
-    return GetX<WatchlistsController>(
-      builder: (_) {
-        return Scaffold(
-          appBar: AppBar(
-            leading: CloseButton(),
-            title: Text('Watch lists'),
-            actions: <Widget>[
-              IconButton(
-                onPressed: () => _.create(),
-                icon: Icon(Icons.add),
-              ),
-            ],
+    return Scaffold(
+      appBar: AppBar(
+        leading: CloseButton(),
+        title: Text('Watch lists'),
+        actions: <Widget>[
+          IconButton(
+            onPressed: () => c.create(),
+            icon: Icon(Icons.add),
           ),
-          body: RefreshIndicator(
-            onRefresh: () => _.getWatchlists(),
-            child: ListView.separated(
-              itemCount: _.watchlists.length,
-              itemBuilder: (context, index) {
-                var item = _.watchlists[index];
-                return ListTile(
-                  onTap: () {
-                    _.select(item.id);
-                    Get.back();
-                  },
-                  leading: Container(
-                    width: AppSizes.extraLarge,
-                    alignment: Alignment.center,
-                    child: Visibility(
-                      visible: item.id == _.selected.id,
-                      child: Icon(Icons.check, color: AppColors.accent),
+        ],
+      ),
+      body: Stack(
+        children: <Widget>[
+          RefreshIndicator(
+            onRefresh: () => c.getWatchlists(),
+            child: Obx(
+              () => ListView.separated(
+                itemCount: c.watchlists.length,
+                itemBuilder: (context, index) {
+                  var item = c.watchlists[index];
+                  return ListTile(
+                    onTap: () =>
+                        c.select(item.id).whenComplete(() => Get.back()),
+                    leading: Container(
+                      width: AppSizes.extraLarge,
+                      alignment: Alignment.center,
+                      child: Visibility(
+                        visible: item.id == c.selected.id,
+                        child: Icon(Icons.check, color: AppColors.accent),
+                      ),
                     ),
-                  ),
-                  title: Text(
-                    item.name,
-                    style: Get.textTheme.button.copyWith(
-                      fontSize: 16.0,
-                      fontWeight:
-                          item.readonly ? FontWeight.bold : FontWeight.normal,
+                    title: Text(
+                      item.name,
+                      style: Get.textTheme.button.copyWith(
+                        fontSize: 16.0,
+                        fontWeight:
+                            item.readonly ? FontWeight.bold : FontWeight.normal,
+                      ),
                     ),
-                  ),
-                  trailing: IconButton(
-                    onPressed: () => _showOptions(item),
-                    icon: Icon(Icons.more_vert),
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) => Divider(
-                height: 0.5,
-                indent: AppSizes.medium,
-                endIndent: AppSizes.medium,
+                    trailing: IconButton(
+                      onPressed: () => _showOptions(item),
+                      icon: Icon(Icons.more_vert),
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) => Divider(
+                  height: 0.5,
+                  indent: AppSizes.medium,
+                  endIndent: AppSizes.medium,
+                ),
               ),
             ),
           ),
-        );
-      },
+          Obx(
+            () => Visibility(
+              visible: c.loading,
+              child: Container(
+                alignment: Alignment.center,
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   _showOptions(Watchlist watchlist) {
-    Get.bottomSheet(GetBuilder<WatchlistsController>(
-      builder: (_) {
-        return SizedBox(
-          height: 250.0,
-          child: Scaffold(
-            appBar: AppBar(
-              automaticallyImplyLeading: false,
-              title: Text(watchlist.name),
-            ),
-            body: ListView(
-              children: _
+    Get.bottomSheet(
+      SizedBox(
+        height: 250.0,
+        child: Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            title: Text(watchlist.name),
+          ),
+          body: Obx(
+            () => ListView(
+              children: WatchlistsController.con
                   .options(watchlist)
                   .map((e) => ListTile(
                         onTap: () {
@@ -92,8 +102,8 @@ class WatchlistsPage extends StatelessWidget {
                   .toList(),
             ),
           ),
-        );
-      },
-    ));
+        ),
+      ),
+    );
   }
 }

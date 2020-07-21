@@ -1,4 +1,4 @@
-import 'package:antares_wallet/services/repositories/asset_repository.dart';
+import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
@@ -17,10 +17,10 @@ class SelectAssetArgs {
 
 class SelectAssetController extends GetxController {
   static SelectAssetController get con => Get.find();
-  final _repository = Get.find<AssetRepository>();
+  final _assetsController = Get.find<AssetsController>();
 
   List<Asset> get assetList {
-    var list = _repository.assetList;
+    var list = _assetsController.assetList;
     return isOnlyBase ? list.where((a) => a.canBeBase) : list;
   }
 

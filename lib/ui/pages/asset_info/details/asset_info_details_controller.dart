@@ -1,7 +1,7 @@
 import 'dart:convert' show json;
 
+import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/models/market_model.dart';
-import 'package:antares_wallet/services/repositories/asset_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:get/get.dart';
@@ -14,8 +14,6 @@ enum AssetInfoPeriod {
 }
 
 class AssetInfoDetailsController extends GetxController {
-  final _repository = Get.find<AssetRepository>();
-
   final Asset _asset = Get.arguments as Asset;
 
   AssetInfoPeriod _selectedPeriod = AssetInfoPeriod.h24;
@@ -41,10 +39,9 @@ class AssetInfoDetailsController extends GetxController {
 
   @override
   void onInit() async {
-    _assetPairs = await _repository.pairsForAsset(asset.id);
+    _assetPairs = Get.find<AssetsController>().pairsForAssetId(asset.id);
     _mockMarkets = await _loadMarkets();
     super.onInit();
-    update();
   }
 
   void updatePeriod(AssetInfoPeriod period) {

@@ -1,20 +1,20 @@
 import 'dart:convert' show json;
 
+import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/models/market_model.dart';
-import 'package:antares_wallet/services/repositories/asset_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:get/get.dart';
 
 class TradingController extends GetxController {
   static TradingController get con => Get.find();
+  final _assetsController = Get.find<AssetsController>();
 
-  final _repository = Get.find<AssetRepository>();
   List<MarketModel> _mockMarkets = List();
 
   AssetPair _assetPair = Get.arguments as AssetPair;
 
-  List<AssetPair> get assetPairs => _repository.assetPairs;
+  List<AssetPair> get assetPairs => _assetsController.assetPairs;
 
   List<MarketModel> get mockMarkets => _mockMarkets;
 
@@ -25,7 +25,6 @@ class TradingController extends GetxController {
 
   @override
   void onInit() async {
-    await _repository.getAssetPairs();
     _mockMarkets = await _loadMarkets();
     super.onInit();
   }

@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class WatchlistsController extends GetxController {
+  static WatchlistsController get con => Get.find();
   final _storage = GetStorage();
 
   final _watchlists = List<Watchlist>().obs;
@@ -17,6 +18,10 @@ class WatchlistsController extends GetxController {
   final _selected = Watchlist().obs;
   get selected => this._selected.value;
   set selected(value) => this._selected.value = value;
+
+  final _loading = false.obs;
+  get loading => this._loading.value;
+  set loading(value) => this._loading.value = value;
 
   @override
   void onInit() async {
@@ -38,10 +43,12 @@ class WatchlistsController extends GetxController {
     watchlists = await WatchlistsRepository.getWatchlists();
   }
 
-  select(String id) async {
+  Future<void> select(String id) async {
+    loading = true;
     selected = watchlists.firstWhere((w) => w.id == id);
     _storage.write(AppStorageKeys.watchlistId, id);
     await Get.find<ExchangeController>().rebuildAssetPairList();
+    loading = false;
   }
 
   List<WatchlistOption> options(Watchlist wl) {

@@ -40,11 +40,10 @@ class OrdersRepository {
       final response = await ApiService.client.getTrades(request);
       return response.trades;
     } catch (e) {
-      Get.defaultDialog(
-        title: 'Error (${e.code})',
-        middleText: e.message,
-        onConfirm: () => Get.back(),
-      );
+      Future.delayed(Duration()).then((value) => Get.defaultDialog(
+            middleText: e.message,
+            onConfirm: () => Get.back(),
+          ));
       return List();
     }
   }

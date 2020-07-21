@@ -9,7 +9,7 @@ import 'orders_controller.dart';
 class OrdersPage extends StatelessWidget {
   static final String route = '/orders';
   final c = OrdersController.con;
-  
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -31,29 +31,35 @@ class OrdersPage extends StatelessWidget {
             Column(
               children: [
                 OrdersListHeaderView(),
-                Obx(
-                  () => ListView(
-                    shrinkWrap: true,
-                    children: c.orders
-                        .map((order) => OrderTile(
-                              data: order,
-                              onDismissed: () => c.cancelOrder(order.id),
-                            ))
-                        .toList(),
-                  ),
+                GetX<OrdersController>(
+                  initState: (state) => c.getOrders(),
+                  builder: (_) {
+                    return ListView(
+                      shrinkWrap: true,
+                      children: c.orders
+                          .map((order) => OrderTile(
+                                data: order,
+                                onDismissed: () => c.cancelOrder(order.id),
+                              ))
+                          .toList(),
+                    );
+                  },
                 ),
               ],
             ),
             Column(
               children: [
                 OrdersListHeaderView(),
-                Obx(
-                  () => ListView(
-                    shrinkWrap: true,
-                    children: c.orders
-                        .map((order) => OrderTile(data: order))
-                        .toList(),
-                  ),
+                GetX<OrdersController>(
+                  initState: (state) => c.getTrades(10, 0),
+                  builder: (_) {
+                    return ListView(
+                      shrinkWrap: true,
+                      children: c.orders
+                          .map((order) => OrderTile(data: order))
+                          .toList(),
+                    );
+                  },
                 ),
               ],
             ),

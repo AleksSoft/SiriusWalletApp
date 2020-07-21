@@ -15,9 +15,9 @@ class OrdersController extends GetxController {
   set trades(List<TradesResponse_TradeModel> value) =>
       this._trades.value = value;
 
-  getOrders() async => orders = await OrdersRepository.getOrders();
+  Future getOrders() async => orders = await OrdersRepository.getOrders();
 
-  getTrades(
+  Future getTrades(
     int take,
     int skip, {
     String assetPairId,

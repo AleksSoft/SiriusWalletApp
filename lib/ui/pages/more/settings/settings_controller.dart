@@ -1,4 +1,4 @@
-import 'package:antares_wallet/services/repositories/asset_repository.dart';
+import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/services/repositories/settings_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/select_asset/select_asset_controller.dart';
@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 class SettingsController extends GetxController {
   static SettingsController get con => Get.find();
   final _repository = Get.find<SettingsRepository>();
-  final _assetRepo = Get.find<AssetRepository>();
+  final _assetsController = Get.find<AssetsController>();
 
   List<String> _confirmKeyWords = [];
 
@@ -16,7 +16,7 @@ class SettingsController extends GetxController {
 
   AppSettingsResponse_AppSettingsData get settings => _repository.settings;
 
-  Asset get baseAsset => _assetRepo.baseAsset;
+  Asset get baseAsset => _assetsController.baseAsset;
 
   List<String> get confirmKeyWords => _confirmKeyWords;
 
@@ -41,7 +41,7 @@ class SettingsController extends GetxController {
         selectedAsset: baseAsset,
       ),
     );
-    await _assetRepo.setBaseAsset(asset.id);
+    await _assetsController.setBaseAsset(asset.id);
     update();
   }
 

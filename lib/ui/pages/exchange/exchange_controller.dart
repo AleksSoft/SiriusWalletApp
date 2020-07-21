@@ -1,12 +1,12 @@
 import 'package:antares_wallet/app/common/app_storage_keys.dart';
-import 'package:antares_wallet/services/repositories/asset_repository.dart';
+import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/services/repositories/watchists_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class ExchangeController extends GetxController {
-  final _assetsRepo = Get.find<AssetRepository>();
+  final _assetsController = Get.find<AssetsController>();
 
   final _assetPairs = List<ExchangeAssetPair>().obs;
   List<ExchangeAssetPair> get assetPairs => this._assetPairs.value;
@@ -19,15 +19,15 @@ class ExchangeController extends GetxController {
     super.onInit();
   }
 
-  rebuildAssetPairList() async {
+  Future<void> rebuildAssetPairList() async {
     String id = GetStorage().read(AppStorageKeys.watchlistId);
     if (id == null || id.isEmpty) {
-      assetPairs = (await _assetsRepo.getAssetPairs())
+      assetPairs = (_assetsController.assetPairs)
           .map((e) => _buildExchangePair(e))
           .toList();
     } else {
       Watchlist watchlist = await WatchlistsRepository.getWatchlist(id);
-      assetPairs = (await _assetsRepo.watchedAssetPairs(watchlist))
+      assetPairs = (_assetsController.watchedAssetPairs(watchlist))
           .map((e) => _buildExchangePair(e))
           .toList();
     }

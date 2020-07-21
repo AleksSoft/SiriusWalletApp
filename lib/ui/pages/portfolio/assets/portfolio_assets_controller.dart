@@ -1,4 +1,4 @@
-import 'package:antares_wallet/services/repositories/asset_repository.dart';
+import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/asset_info/asset_info_page.dart';
 import 'package:get/get.dart';
@@ -6,14 +6,14 @@ import 'package:get/get.dart';
 class PortfolioAssetsController extends GetxController {
   static PortfolioAssetsController get con => Get.find();
 
-  final _repository = Get.find<AssetRepository>();
+  final _assetsController = Get.find<AssetsController>();
 
   List<String> _expandedCategoryIds = List();
 
-  List<AssetCategory> get categoryList => _repository.categoryList;
+  List<AssetCategory> get categoryList => _assetsController.categoryList;
 
   List<Asset> getCategoryAssets(String categoryId) {
-    var list = _repository.assetMap[categoryId] ?? List();
+    var list = _assetsController.categoryAssets(categoryId) ?? List();
     return isExpanded(categoryId)
         ? list
         : list.sublist(0, list.length <= 3 ? list.length : 3);
@@ -30,12 +30,12 @@ class PortfolioAssetsController extends GetxController {
       _expandedCategoryIds.contains(categoryId);
 
   bool showExpandButton(String categoryId) {
-    var list = _repository.assetMap[categoryId] ?? List();
+    var list = _assetsController.categoryAssets(categoryId) ?? List();
     return list.length > 3;
   }
 
   String moreCount(String categoryId) {
-    var list = _repository.assetMap[categoryId] ?? List();
+    var list = _assetsController.categoryAssets(categoryId) ?? List();
     return (list.length - 3).toString();
   }
 

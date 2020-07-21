@@ -1,11 +1,11 @@
-import 'package:antares_wallet/services/repositories/asset_repository.dart';
+import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/services/repositories/watchists_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class EditWatchlistController extends GetxController {
-  final _assetRepo = Get.find<AssetRepository>();
+  final _assetsController = Get.find<AssetsController>();
 
   final TextEditingController nameController = TextEditingController();
 
@@ -15,7 +15,7 @@ class EditWatchlistController extends GetxController {
 
   List<AssetPair> get selectedPairs => _checkedAssetPairs;
 
-  List<AssetPair> get assetPairs => _assetRepo.assetPairs;
+  List<AssetPair> get assetPairs => _assetsController.assetPairs;
 
   bool get modeEdit => _originalWatchlist != null;
 
