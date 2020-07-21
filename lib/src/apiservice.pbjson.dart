@@ -1078,6 +1078,9 @@ const PriceUpdate$json = const {
     const {'1': 'bid', '3': 2, '4': 1, '5': 9, '10': 'bid'},
     const {'1': 'ask', '3': 3, '4': 1, '5': 9, '10': 'ask'},
     const {'1': 'timestamp', '3': 4, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'timestamp'},
+    const {'1': 'volumeBase24H', '3': 5, '4': 1, '5': 9, '10': 'volumeBase24H'},
+    const {'1': 'volumeQuote24H', '3': 6, '4': 1, '5': 9, '10': 'volumeQuote24H'},
+    const {'1': 'priceChange24H', '3': 7, '4': 1, '5': 9, '10': 'priceChange24H'},
   ],
 };
 

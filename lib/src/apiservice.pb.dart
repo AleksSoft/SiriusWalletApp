@@ -6012,6 +6012,9 @@ class PriceUpdate extends $pb.GeneratedMessage {
     ..aOS(2, 'bid')
     ..aOS(3, 'ask')
     ..aOM<$3.Timestamp>(4, 'timestamp', subBuilder: $3.Timestamp.create)
+    ..aOS(5, 'volumeBase24H', protoName: 'volumeBase24H')
+    ..aOS(6, 'volumeQuote24H', protoName: 'volumeQuote24H')
+    ..aOS(7, 'priceChange24H', protoName: 'priceChange24H')
     ..hasRequiredFields = false
   ;
 
@@ -6067,6 +6070,33 @@ class PriceUpdate extends $pb.GeneratedMessage {
   void clearTimestamp() => clearField(4);
   @$pb.TagNumber(4)
   $3.Timestamp ensureTimestamp() => $_ensure(3);
+
+  @$pb.TagNumber(5)
+  $core.String get volumeBase24H => $_getSZ(4);
+  @$pb.TagNumber(5)
+  set volumeBase24H($core.String v) { $_setString(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasVolumeBase24H() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearVolumeBase24H() => clearField(5);
+
+  @$pb.TagNumber(6)
+  $core.String get volumeQuote24H => $_getSZ(5);
+  @$pb.TagNumber(6)
+  set volumeQuote24H($core.String v) { $_setString(5, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasVolumeQuote24H() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearVolumeQuote24H() => clearField(6);
+
+  @$pb.TagNumber(7)
+  $core.String get priceChange24H => $_getSZ(6);
+  @$pb.TagNumber(7)
+  set priceChange24H($core.String v) { $_setString(6, v); }
+  @$pb.TagNumber(7)
+  $core.bool hasPriceChange24H() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearPriceChange24H() => clearField(7);
 }
 
 class Candle extends $pb.GeneratedMessage {
