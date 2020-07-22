@@ -29,8 +29,8 @@ class OrderOpenData {
   });
 
   OrderOpenData.fromPairAndOrder(AssetPair pair, LimitOrderModel order)
-      : this.baseAssetName = pair.name.split('/')[0],
-        this.quoteAssetName = pair.name.split('/')[1],
+      : this.baseAssetName = pair.name.split('/')[0] ?? '',
+        this.quoteAssetName = pair.name.split('/')[1] ?? '',
         this.amount = double.parse(order.volume),
         this.remainingVolume = double.parse(order.remainingVolume),
         this.price = order.price,

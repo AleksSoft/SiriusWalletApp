@@ -7,14 +7,14 @@ import 'package:grpc/grpc.dart';
 class PricesController extends GetxController {
   static PricesController get con => Get.find();
 
+  final ResponseStream<PriceUpdate> pricesStream =
+      ApiService.client.getPriceUpdates(PriceUpdatesRequest());
   final currentPrices = List<PriceUpdate>().obs;
-  ResponseStream<PriceUpdate> pricesStream;
 
   @override
   void onInit() async {
     currentPrices
         .addAll((await ApiService.client.getPrices(PricesRequest())).prices);
-    pricesStream = ApiService.client.getPriceUpdates(PriceUpdatesRequest());
     pricesStream.listen((value) => _updatePrice(value));
     super.onInit();
   }
@@ -27,6 +27,7 @@ class PricesController extends GetxController {
 
   _updatePrice(PriceUpdate priceUpdate) {
     int index = currentPrices.value.indexOf(priceUpdate);
+    print(priceUpdate.writeToJsonMap());
     if (index < 0) {
       currentPrices.add(priceUpdate);
     } else {

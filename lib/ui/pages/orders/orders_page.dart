@@ -33,47 +33,58 @@ class OrdersPage extends StatelessWidget {
         ),
         body: TabBarView(
           children: <Widget>[
-            Column(
-              children: [
-                ButtonBar(
-                  alignment: MainAxisAlignment.end,
-                  buttonPadding: const EdgeInsets.all(0.0),
-                  children: <Widget>[
-                    CupertinoButton(
-                      onPressed: () => c.cancelAllOrders(),
-                      child: Text('Cancel all',
-                          style: Get.textTheme.button.copyWith(
-                            color: AppColors.accent,
-                            fontSize: 14.0,
-                          )),
-                    )
-                  ],
-                ),
-                GetX<OrdersController>(
-                  initState: (state) => c.getOrders(),
-                  builder: (_) {
-                    return ListView(
-                      shrinkWrap: true,
-                      children: c.orders.map((order) {
-                        var pair = AssetsController.con
-                            .assetPairFromId(order.assetPair);
-                        return OrderOpenTile(
-                          data: OrderOpenData.fromPairAndOrder(pair, order),
-                          onDismissed: () => c.cancelOrder(order.id),
-                          onTap: () => Get.toNamed(OrderDetailsPage.route),
-                        );
-                      }).toList(),
-                    );
-                  },
-                ),
-              ],
+            RefreshIndicator(
+              onRefresh: () => c.getOrders(),
+              child: Column(
+                children: [
+                  ButtonBar(
+                    alignment: MainAxisAlignment.end,
+                    buttonPadding: const EdgeInsets.all(0.0),
+                    children: <Widget>[
+                      CupertinoButton(
+                        onPressed: () => c.cancelAllOrders(),
+                        child: Text('Cancel all',
+                            style: Get.textTheme.button.copyWith(
+                              color: AppColors.accent,
+                              fontSize: 14.0,
+                            )),
+                      )
+                    ],
+                  ),
+                  GetX<OrdersController>(
+                    initState: (state) => c.getOrders(),
+                    builder: (_) {
+                      return Expanded(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: c.orders.length,
+                          itemBuilder: (context, index) {
+                            return OrderOpenTile(
+                              data: OrderOpenData.fromPairAndOrder(
+                                AssetsController.con.assetPairFromId(
+                                  c.orders[index].assetPair,
+                                ),
+                                c.orders[index],
+                              ),
+                              onDismissed: () => c.cancelOrder(
+                                c.orders[index].id,
+                              ),
+                              onTap: () => Get.toNamed(OrderDetailsPage.route),
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
-            GetX<OrdersController>(
-              initState: (state) => c.getTrades(10, 0),
-              builder: (_) {
-                return RefreshIndicator(
-                  onRefresh: () => c.getTrades(10, 0),
-                  child: ListView(
+            RefreshIndicator(
+              onRefresh: () => c.getTrades(10, 0),
+              child: GetX<OrdersController>(
+                initState: (state) => c.getTrades(10, 0),
+                builder: (_) {
+                  return ListView(
                     padding: const EdgeInsets.only(top: AppSizes.small),
                     shrinkWrap: true,
                     children: c.trades
@@ -81,9 +92,9 @@ class OrdersPage extends StatelessWidget {
                               data: OrderHistoryData.fromTradeModel(trade),
                             ))
                         .toList(),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ],
         ),

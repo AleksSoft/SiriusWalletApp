@@ -17,7 +17,9 @@ class AssetsController extends GetxController {
   String get baseAssetId => this._baseAssetId.value;
   set baseAssetId(String value) => this._baseAssetId.value = value;
 
-  Asset get baseAsset => assetList.firstWhere((a) => a.id == baseAssetId);
+  Asset get baseAsset => assetList.isNotEmpty
+      ? assetList.firstWhere((a) => a.id == baseAssetId)
+      : Asset.getDefault();
 
   final _assetPairs = List<AssetPair>().obs;
   List<AssetPair> get assetPairs => this._assetPairs.value;

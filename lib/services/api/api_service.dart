@@ -10,7 +10,7 @@ class ApiService {
   static final CallOptions secureOptions = CallOptions(
     metadata: {
       'Authorization':
-          'Bearer 730c544774654be7a10f2e695b676ceb16a75c5be99a4319948d49a868ece76e',
+          'Bearer 2e76e59d3c2e415897719de0ff12129db794d467f7be4d039ae5579f10fb6459',
     },
   );
 
