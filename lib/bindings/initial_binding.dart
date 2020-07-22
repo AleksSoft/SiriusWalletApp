@@ -3,7 +3,7 @@ import 'package:antares_wallet/services/api/mock_api.dart';
 import 'package:antares_wallet/services/repositories/portfolio_history_repository.dart';
 import 'package:antares_wallet/controllers/prices_controller.dart';
 import 'package:antares_wallet/ui/pages/exchange/watchlists/watchlists_controller.dart';
-import 'package:antares_wallet/ui/pages/orders/orders_controller.dart';
+import 'package:antares_wallet/controllers/orders_controller.dart';
 import 'package:get/get.dart';
 
 class InitialPageBinding extends Bindings {

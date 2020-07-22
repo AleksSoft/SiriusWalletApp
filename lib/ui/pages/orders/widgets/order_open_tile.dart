@@ -28,9 +28,10 @@ class OrderOpenData {
     @required this.orderType,
   });
 
-  OrderOpenData.fromPairAndOrder(AssetPair pair, LimitOrderModel order)
-      : this.baseAssetName = pair.name.split('/')[0] ?? '',
-        this.quoteAssetName = pair.name.split('/')[1] ?? '',
+  OrderOpenData.fromOrder(
+      String baseName, String quoteName, LimitOrderModel order)
+      : this.baseAssetName = baseName,
+        this.quoteAssetName = quoteName,
         this.amount = double.parse(order.volume),
         this.remainingVolume = double.parse(order.remainingVolume),
         this.price = order.price,

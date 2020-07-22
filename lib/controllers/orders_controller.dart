@@ -3,8 +3,12 @@ import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
 import 'package:get/get.dart';
 
+import 'assets_controller.dart';
+
 class OrdersController extends GetxController {
   static OrdersController get con => Get.find();
+
+  final _assetsController = Get.find<AssetsController>();
 
   final _orders = List<LimitOrderModel>().obs;
   List<LimitOrderModel> get orders => this._orders.value;
@@ -14,6 +18,17 @@ class OrdersController extends GetxController {
   List<TradesResponse_TradeModel> get trades => this._trades.value;
   set trades(List<TradesResponse_TradeModel> value) =>
       this._trades.value = value;
+
+  @override
+  void onInit() async {
+    ever(_assetsController.initialized, (inited) async {
+      if (inited) {
+        await getOrders();
+        await getTrades(10, 0);
+      }
+    });
+    super.onInit();
+  }
 
   Future getOrders() async => orders = await OrdersRepository.getOrders();
 

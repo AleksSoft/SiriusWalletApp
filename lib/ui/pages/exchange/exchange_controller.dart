@@ -14,6 +14,14 @@ class ExchangeController extends GetxController {
   set assetPairs(List<ExchangeAssetPair> value) =>
       this._assetPairs.value = value;
 
+  @override
+  void onInit() {
+    ever(_assetsController.initialized, (inited) {
+      if (inited) rebuildAssetPairList();
+    });
+    super.onInit();
+  }
+
   Future<void> rebuildAssetPairList() async {
     String id = GetStorage().read(AppStorageKeys.watchlistId);
     if (id == null || id.isEmpty) {
@@ -28,15 +36,17 @@ class ExchangeController extends GetxController {
     }
   }
 
-  ExchangeAssetPair _buildExchangePair(AssetPair pair) => ExchangeAssetPair(
-        '',
-        Asset.getDefault(),
-        Asset.getDefault(),
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-      );
+  ExchangeAssetPair _buildExchangePair(AssetPair pair) {
+    return ExchangeAssetPair(
+      '',
+      Asset.getDefault(),
+      Asset.getDefault(),
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+    );
+  }
 }
 
 class ExchangeAssetPair {

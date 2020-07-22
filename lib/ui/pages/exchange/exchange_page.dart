@@ -16,7 +16,6 @@ class ExchangePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetX<ExchangeController>(
       init: ExchangeController(),
-      initState: (state) => ExchangeController.con.rebuildAssetPairList(),
       builder: (_) {
         return Scaffold(
           appBar: AppBar(

@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 class AssetsController extends GetxController {
   static AssetsController get con => Get.find();
 
+  final initialized = false.obs;
+
   final _assetDictionary = AssetsDictionaryResponse.getDefault().obs;
   AssetsDictionaryResponse get assetsDictionary => this._assetDictionary.value;
   set assetsDictionary(AssetsDictionaryResponse value) =>
@@ -30,7 +32,14 @@ class AssetsController extends GetxController {
     await getAssetsDictionary();
     await getAssetPairs();
     await getBaseAsset();
+    initialized.value = true;
     super.onInit();
+  }
+
+  @override
+  void onClose() async {
+    initialized.value = false;
+    super.onClose();
   }
 
   List<AssetPair> watchedAssetPairs(Watchlist watchlist) {
@@ -44,8 +53,8 @@ class AssetsController extends GetxController {
 
   Asset assetFromId(String id) => assetList.firstWhere((a) => a.id == id);
 
-  AssetPair assetPairFromId(String id) =>
-      assetPairs.firstWhere((a) => a.id == id);
+  AssetPair assetPairFromId(String id) => assetPairs
+      .firstWhere((a) => a.id == id, orElse: () => AssetPair.getDefault());
 
   List<AssetPair> pairsForAssetId(String id) => assetPairs
       .where((a) => a.baseAssetId == id || a.quotingAssetId == id)

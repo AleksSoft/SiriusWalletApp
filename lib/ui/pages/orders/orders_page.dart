@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import 'orders_controller.dart';
+import '../../../controllers/orders_controller.dart';
 import 'widgets/order_open_tile.dart';
 
 class OrdersPage extends StatelessWidget {
@@ -59,11 +59,22 @@ class OrdersPage extends StatelessWidget {
                           shrinkWrap: true,
                           itemCount: c.orders.length,
                           itemBuilder: (context, index) {
-                            return OrderOpenTile(
-                              data: OrderOpenData.fromPairAndOrder(
-                                AssetsController.con.assetPairFromId(
+                            var pairNames = AssetsController.con
+                                .assetPairFromId(
                                   c.orders[index].assetPair,
-                                ),
+                                )
+                                .name
+                                .split('/');
+                            var name1 = '';
+                            var name2 = '';
+                            if (pairNames.length == 2) {
+                              name1 = pairNames[0];
+                              name2 = pairNames[1];
+                            }
+                            return OrderOpenTile(
+                              data: OrderOpenData.fromOrder(
+                                name1,
+                                name2,
                                 c.orders[index],
                               ),
                               onDismissed: () => c.cancelOrder(
