@@ -104,8 +104,12 @@ class TradingPage extends StatelessWidget {
           ),
           child: AssetPairTile(
             imgUrl: MockApiService.lykkeIconUrl,
-            mainAsset: Asset.getDefault(),
+            baseAsset: Asset.getDefault(),
             quotingAsset: Asset.getDefault(),
+            volume: 0.0,
+            basePrice: 0.0,
+            price: 0.0,
+            change: 0.0,
             showTitle: true,
             onTap: () {
               Get.back();
@@ -186,7 +190,7 @@ class _HeaderView extends StatelessWidget {
 
 class _CandleChartView extends StatelessWidget {
   const _CandleChartView({@required this.data, Key key}) : super(key: key);
-  final List<MarketModel> data;
+  final List<ExampleChartModel> data;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -212,17 +216,17 @@ class _CandleChartView extends StatelessWidget {
             labelStyle: TextStyle(color: AppColors.secondary),
             axisLine: AxisLine(width: 0),
           ),
-          series: <CandleSeries<MarketModel, DateTime>>[
-            CandleSeries<MarketModel, DateTime>(
+          series: <CandleSeries<ExampleChartModel, DateTime>>[
+            CandleSeries<ExampleChartModel, DateTime>(
               dataSource: data,
               enableTooltip: true,
               enableSolidCandles: true,
-              xValueMapper: (MarketModel sales, _) =>
+              xValueMapper: (ExampleChartModel sales, _) =>
                   DateTime.fromMillisecondsSinceEpoch(sales.date * 1000),
-              lowValueMapper: (MarketModel sales, _) => sales.low,
-              highValueMapper: (MarketModel sales, _) => sales.high,
-              openValueMapper: (MarketModel sales, _) => sales.open,
-              closeValueMapper: (MarketModel sales, _) => sales.close,
+              lowValueMapper: (ExampleChartModel sales, _) => sales.low,
+              highValueMapper: (ExampleChartModel sales, _) => sales.high,
+              openValueMapper: (ExampleChartModel sales, _) => sales.open,
+              closeValueMapper: (ExampleChartModel sales, _) => sales.close,
               dataLabelSettings: DataLabelSettings(isVisible: false),
             ),
           ],

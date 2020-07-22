@@ -1,6 +1,7 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
+import 'package:antares_wallet/controllers/orders_controller.dart';
 import 'package:antares_wallet/ui/pages/orders/order_details/order_details_page.dart';
 import 'package:antares_wallet/ui/pages/orders/widgets/order_history_tile.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,7 +9,6 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import '../../../controllers/orders_controller.dart';
 import 'widgets/order_open_tile.dart';
 
 class OrdersPage extends StatelessWidget {
@@ -59,17 +59,13 @@ class OrdersPage extends StatelessWidget {
                           shrinkWrap: true,
                           itemCount: c.orders.length,
                           itemBuilder: (context, index) {
-                            var pairNames = AssetsController.con
-                                .assetPairFromId(
-                                  c.orders[index].assetPair,
-                                )
-                                .name
-                                .split('/');
+                            var pair = AssetsController.con
+                                .assetPairById(c.orders[index].assetPair);
                             var name1 = '';
                             var name2 = '';
-                            if (pairNames.length == 2) {
-                              name1 = pairNames[0];
-                              name2 = pairNames[1];
+                            if (pair != null) {
+                              name1 = pair.name.split('/')[0];
+                              name2 = pair.name.split('/')[1];
                             }
                             return OrderOpenTile(
                               data: OrderOpenData.fromOrder(

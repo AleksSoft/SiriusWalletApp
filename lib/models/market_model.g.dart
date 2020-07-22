@@ -6,8 +6,8 @@ part of 'market_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-MarketModel _$MarketModelFromJson(Map<String, dynamic> json) {
-  return MarketModel(
+ExampleChartModel _$MarketModelFromJson(Map<String, dynamic> json) {
+  return ExampleChartModel(
     (json['open'] as num)?.toDouble(),
     (json['high'] as num)?.toDouble(),
     (json['low'] as num)?.toDouble(),
@@ -19,7 +19,7 @@ MarketModel _$MarketModelFromJson(Map<String, dynamic> json) {
     ..date = json['date'] as int;
 }
 
-Map<String, dynamic> _$MarketModelToJson(MarketModel instance) =>
+Map<String, dynamic> _$MarketModelToJson(ExampleChartModel instance) =>
     <String, dynamic>{
       'open': instance.open,
       'high': instance.high,
@@ -34,8 +34,9 @@ Map<String, dynamic> _$MarketModelToJson(MarketModel instance) =>
 MarketData _$MarketDataFromJson(Map<String, dynamic> json) {
   return MarketData(
     (json['data'] as List)
-        ?.map((e) =>
-            e == null ? null : MarketModel.fromJson(e as Map<String, dynamic>))
+        ?.map((e) => e == null
+            ? null
+            : ExampleChartModel.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
 }

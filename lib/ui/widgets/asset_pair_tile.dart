@@ -4,20 +4,29 @@ import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import 'asset_pair_rich_text.dart';
 
 class AssetPairTile extends StatelessWidget {
   final String imgUrl;
-  final Asset mainAsset;
+  final Asset baseAsset;
   final Asset quotingAsset;
+  final double volume;
+  final double price;
+  final double basePrice;
+  final double change;
   final bool showTitle;
   final VoidCallback onTap;
 
   const AssetPairTile({
     @required this.imgUrl,
-    @required this.mainAsset,
+    @required this.baseAsset,
     @required this.quotingAsset,
+    @required this.volume,
+    @required this.price,
+    @required this.basePrice,
+    @required this.change,
     this.showTitle = false,
     this.onTap,
     Key key,
@@ -46,12 +55,15 @@ class AssetPairTile extends StatelessWidget {
                     width: AppSizes.medium,
                   ),
                   AppUiHelpers.hSpaceExtraSmall,
-                  Text(
-                    mainAsset.name,
-                    style: Theme.of(context).textTheme.subtitle2.copyWith(
-                          fontSize: 14.0,
-                          color: Colors.grey[600],
-                        ),
+                  Flexible(
+                    child: Text(
+                      baseAsset.name,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.subtitle2.copyWith(
+                            fontSize: 14.0,
+                            color: Colors.grey[600],
+                          ),
+                    ),
                   ),
                 ],
               ),
@@ -67,12 +79,12 @@ class AssetPairTile extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     PairRichText(
-                      symbol1: mainAsset.symbol,
+                      symbol1: baseAsset.symbol,
                       symbol2: quotingAsset.symbol,
                     ),
                     AppUiHelpers.vSpaceExtraSmall,
                     Text(
-                      'Vol volume',
+                      'Vol $volume',
                       style: textStyleButton.copyWith(
                         fontSize: 12.0,
                         color: AppColors.secondary,
@@ -89,7 +101,8 @@ class AssetPairTile extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'mainPrice',
+                      NumberFormat.currency(locale: 'eu', symbol: '')
+                          .format(price),
                       style: textStyleButton.copyWith(
                         fontSize: 16.0,
                         fontWeight: FontWeight.w600,
@@ -97,7 +110,7 @@ class AssetPairTile extends StatelessWidget {
                     ),
                     AppUiHelpers.vSpaceExtraSmall,
                     Text(
-                      '${mainAsset.symbol} mainPrice',
+                      '${baseAsset.symbol} ${NumberFormat.currency(locale: 'eu', symbol: '').format(basePrice)}',
                       style: textStyleButton.copyWith(
                         fontSize: 12.0,
                         color: AppColors.secondary,
@@ -123,7 +136,7 @@ class AssetPairTile extends StatelessWidget {
                     color: _color.withOpacity(0.2),
                   ),
                   child: Text(
-                    'change%',
+                    '$change%',
                     textAlign: TextAlign.end,
                     style: textStyleButton.copyWith(
                       fontSize: 12.0,
@@ -142,12 +155,11 @@ class AssetPairTile extends StatelessWidget {
   }
 
   Color get _color {
+    if (change > 0) {
+      return AppColors.green;
+    } else if (change < 0) {
+      return AppColors.red;
+    }
     return AppColors.secondary;
-    // if (data.change > 0) {
-    //   return AppColors.green;
-    // } else if (data.change < 0) {
-    //   return AppColors.red;
-    // }
-    // return AppColors.secondary;
   }
 }

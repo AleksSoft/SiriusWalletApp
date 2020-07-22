@@ -19,9 +19,8 @@ class AssetsController extends GetxController {
   String get baseAssetId => this._baseAssetId.value;
   set baseAssetId(String value) => this._baseAssetId.value = value;
 
-  Asset get baseAsset => assetList.isNotEmpty
-      ? assetList.firstWhere((a) => a.id == baseAssetId)
-      : Asset.getDefault();
+  Asset get baseAsset =>
+      assetList.firstWhere((a) => a.id == baseAssetId, orElse: () => null);
 
   final _assetPairs = List<AssetPair>().obs;
   List<AssetPair> get assetPairs => this._assetPairs.value;
@@ -32,8 +31,8 @@ class AssetsController extends GetxController {
     await getAssetsDictionary();
     await getAssetPairs();
     await getBaseAsset();
-    initialized.value = true;
     super.onInit();
+    initialized.value = true;
   }
 
   @override
@@ -42,19 +41,14 @@ class AssetsController extends GetxController {
     super.onClose();
   }
 
-  List<AssetPair> watchedAssetPairs(Watchlist watchlist) {
-    List<AssetPair> result = List();
-    watchlist.assetIds.forEach((id) {
-      var pair = assetPairs.firstWhere((ap) => ap.id == id, orElse: () => null);
-      if (pair != null) result.add(pair);
-    });
-    return result;
-  }
+  Asset assetById(String id) =>
+      assetList.firstWhere((a) => a.id == id, orElse: () => null);
 
-  Asset assetFromId(String id) => assetList.firstWhere((a) => a.id == id);
+  AssetCategory categoryById(String id) =>
+      categoryList.firstWhere((c) => c.id == id, orElse: () => null);
 
-  AssetPair assetPairFromId(String id) => assetPairs
-      .firstWhere((a) => a.id == id, orElse: () => AssetPair.getDefault());
+  AssetPair assetPairById(String id) =>
+      assetPairs.firstWhere((a) => a.id == id, orElse: () => null);
 
   List<AssetPair> pairsForAssetId(String id) => assetPairs
       .where((a) => a.baseAssetId == id || a.quotingAssetId == id)

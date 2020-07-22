@@ -18,7 +18,7 @@ class AssetInfoDetailsController extends GetxController {
 
   AssetInfoPeriod _selectedPeriod = AssetInfoPeriod.h24;
 
-  List<MarketModel> _mockMarkets = List();
+  List<ExampleChartModel> _mockMarkets = List();
 
   List<AssetPair> _assetPairs = List();
 
@@ -35,7 +35,7 @@ class AssetInfoDetailsController extends GetxController {
 
   AssetInfoPeriod get selectedPeriod => _selectedPeriod;
 
-  List<MarketModel> get mockMarkets => _filteredMarkets();
+  List<ExampleChartModel> get mockMarkets => _filteredMarkets();
 
   @override
   void onInit() async {
@@ -66,7 +66,7 @@ class AssetInfoDetailsController extends GetxController {
   }
 
   // TODO: this is just example method; needs to be changed
-  List<MarketModel> _filteredMarkets() {
+  List<ExampleChartModel> _filteredMarkets() {
     int length = _mockMarkets.length;
     int start = 0;
     switch (_selectedPeriod) {
@@ -86,7 +86,7 @@ class AssetInfoDetailsController extends GetxController {
     return _mockMarkets.sublist(start).toList();
   }
 
-  Future<List<MarketModel>> _loadMarkets() async {
+  Future<List<ExampleChartModel>> _loadMarkets() async {
     final market = await rootBundle.loadString('assets/json/market.json');
     return MarketData.fromJson(json.decode(market)).data;
   }

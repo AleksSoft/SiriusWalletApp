@@ -1,7 +1,5 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
-import 'package:antares_wallet/services/api/mock_api.dart';
-import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/exchange/watchlists/watchlists_page.dart';
 import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_list_title_view.dart';
@@ -37,22 +35,29 @@ class ExchangePage extends StatelessWidget {
             children: [
               AssetPairListHeaderView(),
               Expanded(
-                child: ListView(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSizes.medium,
+                child: RefreshIndicator(
+                  onRefresh: () => _.rebuildWatchedMarkets(),
+                  child: ListView(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSizes.medium,
+                    ),
+                    children: _.markets
+                        .map((e) => AssetPairTile(
+                              imgUrl: e.iconUrl,
+                              baseAsset: e.baseAsset,
+                              quotingAsset: e.quotingAsset,
+                              basePrice: e.basePrice,
+                              volume: e.volume,
+                              price: e.price,
+                              change: e.change,
+                              showTitle: true,
+                              onTap: () => Get.toNamed(
+                                TradingPage.route,
+                                arguments: e,
+                              ),
+                            ))
+                        .toList(),
                   ),
-                  children: _.assetPairs
-                      .map((e) => AssetPairTile(
-                            imgUrl: MockApiService.lykkeIconUrl,
-                            mainAsset: Asset.getDefault(),
-                            quotingAsset: Asset.getDefault(),
-                            showTitle: true,
-                            onTap: () => Get.toNamed(
-                              TradingPage.route,
-                              arguments: e,
-                            ),
-                          ))
-                      .toList(),
                 ),
               ),
             ],

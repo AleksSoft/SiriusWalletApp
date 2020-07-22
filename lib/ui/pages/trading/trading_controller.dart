@@ -10,13 +10,13 @@ class TradingController extends GetxController {
   static TradingController get con => Get.find();
   final _assetsController = Get.find<AssetsController>();
 
-  List<MarketModel> _mockMarkets = List();
+  List<ExampleChartModel> _mockMarkets = List();
 
   AssetPair _assetPair = Get.arguments as AssetPair;
 
   List<AssetPair> get assetPairs => _assetsController.assetPairs;
 
-  List<MarketModel> get mockMarkets => _mockMarkets;
+  List<ExampleChartModel> get mockMarkets => _mockMarkets;
 
   AssetPair get assetPair => _assetPair;
 
@@ -34,7 +34,7 @@ class TradingController extends GetxController {
     update();
   }
 
-  Future<List<MarketModel>> _loadMarkets() async {
+  Future<List<ExampleChartModel>> _loadMarkets() async {
     final market = await rootBundle.loadString('assets/json/market.json');
     return MarketData.fromJson(json.decode(market)).data;
   }

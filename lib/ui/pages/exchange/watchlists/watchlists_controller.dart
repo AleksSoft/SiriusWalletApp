@@ -47,7 +47,7 @@ class WatchlistsController extends GetxController {
     loading = true;
     selected = watchlists.firstWhere((w) => w.id == id);
     _storage.write(AppStorageKeys.watchlistId, id);
-    await Get.find<ExchangeController>().rebuildAssetPairList();
+    await Get.find<ExchangeController>().rebuildWatchedMarkets();
     loading = false;
   }
 
