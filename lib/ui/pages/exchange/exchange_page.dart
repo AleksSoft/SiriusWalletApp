@@ -9,8 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ExchangePage extends StatelessWidget {
-  final c = MarketsController.con;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,13 +32,13 @@ class ExchangePage extends StatelessWidget {
           AssetPairListHeaderView(),
           Expanded(
             child: RefreshIndicator(
-              onRefresh: () => c.rebuildWatchedMarkets(),
-              child: Obx(
-                () => ListView(
+              onRefresh: () => MarketsController.con.rebuildWatchedMarkets(),
+              child: GetBuilder<MarketsController>(
+                builder: (_) => ListView(
                   padding: const EdgeInsets.symmetric(
                     horizontal: AppSizes.medium,
                   ),
-                  children: c.markets
+                  children: _.markets
                       .map((e) => AssetPairTile(
                             imgUrl: e.iconUrl,
                             baseAsset: e.baseAsset,

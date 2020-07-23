@@ -17,9 +17,8 @@ class MarketsController extends GetxController {
 
   final List<MarketModel> _initialMarketList = List<MarketModel>();
 
-  final _markets = List<MarketModel>().obs;
-  List<MarketModel> get markets => this._markets.value;
-  set markets(List<MarketModel> value) => this._markets.value = value;
+  List<MarketModel> _markets = List<MarketModel>();
+  List<MarketModel> get markets => this._markets;
 
   StreamSubscription<PriceUpdate> _priceSubscription;
 
@@ -28,12 +27,9 @@ class MarketsController extends GetxController {
     ever(_assetsController.initialized, (inited) async {
       if (inited) await rebuildWatchedMarkets();
     });
-    _priceSubscription =
-        Get.find<PricesController>().pricesStream.listen((PriceUpdate update) {
-      int index = markets.indexWhere((e) => e.pairId == update.assetPairId);
-      print(update.writeToJsonMap());
-      if (index >= 0) markets[index].update(update);
-    });
+    _priceSubscription = Get.find<PricesController>()
+        .pricesStream
+        .listen((PriceUpdate update) => _updateMarket(update));
     super.onInit();
   }
 
@@ -57,10 +53,11 @@ class MarketsController extends GetxController {
           result.add(market);
         }
       });
-      markets = result;
+      _markets = result;
     } else {
-      markets = _initialMarketList;
+      _markets = _initialMarketList;
     }
+    update();
   }
 
   _initMarketsListIfNeeded({bool force = false}) async {
@@ -78,6 +75,16 @@ class MarketsController extends GetxController {
           }
         }
       });
+    }
+  }
+
+  _updateMarket(PriceUpdate priceUpdate) {
+    int index = markets.indexWhere((e) => e.pairId == priceUpdate.assetPairId);
+    print(priceUpdate.writeToJsonMap());
+    if (index >= 0) {
+      var updatedMarket = markets[index].update(priceUpdate);
+      markets.replaceRange(index, index++, [updatedMarket]);
+      update();
     }
   }
 
@@ -121,12 +128,13 @@ class MarketModel {
     @required this.change,
   });
 
-  update(PriceUpdate update) {
+  MarketModel update(PriceUpdate update) {
     this.volume = update.volumeBase24H.isNotEmpty
         ? double.parse(update.volumeBase24H)
         : 0;
     this.change = update.priceChange24H.isNotEmpty
         ? double.parse(update.priceChange24H)
         : 0;
+    return this;
   }
 }
