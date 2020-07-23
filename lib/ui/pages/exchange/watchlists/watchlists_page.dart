@@ -4,7 +4,7 @@ import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'watchlists_controller.dart';
+import '../../../../controllers/watchlists_controller.dart';
 
 class WatchlistsPage extends StatelessWidget {
   static final String route = '/watchlists';

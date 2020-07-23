@@ -114,7 +114,10 @@ const CancelOrdersRequest$json = const {
   '1': 'CancelOrdersRequest',
   '2': const [
     const {'1': 'assetPairId', '3': 1, '4': 1, '5': 9, '10': 'assetPairId'},
-    const {'1': 'side', '3': 2, '4': 1, '5': 14, '6': '.antaresWallet.Side', '10': 'side'},
+    const {'1': 'side', '3': 2, '4': 1, '5': 14, '6': '.antaresWallet.Side', '9': 0, '10': 'side'},
+  ],
+  '8': const [
+    const {'1': 'optional_side'},
   ],
 };
 
@@ -389,6 +392,28 @@ const MarketsResponse_MarketModel$json = const {
     const {'1': 'ask', '3': 6, '4': 1, '5': 9, '10': 'ask'},
     const {'1': 'high', '3': 7, '4': 1, '5': 9, '10': 'high'},
     const {'1': 'low', '3': 8, '4': 1, '5': 9, '10': 'low'},
+  ],
+};
+
+const PendingActionsResponse$json = const {
+  '1': 'PendingActionsResponse',
+  '2': const [
+    const {'1': 'result', '3': 1, '4': 1, '5': 11, '6': '.antaresWallet.PendingActionsResponse.PendingActionsPayload', '10': 'result'},
+    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorV1', '10': 'error'},
+  ],
+  '3': const [PendingActionsResponse_PendingActionsPayload$json],
+};
+
+const PendingActionsResponse_PendingActionsPayload$json = const {
+  '1': 'PendingActionsPayload',
+  '2': const [
+    const {'1': 'unsignedTxs', '3': 1, '4': 1, '5': 8, '10': 'unsignedTxs'},
+    const {'1': 'offchainRequests', '3': 2, '4': 1, '5': 8, '10': 'offchainRequests'},
+    const {'1': 'needReinit', '3': 3, '4': 1, '5': 8, '10': 'needReinit'},
+    const {'1': 'dialogPending', '3': 4, '4': 1, '5': 8, '10': 'dialogPending'},
+    const {'1': 'pendingOperations', '3': 5, '4': 1, '5': 8, '10': 'pendingOperations'},
+    const {'1': 'ethereumPendingActions', '3': 6, '4': 1, '5': 8, '10': 'ethereumPendingActions'},
+    const {'1': 'sessionConfirmation', '3': 7, '4': 1, '5': 8, '10': 'sessionConfirmation'},
   ],
 };
 

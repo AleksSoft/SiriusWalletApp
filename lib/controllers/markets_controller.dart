@@ -10,12 +10,12 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-class ExchangeController extends GetxController {
-  static ExchangeController get con => Get.find();
+class MarketsController extends GetxController {
+  static MarketsController get con => Get.find();
 
   final _assetsController = Get.find<AssetsController>();
 
-  final List<MarketModel> initialMarketList = List<MarketModel>();
+  final List<MarketModel> _initialMarketList = List<MarketModel>();
 
   final _markets = List<MarketModel>().obs;
   List<MarketModel> get markets => this._markets.value;
@@ -49,7 +49,7 @@ class ExchangeController extends GetxController {
     if (id != null && id.isNotEmpty) {
       List<MarketModel> result = List();
       (await WatchlistsRepository.getWatchlist(id)).assetIds.forEach((id) {
-        var market = initialMarketList.firstWhere(
+        var market = _initialMarketList.firstWhere(
           (m) => m.pairId == id,
           orElse: () => null,
         );
@@ -59,12 +59,12 @@ class ExchangeController extends GetxController {
       });
       markets = result;
     } else {
-      markets = initialMarketList;
+      markets = _initialMarketList;
     }
   }
 
   _initMarketsListIfNeeded({bool force = false}) async {
-    if (initialMarketList.isEmpty) {
+    if (_initialMarketList.isEmpty) {
       (await MarketsRepository.getMarkets()).forEach((m) async {
         var pair = _assetsController.assetPairById(m.assetPair);
         // check if nothing is null
@@ -72,7 +72,7 @@ class ExchangeController extends GetxController {
           var baseAsset = _assetsController.assetById(pair.baseAssetId);
           var quotingAsset = _assetsController.assetById(pair.quotingAssetId);
           if (baseAsset != null && quotingAsset != null) {
-            initialMarketList.add(
+            _initialMarketList.add(
               _buildMarketModel(m, pair, baseAsset, quotingAsset),
             );
           }

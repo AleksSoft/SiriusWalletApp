@@ -1,7 +1,7 @@
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/services/repositories/watchists_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
-import 'package:antares_wallet/ui/pages/exchange/watchlists/watchlists_controller.dart';
+import 'package:antares_wallet/controllers/watchlists_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 

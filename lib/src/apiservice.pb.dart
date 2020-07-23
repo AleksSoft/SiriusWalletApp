@@ -371,8 +371,18 @@ class MarketOrderRequest extends $pb.GeneratedMessage {
   void clearVolume() => clearField(3);
 }
 
+enum CancelOrdersRequest_OptionalSide {
+  side, 
+  notSet
+}
+
 class CancelOrdersRequest extends $pb.GeneratedMessage {
+  static const $core.Map<$core.int, CancelOrdersRequest_OptionalSide> _CancelOrdersRequest_OptionalSideByTag = {
+    2 : CancelOrdersRequest_OptionalSide.side,
+    0 : CancelOrdersRequest_OptionalSide.notSet
+  };
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('CancelOrdersRequest', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..oo(0, [2])
     ..aOS(1, 'assetPairId', protoName: 'assetPairId')
     ..e<Side>(2, 'side', $pb.PbFieldType.OE, defaultOrMaker: Side.buy, valueOf: Side.valueOf, enumValues: Side.values)
     ..hasRequiredFields = false
@@ -392,6 +402,9 @@ class CancelOrdersRequest extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static CancelOrdersRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CancelOrdersRequest>(create);
   static CancelOrdersRequest _defaultInstance;
+
+  CancelOrdersRequest_OptionalSide whichOptionalSide() => _CancelOrdersRequest_OptionalSideByTag[$_whichOneof(0)];
+  void clearOptionalSide() => clearField($_whichOneof(0));
 
   @$pb.TagNumber(1)
   $core.String get assetPairId => $_getSZ(0);
@@ -1904,6 +1917,142 @@ class MarketsResponse extends $pb.GeneratedMessage {
   void clearError() => clearField(2);
   @$pb.TagNumber(2)
   ErrorV2 ensureError() => $_ensure(1);
+}
+
+class PendingActionsResponse_PendingActionsPayload extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('PendingActionsResponse.PendingActionsPayload', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOB(1, 'unsignedTxs', protoName: 'unsignedTxs')
+    ..aOB(2, 'offchainRequests', protoName: 'offchainRequests')
+    ..aOB(3, 'needReinit', protoName: 'needReinit')
+    ..aOB(4, 'dialogPending', protoName: 'dialogPending')
+    ..aOB(5, 'pendingOperations', protoName: 'pendingOperations')
+    ..aOB(6, 'ethereumPendingActions', protoName: 'ethereumPendingActions')
+    ..aOB(7, 'sessionConfirmation', protoName: 'sessionConfirmation')
+    ..hasRequiredFields = false
+  ;
+
+  PendingActionsResponse_PendingActionsPayload._() : super();
+  factory PendingActionsResponse_PendingActionsPayload() => create();
+  factory PendingActionsResponse_PendingActionsPayload.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory PendingActionsResponse_PendingActionsPayload.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  PendingActionsResponse_PendingActionsPayload clone() => PendingActionsResponse_PendingActionsPayload()..mergeFromMessage(this);
+  PendingActionsResponse_PendingActionsPayload copyWith(void Function(PendingActionsResponse_PendingActionsPayload) updates) => super.copyWith((message) => updates(message as PendingActionsResponse_PendingActionsPayload));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static PendingActionsResponse_PendingActionsPayload create() => PendingActionsResponse_PendingActionsPayload._();
+  PendingActionsResponse_PendingActionsPayload createEmptyInstance() => create();
+  static $pb.PbList<PendingActionsResponse_PendingActionsPayload> createRepeated() => $pb.PbList<PendingActionsResponse_PendingActionsPayload>();
+  @$core.pragma('dart2js:noInline')
+  static PendingActionsResponse_PendingActionsPayload getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PendingActionsResponse_PendingActionsPayload>(create);
+  static PendingActionsResponse_PendingActionsPayload _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.bool get unsignedTxs => $_getBF(0);
+  @$pb.TagNumber(1)
+  set unsignedTxs($core.bool v) { $_setBool(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasUnsignedTxs() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearUnsignedTxs() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.bool get offchainRequests => $_getBF(1);
+  @$pb.TagNumber(2)
+  set offchainRequests($core.bool v) { $_setBool(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasOffchainRequests() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearOffchainRequests() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.bool get needReinit => $_getBF(2);
+  @$pb.TagNumber(3)
+  set needReinit($core.bool v) { $_setBool(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasNeedReinit() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearNeedReinit() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.bool get dialogPending => $_getBF(3);
+  @$pb.TagNumber(4)
+  set dialogPending($core.bool v) { $_setBool(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasDialogPending() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearDialogPending() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.bool get pendingOperations => $_getBF(4);
+  @$pb.TagNumber(5)
+  set pendingOperations($core.bool v) { $_setBool(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasPendingOperations() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearPendingOperations() => clearField(5);
+
+  @$pb.TagNumber(6)
+  $core.bool get ethereumPendingActions => $_getBF(5);
+  @$pb.TagNumber(6)
+  set ethereumPendingActions($core.bool v) { $_setBool(5, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasEthereumPendingActions() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearEthereumPendingActions() => clearField(6);
+
+  @$pb.TagNumber(7)
+  $core.bool get sessionConfirmation => $_getBF(6);
+  @$pb.TagNumber(7)
+  set sessionConfirmation($core.bool v) { $_setBool(6, v); }
+  @$pb.TagNumber(7)
+  $core.bool hasSessionConfirmation() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearSessionConfirmation() => clearField(7);
+}
+
+class PendingActionsResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('PendingActionsResponse', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOM<PendingActionsResponse_PendingActionsPayload>(1, 'result', subBuilder: PendingActionsResponse_PendingActionsPayload.create)
+    ..aOM<ErrorV1>(2, 'error', subBuilder: ErrorV1.create)
+    ..hasRequiredFields = false
+  ;
+
+  PendingActionsResponse._() : super();
+  factory PendingActionsResponse() => create();
+  factory PendingActionsResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory PendingActionsResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  PendingActionsResponse clone() => PendingActionsResponse()..mergeFromMessage(this);
+  PendingActionsResponse copyWith(void Function(PendingActionsResponse) updates) => super.copyWith((message) => updates(message as PendingActionsResponse));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static PendingActionsResponse create() => PendingActionsResponse._();
+  PendingActionsResponse createEmptyInstance() => create();
+  static $pb.PbList<PendingActionsResponse> createRepeated() => $pb.PbList<PendingActionsResponse>();
+  @$core.pragma('dart2js:noInline')
+  static PendingActionsResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PendingActionsResponse>(create);
+  static PendingActionsResponse _defaultInstance;
+
+  @$pb.TagNumber(1)
+  PendingActionsResponse_PendingActionsPayload get result => $_getN(0);
+  @$pb.TagNumber(1)
+  set result(PendingActionsResponse_PendingActionsPayload v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasResult() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearResult() => clearField(1);
+  @$pb.TagNumber(1)
+  PendingActionsResponse_PendingActionsPayload ensureResult() => $_ensure(0);
+
+  @$pb.TagNumber(2)
+  ErrorV1 get error => $_getN(1);
+  @$pb.TagNumber(2)
+  set error(ErrorV1 v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasError() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearError() => clearField(2);
+  @$pb.TagNumber(2)
+  ErrorV1 ensureError() => $_ensure(1);
 }
 
 class LimitOrdersResponse_OrdersPayload extends $pb.GeneratedMessage {
