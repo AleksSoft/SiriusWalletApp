@@ -7,6 +7,7 @@ import 'package:get_storage/get_storage.dart';
 
 class LoginController extends GetxController {
   static LoginController get con => Get.find();
+  static final _api = Get.find<ApiService>();
   final _storage = GetStorage();
 
   static final List<String> urls = <String>[
@@ -59,7 +60,7 @@ class LoginController extends GetxController {
     loading = true;
     try {
       // TODO: replace with actual login logics
-      await Get.find<ApiService>().client.getAppSettings(Empty());
+      await _api.client.getAppSettings(Empty());
       Get.offAllNamed(RootPage.route);
     } catch (e) {
       _storage.remove(AppStorageKeys.token);

@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 class RootPageBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put<ApiService>(ApiService());
+    Get.lazyPut<ApiService>(() => ApiService());
     Get.lazyPut<MockApiService>(() => MockApiService());
 
     Get.put<PortfolioHistoryRepository>(PortfolioHistoryRepository());

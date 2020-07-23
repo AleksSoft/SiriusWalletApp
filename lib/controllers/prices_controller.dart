@@ -7,20 +7,17 @@ import 'package:get/state_manager.dart';
 
 class PricesController extends GetxController {
   static PricesController get con => Get.find();
+  static final _api = Get.find<ApiService>();
 
-  final Stream<PriceUpdate> pricesStream = Get.find<ApiService>()
-      .client
-      .getPriceUpdates(PriceUpdatesRequest())
-      .asBroadcastStream();
+  final Stream<PriceUpdate> pricesStream =
+      _api.client.getPriceUpdates(PriceUpdatesRequest()).asBroadcastStream();
   final currentPrices = List<PriceUpdate>().obs;
 
   StreamSubscription<PriceUpdate> _subscription;
 
   @override
   void onInit() async {
-    currentPrices.addAll(
-        (await Get.find<ApiService>().client.getPrices(PricesRequest()))
-            .prices);
+    currentPrices.addAll((await _api.client.getPrices(PricesRequest())).prices);
     _subscription = pricesStream.listen((value) => _updatePrice(value));
     super.onInit();
   }

@@ -3,13 +3,15 @@ import 'package:antares_wallet/src/apiservice.pbgrpc.dart';
 import 'package:get/get.dart';
 
 class MarketsRepository {
+  static final _api = Get.find<ApiService>();
+
   static Future<List<MarketsResponse_MarketModel>> getMarkets({
     String assetPairId,
   }) async {
     try {
       var request = MarketsRequest();
       if (assetPairId != null) request.assetPairId = assetPairId;
-      final response = await Get.find<ApiService>().client.getMarkets(request);
+      final response = await _api.client.getMarkets(request);
       return response.markets;
     } catch (e) {
       Get.defaultDialog(

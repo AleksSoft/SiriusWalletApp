@@ -4,10 +4,11 @@ import 'package:antares_wallet/src/google/protobuf/empty.pb.dart';
 import 'package:get/get.dart';
 
 class WatchlistsRepository {
+  static final _api = Get.find<ApiService>();
+
   static Future<List<Watchlist>> getWatchlists() async {
     try {
-      final response =
-          await Get.find<ApiService>().client.getWatchlists(Empty());
+      final response = await _api.client.getWatchlists(Empty());
       return response.result;
     } catch (e) {
       Get.defaultDialog(
@@ -21,14 +22,14 @@ class WatchlistsRepository {
 
   static Future<Watchlist> getWatchlist(String id) async {
     try {
-      final response = await Get.find<ApiService>().client.getWatchlist(
-            WatchlistRequest()..id = id,
-          );
+      final response = await _api.client.getWatchlist(
+        WatchlistRequest()..id = id,
+      );
       return response.result;
     } catch (e) {
       Get.defaultDialog(
         title: 'Error',
-        middleText: e.message,
+        middleText: 'watch list loading error',
         onConfirm: () => Get.back(),
       );
       return null;
@@ -41,12 +42,12 @@ class WatchlistsRepository {
     List<String> assetIds,
   ) async {
     try {
-      final response = await Get.find<ApiService>().client.addWatchlist(
-            AddWatchlistRequest.create()
-              ..name = name
-              ..order = order
-              ..assetIds.addAll(assetIds),
-          );
+      final response = await _api.client.addWatchlist(
+        AddWatchlistRequest.create()
+          ..name = name
+          ..order = order
+          ..assetIds.addAll(assetIds),
+      );
       return response.result;
     } catch (e) {
       Future.delayed(Duration()).then(
@@ -67,13 +68,13 @@ class WatchlistsRepository {
     List<String> assetIds,
   ) async {
     try {
-      final response = await Get.find<ApiService>().client.updateWatchlist(
-            UpdateWatchlistRequest.create()
-              ..id = id
-              ..name = name
-              ..order = order
-              ..assetIds.addAll(assetIds),
-          );
+      final response = await _api.client.updateWatchlist(
+        UpdateWatchlistRequest.create()
+          ..id = id
+          ..name = name
+          ..order = order
+          ..assetIds.addAll(assetIds),
+      );
       return response.result;
     } catch (e) {
       Get.defaultDialog(
@@ -87,9 +88,7 @@ class WatchlistsRepository {
 
   static Future<void> deleteWatchlist(String id) async {
     try {
-      await Get.find<ApiService>().client.deleteWatchlist(
-            DeleteWatchlistRequest()..id = id,
-          );
+      await _api.client.deleteWatchlist(DeleteWatchlistRequest()..id = id);
     } catch (e) {
       Get.defaultDialog(
         title: 'Error',

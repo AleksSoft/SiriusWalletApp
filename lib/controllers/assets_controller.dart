@@ -26,11 +26,20 @@ class AssetsController extends GetxController {
   List<AssetPair> get assetPairs => this._assetPairs.value;
   set assetPairs(List<AssetPair> value) => this._assetPairs.value = value;
 
+  final _amountsInBase =
+      List<AmountInBaseAssetResponse_AmountInBasePayload>().obs;
+  List<AmountInBaseAssetResponse_AmountInBasePayload> get amountsInBase =>
+      this._amountsInBase.value;
+  set amountsInBase(
+          List<AmountInBaseAssetResponse_AmountInBasePayload> value) =>
+      this._amountsInBase.value = value;
+
   @override
   void onInit() async {
     await getAssetsDictionary();
     await getAssetPairs();
     await getBaseAsset();
+    await getAmountsInBase();
     super.onInit();
     initialized.value = true;
   }
@@ -62,6 +71,9 @@ class AssetsController extends GetxController {
 
   Future getBaseAsset() async =>
       baseAssetId = await AssetsRepository.getBaseAsset();
+
+  Future getAmountsInBase() async =>
+      amountsInBase = await AssetsRepository.getAmountInBaseAsset(baseAssetId);
 
   Future setBaseAsset(String id) async {
     await AssetsRepository.setBaseAsset(id);

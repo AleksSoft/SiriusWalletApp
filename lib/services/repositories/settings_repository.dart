@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class SettingsRepository {
+  static final _api = Get.find<ApiService>();
   final _storage = GetStorage();
   final _bcService = Get.find<BlockchainService>();
 
@@ -27,7 +28,7 @@ class SettingsRepository {
     String settingsStr = await _storage.read(AppStorageKeys.settingsData);
 
     AppSettingsResponse_AppSettingsData data = settingsStr == null
-        ? (await Get.find<ApiService>().client.getAppSettings(Empty())).result
+        ? (await _api.client.getAppSettings(Empty())).result
         : AppSettingsResponse_AppSettingsData.fromJson(settingsStr);
 
     if (_settingsData != data) {

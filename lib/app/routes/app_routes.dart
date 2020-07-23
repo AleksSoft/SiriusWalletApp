@@ -1,4 +1,3 @@
-import 'package:antares_wallet/app/common/app_storage_keys.dart';
 import 'package:antares_wallet/bindings/initial_binding.dart';
 import 'package:antares_wallet/bindings/root_binding.dart';
 import 'package:antares_wallet/bindings/profile_binding.dart';
