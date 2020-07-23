@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:antares_wallet/app/common/app_storage_keys.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/controllers/prices_controller.dart';
@@ -19,13 +21,26 @@ class ExchangeController extends GetxController {
   List<MarketModel> get markets => this._markets.value;
   set markets(List<MarketModel> value) => this._markets.value = value;
 
+  StreamSubscription<PriceUpdate> _priceSubscription;
+
   @override
   void onInit() async {
     ever(_assetsController.initialized, (inited) async {
       if (inited) await rebuildWatchedMarkets();
     });
-    Get.find<PricesController>().currentPrices.listen((PriceUpdate update) {});
+    _priceSubscription =
+        Get.find<PricesController>().pricesStream.listen((PriceUpdate update) {
+      int index = markets.indexWhere((e) => e.pairId == update.assetPairId);
+      print(update.writeToJsonMap());
+      if (index >= 0) markets[index].update(update);
+    });
     super.onInit();
+  }
+
+  @override
+  void onClose() async {
+    if (_priceSubscription != null) await _priceSubscription.cancel();
+    super.onClose();
   }
 
   Future<void> rebuildWatchedMarkets() async {
@@ -86,14 +101,14 @@ class ExchangeController extends GetxController {
 }
 
 class MarketModel {
-  final String iconUrl;
-  final String pairId;
-  final Asset baseAsset;
-  final Asset quotingAsset;
-  final double volume;
-  final double price;
-  final double basePrice;
-  final double change;
+  String iconUrl;
+  String pairId;
+  Asset baseAsset;
+  Asset quotingAsset;
+  double volume;
+  double price;
+  double basePrice;
+  double change;
 
   MarketModel({
     @required this.iconUrl,
@@ -105,4 +120,13 @@ class MarketModel {
     @required this.basePrice,
     @required this.change,
   });
+
+  update(PriceUpdate update) {
+    this.volume = update.volumeBase24H.isNotEmpty
+        ? double.parse(update.volumeBase24H)
+        : 0;
+    this.change = update.priceChange24H.isNotEmpty
+        ? double.parse(update.priceChange24H)
+        : 0;
+  }
 }

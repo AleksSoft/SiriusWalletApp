@@ -79,8 +79,8 @@ class AssetPairTile extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     PairRichText(
-                      symbol1: baseAsset.symbol,
-                      symbol2: quotingAsset.symbol,
+                      symbol1: baseAsset.id,
+                      symbol2: quotingAsset.id,
                     ),
                     AppUiHelpers.vSpaceExtraSmall,
                     Text(
@@ -110,7 +110,8 @@ class AssetPairTile extends StatelessWidget {
                     ),
                     AppUiHelpers.vSpaceExtraSmall,
                     Text(
-                      '${baseAsset.symbol} ${NumberFormat.currency(locale: 'eu', symbol: '').format(basePrice)}',
+                      // '${baseAsset.symbol} ${NumberFormat.currency(locale: 'eu', symbol: '').format(basePrice)}',
+                      '—',
                       style: textStyleButton.copyWith(
                         fontSize: 12.0,
                         color: AppColors.secondary,

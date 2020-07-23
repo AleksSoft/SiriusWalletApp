@@ -3,14 +3,14 @@ import 'package:grpc/grpc.dart';
 
 class ApiService {
   static final ClientChannel channel = ClientChannel(
-    "antares-api-dev.lykkex.net",
+    'antares-api-grpc-dev.lykkex.net',
     port: 443,
   );
 
   static final CallOptions secureOptions = CallOptions(
     metadata: {
       'Authorization':
-          'Bearer 2e76e59d3c2e415897719de0ff12129db794d467f7be4d039ae5579f10fb6459',
+          'Bearer 6376d15a33134f409c24cb243746ca21cc6f779df7f9485a82ce806b49c856d7',
     },
   );
 

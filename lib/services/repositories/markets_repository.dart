@@ -13,7 +13,7 @@ class MarketsRepository {
       return response.markets;
     } catch (e) {
       Get.defaultDialog(
-        title: 'Error (${e.code})',
+        title: 'Error',
         middleText: e.message,
         onConfirm: () => Get.back(),
       );

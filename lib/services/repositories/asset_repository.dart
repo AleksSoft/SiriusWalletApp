@@ -11,7 +11,7 @@ class AssetsRepository {
     } catch (e) {
       Future.delayed(Duration()).then(
         (_) => Get.defaultDialog(
-          title: 'Error (${e.code})',
+          title: 'Error',
           middleText: e.message,
           onConfirm: () => Get.back(),
         ),
@@ -26,7 +26,7 @@ class AssetsRepository {
     } catch (e) {
       Future.delayed(Duration()).then(
         (_) => Get.defaultDialog(
-          title: 'Error (${e.code})',
+          title: 'Error',
           middleText: e.message,
           onConfirm: () => Get.back(),
         ),
@@ -42,7 +42,7 @@ class AssetsRepository {
     } catch (e) {
       Future.delayed(Duration()).then(
         (_) => Get.defaultDialog(
-          title: 'Error (${e.code})',
+          title: 'Error',
           middleText: e.message,
           onConfirm: () => Get.back(),
         ),
@@ -56,7 +56,7 @@ class AssetsRepository {
     } catch (e) {
       Future.delayed(Duration()).then(
         (_) => Get.defaultDialog(
-          title: 'Error (${e.code})',
+          title: 'Error',
           middleText: e.message,
           onConfirm: () => Get.back(),
         ),

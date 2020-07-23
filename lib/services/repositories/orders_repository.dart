@@ -13,7 +13,7 @@ class OrdersRepository {
       return response.result.orders;
     } catch (e) {
       Get.defaultDialog(
-        title: 'Error (${e.code})',
+        title: 'Error',
         middleText: e.message,
         onConfirm: () => Get.back(),
       );
@@ -56,7 +56,7 @@ class OrdersRepository {
       return response.payload;
     } catch (e) {
       Get.defaultDialog(
-        title: 'Error (${e.code})',
+        title: 'Error',
         middleText: e.message,
         onConfirm: () => Get.back(),
       );
@@ -72,7 +72,7 @@ class OrdersRepository {
       return response.payload;
     } catch (e) {
       Get.defaultDialog(
-        title: 'Error (${e.code})',
+        title: 'Error',
         middleText: e.message,
         onConfirm: () => Get.back(),
       );
@@ -97,7 +97,7 @@ class OrdersRepository {
       return response.result.order;
     } catch (e) {
       Get.defaultDialog(
-        title: 'Error (${e.code})',
+        title: 'Error',
         middleText: e.message,
         onConfirm: () => Get.back(),
       );
@@ -120,7 +120,7 @@ class OrdersRepository {
       return response.result.order;
     } catch (e) {
       Get.defaultDialog(
-        title: 'Error (${e.code})',
+        title: 'Error',
         middleText: e.message,
         onConfirm: () => Get.back(),
       );

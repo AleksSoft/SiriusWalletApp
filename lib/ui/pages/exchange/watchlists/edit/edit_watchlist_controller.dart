@@ -1,6 +1,7 @@
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/services/repositories/watchists_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:antares_wallet/ui/pages/exchange/watchlists/watchlists_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -40,15 +41,16 @@ class EditWatchlistController extends GetxController {
         _originalWatchlist.id,
         nameController.text,
         _originalWatchlist.order,
-        _checkedAssetPairs.map((chap) => chap.id),
+        _checkedAssetPairs.map((chap) => chap.id).toList(),
       );
     } else {
       await WatchlistsRepository.addWatchlist(
         nameController.text,
         2,
-        _checkedAssetPairs.map((chap) => chap.id),
+        _checkedAssetPairs.map((chap) => chap.id).toList(),
       );
     }
+    await Get.find<WatchlistsController>().getWatchlists();
     Get.back();
   }
 

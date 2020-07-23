@@ -10,7 +10,7 @@ class WatchlistsRepository {
       return response.result;
     } catch (e) {
       Get.defaultDialog(
-        title: 'Error (${e.code})',
+        title: 'Error',
         middleText: e.message,
         onConfirm: () => Get.back(),
       );
@@ -26,7 +26,7 @@ class WatchlistsRepository {
       return response.result;
     } catch (e) {
       Get.defaultDialog(
-        title: 'Error (${e.code})',
+        title: 'Error',
         middleText: e.message,
         onConfirm: () => Get.back(),
       );
@@ -41,17 +41,19 @@ class WatchlistsRepository {
   ) async {
     try {
       final response = await ApiService.client.addWatchlist(
-        AddWatchlistRequest.getDefault()
+        AddWatchlistRequest.create()
           ..name = name
           ..order = order
           ..assetIds.addAll(assetIds),
       );
       return response.result;
     } catch (e) {
-      Get.defaultDialog(
-        title: 'Error (${e.code})',
-        middleText: e.message,
-        onConfirm: () => Get.back(),
+      Future.delayed(Duration()).then(
+        (value) => Get.defaultDialog(
+          title: 'Error',
+          middleText: e.message,
+          onConfirm: () => Get.back(),
+        ),
       );
       return null;
     }
@@ -65,7 +67,7 @@ class WatchlistsRepository {
   ) async {
     try {
       final response = await ApiService.client.updateWatchlist(
-        UpdateWatchlistRequest.getDefault()
+        UpdateWatchlistRequest.create()
           ..id = id
           ..name = name
           ..order = order
@@ -74,7 +76,7 @@ class WatchlistsRepository {
       return response.result;
     } catch (e) {
       Get.defaultDialog(
-        title: 'Error (${e.code})',
+        title: 'Error',
         middleText: e.message,
         onConfirm: () => Get.back(),
       );
@@ -89,7 +91,7 @@ class WatchlistsRepository {
       );
     } catch (e) {
       Get.defaultDialog(
-        title: 'Error (${e.code})',
+        title: 'Error',
         middleText: e.message,
         onConfirm: () => Get.back(),
       );
