@@ -10,22 +10,24 @@ import 'asset_pair_rich_text.dart';
 
 class AssetPairTile extends StatelessWidget {
   final String imgUrl;
-  final Asset baseAsset;
-  final Asset quotingAsset;
+  final String baseAssetId;
+  final Asset pairBaseAsset;
+  final Asset pairQuotingAsset;
+  final double amountInBaseAsset;
   final double volume;
   final double price;
-  final double basePrice;
   final double change;
   final bool showTitle;
   final VoidCallback onTap;
 
   const AssetPairTile({
     @required this.imgUrl,
-    @required this.baseAsset,
-    @required this.quotingAsset,
+    @required this.baseAssetId,
+    @required this.pairBaseAsset,
+    @required this.pairQuotingAsset,
+    @required this.amountInBaseAsset,
     @required this.volume,
     @required this.price,
-    @required this.basePrice,
     @required this.change,
     this.showTitle = false,
     this.onTap,
@@ -57,7 +59,7 @@ class AssetPairTile extends StatelessWidget {
                   AppUiHelpers.hSpaceExtraSmall,
                   Flexible(
                     child: Text(
-                      baseAsset.name,
+                      pairBaseAsset.name,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.subtitle2.copyWith(
                             fontSize: 14.0,
@@ -79,8 +81,8 @@ class AssetPairTile extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     PairRichText(
-                      symbol1: baseAsset.id,
-                      symbol2: quotingAsset.id,
+                      symbol1: pairBaseAsset.id,
+                      symbol2: pairQuotingAsset.id,
                     ),
                     AppUiHelpers.vSpaceExtraSmall,
                     Text(
@@ -110,8 +112,7 @@ class AssetPairTile extends StatelessWidget {
                     ),
                     AppUiHelpers.vSpaceExtraSmall,
                     Text(
-                      // '${baseAsset.symbol} ${NumberFormat.currency(locale: 'eu', symbol: '').format(basePrice)}',
-                      '—',
+                      '$baseAssetId ${NumberFormat.currency(locale: 'eu', symbol: '').format(amountInBaseAsset)}',
                       style: textStyleButton.copyWith(
                         fontSize: 12.0,
                         color: AppColors.secondary,

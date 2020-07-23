@@ -53,6 +53,9 @@ class AssetsController extends GetxController {
   Asset assetById(String id) =>
       assetList.firstWhere((a) => a.id == id, orElse: () => null);
 
+  AmountInBaseAssetResponse_AmountInBasePayload amountInBaseById(String id) =>
+      amountsInBase.firstWhere((a) => a.assetId == id, orElse: () => null);
+
   AssetCategory categoryById(String id) =>
       categoryList.firstWhere((c) => c.id == id, orElse: () => null);
 

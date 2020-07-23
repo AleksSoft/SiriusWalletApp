@@ -41,9 +41,10 @@ class ExchangePage extends StatelessWidget {
                   children: _.markets
                       .map((e) => AssetPairTile(
                             imgUrl: e.iconUrl,
-                            baseAsset: e.baseAsset,
-                            quotingAsset: e.quotingAsset,
-                            basePrice: e.basePrice,
+                            baseAssetId: e.baseAssetId,
+                            pairBaseAsset: e.pairBaseAsset,
+                            pairQuotingAsset: e.pairQuotingAsset,
+                            amountInBaseAsset: e.amountInBaseAsset,
                             volume: e.volume,
                             price: e.price,
                             change: e.change,

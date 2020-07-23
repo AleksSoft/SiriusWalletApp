@@ -68,9 +68,17 @@ class MarketsController extends GetxController {
         if (pair != null) {
           var baseAsset = _assetsController.assetById(pair.baseAssetId);
           var quotingAsset = _assetsController.assetById(pair.quotingAssetId);
+          var amount = _assetsController.amountInBaseById(pair.baseAssetId);
           if (baseAsset != null && quotingAsset != null) {
             _initialMarketList.add(
-              _buildMarketModel(m, pair, baseAsset, quotingAsset),
+              _buildMarketModel(
+                m,
+                pair,
+                baseAsset,
+                quotingAsset,
+                amount == null ? '0.0' : amount.amountInBase,
+                _assetsController.baseAssetId,
+              ),
             );
           }
         }
@@ -91,17 +99,20 @@ class MarketsController extends GetxController {
   MarketModel _buildMarketModel(
     MarketsResponse_MarketModel responseModel,
     AssetPair pair,
-    Asset baseAsset,
-    Asset quotingAsset,
+    Asset pairBaseAsset,
+    Asset pairQuotingAsset,
+    String amountInBase,
+    String baseAssetId,
   ) {
     return MarketModel(
-      iconUrl: _assetsController.categoryById(baseAsset.categoryId).iconUrl,
+      iconUrl: _assetsController.categoryById(pairBaseAsset.categoryId).iconUrl,
       pairId: pair.id,
-      baseAsset: baseAsset,
-      quotingAsset: quotingAsset,
+      baseAssetId: baseAssetId,
+      pairBaseAsset: pairBaseAsset,
+      pairQuotingAsset: pairQuotingAsset,
+      amountInBaseAsset: double.parse(responseModel.ask),
       volume: double.parse(responseModel.volume24H),
       price: double.parse(responseModel.lastPrice),
-      basePrice: double.parse(responseModel.ask),
       change: double.parse(responseModel.priceChange24H),
     );
   }
@@ -110,21 +121,23 @@ class MarketsController extends GetxController {
 class MarketModel {
   String iconUrl;
   String pairId;
-  Asset baseAsset;
-  Asset quotingAsset;
+  String baseAssetId;
+  Asset pairBaseAsset;
+  Asset pairQuotingAsset;
+  double amountInBaseAsset;
   double volume;
   double price;
-  double basePrice;
   double change;
 
   MarketModel({
     @required this.iconUrl,
     @required this.pairId,
-    @required this.baseAsset,
-    @required this.quotingAsset,
+    @required this.baseAssetId,
+    @required this.pairBaseAsset,
+    @required this.pairQuotingAsset,
+    @required this.amountInBaseAsset,
     @required this.volume,
     @required this.price,
-    @required this.basePrice,
     @required this.change,
   });
 

@@ -105,10 +105,11 @@ class AssetInfoDetailsView extends StatelessWidget {
                   children: _.assetPairsShort
                       .map((e) => AssetPairTile(
                             imgUrl: MockApiService.lykkeIconUrl,
-                            baseAsset: Asset.getDefault(),
-                            quotingAsset: Asset.getDefault(),
+                            baseAssetId: 'BA',
+                            pairBaseAsset: Asset.getDefault(),
+                            pairQuotingAsset: Asset.getDefault(),
                             volume: 0.0,
-                            basePrice: 0.0,
+                            amountInBaseAsset: 0.0,
                             price: 0.0,
                             change: 0.0,
                             onTap: () => Get.toNamed(
@@ -140,10 +141,11 @@ class AssetInfoDetailsView extends StatelessWidget {
           ),
           child: AssetPairTile(
             imgUrl: MockApiService.lykkeIconUrl,
-            baseAsset: Asset.getDefault(),
-            quotingAsset: Asset.getDefault(),
+            baseAssetId: 'BA',
+            pairBaseAsset: Asset.getDefault(),
+            pairQuotingAsset: Asset.getDefault(),
             volume: 0.0,
-            basePrice: 0.0,
+            amountInBaseAsset: 0.0,
             price: 0.0,
             change: 0.0,
             showTitle: true,
