@@ -1,5 +1,6 @@
 import 'package:antares_wallet/app/common/app_storage_keys.dart';
 import 'package:antares_wallet/bindings/initial_binding.dart';
+import 'package:antares_wallet/bindings/root_binding.dart';
 import 'package:antares_wallet/bindings/profile_binding.dart';
 import 'package:antares_wallet/bindings/settings_binding.dart';
 import 'package:antares_wallet/bindings/support_binding.dart';
@@ -23,20 +24,22 @@ import 'package:antares_wallet/ui/pages/root/root_page.dart';
 import 'package:antares_wallet/ui/pages/select_asset/select_asset_page.dart';
 import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 class AppRoutes {
-  static bool get _hasToken => GetStorage().hasData(AppStorageKeys.token);
-
   static final routes = [
     GetPage(
       name: InitialPage.route,
-      page: () => _hasToken ? RootPage() : InitialPage(),
-      binding: InitialPageBinding(),
+      page: () => InitialPage(),
+      binding: InitialBinding(),
     ),
     GetPage(
       name: LoginPage.route,
       page: () => LoginPage(),
+    ),
+    GetPage(
+      name: RootPage.route,
+      page: () => RootPage(),
+      binding: RootPageBinding(),
     ),
     GetPage(
       name: SettingsPage.route,

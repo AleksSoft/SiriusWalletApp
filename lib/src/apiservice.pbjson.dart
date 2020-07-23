@@ -71,6 +71,13 @@ const CandlesRequest$json = const {
   ],
 };
 
+const AmountInBaseRequest$json = const {
+  '1': 'AmountInBaseRequest',
+  '2': const [
+    const {'1': 'assetId', '3': 1, '4': 1, '5': 9, '10': 'assetId'},
+  ],
+};
+
 const MarketsRequest$json = const {
   '1': 'MarketsRequest',
   '2': const [
@@ -414,6 +421,22 @@ const PendingActionsResponse_PendingActionsPayload$json = const {
     const {'1': 'pendingOperations', '3': 5, '4': 1, '5': 8, '10': 'pendingOperations'},
     const {'1': 'ethereumPendingActions', '3': 6, '4': 1, '5': 8, '10': 'ethereumPendingActions'},
     const {'1': 'sessionConfirmation', '3': 7, '4': 1, '5': 8, '10': 'sessionConfirmation'},
+  ],
+};
+
+const AmountInBaseAssetResponse$json = const {
+  '1': 'AmountInBaseAssetResponse',
+  '2': const [
+    const {'1': 'values', '3': 1, '4': 3, '5': 11, '6': '.antaresWallet.AmountInBaseAssetResponse.AmountInBasePayload', '10': 'values'},
+  ],
+  '3': const [AmountInBaseAssetResponse_AmountInBasePayload$json],
+};
+
+const AmountInBaseAssetResponse_AmountInBasePayload$json = const {
+  '1': 'AmountInBasePayload',
+  '2': const [
+    const {'1': 'assetId', '3': 1, '4': 1, '5': 9, '10': 'assetId'},
+    const {'1': 'amountInBase', '3': 2, '4': 1, '5': 9, '10': 'amountInBase'},
   ],
 };
 

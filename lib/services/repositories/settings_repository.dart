@@ -27,7 +27,7 @@ class SettingsRepository {
     String settingsStr = await _storage.read(AppStorageKeys.settingsData);
 
     AppSettingsResponse_AppSettingsData data = settingsStr == null
-        ? (await ApiService.client.getAppSettings(Empty())).result
+        ? (await Get.find<ApiService>().client.getAppSettings(Empty())).result
         : AppSettingsResponse_AppSettingsData.fromJson(settingsStr);
 
     if (_settingsData != data) {

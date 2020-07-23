@@ -8,7 +8,8 @@ import 'package:get/state_manager.dart';
 class PricesController extends GetxController {
   static PricesController get con => Get.find();
 
-  final Stream<PriceUpdate> pricesStream = ApiService.client
+  final Stream<PriceUpdate> pricesStream = Get.find<ApiService>()
+      .client
       .getPriceUpdates(PriceUpdatesRequest())
       .asBroadcastStream();
   final currentPrices = List<PriceUpdate>().obs;
@@ -17,8 +18,9 @@ class PricesController extends GetxController {
 
   @override
   void onInit() async {
-    currentPrices
-        .addAll((await ApiService.client.getPrices(PricesRequest())).prices);
+    currentPrices.addAll(
+        (await Get.find<ApiService>().client.getPrices(PricesRequest()))
+            .prices);
     _subscription = pricesStream.listen((value) => _updatePrice(value));
     super.onInit();
   }

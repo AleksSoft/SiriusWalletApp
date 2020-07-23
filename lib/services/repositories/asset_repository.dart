@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 class AssetsRepository {
   static Future<AssetsDictionaryResponse> assetsDictionary() async {
     try {
-      return await ApiService.client.assetsDictionary(Empty());
+      return await Get.find<ApiService>().client.assetsDictionary(Empty());
     } catch (e) {
       Future.delayed(Duration()).then(
         (_) => Get.defaultDialog(
@@ -22,7 +22,9 @@ class AssetsRepository {
 
   static Future<String> getBaseAsset() async {
     try {
-      return (await ApiService.client.getBaseAsset(Empty())).baseAsset.assetId;
+      return (await Get.find<ApiService>().client.getBaseAsset(Empty()))
+          .baseAsset
+          .assetId;
     } catch (e) {
       Future.delayed(Duration()).then(
         (_) => Get.defaultDialog(
@@ -37,7 +39,8 @@ class AssetsRepository {
 
   static Future<void> setBaseAsset(String id) async {
     try {
-      await ApiService.client
+      await Get.find<ApiService>()
+          .client
           .setBaseAsset(BaseAssetUpdateRequest()..baseAssetId = id);
     } catch (e) {
       Future.delayed(Duration()).then(
@@ -52,7 +55,8 @@ class AssetsRepository {
 
   static Future<List<AssetPair>> getAssetPairs() async {
     try {
-      return (await ApiService.client.getAssetPairs(Empty())).assetPairs;
+      return (await Get.find<ApiService>().client.getAssetPairs(Empty()))
+          .assetPairs;
     } catch (e) {
       Future.delayed(Duration()).then(
         (_) => Get.defaultDialog(

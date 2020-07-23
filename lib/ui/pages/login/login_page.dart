@@ -22,8 +22,7 @@ class LoginPage extends StatelessWidget {
           color: Colors.white,
           child: Padding(
             padding: const EdgeInsets.all(36.0),
-            child: GetBuilder<LoginController>(
-              init: LoginController(),
+            child: GetX<LoginController>(
               builder: (_) => Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -36,7 +35,47 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                   AppUiHelpers.vSpaceExtraLarge,
-                  TextFormField(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text('Url:', style: Get.textTheme.headline6),
+                      AppUiHelpers.hSpaceMedium,
+                      DropdownButton<String>(
+                        value: _.urlDropValue,
+                        isDense: true,
+                        onChanged: (String s) => _.urlDropValue = s,
+                        items: LoginController.urls.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value ?? 'Custom'),
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  ),
+                  AppUiHelpers.vSpaceLarge,
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
+                    child: _.urlDropValue == null
+                        ? TextField(
+                            onChanged: (String s) => _.customUrl = s,
+                            obscureText: false,
+                            style: style,
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.fromLTRB(
+                                0.0,
+                                AppSizes.small,
+                                AppSizes.medium,
+                                AppSizes.small,
+                              ),
+                              hintText: "Custom url",
+                            ),
+                          )
+                        : SizedBox.shrink(),
+                  ),
+                  AppUiHelpers.vSpaceLarge,
+                  TextField(
+                    onChanged: (String s) => _.tokenValue = s,
                     obscureText: false,
                     style: style,
                     decoration: InputDecoration(
@@ -46,38 +85,30 @@ class LoginPage extends StatelessWidget {
                         AppSizes.medium,
                         AppSizes.small,
                       ),
-                      hintText: "Email",
-                    ),
-                  ),
-                  AppUiHelpers.vSpaceLarge,
-                  TextFormField(
-                    obscureText: true,
-                    style: style,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(
-                        0.0,
-                        AppSizes.small,
-                        AppSizes.medium,
-                        AppSizes.small,
-                      ),
-                      hintText: "Password",
+                      hintText: "Token (without 'Bearer' word)",
                     ),
                   ),
                   AppUiHelpers.vSpaceExtraLarge,
                   RaisedGradientButton(
-                    onPressed: () => _.login(),
+                    onPressed:
+                        _.loginAllowed ? () => _.saveTokenAndLogin() : null,
                     gradient: LinearGradient(
                       colors: [Colors.grey[300], Colors.grey[300]],
                     ),
-                    child: Text(
-                      "Sign in",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Proxima_Nova',
-                        fontSize: 20.0,
-                        color: AppColors.secondary,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 300),
+                      child: !_.loading
+                          ? Text(
+                              "Sign in",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: 'Proxima_Nova',
+                                fontSize: 20.0,
+                                color: AppColors.secondary,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          : CircularProgressIndicator(),
                     ),
                   ),
                   AppUiHelpers.vSpaceLarge,

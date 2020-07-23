@@ -171,6 +171,37 @@ class CandlesRequest extends $pb.GeneratedMessage {
   $3.Timestamp ensureTo() => $_ensure(4);
 }
 
+class AmountInBaseRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('AmountInBaseRequest', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOS(1, 'assetId', protoName: 'assetId')
+    ..hasRequiredFields = false
+  ;
+
+  AmountInBaseRequest._() : super();
+  factory AmountInBaseRequest() => create();
+  factory AmountInBaseRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AmountInBaseRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  AmountInBaseRequest clone() => AmountInBaseRequest()..mergeFromMessage(this);
+  AmountInBaseRequest copyWith(void Function(AmountInBaseRequest) updates) => super.copyWith((message) => updates(message as AmountInBaseRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static AmountInBaseRequest create() => AmountInBaseRequest._();
+  AmountInBaseRequest createEmptyInstance() => create();
+  static $pb.PbList<AmountInBaseRequest> createRepeated() => $pb.PbList<AmountInBaseRequest>();
+  @$core.pragma('dart2js:noInline')
+  static AmountInBaseRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AmountInBaseRequest>(create);
+  static AmountInBaseRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get assetId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set assetId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasAssetId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearAssetId() => clearField(1);
+}
+
 enum MarketsRequest_OptionalAssetPairId {
   assetPairId, 
   notSet
@@ -2053,6 +2084,72 @@ class PendingActionsResponse extends $pb.GeneratedMessage {
   void clearError() => clearField(2);
   @$pb.TagNumber(2)
   ErrorV1 ensureError() => $_ensure(1);
+}
+
+class AmountInBaseAssetResponse_AmountInBasePayload extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('AmountInBaseAssetResponse.AmountInBasePayload', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOS(1, 'assetId', protoName: 'assetId')
+    ..aOS(2, 'amountInBase', protoName: 'amountInBase')
+    ..hasRequiredFields = false
+  ;
+
+  AmountInBaseAssetResponse_AmountInBasePayload._() : super();
+  factory AmountInBaseAssetResponse_AmountInBasePayload() => create();
+  factory AmountInBaseAssetResponse_AmountInBasePayload.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AmountInBaseAssetResponse_AmountInBasePayload.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  AmountInBaseAssetResponse_AmountInBasePayload clone() => AmountInBaseAssetResponse_AmountInBasePayload()..mergeFromMessage(this);
+  AmountInBaseAssetResponse_AmountInBasePayload copyWith(void Function(AmountInBaseAssetResponse_AmountInBasePayload) updates) => super.copyWith((message) => updates(message as AmountInBaseAssetResponse_AmountInBasePayload));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static AmountInBaseAssetResponse_AmountInBasePayload create() => AmountInBaseAssetResponse_AmountInBasePayload._();
+  AmountInBaseAssetResponse_AmountInBasePayload createEmptyInstance() => create();
+  static $pb.PbList<AmountInBaseAssetResponse_AmountInBasePayload> createRepeated() => $pb.PbList<AmountInBaseAssetResponse_AmountInBasePayload>();
+  @$core.pragma('dart2js:noInline')
+  static AmountInBaseAssetResponse_AmountInBasePayload getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AmountInBaseAssetResponse_AmountInBasePayload>(create);
+  static AmountInBaseAssetResponse_AmountInBasePayload _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get assetId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set assetId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasAssetId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearAssetId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get amountInBase => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set amountInBase($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasAmountInBase() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearAmountInBase() => clearField(2);
+}
+
+class AmountInBaseAssetResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('AmountInBaseAssetResponse', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..pc<AmountInBaseAssetResponse_AmountInBasePayload>(1, 'values', $pb.PbFieldType.PM, subBuilder: AmountInBaseAssetResponse_AmountInBasePayload.create)
+    ..hasRequiredFields = false
+  ;
+
+  AmountInBaseAssetResponse._() : super();
+  factory AmountInBaseAssetResponse() => create();
+  factory AmountInBaseAssetResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AmountInBaseAssetResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  AmountInBaseAssetResponse clone() => AmountInBaseAssetResponse()..mergeFromMessage(this);
+  AmountInBaseAssetResponse copyWith(void Function(AmountInBaseAssetResponse) updates) => super.copyWith((message) => updates(message as AmountInBaseAssetResponse));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static AmountInBaseAssetResponse create() => AmountInBaseAssetResponse._();
+  AmountInBaseAssetResponse createEmptyInstance() => create();
+  static $pb.PbList<AmountInBaseAssetResponse> createRepeated() => $pb.PbList<AmountInBaseAssetResponse>();
+  @$core.pragma('dart2js:noInline')
+  static AmountInBaseAssetResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AmountInBaseAssetResponse>(create);
+  static AmountInBaseAssetResponse _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<AmountInBaseAssetResponse_AmountInBasePayload> get values => $_getList(0);
 }
 
 class LimitOrdersResponse_OrdersPayload extends $pb.GeneratedMessage {

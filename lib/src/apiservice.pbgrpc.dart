@@ -68,6 +68,12 @@ class ApiServiceClient extends $grpc.Client {
           ($0.Empty value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $1.PendingActionsResponse.fromBuffer(value));
+  static final _$getAmountInBaseAsset =
+      $grpc.ClientMethod<$1.AmountInBaseRequest, $1.AmountInBaseAssetResponse>(
+          '/antaresWallet.ApiService/GetAmountInBaseAsset',
+          ($1.AmountInBaseRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $1.AmountInBaseAssetResponse.fromBuffer(value));
   static final _$getOrders =
       $grpc.ClientMethod<$1.LimitOrdersRequest, $1.LimitOrdersResponse>(
           '/antaresWallet.ApiService/GetOrders',
@@ -336,6 +342,15 @@ class ApiServiceClient extends $grpc.Client {
       {$grpc.CallOptions options}) {
     final call = $createCall(
         _$getPendingActions, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
+  $grpc.ResponseFuture<$1.AmountInBaseAssetResponse> getAmountInBaseAsset(
+      $1.AmountInBaseRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$getAmountInBaseAsset, $async.Stream.fromIterable([request]),
         options: options);
     return $grpc.ResponseFuture(call);
   }
@@ -706,6 +721,15 @@ abstract class ApiServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
         ($1.PendingActionsResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.AmountInBaseRequest,
+            $1.AmountInBaseAssetResponse>(
+        'GetAmountInBaseAsset',
+        getAmountInBaseAsset_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $1.AmountInBaseRequest.fromBuffer(value),
+        ($1.AmountInBaseAssetResponse value) => value.writeToBuffer()));
     $addMethod(
         $grpc.ServiceMethod<$1.LimitOrdersRequest, $1.LimitOrdersResponse>(
             'GetOrders',
@@ -1029,6 +1053,12 @@ abstract class ApiServiceBase extends $grpc.Service {
     return getPendingActions(call, await request);
   }
 
+  $async.Future<$1.AmountInBaseAssetResponse> getAmountInBaseAsset_Pre(
+      $grpc.ServiceCall call,
+      $async.Future<$1.AmountInBaseRequest> request) async {
+    return getAmountInBaseAsset(call, await request);
+  }
+
   $async.Future<$1.LimitOrdersResponse> getOrders_Pre($grpc.ServiceCall call,
       $async.Future<$1.LimitOrdersRequest> request) async {
     return getOrders(call, await request);
@@ -1233,6 +1263,8 @@ abstract class ApiServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $1.MarketsRequest request);
   $async.Future<$1.PendingActionsResponse> getPendingActions(
       $grpc.ServiceCall call, $0.Empty request);
+  $async.Future<$1.AmountInBaseAssetResponse> getAmountInBaseAsset(
+      $grpc.ServiceCall call, $1.AmountInBaseRequest request);
   $async.Future<$1.LimitOrdersResponse> getOrders(
       $grpc.ServiceCall call, $1.LimitOrdersRequest request);
   $async.Future<$1.PlaceOrderResponse> placeLimitOrder(

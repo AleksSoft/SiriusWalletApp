@@ -9,7 +9,7 @@ class MarketsRepository {
     try {
       var request = MarketsRequest();
       if (assetPairId != null) request.assetPairId = assetPairId;
-      final response = await ApiService.client.getMarkets(request);
+      final response = await Get.find<ApiService>().client.getMarkets(request);
       return response.markets;
     } catch (e) {
       Get.defaultDialog(

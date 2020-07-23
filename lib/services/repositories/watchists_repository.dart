@@ -6,7 +6,8 @@ import 'package:get/get.dart';
 class WatchlistsRepository {
   static Future<List<Watchlist>> getWatchlists() async {
     try {
-      final response = await ApiService.client.getWatchlists(Empty());
+      final response =
+          await Get.find<ApiService>().client.getWatchlists(Empty());
       return response.result;
     } catch (e) {
       Get.defaultDialog(
@@ -20,9 +21,9 @@ class WatchlistsRepository {
 
   static Future<Watchlist> getWatchlist(String id) async {
     try {
-      final response = await ApiService.client.getWatchlist(
-        WatchlistRequest()..id = id,
-      );
+      final response = await Get.find<ApiService>().client.getWatchlist(
+            WatchlistRequest()..id = id,
+          );
       return response.result;
     } catch (e) {
       Get.defaultDialog(
@@ -40,12 +41,12 @@ class WatchlistsRepository {
     List<String> assetIds,
   ) async {
     try {
-      final response = await ApiService.client.addWatchlist(
-        AddWatchlistRequest.create()
-          ..name = name
-          ..order = order
-          ..assetIds.addAll(assetIds),
-      );
+      final response = await Get.find<ApiService>().client.addWatchlist(
+            AddWatchlistRequest.create()
+              ..name = name
+              ..order = order
+              ..assetIds.addAll(assetIds),
+          );
       return response.result;
     } catch (e) {
       Future.delayed(Duration()).then(
@@ -66,13 +67,13 @@ class WatchlistsRepository {
     List<String> assetIds,
   ) async {
     try {
-      final response = await ApiService.client.updateWatchlist(
-        UpdateWatchlistRequest.create()
-          ..id = id
-          ..name = name
-          ..order = order
-          ..assetIds.addAll(assetIds),
-      );
+      final response = await Get.find<ApiService>().client.updateWatchlist(
+            UpdateWatchlistRequest.create()
+              ..id = id
+              ..name = name
+              ..order = order
+              ..assetIds.addAll(assetIds),
+          );
       return response.result;
     } catch (e) {
       Get.defaultDialog(
@@ -86,9 +87,9 @@ class WatchlistsRepository {
 
   static Future<void> deleteWatchlist(String id) async {
     try {
-      await ApiService.client.deleteWatchlist(
-        DeleteWatchlistRequest()..id = id,
-      );
+      await Get.find<ApiService>().client.deleteWatchlist(
+            DeleteWatchlistRequest()..id = id,
+          );
     } catch (e) {
       Get.defaultDialog(
         title: 'Error',

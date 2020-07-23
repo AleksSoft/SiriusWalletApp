@@ -9,7 +9,7 @@ class OrdersRepository {
     try {
       var request = LimitOrdersRequest();
       if (assetPairId != null) request.assetPairId = assetPairId;
-      final response = await ApiService.client.getOrders(request);
+      final response = await Get.find<ApiService>().client.getOrders(request);
       return response.result.orders;
     } catch (e) {
       Get.defaultDialog(
@@ -37,7 +37,7 @@ class OrdersRepository {
       if (fromDate != null) request.from = fromDate;
       if (toDate != null) request.to = toDate;
 
-      final response = await ApiService.client.getTrades(request);
+      final response = await Get.find<ApiService>().client.getTrades(request);
       return response.trades;
     } catch (e) {
       Future.delayed(Duration()).then((value) => Get.defaultDialog(
@@ -50,9 +50,9 @@ class OrdersRepository {
 
   static Future<bool> cancelOrder(String orderId) async {
     try {
-      final response = await ApiService.client.cancelOrder(
-        CancelOrderRequest()..orderId = orderId,
-      );
+      final response = await Get.find<ApiService>().client.cancelOrder(
+            CancelOrderRequest()..orderId = orderId,
+          );
       return response.payload;
     } catch (e) {
       Get.defaultDialog(
@@ -66,9 +66,9 @@ class OrdersRepository {
 
   static Future<bool> cancelAllOrders() async {
     try {
-      final response = await ApiService.client.cancelAllOrders(
-        CancelOrdersRequest(),
-      );
+      final response = await Get.find<ApiService>().client.cancelAllOrders(
+            CancelOrdersRequest(),
+          );
       return response.payload;
     } catch (e) {
       Get.defaultDialog(
@@ -87,13 +87,13 @@ class OrdersRepository {
     @required double price,
   }) async {
     try {
-      final response = await ApiService.client.placeLimitOrder(
-        LimitOrderRequest()
-          ..assetPairId = assetPairId
-          ..assetId = assetId
-          ..volume = volume
-          ..price = price,
-      );
+      final response = await Get.find<ApiService>().client.placeLimitOrder(
+            LimitOrderRequest()
+              ..assetPairId = assetPairId
+              ..assetId = assetId
+              ..volume = volume
+              ..price = price,
+          );
       return response.result.order;
     } catch (e) {
       Get.defaultDialog(
@@ -111,12 +111,12 @@ class OrdersRepository {
     @required double volume,
   }) async {
     try {
-      final response = await ApiService.client.placeMarketOrder(
-        MarketOrderRequest()
-          ..assetPairId = assetPairId
-          ..assetId = assetId
-          ..volume = volume,
-      );
+      final response = await Get.find<ApiService>().client.placeMarketOrder(
+            MarketOrderRequest()
+              ..assetPairId = assetPairId
+              ..assetId = assetId
+              ..volume = volume,
+          );
       return response.result.order;
     } catch (e) {
       Get.defaultDialog(
