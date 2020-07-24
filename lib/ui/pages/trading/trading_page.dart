@@ -104,12 +104,10 @@ class TradingPage extends StatelessWidget {
           ),
           child: AssetPairTile(
             imgUrl: MockApiService.lykkeIconUrl,
-            baseAssetId: 'BA',
             pairBaseAsset: Asset.getDefault(),
             pairQuotingAsset: Asset.getDefault(),
             volume: 0.0,
-            amountInBaseAsset: 0.0,
-            price: 0.0,
+            lastPrice: 0.0,
             change: 0.0,
             showTitle: true,
             onTap: () {

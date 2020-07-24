@@ -17,12 +17,11 @@ class RootPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final styleSel = Get.textTheme.caption.copyWith(color: AppColors.accent);
     final style = Get.textTheme.caption.copyWith(color: AppColors.dark);
-    return GetBuilder<RootController>(
-      init: RootController(),
+    return GetX<RootController>(
       builder: (_) {
         return Scaffold(
           body: IndexedStack(
-            index: _.currentIndex,
+            index: _.pageIndex,
             children: [
               HomePage(),
               PortfolioPage(),
@@ -37,8 +36,8 @@ class RootPage extends StatelessWidget {
             ),
             child: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
-              currentIndex: _.currentIndex,
-              onTap: (val) => _.updatePage(val),
+              currentIndex: _.pageIndex,
+              onTap: (val) => _.pageIndex = val,
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               items: [
                 BottomNavigationBarItem(

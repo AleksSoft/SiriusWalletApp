@@ -21,7 +21,7 @@ class SelectAssetController extends GetxController {
 
   List<Asset> get assetList {
     var list = _assetsController.assetList;
-    return isOnlyBase ? list.where((a) => a.canBeBase) : list;
+    return isOnlyBase ? list.where((a) => a.canBeBase).toList() : list;
   }
 
   Asset selectedAsset = (Get.arguments as SelectAssetArgs).selectedAsset;

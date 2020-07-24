@@ -6,6 +6,7 @@ import 'package:antares_wallet/controllers/prices_controller.dart';
 import 'package:antares_wallet/services/repositories/markets_repository.dart';
 import 'package:antares_wallet/services/repositories/watchists_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:antares_wallet/ui/pages/root/root_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -14,6 +15,7 @@ class MarketsController extends GetxController {
   static MarketsController get con => Get.find();
 
   final _assetsController = Get.find<AssetsController>();
+  final _rootController = Get.find<RootController>();
 
   final List<MarketModel> _initialMarketList = List<MarketModel>();
 
@@ -26,6 +28,9 @@ class MarketsController extends GetxController {
   void onInit() async {
     ever(_assetsController.initialized, (inited) async {
       if (inited) await rebuildWatchedMarkets();
+    });
+    ever(_rootController.pageIndexObs, (pageIndex) async {
+      if (pageIndex == 2) await rebuildWatchedMarkets();
     });
     _priceSubscription = Get.find<PricesController>()
         .pricesStream
@@ -40,8 +45,9 @@ class MarketsController extends GetxController {
   }
 
   Future<void> rebuildWatchedMarkets() async {
+    update();
     String id = GetStorage().read(AppStorageKeys.watchlistId);
-    _initMarketsListIfNeeded();
+    _initMarketsListIfNeeded(force: true);
     if (id != null && id.isNotEmpty) {
       List<MarketModel> result = List();
       (await WatchlistsRepository.getWatchlist(id)).assetIds.forEach((id) {
@@ -66,19 +72,12 @@ class MarketsController extends GetxController {
         var pair = _assetsController.assetPairById(m.assetPair);
         // check if nothing is null
         if (pair != null) {
-          var baseAsset = _assetsController.assetById(pair.baseAssetId);
-          var quotingAsset = _assetsController.assetById(pair.quotingAssetId);
-          var amount = _assetsController.amountInBaseById(pair.baseAssetId);
-          if (baseAsset != null && quotingAsset != null) {
+          var pairBaseAsset = _assetsController.assetById(pair.baseAssetId);
+          var pairQuotingAsset =
+              _assetsController.assetById(pair.quotingAssetId);
+          if (pairBaseAsset != null && pairQuotingAsset != null) {
             _initialMarketList.add(
-              _buildMarketModel(
-                m,
-                pair,
-                baseAsset,
-                quotingAsset,
-                amount == null ? '0.0' : amount.amountInBase,
-                _assetsController.baseAssetId,
-              ),
+              _buildMarketModel(m, pair, pairBaseAsset, pairQuotingAsset),
             );
           }
         }
@@ -101,16 +100,12 @@ class MarketsController extends GetxController {
     AssetPair pair,
     Asset pairBaseAsset,
     Asset pairQuotingAsset,
-    String amountInBase,
-    String baseAssetId,
   ) {
     return MarketModel(
       iconUrl: _assetsController.categoryById(pairBaseAsset.categoryId).iconUrl,
       pairId: pair.id,
-      baseAssetId: baseAssetId,
       pairBaseAsset: pairBaseAsset,
       pairQuotingAsset: pairQuotingAsset,
-      amountInBaseAsset: double.parse(responseModel.ask),
       volume: double.parse(responseModel.volume24H),
       price: double.parse(responseModel.lastPrice),
       change: double.parse(responseModel.priceChange24H),
@@ -121,10 +116,8 @@ class MarketsController extends GetxController {
 class MarketModel {
   String iconUrl;
   String pairId;
-  String baseAssetId;
   Asset pairBaseAsset;
   Asset pairQuotingAsset;
-  double amountInBaseAsset;
   double volume;
   double price;
   double change;
@@ -132,10 +125,8 @@ class MarketModel {
   MarketModel({
     @required this.iconUrl,
     @required this.pairId,
-    @required this.baseAssetId,
     @required this.pairBaseAsset,
     @required this.pairQuotingAsset,
-    @required this.amountInBaseAsset,
     @required this.volume,
     @required this.price,
     @required this.change,

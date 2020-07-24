@@ -6,6 +6,7 @@ import 'package:antares_wallet/services/repositories/portfolio_history_repositor
 import 'package:antares_wallet/controllers/prices_controller.dart';
 import 'package:antares_wallet/controllers/watchlists_controller.dart';
 import 'package:antares_wallet/controllers/orders_controller.dart';
+import 'package:antares_wallet/ui/pages/root/root_controller.dart';
 import 'package:get/get.dart';
 
 class RootPageBinding extends Bindings {
@@ -16,6 +17,7 @@ class RootPageBinding extends Bindings {
 
     Get.put<PortfolioHistoryRepository>(PortfolioHistoryRepository());
 
+    Get.put<RootController>(RootController());
     Get.put<PricesController>(PricesController());
     Get.put<AssetsController>(AssetsController());
     Get.put<OrdersController>(OrdersController());

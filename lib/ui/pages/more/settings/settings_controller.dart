@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 class SettingsController extends GetxController {
   static SettingsController get con => Get.find();
   final _repository = Get.find<SettingsRepository>();
-  final _assetsController = Get.find<AssetsController>();
 
   List<String> _confirmKeyWords = [];
 
@@ -16,11 +15,15 @@ class SettingsController extends GetxController {
 
   AppSettingsResponse_AppSettingsData get settings => _repository.settings;
 
-  Asset get baseAsset => _assetsController.baseAsset;
+  Asset get baseAsset => Get.find<AssetsController>().baseAsset;
 
   List<String> get confirmKeyWords => _confirmKeyWords;
 
   List<String> get confirmKeyVariants => _confirmKeyVariants;
+
+  final _loading = false.obs;
+  get loading => this._loading.value;
+  set loading(value) => this._loading.value = value;
 
   bool get wordsMatch {
     // final words = _repository.settings.privateKey.split(' ');
@@ -34,15 +37,17 @@ class SettingsController extends GetxController {
   bool get phraseComplete => wordsMatch && _confirmKeyWords.length == 12;
 
   Future updateBaseAsset() async {
+    loading = true;
     final asset = await Get.toNamed(
       SelectAssetPage.route,
       arguments: SelectAssetArgs(
         title: 'select_asset'.tr,
         selectedAsset: baseAsset,
+        onlyBase: true,
       ),
     );
-    await _assetsController.setBaseAsset(asset.id);
-    update();
+    await Get.find<AssetsController>().setBaseAsset(asset.id);
+    loading = false;
   }
 
   void refreshConfirmKeyVariants() {

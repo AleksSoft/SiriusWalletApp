@@ -1,3 +1,4 @@
+import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/ui/pages/more/settings/settings_controller.dart';
 import 'package:antares_wallet/ui/pages/more/widgets/menu_tile.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,72 +13,81 @@ class SettingsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('settings'.tr),
       ),
-      body: GetBuilder<SettingsController>(
+      body: GetX<SettingsController>(
           init: SettingsController(),
           builder: (_) {
-            return ListView(
-              children: <Widget>[
-                MenuTile(
-                  title: 'base_asset'.tr,
-                  subtitle: _.baseAsset.name,
-                  icon: Icons.looks_one,
-                  iconColor: Colors.black,
-                  color: Colors.transparent,
-                  showDivider: false,
-                  onTap: () => _.updateBaseAsset(),
-                ),
-                MenuTile(
-                  title: 'push_notifications'.tr,
-                  icon: Icons.notifications,
-                  iconColor: Colors.black,
-                  color: Colors.transparent,
-                  showDivider: false,
-                  trailing: Switch(
-                    value: false,
-                    onChanged: (bool value) {},
-                  ),
-                ),
-                MenuTile(
-                  title: 'pin'.tr,
-                  subtitle: 'sign_order_with_pin'.tr,
-                  icon: Icons.dialpad,
-                  iconColor: Colors.black,
-                  color: Colors.transparent,
-                  showDivider: false,
-                  trailing: Switch(
-                    value: true,
-                    onChanged: (bool value) {},
-                  ),
-                ),
-                MenuTile(
-                  title: 'backup_private_key'.tr,
-                  icon: Icons.vpn_key,
-                  iconColor: Colors.black,
-                  color: Colors.transparent,
-                  showDivider: false,
-                  onTap: () => _.backupPrivateKey(),
-                ),
-                MenuTile(
-                  title: 'language'.tr,
-                  subtitle: Get.locale.languageCode,
-                  icon: Icons.language,
-                  iconColor: Colors.black,
-                  color: Colors.transparent,
-                  showDivider: false,
-                  onTap: () => showModalBottomSheet(
-                    context: context,
-                    builder: (context) => _ChooseLanguageView(),
-                  ),
-                ),
-                MenuTile(
-                  title: 'about'.tr,
-                  icon: Icons.info_outline,
-                  iconColor: Colors.black,
-                  color: Colors.transparent,
-                  showDivider: false,
-                  onTap: () => showAboutDialog(context: context),
-                ),
-              ],
+            return AnimatedSwitcher(
+              duration: Duration(milliseconds: 300),
+              child: _.loading
+                  ? Container(
+                      alignment: Alignment.center,
+                      color: AppColors.primary,
+                      child: CircularProgressIndicator(),
+                    )
+                  : ListView(
+                      children: <Widget>[
+                        MenuTile(
+                          title: 'base_asset'.tr,
+                          subtitle: _.baseAsset.name,
+                          icon: Icons.looks_one,
+                          iconColor: Colors.black,
+                          color: Colors.transparent,
+                          showDivider: false,
+                          onTap: () => _.updateBaseAsset(),
+                        ),
+                        MenuTile(
+                          title: 'push_notifications'.tr,
+                          icon: Icons.notifications,
+                          iconColor: Colors.black,
+                          color: Colors.transparent,
+                          showDivider: false,
+                          trailing: Switch(
+                            value: false,
+                            onChanged: (bool value) {},
+                          ),
+                        ),
+                        MenuTile(
+                          title: 'pin'.tr,
+                          subtitle: 'sign_order_with_pin'.tr,
+                          icon: Icons.dialpad,
+                          iconColor: Colors.black,
+                          color: Colors.transparent,
+                          showDivider: false,
+                          trailing: Switch(
+                            value: true,
+                            onChanged: (bool value) {},
+                          ),
+                        ),
+                        MenuTile(
+                          title: 'backup_private_key'.tr,
+                          icon: Icons.vpn_key,
+                          iconColor: Colors.black,
+                          color: Colors.transparent,
+                          showDivider: false,
+                          onTap: () => _.backupPrivateKey(),
+                        ),
+                        MenuTile(
+                          title: 'language'.tr,
+                          subtitle: Get.locale.languageCode,
+                          icon: Icons.language,
+                          iconColor: Colors.black,
+                          color: Colors.transparent,
+                          showDivider: false,
+                          onTap: () => showModalBottomSheet(
+                            context: context,
+                            builder: (context) => _ChooseLanguageView(),
+                          ),
+                        ),
+                        MenuTile(
+                          title: 'about'.tr,
+                          icon: Icons.info_outline,
+                          iconColor: Colors.black,
+                          color: Colors.transparent,
+                          showDivider: false,
+                          onTap: () => showAboutDialog(context: context),
+                        ),
+                      ],
+                    ),
             );
           }),
     );

@@ -2,14 +2,10 @@ import 'package:get/get.dart';
 
 class RootController extends GetxController {
   static RootController get con => Get.find();
-  int _currentIndex = 0;
 
-  int get currentIndex => _currentIndex;
+  final pageIndexObs = 0.obs;
+  get pageIndex => this.pageIndexObs.value;
+  set pageIndex(value) => this.pageIndexObs.value = value;
 
-  updatePage(int index) {
-    _currentIndex = index;
-    update();
-  }
-
-  bool isSelected(int index) => _currentIndex == index;
+  bool isSelected(int index) => pageIndex == index;
 }

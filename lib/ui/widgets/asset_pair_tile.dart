@@ -1,6 +1,7 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
+import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,30 +10,36 @@ import 'package:intl/intl.dart';
 import 'asset_pair_rich_text.dart';
 
 class AssetPairTile extends StatelessWidget {
+  final _assetC = Get.find<AssetsController>();
   final String imgUrl;
-  final String baseAssetId;
   final Asset pairBaseAsset;
   final Asset pairQuotingAsset;
-  final double amountInBaseAsset;
   final double volume;
-  final double price;
+  final double lastPrice;
   final double change;
   final bool showTitle;
   final VoidCallback onTap;
 
-  const AssetPairTile({
+  AssetPairTile({
     @required this.imgUrl,
-    @required this.baseAssetId,
     @required this.pairBaseAsset,
     @required this.pairQuotingAsset,
-    @required this.amountInBaseAsset,
     @required this.volume,
-    @required this.price,
+    @required this.lastPrice,
     @required this.change,
     this.showTitle = false,
     this.onTap,
     Key key,
   }) : super(key: key);
+
+  String get _formattedAmount {
+    var amount = _assetC.amountInBaseById(pairBaseAsset.id);
+    if (amount == null || GetUtils.isNullOrBlank(amount.amountInBase)) {
+      return '—';
+    } else {
+      return '${_assetC.baseAsset.name} ${NumberFormat.currency(locale: 'eu', symbol: '').format(double.parse(amount.amountInBase))}';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +111,7 @@ class AssetPairTile extends StatelessWidget {
                   children: [
                     Text(
                       NumberFormat.currency(locale: 'eu', symbol: '')
-                          .format(price),
+                          .format(lastPrice),
                       style: textStyleButton.copyWith(
                         fontSize: 16.0,
                         fontWeight: FontWeight.w600,
@@ -112,7 +119,7 @@ class AssetPairTile extends StatelessWidget {
                     ),
                     AppUiHelpers.vSpaceExtraSmall,
                     Text(
-                      '$baseAssetId ${NumberFormat.currency(locale: 'eu', symbol: '').format(amountInBaseAsset)}',
+                      _formattedAmount,
                       style: textStyleButton.copyWith(
                         fontSize: 12.0,
                         color: AppColors.secondary,

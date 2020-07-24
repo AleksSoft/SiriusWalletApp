@@ -81,6 +81,7 @@ class AssetsController extends GetxController {
   Future setBaseAsset(String id) async {
     await AssetsRepository.setBaseAsset(id);
     await getBaseAsset();
+    print('BASE ASSET: $baseAssetId');
   }
 
   Future getAssetPairs() async =>
