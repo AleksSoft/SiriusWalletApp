@@ -56,7 +56,7 @@ class MorePage extends StatelessWidget {
               MenuTile(
                 title: 'logout'.tr,
                 icon: Icons.exit_to_app,
-                onTap: () {},
+                onTap: () => _.signOut(),
                 color: Colors.red,
                 trailing: Icon(Icons.chevron_right),
               ),
