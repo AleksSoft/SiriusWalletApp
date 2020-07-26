@@ -15,7 +15,6 @@ dependencies:
   #business
   get: ^3.4.0
   get_storage: ^1.2.1
-  catcher: ^0.3.15
   intl: ^0.16.1
   equatable: ^1.2.0
   grpc: ^2.2.0

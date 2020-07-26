@@ -7,7 +7,7 @@ class NothingView extends StatelessWidget {
   const NothingView({
     Key key,
     @required this.header,
-    this.message,
+    @required this.message,
   }) : super(key: key);
 
   @override
