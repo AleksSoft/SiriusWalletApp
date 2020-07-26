@@ -1,13 +1,27 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
-import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class AssetListTile extends StatelessWidget {
   final VoidCallback onTap;
-  final Asset asset;
-  const AssetListTile(this.asset, {this.onTap, Key key}) : super(key: key);
+  final String imgUrl;
+  final String name;
+  final String symbol;
+  final double balance;
+  final double amountInBase;
+
+  const AssetListTile(
+    this.imgUrl,
+    this.name,
+    this.symbol,
+    this.balance,
+    this.amountInBase, {
+    this.onTap,
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +33,13 @@ class AssetListTile extends StatelessWidget {
             horizontal: AppSizes.medium,
             vertical: AppSizes.extraSmall,
           ),
-          leading: Image.asset(
-            'assets/images/logo_lykke.png',
+          leading: Image.network(
+            imgUrl,
             height: AppSizes.large,
             width: AppSizes.large,
           ),
           title: Text(
-            asset.name,
+            name,
             style: Theme.of(context).textTheme.subtitle1.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
@@ -35,14 +49,14 @@ class AssetListTile extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                '${asset.symbol} 0,00',
+                '$symbol ${NumberFormat.currency(locale: 'eu', symbol: '').format(balance)}',
                 style: Theme.of(context).textTheme.subtitle1.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
               ),
               AppUiHelpers.vSpaceSmall,
               Text(
-                'USD 0,00',
+                '${AssetsController.con.baseAssetId} ${NumberFormat.currency(locale: 'eu', symbol: '').format(amountInBase)}',
                 style: Theme.of(context).textTheme.caption,
               )
             ],

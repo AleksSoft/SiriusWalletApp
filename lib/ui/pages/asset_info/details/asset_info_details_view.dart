@@ -30,7 +30,7 @@ class AssetInfoDetailsView extends StatelessWidget {
           final markets = _.mockMarkets;
           return ListView(
             children: [
-              AssetListTile(_.asset),
+              AssetListTile('', '', '', 0.0, 0.0),
               AppUiHelpers.vSpaceMedium,
               ChipsChoice<AssetInfoPeriod>.single(
                 value: _.selectedPeriod,

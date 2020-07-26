@@ -4,7 +4,7 @@ import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/controllers/orders_controller.dart';
 import 'package:antares_wallet/ui/pages/orders/order_details/order_details_page.dart';
 import 'package:antares_wallet/ui/pages/orders/widgets/order_history_tile.dart';
-import 'package:antares_wallet/ui/widgets/nothing_view.dart';
+import 'package:antares_wallet/ui/widgets/empty_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -36,84 +36,86 @@ class OrdersPage extends StatelessWidget {
           children: <Widget>[
             RefreshIndicator(
               onRefresh: () => c.getOrders(),
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                child: c.orders.isNotEmpty
-                    ? Column(
+              child: GetX<OrdersController>(
+                  initState: (state) => c.getOrders(),
+                  builder: (_) {
+                    return EmptyView(
+                      header: 'No open orders yet',
+                      message: '',
+                      condition: _.orders.isEmpty,
+                      child: Column(
                         children: [
                           ButtonBar(
                             alignment: MainAxisAlignment.end,
                             buttonPadding: const EdgeInsets.all(0.0),
                             children: <Widget>[
-                              CupertinoButton(
-                                onPressed: () => c.cancelAllOrders(),
-                                child: Text('Cancel all',
-                                    style: Get.textTheme.button.copyWith(
-                                      color: AppColors.accent,
-                                      fontSize: 14.0,
-                                    )),
+                              AnimatedSwitcher(
+                                duration: Duration(milliseconds: 300),
+                                child: _.orders.isNotEmpty
+                                    ? CupertinoButton(
+                                        onPressed: () => c.cancelAllOrders(),
+                                        child: Text('Cancel all',
+                                            style:
+                                                Get.textTheme.button.copyWith(
+                                              color: AppColors.accent,
+                                              fontSize: 14.0,
+                                            )),
+                                      )
+                                    : SizedBox.shrink(),
                               )
                             ],
                           ),
-                          GetX<OrdersController>(
-                            initState: (state) => c.getOrders(),
-                            builder: (_) {
-                              return Expanded(
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: c.orders.length,
-                                  itemBuilder: (context, index) {
-                                    var pair = AssetsController.con
-                                        .assetPairById(
-                                            c.orders[index].assetPair);
-                                    var name1 = '';
-                                    var name2 = '';
-                                    if (pair != null) {
-                                      name1 = pair.name.split('/')[0];
-                                      name2 = pair.name.split('/')[1];
-                                    }
-                                    return OrderOpenTile(
-                                      data: OrderOpenData.fromOrder(
-                                        name1,
-                                        name2,
-                                        c.orders[index],
-                                      ),
-                                      onDismissed: () => c.cancelOrder(
-                                        c.orders[index].id,
-                                      ),
-                                      onTap: () =>
-                                          Get.toNamed(OrderDetailsPage.route),
-                                    );
-                                  },
-                                ),
-                              );
-                            },
+                          Expanded(
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: c.orders.length,
+                              itemBuilder: (context, index) {
+                                var pair = AssetsController.con
+                                    .assetPairById(c.orders[index].assetPair);
+                                var name1 = '';
+                                var name2 = '';
+                                if (pair != null) {
+                                  name1 = pair.name.split('/')[0];
+                                  name2 = pair.name.split('/')[1];
+                                }
+                                return OrderOpenTile(
+                                  data: OrderOpenData.fromOrder(
+                                    name1,
+                                    name2,
+                                    c.orders[index],
+                                  ),
+                                  onDismissed: () => c.cancelOrder(
+                                    c.orders[index].id,
+                                  ),
+                                  onTap: () =>
+                                      Get.toNamed(OrderDetailsPage.route),
+                                );
+                              },
+                            ),
                           ),
                         ],
-                      )
-                    : NothingView(header: 'No open orders yet', message: ''),
-              ),
+                      ),
+                    );
+                  }),
             ),
             RefreshIndicator(
               onRefresh: () => c.getTrades(10, 0),
               child: GetX<OrdersController>(
                 initState: (state) => c.getTrades(10, 0),
                 builder: (_) {
-                  return AnimatedSwitcher(
-                    duration: Duration(milliseconds: 300),
-                    child: c.orders.isNotEmpty
-                        ? ListView(
-                            padding: const EdgeInsets.only(top: AppSizes.small),
-                            shrinkWrap: true,
-                            children: c.trades
-                                .map((trade) => OrderHistoryTile(
-                                      data: OrderHistoryData.fromTradeModel(
-                                          trade),
-                                    ))
-                                .toList(),
-                          )
-                        : NothingView(
-                            header: 'No orders history yet', message: ''),
+                  return EmptyView(
+                    header: 'No orders history yet',
+                    message: '',
+                    condition: _.trades.isEmpty,
+                    child: ListView(
+                      padding: const EdgeInsets.only(top: AppSizes.small),
+                      shrinkWrap: true,
+                      children: c.trades
+                          .map((trade) => OrderHistoryTile(
+                                data: OrderHistoryData.fromTradeModel(trade),
+                              ))
+                          .toList(),
+                    ),
                   );
                 },
               ),

@@ -151,7 +151,7 @@ class _PortfolioHistoryPeriodFilterView extends StatelessWidget {
 
   Future _selectDate() async {
     final List<DateTime> picked = await DateRagePicker.showDatePicker(
-      context: Get.context,
+      context: Get.overlayContext,
       initialFirstDate: DateTime.fromMillisecondsSinceEpoch(
         c.filterTimeFrom,
       ),
