@@ -1,10 +1,15 @@
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/services/repositories/portfolio_repository.dart';
 import 'package:antares_wallet/src/apiservice.pbgrpc.dart';
+import 'package:antares_wallet/ui/pages/root/root_controller.dart';
 import 'package:get/get.dart';
 
 class PortfolioController extends GetxController {
   static PortfolioController get con => Get.find();
+
+  final _loading = false.obs;
+  get loading => this._loading.value;
+  set loading(value) => this._loading.value = value;
 
   final _categoryAssetsMap =
       Map<AssetCategory, List<WalletsResponse_WalletAsset>>().obs;
@@ -26,11 +31,11 @@ class PortfolioController extends GetxController {
 
   @override
   void onInit() async {
-    ever(_walletAssets, (assets) async {
-      await updateCategoryAssetsMap();
+    ever(AssetsController.con.initialized, (inited) {
+      if (inited) rebuildCategoryAssetsMap();
     });
-    ever(AssetsController.con.initialized, (inited) async {
-      if (inited) await getWalletAssets();
+    ever(RootController.con.pageIndexObs, (pageIndex) {
+      if (pageIndex == 1) rebuildCategoryAssetsMap();
     });
     super.onInit();
   }
@@ -38,7 +43,9 @@ class PortfolioController extends GetxController {
   double get balance => walletAssets.fold(
       0.0, (p, c) => p + double.parse(c.amountInBase, (_) => 0.0));
 
-  Future<void> updateCategoryAssetsMap() async {
+  Future<void> rebuildCategoryAssetsMap() async {
+    loading = true;
+    await getWalletAssets();
     AssetsController.con.categoryList.forEach((category) {
       var l = walletAssets.where((a) => a.categoryId == category.id).toList();
       if (l.isNotEmpty) {
@@ -50,6 +57,7 @@ class PortfolioController extends GetxController {
         categoryAssetsMap.putIfAbsent(category, () => l);
       }
     });
+    loading = false;
   }
 
   Future<void> getWalletAssets() async {

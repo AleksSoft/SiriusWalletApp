@@ -16,7 +16,7 @@ class PortfolioAssetsTabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () => c.getWalletAssets(),
+      onRefresh: () => c.rebuildCategoryAssetsMap(),
       child: ListView(
         physics: BouncingScrollPhysics(),
         padding: EdgeInsets.only(bottom: AppSizes.medium),
@@ -24,7 +24,6 @@ class PortfolioAssetsTabView extends StatelessWidget {
         children: [
           _PortfolioAssetsHeader(),
           GetX<PortfolioController>(
-            initState: (state) => c.getWalletAssets(),
             builder: (_) => Column(
               children: c.categoryAssetsMap.keys
                   .map((category) => _PortfolioCategoryBlock(category))
@@ -38,6 +37,7 @@ class PortfolioAssetsTabView extends StatelessWidget {
 }
 
 class _PortfolioAssetsHeader extends StatelessWidget {
+  final c = PortfolioController.con;
   @override
   Widget build(BuildContext context) {
     final titleTheme = Get.textTheme.headline5.copyWith(
@@ -54,9 +54,11 @@ class _PortfolioAssetsHeader extends StatelessWidget {
             'balance'.tr,
             style: Get.textTheme.caption.copyWith(fontSize: 14),
           ),
-          Text(
-            '${AssetsController.con.baseAssetId} ${NumberFormat.currency(locale: 'eu', symbol: '').format(PortfolioController.con.balance)}',
-            style: titleTheme,
+          Obx(
+            () => Text(
+              '${AssetsController.con.baseAssetId} ${c.loading ? '...' : NumberFormat.currency(locale: 'eu', symbol: '').format(c.balance)}',
+              style: titleTheme,
+            ),
           ),
         ],
       ),
@@ -114,7 +116,7 @@ class _PortfolioCategoryBlock extends StatelessWidget {
                   child: Text(
                     controller.expanded
                         ? 'show_less'.tr
-                        : 'show_more'.trArgs(['0']),
+                        : 'show_more'.trArgs(['${assets.length - 3}']),
                   ),
                 );
               },

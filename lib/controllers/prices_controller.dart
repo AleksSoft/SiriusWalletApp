@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/src/apiservice.pbgrpc.dart';
 import 'package:get/get.dart';
-import 'package:get/state_manager.dart';
 
 class PricesController extends GetxController {
   static PricesController get con => Get.find();

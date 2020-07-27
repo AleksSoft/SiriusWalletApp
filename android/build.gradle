@@ -3,9 +3,6 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven {
-            url 'https://maven.fabric.io/public'
-        }
     }
 
     dependencies {
@@ -13,8 +10,6 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.gms:google-services:4.3.3'
         classpath 'com.google.firebase:firebase-appdistribution-gradle:1.4.1'
-        // Add fabric classpath
-        classpath 'io.fabric.tools:gradle:1.28.0'
     }
 }
 

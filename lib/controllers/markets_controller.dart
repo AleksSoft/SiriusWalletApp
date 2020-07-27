@@ -15,7 +15,6 @@ class MarketsController extends GetxController {
   static MarketsController get con => Get.find();
 
   final _assetsController = Get.find<AssetsController>();
-  final _rootController = Get.find<RootController>();
 
   final List<MarketModel> _initialMarketList = List<MarketModel>();
 
@@ -29,7 +28,7 @@ class MarketsController extends GetxController {
     ever(_assetsController.initialized, (inited) async {
       if (inited) await rebuildWatchedMarkets();
     });
-    ever(_rootController.pageIndexObs, (pageIndex) async {
+    ever(RootController.con.pageIndexObs, (pageIndex) async {
       if (pageIndex == 2) await rebuildWatchedMarkets();
     });
     _priceSubscription = Get.find<PricesController>()
