@@ -1,6 +1,7 @@
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/services/repositories/portfolio_repository.dart';
 import 'package:antares_wallet/src/apiservice.pbgrpc.dart';
+import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
 import 'package:antares_wallet/ui/pages/root/root_controller.dart';
 import 'package:get/get.dart';
 
@@ -23,17 +24,24 @@ class PortfolioController extends GetxController {
   List<Balance> get balances => this._walletAssets.value;
   set balances(List<Balance> value) => this._walletAssets.value = value;
 
-  final _historyItems = List().obs;
-  List get historyItems => this._historyItems.value;
-  set historyItems(List value) => this._historyItems.value = value;
+  final _historyItems = List<FundsResponse_FundsModel>().obs;
+  List<FundsResponse_FundsModel> get historyItems => this._historyItems.value;
+  set historyItems(List<FundsResponse_FundsModel> value) =>
+      this._historyItems.value = value;
 
   @override
   void onInit() async {
     ever(_assetsController.initialized, (inited) {
-      if (inited) rebuildPortfolioAssets();
+      if (inited) {
+        rebuildPortfolioAssets();
+        getFunds(10, 0);
+      }
     });
     ever(RootController.con.pageIndexObs, (pageIndex) {
-      if (pageIndex == 1) rebuildPortfolioAssets();
+      if (pageIndex == 1) {
+        rebuildPortfolioAssets();
+        getFunds(10, 0);
+      }
     });
     super.onInit();
   }
@@ -61,11 +69,21 @@ class PortfolioController extends GetxController {
     loading = false;
   }
 
-  Future<void> getWalletAssets() async {
-    balances = await PortfolioRepository.getBalances();
-  }
+  Future<void> getWalletAssets() async =>
+      balances = await PortfolioRepository.getBalances();
 
-  Future<void> getHistory() async {
-    // walletAssets = await PortfolioRepository.getWalletAssets();
-  }
+  Future<void> getFunds(
+    int take,
+    int skip, {
+    String assetId,
+    Timestamp fromDate,
+    Timestamp toDate,
+  }) async =>
+      historyItems = await PortfolioRepository.getFunds(
+        take: take,
+        skip: skip,
+        assetId: assetId,
+        fromDate: fromDate,
+        toDate: toDate,
+      );
 }

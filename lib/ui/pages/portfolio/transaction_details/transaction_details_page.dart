@@ -3,9 +3,11 @@ import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/models/transaction_details.dart';
 import 'package:antares_wallet/ui/pages/portfolio/transaction_details/transaction_details_controller.dart';
+import 'package:antares_wallet/utils/formatter.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:get/get.dart';
 
@@ -19,7 +21,7 @@ class TransactionDetailsPage extends StatelessWidget {
         builder: (_) {
           return Scaffold(
             appBar: AppBar(
-              title: _buildTitleByType(_.details.transactionType),
+              title: _buildTitleByType(_.details.type),
             ),
             body: Column(
               children: [
@@ -37,10 +39,10 @@ class TransactionDetailsPage extends StatelessWidget {
                         ),
                         AppUiHelpers.hSpaceSmall,
                         Text(
-                          _.details.asset.displayName,
-                          style: Theme.of(context).textTheme.headline6.copyWith(
-                                fontWeight: FontWeight.w600,
-                              ),
+                          _.details.assetName,
+                          style: Get.textTheme.headline6.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ],
                     ),
@@ -52,32 +54,40 @@ class TransactionDetailsPage extends StatelessWidget {
                     padding: const EdgeInsets.all(AppSizes.medium),
                     child: Column(
                       children: [
-                        _buildTile('amount'.tr, _.details.amount.toString()),
+                        _buildTile(
+                          'amount'.tr,
+                          Formatter.format(_.details.volume),
+                        ),
                         _buildTile('status'.tr, _.details.status),
                         Divider(height: AppSizes.extraLarge),
                         _buildTile(
                           'trans_hash'.tr,
-                          _.details.transactionHash.toString(),
+                          _.details.blockchainHash,
                           selectable: true,
                         ),
-                        _buildTile('date'.tr, _.details.dateTime),
+                        _buildTile(
+                            'date'.tr,
+                            DateFormat().addPattern('dd.MM.yy HH:mm:ss').format(
+                                  DateTime.fromMillisecondsSinceEpoch(
+                                    _.details.timestamp.seconds.toInt() * 1000,
+                                  ),
+                                )),
                         Spacer(),
                         ButtonBar(
                           children: [
                             CupertinoButton(
                               onPressed: () => _copyHash(
-                                context,
-                                _.details.transactionHash.toString(),
+                                _.details.blockchainHash,
                               ),
                               child: Text('copy_hash'.tr),
                             ),
-                            CupertinoButton(
-                              onPressed: () => _viewExplorer(
-                                context,
-                                _.details.explorerItems,
-                              ),
-                              child: Text('open_explorer'.tr),
-                            ),
+//                            CupertinoButton(
+//                              onPressed: () => _viewExplorer(
+//                                context,
+//                                _.details.explorerItems,
+//                              ),
+//                              child: Text('open_explorer'.tr),
+//                            ),
                           ],
                         )
                       ],
@@ -93,12 +103,8 @@ class TransactionDetailsPage extends StatelessWidget {
   Widget _buildTile(String title, String subtitle, {bool selectable = false}) {
     return Builder(
       builder: (context) {
-        final titleStyle = Theme.of(context).textTheme.caption.copyWith(
-              fontSize: 16.0,
-            );
-        final subtitleStyle = Theme.of(context).textTheme.button.copyWith(
-              fontSize: 18.0,
-            );
+        final titleStyle = Get.textTheme.caption.copyWith(fontSize: 16.0);
+        final subtitleStyle = Get.textTheme.button.copyWith(fontSize: 18.0);
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: AppSizes.small),
           child: Row(
@@ -126,29 +132,21 @@ class TransactionDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildTitleByType(TransactionType type) {
+  Widget _buildTitleByType(String type) {
     String titlePrefix;
-    switch (type) {
-      case TransactionType.deposit:
-        titlePrefix = 'deposit'.tr;
-        break;
-      case TransactionType.withdraw:
-        titlePrefix = 'withdrawal'.tr;
-        break;
+    if (type.toLowerCase() == 'deposit') {
+      titlePrefix = 'deposit'.tr;
+    } else {
+      titlePrefix = 'withdrawal'.tr;
     }
-    return Builder(
-      builder: (context) {
-        if (titlePrefix == null) {
-          return Text('details'.tr);
-        }
-        return Text('$titlePrefix ${'details'.tr}');
-      },
-    );
+    return titlePrefix == null
+        ? Text('details'.tr)
+        : Text('$titlePrefix ${'details'.tr}');
   }
 
   _viewExplorer(BuildContext context, List<ExplorerItem> explorerItems) {
     List<Widget> widgets = [
-      Text('explorer_links'.tr, style: Theme.of(context).textTheme.headline5),
+      Text('explorer_links'.tr, style: Get.textTheme.headline5),
       AppUiHelpers.vSpaceSmall,
     ]..addAll(explorerItems
         .map((e) => FlatButton(
@@ -158,17 +156,13 @@ class TransactionDetailsPage extends StatelessWidget {
               },
               child: Text(
                 e.name,
-                style: Theme.of(context).textTheme.button.copyWith(
-                      fontSize: 16.0,
-                    ),
+                style: Get.textTheme.button.copyWith(fontSize: 16.0),
               ),
             ))
         .toList());
 
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Container(
+    Get.bottomSheet(
+      Container(
         padding: const EdgeInsets.only(
           top: AppSizes.medium,
           left: AppSizes.small,
@@ -178,6 +172,7 @@ class TransactionDetailsPage extends StatelessWidget {
         color: AppColors.primary,
         child: ListView(children: widgets),
       ),
+      backgroundColor: Colors.transparent,
     );
   }
 
@@ -189,7 +184,7 @@ class TransactionDetailsPage extends StatelessWidget {
     }
   }
 
-  _copyHash(BuildContext context, String hash) {
+  _copyHash(String hash) {
     ClipboardManager.copyToClipBoard(hash).then((result) {
       final String message = 'msg_hash_copied'.tr;
       Get.snackbar('', message, duration: Duration(seconds: 2));

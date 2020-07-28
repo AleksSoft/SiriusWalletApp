@@ -1,14 +1,16 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
-import 'package:antares_wallet/models/transaction_details.dart';
+import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/portfolio/transaction_details/transaction_details_page.dart';
+import 'package:antares_wallet/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class TransactionTile extends StatelessWidget {
   const TransactionTile(this._item, {Key key}) : super(key: key);
-  final TransactionDetails _item;
+  final FundsResponse_FundsModel _item;
 
   @override
   Widget build(BuildContext context) {
@@ -32,17 +34,21 @@ class TransactionTile extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          _item.asset.displayName,
-                          style: Theme.of(context).textTheme.button.copyWith(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16.0,
-                              ),
+                          _item.assetId,
+                          style: Get.textTheme.button.copyWith(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16.0,
+                          ),
                         ),
                         AppUiHelpers.hSpaceExtraSmall,
                         Text(
-                          _item.isDeposit ? 'DEPOSIT' : 'WITHDRAW',
+                          _item.operation.toLowerCase() ==
+                                  'deposit'.toLowerCase()
+                              ? 'DEPOSIT'
+                              : 'WITHDRAW',
                           style: Theme.of(context).textTheme.button.copyWith(
-                                color: _item.isDeposit
+                                color: _item.operation.toLowerCase() ==
+                                        'deposit'.toLowerCase()
                                     ? AppColors.green
                                     : AppColors.red,
                                 fontWeight: FontWeight.w700,
@@ -51,28 +57,32 @@ class TransactionTile extends StatelessWidget {
                         ),
                         AppUiHelpers.hSpaceMedium,
                         Text(
-                          _item.amount.toString(),
-                          style: Theme.of(context).textTheme.button.copyWith(
-                                fontSize: 16.0,
-                              ),
+                          Formatter.format(_item.volume),
+                          style: Get.textTheme.button.copyWith(
+                            fontSize: 16.0,
+                          ),
                         ),
                       ],
                     ),
                     AppUiHelpers.vSpaceSmall,
                     Text(
-                      _item.dateTime,
-                      style: Theme.of(context).textTheme.caption.copyWith(
-                            fontSize: 14.0,
+                      DateFormat().addPattern('dd.MM.yy HH:mm:ss').format(
+                            DateTime.fromMillisecondsSinceEpoch(
+                              _item.timestamp.seconds.toInt() * 1000,
+                            ),
                           ),
+                      style: Get.textTheme.caption.copyWith(
+                        fontSize: 14.0,
+                      ),
                     ),
                   ],
                 ),
                 Text(
                   _item.status,
-                  style: Theme.of(context).textTheme.caption.copyWith(
-                        color: AppColors.secondary.withOpacity(0.8),
-                        fontSize: 14.0,
-                      ),
+                  style: Get.textTheme.caption.copyWith(
+                    color: AppColors.secondary.withOpacity(0.8),
+                    fontSize: 14.0,
+                  ),
                 ),
               ],
             ),

@@ -1,11 +1,11 @@
-import 'package:antares_wallet/models/transaction_details.dart';
 import 'package:antares_wallet/services/repositories/portfolio_history_repository.dart';
+import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:get/get.dart';
 
 class AssetInfoTransfersController extends GetxController {
   final _repository = Get.find<PortfolioHistoryRepository>();
 
-  List<TransactionDetails> get trades => _repository.items;
+  List<FundsResponse_FundsModel> get trades => List();
 
   @override
   void onInit() async {

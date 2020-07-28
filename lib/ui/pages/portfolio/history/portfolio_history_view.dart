@@ -26,9 +26,9 @@ class PortfolioHistoryView extends StatelessWidget {
         ),
       ),
       body: RefreshIndicator(
-        onRefresh: () => c.getHistory(),
+        onRefresh: () => c.getFunds(10, 0),
         child: GetX<PortfolioController>(
-          initState: (state) => c.getHistory(),
+          initState: (state) => c.getFunds(10, 0),
           builder: (_) {
             return EmptyView(
               header: 'No protfolio history yet',
