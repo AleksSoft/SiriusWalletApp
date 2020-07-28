@@ -202,6 +202,37 @@ class AmountInBaseRequest extends $pb.GeneratedMessage {
   void clearAssetId() => clearField(1);
 }
 
+class PushSettingsRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('PushSettingsRequest', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOB(1, 'enabled')
+    ..hasRequiredFields = false
+  ;
+
+  PushSettingsRequest._() : super();
+  factory PushSettingsRequest() => create();
+  factory PushSettingsRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory PushSettingsRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  PushSettingsRequest clone() => PushSettingsRequest()..mergeFromMessage(this);
+  PushSettingsRequest copyWith(void Function(PushSettingsRequest) updates) => super.copyWith((message) => updates(message as PushSettingsRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static PushSettingsRequest create() => PushSettingsRequest._();
+  PushSettingsRequest createEmptyInstance() => create();
+  static $pb.PbList<PushSettingsRequest> createRepeated() => $pb.PbList<PushSettingsRequest>();
+  @$core.pragma('dart2js:noInline')
+  static PushSettingsRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PushSettingsRequest>(create);
+  static PushSettingsRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.bool get enabled => $_getBF(0);
+  @$pb.TagNumber(1)
+  set enabled($core.bool v) { $_setBool(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasEnabled() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearEnabled() => clearField(1);
+}
+
 enum MarketsRequest_OptionalAssetPairId {
   assetPairId, 
   notSet
@@ -622,6 +653,120 @@ class TradesRequest extends $pb.GeneratedMessage {
   $core.bool hasTradeType() => $_has(5);
   @$pb.TagNumber(6)
   void clearTradeType() => clearField(6);
+}
+
+enum FundsRequest_OptionalAssetId {
+  assetId, 
+  notSet
+}
+
+enum FundsRequest_OptionalFromDate {
+  from, 
+  notSet
+}
+
+enum FundsRequest_OptionalToDate {
+  to, 
+  notSet
+}
+
+class FundsRequest extends $pb.GeneratedMessage {
+  static const $core.Map<$core.int, FundsRequest_OptionalAssetId> _FundsRequest_OptionalAssetIdByTag = {
+    1 : FundsRequest_OptionalAssetId.assetId,
+    0 : FundsRequest_OptionalAssetId.notSet
+  };
+  static const $core.Map<$core.int, FundsRequest_OptionalFromDate> _FundsRequest_OptionalFromDateByTag = {
+    4 : FundsRequest_OptionalFromDate.from,
+    0 : FundsRequest_OptionalFromDate.notSet
+  };
+  static const $core.Map<$core.int, FundsRequest_OptionalToDate> _FundsRequest_OptionalToDateByTag = {
+    5 : FundsRequest_OptionalToDate.to,
+    0 : FundsRequest_OptionalToDate.notSet
+  };
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('FundsRequest', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..oo(0, [1])
+    ..oo(1, [4])
+    ..oo(2, [5])
+    ..aOS(1, 'assetId', protoName: 'assetId')
+    ..a<$core.int>(2, 'take', $pb.PbFieldType.O3)
+    ..a<$core.int>(3, 'skip', $pb.PbFieldType.O3)
+    ..aOM<$3.Timestamp>(4, 'from', subBuilder: $3.Timestamp.create)
+    ..aOM<$3.Timestamp>(5, 'to', subBuilder: $3.Timestamp.create)
+    ..hasRequiredFields = false
+  ;
+
+  FundsRequest._() : super();
+  factory FundsRequest() => create();
+  factory FundsRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory FundsRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  FundsRequest clone() => FundsRequest()..mergeFromMessage(this);
+  FundsRequest copyWith(void Function(FundsRequest) updates) => super.copyWith((message) => updates(message as FundsRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static FundsRequest create() => FundsRequest._();
+  FundsRequest createEmptyInstance() => create();
+  static $pb.PbList<FundsRequest> createRepeated() => $pb.PbList<FundsRequest>();
+  @$core.pragma('dart2js:noInline')
+  static FundsRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FundsRequest>(create);
+  static FundsRequest _defaultInstance;
+
+  FundsRequest_OptionalAssetId whichOptionalAssetId() => _FundsRequest_OptionalAssetIdByTag[$_whichOneof(0)];
+  void clearOptionalAssetId() => clearField($_whichOneof(0));
+
+  FundsRequest_OptionalFromDate whichOptionalFromDate() => _FundsRequest_OptionalFromDateByTag[$_whichOneof(1)];
+  void clearOptionalFromDate() => clearField($_whichOneof(1));
+
+  FundsRequest_OptionalToDate whichOptionalToDate() => _FundsRequest_OptionalToDateByTag[$_whichOneof(2)];
+  void clearOptionalToDate() => clearField($_whichOneof(2));
+
+  @$pb.TagNumber(1)
+  $core.String get assetId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set assetId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasAssetId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearAssetId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get take => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set take($core.int v) { $_setSignedInt32(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasTake() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearTake() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.int get skip => $_getIZ(2);
+  @$pb.TagNumber(3)
+  set skip($core.int v) { $_setSignedInt32(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasSkip() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearSkip() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $3.Timestamp get from => $_getN(3);
+  @$pb.TagNumber(4)
+  set from($3.Timestamp v) { setField(4, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasFrom() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearFrom() => clearField(4);
+  @$pb.TagNumber(4)
+  $3.Timestamp ensureFrom() => $_ensure(3);
+
+  @$pb.TagNumber(5)
+  $3.Timestamp get to => $_getN(4);
+  @$pb.TagNumber(5)
+  set to($3.Timestamp v) { setField(5, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasTo() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearTo() => clearField(5);
+  @$pb.TagNumber(5)
+  $3.Timestamp ensureTo() => $_ensure(4);
 }
 
 class WatchlistRequest extends $pb.GeneratedMessage {
@@ -2410,6 +2555,82 @@ class AmountInBaseAssetResponse extends $pb.GeneratedMessage {
   $core.List<AmountInBaseAssetResponse_AmountInBasePayload> get values => $_getList(0);
 }
 
+class PushSettingsResponse_PushSettingsPayload extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('PushSettingsResponse.PushSettingsPayload', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOB(1, 'enabled')
+    ..hasRequiredFields = false
+  ;
+
+  PushSettingsResponse_PushSettingsPayload._() : super();
+  factory PushSettingsResponse_PushSettingsPayload() => create();
+  factory PushSettingsResponse_PushSettingsPayload.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory PushSettingsResponse_PushSettingsPayload.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  PushSettingsResponse_PushSettingsPayload clone() => PushSettingsResponse_PushSettingsPayload()..mergeFromMessage(this);
+  PushSettingsResponse_PushSettingsPayload copyWith(void Function(PushSettingsResponse_PushSettingsPayload) updates) => super.copyWith((message) => updates(message as PushSettingsResponse_PushSettingsPayload));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static PushSettingsResponse_PushSettingsPayload create() => PushSettingsResponse_PushSettingsPayload._();
+  PushSettingsResponse_PushSettingsPayload createEmptyInstance() => create();
+  static $pb.PbList<PushSettingsResponse_PushSettingsPayload> createRepeated() => $pb.PbList<PushSettingsResponse_PushSettingsPayload>();
+  @$core.pragma('dart2js:noInline')
+  static PushSettingsResponse_PushSettingsPayload getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PushSettingsResponse_PushSettingsPayload>(create);
+  static PushSettingsResponse_PushSettingsPayload _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.bool get enabled => $_getBF(0);
+  @$pb.TagNumber(1)
+  set enabled($core.bool v) { $_setBool(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasEnabled() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearEnabled() => clearField(1);
+}
+
+class PushSettingsResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('PushSettingsResponse', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOM<PushSettingsResponse_PushSettingsPayload>(1, 'result', subBuilder: PushSettingsResponse_PushSettingsPayload.create)
+    ..aOM<ErrorV1>(2, 'error', subBuilder: ErrorV1.create)
+    ..hasRequiredFields = false
+  ;
+
+  PushSettingsResponse._() : super();
+  factory PushSettingsResponse() => create();
+  factory PushSettingsResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory PushSettingsResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  PushSettingsResponse clone() => PushSettingsResponse()..mergeFromMessage(this);
+  PushSettingsResponse copyWith(void Function(PushSettingsResponse) updates) => super.copyWith((message) => updates(message as PushSettingsResponse));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static PushSettingsResponse create() => PushSettingsResponse._();
+  PushSettingsResponse createEmptyInstance() => create();
+  static $pb.PbList<PushSettingsResponse> createRepeated() => $pb.PbList<PushSettingsResponse>();
+  @$core.pragma('dart2js:noInline')
+  static PushSettingsResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PushSettingsResponse>(create);
+  static PushSettingsResponse _defaultInstance;
+
+  @$pb.TagNumber(1)
+  PushSettingsResponse_PushSettingsPayload get result => $_getN(0);
+  @$pb.TagNumber(1)
+  set result(PushSettingsResponse_PushSettingsPayload v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasResult() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearResult() => clearField(1);
+  @$pb.TagNumber(1)
+  PushSettingsResponse_PushSettingsPayload ensureResult() => $_ensure(0);
+
+  @$pb.TagNumber(2)
+  ErrorV1 get error => $_getN(1);
+  @$pb.TagNumber(2)
+  set error(ErrorV1 v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasError() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearError() => clearField(2);
+  @$pb.TagNumber(2)
+  ErrorV1 ensureError() => $_ensure(1);
+}
+
 class LimitOrdersResponse_OrdersPayload extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('LimitOrdersResponse.OrdersPayload', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
     ..pc<LimitOrderModel>(1, 'orders', $pb.PbFieldType.PM, subBuilder: LimitOrderModel.create)
@@ -2970,6 +3191,156 @@ class TradesResponse extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(1)
   $core.List<TradesResponse_TradeModel> get trades => $_getList(0);
+
+  @$pb.TagNumber(2)
+  ErrorV2 get error => $_getN(1);
+  @$pb.TagNumber(2)
+  set error(ErrorV2 v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasError() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearError() => clearField(2);
+  @$pb.TagNumber(2)
+  ErrorV2 ensureError() => $_ensure(1);
+}
+
+class FundsResponse_FundsModel extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('FundsResponse.FundsModel', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOS(1, 'id')
+    ..aOS(2, 'assetId', protoName: 'assetId')
+    ..aOS(3, 'assetName', protoName: 'assetName')
+    ..aOS(4, 'volume')
+    ..aOS(5, 'operation')
+    ..aOS(6, 'type')
+    ..aOS(7, 'status')
+    ..aOM<$3.Timestamp>(8, 'timestamp', subBuilder: $3.Timestamp.create)
+    ..aOS(9, 'blockchainHash', protoName: 'blockchainHash')
+    ..hasRequiredFields = false
+  ;
+
+  FundsResponse_FundsModel._() : super();
+  factory FundsResponse_FundsModel() => create();
+  factory FundsResponse_FundsModel.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory FundsResponse_FundsModel.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  FundsResponse_FundsModel clone() => FundsResponse_FundsModel()..mergeFromMessage(this);
+  FundsResponse_FundsModel copyWith(void Function(FundsResponse_FundsModel) updates) => super.copyWith((message) => updates(message as FundsResponse_FundsModel));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static FundsResponse_FundsModel create() => FundsResponse_FundsModel._();
+  FundsResponse_FundsModel createEmptyInstance() => create();
+  static $pb.PbList<FundsResponse_FundsModel> createRepeated() => $pb.PbList<FundsResponse_FundsModel>();
+  @$core.pragma('dart2js:noInline')
+  static FundsResponse_FundsModel getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FundsResponse_FundsModel>(create);
+  static FundsResponse_FundsModel _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get id => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set id($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get assetId => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set assetId($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasAssetId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearAssetId() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get assetName => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set assetName($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasAssetName() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearAssetName() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.String get volume => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set volume($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasVolume() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearVolume() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.String get operation => $_getSZ(4);
+  @$pb.TagNumber(5)
+  set operation($core.String v) { $_setString(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasOperation() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearOperation() => clearField(5);
+
+  @$pb.TagNumber(6)
+  $core.String get type => $_getSZ(5);
+  @$pb.TagNumber(6)
+  set type($core.String v) { $_setString(5, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasType() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearType() => clearField(6);
+
+  @$pb.TagNumber(7)
+  $core.String get status => $_getSZ(6);
+  @$pb.TagNumber(7)
+  set status($core.String v) { $_setString(6, v); }
+  @$pb.TagNumber(7)
+  $core.bool hasStatus() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearStatus() => clearField(7);
+
+  @$pb.TagNumber(8)
+  $3.Timestamp get timestamp => $_getN(7);
+  @$pb.TagNumber(8)
+  set timestamp($3.Timestamp v) { setField(8, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasTimestamp() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearTimestamp() => clearField(8);
+  @$pb.TagNumber(8)
+  $3.Timestamp ensureTimestamp() => $_ensure(7);
+
+  @$pb.TagNumber(9)
+  $core.String get blockchainHash => $_getSZ(8);
+  @$pb.TagNumber(9)
+  set blockchainHash($core.String v) { $_setString(8, v); }
+  @$pb.TagNumber(9)
+  $core.bool hasBlockchainHash() => $_has(8);
+  @$pb.TagNumber(9)
+  void clearBlockchainHash() => clearField(9);
+}
+
+class FundsResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('FundsResponse', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..pc<FundsResponse_FundsModel>(1, 'funds', $pb.PbFieldType.PM, subBuilder: FundsResponse_FundsModel.create)
+    ..aOM<ErrorV2>(2, 'error', subBuilder: ErrorV2.create)
+    ..hasRequiredFields = false
+  ;
+
+  FundsResponse._() : super();
+  factory FundsResponse() => create();
+  factory FundsResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory FundsResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  FundsResponse clone() => FundsResponse()..mergeFromMessage(this);
+  FundsResponse copyWith(void Function(FundsResponse) updates) => super.copyWith((message) => updates(message as FundsResponse));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static FundsResponse create() => FundsResponse._();
+  FundsResponse createEmptyInstance() => create();
+  static $pb.PbList<FundsResponse> createRepeated() => $pb.PbList<FundsResponse>();
+  @$core.pragma('dart2js:noInline')
+  static FundsResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FundsResponse>(create);
+  static FundsResponse _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<FundsResponse_FundsModel> get funds => $_getList(0);
 
   @$pb.TagNumber(2)
   ErrorV2 get error => $_getN(1);
@@ -6788,17 +7159,18 @@ class Asset extends $pb.GeneratedMessage {
     ..aOS(1, 'id')
     ..aOS(2, 'name')
     ..aOS(3, 'symbol')
-    ..a<$core.int>(4, 'accuracy', $pb.PbFieldType.O3)
-    ..aOB(5, 'kycNeeded', protoName: 'kycNeeded')
-    ..aOS(6, 'categoryId', protoName: 'categoryId')
-    ..aOB(7, 'cardDeposit', protoName: 'cardDeposit')
-    ..aOB(8, 'swiftDeposit', protoName: 'swiftDeposit')
-    ..aOB(9, 'blockchainDeposit', protoName: 'blockchainDeposit')
-    ..aOB(10, 'swiftWithdrawal', protoName: 'swiftWithdrawal')
-    ..aOB(11, 'forwardWithdrawal', protoName: 'forwardWithdrawal')
-    ..aOB(12, 'crosschainWithdrawal', protoName: 'crosschainWithdrawal')
-    ..aOB(13, 'isTrusted', protoName: 'isTrusted')
-    ..aOB(14, 'canBeBase', protoName: 'canBeBase')
+    ..aOS(4, 'displayId', protoName: 'displayId')
+    ..a<$core.int>(5, 'accuracy', $pb.PbFieldType.O3)
+    ..aOB(6, 'kycNeeded', protoName: 'kycNeeded')
+    ..aOS(7, 'categoryId', protoName: 'categoryId')
+    ..aOB(8, 'cardDeposit', protoName: 'cardDeposit')
+    ..aOB(9, 'swiftDeposit', protoName: 'swiftDeposit')
+    ..aOB(10, 'blockchainDeposit', protoName: 'blockchainDeposit')
+    ..aOB(11, 'swiftWithdrawal', protoName: 'swiftWithdrawal')
+    ..aOB(12, 'forwardWithdrawal', protoName: 'forwardWithdrawal')
+    ..aOB(13, 'crosschainWithdrawal', protoName: 'crosschainWithdrawal')
+    ..aOB(14, 'isTrusted', protoName: 'isTrusted')
+    ..aOB(15, 'canBeBase', protoName: 'canBeBase')
     ..hasRequiredFields = false
   ;
 
@@ -6845,103 +7217,112 @@ class Asset extends $pb.GeneratedMessage {
   void clearSymbol() => clearField(3);
 
   @$pb.TagNumber(4)
-  $core.int get accuracy => $_getIZ(3);
+  $core.String get displayId => $_getSZ(3);
   @$pb.TagNumber(4)
-  set accuracy($core.int v) { $_setSignedInt32(3, v); }
+  set displayId($core.String v) { $_setString(3, v); }
   @$pb.TagNumber(4)
-  $core.bool hasAccuracy() => $_has(3);
+  $core.bool hasDisplayId() => $_has(3);
   @$pb.TagNumber(4)
-  void clearAccuracy() => clearField(4);
+  void clearDisplayId() => clearField(4);
 
   @$pb.TagNumber(5)
-  $core.bool get kycNeeded => $_getBF(4);
+  $core.int get accuracy => $_getIZ(4);
   @$pb.TagNumber(5)
-  set kycNeeded($core.bool v) { $_setBool(4, v); }
+  set accuracy($core.int v) { $_setSignedInt32(4, v); }
   @$pb.TagNumber(5)
-  $core.bool hasKycNeeded() => $_has(4);
+  $core.bool hasAccuracy() => $_has(4);
   @$pb.TagNumber(5)
-  void clearKycNeeded() => clearField(5);
+  void clearAccuracy() => clearField(5);
 
   @$pb.TagNumber(6)
-  $core.String get categoryId => $_getSZ(5);
+  $core.bool get kycNeeded => $_getBF(5);
   @$pb.TagNumber(6)
-  set categoryId($core.String v) { $_setString(5, v); }
+  set kycNeeded($core.bool v) { $_setBool(5, v); }
   @$pb.TagNumber(6)
-  $core.bool hasCategoryId() => $_has(5);
+  $core.bool hasKycNeeded() => $_has(5);
   @$pb.TagNumber(6)
-  void clearCategoryId() => clearField(6);
+  void clearKycNeeded() => clearField(6);
 
   @$pb.TagNumber(7)
-  $core.bool get cardDeposit => $_getBF(6);
+  $core.String get categoryId => $_getSZ(6);
   @$pb.TagNumber(7)
-  set cardDeposit($core.bool v) { $_setBool(6, v); }
+  set categoryId($core.String v) { $_setString(6, v); }
   @$pb.TagNumber(7)
-  $core.bool hasCardDeposit() => $_has(6);
+  $core.bool hasCategoryId() => $_has(6);
   @$pb.TagNumber(7)
-  void clearCardDeposit() => clearField(7);
+  void clearCategoryId() => clearField(7);
 
   @$pb.TagNumber(8)
-  $core.bool get swiftDeposit => $_getBF(7);
+  $core.bool get cardDeposit => $_getBF(7);
   @$pb.TagNumber(8)
-  set swiftDeposit($core.bool v) { $_setBool(7, v); }
+  set cardDeposit($core.bool v) { $_setBool(7, v); }
   @$pb.TagNumber(8)
-  $core.bool hasSwiftDeposit() => $_has(7);
+  $core.bool hasCardDeposit() => $_has(7);
   @$pb.TagNumber(8)
-  void clearSwiftDeposit() => clearField(8);
+  void clearCardDeposit() => clearField(8);
 
   @$pb.TagNumber(9)
-  $core.bool get blockchainDeposit => $_getBF(8);
+  $core.bool get swiftDeposit => $_getBF(8);
   @$pb.TagNumber(9)
-  set blockchainDeposit($core.bool v) { $_setBool(8, v); }
+  set swiftDeposit($core.bool v) { $_setBool(8, v); }
   @$pb.TagNumber(9)
-  $core.bool hasBlockchainDeposit() => $_has(8);
+  $core.bool hasSwiftDeposit() => $_has(8);
   @$pb.TagNumber(9)
-  void clearBlockchainDeposit() => clearField(9);
+  void clearSwiftDeposit() => clearField(9);
 
   @$pb.TagNumber(10)
-  $core.bool get swiftWithdrawal => $_getBF(9);
+  $core.bool get blockchainDeposit => $_getBF(9);
   @$pb.TagNumber(10)
-  set swiftWithdrawal($core.bool v) { $_setBool(9, v); }
+  set blockchainDeposit($core.bool v) { $_setBool(9, v); }
   @$pb.TagNumber(10)
-  $core.bool hasSwiftWithdrawal() => $_has(9);
+  $core.bool hasBlockchainDeposit() => $_has(9);
   @$pb.TagNumber(10)
-  void clearSwiftWithdrawal() => clearField(10);
+  void clearBlockchainDeposit() => clearField(10);
 
   @$pb.TagNumber(11)
-  $core.bool get forwardWithdrawal => $_getBF(10);
+  $core.bool get swiftWithdrawal => $_getBF(10);
   @$pb.TagNumber(11)
-  set forwardWithdrawal($core.bool v) { $_setBool(10, v); }
+  set swiftWithdrawal($core.bool v) { $_setBool(10, v); }
   @$pb.TagNumber(11)
-  $core.bool hasForwardWithdrawal() => $_has(10);
+  $core.bool hasSwiftWithdrawal() => $_has(10);
   @$pb.TagNumber(11)
-  void clearForwardWithdrawal() => clearField(11);
+  void clearSwiftWithdrawal() => clearField(11);
 
   @$pb.TagNumber(12)
-  $core.bool get crosschainWithdrawal => $_getBF(11);
+  $core.bool get forwardWithdrawal => $_getBF(11);
   @$pb.TagNumber(12)
-  set crosschainWithdrawal($core.bool v) { $_setBool(11, v); }
+  set forwardWithdrawal($core.bool v) { $_setBool(11, v); }
   @$pb.TagNumber(12)
-  $core.bool hasCrosschainWithdrawal() => $_has(11);
+  $core.bool hasForwardWithdrawal() => $_has(11);
   @$pb.TagNumber(12)
-  void clearCrosschainWithdrawal() => clearField(12);
+  void clearForwardWithdrawal() => clearField(12);
 
   @$pb.TagNumber(13)
-  $core.bool get isTrusted => $_getBF(12);
+  $core.bool get crosschainWithdrawal => $_getBF(12);
   @$pb.TagNumber(13)
-  set isTrusted($core.bool v) { $_setBool(12, v); }
+  set crosschainWithdrawal($core.bool v) { $_setBool(12, v); }
   @$pb.TagNumber(13)
-  $core.bool hasIsTrusted() => $_has(12);
+  $core.bool hasCrosschainWithdrawal() => $_has(12);
   @$pb.TagNumber(13)
-  void clearIsTrusted() => clearField(13);
+  void clearCrosschainWithdrawal() => clearField(13);
 
   @$pb.TagNumber(14)
-  $core.bool get canBeBase => $_getBF(13);
+  $core.bool get isTrusted => $_getBF(13);
   @$pb.TagNumber(14)
-  set canBeBase($core.bool v) { $_setBool(13, v); }
+  set isTrusted($core.bool v) { $_setBool(13, v); }
   @$pb.TagNumber(14)
-  $core.bool hasCanBeBase() => $_has(13);
+  $core.bool hasIsTrusted() => $_has(13);
   @$pb.TagNumber(14)
-  void clearCanBeBase() => clearField(14);
+  void clearIsTrusted() => clearField(14);
+
+  @$pb.TagNumber(15)
+  $core.bool get canBeBase => $_getBF(14);
+  @$pb.TagNumber(15)
+  set canBeBase($core.bool v) { $_setBool(14, v); }
+  @$pb.TagNumber(15)
+  $core.bool hasCanBeBase() => $_has(14);
+  @$pb.TagNumber(15)
+  void clearCanBeBase() => clearField(15);
 }
 
 class AssetPair extends $pb.GeneratedMessage {

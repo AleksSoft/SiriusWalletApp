@@ -16,7 +16,7 @@ class PortfolioAssetsTabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () => c.rebuildCategoryAssetsMap(),
+      onRefresh: () => c.rebuildPortfolioAssets(),
       child: ListView(
         physics: BouncingScrollPhysics(),
         padding: EdgeInsets.only(bottom: AppSizes.medium),
@@ -54,11 +54,9 @@ class _PortfolioAssetsHeader extends StatelessWidget {
             'balance'.tr,
             style: Get.textTheme.caption.copyWith(fontSize: 14),
           ),
-          Obx(
-            () => Text(
-              '${AssetsController.con.baseAssetId} ${c.loading ? '...' : NumberFormat.currency(locale: 'eu', symbol: '').format(c.balance)}',
-              style: titleTheme,
-            ),
+          Text(
+            '${AssetsController.con.baseAssetId} ${NumberFormat.currency(locale: 'eu', symbol: '').format(c.balanceSum)}',
+            style: titleTheme,
           ),
         ],
       ),
@@ -127,44 +125,25 @@ class _PortfolioCategoryBlock extends StatelessWidget {
     );
   }
 
-  Column _buildExpanded(
-      String iconUrl, List<WalletsResponse_WalletAsset> assets) {
-    List<WalletsResponse_WalletAsset> list =
-        assets.length > 3 ? assets.sublist(3) : List();
+  Column _buildExpanded(String iconUrl, List<Asset> assets) {
+    List<Asset> list = assets.length > 3 ? assets.sublist(3) : List();
     return Column(
       children: <Widget>[
         _buildCollapsed(iconUrl, assets),
         Container(
           color: AppColors.secondary.withOpacity(0.1),
           child: Column(
-            children: list
-                .map((a) => AssetListTile(
-                      iconUrl,
-                      a.name,
-                      a.symbol,
-                      double.parse(a.balance, (_) => 0.0),
-                      double.parse(a.amountInBase, (_) => 0.0),
-                    ))
-                .toList(),
+            children: list.map((a) => AssetListTile(iconUrl, a)).toList(),
           ),
         ),
       ],
     );
   }
 
-  Column _buildCollapsed(
-      String iconUrl, List<WalletsResponse_WalletAsset> assets) {
+  Column _buildCollapsed(String iconUrl, List<Asset> assets) {
     var list = assets.length > 3 ? assets.sublist(0, 3) : assets;
     return Column(
-      children: list
-          .map((a) => AssetListTile(
-                iconUrl,
-                a.name,
-                a.symbol,
-                double.parse(a.balance, (_) => 0.0),
-                double.parse(a.amountInBase, (_) => 0.0),
-              ))
-          .toList(),
+      children: list.map((a) => AssetListTile(iconUrl, a)).toList(),
     );
   }
 }

@@ -267,6 +267,6 @@ class _PortfolioHistoryAssetFilterView extends StatelessWidget {
   }
 
   Widget _getSingleAssetButtonTitle(Asset asset) {
-    return Text(asset == null ? 'select_single'.tr : asset.symbol);
+    return Text(asset == null ? 'select_single'.tr : asset.displayId);
   }
 }

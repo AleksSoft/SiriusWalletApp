@@ -86,6 +86,13 @@ const AmountInBaseRequest$json = const {
   ],
 };
 
+const PushSettingsRequest$json = const {
+  '1': 'PushSettingsRequest',
+  '2': const [
+    const {'1': 'enabled', '3': 1, '4': 1, '5': 8, '10': 'enabled'},
+  ],
+};
+
 const MarketsRequest$json = const {
   '1': 'MarketsRequest',
   '2': const [
@@ -158,6 +165,22 @@ const TradesRequest$json = const {
     const {'1': 'optional_fromDate'},
     const {'1': 'optional_toDate'},
     const {'1': 'optional_tradeType'},
+  ],
+};
+
+const FundsRequest$json = const {
+  '1': 'FundsRequest',
+  '2': const [
+    const {'1': 'assetId', '3': 1, '4': 1, '5': 9, '9': 0, '10': 'assetId'},
+    const {'1': 'take', '3': 2, '4': 1, '5': 5, '10': 'take'},
+    const {'1': 'skip', '3': 3, '4': 1, '5': 5, '10': 'skip'},
+    const {'1': 'from', '3': 4, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '9': 1, '10': 'from'},
+    const {'1': 'to', '3': 5, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '9': 2, '10': 'to'},
+  ],
+  '8': const [
+    const {'1': 'optional_assetId'},
+    const {'1': 'optional_fromDate'},
+    const {'1': 'optional_toDate'},
   ],
 };
 
@@ -505,6 +528,22 @@ const AmountInBaseAssetResponse_AmountInBasePayload$json = const {
   ],
 };
 
+const PushSettingsResponse$json = const {
+  '1': 'PushSettingsResponse',
+  '2': const [
+    const {'1': 'result', '3': 1, '4': 1, '5': 11, '6': '.antaresWallet.PushSettingsResponse.PushSettingsPayload', '10': 'result'},
+    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorV1', '10': 'error'},
+  ],
+  '3': const [PushSettingsResponse_PushSettingsPayload$json],
+};
+
+const PushSettingsResponse_PushSettingsPayload$json = const {
+  '1': 'PushSettingsPayload',
+  '2': const [
+    const {'1': 'enabled', '3': 1, '4': 1, '5': 8, '10': 'enabled'},
+  ],
+};
+
 const LimitOrdersResponse$json = const {
   '1': 'LimitOrdersResponse',
   '2': const [
@@ -597,6 +636,30 @@ const TradesResponse_TradeModel$json = const {
     const {'1': 'quoteAssetName', '3': 8, '4': 1, '5': 9, '10': 'quoteAssetName'},
     const {'1': 'quoteVolume', '3': 9, '4': 1, '5': 9, '10': 'quoteVolume'},
     const {'1': 'timestamp', '3': 10, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'timestamp'},
+  ],
+};
+
+const FundsResponse$json = const {
+  '1': 'FundsResponse',
+  '2': const [
+    const {'1': 'funds', '3': 1, '4': 3, '5': 11, '6': '.antaresWallet.FundsResponse.FundsModel', '10': 'funds'},
+    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorV2', '10': 'error'},
+  ],
+  '3': const [FundsResponse_FundsModel$json],
+};
+
+const FundsResponse_FundsModel$json = const {
+  '1': 'FundsModel',
+  '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'assetId', '3': 2, '4': 1, '5': 9, '10': 'assetId'},
+    const {'1': 'assetName', '3': 3, '4': 1, '5': 9, '10': 'assetName'},
+    const {'1': 'volume', '3': 4, '4': 1, '5': 9, '10': 'volume'},
+    const {'1': 'operation', '3': 5, '4': 1, '5': 9, '10': 'operation'},
+    const {'1': 'type', '3': 6, '4': 1, '5': 9, '10': 'type'},
+    const {'1': 'status', '3': 7, '4': 1, '5': 9, '10': 'status'},
+    const {'1': 'timestamp', '3': 8, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'timestamp'},
+    const {'1': 'blockchainHash', '3': 9, '4': 1, '5': 9, '10': 'blockchainHash'},
   ],
 };
 
@@ -1258,17 +1321,18 @@ const Asset$json = const {
     const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
     const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
     const {'1': 'symbol', '3': 3, '4': 1, '5': 9, '10': 'symbol'},
-    const {'1': 'accuracy', '3': 4, '4': 1, '5': 5, '10': 'accuracy'},
-    const {'1': 'kycNeeded', '3': 5, '4': 1, '5': 8, '10': 'kycNeeded'},
-    const {'1': 'categoryId', '3': 6, '4': 1, '5': 9, '10': 'categoryId'},
-    const {'1': 'cardDeposit', '3': 7, '4': 1, '5': 8, '10': 'cardDeposit'},
-    const {'1': 'swiftDeposit', '3': 8, '4': 1, '5': 8, '10': 'swiftDeposit'},
-    const {'1': 'blockchainDeposit', '3': 9, '4': 1, '5': 8, '10': 'blockchainDeposit'},
-    const {'1': 'swiftWithdrawal', '3': 10, '4': 1, '5': 8, '10': 'swiftWithdrawal'},
-    const {'1': 'forwardWithdrawal', '3': 11, '4': 1, '5': 8, '10': 'forwardWithdrawal'},
-    const {'1': 'crosschainWithdrawal', '3': 12, '4': 1, '5': 8, '10': 'crosschainWithdrawal'},
-    const {'1': 'isTrusted', '3': 13, '4': 1, '5': 8, '10': 'isTrusted'},
-    const {'1': 'canBeBase', '3': 14, '4': 1, '5': 8, '10': 'canBeBase'},
+    const {'1': 'displayId', '3': 4, '4': 1, '5': 9, '10': 'displayId'},
+    const {'1': 'accuracy', '3': 5, '4': 1, '5': 5, '10': 'accuracy'},
+    const {'1': 'kycNeeded', '3': 6, '4': 1, '5': 8, '10': 'kycNeeded'},
+    const {'1': 'categoryId', '3': 7, '4': 1, '5': 9, '10': 'categoryId'},
+    const {'1': 'cardDeposit', '3': 8, '4': 1, '5': 8, '10': 'cardDeposit'},
+    const {'1': 'swiftDeposit', '3': 9, '4': 1, '5': 8, '10': 'swiftDeposit'},
+    const {'1': 'blockchainDeposit', '3': 10, '4': 1, '5': 8, '10': 'blockchainDeposit'},
+    const {'1': 'swiftWithdrawal', '3': 11, '4': 1, '5': 8, '10': 'swiftWithdrawal'},
+    const {'1': 'forwardWithdrawal', '3': 12, '4': 1, '5': 8, '10': 'forwardWithdrawal'},
+    const {'1': 'crosschainWithdrawal', '3': 13, '4': 1, '5': 8, '10': 'crosschainWithdrawal'},
+    const {'1': 'isTrusted', '3': 14, '4': 1, '5': 8, '10': 'isTrusted'},
+    const {'1': 'canBeBase', '3': 15, '4': 1, '5': 8, '10': 'canBeBase'},
   ],
 };
 

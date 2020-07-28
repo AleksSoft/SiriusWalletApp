@@ -121,7 +121,7 @@ class _HistoryFilter {
   }
 
   bool byAsset(TransactionDetails item) {
-    return this.asset == null || this.asset.symbol == item.asset.symbol;
+    return this.asset == null || this.asset.displayId == item.asset.symbol;
   }
 
   _updateTimeFromByPeriod() {

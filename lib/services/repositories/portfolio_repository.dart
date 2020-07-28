@@ -6,10 +6,10 @@ import 'package:get/get.dart';
 class PortfolioRepository {
   static final _api = Get.find<ApiService>();
 
-  static Future<List<WalletsResponse_WalletAsset>> getWalletAssets() async {
+  static Future<List<Balance>> getBalances() async {
     try {
-      var response = await _api.client.getWallets(Empty());
-      return response.result.lykke.assets;
+      var response = await _api.client.getBalances(Empty());
+      return response.payload;
     } catch (e) {
       Future.delayed(Duration()).then(
         (_) => Get.defaultDialog(

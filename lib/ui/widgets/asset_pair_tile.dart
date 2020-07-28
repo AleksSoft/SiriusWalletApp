@@ -88,8 +88,8 @@ class AssetPairTile extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     PairRichText(
-                      symbol1: pairBaseAsset.id,
-                      symbol2: pairQuotingAsset.id,
+                      displayId1: pairBaseAsset.id,
+                      displayId2: pairQuotingAsset.id,
                     ),
                     AppUiHelpers.vSpaceExtraSmall,
                     Text(

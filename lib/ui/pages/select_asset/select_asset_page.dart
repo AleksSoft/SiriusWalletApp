@@ -51,7 +51,7 @@ class _SearchButton extends StatelessWidget {
           searchLabel: c.title,
           filter: (asset) => [
             asset.name,
-            asset.symbol,
+            asset.displayId,
           ],
           builder: (asset) => _AssetTile(asset, c.selectedAsset.id == asset.id),
         ),
@@ -74,7 +74,7 @@ class _AssetTile extends StatelessWidget {
         width: AppSizes.extraLarge,
       ),
       title: Text(asset.name),
-      subtitle: Text(asset.symbol),
+      subtitle: Text(asset.displayId),
       trailing: Visibility(
         visible: checked,
         child: Icon(Icons.check, color: AppColors.accent),

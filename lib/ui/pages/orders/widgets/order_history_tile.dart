@@ -77,8 +77,8 @@ class OrderHistoryTile extends StatelessWidget {
                 textBaseline: TextBaseline.alphabetic,
                 children: [
                   PairRichText(
-                    symbol1: data.baseAssetName,
-                    symbol2: data.quoteAssetName,
+                    displayId1: data.baseAssetName,
+                    displayId2: data.quoteAssetName,
                   ),
                   AppUiHelpers.hSpaceSmall,
                   Visibility(
