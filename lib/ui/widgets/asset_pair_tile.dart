@@ -3,9 +3,9 @@ import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:antares_wallet/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 import 'asset_pair_rich_text.dart';
 
@@ -37,7 +37,7 @@ class AssetPairTile extends StatelessWidget {
     if (amount == null || GetUtils.isNullOrBlank(amount.amountInBase)) {
       return '—';
     } else {
-      return '${_assetC.baseAsset.name} ${NumberFormat.currency(locale: 'eu', symbol: '').format(double.parse(amount.amountInBase))}';
+      return '${_assetC.baseAsset.displayId} ${Formatter.format(amount.amountInBase)}';
     }
   }
 
@@ -66,7 +66,7 @@ class AssetPairTile extends StatelessWidget {
                   AppUiHelpers.hSpaceExtraSmall,
                   Flexible(
                     child: Text(
-                      pairBaseAsset.name,
+                      pairBaseAsset.displayId,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.subtitle2.copyWith(
                             fontSize: 14.0,
@@ -88,8 +88,8 @@ class AssetPairTile extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     PairRichText(
-                      displayId1: pairBaseAsset.id,
-                      displayId2: pairQuotingAsset.id,
+                      displayId1: pairBaseAsset.displayId,
+                      displayId2: pairQuotingAsset.displayId,
                     ),
                     AppUiHelpers.vSpaceExtraSmall,
                     Text(
@@ -110,8 +110,7 @@ class AssetPairTile extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      NumberFormat.currency(locale: 'eu', symbol: '')
-                          .format(lastPrice),
+                      Formatter.format(lastPrice.toString()),
                       style: textStyleButton.copyWith(
                         fontSize: 16.0,
                         fontWeight: FontWeight.w600,
