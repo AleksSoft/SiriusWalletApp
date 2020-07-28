@@ -9,6 +9,21 @@
 import 'dart:core' as $core;
 import 'package:protobuf/protobuf.dart' as $pb;
 
+class TierUpgrade extends $pb.ProtobufEnum {
+  static const TierUpgrade Advanced = TierUpgrade._(0, 'Advanced');
+  static const TierUpgrade ProIndividual = TierUpgrade._(1, 'ProIndividual');
+
+  static const $core.List<TierUpgrade> values = <TierUpgrade> [
+    Advanced,
+    ProIndividual,
+  ];
+
+  static final $core.Map<$core.int, TierUpgrade> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static TierUpgrade valueOf($core.int value) => _byValue[value];
+
+  const TierUpgrade._($core.int v, $core.String n) : super(v, n);
+}
+
 class Side extends $pb.ProtobufEnum {
   static const Side buy = Side._(0, 'buy');
   static const Side sell = Side._(1, 'sell');

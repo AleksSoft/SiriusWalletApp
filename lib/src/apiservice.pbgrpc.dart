@@ -143,6 +143,51 @@ class ApiServiceClient extends $grpc.Client {
       '/antaresWallet.ApiService/GetTierInfo',
       ($0.Empty value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $1.TierInfoRespone.fromBuffer(value));
+  static final _$getPersonalData =
+      $grpc.ClientMethod<$0.Empty, $1.PersonalDataResponse>(
+          '/antaresWallet.ApiService/GetPersonalData',
+          ($0.Empty value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $1.PersonalDataResponse.fromBuffer(value));
+  static final _$getKycDocuments =
+      $grpc.ClientMethod<$0.Empty, $1.KycDocumentsResponse>(
+          '/antaresWallet.ApiService/GetKycDocuments',
+          ($0.Empty value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $1.KycDocumentsResponse.fromBuffer(value));
+  static final _$setAddress =
+      $grpc.ClientMethod<$1.SetAddressRequest, $1.EmptyResponseV2>(
+          '/antaresWallet.ApiService/SetAddress',
+          ($1.SetAddressRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $1.EmptyResponseV2.fromBuffer(value));
+  static final _$setZip =
+      $grpc.ClientMethod<$1.SetZipRequest, $1.EmptyResponseV2>(
+          '/antaresWallet.ApiService/SetZip',
+          ($1.SetZipRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $1.EmptyResponseV2.fromBuffer(value));
+  static final _$uploadKycFile =
+      $grpc.ClientMethod<$1.KycFileRequest, $1.EmptyResponse>(
+          '/antaresWallet.ApiService/UploadKycFile',
+          ($1.KycFileRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $1.EmptyResponse.fromBuffer(value));
+  static final _$getQuestionnaire =
+      $grpc.ClientMethod<$0.Empty, $1.QuestionnaireResponse>(
+          '/antaresWallet.ApiService/GetQuestionnaire',
+          ($0.Empty value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $1.QuestionnaireResponse.fromBuffer(value));
+  static final _$saveQuestionnaire =
+      $grpc.ClientMethod<$1.AnswersRequest, $1.EmptyResponse>(
+          '/antaresWallet.ApiService/SaveQuestionnaire',
+          ($1.AnswersRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $1.EmptyResponse.fromBuffer(value));
+  static final _$submitProfile =
+      $grpc.ClientMethod<$1.SubmitProfileRequest, $1.EmptyResponse>(
+          '/antaresWallet.ApiService/SubmitProfile',
+          ($1.SubmitProfileRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $1.EmptyResponse.fromBuffer(value));
   static final _$getWallets = $grpc.ClientMethod<$0.Empty, $1.WalletsResponse>(
       '/antaresWallet.ApiService/GetWallets',
       ($0.Empty value) => value.writeToBuffer(),
@@ -268,6 +313,11 @@ class ApiServiceClient extends $grpc.Client {
           '/antaresWallet.ApiService/GetCandleUpdates',
           ($1.CandleUpdatesRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $1.CandleUpdate.fromBuffer(value));
+  static final _$getOrderbookUpdates =
+      $grpc.ClientMethod<$1.OrderbookUpdatesRequest, $1.Orderbook>(
+          '/antaresWallet.ApiService/GetOrderbookUpdates',
+          ($1.OrderbookUpdatesRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $1.Orderbook.fromBuffer(value));
 
   ApiServiceClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
       : super(channel, options: options);
@@ -454,6 +504,76 @@ class ApiServiceClient extends $grpc.Client {
       {$grpc.CallOptions options}) {
     final call = $createCall(
         _$getTierInfo, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
+  $grpc.ResponseFuture<$1.PersonalDataResponse> getPersonalData(
+      $0.Empty request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$getPersonalData, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
+  $grpc.ResponseFuture<$1.KycDocumentsResponse> getKycDocuments(
+      $0.Empty request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$getKycDocuments, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
+  $grpc.ResponseFuture<$1.EmptyResponseV2> setAddress(
+      $1.SetAddressRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$setAddress, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
+  $grpc.ResponseFuture<$1.EmptyResponseV2> setZip($1.SetZipRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(_$setZip, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
+  $grpc.ResponseFuture<$1.EmptyResponse> uploadKycFile(
+      $1.KycFileRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$uploadKycFile, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
+  $grpc.ResponseFuture<$1.QuestionnaireResponse> getQuestionnaire(
+      $0.Empty request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$getQuestionnaire, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
+  $grpc.ResponseFuture<$1.EmptyResponse> saveQuestionnaire(
+      $1.AnswersRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$saveQuestionnaire, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
+  $grpc.ResponseFuture<$1.EmptyResponse> submitProfile(
+      $1.SubmitProfileRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$submitProfile, $async.Stream.fromIterable([request]),
         options: options);
     return $grpc.ResponseFuture(call);
   }
@@ -650,6 +770,15 @@ class ApiServiceClient extends $grpc.Client {
         options: options);
     return $grpc.ResponseStream(call);
   }
+
+  $grpc.ResponseStream<$1.Orderbook> getOrderbookUpdates(
+      $1.OrderbookUpdatesRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$getOrderbookUpdates, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseStream(call);
+  }
 }
 
 abstract class ApiServiceBase extends $grpc.Service {
@@ -828,6 +957,63 @@ abstract class ApiServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
         ($1.TierInfoRespone value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.Empty, $1.PersonalDataResponse>(
+        'GetPersonalData',
+        getPersonalData_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
+        ($1.PersonalDataResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.Empty, $1.KycDocumentsResponse>(
+        'GetKycDocuments',
+        getKycDocuments_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
+        ($1.KycDocumentsResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.SetAddressRequest, $1.EmptyResponseV2>(
+        'SetAddress',
+        setAddress_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $1.SetAddressRequest.fromBuffer(value),
+        ($1.EmptyResponseV2 value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.SetZipRequest, $1.EmptyResponseV2>(
+        'SetZip',
+        setZip_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $1.SetZipRequest.fromBuffer(value),
+        ($1.EmptyResponseV2 value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.KycFileRequest, $1.EmptyResponse>(
+        'UploadKycFile',
+        uploadKycFile_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $1.KycFileRequest.fromBuffer(value),
+        ($1.EmptyResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.Empty, $1.QuestionnaireResponse>(
+        'GetQuestionnaire',
+        getQuestionnaire_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
+        ($1.QuestionnaireResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.AnswersRequest, $1.EmptyResponse>(
+        'SaveQuestionnaire',
+        saveQuestionnaire_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $1.AnswersRequest.fromBuffer(value),
+        ($1.EmptyResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.SubmitProfileRequest, $1.EmptyResponse>(
+        'SubmitProfile',
+        submitProfile_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $1.SubmitProfileRequest.fromBuffer(value),
+        ($1.EmptyResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.Empty, $1.WalletsResponse>(
         'GetWallets',
         getWallets_Pre,
@@ -1006,6 +1192,14 @@ abstract class ApiServiceBase extends $grpc.Service {
         ($core.List<$core.int> value) =>
             $1.CandleUpdatesRequest.fromBuffer(value),
         ($1.CandleUpdate value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.OrderbookUpdatesRequest, $1.Orderbook>(
+        'GetOrderbookUpdates',
+        getOrderbookUpdates_Pre,
+        false,
+        true,
+        ($core.List<$core.int> value) =>
+            $1.OrderbookUpdatesRequest.fromBuffer(value),
+        ($1.Orderbook value) => value.writeToBuffer()));
   }
 
   $async.Future<$1.AssetsDictionaryResponse> assetsDictionary_Pre(
@@ -1122,6 +1316,46 @@ abstract class ApiServiceBase extends $grpc.Service {
   $async.Future<$1.TierInfoRespone> getTierInfo_Pre(
       $grpc.ServiceCall call, $async.Future<$0.Empty> request) async {
     return getTierInfo(call, await request);
+  }
+
+  $async.Future<$1.PersonalDataResponse> getPersonalData_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.Empty> request) async {
+    return getPersonalData(call, await request);
+  }
+
+  $async.Future<$1.KycDocumentsResponse> getKycDocuments_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.Empty> request) async {
+    return getKycDocuments(call, await request);
+  }
+
+  $async.Future<$1.EmptyResponseV2> setAddress_Pre($grpc.ServiceCall call,
+      $async.Future<$1.SetAddressRequest> request) async {
+    return setAddress(call, await request);
+  }
+
+  $async.Future<$1.EmptyResponseV2> setZip_Pre(
+      $grpc.ServiceCall call, $async.Future<$1.SetZipRequest> request) async {
+    return setZip(call, await request);
+  }
+
+  $async.Future<$1.EmptyResponse> uploadKycFile_Pre(
+      $grpc.ServiceCall call, $async.Future<$1.KycFileRequest> request) async {
+    return uploadKycFile(call, await request);
+  }
+
+  $async.Future<$1.QuestionnaireResponse> getQuestionnaire_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.Empty> request) async {
+    return getQuestionnaire(call, await request);
+  }
+
+  $async.Future<$1.EmptyResponse> saveQuestionnaire_Pre(
+      $grpc.ServiceCall call, $async.Future<$1.AnswersRequest> request) async {
+    return saveQuestionnaire(call, await request);
+  }
+
+  $async.Future<$1.EmptyResponse> submitProfile_Pre($grpc.ServiceCall call,
+      $async.Future<$1.SubmitProfileRequest> request) async {
+    return submitProfile(call, await request);
   }
 
   $async.Future<$1.WalletsResponse> getWallets_Pre(
@@ -1245,6 +1479,11 @@ abstract class ApiServiceBase extends $grpc.Service {
     yield* getCandleUpdates(call, await request);
   }
 
+  $async.Stream<$1.Orderbook> getOrderbookUpdates_Pre($grpc.ServiceCall call,
+      $async.Future<$1.OrderbookUpdatesRequest> request) async* {
+    yield* getOrderbookUpdates(call, await request);
+  }
+
   $async.Future<$1.AssetsDictionaryResponse> assetsDictionary(
       $grpc.ServiceCall call, $0.Empty request);
   $async.Future<$1.BaseAssetResponse> getBaseAsset(
@@ -1289,6 +1528,22 @@ abstract class ApiServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $1.DeleteWatchlistRequest request);
   $async.Future<$1.TierInfoRespone> getTierInfo(
       $grpc.ServiceCall call, $0.Empty request);
+  $async.Future<$1.PersonalDataResponse> getPersonalData(
+      $grpc.ServiceCall call, $0.Empty request);
+  $async.Future<$1.KycDocumentsResponse> getKycDocuments(
+      $grpc.ServiceCall call, $0.Empty request);
+  $async.Future<$1.EmptyResponseV2> setAddress(
+      $grpc.ServiceCall call, $1.SetAddressRequest request);
+  $async.Future<$1.EmptyResponseV2> setZip(
+      $grpc.ServiceCall call, $1.SetZipRequest request);
+  $async.Future<$1.EmptyResponse> uploadKycFile(
+      $grpc.ServiceCall call, $1.KycFileRequest request);
+  $async.Future<$1.QuestionnaireResponse> getQuestionnaire(
+      $grpc.ServiceCall call, $0.Empty request);
+  $async.Future<$1.EmptyResponse> saveQuestionnaire(
+      $grpc.ServiceCall call, $1.AnswersRequest request);
+  $async.Future<$1.EmptyResponse> submitProfile(
+      $grpc.ServiceCall call, $1.SubmitProfileRequest request);
   $async.Future<$1.WalletsResponse> getWallets(
       $grpc.ServiceCall call, $0.Empty request);
   $async.Future<$1.WalletResponse> getWallet(
@@ -1333,4 +1588,6 @@ abstract class ApiServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $1.PriceUpdatesRequest request);
   $async.Stream<$1.CandleUpdate> getCandleUpdates(
       $grpc.ServiceCall call, $1.CandleUpdatesRequest request);
+  $async.Stream<$1.Orderbook> getOrderbookUpdates(
+      $grpc.ServiceCall call, $1.OrderbookUpdatesRequest request);
 }

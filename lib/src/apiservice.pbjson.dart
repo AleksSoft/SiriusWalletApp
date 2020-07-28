@@ -5,6 +5,14 @@
 // @dart = 2.3
 // ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type
 
+const TierUpgrade$json = const {
+  '1': 'TierUpgrade',
+  '2': const [
+    const {'1': 'Advanced', '2': 0},
+    const {'1': 'ProIndividual', '2': 1},
+  ],
+};
+
 const Side$json = const {
   '1': 'Side',
   '2': const [
@@ -186,6 +194,56 @@ const DeleteWatchlistRequest$json = const {
   ],
 };
 
+const SetAddressRequest$json = const {
+  '1': 'SetAddressRequest',
+  '2': const [
+    const {'1': 'address', '3': 1, '4': 1, '5': 9, '10': 'address'},
+  ],
+};
+
+const SetZipRequest$json = const {
+  '1': 'SetZipRequest',
+  '2': const [
+    const {'1': 'zip', '3': 1, '4': 1, '5': 9, '10': 'zip'},
+  ],
+};
+
+const KycFileRequest$json = const {
+  '1': 'KycFileRequest',
+  '2': const [
+    const {'1': 'documentType', '3': 1, '4': 1, '5': 9, '10': 'documentType'},
+    const {'1': 'filename', '3': 2, '4': 1, '5': 9, '10': 'filename'},
+    const {'1': 'file', '3': 3, '4': 1, '5': 12, '10': 'file'},
+  ],
+};
+
+const AnswersRequest$json = const {
+  '1': 'AnswersRequest',
+  '2': const [
+    const {'1': 'answers', '3': 1, '4': 3, '5': 11, '6': '.antaresWallet.AnswersRequest.Choice', '10': 'answers'},
+  ],
+  '3': const [AnswersRequest_Choice$json],
+};
+
+const AnswersRequest_Choice$json = const {
+  '1': 'Choice',
+  '2': const [
+    const {'1': 'questionId', '3': 1, '4': 1, '5': 9, '10': 'questionId'},
+    const {'1': 'answerIds', '3': 2, '4': 3, '5': 9, '10': 'answerIds'},
+    const {'1': 'other', '3': 3, '4': 1, '5': 9, '10': 'other'},
+  ],
+};
+
+const SubmitProfileRequest$json = const {
+  '1': 'SubmitProfileRequest',
+  '2': const [
+    const {'1': 'tier', '3': 1, '4': 1, '5': 14, '6': '.antaresWallet.TierUpgrade', '9': 0, '10': 'tier'},
+  ],
+  '8': const [
+    const {'1': 'optional_tier'},
+  ],
+};
+
 const WalletRequest$json = const {
   '1': 'WalletRequest',
   '2': const [
@@ -322,6 +380,13 @@ const CandleUpdatesRequest$json = const {
     const {'1': 'assetPairId', '3': 1, '4': 1, '5': 9, '10': 'assetPairId'},
     const {'1': 'type', '3': 2, '4': 1, '5': 14, '6': '.antaresWallet.CandleType', '10': 'type'},
     const {'1': 'interval', '3': 3, '4': 1, '5': 14, '6': '.antaresWallet.CandleInterval', '10': 'interval'},
+  ],
+};
+
+const OrderbookUpdatesRequest$json = const {
+  '1': 'OrderbookUpdatesRequest',
+  '2': const [
+    const {'1': 'assetPairId', '3': 1, '4': 1, '5': 9, '10': 'assetPairId'},
   ],
 };
 
@@ -563,6 +628,106 @@ const TierInfoRespone$json = const {
   '2': const [
     const {'1': 'result', '3': 1, '4': 1, '5': 11, '6': '.antaresWallet.TierInfoPayload', '10': 'result'},
     const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorV1', '10': 'error'},
+  ],
+};
+
+const PersonalDataResponse$json = const {
+  '1': 'PersonalDataResponse',
+  '2': const [
+    const {'1': 'result', '3': 1, '4': 1, '5': 11, '6': '.antaresWallet.PersonalDataResponse.PersonalDataPayload', '10': 'result'},
+    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorV1', '10': 'error'},
+  ],
+  '3': const [PersonalDataResponse_PersonalDataPayload$json],
+};
+
+const PersonalDataResponse_PersonalDataPayload$json = const {
+  '1': 'PersonalDataPayload',
+  '2': const [
+    const {'1': 'fullName', '3': 1, '4': 1, '5': 9, '10': 'fullName'},
+    const {'1': 'firstName', '3': 2, '4': 1, '5': 9, '10': 'firstName'},
+    const {'1': 'lastName', '3': 3, '4': 1, '5': 9, '10': 'lastName'},
+    const {'1': 'email', '3': 4, '4': 1, '5': 9, '10': 'email'},
+    const {'1': 'phone', '3': 5, '4': 1, '5': 9, '10': 'phone'},
+    const {'1': 'country', '3': 6, '4': 1, '5': 9, '10': 'country'},
+    const {'1': 'address', '3': 7, '4': 1, '5': 9, '10': 'address'},
+    const {'1': 'city', '3': 8, '4': 1, '5': 9, '10': 'city'},
+    const {'1': 'zip', '3': 9, '4': 1, '5': 9, '10': 'zip'},
+  ],
+};
+
+const KycDocumentsResponse$json = const {
+  '1': 'KycDocumentsResponse',
+  '2': const [
+    const {'1': 'result', '3': 1, '4': 3, '5': 11, '6': '.antaresWallet.KycDocumentsResponse.ResultEntry', '10': 'result'},
+    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorV1', '10': 'error'},
+  ],
+  '3': const [KycDocumentsResponse_ResultEntry$json, KycDocumentsResponse_KycDocument$json, KycDocumentsResponse_KycFile$json],
+};
+
+const KycDocumentsResponse_ResultEntry$json = const {
+  '1': 'ResultEntry',
+  '2': const [
+    const {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
+    const {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.KycDocumentsResponse.KycDocument', '10': 'value'},
+  ],
+  '7': const {'7': true},
+};
+
+const KycDocumentsResponse_KycDocument$json = const {
+  '1': 'KycDocument',
+  '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'type', '3': 2, '4': 1, '5': 9, '10': 'type'},
+    const {'1': 'status', '3': 3, '4': 1, '5': 9, '10': 'status'},
+    const {'1': 'rejectReason', '3': 4, '4': 1, '5': 9, '10': 'rejectReason'},
+    const {'1': 'files', '3': 5, '4': 3, '5': 11, '6': '.antaresWallet.KycDocumentsResponse.KycFile', '10': 'files'},
+  ],
+};
+
+const KycDocumentsResponse_KycFile$json = const {
+  '1': 'KycFile',
+  '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'type', '3': 2, '4': 1, '5': 9, '10': 'type'},
+    const {'1': 'title', '3': 3, '4': 1, '5': 9, '10': 'title'},
+    const {'1': 'contentType', '3': 4, '4': 1, '5': 9, '10': 'contentType'},
+    const {'1': 'fileName', '3': 5, '4': 1, '5': 9, '10': 'fileName'},
+  ],
+};
+
+const QuestionnaireResponse$json = const {
+  '1': 'QuestionnaireResponse',
+  '2': const [
+    const {'1': 'result', '3': 1, '4': 1, '5': 11, '6': '.antaresWallet.QuestionnaireResponse.QuestionnairePayload', '10': 'result'},
+    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorV1', '10': 'error'},
+  ],
+  '3': const [QuestionnaireResponse_QuestionnairePayload$json, QuestionnaireResponse_Question$json, QuestionnaireResponse_Answer$json],
+};
+
+const QuestionnaireResponse_QuestionnairePayload$json = const {
+  '1': 'QuestionnairePayload',
+  '2': const [
+    const {'1': 'questionnaire', '3': 1, '4': 3, '5': 11, '6': '.antaresWallet.QuestionnaireResponse.Question', '10': 'questionnaire'},
+  ],
+};
+
+const QuestionnaireResponse_Question$json = const {
+  '1': 'Question',
+  '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'text', '3': 2, '4': 1, '5': 9, '10': 'text'},
+    const {'1': 'type', '3': 3, '4': 1, '5': 9, '10': 'type'},
+    const {'1': 'required', '3': 4, '4': 1, '5': 8, '10': 'required'},
+    const {'1': 'hasOther', '3': 5, '4': 1, '5': 8, '10': 'hasOther'},
+    const {'1': 'answers', '3': 6, '4': 3, '5': 11, '6': '.antaresWallet.QuestionnaireResponse.Answer', '10': 'answers'},
+  ],
+};
+
+const QuestionnaireResponse_Answer$json = const {
+  '1': 'Answer',
+  '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'text', '3': 2, '4': 1, '5': 9, '10': 'text'},
   ],
 };
 
@@ -1158,6 +1323,25 @@ const CandleUpdate$json = const {
     const {'1': 'lastPrice', '3': 7, '4': 1, '5': 9, '10': 'lastPrice'},
     const {'1': 'timestamp', '3': 8, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'timestamp'},
     const {'1': 'updateTimestamp', '3': 9, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'updateTimestamp'},
+  ],
+};
+
+const Orderbook$json = const {
+  '1': 'Orderbook',
+  '2': const [
+    const {'1': 'assetPairId', '3': 1, '4': 1, '5': 9, '10': 'assetPairId'},
+    const {'1': 'timestamp', '3': 2, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'timestamp'},
+    const {'1': 'bids', '3': 3, '4': 3, '5': 11, '6': '.antaresWallet.Orderbook.PriceVolume', '10': 'bids'},
+    const {'1': 'asks', '3': 4, '4': 3, '5': 11, '6': '.antaresWallet.Orderbook.PriceVolume', '10': 'asks'},
+  ],
+  '3': const [Orderbook_PriceVolume$json],
+};
+
+const Orderbook_PriceVolume$json = const {
+  '1': 'PriceVolume',
+  '2': const [
+    const {'1': 'p', '3': 1, '4': 1, '5': 9, '10': 'p'},
+    const {'1': 'v', '3': 2, '4': 1, '5': 9, '10': 'v'},
   ],
 };
 
