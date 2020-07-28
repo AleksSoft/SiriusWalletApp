@@ -56,6 +56,24 @@ class AssetsController extends GetxController {
   AmountInBaseAssetResponse_AmountInBasePayload amountInBaseById(String id) =>
       amountsInBase.firstWhere((a) => a.assetId == id, orElse: () => null);
 
+  double countBalanceInBase(String id, Balance balance) {
+    var amount = amountInBaseById(id);
+    double availableBalance =
+        balance == null ? 0.0 : double.parse(balance.available);
+    double amountInBase;
+    if (baseAssetId == id) {
+      amountInBase = availableBalance;
+    } else {
+      amountInBase = availableBalance *
+          (amount == null
+              ? 0.0
+              : double.parse(GetUtils.isNullOrBlank(amount.amountInBase)
+                  ? '0.0'
+                  : amount.amountInBase));
+    }
+    return amountInBase;
+  }
+
   AssetCategory categoryById(String id) =>
       categoryList.firstWhere((c) => c.id == id, orElse: () => null);
 

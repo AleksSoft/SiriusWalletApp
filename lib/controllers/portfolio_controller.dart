@@ -38,15 +38,17 @@ class PortfolioController extends GetxController {
     super.onInit();
   }
 
-  double get balanceSum =>
-      balances.fold(0.0, (p, c) => p + double.parse(c.available, (_) => 0.0));
+  double get balanceSum => balances.fold(
+        0.0,
+        (p, c) => p + _assetsController.countBalanceInBase(c.assetId, c),
+      );
 
   Balance assetBalance(String assetId) =>
       balances.firstWhere((b) => b.assetId == assetId, orElse: () => null);
 
   Future<void> rebuildPortfolioAssets() async {
     loading = true;
-    await AssetsController.con.getAssetsDictionary();
+    await _assetsController.getAssetsDictionary();
     await getWalletAssets();
     _assetsController.categoryList.forEach((category) {
       var l = _assetsController.categoryAssets(category.id);

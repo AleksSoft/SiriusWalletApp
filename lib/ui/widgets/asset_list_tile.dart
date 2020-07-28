@@ -4,9 +4,9 @@ import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:antares_wallet/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 class AssetListTile extends StatelessWidget {
   final VoidCallback onTap;
@@ -23,7 +23,6 @@ class AssetListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var balance = PortfolioController.con.assetBalance(asset.id);
-    var amount = AssetsController.con.amountInBaseById(asset.id);
 
     return Column(
       children: [
@@ -51,14 +50,19 @@ class AssetListTile extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                _getAvailableBalance(balance),
+                Formatter.format(balance?.available, symbol: asset.displayId),
                 style: Get.textTheme.subtitle1.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
               ),
               AppUiHelpers.vSpaceSmall,
               Text(
-                _getAmountInBase(balance, amount),
+                Formatter.format(
+                  AssetsController.con
+                      .countBalanceInBase(asset.id, balance)
+                      .toString(),
+                  symbol: AssetsController.con.baseAsset.displayId,
+                ),
                 style: Get.textTheme.caption,
               )
             ],
@@ -67,24 +71,5 @@ class AssetListTile extends StatelessWidget {
         Divider(height: 1.0, color: AppColors.secondary.withOpacity(0.4)),
       ],
     );
-  }
-
-  String _getAvailableBalance(Balance balance) {
-    double availableBalance =
-        balance == null ? 0.0 : double.parse(balance.available);
-    return '${asset.displayId} ${NumberFormat.currency(locale: 'eu', symbol: '').format(availableBalance)}';
-  }
-
-  String _getAmountInBase(
-      Balance balance, AmountInBaseAssetResponse_AmountInBasePayload amount) {
-    double availableBalance =
-        balance == null ? 0.0 : double.parse(balance.available);
-    double amountInBase = availableBalance *
-        (amount == null
-            ? 0.0
-            : double.parse(GetUtils.isNullOrBlank(amount.amountInBase)
-                ? '0.0'
-                : amount.amountInBase));
-    return '${AssetsController.con.baseAssetId} ${NumberFormat.currency(locale: 'eu', customPattern: '#,##.#').format(amountInBase)}';
   }
 }
