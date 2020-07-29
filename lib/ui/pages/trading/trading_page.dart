@@ -1,13 +1,14 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
+import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/models/market_model.dart';
 import 'package:antares_wallet/services/api/mock_api.dart';
-import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
 import 'package:antares_wallet/ui/widgets/tradelog_tile.dart';
 import 'package:antares_wallet/ui/widgets/volume_ask_tile.dart';
 import 'package:antares_wallet/ui/widgets/volume_bid_tile.dart';
+import 'package:antares_wallet/utils/formatter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,7 +20,7 @@ import 'dart:math' as math;
 import 'trading_controller.dart';
 
 class TradingPage extends StatelessWidget {
-  static final String route = '/pair-trading';
+  static final String route = '/trading';
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +35,7 @@ class TradingPage extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    _.assetPairHeader,
-                    style: TextStyle(fontSize: 16.0),
-                  ),
+                  Text(_.assetPairHeader, style: TextStyle(fontSize: 16.0)),
                   Padding(
                     padding: const EdgeInsets.only(left: AppSizes.extraSmall),
                     child: Transform.rotate(
@@ -58,7 +56,7 @@ class TradingPage extends StatelessWidget {
             children: [
               _HeaderView(),
               Divider(height: 1),
-              _CandleChartView(data: _.mockMarkets),
+              _CandleChartView(data: _.chartModels),
               Divider(height: 1),
               Container(
                 height: 27 * 40.0,
@@ -88,31 +86,32 @@ class TradingPage extends StatelessWidget {
     );
   }
 
-  Future<AssetPair> _showSearch() {
+  Future<MarketModel> _showSearch() {
     return showSearch(
       context: Get.overlayContext,
-      delegate: SearchPage<AssetPair>(
+      delegate: SearchPage<MarketModel>(
         showItemsOnEmpty: true,
-        items: TradingController.con.assetPairs,
+        items: TradingController.con.markets,
         searchLabel: 'search'.tr,
-        filter: (pair) => [
-          pair.name,
+        filter: (model) => [
+          model.pairBaseAsset.name,
+          model.pairBaseAsset.displayId,
         ],
-        builder: (pair) => Padding(
+        builder: (model) => Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: AppSizes.medium,
           ),
           child: AssetPairTile(
             imgUrl: MockApiService.lykkeIconUrl,
-            pairBaseAsset: Asset.getDefault(),
-            pairQuotingAsset: Asset.getDefault(),
-            volume: 0.0,
-            lastPrice: 0.0,
-            change: 0.0,
+            pairBaseAsset: model.pairBaseAsset,
+            pairQuotingAsset: model.pairQuotingAsset,
+            volume: model.volume,
+            lastPrice: model.price,
+            change: model.change,
             showTitle: true,
             onTap: () {
               Get.back();
-              TradingController.con.updateAssetPair(pair);
+              TradingController.con.updateMarketModel(model);
             },
           ),
         ),
@@ -122,20 +121,30 @@ class TradingPage extends StatelessWidget {
 }
 
 class _HeaderView extends StatelessWidget {
-  const _HeaderView({Key key}) : super(key: key);
+  final c = TradingController.con;
+  final change = double.parse(
+    TradingController.con.marketModel.priceChange24H,
+    (_) => 0.0,
+  );
 
   @override
   Widget build(BuildContext context) {
-    final titleTheme = Theme.of(context).textTheme.headline5.copyWith(
-          fontFamily: 'Akrobat',
-          fontWeight: FontWeight.w700,
-        );
+    final titleTheme = Get.textTheme.headline5.copyWith(
+      fontFamily: 'Akrobat',
+      fontWeight: FontWeight.w700,
+    );
     return Padding(
       padding: const EdgeInsets.all(AppSizes.medium),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text('USD 0,00', style: titleTheme),
+          Text(
+            Formatter.format(
+              c.marketModel.lastPrice,
+              symbol: c.initialMarket.pairQuotingAsset.displayId,
+            ),
+            style: titleTheme,
+          ),
           AppUiHelpers.vSpaceExtraSmall,
           Row(
             mainAxisSize: MainAxisSize.max,
@@ -149,18 +158,24 @@ class _HeaderView extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        '-3,44%',
-                        style: Theme.of(context).textTheme.button.copyWith(
-                              color: AppColors.red,
-                            ),
+                        '${Formatter.format(c.marketModel.priceChange24H)}%',
+                        style: Get.textTheme.button.copyWith(
+                          color: _color(change),
+                        ),
                       ),
-                      Icon(Icons.arrow_drop_down, color: AppColors.red),
+                      Visibility(
+                        visible: change != 0,
+                        child: Icon(
+                          Icons.arrow_drop_down,
+                          color: _color(change),
+                        ),
+                      ),
                     ],
                   ),
                   AppUiHelpers.vSpaceExtraSmall,
                   Text(
-                    'Vol 3,3327',
-                    style: Theme.of(context).textTheme.caption,
+                    'Vol ${Formatter.format(c.marketModel.volume24H, ifZeroOrNull: '—')}',
+                    style: Get.textTheme.caption,
                   ),
                 ],
               ),
@@ -169,13 +184,13 @@ class _HeaderView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    'High 9 431, 97',
-                    style: Theme.of(context).textTheme.caption,
+                    'High ${Formatter.format(c.marketModel.high, ifZeroOrNull: '—')}',
+                    style: Get.textTheme.caption,
                   ),
                   AppUiHelpers.vSpaceExtraSmall,
                   Text(
-                    'Low 8 950, 34',
-                    style: Theme.of(context).textTheme.caption,
+                    'Low ${Formatter.format(c.marketModel.low, ifZeroOrNull: '—')}',
+                    style: Get.textTheme.caption,
                   ),
                 ],
               ),
@@ -184,6 +199,15 @@ class _HeaderView extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Color _color(double change) {
+    if (change > 0) {
+      return AppColors.green;
+    } else if (change < 0) {
+      return AppColors.red;
+    }
+    return AppColors.secondary;
   }
 }
 
@@ -244,10 +268,10 @@ class _Orderbook extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width / 2;
-    final titleStyle = Theme.of(context).textTheme.caption.copyWith(
-          color: AppColors.secondary,
-          fontSize: 12.0,
-        );
+    final titleStyle = Get.textTheme.caption.copyWith(
+      color: AppColors.secondary,
+      fontSize: 12.0,
+    );
     return Row(
       children: [
         Container(

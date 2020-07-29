@@ -7,11 +7,16 @@ class Formatter {
 
   static String format(String s,
       {String symbol, String locale, String ifZeroOrNull}) {
-    if (!GetUtils.isNullOrBlank(ifZeroOrNull) && GetUtils.isNullOrBlank(s)) {
-      return ifZeroOrNull;
+    if (GetUtils.isNullOrBlank(s)) {
+      if (!GetUtils.isNullOrBlank(ifZeroOrNull)) {
+        return ifZeroOrNull;
+      } else {
+        s = GetUtils.isNullOrBlank(s) ? '0.0' : s;
+      }
+    } else if (double.parse(s, (_) => 0.0) == 0) {
+      if (!GetUtils.isNullOrBlank(ifZeroOrNull)) return ifZeroOrNull;
     }
 
-    s = GetUtils.isNullOrBlank(s) ? '0.0' : s;
     String formatSymbol = GetUtils.isNullOrBlank(symbol) ? '' : '$symbol ';
     int decimalDigits = minDecimal;
 
@@ -28,6 +33,6 @@ class Formatter {
       locale: locale ?? 'eu',
       symbol: '',
       decimalDigits: decimalDigits,
-    ).format(double.parse(s))}';
+    ).format(double.parse(s, (_) => 0.0))}';
   }
 }

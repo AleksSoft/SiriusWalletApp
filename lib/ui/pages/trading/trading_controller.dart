@@ -1,6 +1,6 @@
 import 'dart:convert' show json;
 
-import 'package:antares_wallet/controllers/assets_controller.dart';
+import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/models/market_model.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -8,29 +8,39 @@ import 'package:get/get.dart';
 
 class TradingController extends GetxController {
   static TradingController get con => Get.find();
-  final _assetsController = Get.find<AssetsController>();
+  final _marketsController = MarketsController.con;
 
-  List<ExampleChartModel> _mockMarkets = List();
+  MarketModel _initialMarket = Get.arguments as MarketModel;
 
-  AssetPair _assetPair = Get.arguments as AssetPair;
+  MarketModel get initialMarket => _initialMarket;
 
-  List<AssetPair> get assetPairs => _assetsController.assetPairs;
+  List<MarketModel> get markets => _marketsController.markets;
 
-  List<ExampleChartModel> get mockMarkets => _mockMarkets;
+  List<ExampleChartModel> _mockChartModels = List();
 
-  AssetPair get assetPair => _assetPair;
+  List<ExampleChartModel> get chartModels => _mockChartModels;
 
-  String get assetPairHeader => '';
-  // '${_assetPair.mainAssetSymbol}/${_assetPair.secAssetSymbol}';
+  MarketsResponse_MarketModel _marketModel =
+      MarketsResponse_MarketModel.getDefault();
+
+  MarketsResponse_MarketModel get marketModel => _marketModel;
+
+  String get assetPairHeader =>
+      '${initialMarket.pairBaseAsset.displayId}/${initialMarket.pairQuotingAsset.displayId}';
 
   @override
   void onInit() async {
-    _mockMarkets = await _loadMarkets();
+    _mockChartModels = await _loadMarkets();
+    _marketModel = (await MarketsController.con.getMarkets(
+      assetPairId: initialMarket.pairId,
+    ))
+        .first;
+    update();
     super.onInit();
   }
 
-  void updateAssetPair(AssetPair data) {
-    _assetPair = data;
+  void updateMarketModel(MarketModel data) {
+    _initialMarket = data;
     update();
   }
 

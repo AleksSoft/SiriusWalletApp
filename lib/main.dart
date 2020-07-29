@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:syncfusion_flutter_core/core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,6 +18,11 @@ void main() async {
 
   // Initialize storage
   await GetStorage.init();
+
+  // Register Syncfusion license
+  SyncfusionLicense.registerLicense(
+    'NT8mJyc2IWhia31hfWN9Z2doYmF8YGJ8ampqanNiYmlmamlmanMDHmgwJzwTICQ6ICAwOzI6PX06PA==',
+  );
 
   runApp(
     GestureDetector(
@@ -38,9 +44,9 @@ void main() async {
         title: 'Antares Wallet',
         theme: AppThemes.light,
         themeMode: ThemeMode.system,
-        navigatorObservers: [
-          FirebaseAnalyticsObserver(analytics: FirebaseAnalytics()),
-        ],
+        // navigatorObservers: [
+        //   FirebaseAnalyticsObserver(analytics: FirebaseAnalytics()),
+        // ],
       ),
     ),
   );
