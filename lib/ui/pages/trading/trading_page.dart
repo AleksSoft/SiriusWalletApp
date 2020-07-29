@@ -59,7 +59,7 @@ class TradingPage extends StatelessWidget {
               _CandleChartView(data: _.chartModels),
               Divider(height: 1),
               Container(
-                height: 27 * 40.0,
+                height: 28 * AppSizes.extraLarge,
                 child: DefaultTabController(
                   initialIndex: 0,
                   length: 2,
@@ -216,49 +216,59 @@ class _CandleChartView extends StatelessWidget {
   final List<ExampleChartModel> data;
   @override
   Widget build(BuildContext context) {
+    var zoomFactor = 20 / (data.length == 0 ? 1 : data.length);
     return SizedBox(
-        height: 300,
-        child: SfCartesianChart(
-          borderColor: AppColors.secondary,
-          plotAreaBorderColor: AppColors.secondary,
-          zoomPanBehavior: ZoomPanBehavior(
-            enablePinching: true,
-            enablePanning: true,
-            zoomMode: ZoomMode.x,
-          ),
-          plotAreaBorderWidth: 0,
-          primaryXAxis: DateTimeAxis(
-            enableAutoIntervalOnZooming: true,
-            dateFormat: DateFormat.MMMd(),
-            intervalType: DateTimeIntervalType.days,
-            majorGridLines: MajorGridLines(width: 0),
-          ),
-          primaryYAxis: NumericAxis(
-            interval: 50,
-            opposedPosition: true,
-            labelStyle: TextStyle(color: AppColors.secondary),
-            axisLine: AxisLine(width: 0),
-          ),
-          series: <CandleSeries<ExampleChartModel, DateTime>>[
-            CandleSeries<ExampleChartModel, DateTime>(
-              dataSource: data,
-              enableTooltip: true,
-              enableSolidCandles: true,
-              xValueMapper: (ExampleChartModel sales, _) =>
-                  DateTime.fromMillisecondsSinceEpoch(sales.date * 1000),
-              lowValueMapper: (ExampleChartModel sales, _) => sales.low,
-              highValueMapper: (ExampleChartModel sales, _) => sales.high,
-              openValueMapper: (ExampleChartModel sales, _) => sales.open,
-              closeValueMapper: (ExampleChartModel sales, _) => sales.close,
-              dataLabelSettings: DataLabelSettings(isVisible: false),
+      height: 250,
+      child: data.isEmpty
+          ? Center(child: CircularProgressIndicator())
+          : AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: SfCartesianChart(
+                plotAreaBorderWidth: 0,
+                borderColor: AppColors.secondary,
+                plotAreaBorderColor: AppColors.secondary,
+                zoomPanBehavior: ZoomPanBehavior(
+                  enablePinching: true,
+                  enablePanning: true,
+                  zoomMode: ZoomMode.x,
+                ),
+                trackballBehavior: TrackballBehavior(
+                  lineColor: AppColors.secondary,
+                  enable: true,
+                  activationMode: ActivationMode.singleTap,
+                ),
+                primaryXAxis: DateTimeAxis(
+                  enableAutoIntervalOnZooming: true,
+                  zoomFactor: zoomFactor,
+                  zoomPosition: 1 - zoomFactor,
+                  dateFormat: DateFormat.MMMd(),
+                  intervalType: DateTimeIntervalType.days,
+                  majorGridLines: MajorGridLines(width: 0),
+                ),
+                primaryYAxis: NumericAxis(
+                  interval: 20,
+                  opposedPosition: true,
+                  labelStyle: TextStyle(color: AppColors.secondary),
+                  axisLine: AxisLine(width: 0),
+                ),
+                series: <ChartSeries<ExampleChartModel, DateTime>>[
+                  CandleSeries<ExampleChartModel, DateTime>(
+                    dataSource: data,
+                    enableTooltip: true,
+                    enableSolidCandles: true,
+                    animationDuration: 500,
+                    xValueMapper: (sales, _) =>
+                        DateTime.fromMillisecondsSinceEpoch(sales.date * 1000),
+                    lowValueMapper: (sales, _) => sales.low,
+                    highValueMapper: (sales, _) => sales.high,
+                    openValueMapper: (sales, _) => sales.open,
+                    closeValueMapper: (sales, _) => sales.close,
+                    dataLabelSettings: DataLabelSettings(isVisible: false),
+                  ),
+                ],
+              ),
             ),
-          ],
-          trackballBehavior: TrackballBehavior(
-            lineColor: AppColors.secondary,
-            enable: true,
-            activationMode: ActivationMode.singleTap,
-          ),
-        ));
+    );
   }
 }
 
@@ -267,7 +277,7 @@ class _Orderbook extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width / 2;
+    final width = Get.width / 2;
     final titleStyle = Get.textTheme.caption.copyWith(
       color: AppColors.secondary,
       fontSize: 12.0,
