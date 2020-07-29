@@ -32,15 +32,6 @@ class AssetPairTile extends StatelessWidget {
     Key key,
   }) : super(key: key);
 
-  String get _formattedAmount {
-    var amount = _assetC.amountInBaseById(pairBaseAsset.id);
-    if (amount == null || GetUtils.isNullOrBlank(amount.amountInBase)) {
-      return '—';
-    } else {
-      return '${_assetC.baseAsset.displayId} ${Formatter.format(amount.amountInBase)}';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final textStyleButton = Get.textTheme.button;
@@ -110,7 +101,10 @@ class AssetPairTile extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      Formatter.format(lastPrice.toString()),
+                      Formatter.format(
+                        lastPrice.toString(),
+                        ifZeroOrNull: '—',
+                      ),
                       style: textStyleButton.copyWith(
                         fontSize: 16.0,
                         fontWeight: FontWeight.w600,
@@ -118,10 +112,16 @@ class AssetPairTile extends StatelessWidget {
                     ),
                     AppUiHelpers.vSpaceExtraSmall,
                     Text(
-                      _formattedAmount,
+                      Formatter.format(
+                        _assetC
+                            .amountInBaseById(pairBaseAsset.id)
+                            ?.amountInBase,
+                        symbol: _assetC.baseAsset.displayId,
+                        ifZeroOrNull: '—',
+                      ),
                       style: textStyleButton.copyWith(
-                        fontSize: 12.0,
                         color: AppColors.secondary,
+                        fontSize: 12.0,
                       ),
                     ),
                   ],

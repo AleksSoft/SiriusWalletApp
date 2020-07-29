@@ -4,6 +4,7 @@ import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/widgets/asset_list_tile.dart';
+import 'package:antares_wallet/utils/formatter.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +56,10 @@ class _PortfolioAssetsHeader extends StatelessWidget {
             style: Get.textTheme.caption.copyWith(fontSize: 14),
           ),
           Text(
-            '${AssetsController.con.baseAsset.displayId} ${NumberFormat.currency(locale: 'eu', symbol: '').format(c.balanceSum)}',
+            Formatter.format(
+              c.balanceSum.toString(),
+              symbol: AssetsController.con.baseAsset.displayId,
+            ),
             style: titleTheme,
           ),
         ],

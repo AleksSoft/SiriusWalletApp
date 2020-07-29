@@ -12,7 +12,7 @@ class Formatter {
     }
 
     s = GetUtils.isNullOrBlank(s) ? '0.0' : s;
-    String formatSymbol = symbol == null ? '' : '$symbol ';
+    String formatSymbol = GetUtils.isNullOrBlank(symbol) ? '' : '$symbol ';
     int decimalDigits = minDecimal;
 
     var splitted = s.split('.');
@@ -24,11 +24,10 @@ class Formatter {
       }
     }
 
-    return NumberFormat.currency(
-            locale: locale ?? 'eu',
-            symbol: formatSymbol,
-            name: formatSymbol,
-            decimalDigits: decimalDigits)
-        .format(double.parse(s));
+    return '$formatSymbol${NumberFormat.currency(
+      locale: locale ?? 'eu',
+      symbol: '',
+      decimalDigits: decimalDigits,
+    ).format(double.parse(s))}';
   }
 }

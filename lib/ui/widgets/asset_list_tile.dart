@@ -50,7 +50,10 @@ class AssetListTile extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                Formatter.format(balance?.available, symbol: asset.displayId),
+                Formatter.format(
+                  balance?.available,
+                  symbol: asset.displayId,
+                ),
                 style: Get.textTheme.subtitle1.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
