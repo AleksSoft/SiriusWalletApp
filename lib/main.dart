@@ -2,8 +2,6 @@ import 'package:antares_wallet/app/routes/app_routes.dart';
 import 'package:antares_wallet/app/ui/app_themes.dart';
 import 'package:antares_wallet/app/ui/app_translations.dart';
 import 'package:antares_wallet/ui/pages/initial/initial_page.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';

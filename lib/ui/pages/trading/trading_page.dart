@@ -2,7 +2,6 @@ import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
-import 'package:antares_wallet/models/market_model.dart';
 import 'package:antares_wallet/services/api/mock_api.dart';
 import 'package:antares_wallet/src/apiservice.pbgrpc.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
@@ -22,68 +21,64 @@ import 'trading_controller.dart';
 
 class TradingPage extends StatelessWidget {
   static final String route = '/trading';
+  final c = TradingController.con;
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<TradingController>(
-      init: TradingController(),
-      builder: (_) {
-        return Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            title: FlatButton(
-              onPressed: () => _showSearch(),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: FlatButton(
+          onPressed: () => _showSearch(),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(c.assetPairHeader, style: TextStyle(fontSize: 16.0)),
+              Padding(
+                padding: const EdgeInsets.only(left: AppSizes.extraSmall),
+                child: Transform.rotate(
+                  angle: 3 * math.pi / 4,
+                  child: Icon(
+                    Icons.import_export,
+                    color: AppColors.accent,
+                    size: 20,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      body: ListView(
+        shrinkWrap: true,
+        children: [
+          _HeaderView(),
+          Divider(height: 1),
+          _CandleChartView(),
+          Divider(height: 1),
+          Container(
+            height: 28 * AppSizes.extraLarge,
+            child: DefaultTabController(
+              initialIndex: 0,
+              length: 2,
+              child: Column(
                 children: [
-                  Text(_.assetPairHeader, style: TextStyle(fontSize: 16.0)),
-                  Padding(
-                    padding: const EdgeInsets.only(left: AppSizes.extraSmall),
-                    child: Transform.rotate(
-                      angle: 3 * math.pi / 4,
-                      child: Icon(
-                        Icons.import_export,
-                        color: AppColors.accent,
-                        size: 20,
-                      ),
+                  TabBar(
+                    indicatorWeight: 1.0,
+                    indicatorColor: Colors.black,
+                    tabs: [Tab(text: 'Order book'), Tab(text: 'Tradelog')],
+                  ),
+                  Expanded(
+                    child: TabBarView(
+                      children: [_Orderbook(), _Tradelog()],
                     ),
                   ),
                 ],
               ),
             ),
           ),
-          body: ListView(
-            shrinkWrap: true,
-            children: [
-              _HeaderView(),
-              Divider(height: 1),
-              _CandleChartView(),
-              Divider(height: 1),
-              Container(
-                height: 28 * AppSizes.extraLarge,
-                child: DefaultTabController(
-                  initialIndex: 0,
-                  length: 2,
-                  child: Column(
-                    children: [
-                      TabBar(
-                        indicatorWeight: 1.0,
-                        indicatorColor: Colors.black,
-                        tabs: [Tab(text: 'Order book'), Tab(text: 'Tradelog')],
-                      ),
-                      Expanded(
-                        child: TabBarView(
-                          children: [_Orderbook(), _Tradelog()],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
+        ],
+      ),
     );
   }
 
@@ -112,7 +107,7 @@ class TradingPage extends StatelessWidget {
             showTitle: true,
             onTap: () {
               Get.back();
-              TradingController.con.updateMarketModel(model);
+              c.updateWithMarket(model);
             },
           ),
         ),
@@ -139,12 +134,14 @@ class _HeaderView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            Formatter.format(
-              c.marketModel.lastPrice,
-              symbol: c.initialMarket.pairQuotingAsset.displayId,
+          Obx(
+            () => Text(
+              Formatter.format(
+                c.marketModel.lastPrice,
+                symbol: c.initialMarket.pairQuotingAsset.displayId,
+              ),
+              style: titleTheme,
             ),
-            style: titleTheme,
           ),
           AppUiHelpers.vSpaceExtraSmall,
           Row(
@@ -158,10 +155,12 @@ class _HeaderView extends StatelessWidget {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        '${Formatter.format(c.marketModel.priceChange24H)}%',
-                        style: Get.textTheme.button.copyWith(
-                          color: _color(change),
+                      Obx(
+                        () => Text(
+                          '${Formatter.format(c.marketModel.priceChange24H)}%',
+                          style: Get.textTheme.button.copyWith(
+                            color: _color(change),
+                          ),
                         ),
                       ),
                       Visibility(
@@ -174,9 +173,11 @@ class _HeaderView extends StatelessWidget {
                     ],
                   ),
                   AppUiHelpers.vSpaceExtraSmall,
-                  Text(
-                    'Vol ${Formatter.format(c.marketModel.volume24H, ifZeroOrNull: '—')}',
-                    style: Get.textTheme.caption,
+                  Obx(
+                    () => Text(
+                      'Vol ${Formatter.format(c.marketModel.volume24H, ifZeroOrNull: '—')}',
+                      style: Get.textTheme.caption,
+                    ),
                   ),
                 ],
               ),
@@ -184,14 +185,18 @@ class _HeaderView extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(
-                    'High ${Formatter.format(c.marketModel.high, ifZeroOrNull: '—')}',
-                    style: Get.textTheme.caption,
+                  Obx(
+                    () => Text(
+                      'High ${Formatter.format(c.marketModel.high, ifZeroOrNull: '—')}',
+                      style: Get.textTheme.caption,
+                    ),
                   ),
                   AppUiHelpers.vSpaceExtraSmall,
-                  Text(
-                    'Low ${Formatter.format(c.marketModel.low, ifZeroOrNull: '—')}',
-                    style: Get.textTheme.caption,
+                  Obx(
+                    () => Text(
+                      'Low ${Formatter.format(c.marketModel.low, ifZeroOrNull: '—')}',
+                      style: Get.textTheme.caption,
+                    ),
                   ),
                 ],
               ),
@@ -217,109 +222,95 @@ class _CandleChartView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var zoomFactor = 20 / (c.candles.length < 20 ? 20 : c.candles.length);
     return SizedBox(
       height: 250,
-      child: c.candles.isEmpty
-          ? Center(child: CircularProgressIndicator())
-          : AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              child: SfCartesianChart(
-                plotAreaBorderWidth: 0,
-                borderColor: AppColors.secondary,
-                plotAreaBorderColor: AppColors.secondary,
-                // enableSideBySideSeriesPlacement: false,
-                zoomPanBehavior: ZoomPanBehavior(
-                  enablePinching: true,
-                  enablePanning: true,
-                  zoomMode: ZoomMode.x,
-                ),
-                trackballBehavior: TrackballBehavior(
-                  lineColor: AppColors.secondary,
-                  enable: true,
-                  activationMode: ActivationMode.singleTap,
-                ),
-                primaryXAxis: DateTimeAxis(
-                  // name: 'xAxis1',
-                  enableAutoIntervalOnZooming: true,
-                  zoomFactor: zoomFactor,
-                  zoomPosition: 1 - zoomFactor,
-                  dateFormat: DateFormat.MMMd(),
-                  intervalType: DateTimeIntervalType.days,
-                  majorGridLines: MajorGridLines(width: 0),
-                ),
-                primaryYAxis: NumericAxis(
-                  interval: 20,
-                  opposedPosition: true,
-                  labelStyle: TextStyle(color: AppColors.secondary),
-                  axisLine: AxisLine(width: 0),
-                ),
-                // axes: <ChartAxis>[
-                //   NumericAxis(
-                //     name: 'yAxis1',
-                //     isVisible: false,
-                //     opposedPosition: true,
-                //     majorGridLines: MajorGridLines(width: 0),
-                //     labelStyle: TextStyle(color: AppColors.secondary),
-                //   )
-                // ],
-                series: <ChartSeries<CandleUpdate, DateTime>>[
-                  CandleSeries<CandleUpdate, DateTime>(
-                    dataSource: c.candles,
-                    enableTooltip: true,
-                    enableSolidCandles: true,
-                    name: 'AAPL',
-                    animationDuration: 500,
-                    xValueMapper: (candle, _) =>
-                        DateTime.fromMillisecondsSinceEpoch(
-                      candle.timestamp.seconds.toInt() * 1000,
-                    ),
-                    lowValueMapper: (candle, _) => double.parse(
-                      candle.low,
-                      (_) => 0.0,
-                    ),
-                    highValueMapper: (candle, _) => double.parse(
-                      candle.low,
-                      (_) => 0.0,
-                    ),
-                    openValueMapper: (candle, _) => double.parse(
-                      candle.low,
-                      (_) => 0.0,
-                    ),
-                    closeValueMapper: (candle, _) => double.parse(
-                      candle.low,
-                      (_) => 0.0,
-                    ),
-                    dataLabelSettings: DataLabelSettings(isVisible: false),
-                    onRendererCreated: (ChartSeriesController controller) {
-                      c.chartSeriesController = controller;
-                    },
-                  ),
-                  // ColumnSeries<ExampleChartModel, DateTime>(
-                  //   opacity: 0.2,
-                  //   dataSource: data,
-                  //   xAxisName: 'xAxis1',
-                  //   yAxisName: 'yAxis1',
-                  //   animationDuration: 500,
-                  //   enableTooltip: false,
-                  //   isTrackVisible: false,
-                  //   trackBorderColor: Colors.transparent,
-                  //   trackColor: Colors.transparent,
-                  //   color: AppColors.secondary,
-                  //   xValueMapper: (sales, _) =>
-                  //       DateTime.fromMillisecondsSinceEpoch(sales.date * 1000),
-                  //   yValueMapper: (sales, _) => sales.vol,
-                  // )
-                ],
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        child: SfCartesianChart(
+          plotAreaBorderWidth: 0,
+          borderColor: AppColors.secondary,
+          plotAreaBorderColor: AppColors.secondary,
+          // enableSideBySideSeriesPlacement: false,
+          zoomPanBehavior: ZoomPanBehavior(
+            enablePinching: true,
+            enablePanning: true,
+            zoomMode: ZoomMode.x,
+          ),
+          trackballBehavior: TrackballBehavior(
+            lineColor: AppColors.secondary,
+            enable: true,
+            activationMode: ActivationMode.singleTap,
+          ),
+          primaryXAxis: DateTimeAxis(
+            // name: 'xAxis1',
+            enableAutoIntervalOnZooming: true,
+            // zoomFactor: zoomFactor,
+            // zoomPosition: 1 - zoomFactor,
+            dateFormat: DateFormat.MMMd(),
+            intervalType: DateTimeIntervalType.days,
+            majorGridLines: MajorGridLines(width: 0),
+          ),
+          primaryYAxis: NumericAxis(
+            interval: 20,
+            opposedPosition: true,
+            labelStyle: TextStyle(color: AppColors.secondary),
+            axisLine: AxisLine(width: 0),
+          ),
+          // axes: <ChartAxis>[
+          //   NumericAxis(
+          //     name: 'yAxis1',
+          //     isVisible: false,
+          //     opposedPosition: true,
+          //     majorGridLines: MajorGridLines(width: 0),
+          //     labelStyle: TextStyle(color: AppColors.secondary),
+          //   )
+          // ],
+          series: <ChartSeries<CandleUpdate, DateTime>>[
+            CandleSeries<CandleUpdate, DateTime>(
+              dataSource: c.candles,
+              enableTooltip: true,
+              enableSolidCandles: true,
+              name: 'AAPL',
+              animationDuration: 500,
+              xValueMapper: (candle, _) => DateTime.fromMillisecondsSinceEpoch(
+                candle.timestamp.seconds.toInt() * 1000,
               ),
+              lowValueMapper: (candle, _) =>
+                  double.parse(candle.low, (_) => 0.0),
+              highValueMapper: (candle, _) =>
+                  double.parse(candle.low, (_) => 0.0),
+              openValueMapper: (candle, _) =>
+                  double.parse(candle.low, (_) => 0.0),
+              closeValueMapper: (candle, _) =>
+                  double.parse(candle.low, (_) => 0.0),
+              dataLabelSettings: DataLabelSettings(isVisible: false),
+              onRendererCreated: (ChartSeriesController controller) {
+                c.chartSeriesController = controller;
+              },
             ),
+            // ColumnSeries<ExampleChartModel, DateTime>(
+            //   opacity: 0.2,
+            //   dataSource: data,
+            //   xAxisName: 'xAxis1',
+            //   yAxisName: 'yAxis1',
+            //   animationDuration: 500,
+            //   enableTooltip: false,
+            //   isTrackVisible: false,
+            //   trackBorderColor: Colors.transparent,
+            //   trackColor: Colors.transparent,
+            //   color: AppColors.secondary,
+            //   xValueMapper: (sales, _) =>
+            //       DateTime.fromMillisecondsSinceEpoch(sales.date * 1000),
+            //   yValueMapper: (sales, _) => sales.vol,
+            // )
+          ],
+        ),
+      ),
     );
   }
 }
 
 class _Orderbook extends StatelessWidget {
-  final c = TradingController.con;
-
   @override
   Widget build(BuildContext context) {
     final width = Get.width / 2;
@@ -327,81 +318,112 @@ class _Orderbook extends StatelessWidget {
       color: AppColors.secondary,
       fontSize: 12.0,
     );
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.only(
-            left: AppSizes.medium,
-            right: AppSizes.extraSmall / 2,
-          ),
-          width: width,
-          child: Column(
-            children: [
-              SizedBox(
-                height: AppSizes.extraLarge,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Volume', style: titleStyle),
-                    Text('Bid', style: titleStyle),
-                  ],
-                ),
+    return GetX<TradingController>(
+      builder: (_) {
+        var orderbook = _.orderbook;
+        return Row(
+          children: [
+            Container(
+              alignment: Alignment.topCenter,
+              padding: const EdgeInsets.only(
+                left: AppSizes.medium,
+                right: AppSizes.extraSmall / 2,
               ),
-              Divider(color: AppColors.secondary.withOpacity(0.4), height: 1),
-              AppUiHelpers.vSpaceExtraSmall,
-              Obx(
-                () => Column(
-                  children: c.orderbook.bids
-                      .map(
-                        (o) => VolumeBidTile(
-                          volume: o.v,
-                          bid: o.p,
-                          percent: 0.35,
-                        ),
-                      )
-                      .toList(),
-                ),
+              width: width,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: AppSizes.extraLarge,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Volume', style: titleStyle),
+                        Text('Bid', style: titleStyle),
+                      ],
+                    ),
+                  ),
+                  Divider(
+                    color: AppColors.secondary.withOpacity(0.4),
+                    height: 1,
+                  ),
+                  AppUiHelpers.vSpaceExtraSmall,
+                  Expanded(
+                    child: ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: 25,
+                      itemBuilder: (context, i) {
+                        if (orderbook.bids.length <= i) {
+                          return VolumeBidTile(
+                            volume: '—',
+                            bid: '—',
+                            percent: 0,
+                          );
+                        } else {
+                          var a = orderbook.bids[i];
+                          return VolumeBidTile(
+                            volume: Formatter.format(a.v),
+                            bid: Formatter.format(a.p),
+                            percent: 0.35,
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.only(
-            right: AppSizes.medium,
-            left: AppSizes.extraSmall / 2,
-          ),
-          width: width,
-          child: Column(
-            children: [
-              SizedBox(
-                height: AppSizes.extraLarge,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Ask', style: titleStyle),
-                    Text('Volume', style: titleStyle),
-                  ],
-                ),
+            ),
+            Container(
+              alignment: Alignment.topCenter,
+              padding: const EdgeInsets.only(
+                right: AppSizes.medium,
+                left: AppSizes.extraSmall / 2,
               ),
-              Divider(color: AppColors.secondary.withOpacity(0.4), height: 1),
-              AppUiHelpers.vSpaceExtraSmall,
-              Obx(
-                () => Column(
-                  children: c.orderbook.asks
-                      .map(
-                        (o) => VolumeAskTile(
-                          volume: o.v,
-                          ask: o.p,
-                          percent: 0.35,
-                        ),
-                      )
-                      .toList(),
-                ),
+              width: width,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: AppSizes.extraLarge,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Ask', style: titleStyle),
+                        Text('Volume', style: titleStyle),
+                      ],
+                    ),
+                  ),
+                  Divider(
+                    color: AppColors.secondary.withOpacity(0.4),
+                    height: 1,
+                  ),
+                  AppUiHelpers.vSpaceExtraSmall,
+                  Expanded(
+                    child: ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: 25,
+                      itemBuilder: (context, i) {
+                        if (orderbook.asks.length <= i) {
+                          return VolumeAskTile(
+                            volume: '—',
+                            ask: '—',
+                            percent: 0,
+                          );
+                        } else {
+                          var a = orderbook.asks[i];
+                          return VolumeAskTile(
+                            volume: Formatter.format(a.v),
+                            ask: Formatter.format(a.p),
+                            percent: 0.35,
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-      ],
+            ),
+          ],
+        );
+      },
     );
   }
 }

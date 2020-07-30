@@ -1,14 +1,11 @@
-import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
-import 'package:antares_wallet/models/transaction_details.dart';
 import 'package:antares_wallet/ui/pages/portfolio/transaction_details/transaction_details_controller.dart';
 import 'package:antares_wallet/utils/formatter.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:get/get.dart';
 
 class TransactionDetailsPage extends StatelessWidget {
@@ -144,45 +141,45 @@ class TransactionDetailsPage extends StatelessWidget {
         : Text('$titlePrefix ${'details'.tr}');
   }
 
-  _viewExplorer(BuildContext context, List<ExplorerItem> explorerItems) {
-    List<Widget> widgets = [
-      Text('explorer_links'.tr, style: Get.textTheme.headline5),
-      AppUiHelpers.vSpaceSmall,
-    ]..addAll(explorerItems
-        .map((e) => FlatButton(
-              onPressed: () {
-                Get.back();
-                _launchURL(e.url);
-              },
-              child: Text(
-                e.name,
-                style: Get.textTheme.button.copyWith(fontSize: 16.0),
-              ),
-            ))
-        .toList());
+  // _viewExplorer(BuildContext context, List<ExplorerItem> explorerItems) {
+  //   List<Widget> widgets = [
+  //     Text('explorer_links'.tr, style: Get.textTheme.headline5),
+  //     AppUiHelpers.vSpaceSmall,
+  //   ]..addAll(explorerItems
+  //       .map((e) => FlatButton(
+  //             onPressed: () {
+  //               Get.back();
+  //               _launchURL(e.url);
+  //             },
+  //             child: Text(
+  //               e.name,
+  //               style: Get.textTheme.button.copyWith(fontSize: 16.0),
+  //             ),
+  //           ))
+  //       .toList());
 
-    Get.bottomSheet(
-      Container(
-        padding: const EdgeInsets.only(
-          top: AppSizes.medium,
-          left: AppSizes.small,
-          right: AppSizes.small,
-        ),
-        height: (60 + 50 * (widgets.length - 2)).toDouble(),
-        color: AppColors.primary,
-        child: ListView(children: widgets),
-      ),
-      backgroundColor: Colors.transparent,
-    );
-  }
+  //   Get.bottomSheet(
+  //     Container(
+  //       padding: const EdgeInsets.only(
+  //         top: AppSizes.medium,
+  //         left: AppSizes.small,
+  //         right: AppSizes.small,
+  //       ),
+  //       height: (60 + 50 * (widgets.length - 2)).toDouble(),
+  //       color: AppColors.primary,
+  //       child: ListView(children: widgets),
+  //     ),
+  //     backgroundColor: Colors.transparent,
+  //   );
+  // }
 
-  _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url, forceWebView: false, forceSafariVC: false);
-    } else {
-      throw 'msg_could_not_launch_url'.trArgs([url]);
-    }
-  }
+  // _launchURL(String url) async {
+  //   if (await canLaunch(url)) {
+  //     await launch(url, forceWebView: false, forceSafariVC: false);
+  //   } else {
+  //     throw 'msg_could_not_launch_url'.trArgs([url]);
+  //   }
+  // }
 
   _copyHash(String hash) {
     ClipboardManager.copyToClipBoard(hash).then((result) {

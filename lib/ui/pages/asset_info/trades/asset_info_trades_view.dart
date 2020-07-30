@@ -15,7 +15,19 @@ class AssetInfoTradesView extends StatelessWidget {
         children: [
           OrdersListHeaderView(),
           ListView(
-            children: _.orders.map((e) => OrderHistoryTile()).toList(),
+            children: _.orders
+                .map((e) => OrderHistoryTile(
+                      data: OrderHistoryData(
+                        baseAssetName: '',
+                        baseVolume: '',
+                        date: '',
+                        direction: '',
+                        price: '',
+                        quoteAssetName: '',
+                        quoteVolume: '',
+                      ),
+                    ))
+                .toList(),
           ),
         ],
       ),

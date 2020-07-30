@@ -1,13 +1,9 @@
 import 'dart:async';
-import 'dart:convert' show json;
 
 import 'package:antares_wallet/controllers/markets_controller.dart';
-import 'package:antares_wallet/models/market_model.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:get/get.dart';
-import 'package:grpc/grpc.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class TradingController extends GetxController {
@@ -29,16 +25,12 @@ class TradingController extends GetxController {
 
   List<MarketModel> get markets => _marketsController.markets;
 
-  List<ExampleChartModel> _mockChartModels = List();
-
-  List<ExampleChartModel> get chartModels => _mockChartModels;
-
-  MarketsResponse_MarketModel _marketModel =
-      MarketsResponse_MarketModel.getDefault();
-
-  MarketsResponse_MarketModel get marketModel => _marketModel;
-
   final List<CandleUpdate> candles = List();
+
+  final _marketModel = MarketsResponse_MarketModel.getDefault().obs;
+  MarketsResponse_MarketModel get marketModel => this._marketModel.value;
+  set marketModel(MarketsResponse_MarketModel value) =>
+      this._marketModel.value = value;
 
   final _orderbook = Orderbook().obs;
   Orderbook get orderbook => this._orderbook.value;
@@ -46,30 +38,18 @@ class TradingController extends GetxController {
 
   @override
   void onInit() async {
-    _mockChartModels = await _loadMarkets();
-    _marketModel = (await MarketsController.con.getMarkets(
-      assetPairId: initialMarket.pairId,
-    ))
-        .first;
-    candleStreamSubscription = _api.client
-        .getCandleUpdates(
-          CandleUpdatesRequest()..assetPairId = initialMarket.pairId,
-        )
-        .listen((CandleUpdate update) => _updateCandles(update));
-    orderbookStreamSubscription = _api.client
-        .getOrderbookUpdates(
-          OrderbookUpdatesRequest()..assetPairId = initialMarket.pairId,
-        )
-        .listen((Orderbook update) => _updateOrderbook(update));
-    update();
+    // load pair market data
+    updateWithMarket(_initialMarket);
     super.onInit();
   }
 
   @override
   void onClose() async {
+    // close candle stream subscription
     if (candleStreamSubscription != null) {
       candleStreamSubscription.cancel();
     }
+    // close candle stream subscription
     if (orderbookStreamSubscription != null) {
       orderbookStreamSubscription.cancel();
     }
@@ -79,14 +59,34 @@ class TradingController extends GetxController {
   String get assetPairHeader =>
       '${initialMarket.pairBaseAsset.displayId}/${initialMarket.pairQuotingAsset.displayId}';
 
-  void updateMarketModel(MarketModel data) {
+  updateWithMarket(MarketModel data) async {
     _initialMarket = data;
-    update();
-  }
+    marketModel = (await MarketsController.con
+            .getMarkets(assetPairId: initialMarket.pairId))
+        .first;
 
-  Future<List<ExampleChartModel>> _loadMarkets() async {
-    final market = await rootBundle.loadString('assets/json/market.json');
-    return MarketData.fromJson(json.decode(market)).data;
+    if (candleStreamSubscription != null) {
+      candleStreamSubscription.cancel();
+      orderbook = Orderbook();
+    }
+    // subscribe to candle stream
+    candleStreamSubscription = _api.client
+        .getCandleUpdates(
+            CandleUpdatesRequest()..assetPairId = initialMarket.pairId)
+        .listen((CandleUpdate update) => _updateCandles(update));
+
+    if (orderbookStreamSubscription != null) {
+      orderbookStreamSubscription.cancel();
+      chartSeriesController.updateDataSource(
+        removedDataIndexes: <int>[candles.length],
+      );
+      candles.clear();
+    }
+    // subscribe to orderbook stream
+    orderbookStreamSubscription = _api.client
+        .getOrderbookUpdates(
+            OrderbookUpdatesRequest()..assetPairId = initialMarket.pairId)
+        .listen((Orderbook update) => _updateOrderbook(update));
   }
 
   _updateCandles(CandleUpdate update) {
@@ -97,14 +97,14 @@ class TradingController extends GetxController {
         candles.add(update);
         if (chartSeriesController != null) {
           chartSeriesController.updateDataSource(
-            addedDataIndexes: <int>[candles.length - 1],
+            addedDataIndex: candles.length - 1,
           );
         }
       } else {
         candles[index] = update;
         if (chartSeriesController != null) {
           chartSeriesController.updateDataSource(
-            removedDataIndexes: <int>[index],
+            removedDataIndex: index,
           );
         }
       }
@@ -115,22 +115,8 @@ class TradingController extends GetxController {
     print('Orderbook Update: ${update.writeToJsonMap()}');
     if (update != null && update.hasAssetPairId()) {
       Orderbook mergedOrderbook = orderbook;
-      update.asks.forEach((ask) {
-        int index = mergedOrderbook.asks.indexOf(ask);
-        if (index < 0) {
-          mergedOrderbook.asks.add(ask);
-        } else {
-          mergedOrderbook.asks[index] = ask;
-        }
-      });
-      update.bids.forEach((bid) {
-        int index = mergedOrderbook.bids.indexOf(bid);
-        if (index < 0) {
-          mergedOrderbook.bids.add(bid);
-        } else {
-          mergedOrderbook.bids[index] = bid;
-        }
-      });
+      mergedOrderbook.bids.addAll(update.bids);
+      mergedOrderbook.asks.addAll(update.asks);
       orderbook = mergedOrderbook;
     }
   }

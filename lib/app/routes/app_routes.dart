@@ -3,6 +3,7 @@ import 'package:antares_wallet/bindings/root_binding.dart';
 import 'package:antares_wallet/bindings/profile_binding.dart';
 import 'package:antares_wallet/bindings/settings_binding.dart';
 import 'package:antares_wallet/bindings/support_binding.dart';
+import 'package:antares_wallet/bindings/trading_binding.dart';
 import 'package:antares_wallet/ui/pages/asset_info/asset_info_page.dart';
 import 'package:antares_wallet/ui/pages/exchange/watchlists/edit/edit_watchlist_page.dart';
 import 'package:antares_wallet/ui/pages/exchange/watchlists/watchlists_page.dart';
@@ -94,6 +95,7 @@ class AppRoutes {
     GetPage(
       name: TradingPage.route,
       page: () => TradingPage(),
+      binding: TradingBinding(),
     ),
     GetPage(
       name: TransactionDetailsPage.route,
