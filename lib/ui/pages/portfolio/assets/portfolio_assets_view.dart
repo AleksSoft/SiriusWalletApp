@@ -55,7 +55,7 @@ class _PortfolioAssetsHeader extends StatelessWidget {
             style: Get.textTheme.caption.copyWith(fontSize: 14),
           ),
           Text(
-            Formatter.format(
+            Formatter.currency(
               c.balanceSum.toString(),
               symbol: AssetsController.con.baseAsset?.displayId,
             ),

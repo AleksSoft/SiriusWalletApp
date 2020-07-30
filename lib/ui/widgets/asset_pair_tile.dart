@@ -101,7 +101,7 @@ class AssetPairTile extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      Formatter.format(
+                      Formatter.currency(
                         lastPrice.toString(),
                         ifZeroOrNull: '—',
                       ),
@@ -112,7 +112,7 @@ class AssetPairTile extends StatelessWidget {
                     ),
                     AppUiHelpers.vSpaceExtraSmall,
                     Text(
-                      Formatter.format(
+                      Formatter.currency(
                         _assetC
                             .amountInBaseById(pairBaseAsset.id)
                             ?.amountInBase,

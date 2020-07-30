@@ -134,6 +134,15 @@ class MarketModel {
     @required this.change,
   });
 
+  MarketModel.empty()
+      : this.iconUrl = '',
+        this.pairId = '',
+        this.pairBaseAsset = Asset(),
+        this.pairQuotingAsset = Asset(),
+        this.volume = 0,
+        this.price = 0,
+        this.change = 0;
+
   MarketModel update(PriceUpdate update) {
     this.volume = update.volumeBase24H.isNotEmpty
         ? double.parse(update.volumeBase24H)

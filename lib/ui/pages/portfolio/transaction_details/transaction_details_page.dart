@@ -53,7 +53,7 @@ class TransactionDetailsPage extends StatelessWidget {
                       children: [
                         _buildTile(
                           'amount'.tr,
-                          Formatter.format(_.details.volume),
+                          Formatter.currency(_.details.volume),
                         ),
                         _buildTile('status'.tr, _.details.status),
                         Divider(height: AppSizes.extraLarge),

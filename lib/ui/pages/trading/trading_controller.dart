@@ -13,19 +13,21 @@ class TradingController extends GetxController {
 
   final _marketsController = MarketsController.con;
 
-  StreamSubscription orderbookStreamSubscription;
+  StreamSubscription tradesSubscr;
 
-  StreamSubscription candleStreamSubscription;
+  StreamSubscription orderbookSubscr;
 
-  ChartSeriesController chartSeriesController;
+  StreamSubscription candleSubscr;
 
-  MarketModel _initialMarket = Get.arguments as MarketModel;
-
-  MarketModel get initialMarket => _initialMarket;
+  ChartSeriesController candleController;
 
   List<MarketModel> get markets => _marketsController.markets;
 
   final List<CandleUpdate> candles = List();
+
+  final _initialMarket = MarketModel.empty().obs;
+  MarketModel get initialMarket => this._initialMarket.value;
+  set initialMarket(MarketModel value) => this._initialMarket.value = value;
 
   final _marketModel = MarketsResponse_MarketModel.getDefault().obs;
   MarketsResponse_MarketModel get marketModel => this._marketModel.value;
@@ -36,22 +38,30 @@ class TradingController extends GetxController {
   Orderbook get orderbook => this._orderbook.value;
   set orderbook(Orderbook value) => this._orderbook.value = value;
 
+  final _trades = List<PublicTrade>().obs;
+  List<PublicTrade> get trades => this._trades.value;
+  set trades(List<PublicTrade> value) => this._trades.value = value;
+
   @override
   void onInit() async {
     // load pair market data
-    updateWithMarket(_initialMarket);
+    updateWithMarket(Get.arguments as MarketModel);
     super.onInit();
   }
 
   @override
   void onClose() async {
     // close candle stream subscription
-    if (candleStreamSubscription != null) {
-      candleStreamSubscription.cancel();
+    if (candleSubscr != null) {
+      candleSubscr.cancel();
     }
-    // close candle stream subscription
-    if (orderbookStreamSubscription != null) {
-      orderbookStreamSubscription.cancel();
+    // close orderbook stream subscription
+    if (orderbookSubscr != null) {
+      orderbookSubscr.cancel();
+    }
+    // close orderbook stream subscription
+    if (tradesSubscr != null) {
+      tradesSubscr.cancel();
     }
     super.onClose();
   }
@@ -60,30 +70,40 @@ class TradingController extends GetxController {
       '${initialMarket.pairBaseAsset.displayId}/${initialMarket.pairQuotingAsset.displayId}';
 
   updateWithMarket(MarketModel data) async {
-    _initialMarket = data;
+    initialMarket = data;
     marketModel = (await MarketsController.con
             .getMarkets(assetPairId: initialMarket.pairId))
         .first;
 
-    if (candleStreamSubscription != null) {
-      candleStreamSubscription.cancel();
+    if (tradesSubscr != null) {
+      tradesSubscr.cancel();
+      candles.clear();
+    }
+    // subscribe to candle stream
+    tradesSubscr = _api.client
+        .getPublicTradeUpdates(
+            PublicTradesUpdatesRequest()..assetPairId = initialMarket.pairId)
+        .listen((PublicTrade update) => _updateTrades(update));
+
+    if (candleSubscr != null) {
+      candleSubscr.cancel();
       orderbook = Orderbook();
     }
     // subscribe to candle stream
-    candleStreamSubscription = _api.client
+    candleSubscr = _api.client
         .getCandleUpdates(
             CandleUpdatesRequest()..assetPairId = initialMarket.pairId)
         .listen((CandleUpdate update) => _updateCandles(update));
 
-    if (orderbookStreamSubscription != null) {
-      orderbookStreamSubscription.cancel();
-      chartSeriesController.updateDataSource(
+    if (orderbookSubscr != null) {
+      orderbookSubscr.cancel();
+      candleController.updateDataSource(
         removedDataIndexes: <int>[candles.length],
       );
       candles.clear();
     }
     // subscribe to orderbook stream
-    orderbookStreamSubscription = _api.client
+    orderbookSubscr = _api.client
         .getOrderbookUpdates(
             OrderbookUpdatesRequest()..assetPairId = initialMarket.pairId)
         .listen((Orderbook update) => _updateOrderbook(update));
@@ -95,15 +115,15 @@ class TradingController extends GetxController {
       int index = candles.indexOf(update);
       if (index < 0) {
         candles.add(update);
-        if (chartSeriesController != null) {
-          chartSeriesController.updateDataSource(
+        if (candleController != null) {
+          candleController.updateDataSource(
             addedDataIndex: candles.length - 1,
           );
         }
       } else {
         candles[index] = update;
-        if (chartSeriesController != null) {
-          chartSeriesController.updateDataSource(
+        if (candleController != null) {
+          candleController.updateDataSource(
             removedDataIndex: index,
           );
         }
@@ -118,6 +138,15 @@ class TradingController extends GetxController {
       mergedOrderbook.bids.addAll(update.bids);
       mergedOrderbook.asks.addAll(update.asks);
       orderbook = mergedOrderbook;
+    }
+  }
+
+  _updateTrades(PublicTrade update) {
+    print('Tradelog Update: ${update.writeToJsonMap()}');
+    if (update != null && update.hasAssetPairId()) {
+      var mergedTrades = trades;
+      mergedTrades.add(update);
+      trades = mergedTrades;
     }
   }
 }

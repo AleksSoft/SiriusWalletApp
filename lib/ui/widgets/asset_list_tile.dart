@@ -50,7 +50,7 @@ class AssetListTile extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                Formatter.format(
+                Formatter.currency(
                   balance?.available,
                   symbol: asset.displayId,
                 ),
@@ -60,7 +60,7 @@ class AssetListTile extends StatelessWidget {
               ),
               AppUiHelpers.vSpaceSmall,
               Text(
-                Formatter.format(
+                Formatter.currency(
                   AssetsController.con
                       .countBalanceInBase(asset.id, balance)
                       .toString(),

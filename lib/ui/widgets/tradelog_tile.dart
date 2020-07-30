@@ -3,16 +3,19 @@ import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:flutter/material.dart';
 
 class TradelogTile extends StatelessWidget {
+  static const String defaultAction = 'buy';
   const TradelogTile({
-    @required this.price,
-    @required this.tradeSize,
-    @required this.time,
+    this.price,
+    this.tradeSize,
+    this.time,
+    this.action = defaultAction,
     Key key,
   }) : super(key: key);
 
   final String price;
   final String tradeSize;
   final String time;
+  final String action;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +35,7 @@ class TradelogTile extends StatelessWidget {
               fit: FlexFit.tight,
               child: Text(
                 price ?? '—',
-                style: style.apply(color: AppColors.green),
+                style: style.apply(color: _color(action)),
               )),
           Flexible(
             flex: 2,
@@ -51,5 +54,13 @@ class TradelogTile extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Color _color(String action) {
+    if (action.toLowerCase() == defaultAction) {
+      return AppColors.green;
+    } else {
+      return AppColors.red;
+    }
   }
 }

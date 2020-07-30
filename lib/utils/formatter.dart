@@ -5,7 +5,7 @@ class Formatter {
   static int minDecimal = 2;
   static int maxDecimal = 8;
 
-  static String format(String s,
+  static String currency(String s,
       {String symbol, String locale, String ifZeroOrNull}) {
     if (GetUtils.isNullOrBlank(s)) {
       if (!GetUtils.isNullOrBlank(ifZeroOrNull)) {

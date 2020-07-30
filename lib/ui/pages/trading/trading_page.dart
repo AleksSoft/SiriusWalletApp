@@ -33,7 +33,12 @@ class TradingPage extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(c.assetPairHeader, style: TextStyle(fontSize: 16.0)),
+              Obx(
+                () => Text(
+                  c.assetPairHeader,
+                  style: TextStyle(fontSize: 16.0),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: AppSizes.extraSmall),
                 child: Transform.rotate(
@@ -136,7 +141,7 @@ class _HeaderView extends StatelessWidget {
         children: [
           Obx(
             () => Text(
-              Formatter.format(
+              Formatter.currency(
                 c.marketModel.lastPrice,
                 symbol: c.initialMarket.pairQuotingAsset.displayId,
               ),
@@ -157,7 +162,7 @@ class _HeaderView extends StatelessWidget {
                     children: [
                       Obx(
                         () => Text(
-                          '${Formatter.format(c.marketModel.priceChange24H)}%',
+                          '${Formatter.currency(c.marketModel.priceChange24H)}%',
                           style: Get.textTheme.button.copyWith(
                             color: _color(change),
                           ),
@@ -175,7 +180,7 @@ class _HeaderView extends StatelessWidget {
                   AppUiHelpers.vSpaceExtraSmall,
                   Obx(
                     () => Text(
-                      'Vol ${Formatter.format(c.marketModel.volume24H, ifZeroOrNull: '—')}',
+                      'Vol ${Formatter.currency(c.marketModel.volume24H, ifZeroOrNull: '—')}',
                       style: Get.textTheme.caption,
                     ),
                   ),
@@ -187,14 +192,14 @@ class _HeaderView extends StatelessWidget {
                 children: [
                   Obx(
                     () => Text(
-                      'High ${Formatter.format(c.marketModel.high, ifZeroOrNull: '—')}',
+                      'High ${Formatter.currency(c.marketModel.high, ifZeroOrNull: '—')}',
                       style: Get.textTheme.caption,
                     ),
                   ),
                   AppUiHelpers.vSpaceExtraSmall,
                   Obx(
                     () => Text(
-                      'Low ${Formatter.format(c.marketModel.low, ifZeroOrNull: '—')}',
+                      'Low ${Formatter.currency(c.marketModel.low, ifZeroOrNull: '—')}',
                       style: Get.textTheme.caption,
                     ),
                   ),
@@ -285,7 +290,7 @@ class _CandleChartView extends StatelessWidget {
                   double.parse(candle.low, (_) => 0.0),
               dataLabelSettings: DataLabelSettings(isVisible: false),
               onRendererCreated: (ChartSeriesController controller) {
-                c.chartSeriesController = controller;
+                c.candleController = controller;
               },
             ),
             // ColumnSeries<ExampleChartModel, DateTime>(
@@ -362,8 +367,8 @@ class _Orderbook extends StatelessWidget {
                         } else {
                           var a = bids[i];
                           return VolumeBidTile(
-                            volume: Formatter.format(a.v),
-                            bid: Formatter.format(a.p),
+                            volume: Formatter.currency(a.v),
+                            bid: Formatter.currency(a.p),
                             percent: 0.35,
                           );
                         }
@@ -408,16 +413,12 @@ class _Orderbook extends StatelessWidget {
                       itemCount: 25,
                       itemBuilder: (context, i) {
                         if (asks.length <= i) {
-                          return VolumeAskTile(
-                            volume: '—',
-                            ask: '—',
-                            percent: 0,
-                          );
+                          return VolumeAskTile();
                         } else {
                           var a = asks[i];
                           return VolumeAskTile(
-                            volume: Formatter.format(a.v),
-                            ask: Formatter.format(a.p),
+                            volume: Formatter.currency(a.v),
+                            ask: Formatter.currency(a.p),
                             percent: 0.35,
                           );
                         }
@@ -455,17 +456,19 @@ class _Tradelog extends StatelessWidget {
                   flex: 3,
                   fit: FlexFit.tight,
                   child: Text(
-                    'Price (symbol)',
+                    'Price (${c.initialMarket.pairQuotingAsset.displayId})',
                     style: titleStyle,
                   ),
                 ),
                 Flexible(
                   flex: 2,
                   fit: FlexFit.tight,
-                  child: Text(
-                    'Trade size (symbol)',
-                    style: titleStyle,
-                    textAlign: TextAlign.right,
+                  child: Obx(
+                    () => Text(
+                      'Trade size (${c.initialMarket.pairBaseAsset.displayId})',
+                      style: titleStyle,
+                      textAlign: TextAlign.right,
+                    ),
                   ),
                 ),
                 Flexible(
@@ -482,16 +485,34 @@ class _Tradelog extends StatelessWidget {
           ),
           Divider(color: AppColors.secondary.withOpacity(0.4), height: 1),
           AppUiHelpers.vSpaceExtraSmall,
-          TradelogTile(
-              price: '0,95285', tradeSize: '7,93', time: '29.06 23:29:58'),
-          TradelogTile(
-              price: '0,95285', tradeSize: '7,93', time: '29.06 23:29:58'),
-          TradelogTile(
-              price: '0,95285', tradeSize: '7,93', time: '29.06 23:29:58'),
-          TradelogTile(
-              price: '0,95285', tradeSize: '7,93', time: '29.06 23:29:58'),
-          TradelogTile(
-              price: '0,95285', tradeSize: '7,93', time: '29.06 23:29:58'),
+          Expanded(
+            child: Obx(
+              () {
+                var trades = c.trades;
+                return ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: 25,
+                  itemBuilder: (context, i) {
+                    if (trades.length <= i) {
+                      return TradelogTile();
+                    } else {
+                      var a = trades[i];
+                      return TradelogTile(
+                        price: Formatter.currency(a.price),
+                        tradeSize: Formatter.currency(a.volume),
+                        time: DateFormat('dd.MM HH:mm:ss').format(
+                          DateTime.fromMillisecondsSinceEpoch(
+                            a.dateTime.seconds.toInt() * 1000,
+                          ),
+                        ),
+                        action: a.action,
+                      );
+                    }
+                  },
+                );
+              },
+            ),
+          ),
         ],
       ),
     );

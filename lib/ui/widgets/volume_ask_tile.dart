@@ -5,9 +5,9 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class VolumeAskTile extends StatelessWidget {
   const VolumeAskTile({
-    @required this.volume,
-    @required this.ask,
-    @required this.percent,
+    this.volume,
+    this.ask,
+    this.percent = 0,
     Key key,
   }) : super(key: key);
 
@@ -32,7 +32,7 @@ class VolumeAskTile extends StatelessWidget {
             lineHeight: AppSizes.extraLarge - 2,
             padding: const EdgeInsets.all(0.0),
             linearStrokeCap: LinearStrokeCap.butt,
-            percent: percent ?? 0,
+            percent: percent,
             backgroundColor: Colors.transparent,
             progressColor: AppColors.red.withOpacity(0.1),
           ),

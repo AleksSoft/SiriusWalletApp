@@ -57,7 +57,7 @@ class TransactionTile extends StatelessWidget {
                         ),
                         AppUiHelpers.hSpaceMedium,
                         Text(
-                          Formatter.format(_item.volume),
+                          Formatter.currency(_item.volume),
                           style: Get.textTheme.button.copyWith(
                             fontSize: 16.0,
                           ),
