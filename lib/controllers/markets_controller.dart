@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:antares_wallet/app/common/app_storage_keys.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
-import 'package:antares_wallet/controllers/prices_controller.dart';
+import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/services/repositories/markets_repository.dart';
 import 'package:antares_wallet/services/repositories/watchists_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
@@ -13,6 +13,7 @@ import 'package:get_storage/get_storage.dart';
 
 class MarketsController extends GetxController {
   static MarketsController get con => Get.find();
+  static final _api = Get.find<ApiService>();
 
   final _assetsController = Get.find<AssetsController>();
 
@@ -31,8 +32,9 @@ class MarketsController extends GetxController {
     ever(RootController.con.pageIndexObs, (pageIndex) async {
       if (pageIndex == 2) await rebuildWatchedMarkets();
     });
-    _priceSubscription = Get.find<PricesController>()
-        .pricesStream
+    _priceSubscription = _api.client
+        .getPriceUpdates(PriceUpdatesRequest())
+        .asBroadcastStream()
         .listen((PriceUpdate update) => _updateMarket(update));
     super.onInit();
   }

@@ -52,17 +52,11 @@ class TradingController extends GetxController {
   @override
   void onClose() async {
     // close candle stream subscription
-    if (candleSubscr != null) {
-      candleSubscr.cancel();
-    }
+    if (candleSubscr != null) await candleSubscr.cancel();
     // close orderbook stream subscription
-    if (orderbookSubscr != null) {
-      orderbookSubscr.cancel();
-    }
+    if (orderbookSubscr != null) await orderbookSubscr.cancel();
     // close orderbook stream subscription
-    if (tradesSubscr != null) {
-      tradesSubscr.cancel();
-    }
+    if (tradesSubscr != null) await tradesSubscr.cancel();
     super.onClose();
   }
 
@@ -76,7 +70,7 @@ class TradingController extends GetxController {
         .first;
 
     if (tradesSubscr != null) {
-      tradesSubscr.cancel();
+      await tradesSubscr.cancel();
       candles.clear();
     }
     // subscribe to candle stream
@@ -86,7 +80,7 @@ class TradingController extends GetxController {
         .listen((PublicTrade update) => _updateTrades(update));
 
     if (candleSubscr != null) {
-      candleSubscr.cancel();
+      await candleSubscr.cancel();
       orderbook = Orderbook();
     }
     // subscribe to candle stream
@@ -96,7 +90,7 @@ class TradingController extends GetxController {
         .listen((CandleUpdate update) => _updateCandles(update));
 
     if (orderbookSubscr != null) {
-      orderbookSubscr.cancel();
+      await orderbookSubscr.cancel();
       candleController.updateDataSource(
         removedDataIndexes: <int>[candles.length],
       );
