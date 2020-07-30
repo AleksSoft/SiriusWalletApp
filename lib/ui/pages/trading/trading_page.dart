@@ -311,6 +311,7 @@ class _CandleChartView extends StatelessWidget {
 }
 
 class _Orderbook extends StatelessWidget {
+  final c = TradingController.con;
   @override
   Widget build(BuildContext context) {
     final width = Get.width / 2;
@@ -318,48 +319,48 @@ class _Orderbook extends StatelessWidget {
       color: AppColors.secondary,
       fontSize: 12.0,
     );
-    return GetX<TradingController>(
-      builder: (_) {
-        var orderbook = _.orderbook;
-        return Row(
-          children: [
-            Container(
-              alignment: Alignment.topCenter,
-              padding: const EdgeInsets.only(
-                left: AppSizes.medium,
-                right: AppSizes.extraSmall / 2,
+    return Row(
+      children: [
+        Container(
+          alignment: Alignment.topCenter,
+          padding: const EdgeInsets.only(
+            left: AppSizes.medium,
+            right: AppSizes.extraSmall / 2,
+          ),
+          width: width,
+          child: Column(
+            children: [
+              SizedBox(
+                height: AppSizes.extraLarge,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Volume', style: titleStyle),
+                    Text('Bid', style: titleStyle),
+                  ],
+                ),
               ),
-              width: width,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: AppSizes.extraLarge,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Volume', style: titleStyle),
-                        Text('Bid', style: titleStyle),
-                      ],
-                    ),
-                  ),
-                  Divider(
-                    color: AppColors.secondary.withOpacity(0.4),
-                    height: 1,
-                  ),
-                  AppUiHelpers.vSpaceExtraSmall,
-                  Expanded(
-                    child: ListView.builder(
+              Divider(
+                color: AppColors.secondary.withOpacity(0.4),
+                height: 1,
+              ),
+              AppUiHelpers.vSpaceExtraSmall,
+              Expanded(
+                child: Obx(
+                  () {
+                    var bids = c.orderbook.bids;
+                    return ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: 25,
                       itemBuilder: (context, i) {
-                        if (orderbook.bids.length <= i) {
+                        if (bids.length <= i) {
                           return VolumeBidTile(
                             volume: '—',
                             bid: '—',
                             percent: 0,
                           );
                         } else {
-                          var a = orderbook.bids[i];
+                          var a = bids[i];
                           return VolumeBidTile(
                             volume: Formatter.format(a.v),
                             bid: Formatter.format(a.p),
@@ -367,48 +368,53 @@ class _Orderbook extends StatelessWidget {
                           );
                         }
                       },
-                    ),
-                  ),
-                ],
+                    );
+                  },
+                ),
               ),
-            ),
-            Container(
-              alignment: Alignment.topCenter,
-              padding: const EdgeInsets.only(
-                right: AppSizes.medium,
-                left: AppSizes.extraSmall / 2,
+            ],
+          ),
+        ),
+        Container(
+          alignment: Alignment.topCenter,
+          padding: const EdgeInsets.only(
+            right: AppSizes.medium,
+            left: AppSizes.extraSmall / 2,
+          ),
+          width: width,
+          child: Column(
+            children: [
+              SizedBox(
+                height: AppSizes.extraLarge,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Ask', style: titleStyle),
+                    Text('Volume', style: titleStyle),
+                  ],
+                ),
               ),
-              width: width,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: AppSizes.extraLarge,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Ask', style: titleStyle),
-                        Text('Volume', style: titleStyle),
-                      ],
-                    ),
-                  ),
-                  Divider(
-                    color: AppColors.secondary.withOpacity(0.4),
-                    height: 1,
-                  ),
-                  AppUiHelpers.vSpaceExtraSmall,
-                  Expanded(
-                    child: ListView.builder(
+              Divider(
+                color: AppColors.secondary.withOpacity(0.4),
+                height: 1,
+              ),
+              AppUiHelpers.vSpaceExtraSmall,
+              Expanded(
+                child: Obx(
+                  () {
+                    var asks = c.orderbook.asks;
+                    return ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: 25,
                       itemBuilder: (context, i) {
-                        if (orderbook.asks.length <= i) {
+                        if (asks.length <= i) {
                           return VolumeAskTile(
                             volume: '—',
                             ask: '—',
                             percent: 0,
                           );
                         } else {
-                          var a = orderbook.asks[i];
+                          var a = asks[i];
                           return VolumeAskTile(
                             volume: Formatter.format(a.v),
                             ask: Formatter.format(a.p),
@@ -416,14 +422,14 @@ class _Orderbook extends StatelessWidget {
                           );
                         }
                       },
-                    ),
-                  ),
-                ],
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
-        );
-      },
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
