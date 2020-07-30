@@ -93,6 +93,54 @@ const PushSettingsRequest$json = const {
   ],
 };
 
+const VerificationEmailRequest$json = const {
+  '1': 'VerificationEmailRequest',
+  '2': const [
+    const {'1': 'email', '3': 1, '4': 1, '5': 9, '10': 'email'},
+  ],
+};
+
+const VerificationSmsRequest$json = const {
+  '1': 'VerificationSmsRequest',
+  '2': const [
+    const {'1': 'phone', '3': 1, '4': 1, '5': 9, '10': 'phone'},
+    const {'1': 'token', '3': 2, '4': 1, '5': 9, '10': 'token'},
+  ],
+};
+
+const VerifyEmailRequest$json = const {
+  '1': 'VerifyEmailRequest',
+  '2': const [
+    const {'1': 'email', '3': 1, '4': 1, '5': 9, '10': 'email'},
+    const {'1': 'code', '3': 2, '4': 1, '5': 9, '10': 'code'},
+    const {'1': 'token', '3': 3, '4': 1, '5': 9, '10': 'token'},
+  ],
+};
+
+const VerifyPhoneRequest$json = const {
+  '1': 'VerifyPhoneRequest',
+  '2': const [
+    const {'1': 'phone', '3': 1, '4': 1, '5': 9, '10': 'phone'},
+    const {'1': 'code', '3': 2, '4': 1, '5': 9, '10': 'code'},
+    const {'1': 'token', '3': 3, '4': 1, '5': 9, '10': 'token'},
+  ],
+};
+
+const RegisterRequest$json = const {
+  '1': 'RegisterRequest',
+  '2': const [
+    const {'1': 'fullName', '3': 1, '4': 1, '5': 9, '10': 'fullName'},
+    const {'1': 'email', '3': 2, '4': 1, '5': 9, '10': 'email'},
+    const {'1': 'phone', '3': 3, '4': 1, '5': 9, '10': 'phone'},
+    const {'1': 'password', '3': 4, '4': 1, '5': 9, '10': 'password'},
+    const {'1': 'hint', '3': 5, '4': 1, '5': 9, '10': 'hint'},
+    const {'1': 'countryIso3Code', '3': 6, '4': 1, '5': 9, '10': 'countryIso3Code'},
+    const {'1': 'affiliateCode', '3': 7, '4': 1, '5': 9, '10': 'affiliateCode'},
+    const {'1': 'pin', '3': 8, '4': 1, '5': 9, '10': 'pin'},
+    const {'1': 'token', '3': 9, '4': 1, '5': 9, '10': 'token'},
+  ],
+};
+
 const MarketsRequest$json = const {
   '1': 'MarketsRequest',
   '2': const [
@@ -181,6 +229,15 @@ const FundsRequest$json = const {
     const {'1': 'optional_assetId'},
     const {'1': 'optional_fromDate'},
     const {'1': 'optional_toDate'},
+  ],
+};
+
+const PublicTradesRequest$json = const {
+  '1': 'PublicTradesRequest',
+  '2': const [
+    const {'1': 'assetPairId', '3': 1, '4': 1, '5': 9, '10': 'assetPairId'},
+    const {'1': 'skip', '3': 2, '4': 1, '5': 5, '10': 'skip'},
+    const {'1': 'take', '3': 3, '4': 1, '5': 5, '10': 'take'},
   ],
 };
 
@@ -413,6 +470,13 @@ const OrderbookUpdatesRequest$json = const {
   ],
 };
 
+const PublicTradesUpdatesRequest$json = const {
+  '1': 'PublicTradesUpdatesRequest',
+  '2': const [
+    const {'1': 'assetPairId', '3': 1, '4': 1, '5': 9, '10': 'assetPairId'},
+  ],
+};
+
 const PricesResponse$json = const {
   '1': 'PricesResponse',
   '2': const [
@@ -544,6 +608,59 @@ const PushSettingsResponse_PushSettingsPayload$json = const {
   ],
 };
 
+const VerificationEmailResponse$json = const {
+  '1': 'VerificationEmailResponse',
+  '2': const [
+    const {'1': 'result', '3': 1, '4': 1, '5': 11, '6': '.antaresWallet.VerificationEmailResponse.VerificationEmailPayload', '10': 'result'},
+    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorV1', '10': 'error'},
+  ],
+  '3': const [VerificationEmailResponse_VerificationEmailPayload$json],
+};
+
+const VerificationEmailResponse_VerificationEmailPayload$json = const {
+  '1': 'VerificationEmailPayload',
+  '2': const [
+    const {'1': 'token', '3': 1, '4': 1, '5': 9, '10': 'token'},
+  ],
+};
+
+const VerifyResponse$json = const {
+  '1': 'VerifyResponse',
+  '2': const [
+    const {'1': 'result', '3': 1, '4': 1, '5': 11, '6': '.antaresWallet.VerifyResponse.VerifyPayload', '10': 'result'},
+    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorV1', '10': 'error'},
+  ],
+  '3': const [VerifyResponse_VerifyPayload$json],
+};
+
+const VerifyResponse_VerifyPayload$json = const {
+  '1': 'VerifyPayload',
+  '2': const [
+    const {'1': 'passed', '3': 1, '4': 1, '5': 8, '10': 'passed'},
+  ],
+};
+
+const RegisterResponse$json = const {
+  '1': 'RegisterResponse',
+  '2': const [
+    const {'1': 'result', '3': 1, '4': 1, '5': 11, '6': '.antaresWallet.RegisterResponse.RegisterPayload', '10': 'result'},
+    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorV1', '10': 'error'},
+  ],
+  '3': const [RegisterResponse_RegisterPayload$json],
+};
+
+const RegisterResponse_RegisterPayload$json = const {
+  '1': 'RegisterPayload',
+  '2': const [
+    const {'1': 'token', '3': 1, '4': 1, '5': 9, '10': 'token'},
+    const {'1': 'notificationsId', '3': 2, '4': 1, '5': 9, '10': 'notificationsId'},
+    const {'1': 'personalData', '3': 3, '4': 1, '5': 11, '6': '.antaresWallet.PersonalData', '10': 'personalData'},
+    const {'1': 'canCashInViaBankCard', '3': 4, '4': 1, '5': 8, '10': 'canCashInViaBankCard'},
+    const {'1': 'swiftDepositEnabled', '3': 5, '4': 1, '5': 8, '10': 'swiftDepositEnabled'},
+    const {'1': 'state', '3': 6, '4': 1, '5': 9, '10': 'state'},
+  ],
+};
+
 const LimitOrdersResponse$json = const {
   '1': 'LimitOrdersResponse',
   '2': const [
@@ -663,6 +780,26 @@ const FundsResponse_FundsModel$json = const {
   ],
 };
 
+const PublicTradesResponse$json = const {
+  '1': 'PublicTradesResponse',
+  '2': const [
+    const {'1': 'result', '3': 1, '4': 3, '5': 11, '6': '.antaresWallet.PublicTrade', '10': 'result'},
+    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorV1', '10': 'error'},
+  ],
+};
+
+const PublicTrade$json = const {
+  '1': 'PublicTrade',
+  '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'assetPairId', '3': 2, '4': 1, '5': 9, '10': 'assetPairId'},
+    const {'1': 'dateTime', '3': 3, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'dateTime'},
+    const {'1': 'volume', '3': 4, '4': 1, '5': 9, '10': 'volume'},
+    const {'1': 'price', '3': 5, '4': 1, '5': 9, '10': 'price'},
+    const {'1': 'action', '3': 6, '4': 1, '5': 9, '10': 'action'},
+  ],
+};
+
 const WatchlistsResponse$json = const {
   '1': 'WatchlistsResponse',
   '2': const [
@@ -697,14 +834,13 @@ const TierInfoRespone$json = const {
 const PersonalDataResponse$json = const {
   '1': 'PersonalDataResponse',
   '2': const [
-    const {'1': 'result', '3': 1, '4': 1, '5': 11, '6': '.antaresWallet.PersonalDataResponse.PersonalDataPayload', '10': 'result'},
+    const {'1': 'result', '3': 1, '4': 1, '5': 11, '6': '.antaresWallet.PersonalData', '10': 'result'},
     const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorV1', '10': 'error'},
   ],
-  '3': const [PersonalDataResponse_PersonalDataPayload$json],
 };
 
-const PersonalDataResponse_PersonalDataPayload$json = const {
-  '1': 'PersonalDataPayload',
+const PersonalData$json = const {
+  '1': 'PersonalData',
   '2': const [
     const {'1': 'fullName', '3': 1, '4': 1, '5': 9, '10': 'fullName'},
     const {'1': 'firstName', '3': 2, '4': 1, '5': 9, '10': 'firstName'},
