@@ -21,7 +21,6 @@ class Formatter {
     int decimalDigits = minDecimal;
 
     var splitted = s.split('.');
-    if (splitted == null) print('splitted null');
     if (splitted.length == 2) {
       var length = splitted[1].length;
       if (length > decimalDigits) {

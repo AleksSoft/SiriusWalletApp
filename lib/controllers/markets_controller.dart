@@ -90,7 +90,6 @@ class MarketsController extends GetxController {
 
   _updateMarket(PriceUpdate priceUpdate) {
     int index = markets.indexWhere((e) => e.pairId == priceUpdate.assetPairId);
-    print(priceUpdate.writeToJsonMap());
     if (index >= 0) {
       var updatedMarket = markets[index].update(priceUpdate);
       markets.replaceRange(index, index++, [updatedMarket]);

@@ -4,6 +4,7 @@ import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/models/market_model.dart';
 import 'package:antares_wallet/services/api/mock_api.dart';
+import 'package:antares_wallet/src/apiservice.pbgrpc.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
 import 'package:antares_wallet/ui/widgets/tradelog_tile.dart';
 import 'package:antares_wallet/ui/widgets/volume_ask_tile.dart';
@@ -56,7 +57,7 @@ class TradingPage extends StatelessWidget {
             children: [
               _HeaderView(),
               Divider(height: 1),
-              _CandleChartView(data: _.chartModels),
+              _CandleChartView(),
               Divider(height: 1),
               Container(
                 height: 28 * AppSizes.extraLarge,
@@ -212,14 +213,14 @@ class _HeaderView extends StatelessWidget {
 }
 
 class _CandleChartView extends StatelessWidget {
-  const _CandleChartView({@required this.data, Key key}) : super(key: key);
-  final List<ExampleChartModel> data;
+  final c = TradingController.con;
+
   @override
   Widget build(BuildContext context) {
-    var zoomFactor = 20 / (data.length == 0 ? 1 : data.length);
+    var zoomFactor = 20 / (c.candles.length < 20 ? 20 : c.candles.length);
     return SizedBox(
       height: 250,
-      child: data.isEmpty
+      child: c.candles.isEmpty
           ? Center(child: CircularProgressIndicator())
           : AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
@@ -227,6 +228,7 @@ class _CandleChartView extends StatelessWidget {
                 plotAreaBorderWidth: 0,
                 borderColor: AppColors.secondary,
                 plotAreaBorderColor: AppColors.secondary,
+                // enableSideBySideSeriesPlacement: false,
                 zoomPanBehavior: ZoomPanBehavior(
                   enablePinching: true,
                   enablePanning: true,
@@ -238,6 +240,7 @@ class _CandleChartView extends StatelessWidget {
                   activationMode: ActivationMode.singleTap,
                 ),
                 primaryXAxis: DateTimeAxis(
+                  // name: 'xAxis1',
                   enableAutoIntervalOnZooming: true,
                   zoomFactor: zoomFactor,
                   zoomPosition: 1 - zoomFactor,
@@ -251,20 +254,62 @@ class _CandleChartView extends StatelessWidget {
                   labelStyle: TextStyle(color: AppColors.secondary),
                   axisLine: AxisLine(width: 0),
                 ),
-                series: <ChartSeries<ExampleChartModel, DateTime>>[
-                  CandleSeries<ExampleChartModel, DateTime>(
-                    dataSource: data,
+                // axes: <ChartAxis>[
+                //   NumericAxis(
+                //     name: 'yAxis1',
+                //     isVisible: false,
+                //     opposedPosition: true,
+                //     majorGridLines: MajorGridLines(width: 0),
+                //     labelStyle: TextStyle(color: AppColors.secondary),
+                //   )
+                // ],
+                series: <ChartSeries<CandleUpdate, DateTime>>[
+                  CandleSeries<CandleUpdate, DateTime>(
+                    dataSource: c.candles,
                     enableTooltip: true,
                     enableSolidCandles: true,
+                    name: 'AAPL',
                     animationDuration: 500,
-                    xValueMapper: (sales, _) =>
-                        DateTime.fromMillisecondsSinceEpoch(sales.date * 1000),
-                    lowValueMapper: (sales, _) => sales.low,
-                    highValueMapper: (sales, _) => sales.high,
-                    openValueMapper: (sales, _) => sales.open,
-                    closeValueMapper: (sales, _) => sales.close,
+                    xValueMapper: (candle, _) =>
+                        DateTime.fromMillisecondsSinceEpoch(
+                      candle.timestamp.seconds.toInt() * 1000,
+                    ),
+                    lowValueMapper: (candle, _) => double.parse(
+                      candle.low,
+                      (_) => 0.0,
+                    ),
+                    highValueMapper: (candle, _) => double.parse(
+                      candle.low,
+                      (_) => 0.0,
+                    ),
+                    openValueMapper: (candle, _) => double.parse(
+                      candle.low,
+                      (_) => 0.0,
+                    ),
+                    closeValueMapper: (candle, _) => double.parse(
+                      candle.low,
+                      (_) => 0.0,
+                    ),
                     dataLabelSettings: DataLabelSettings(isVisible: false),
+                    onRendererCreated: (ChartSeriesController controller) {
+                      c.chartSeriesController = controller;
+                    },
                   ),
+                  // ColumnSeries<ExampleChartModel, DateTime>(
+                  //   opacity: 0.2,
+                  //   dataSource: data,
+                  //   xAxisName: 'xAxis1',
+                  //   yAxisName: 'yAxis1',
+                  //   animationDuration: 500,
+                  //   enableTooltip: false,
+                  //   isTrackVisible: false,
+                  //   trackBorderColor: Colors.transparent,
+                  //   trackColor: Colors.transparent,
+                  //   color: AppColors.secondary,
+                  //   xValueMapper: (sales, _) =>
+                  //       DateTime.fromMillisecondsSinceEpoch(sales.date * 1000),
+                  //   yValueMapper: (sales, _) => sales.vol,
+                  // )
                 ],
               ),
             ),
@@ -273,7 +318,7 @@ class _CandleChartView extends StatelessWidget {
 }
 
 class _Orderbook extends StatelessWidget {
-  const _Orderbook({Key key}) : super(key: key);
+  final c = TradingController.con;
 
   @override
   Widget build(BuildContext context) {
@@ -304,31 +349,19 @@ class _Orderbook extends StatelessWidget {
               ),
               Divider(color: AppColors.secondary.withOpacity(0.4), height: 1),
               AppUiHelpers.vSpaceExtraSmall,
-              VolumeBidTile(volume: '1 566,28', bid: '0,94305', percent: 0.7),
-              VolumeBidTile(volume: '50 000,00', bid: '0,94305', percent: 0.99),
-              VolumeBidTile(volume: '93,09', bid: '0,94270', percent: 0.6),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
-              VolumeBidTile(volume: null, bid: null, percent: null),
+              Obx(
+                () => Column(
+                  children: c.orderbook.bids
+                      .map(
+                        (o) => VolumeBidTile(
+                          volume: o.v,
+                          bid: o.p,
+                          percent: 0.35,
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
             ],
           ),
         ),
@@ -352,31 +385,19 @@ class _Orderbook extends StatelessWidget {
               ),
               Divider(color: AppColors.secondary.withOpacity(0.4), height: 1),
               AppUiHelpers.vSpaceExtraSmall,
-              VolumeAskTile(volume: '2,00', ask: '0,94606', percent: 0.35),
-              VolumeAskTile(volume: '50 000,00', ask: '0,94660', percent: 0.99),
-              VolumeAskTile(volume: '648,69', ask: '0,95867', percent: 0.7),
-              VolumeAskTile(volume: null, ask: null, percent: null),
-              VolumeAskTile(volume: null, ask: null, percent: null),
-              VolumeAskTile(volume: null, ask: null, percent: null),
-              VolumeAskTile(volume: null, ask: null, percent: null),
-              VolumeAskTile(volume: null, ask: null, percent: null),
-              VolumeAskTile(volume: null, ask: null, percent: null),
-              VolumeAskTile(volume: null, ask: null, percent: null),
-              VolumeAskTile(volume: null, ask: null, percent: null),
-              VolumeAskTile(volume: null, ask: null, percent: null),
-              VolumeAskTile(volume: null, ask: null, percent: null),
-              VolumeAskTile(volume: null, ask: null, percent: null),
-              VolumeAskTile(volume: null, ask: null, percent: null),
-              VolumeAskTile(volume: null, ask: null, percent: null),
-              VolumeAskTile(volume: null, ask: null, percent: null),
-              VolumeAskTile(volume: null, ask: null, percent: null),
-              VolumeAskTile(volume: null, ask: null, percent: null),
-              VolumeAskTile(volume: null, ask: null, percent: null),
-              VolumeAskTile(volume: null, ask: null, percent: null),
-              VolumeAskTile(volume: null, ask: null, percent: null),
-              VolumeAskTile(volume: null, ask: null, percent: null),
-              VolumeAskTile(volume: null, ask: null, percent: null),
-              VolumeAskTile(volume: null, ask: null, percent: null),
+              Obx(
+                () => Column(
+                  children: c.orderbook.asks
+                      .map(
+                        (o) => VolumeAskTile(
+                          volume: o.v,
+                          ask: o.p,
+                          percent: 0.35,
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
             ],
           ),
         ),

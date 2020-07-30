@@ -82,7 +82,7 @@ class _AssetsView extends StatelessWidget {
                       ),
                 ),
                 GestureDetector(
-                  onTap: () => print('hide pressed'),
+                  onTap: () {},
                   child: Text(
                     'Hide',
                     style: Theme.of(context).textTheme.button.copyWith(
@@ -304,7 +304,7 @@ class _ExchangeView extends StatelessWidget {
                       ),
                 ),
                 GestureDetector(
-                  onTap: () => print('hide pressed'),
+                  onTap: () {},
                   child: Text(
                     'More',
                     style: Theme.of(context).textTheme.button.copyWith(
