@@ -57,7 +57,7 @@ class PortfolioController extends GetxController {
   Future<void> rebuildPortfolioAssets() async {
     loading = true;
     await _assetsController.getAssetsDictionary();
-    await getWalletAssets();
+    await getBalances();
     _assetsController.categoryList.forEach((category) {
       var l = _assetsController.categoryAssets(category.id);
       if (l.isNotEmpty) {
@@ -69,7 +69,7 @@ class PortfolioController extends GetxController {
     loading = false;
   }
 
-  Future<void> getWalletAssets() async =>
+  Future<void> getBalances() async =>
       balances = await PortfolioRepository.getBalances();
 
   Future<void> getFunds(

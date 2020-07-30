@@ -8576,6 +8576,31 @@ class Orderbook extends $pb.GeneratedMessage {
   $core.List<Orderbook_PriceVolume> get asks => $_getList(3);
 }
 
+class PublicTradeUpdate extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('PublicTradeUpdate', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..pc<PublicTrade>(1, 'trades', $pb.PbFieldType.PM, subBuilder: PublicTrade.create)
+    ..hasRequiredFields = false
+  ;
+
+  PublicTradeUpdate._() : super();
+  factory PublicTradeUpdate() => create();
+  factory PublicTradeUpdate.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory PublicTradeUpdate.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  PublicTradeUpdate clone() => PublicTradeUpdate()..mergeFromMessage(this);
+  PublicTradeUpdate copyWith(void Function(PublicTradeUpdate) updates) => super.copyWith((message) => updates(message as PublicTradeUpdate));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static PublicTradeUpdate create() => PublicTradeUpdate._();
+  PublicTradeUpdate createEmptyInstance() => create();
+  static $pb.PbList<PublicTradeUpdate> createRepeated() => $pb.PbList<PublicTradeUpdate>();
+  @$core.pragma('dart2js:noInline')
+  static PublicTradeUpdate getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PublicTradeUpdate>(create);
+  static PublicTradeUpdate _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<PublicTrade> get trades => $_getList(0);
+}
+
 class Balance extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('Balance', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
     ..aOS(1, 'assetId', protoName: 'assetId')

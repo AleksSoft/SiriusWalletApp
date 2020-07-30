@@ -17,7 +17,7 @@ class MarketsController extends GetxController {
 
   final _assetsController = Get.find<AssetsController>();
 
-  final List<MarketModel> _initialMarketList = List<MarketModel>();
+  final List<MarketModel> initialMarketList = List<MarketModel>();
 
   List<MarketModel> _markets = List<MarketModel>();
   List<MarketModel> get markets => this._markets;
@@ -56,7 +56,7 @@ class MarketsController extends GetxController {
     if (!GetUtils.isNullOrBlank(id)) {
       List<MarketModel> result = List();
       (await WatchlistsRepository.getWatchlist(id)).assetIds.forEach((id) {
-        var market = _initialMarketList.firstWhere(
+        var market = initialMarketList.firstWhere(
           (m) => m.pairId == id,
           orElse: () => null,
         );
@@ -66,13 +66,13 @@ class MarketsController extends GetxController {
       });
       _markets = result;
     } else {
-      _markets = _initialMarketList;
+      _markets = initialMarketList;
     }
     update();
   }
 
   _initMarketsListIfNeeded({bool force = false}) async {
-    if (_initialMarketList.isEmpty) {
+    if (initialMarketList.isEmpty) {
       (await getMarkets()).forEach((m) async {
         var pair = _assetsController.assetPairById(m.assetPair);
         // check if nothing is null
@@ -81,7 +81,7 @@ class MarketsController extends GetxController {
           var pairQuotingAsset =
               _assetsController.assetById(pair.quotingAssetId);
           if (pairBaseAsset != null && pairQuotingAsset != null) {
-            _initialMarketList.add(
+            initialMarketList.add(
               _buildMarketModel(m, pair, pairBaseAsset, pairQuotingAsset),
             );
           }

@@ -92,7 +92,7 @@ class TradingPage extends StatelessWidget {
       context: Get.overlayContext,
       delegate: SearchPage<MarketModel>(
         showItemsOnEmpty: true,
-        items: TradingController.con.markets,
+        items: MarketsController.con.initialMarketList,
         searchLabel: 'search'.tr,
         filter: (model) => [
           model.pairBaseAsset.name,
@@ -455,9 +455,11 @@ class _Tradelog extends StatelessWidget {
                 Flexible(
                   flex: 3,
                   fit: FlexFit.tight,
-                  child: Text(
-                    'Price (${c.initialMarket.pairQuotingAsset.displayId})',
-                    style: titleStyle,
+                  child: Obx(
+                    () => Text(
+                      'Price (${c.initialMarket.pairQuotingAsset.displayId})',
+                      style: titleStyle,
+                    ),
                   ),
                 ),
                 Flexible(
@@ -488,15 +490,14 @@ class _Tradelog extends StatelessWidget {
           Expanded(
             child: Obx(
               () {
-                var trades = c.trades;
                 return ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: 25,
+                  itemCount: c.trades.length == 25 ? c.trades.length : 25,
                   itemBuilder: (context, i) {
-                    if (trades.length <= i) {
+                    if (c.trades.length <= i) {
                       return TradelogTile();
                     } else {
-                      var a = trades[i];
+                      var a = c.trades[i];
                       return TradelogTile(
                         price: Formatter.currency(a.price),
                         tradeSize: Formatter.currency(a.volume),

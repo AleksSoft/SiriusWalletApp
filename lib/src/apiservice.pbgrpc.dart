@@ -368,10 +368,11 @@ class ApiServiceClient extends $grpc.Client {
           ($1.OrderbookUpdatesRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $1.Orderbook.fromBuffer(value));
   static final _$getPublicTradeUpdates =
-      $grpc.ClientMethod<$1.PublicTradesUpdatesRequest, $1.PublicTrade>(
+      $grpc.ClientMethod<$1.PublicTradesUpdatesRequest, $1.PublicTradeUpdate>(
           '/antaresWallet.ApiService/GetPublicTradeUpdates',
           ($1.PublicTradesUpdatesRequest value) => value.writeToBuffer(),
-          ($core.List<$core.int> value) => $1.PublicTrade.fromBuffer(value));
+          ($core.List<$core.int> value) =>
+              $1.PublicTradeUpdate.fromBuffer(value));
 
   ApiServiceClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
       : super(channel, options: options);
@@ -911,7 +912,7 @@ class ApiServiceClient extends $grpc.Client {
     return $grpc.ResponseStream(call);
   }
 
-  $grpc.ResponseStream<$1.PublicTrade> getPublicTradeUpdates(
+  $grpc.ResponseStream<$1.PublicTradeUpdate> getPublicTradeUpdates(
       $1.PublicTradesUpdatesRequest request,
       {$grpc.CallOptions options}) {
     final call = $createCall(
@@ -1411,15 +1412,15 @@ abstract class ApiServiceBase extends $grpc.Service {
         ($core.List<$core.int> value) =>
             $1.OrderbookUpdatesRequest.fromBuffer(value),
         ($1.Orderbook value) => value.writeToBuffer()));
-    $addMethod(
-        $grpc.ServiceMethod<$1.PublicTradesUpdatesRequest, $1.PublicTrade>(
-            'GetPublicTradeUpdates',
-            getPublicTradeUpdates_Pre,
-            false,
-            true,
-            ($core.List<$core.int> value) =>
-                $1.PublicTradesUpdatesRequest.fromBuffer(value),
-            ($1.PublicTrade value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.PublicTradesUpdatesRequest,
+            $1.PublicTradeUpdate>(
+        'GetPublicTradeUpdates',
+        getPublicTradeUpdates_Pre,
+        false,
+        true,
+        ($core.List<$core.int> value) =>
+            $1.PublicTradesUpdatesRequest.fromBuffer(value),
+        ($1.PublicTradeUpdate value) => value.writeToBuffer()));
   }
 
   $async.Future<$1.AssetsDictionaryResponse> assetsDictionary_Pre(
@@ -1752,7 +1753,7 @@ abstract class ApiServiceBase extends $grpc.Service {
     yield* getOrderbookUpdates(call, await request);
   }
 
-  $async.Stream<$1.PublicTrade> getPublicTradeUpdates_Pre(
+  $async.Stream<$1.PublicTradeUpdate> getPublicTradeUpdates_Pre(
       $grpc.ServiceCall call,
       $async.Future<$1.PublicTradesUpdatesRequest> request) async* {
     yield* getPublicTradeUpdates(call, await request);
@@ -1882,6 +1883,6 @@ abstract class ApiServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $1.CandleUpdatesRequest request);
   $async.Stream<$1.Orderbook> getOrderbookUpdates(
       $grpc.ServiceCall call, $1.OrderbookUpdatesRequest request);
-  $async.Stream<$1.PublicTrade> getPublicTradeUpdates(
+  $async.Stream<$1.PublicTradeUpdate> getPublicTradeUpdates(
       $grpc.ServiceCall call, $1.PublicTradesUpdatesRequest request);
 }

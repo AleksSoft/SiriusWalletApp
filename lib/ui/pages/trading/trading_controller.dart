@@ -11,17 +11,11 @@ class TradingController extends GetxController {
 
   static final _api = Get.find<ApiService>();
 
-  final _marketsController = MarketsController.con;
-
-  StreamSubscription tradesSubscr;
-
-  StreamSubscription orderbookSubscr;
-
-  StreamSubscription candleSubscr;
+  StreamSubscription _tradesSubscr;
+  StreamSubscription _orderbookSubscr;
+  StreamSubscription _candleSubscr;
 
   ChartSeriesController candleController;
-
-  List<MarketModel> get markets => _marketsController.markets;
 
   final List<CandleUpdate> candles = List();
 
@@ -29,7 +23,7 @@ class TradingController extends GetxController {
   MarketModel get initialMarket => this._initialMarket.value;
   set initialMarket(MarketModel value) => this._initialMarket.value = value;
 
-  final _marketModel = MarketsResponse_MarketModel.getDefault().obs;
+  final _marketModel = MarketsResponse_MarketModel().obs;
   MarketsResponse_MarketModel get marketModel => this._marketModel.value;
   set marketModel(MarketsResponse_MarketModel value) =>
       this._marketModel.value = value;
@@ -38,25 +32,24 @@ class TradingController extends GetxController {
   Orderbook get orderbook => this._orderbook.value;
   set orderbook(Orderbook value) => this._orderbook.value = value;
 
-  final _trades = List<PublicTrade>().obs;
-  List<PublicTrade> get trades => this._trades.value;
-  set trades(List<PublicTrade> value) => this._trades.value = value;
+  final trades = List<PublicTrade>().obs;
 
   @override
   void onInit() async {
     // load pair market data
     updateWithMarket(Get.arguments as MarketModel);
+
     super.onInit();
   }
 
   @override
   void onClose() async {
     // close candle stream subscription
-    if (candleSubscr != null) await candleSubscr.cancel();
+    if (_candleSubscr != null) await _candleSubscr.cancel();
     // close orderbook stream subscription
-    if (orderbookSubscr != null) await orderbookSubscr.cancel();
+    if (_orderbookSubscr != null) await _orderbookSubscr.cancel();
     // close orderbook stream subscription
-    if (tradesSubscr != null) await tradesSubscr.cancel();
+    if (_tradesSubscr != null) await _tradesSubscr.cancel();
     super.onClose();
   }
 
@@ -69,42 +62,42 @@ class TradingController extends GetxController {
             .getMarkets(assetPairId: initialMarket.pairId))
         .first;
 
-    if (tradesSubscr != null) {
-      await tradesSubscr.cancel();
-      candles.clear();
+    if (_tradesSubscr != null) {
+      await _tradesSubscr.cancel();
+      trades.clear();
     }
     // subscribe to candle stream
-    tradesSubscr = _api.client
+    _tradesSubscr = _api.client
         .getPublicTradeUpdates(
             PublicTradesUpdatesRequest()..assetPairId = initialMarket.pairId)
-        .listen((PublicTrade update) => _updateTrades(update));
+        .listen(
+            (PublicTradeUpdate update) => trades.addAllNonNull(update?.trades));
 
-    if (candleSubscr != null) {
-      await candleSubscr.cancel();
-      orderbook = Orderbook();
-    }
-    // subscribe to candle stream
-    candleSubscr = _api.client
-        .getCandleUpdates(
-            CandleUpdatesRequest()..assetPairId = initialMarket.pairId)
-        .listen((CandleUpdate update) => _updateCandles(update));
-
-    if (orderbookSubscr != null) {
-      await orderbookSubscr.cancel();
+    if (_candleSubscr != null) {
+      await _candleSubscr.cancel();
       candleController.updateDataSource(
         removedDataIndexes: <int>[candles.length],
       );
       candles.clear();
     }
+    // subscribe to candle stream
+    _candleSubscr = _api.client
+        .getCandleUpdates(
+            CandleUpdatesRequest()..assetPairId = initialMarket.pairId)
+        .listen((CandleUpdate update) => _updateCandles(update));
+
+    if (_orderbookSubscr != null) {
+      await _orderbookSubscr.cancel();
+      orderbook = Orderbook();
+    }
     // subscribe to orderbook stream
-    orderbookSubscr = _api.client
+    _orderbookSubscr = _api.client
         .getOrderbookUpdates(
             OrderbookUpdatesRequest()..assetPairId = initialMarket.pairId)
         .listen((Orderbook update) => _updateOrderbook(update));
   }
 
   _updateCandles(CandleUpdate update) {
-    print('Candle Update: ${update.writeToJsonMap()}');
     if (update != null && update.hasOpen()) {
       int index = candles.indexOf(update);
       if (index < 0) {
@@ -126,21 +119,11 @@ class TradingController extends GetxController {
   }
 
   _updateOrderbook(Orderbook update) {
-    print('Orderbook Update: ${update.writeToJsonMap()}');
     if (update != null && update.hasAssetPairId()) {
       Orderbook mergedOrderbook = orderbook;
       mergedOrderbook.bids.addAll(update.bids);
       mergedOrderbook.asks.addAll(update.asks);
       orderbook = mergedOrderbook;
-    }
-  }
-
-  _updateTrades(PublicTrade update) {
-    print('Tradelog Update: ${update.writeToJsonMap()}');
-    if (update != null && update.hasAssetPairId()) {
-      var mergedTrades = trades;
-      mergedTrades.add(update);
-      trades = mergedTrades;
     }
   }
 }

@@ -1545,6 +1545,13 @@ const Orderbook_PriceVolume$json = const {
   ],
 };
 
+const PublicTradeUpdate$json = const {
+  '1': 'PublicTradeUpdate',
+  '2': const [
+    const {'1': 'trades', '3': 1, '4': 3, '5': 11, '6': '.antaresWallet.PublicTrade', '10': 'trades'},
+  ],
+};
+
 const Balance$json = const {
   '1': 'Balance',
   '2': const [
