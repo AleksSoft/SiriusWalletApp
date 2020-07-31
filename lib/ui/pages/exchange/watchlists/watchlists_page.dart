@@ -14,6 +14,7 @@ class WatchlistsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0.5,
         leading: CloseButton(),
         title: Text('Watch lists'),
         actions: <Widget>[
@@ -26,6 +27,7 @@ class WatchlistsPage extends StatelessWidget {
       body: Stack(
         children: <Widget>[
           RefreshIndicator(
+            color: AppColors.dark,
             onRefresh: () => c.getWatchlists(),
             child: Obx(
               () => ListView.separated(
@@ -70,7 +72,11 @@ class WatchlistsPage extends StatelessWidget {
               visible: c.loading,
               child: Container(
                 alignment: Alignment.center,
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  valueColor: new AlwaysStoppedAnimation<Color>(
+                    Colors.blue,
+                  ),
+                ),
               ),
             ),
           ),
@@ -85,6 +91,7 @@ class WatchlistsPage extends StatelessWidget {
         height: 250.0,
         child: Scaffold(
           appBar: AppBar(
+            elevation: 0.5,
             automaticallyImplyLeading: false,
             title: Text(watchlist.name),
           ),

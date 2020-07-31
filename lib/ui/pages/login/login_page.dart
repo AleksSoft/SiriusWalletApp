@@ -57,35 +57,43 @@ class LoginPage extends StatelessWidget {
                   AnimatedSwitcher(
                     duration: const Duration(milliseconds: 300),
                     child: _.urlDropValue == null
-                        ? TextField(
-                            onChanged: (String s) => _.customUrl = s,
-                            obscureText: false,
-                            style: style,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.fromLTRB(
-                                0.0,
-                                AppSizes.small,
-                                AppSizes.medium,
-                                AppSizes.small,
+                        ? Theme(
+                            data: Get.theme.copyWith(
+                              primaryColor: AppColors.accent,
+                            ),
+                            child: TextField(
+                              onChanged: (String s) => _.customUrl = s,
+                              obscureText: false,
+                              style: style,
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.fromLTRB(
+                                  0.0,
+                                  AppSizes.small,
+                                  AppSizes.medium,
+                                  AppSizes.small,
+                                ),
+                                labelText: "Custom url",
                               ),
-                              hintText: "Custom url",
                             ),
                           )
                         : SizedBox.shrink(),
                   ),
                   AppUiHelpers.vSpaceLarge,
-                  TextField(
-                    onChanged: (String s) => _.tokenValue = s,
-                    obscureText: false,
-                    style: style,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(
-                        0.0,
-                        AppSizes.small,
-                        AppSizes.medium,
-                        AppSizes.small,
+                  Theme(
+                    data: Get.theme.copyWith(primaryColor: AppColors.accent),
+                    child: TextField(
+                      onChanged: (String s) => _.tokenValue = s,
+                      obscureText: false,
+                      style: style,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.fromLTRB(
+                          0.0,
+                          AppSizes.small,
+                          AppSizes.medium,
+                          AppSizes.small,
+                        ),
+                        labelText: "Token (without 'Bearer' word)",
                       ),
-                      hintText: "Token (without 'Bearer' word)",
                     ),
                   ),
                   AppUiHelpers.vSpaceExtraLarge,
@@ -108,7 +116,11 @@ class LoginPage extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             )
-                          : CircularProgressIndicator(),
+                          : CircularProgressIndicator(
+                              valueColor: new AlwaysStoppedAnimation<Color>(
+                                Colors.blue,
+                              ),
+                            ),
                     ),
                   ),
                   AppUiHelpers.vSpaceLarge,

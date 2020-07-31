@@ -13,6 +13,7 @@ class PortfolioPage extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          elevation: 0.5,
           automaticallyImplyLeading: false,
           title: Text('portfolio'.tr),
           bottom: TabBar(

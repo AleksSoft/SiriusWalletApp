@@ -10,6 +10,7 @@ class UpgradeAccountChooseDocPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0.5,
         title: Text('upgrade_to'.trArgs(['Advanced'])),
         centerTitle: true,
       ),

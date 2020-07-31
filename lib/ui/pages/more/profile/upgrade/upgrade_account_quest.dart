@@ -14,6 +14,7 @@ class UpgradeAccountQuestPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
+        elevation: 0.5,
         title: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -187,9 +188,14 @@ class _Quest1State extends State<_Quest1> {
                     AppSizes.small,
                     0.0,
                   ),
-                  child: TextField(
-                    decoration: InputDecoration.collapsed(
-                      hintText: 'hint_please_specify'.tr,
+                  child: Theme(
+                    data: Get.theme.copyWith(
+                      primaryColor: AppColors.accent,
+                    ),
+                    child: TextField(
+                      decoration: InputDecoration.collapsed(
+                        hintText: 'hint_please_specify'.tr,
+                      ),
                     ),
                   ),
                 ),
@@ -225,9 +231,14 @@ class _Quest1State extends State<_Quest1> {
               AppUiHelpers.vSpaceSmall,
               Divider(height: 1.0),
               AppUiHelpers.vSpaceSmall,
-              TextField(
-                decoration: InputDecoration.collapsed(
-                  hintText: 'Current question type...',
+              Theme(
+                data: Get.theme.copyWith(
+                  primaryColor: AppColors.accent,
+                ),
+                child: TextField(
+                  decoration: InputDecoration.collapsed(
+                    hintText: 'Current question type...',
+                  ),
                 ),
               ),
             ],

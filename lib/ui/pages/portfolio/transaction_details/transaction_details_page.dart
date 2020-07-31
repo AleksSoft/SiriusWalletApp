@@ -18,6 +18,7 @@ class TransactionDetailsPage extends StatelessWidget {
         builder: (_) {
           return Scaffold(
             appBar: AppBar(
+              elevation: 0.5,
               title: _buildTitleByType(_.details.type),
             ),
             body: Column(

@@ -14,6 +14,7 @@ class AssetInfoPage extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
+          elevation: 0.5,
           title: Text('asset_info'.tr),
           bottom: TabBar(
             indicatorWeight: 1.0,

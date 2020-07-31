@@ -16,6 +16,7 @@ class PortfolioAssetsTabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
+      color: AppColors.dark,
       onRefresh: () => c.rebuildPortfolioAssets(),
       child: ListView(
         physics: BouncingScrollPhysics(),

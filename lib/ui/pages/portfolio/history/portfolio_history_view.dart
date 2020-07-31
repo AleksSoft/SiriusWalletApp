@@ -1,3 +1,4 @@
+import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
 import 'package:antares_wallet/ui/widgets/empty_view.dart';
@@ -26,6 +27,7 @@ class PortfolioHistoryView extends StatelessWidget {
         ),
       ),
       body: RefreshIndicator(
+        color: AppColors.dark,
         onRefresh: () => c.getFunds(10, 0),
         child: GetX<PortfolioController>(
           initState: (state) => c.getFunds(10, 0),

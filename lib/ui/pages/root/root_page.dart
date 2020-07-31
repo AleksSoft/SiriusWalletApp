@@ -32,13 +32,18 @@ class RootPage extends StatelessWidget {
           ),
           bottomNavigationBar: Container(
             decoration: BoxDecoration(
-              boxShadow: [BoxShadow(color: AppColors.secondary, blurRadius: 8)],
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.secondary.withOpacity(0.3),
+                  blurRadius: 1,
+                )
+              ],
             ),
             child: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
               currentIndex: _.pageIndex,
               onTap: (val) => _.pageIndex = val,
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              backgroundColor: Get.theme.scaffoldBackgroundColor,
               items: [
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home, color: Colors.black),

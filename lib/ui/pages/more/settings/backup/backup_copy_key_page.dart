@@ -16,6 +16,7 @@ class BackUpCopyKeyPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
+        elevation: 0.5,
         title: Text('back_up'.tr),
       ),
       body: GetBuilder<SettingsController>(

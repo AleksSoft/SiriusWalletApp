@@ -11,6 +11,7 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0.5,
         title: Text('settings'.tr),
       ),
       body: GetX<SettingsController>(
@@ -22,7 +23,11 @@ class SettingsPage extends StatelessWidget {
                   ? Container(
                       alignment: Alignment.center,
                       color: AppColors.primary,
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(
+                        valueColor: new AlwaysStoppedAnimation<Color>(
+                          Colors.blue,
+                        ),
+                      ),
                     )
                   : ListView(
                       children: <Widget>[
@@ -99,6 +104,7 @@ class _ChooseLanguageView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0.5,
         leading: IconButton(
           icon: Icon(Icons.close),
           onPressed: () => Get.back(),

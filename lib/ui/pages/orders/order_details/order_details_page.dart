@@ -18,6 +18,7 @@ class OrderDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0.5,
         centerTitle: true,
         title: FlatButton(
           onPressed: () => _showSearch(),
@@ -45,7 +46,9 @@ class OrderDetailsPage extends StatelessWidget {
           ),
         ),
       ),
-      body: Container(),
+      body: SafeArea(
+        child: Row(),
+      ),
     );
   }
 

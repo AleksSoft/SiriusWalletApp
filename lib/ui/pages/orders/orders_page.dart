@@ -22,6 +22,7 @@ class OrdersPage extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          elevation: 0.5,
           title: Text('orders'.tr),
           bottom: TabBar(
             indicatorWeight: 1.0,
@@ -35,6 +36,7 @@ class OrdersPage extends StatelessWidget {
         body: TabBarView(
           children: <Widget>[
             RefreshIndicator(
+              color: AppColors.dark,
               onRefresh: () => c.getOrders(),
               child: GetX<OrdersController>(
                   initState: (state) => c.getOrders(),
@@ -99,6 +101,7 @@ class OrdersPage extends StatelessWidget {
                   }),
             ),
             RefreshIndicator(
+              color: AppColors.dark,
               onRefresh: () => c.getTrades(10, 0),
               child: GetX<OrdersController>(
                 initState: (state) => c.getTrades(10, 0),

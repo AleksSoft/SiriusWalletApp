@@ -13,6 +13,7 @@ class SupportPage extends StatelessWidget {
     var textStyle = Get.textTheme.caption;
     return Scaffold(
       appBar: AppBar(
+        elevation: 0.5,
         title: Text('support'.tr),
       ),
       body: GetBuilder<SupportController>(

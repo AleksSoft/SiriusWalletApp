@@ -20,7 +20,13 @@ class InitialPage extends StatelessWidget {
             return AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
               child: _.loading
-                  ? Center(child: CircularProgressIndicator())
+                  ? Center(
+                      child: CircularProgressIndicator(
+                        valueColor: new AlwaysStoppedAnimation<Color>(
+                          Colors.blue,
+                        ),
+                      ),
+                    )
                   : Column(
                       mainAxisSize: MainAxisSize.max,
                       children: [

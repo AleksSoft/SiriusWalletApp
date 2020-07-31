@@ -15,6 +15,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0.5,
         title: Text('profile'.tr),
       ),
       body: GetBuilder<ProfileController>(

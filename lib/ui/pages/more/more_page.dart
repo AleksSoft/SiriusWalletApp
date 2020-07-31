@@ -16,6 +16,7 @@ class MorePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0.5,
         title: Text('more'.tr),
       ),
       body: GetBuilder<MoreController>(
