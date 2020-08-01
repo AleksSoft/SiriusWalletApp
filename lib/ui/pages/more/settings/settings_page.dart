@@ -25,7 +25,7 @@ class SettingsPage extends StatelessWidget {
                       color: AppColors.primary,
                       child: CircularProgressIndicator(
                         valueColor: new AlwaysStoppedAnimation<Color>(
-                          Colors.blue,
+                          Colors.black,
                         ),
                       ),
                     )

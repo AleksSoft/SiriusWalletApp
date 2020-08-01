@@ -23,7 +23,7 @@ class InitialPage extends StatelessWidget {
                   ? Center(
                       child: CircularProgressIndicator(
                         valueColor: new AlwaysStoppedAnimation<Color>(
-                          Colors.blue,
+                          Colors.black,
                         ),
                       ),
                     )

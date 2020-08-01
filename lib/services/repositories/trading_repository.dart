@@ -4,8 +4,33 @@ import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
-class OrdersRepository {
+class TradingRepository {
   static final _api = Get.find<ApiService>();
+
+  static Future<List<Candle>> getCandles({
+    @required String assetPairId,
+    @required CandleType type,
+    @required CandleInterval interval,
+    @required Timestamp from,
+    @required Timestamp to,
+  }) async {
+    try {
+      final response = await _api.client.getCandles(CandlesRequest()
+        ..assetPairId = assetPairId
+        ..type = type
+        ..interval = interval
+        ..from = from
+        ..to = to);
+      return response.candles;
+    } catch (e) {
+      Get.defaultDialog(
+        title: 'Error',
+        middleText: e.message,
+        onConfirm: () => Get.back(),
+      );
+      return List();
+    }
+  }
 
   static Future<List<LimitOrderModel>> getOrders({String assetPairId}) async {
     try {

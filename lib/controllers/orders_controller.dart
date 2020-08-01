@@ -1,4 +1,4 @@
-import 'package:antares_wallet/services/repositories/orders_repository.dart';
+import 'package:antares_wallet/services/repositories/trading_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
 import 'package:get/get.dart';
@@ -30,7 +30,7 @@ class OrdersController extends GetxController {
     super.onInit();
   }
 
-  Future getOrders() async => orders = await OrdersRepository.getOrders();
+  Future getOrders() async => orders = await TradingRepository.getOrders();
 
   Future getTrades(
     int take,
@@ -40,7 +40,7 @@ class OrdersController extends GetxController {
     Timestamp fromDate,
     Timestamp toDate,
   }) async =>
-      trades = await OrdersRepository.getTrades(
+      trades = await TradingRepository.getTrades(
         take: take,
         skip: skip,
         assetPairId: assetPairId,
@@ -50,12 +50,12 @@ class OrdersController extends GetxController {
       );
 
   cancelOrder(String id) async {
-    await OrdersRepository.cancelOrder(id);
+    await TradingRepository.cancelOrder(id);
     await getOrders();
   }
 
   cancelAllOrders() async {
-    await OrdersRepository.cancelAllOrders();
+    await TradingRepository.cancelAllOrders();
     await getOrders();
   }
 
@@ -65,7 +65,7 @@ class OrdersController extends GetxController {
     double volume,
     double price,
   ) async =>
-      await OrdersRepository.placeLimitOrder(
+      await TradingRepository.placeLimitOrder(
         assetId: assetId,
         assetPairId: assetPairId,
         volume: volume,
@@ -77,7 +77,7 @@ class OrdersController extends GetxController {
     String assetPairId,
     double volume,
   ) async =>
-      await OrdersRepository.placeMarketOrder(
+      await TradingRepository.placeMarketOrder(
         assetId: assetId,
         assetPairId: assetPairId,
         volume: volume,

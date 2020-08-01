@@ -1,4 +1,4 @@
-import 'package:antares_wallet/services/repositories/orders_repository.dart';
+import 'package:antares_wallet/services/repositories/trading_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:get/get.dart';
 
@@ -11,7 +11,7 @@ class AssetInfoTradesController extends GetxController {
 
   @override
   void onInit() async {
-    _orders = await OrdersRepository.getOrders(assetPairId: _asset.id);
+    _orders = await TradingRepository.getOrders(assetPairId: _asset.id);
     super.onInit();
   }
 }

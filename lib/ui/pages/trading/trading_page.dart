@@ -230,86 +230,98 @@ class _CandleChartView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 250,
-      child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 300),
-        child: SfCartesianChart(
-          plotAreaBorderWidth: 0,
-          borderColor: AppColors.secondary,
-          plotAreaBorderColor: AppColors.secondary,
-          // enableSideBySideSeriesPlacement: false,
-          zoomPanBehavior: ZoomPanBehavior(
-            enablePinching: true,
-            enablePanning: true,
-            zoomMode: ZoomMode.x,
-          ),
-          trackballBehavior: TrackballBehavior(
-            lineColor: AppColors.secondary,
-            enable: true,
-            activationMode: ActivationMode.singleTap,
-          ),
-          primaryXAxis: DateTimeAxis(
-            // name: 'xAxis1',
-            enableAutoIntervalOnZooming: true,
-            // zoomFactor: zoomFactor,
-            // zoomPosition: 1 - zoomFactor,
-            dateFormat: DateFormat.MMMd(),
-            intervalType: DateTimeIntervalType.days,
-            majorGridLines: MajorGridLines(width: 0),
-          ),
-          primaryYAxis: NumericAxis(
-            interval: 20,
-            opposedPosition: true,
-            labelStyle: TextStyle(color: AppColors.secondary),
-            axisLine: AxisLine(width: 0),
-          ),
-          // axes: <ChartAxis>[
-          //   NumericAxis(
-          //     name: 'yAxis1',
-          //     isVisible: false,
-          //     opposedPosition: true,
-          //     majorGridLines: MajorGridLines(width: 0),
-          //     labelStyle: TextStyle(color: AppColors.secondary),
-          //   )
-          // ],
-          series: <ChartSeries<CandleUpdate, DateTime>>[
-            CandleSeries<CandleUpdate, DateTime>(
-              dataSource: c.candles,
-              enableTooltip: true,
-              enableSolidCandles: true,
-              name: 'AAPL',
-              animationDuration: 500,
-              xValueMapper: (candle, _) => DateTime.fromMillisecondsSinceEpoch(
-                candle.timestamp.seconds.toInt() * 1000,
-              ),
-              lowValueMapper: (candle, _) =>
-                  double.parse(candle.low, (_) => 0.0),
-              highValueMapper: (candle, _) =>
-                  double.parse(candle.low, (_) => 0.0),
-              openValueMapper: (candle, _) =>
-                  double.parse(candle.low, (_) => 0.0),
-              closeValueMapper: (candle, _) =>
-                  double.parse(candle.low, (_) => 0.0),
-              dataLabelSettings: DataLabelSettings(isVisible: false),
-              onRendererCreated: (ChartSeriesController controller) {
-                c.candleController = controller;
-              },
-            ),
-            // ColumnSeries<ExampleChartModel, DateTime>(
-            //   opacity: 0.2,
-            //   dataSource: data,
-            //   xAxisName: 'xAxis1',
-            //   yAxisName: 'yAxis1',
-            //   animationDuration: 500,
-            //   enableTooltip: false,
-            //   isTrackVisible: false,
-            //   trackBorderColor: Colors.transparent,
-            //   trackColor: Colors.transparent,
-            //   color: AppColors.secondary,
-            //   xValueMapper: (sales, _) =>
-            //       DateTime.fromMillisecondsSinceEpoch(sales.date * 1000),
-            //   yValueMapper: (sales, _) => sales.vol,
-            // )
-          ],
+      child: Obx(
+        () => AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          child: c.loading
+              ? Center(
+                  child: CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(
+                      Colors.black,
+                    ),
+                  ),
+                )
+              : SfCartesianChart(
+                  plotAreaBorderWidth: 0,
+                  borderColor: AppColors.secondary,
+                  plotAreaBorderColor: AppColors.secondary,
+                  // enableSideBySideSeriesPlacement: false,
+                  zoomPanBehavior: ZoomPanBehavior(
+                    enablePinching: true,
+                    enablePanning: true,
+                    zoomMode: ZoomMode.x,
+                  ),
+                  onZooming: (ZoomPanArgs args) => c.onZooming(args),
+                  trackballBehavior: TrackballBehavior(
+                    lineColor: AppColors.secondary.withOpacity(0.4),
+                    enable: true,
+                    activationMode: ActivationMode.singleTap,
+                  ),
+                  primaryXAxis: DateTimeAxis(
+                    name: 'primaryXAxis',
+                    zoomFactor: 0.1,
+                    desiredIntervals: 4,
+                    zoomPosition: 0.9,
+                    dateFormat: DateFormat('dd.MM.yy HH:mm'),
+                    intervalType: DateTimeIntervalType.days,
+                    majorGridLines: MajorGridLines(width: 0),
+                  ),
+                  primaryYAxis: NumericAxis(
+                    name: 'primaryYAxis',
+                    desiredIntervals: 4,
+                    opposedPosition: true,
+                    labelStyle: TextStyle(color: AppColors.secondary),
+                    axisLine: AxisLine(width: 0),
+                  ),
+                  // axes: <ChartAxis>[
+                  //   NumericAxis(
+                  //     name: 'yAxis1',
+                  //     isVisible: false,
+                  //     opposedPosition: true,
+                  //     majorGridLines: MajorGridLines(width: 0),
+                  //     labelStyle: TextStyle(color: AppColors.secondary),
+                  //   )
+                  // ],
+                  series: <ChartSeries<Candle, DateTime>>[
+                    CandleSeries<Candle, DateTime>(
+                      dataSource: c.candles,
+                      enableTooltip: true,
+                      enableSolidCandles: true,
+                      animationDuration: 500,
+                      xValueMapper: (candle, _) =>
+                          DateTime.fromMillisecondsSinceEpoch(
+                        candle.timestamp.seconds.toInt() * 1000,
+                      ),
+                      lowValueMapper: (candle, _) =>
+                          double.parse(candle.low, (_) => 0.0),
+                      highValueMapper: (candle, _) =>
+                          double.parse(candle.low, (_) => 0.0),
+                      openValueMapper: (candle, _) =>
+                          double.parse(candle.low, (_) => 0.0),
+                      closeValueMapper: (candle, _) =>
+                          double.parse(candle.low, (_) => 0.0),
+                      dataLabelSettings: DataLabelSettings(isVisible: false),
+                      onRendererCreated: (ChartSeriesController controller) {
+                        c.candleController = controller;
+                      },
+                    ),
+                    // ColumnSeries<ExampleChartModel, DateTime>(
+                    //   opacity: 0.2,
+                    //   dataSource: data,
+                    //   xAxisName: 'xAxis1',
+                    //   yAxisName: 'yAxis1',
+                    //   animationDuration: 500,
+                    //   enableTooltip: false,
+                    //   isTrackVisible: false,
+                    //   trackBorderColor: Colors.transparent,
+                    //   trackColor: Colors.transparent,
+                    //   color: AppColors.secondary,
+                    //   xValueMapper: (sales, _) =>
+                    //       DateTime.fromMillisecondsSinceEpoch(sales.date * 1000),
+                    //   yValueMapper: (sales, _) => sales.vol,
+                    // )
+                  ],
+                ),
         ),
       ),
     );

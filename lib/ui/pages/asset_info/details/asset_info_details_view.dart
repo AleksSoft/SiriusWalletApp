@@ -76,7 +76,7 @@ class AssetInfoDetailsView extends StatelessWidget {
                           alignment: Alignment.center,
                           child: CircularProgressIndicator(
                             valueColor: new AlwaysStoppedAnimation<Color>(
-                              Colors.blue,
+                              Colors.black,
                             ),
                           ),
                         ),

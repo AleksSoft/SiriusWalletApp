@@ -118,7 +118,7 @@ class LoginPage extends StatelessWidget {
                             )
                           : CircularProgressIndicator(
                               valueColor: new AlwaysStoppedAnimation<Color>(
-                                Colors.blue,
+                                Colors.black,
                               ),
                             ),
                     ),
