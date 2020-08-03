@@ -1,8 +1,11 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
+import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/services/api/mock_api.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
+import 'package:antares_wallet/ui/widgets/volume_price_tile.dart';
+import 'package:antares_wallet/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:search_page/search_page.dart';
@@ -47,7 +50,30 @@ class OrderDetailsPage extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-        child: Row(),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              width: Get.width / 2,
+              height: c.defaultHeight,
+              padding: const EdgeInsets.only(
+                left: AppSizes.medium,
+                right: AppSizes.small,
+              ),
+              child: _EditView(),
+            ),
+            Container(
+              width: Get.width / 2,
+              height: c.defaultHeight,
+              padding: const EdgeInsets.only(
+                left: AppSizes.small,
+                right: AppSizes.medium,
+              ),
+              child: _OrderbookView(),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -82,6 +108,103 @@ class OrderDetailsPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _EditView extends StatelessWidget {
+  final c = OrderDetailsController.con;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column();
+  }
+}
+
+class _OrderbookView extends StatelessWidget {
+  final c = OrderDetailsController.con;
+  final titleStyle = Get.textTheme.caption.copyWith(
+    color: AppColors.secondary,
+    fontSize: 12.0,
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(
+          height: AppSizes.extraLarge,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Price (${c.initialMarket.pairQuotingAsset.displayId})',
+                style: titleStyle,
+              ),
+              Text(
+                'Volume (${c.initialMarket.pairBaseAsset.displayId})',
+                style: titleStyle,
+              ),
+            ],
+          ),
+        ),
+        Divider(color: AppColors.secondary.withOpacity(0.4), height: 1),
+        AppUiHelpers.vSpaceExtraSmall,
+        Expanded(
+          child: Obx(
+            () {
+              var bids = c.orderbook.bids;
+              return ListView.builder(
+                reverse: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: (c.defaultHeight / 2) ~/ AppSizes.extraLarge,
+                itemBuilder: (context, i) {
+                  if (bids.length <= i) {
+                    return VolumePriceTile(
+                      color: AppColors.red,
+                    );
+                  } else {
+                    var a = bids[i];
+                    return VolumePriceTile(
+                      volume: Formatter.currency(a.v),
+                      price: Formatter.currency(a.p),
+                      color: AppColors.red,
+                      percent: 0.35,
+                    );
+                  }
+                },
+              );
+            },
+          ),
+        ),
+        AppUiHelpers.vSpaceExtraLarge,
+        Expanded(
+          child: Obx(
+            () {
+              var asks = c.orderbook.asks;
+              return ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: (c.defaultHeight / 2) ~/ AppSizes.extraLarge,
+                itemBuilder: (context, i) {
+                  if (asks.length <= i) {
+                    return VolumePriceTile(
+                      color: AppColors.green,
+                    );
+                  } else {
+                    var a = asks[i];
+                    return VolumePriceTile(
+                      volume: Formatter.currency(a.v),
+                      price: Formatter.currency(a.p),
+                      color: AppColors.green,
+                      percent: 0.35,
+                    );
+                  }
+                },
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }

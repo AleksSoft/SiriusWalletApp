@@ -32,6 +32,10 @@ class OrderDetailsController extends GetxController {
   Orderbook get orderbook => this._orderbook.value;
   set orderbook(Orderbook value) => this._orderbook.value = value;
 
+  final _defaultHeight =
+      (Get.height - (Get.context.mediaQueryPadding.top + 56.0 * 2));
+  double get defaultHeight => _defaultHeight;
+
   @override
   void onInit() async {
     // load pair market data
