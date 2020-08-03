@@ -2,11 +2,16 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class Formatter {
-  static int minDecimal = 2;
-  static int maxDecimal = 8;
+  static const int minDecimal = 2;
+  static const int maxDecimalDigits = 8;
 
-  static String currency(String s,
-      {String symbol, String locale, String ifZeroOrNull}) {
+  static String currency(
+    String s, {
+    int maxDecimal,
+    String symbol,
+    String locale,
+    String ifZeroOrNull,
+  }) {
     if (GetUtils.isNullOrBlank(s)) {
       if (!GetUtils.isNullOrBlank(ifZeroOrNull)) {
         return ifZeroOrNull;
@@ -24,7 +29,11 @@ class Formatter {
     if (splitted.length == 2) {
       var length = splitted[1].length;
       if (length > decimalDigits) {
-        decimalDigits = length > 8 ? maxDecimal : length;
+        if (maxDecimal == null) {
+          decimalDigits = length > 8 ? maxDecimalDigits : length;
+        } else {
+          decimalDigits = maxDecimal;
+        }
       }
     }
 

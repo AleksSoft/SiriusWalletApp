@@ -9,15 +9,29 @@ import 'package:get/get.dart';
 class OrderDetailsController extends GetxController {
   static OrderDetailsController get con => Get.find();
 
+  static final orderTypes = ['Limit', 'Market'];
+
   static final _api = Get.find<ApiService>();
 
   final _portfolioCon = PortfolioController.con;
 
   StreamSubscription _orderbookSubscr;
 
-  final _isBuy = (Get.parameters['type'].toLowerCase() == 'buy').obs;
+  final _isBuy = (Get.parameters['operationType'].toLowerCase() == 'buy').obs;
   bool get isBuy => this._isBuy.value;
   set isBuy(bool value) => this._isBuy.value = value;
+
+  final _orderType = 'Limit'.obs;
+  String get orderType => this._orderType.value;
+  set orderType(String value) => this._orderType.value = value;
+
+  final _price = ''.obs;
+  String get price => this._price.value;
+  set price(String value) => this._price.value = value;
+
+  final _amount = 0.0.obs;
+  double get amount => this._amount.value;
+  set amount(double value) => this._amount.value = value;
 
   final _initialMarket = MarketModel.empty().obs;
   MarketModel get initialMarket => this._initialMarket.value;
@@ -41,6 +55,8 @@ class OrderDetailsController extends GetxController {
     // load pair market data
     await updateWithMarket(Get.arguments as MarketModel);
 
+    ever(_orderbook, (_) => print("-----a-a-a"));
+
     super.onInit();
   }
 
@@ -54,9 +70,10 @@ class OrderDetailsController extends GetxController {
   String get assetPairHeader =>
       '${initialMarket.pairBaseAsset.displayId}/${initialMarket.pairQuotingAsset.displayId}';
 
-  List<Balance> get bances => _portfolioCon.balances;
-
-  double get balanceSum => _portfolioCon.balanceSum;
+  String get baseBalance =>
+      _portfolioCon.assetBalance(initialMarket.pairBaseAsset.id)?.available;
+  String get quotingBalance =>
+      _portfolioCon.assetBalance(initialMarket.pairQuotingAsset.id)?.available;
 
   updateWithMarket(MarketModel data) async {
     initialMarket = data;
@@ -77,6 +94,10 @@ class OrderDetailsController extends GetxController {
             OrderbookUpdatesRequest()..assetPairId = initialMarket.pairId)
         .listen((Orderbook update) => _updateOrderbook(update));
   }
+
+  updatePercent(num percent) {}
+
+  perform() {}
 
   _updateOrderbook(Orderbook update) {
     print('Order Details Orderbook Update: ${update.toProto3Json()}');

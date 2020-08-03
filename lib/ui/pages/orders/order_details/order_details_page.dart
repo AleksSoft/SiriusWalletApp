@@ -6,7 +6,6 @@ import 'package:antares_wallet/services/api/mock_api.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
 import 'package:antares_wallet/ui/widgets/volume_price_tile.dart';
 import 'package:antares_wallet/utils/formatter.dart';
-import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:search_page/search_page.dart';
@@ -119,42 +118,190 @@ class _EditView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
+        AppUiHelpers.vSpaceSmall,
+        _BuySellHeaderView(),
+        AppUiHelpers.vSpaceSmall,
+        Text('Type of order', style: Get.textTheme.caption),
         Obx(
-          () => Container(
-            alignment: Alignment.center,
-            height: AppSizes.extraLarge,
-            width: Get.width,
-            color: AppColors.primary,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                AppUiHelpers.hSpaceSmall,
-                Expanded(
-                  child: _buildSelectBtn(
-                    text: 'Buy',
-                    color: Colors.green,
-                    selected: c.isBuy,
-                    onPressed: () => c.isBuy = true,
-                  ),
+          () => DropdownButton<String>(
+            value: c.orderType,
+            isExpanded: true,
+            focusColor: AppColors.accent,
+            onChanged: (String s) => c.orderType = s,
+            items: OrderDetailsController.orderTypes.map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+        ),
+        Obx(
+          () => AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            child: c.orderType.toLowerCase() == 'limit'
+                ? Theme(
+                    data: Get.theme.copyWith(primaryColor: AppColors.accent),
+                    child: TextField(
+                      onChanged: (p) => c.price = p,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.fromLTRB(
+                          0.0,
+                          AppSizes.small,
+                          AppSizes.medium,
+                          AppSizes.small,
+                        ),
+                        labelText: 'Price',
+                      ),
+                    ),
+                  )
+                : SizedBox.shrink(),
+          ),
+        ),
+        AppUiHelpers.vSpaceSmall,
+        Obx(
+          () => Theme(
+            data: Get.theme.copyWith(primaryColor: AppColors.accent),
+            child: TextField(
+              onChanged: (p) => c.price = p,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.fromLTRB(
+                  0.0,
+                  AppSizes.small,
+                  AppSizes.medium,
+                  AppSizes.small,
                 ),
-                AppUiHelpers.hSpaceSmall,
-                Expanded(
-                  child: _buildSelectBtn(
-                    text: 'Sell',
-                    color: Colors.red,
-                    selected: !c.isBuy,
-                    onPressed: () => c.isBuy = false,
-                  ),
-                ),
-                AppUiHelpers.hSpaceSmall,
-              ],
+                labelText:
+                    '${c.isBuy ? 'Buy' : 'Sell'} (${c.initialMarket.pairBaseAsset.displayId})',
+              ),
             ),
           ),
         ),
+        AppUiHelpers.vSpaceMedium,
+        Obx(
+          () => Text(
+            '${c.initialMarket.pairQuotingAsset.displayId} ${Formatter.currency(c.quotingBalance, maxDecimal: 2)} available',
+            style: Get.textTheme.caption,
+          ),
+        ),
+        AppUiHelpers.vSpaceSmall,
+        SizedBox(
+          height: AppSizes.extraLarge * 2 + AppSizes.small,
+          child: GridView.count(
+            physics: NeverScrollableScrollPhysics(),
+            crossAxisCount: 2,
+            childAspectRatio: 3,
+            mainAxisSpacing: AppSizes.small,
+            crossAxisSpacing: AppSizes.small,
+            children: [0.25, 0.5, 0.75, 1]
+                .map((e) => SizedBox(
+                      height: AppSizes.extraLarge,
+                      child: OutlineButton(
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                            color: AppColors.secondary,
+                          ),
+                          borderRadius: BorderRadius.circular(AppSizes.small),
+                        ),
+                        onPressed: () => c.updatePercent(e),
+                        child: Text('${e * 100}%'),
+                      ),
+                    ))
+                .toList(),
+          ),
+        ),
+        Obx(
+          () => Theme(
+            data: Get.theme.copyWith(primaryColor: AppColors.accent),
+            child: TextField(
+              onChanged: (p) => c.price = p,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.fromLTRB(
+                  0.0,
+                  AppSizes.small,
+                  AppSizes.medium,
+                  AppSizes.small,
+                ),
+                labelText:
+                    'Total (${c.initialMarket.pairQuotingAsset.displayId})',
+              ),
+            ),
+          ),
+        ),
+        AppUiHelpers.vSpaceMedium,
+        OutlineButton(
+          padding: const EdgeInsets.symmetric(
+            vertical: AppSizes.medium,
+          ),
+          shape: RoundedRectangleBorder(
+            side: BorderSide(color: AppColors.secondary),
+            borderRadius: BorderRadius.circular(AppSizes.small),
+          ),
+          onPressed: () => c.perform(),
+          child: Column(
+            children: <Widget>[
+              Obx(() => Text(
+                  '${Formatter.currency(c.amount.toString(), maxDecimal: 2)} ${c.initialMarket.pairQuotingAsset.displayId}')),
+              Obx(
+                () => Text(
+                  c.isBuy ? 'Buy' : 'Sell',
+                  style: Get.textTheme.caption.copyWith(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              )
+            ],
+          ),
+        )
       ],
+    );
+  }
+}
+
+class _BuySellHeaderView extends StatelessWidget {
+  final c = OrderDetailsController.con;
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+      () => Container(
+        alignment: Alignment.center,
+        height: AppSizes.extraLarge,
+        width: Get.width,
+        color: AppColors.primary,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            AppUiHelpers.hSpaceSmall,
+            Expanded(
+              child: _buildSelectBtn(
+                text: 'Buy',
+                color: Colors.green,
+                selected: c.isBuy,
+                onPressed: () => c.isBuy = true,
+              ),
+            ),
+            AppUiHelpers.hSpaceSmall,
+            Expanded(
+              child: _buildSelectBtn(
+                text: 'Sell',
+                color: Colors.red,
+                selected: !c.isBuy,
+                onPressed: () => c.isBuy = false,
+              ),
+            ),
+            AppUiHelpers.hSpaceSmall,
+          ],
+        ),
+      ),
     );
   }
 
@@ -201,13 +348,17 @@ class _OrderbookView extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Price (${c.initialMarket.pairQuotingAsset.displayId})',
-                style: titleStyle,
+              Obx(
+                () => Text(
+                  'Price (${c.initialMarket.pairQuotingAsset.displayId})',
+                  style: titleStyle,
+                ),
               ),
-              Text(
-                'Volume (${c.initialMarket.pairBaseAsset.displayId})',
-                style: titleStyle,
+              Obx(
+                () => Text(
+                  'Volume (${c.initialMarket.pairBaseAsset.displayId})',
+                  style: titleStyle,
+                ),
               ),
             ],
           ),

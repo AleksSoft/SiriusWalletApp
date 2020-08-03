@@ -89,9 +89,9 @@ class TradingController extends GetxController {
   //   }
   // }
 
-  openOrder(bool isBuy) =>
-      Get.toNamed('${OrderDetailsPage.route}?type=${isBuy ? 'buy' : 'sell'}',
-          arguments: initialMarket);
+  openOrder(bool isBuy) => Get.toNamed(
+      '${OrderDetailsPage.route}?operationType=${isBuy ? 'buy' : 'sell'}',
+      arguments: initialMarket);
 
   onZooming(ZoomPanArgs args) {
     if (args.axis.name == 'primaryXAxis' &&
@@ -224,7 +224,7 @@ class TradingController extends GetxController {
   }
 
   _updateOrderbook(Orderbook update) {
-    print('Order Details Orderbook Update: ${update.toProto3Json()}');
+    print('Orderbook Update: ${update.toProto3Json()}');
     if (update != null && !update.bids.isNull && !update.asks.isNull) {
       Orderbook mergedOrderbook = orderbook;
       mergedOrderbook.bids.addAll(update.bids);
