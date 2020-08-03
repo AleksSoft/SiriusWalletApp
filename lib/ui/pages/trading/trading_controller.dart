@@ -224,7 +224,8 @@ class TradingController extends GetxController {
   }
 
   _updateOrderbook(Orderbook update) {
-    if (update != null && update.hasAssetPairId()) {
+    print('Order Details Orderbook Update: ${update.toProto3Json()}');
+    if (update != null && !update.bids.isNull && !update.asks.isNull) {
       Orderbook mergedOrderbook = orderbook;
       mergedOrderbook.bids.addAll(update.bids);
       mergedOrderbook.asks.addAll(update.asks);

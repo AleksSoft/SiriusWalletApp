@@ -6,6 +6,7 @@ import 'package:antares_wallet/services/api/mock_api.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
 import 'package:antares_wallet/ui/widgets/volume_price_tile.dart';
 import 'package:antares_wallet/utils/formatter.dart';
+import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:search_page/search_page.dart';
@@ -117,7 +118,70 @@ class _EditView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column();
+    return Column(
+      children: <Widget>[
+        Obx(
+          () => Container(
+            alignment: Alignment.center,
+            height: AppSizes.extraLarge,
+            width: Get.width,
+            color: AppColors.primary,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                AppUiHelpers.hSpaceSmall,
+                Expanded(
+                  child: _buildSelectBtn(
+                    text: 'Buy',
+                    color: Colors.green,
+                    selected: c.isBuy,
+                    onPressed: () => c.isBuy = true,
+                  ),
+                ),
+                AppUiHelpers.hSpaceSmall,
+                Expanded(
+                  child: _buildSelectBtn(
+                    text: 'Sell',
+                    color: Colors.red,
+                    selected: !c.isBuy,
+                    onPressed: () => c.isBuy = false,
+                  ),
+                ),
+                AppUiHelpers.hSpaceSmall,
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  FlatButton _buildSelectBtn({
+    @required String text,
+    @required Color color,
+    @required bool selected,
+    @required VoidCallback onPressed,
+  }) {
+    return FlatButton(
+      color: selected ? color : AppColors.primary,
+      splashColor: color,
+      shape: RoundedRectangleBorder(
+        side: BorderSide(
+          color: selected ? color : AppColors.secondary,
+        ),
+        borderRadius: BorderRadius.circular(AppSizes.extraLarge),
+      ),
+      onPressed: onPressed,
+      child: Text(
+        text,
+        style: Get.textTheme.button.copyWith(
+          color: selected ? AppColors.primary : AppColors.secondary,
+          fontSize: 16.0,
+        ),
+      ),
+    );
   }
 }
 
