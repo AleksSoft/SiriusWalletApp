@@ -5,8 +5,9 @@ import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/services/repositories/trading_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
+import 'package:antares_wallet/ui/pages/orders/order_details/order_details_page.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class TradingController extends GetxController {
@@ -87,6 +88,10 @@ class TradingController extends GetxController {
   //       return DateFormat('dd.MM.yyyy');
   //   }
   // }
+
+  openOrder(bool isBuy) =>
+      Get.toNamed('${OrderDetailsPage.route}?type=${isBuy ? 'buy' : 'sell'}',
+          arguments: initialMarket);
 
   onZooming(ZoomPanArgs args) {
     if (args.axis.name == 'primaryXAxis' &&

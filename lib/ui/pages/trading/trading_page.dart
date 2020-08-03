@@ -55,34 +55,39 @@ class TradingPage extends StatelessWidget {
           ),
         ),
       ),
-      body: ListView(
-        shrinkWrap: true,
-        children: [
-          _HeaderView(),
-          Divider(height: 1),
-          _CandleChartView(),
-          Divider(height: 1),
-          Container(
-            height: 28 * AppSizes.extraLarge,
-            child: DefaultTabController(
-              initialIndex: 0,
-              length: 2,
-              child: Column(
-                children: [
-                  TabBar(
-                    indicatorWeight: 1.0,
-                    indicatorColor: Colors.black,
-                    tabs: [Tab(text: 'Order book'), Tab(text: 'Tradelog')],
+      body: Stack(
+        children: <Widget>[
+          ListView(
+            shrinkWrap: true,
+            children: [
+              _HeaderView(),
+              Divider(height: 1),
+              _CandleChartView(),
+              Divider(height: 1),
+              Container(
+                height: 28 * AppSizes.extraLarge,
+                child: DefaultTabController(
+                  initialIndex: 0,
+                  length: 2,
+                  child: Column(
+                    children: [
+                      TabBar(
+                        indicatorWeight: 1.0,
+                        indicatorColor: Colors.black,
+                        tabs: [Tab(text: 'Order book'), Tab(text: 'Tradelog')],
+                      ),
+                      Expanded(
+                        child: TabBarView(
+                          children: [_Orderbook(), _Tradelog()],
+                        ),
+                      ),
+                    ],
                   ),
-                  Expanded(
-                    child: TabBarView(
-                      children: [_Orderbook(), _Tradelog()],
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
+          _BuySellButtonRow(),
         ],
       ),
     );
@@ -116,6 +121,71 @@ class TradingPage extends StatelessWidget {
               c.updateWithMarket(model);
             },
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _BuySellButtonRow extends StatelessWidget {
+  const _BuySellButtonRow({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      bottom: 0,
+      child: Container(
+        alignment: Alignment.center,
+        height: AppSizes.extraLarge * 2,
+        width: Get.width,
+        color: AppColors.primary,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            AppUiHelpers.hSpaceLarge,
+            Expanded(
+              child: FlatButton(
+                color: AppColors.green,
+                padding: const EdgeInsets.all(AppSizes.medium),
+                splashColor: Colors.green,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppSizes.small),
+                ),
+                onPressed: () => TradingController.con.openOrder(true),
+                child: Text(
+                  'Buy',
+                  style: Get.textTheme.button.copyWith(
+                    color: AppColors.primary,
+                    fontSize: 16.0,
+                  ),
+                ),
+              ),
+            ),
+            AppUiHelpers.hSpaceLarge,
+            Expanded(
+              child: FlatButton(
+                color: AppColors.red,
+                padding: const EdgeInsets.all(AppSizes.medium),
+                splashColor: Colors.red,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppSizes.small),
+                ),
+                onPressed: () => TradingController.con.openOrder(false),
+                child: Text(
+                  'Sell',
+                  style: Get.textTheme.button.copyWith(
+                    color: AppColors.primary,
+                    fontSize: 16.0,
+                  ),
+                ),
+              ),
+            ),
+            AppUiHelpers.hSpaceLarge,
+          ],
         ),
       ),
     );

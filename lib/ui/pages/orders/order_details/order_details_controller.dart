@@ -15,6 +15,10 @@ class OrderDetailsController extends GetxController {
 
   StreamSubscription _orderbookSubscr;
 
+  final _isBuy = (Get.parameters['type'].toLowerCase() == 'buy').obs;
+  bool get isBuy => this._isBuy.value;
+  set isBuy(bool value) => this._isBuy.value = value;
+
   final _initialMarket = MarketModel.empty().obs;
   MarketModel get initialMarket => this._initialMarket.value;
   set initialMarket(MarketModel value) => this._initialMarket.value = value;
