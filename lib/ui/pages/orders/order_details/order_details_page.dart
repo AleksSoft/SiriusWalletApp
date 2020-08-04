@@ -367,56 +367,55 @@ class _OrderbookView extends StatelessWidget {
         AppUiHelpers.vSpaceExtraSmall,
         Expanded(
           child: Obx(
-            () {
-              var bids = c.orderbook.bids;
-              return ListView.builder(
-                reverse: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: (c.defaultHeight / 2) ~/ AppSizes.extraLarge,
-                itemBuilder: (context, i) {
-                  if (bids.length <= i) {
-                    return VolumePriceTile(
-                      color: AppColors.red,
-                    );
-                  } else {
-                    var a = bids[i];
-                    return VolumePriceTile(
-                      volume: Formatter.currency(a.v),
-                      price: Formatter.currency(a.p),
-                      color: AppColors.red,
-                      percent: 0.35,
-                    );
-                  }
-                },
-              );
-            },
+            () => ListView.builder(
+              reverse: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: c.bids.length == c.orderbookItemsCount
+                  ? c.bids.length
+                  : c.orderbookItemsCount,
+              shrinkWrap: true,
+              itemBuilder: (context, i) {
+                if (c.bids.length <= i) {
+                  return VolumePriceTile(
+                    color: AppColors.red,
+                  );
+                } else {
+                  var a = c.bids[i];
+                  return VolumePriceTile(
+                    volume: Formatter.currency(a.v),
+                    price: Formatter.currency(a.p),
+                    color: AppColors.red,
+                    percent: 0.35,
+                  );
+                }
+              },
+            ),
           ),
         ),
         AppUiHelpers.vSpaceExtraLarge,
         Expanded(
           child: Obx(
-            () {
-              var asks = c.orderbook.asks;
-              return ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: (c.defaultHeight / 2) ~/ AppSizes.extraLarge,
-                itemBuilder: (context, i) {
-                  if (asks.length <= i) {
-                    return VolumePriceTile(
-                      color: AppColors.green,
-                    );
-                  } else {
-                    var a = asks[i];
-                    return VolumePriceTile(
-                      volume: Formatter.currency(a.v),
-                      price: Formatter.currency(a.p),
-                      color: AppColors.green,
-                      percent: 0.35,
-                    );
-                  }
-                },
-              );
-            },
+            () => ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: c.asks.length == c.orderbookItemsCount
+                  ? c.asks.length
+                  : c.orderbookItemsCount,
+              itemBuilder: (context, i) {
+                if (c.asks.length <= i) {
+                  return VolumePriceTile(
+                    color: AppColors.green,
+                  );
+                } else {
+                  var a = c.asks[i];
+                  return VolumePriceTile(
+                    volume: Formatter.currency(a.v),
+                    price: Formatter.currency(a.p),
+                    color: AppColors.green,
+                    percent: 0.35,
+                  );
+                }
+              },
+            ),
           ),
         ),
       ],

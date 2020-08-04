@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
@@ -42,21 +43,20 @@ class OrderDetailsController extends GetxController {
   set marketModel(MarketsResponse_MarketModel value) =>
       this._marketModel.value = value;
 
-  final _orderbook = Orderbook().obs;
-  Orderbook get orderbook => this._orderbook.value;
-  set orderbook(Orderbook value) => this._orderbook.value = value;
+  final asks = List<Orderbook_PriceVolume>().obs;
+
+  final bids = List<Orderbook_PriceVolume>().obs;
 
   final _defaultHeight =
       (Get.height - (Get.context.mediaQueryPadding.top + 56.0 * 2));
   double get defaultHeight => _defaultHeight;
 
+  int get orderbookItemsCount => (defaultHeight / 2) ~/ AppSizes.extraLarge;
+
   @override
   void onInit() async {
     // load pair market data
     await updateWithMarket(Get.arguments as MarketModel);
-
-    ever(_orderbook, (_) => print("-----a-a-a"));
-
     super.onInit();
   }
 
@@ -86,26 +86,20 @@ class OrderDetailsController extends GetxController {
 
     if (_orderbookSubscr != null) {
       await _orderbookSubscr.cancel();
-      orderbook = Orderbook();
+      asks.clear();
+      bids.clear();
     }
     // subscribe to orderbook stream
     _orderbookSubscr = _api.client
         .getOrderbookUpdates(
             OrderbookUpdatesRequest()..assetPairId = initialMarket.pairId)
-        .listen((Orderbook update) => _updateOrderbook(update));
+        .listen((Orderbook update) {
+      asks.addAllNonNull(update?.asks);
+      bids.addAllNonNull(update?.bids);
+    });
   }
 
   updatePercent(num percent) {}
 
   perform() {}
-
-  _updateOrderbook(Orderbook update) {
-    print('Order Details Orderbook Update: ${update.toProto3Json()}');
-    if (update != null && !update.bids.isNull && !update.asks.isNull) {
-      Orderbook mergedOrderbook = orderbook;
-      mergedOrderbook.bids.addAll(update.bids);
-      mergedOrderbook.asks.addAll(update.asks);
-      orderbook = mergedOrderbook;
-    }
-  }
 }

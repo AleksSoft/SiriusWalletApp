@@ -6,7 +6,6 @@ import 'package:antares_wallet/services/repositories/trading_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
 import 'package:antares_wallet/ui/pages/orders/order_details/order_details_page.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -38,9 +37,9 @@ class TradingController extends GetxController {
   set marketModel(MarketsResponse_MarketModel value) =>
       this._marketModel.value = value;
 
-  final _orderbook = Orderbook().obs;
-  Orderbook get orderbook => this._orderbook.value;
-  set orderbook(Orderbook value) => this._orderbook.value = value;
+  final asks = List<Orderbook_PriceVolume>().obs;
+
+  final bids = List<Orderbook_PriceVolume>().obs;
 
   final trades = List<PublicTrade>().obs;
 
@@ -169,13 +168,17 @@ class TradingController extends GetxController {
     // subscribe to orderbook stream
     if (_orderbookSubscr != null) {
       await _orderbookSubscr.cancel();
-      orderbook = Orderbook();
+      asks.clear();
+      bids.clear();
     }
     // subscribe to orderbook stream
     _orderbookSubscr = _api.client
         .getOrderbookUpdates(
             OrderbookUpdatesRequest()..assetPairId = initialMarket.pairId)
-        .listen((Orderbook update) => _updateOrderbook(update));
+        .listen((Orderbook update) {
+      asks.addAllNonNull(update?.asks);
+      bids.addAllNonNull(update?.bids);
+    });
   }
 
   _initTrades() async {
@@ -189,7 +192,8 @@ class TradingController extends GetxController {
         .getPublicTradeUpdates(
             PublicTradesUpdatesRequest()..assetPairId = initialMarket.pairId)
         .listen(
-            (PublicTradeUpdate update) => trades.addAllNonNull(update?.trades));
+          (PublicTradeUpdate update) => trades.addAllNonNull(update?.trades),
+        );
   }
 
   _updateCandles(CandleUpdate update) {
@@ -220,16 +224,6 @@ class TradingController extends GetxController {
           );
         }
       }
-    }
-  }
-
-  _updateOrderbook(Orderbook update) {
-    print('Orderbook Update: ${update.toProto3Json()}');
-    if (update != null && !update.bids.isNull && !update.asks.isNull) {
-      Orderbook mergedOrderbook = orderbook;
-      mergedOrderbook.bids.addAll(update.bids);
-      mergedOrderbook.asks.addAll(update.asks);
-      orderbook = mergedOrderbook;
     }
   }
 

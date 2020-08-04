@@ -435,29 +435,26 @@ class _Orderbook extends StatelessWidget {
               AppUiHelpers.vSpaceExtraSmall,
               Expanded(
                 child: Obx(
-                  () {
-                    var bids = c.orderbook.bids;
-                    return ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: 25,
-                      itemBuilder: (context, i) {
-                        if (bids.length <= i) {
-                          return VolumeBidTile(
-                            volume: '—',
-                            bid: '—',
-                            percent: 0,
-                          );
-                        } else {
-                          var a = bids[i];
-                          return VolumeBidTile(
-                            volume: Formatter.currency(a.v),
-                            bid: Formatter.currency(a.p),
-                            percent: 0.35,
-                          );
-                        }
-                      },
-                    );
-                  },
+                  () => ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: c.bids.length == 25 ? c.bids.length : 25,
+                    itemBuilder: (context, i) {
+                      if (c.bids.length <= i) {
+                        return VolumeBidTile(
+                          volume: '—',
+                          bid: '—',
+                          percent: 0,
+                        );
+                      } else {
+                        var a = c.bids[i];
+                        return VolumeBidTile(
+                          volume: Formatter.currency(a.v),
+                          bid: Formatter.currency(a.p),
+                          percent: 0.35,
+                        );
+                      }
+                    },
+                  ),
                 ),
               ),
             ],
@@ -489,25 +486,22 @@ class _Orderbook extends StatelessWidget {
               AppUiHelpers.vSpaceExtraSmall,
               Expanded(
                 child: Obx(
-                  () {
-                    var asks = c.orderbook.asks;
-                    return ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: 25,
-                      itemBuilder: (context, i) {
-                        if (asks.length <= i) {
-                          return VolumeAskTile();
-                        } else {
-                          var a = asks[i];
-                          return VolumeAskTile(
-                            volume: Formatter.currency(a.v),
-                            ask: Formatter.currency(a.p),
-                            percent: 0.35,
-                          );
-                        }
-                      },
-                    );
-                  },
+                  () => ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: c.asks.length == 25 ? c.asks.length : 25,
+                    itemBuilder: (context, i) {
+                      if (c.asks.length <= i) {
+                        return VolumeAskTile();
+                      } else {
+                        var a = c.asks[i];
+                        return VolumeAskTile(
+                          volume: Formatter.currency(a.v),
+                          ask: Formatter.currency(a.p),
+                          percent: 0.35,
+                        );
+                      }
+                    },
+                  ),
                 ),
               ),
             ],
