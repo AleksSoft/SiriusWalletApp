@@ -24,6 +24,7 @@ class RegisterPage extends StatelessWidget {
       ),
       body: PageView(
         controller: c.pageViewController,
+        physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
           _EmailScreen(),
           _CodeScreen(),
@@ -74,6 +75,7 @@ class _EmailScreen extends StatelessWidget {
                 labelText: 'Email',
                 labelStyle: TextStyle(color: AppColors.secondary),
               ),
+              keyboardType: TextInputType.emailAddress,
             ),
           ),
           AppUiHelpers.vSpaceExtraLarge,
