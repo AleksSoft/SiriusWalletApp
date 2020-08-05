@@ -88,9 +88,17 @@ class TradingController extends GetxController {
   //   }
   // }
 
-  openOrder(bool isBuy) => Get.toNamed(
-      '${OrderDetailsPage.route}?operationType=${isBuy ? 'buy' : 'sell'}',
-      arguments: initialMarket);
+  openOrderDetails(bool isBuy) async {
+    _candleSubscr.pause();
+    _orderbookSubscr.pause();
+    _tradesSubscr.pause();
+    await Get.toNamed(
+        '${OrderDetailsPage.route}?operationType=${isBuy ? 'buy' : 'sell'}',
+        arguments: initialMarket);
+    _candleSubscr.resume();
+    _orderbookSubscr.resume();
+    _tradesSubscr.resume();
+  }
 
   onZooming(ZoomPanArgs args) {
     if (args.axis.name == 'primaryXAxis' &&

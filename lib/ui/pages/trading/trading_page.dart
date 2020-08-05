@@ -155,7 +155,7 @@ class _BuySellButtonRow extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppSizes.small),
                 ),
-                onPressed: () => TradingController.con.openOrder(true),
+                onPressed: () => TradingController.con.openOrderDetails(true),
                 child: Text(
                   'Buy',
                   style: Get.textTheme.button.copyWith(
@@ -174,7 +174,7 @@ class _BuySellButtonRow extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppSizes.small),
                 ),
-                onPressed: () => TradingController.con.openOrder(false),
+                onPressed: () => TradingController.con.openOrderDetails(false),
                 child: Text(
                   'Sell',
                   style: Get.textTheme.button.copyWith(
