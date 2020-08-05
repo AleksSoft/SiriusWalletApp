@@ -107,7 +107,7 @@ class LoginPage extends StatelessWidget {
                       duration: const Duration(milliseconds: 300),
                       child: !_.loading
                           ? Text(
-                              "Sign in",
+                              "SIGN IN",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: 'Proxima_Nova',

@@ -1,5 +1,6 @@
 import 'package:antares_wallet/bindings/initial_binding.dart';
 import 'package:antares_wallet/bindings/order_details_binding.dart';
+import 'package:antares_wallet/bindings/register_binding.dart';
 import 'package:antares_wallet/bindings/root_binding.dart';
 import 'package:antares_wallet/bindings/profile_binding.dart';
 import 'package:antares_wallet/bindings/settings_binding.dart';
@@ -22,6 +23,7 @@ import 'package:antares_wallet/ui/pages/more/settings/settings_page.dart';
 import 'package:antares_wallet/ui/pages/more/support/support_page.dart';
 import 'package:antares_wallet/ui/pages/orders/order_details/order_details_page.dart';
 import 'package:antares_wallet/ui/pages/portfolio/transaction_details/transaction_details_page.dart';
+import 'package:antares_wallet/ui/pages/register/register_page.dart';
 import 'package:antares_wallet/ui/pages/root/root_page.dart';
 import 'package:antares_wallet/ui/pages/select_asset/select_asset_page.dart';
 import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
@@ -30,13 +32,18 @@ import 'package:get/get.dart';
 class AppRoutes {
   static final routes = [
     GetPage(
-      name: InitialPage.route,
-      page: () => InitialPage(),
-      binding: InitialBinding(),
+      name: StartPage.route,
+      page: () => StartPage(),
+      binding: StartBinding(),
     ),
     GetPage(
       name: LoginPage.route,
       page: () => LoginPage(),
+    ),
+    GetPage(
+      name: RegisterPage.route,
+      page: () => RegisterPage(),
+      binding: RegisterBinding(),
     ),
     GetPage(
       name: RootPage.route,

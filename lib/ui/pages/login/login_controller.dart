@@ -1,6 +1,7 @@
 import 'package:antares_wallet/app/common/app_storage_keys.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/src/google/protobuf/empty.pb.dart';
+import 'package:antares_wallet/ui/pages/register/register_page.dart';
 import 'package:antares_wallet/ui/pages/root/root_page.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -16,7 +17,7 @@ class LoginController extends GetxController {
     null,
   ];
 
-  final _loading = false.obs;
+  final _loading = true.obs;
   get loading => this._loading.value;
   set loading(value) => this._loading.value = value;
 
@@ -46,8 +47,9 @@ class LoginController extends GetxController {
     super.onReady();
     if (_storage.hasData(AppStorageKeys.token) &&
         _storage.hasData(AppStorageKeys.baseUrl)) {
-      _login();
+      await _login();
     }
+    loading = false;
   }
 
   saveTokenAndLogin() async {
@@ -75,4 +77,6 @@ class LoginController extends GetxController {
     }
     loading = false;
   }
+
+  openRegister() => Get.toNamed(RegisterPage.route);
 }

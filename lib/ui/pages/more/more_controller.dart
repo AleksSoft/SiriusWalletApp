@@ -12,7 +12,7 @@ class MoreController extends GetxController {
       middleText: 'Are you shure to log out>?',
       onConfirm: () {
         _storage.erase();
-        Get.offAllNamed(InitialPage.route);
+        Get.offAllNamed(StartPage.route);
       },
     );
   }

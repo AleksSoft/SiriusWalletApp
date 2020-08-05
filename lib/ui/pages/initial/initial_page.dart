@@ -6,7 +6,7 @@ import 'package:antares_wallet/ui/widgets/gradient_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class InitialPage extends StatelessWidget {
+class StartPage extends StatelessWidget {
   static final String route = '/';
 
   @override
@@ -45,7 +45,7 @@ class InitialPage extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 RaisedGradientButton(
-                                  onPressed: null,
+                                  onPressed: () => _.openRegister(),
                                   gradient: LinearGradient(
                                     colors: <Color>[
                                       Colors.yellowAccent,
@@ -57,7 +57,7 @@ class InitialPage extends StatelessWidget {
                                     ],
                                   ),
                                   child: Text(
-                                    "Register",
+                                    "REGISTER",
                                     textAlign: TextAlign.center,
                                     style: style.copyWith(
                                       color: Colors.white,
@@ -99,7 +99,7 @@ class InitialPage extends StatelessWidget {
                                     onPressed: () =>
                                         Get.toNamed(LoginPage.route),
                                     child: Text(
-                                      "Sign in",
+                                      "SIGN IN",
                                       textAlign: TextAlign.center,
                                       style: style.copyWith(
                                         color: AppColors.secondary,
