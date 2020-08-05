@@ -91,16 +91,16 @@ class ApiServiceClient extends $grpc.Client {
       ($1.VerificationEmailRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) =>
           $1.VerificationEmailResponse.fromBuffer(value));
-  static final _$sendVerificationSms =
-      $grpc.ClientMethod<$1.VerificationSmsRequest, $1.EmptyResponse>(
-          '/antaresWallet.ApiService/SendVerificationSms',
-          ($1.VerificationSmsRequest value) => value.writeToBuffer(),
-          ($core.List<$core.int> value) => $1.EmptyResponse.fromBuffer(value));
   static final _$verifyEmail =
       $grpc.ClientMethod<$1.VerifyEmailRequest, $1.VerifyResponse>(
           '/antaresWallet.ApiService/VerifyEmail',
           ($1.VerifyEmailRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $1.VerifyResponse.fromBuffer(value));
+  static final _$sendVerificationSms =
+      $grpc.ClientMethod<$1.VerificationSmsRequest, $1.EmptyResponse>(
+          '/antaresWallet.ApiService/SendVerificationSms',
+          ($1.VerificationSmsRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $1.EmptyResponse.fromBuffer(value));
   static final _$verifyPhone =
       $grpc.ClientMethod<$1.VerifyPhoneRequest, $1.VerifyResponse>(
           '/antaresWallet.ApiService/VerifyPhone',
@@ -112,6 +112,32 @@ class ApiServiceClient extends $grpc.Client {
           ($1.RegisterRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $1.RegisterResponse.fromBuffer(value));
+  static final _$login = $grpc.ClientMethod<$1.LoginRequest, $1.LoginResponse>(
+      '/antaresWallet.ApiService/Login',
+      ($1.LoginRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $1.LoginResponse.fromBuffer(value));
+  static final _$sendLoginSms =
+      $grpc.ClientMethod<$1.LoginSmsRequest, $1.EmptyResponse>(
+          '/antaresWallet.ApiService/SendLoginSms',
+          ($1.LoginSmsRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $1.EmptyResponse.fromBuffer(value));
+  static final _$verifyLoginSms =
+      $grpc.ClientMethod<$1.VerifyLoginSmsRequest, $1.VerifyLoginSmsResponse>(
+          '/antaresWallet.ApiService/VerifyLoginSms',
+          ($1.VerifyLoginSmsRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $1.VerifyLoginSmsResponse.fromBuffer(value));
+  static final _$checkPin =
+      $grpc.ClientMethod<$1.CheckPinRequest, $1.CheckPinResponse>(
+          '/antaresWallet.ApiService/CheckPin',
+          ($1.CheckPinRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $1.CheckPinResponse.fromBuffer(value));
+  static final _$prolongateSession =
+      $grpc.ClientMethod<$1.ProlongateSessionRequest, $1.EmptyResponse>(
+          '/antaresWallet.ApiService/ProlongateSession',
+          ($1.ProlongateSessionRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $1.EmptyResponse.fromBuffer(value));
   static final _$getOrders =
       $grpc.ClientMethod<$1.LimitOrdersRequest, $1.LimitOrdersResponse>(
           '/antaresWallet.ApiService/GetOrders',
@@ -487,20 +513,20 @@ class ApiServiceClient extends $grpc.Client {
     return $grpc.ResponseFuture(call);
   }
 
-  $grpc.ResponseFuture<$1.EmptyResponse> sendVerificationSms(
-      $1.VerificationSmsRequest request,
-      {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$sendVerificationSms, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
-  }
-
   $grpc.ResponseFuture<$1.VerifyResponse> verifyEmail(
       $1.VerifyEmailRequest request,
       {$grpc.CallOptions options}) {
     final call = $createCall(
         _$verifyEmail, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
+  $grpc.ResponseFuture<$1.EmptyResponse> sendVerificationSms(
+      $1.VerificationSmsRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$sendVerificationSms, $async.Stream.fromIterable([request]),
         options: options);
     return $grpc.ResponseFuture(call);
   }
@@ -517,6 +543,47 @@ class ApiServiceClient extends $grpc.Client {
   $grpc.ResponseFuture<$1.RegisterResponse> register($1.RegisterRequest request,
       {$grpc.CallOptions options}) {
     final call = $createCall(_$register, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
+  $grpc.ResponseFuture<$1.LoginResponse> login($1.LoginRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(_$login, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
+  $grpc.ResponseFuture<$1.EmptyResponse> sendLoginSms(
+      $1.LoginSmsRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$sendLoginSms, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
+  $grpc.ResponseFuture<$1.VerifyLoginSmsResponse> verifyLoginSms(
+      $1.VerifyLoginSmsRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$verifyLoginSms, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
+  $grpc.ResponseFuture<$1.CheckPinResponse> checkPin($1.CheckPinRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(_$checkPin, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
+  $grpc.ResponseFuture<$1.EmptyResponse> prolongateSession(
+      $1.ProlongateSessionRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$prolongateSession, $async.Stream.fromIterable([request]),
         options: options);
     return $grpc.ResponseFuture(call);
   }
@@ -1024,14 +1091,6 @@ abstract class ApiServiceBase extends $grpc.Service {
         ($core.List<$core.int> value) =>
             $1.VerificationEmailRequest.fromBuffer(value),
         ($1.VerificationEmailResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$1.VerificationSmsRequest, $1.EmptyResponse>(
-        'SendVerificationSms',
-        sendVerificationSms_Pre,
-        false,
-        false,
-        ($core.List<$core.int> value) =>
-            $1.VerificationSmsRequest.fromBuffer(value),
-        ($1.EmptyResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$1.VerifyEmailRequest, $1.VerifyResponse>(
         'VerifyEmail',
         verifyEmail_Pre,
@@ -1040,6 +1099,14 @@ abstract class ApiServiceBase extends $grpc.Service {
         ($core.List<$core.int> value) =>
             $1.VerifyEmailRequest.fromBuffer(value),
         ($1.VerifyResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.VerificationSmsRequest, $1.EmptyResponse>(
+        'SendVerificationSms',
+        sendVerificationSms_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $1.VerificationSmsRequest.fromBuffer(value),
+        ($1.EmptyResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$1.VerifyPhoneRequest, $1.VerifyResponse>(
         'VerifyPhone',
         verifyPhone_Pre,
@@ -1055,6 +1122,45 @@ abstract class ApiServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $1.RegisterRequest.fromBuffer(value),
         ($1.RegisterResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.LoginRequest, $1.LoginResponse>(
+        'Login',
+        login_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $1.LoginRequest.fromBuffer(value),
+        ($1.LoginResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.LoginSmsRequest, $1.EmptyResponse>(
+        'SendLoginSms',
+        sendLoginSms_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $1.LoginSmsRequest.fromBuffer(value),
+        ($1.EmptyResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.VerifyLoginSmsRequest,
+            $1.VerifyLoginSmsResponse>(
+        'VerifyLoginSms',
+        verifyLoginSms_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $1.VerifyLoginSmsRequest.fromBuffer(value),
+        ($1.VerifyLoginSmsResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.CheckPinRequest, $1.CheckPinResponse>(
+        'CheckPin',
+        checkPin_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $1.CheckPinRequest.fromBuffer(value),
+        ($1.CheckPinResponse value) => value.writeToBuffer()));
+    $addMethod(
+        $grpc.ServiceMethod<$1.ProlongateSessionRequest, $1.EmptyResponse>(
+            'ProlongateSession',
+            prolongateSession_Pre,
+            false,
+            false,
+            ($core.List<$core.int> value) =>
+                $1.ProlongateSessionRequest.fromBuffer(value),
+            ($1.EmptyResponse value) => value.writeToBuffer()));
     $addMethod(
         $grpc.ServiceMethod<$1.LimitOrdersRequest, $1.LimitOrdersResponse>(
             'GetOrders',
@@ -1490,15 +1596,15 @@ abstract class ApiServiceBase extends $grpc.Service {
     return sendVerificationEmail(call, await request);
   }
 
+  $async.Future<$1.VerifyResponse> verifyEmail_Pre($grpc.ServiceCall call,
+      $async.Future<$1.VerifyEmailRequest> request) async {
+    return verifyEmail(call, await request);
+  }
+
   $async.Future<$1.EmptyResponse> sendVerificationSms_Pre(
       $grpc.ServiceCall call,
       $async.Future<$1.VerificationSmsRequest> request) async {
     return sendVerificationSms(call, await request);
-  }
-
-  $async.Future<$1.VerifyResponse> verifyEmail_Pre($grpc.ServiceCall call,
-      $async.Future<$1.VerifyEmailRequest> request) async {
-    return verifyEmail(call, await request);
   }
 
   $async.Future<$1.VerifyResponse> verifyPhone_Pre($grpc.ServiceCall call,
@@ -1509,6 +1615,32 @@ abstract class ApiServiceBase extends $grpc.Service {
   $async.Future<$1.RegisterResponse> register_Pre(
       $grpc.ServiceCall call, $async.Future<$1.RegisterRequest> request) async {
     return register(call, await request);
+  }
+
+  $async.Future<$1.LoginResponse> login_Pre(
+      $grpc.ServiceCall call, $async.Future<$1.LoginRequest> request) async {
+    return login(call, await request);
+  }
+
+  $async.Future<$1.EmptyResponse> sendLoginSms_Pre(
+      $grpc.ServiceCall call, $async.Future<$1.LoginSmsRequest> request) async {
+    return sendLoginSms(call, await request);
+  }
+
+  $async.Future<$1.VerifyLoginSmsResponse> verifyLoginSms_Pre(
+      $grpc.ServiceCall call,
+      $async.Future<$1.VerifyLoginSmsRequest> request) async {
+    return verifyLoginSms(call, await request);
+  }
+
+  $async.Future<$1.CheckPinResponse> checkPin_Pre(
+      $grpc.ServiceCall call, $async.Future<$1.CheckPinRequest> request) async {
+    return checkPin(call, await request);
+  }
+
+  $async.Future<$1.EmptyResponse> prolongateSession_Pre($grpc.ServiceCall call,
+      $async.Future<$1.ProlongateSessionRequest> request) async {
+    return prolongateSession(call, await request);
   }
 
   $async.Future<$1.LimitOrdersResponse> getOrders_Pre($grpc.ServiceCall call,
@@ -1785,14 +1917,24 @@ abstract class ApiServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $1.PushSettingsRequest request);
   $async.Future<$1.VerificationEmailResponse> sendVerificationEmail(
       $grpc.ServiceCall call, $1.VerificationEmailRequest request);
-  $async.Future<$1.EmptyResponse> sendVerificationSms(
-      $grpc.ServiceCall call, $1.VerificationSmsRequest request);
   $async.Future<$1.VerifyResponse> verifyEmail(
       $grpc.ServiceCall call, $1.VerifyEmailRequest request);
+  $async.Future<$1.EmptyResponse> sendVerificationSms(
+      $grpc.ServiceCall call, $1.VerificationSmsRequest request);
   $async.Future<$1.VerifyResponse> verifyPhone(
       $grpc.ServiceCall call, $1.VerifyPhoneRequest request);
   $async.Future<$1.RegisterResponse> register(
       $grpc.ServiceCall call, $1.RegisterRequest request);
+  $async.Future<$1.LoginResponse> login(
+      $grpc.ServiceCall call, $1.LoginRequest request);
+  $async.Future<$1.EmptyResponse> sendLoginSms(
+      $grpc.ServiceCall call, $1.LoginSmsRequest request);
+  $async.Future<$1.VerifyLoginSmsResponse> verifyLoginSms(
+      $grpc.ServiceCall call, $1.VerifyLoginSmsRequest request);
+  $async.Future<$1.CheckPinResponse> checkPin(
+      $grpc.ServiceCall call, $1.CheckPinRequest request);
+  $async.Future<$1.EmptyResponse> prolongateSession(
+      $grpc.ServiceCall call, $1.ProlongateSessionRequest request);
   $async.Future<$1.LimitOrdersResponse> getOrders(
       $grpc.ServiceCall call, $1.LimitOrdersRequest request);
   $async.Future<$1.PlaceOrderResponse> placeLimitOrder(

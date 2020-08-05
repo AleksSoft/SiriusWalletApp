@@ -418,6 +418,7 @@ class RegisterRequest extends $pb.GeneratedMessage {
     ..aOS(7, 'affiliateCode', protoName: 'affiliateCode')
     ..aOS(8, 'pin')
     ..aOS(9, 'token')
+    ..aOS(10, 'publicKey', protoName: 'publicKey')
     ..hasRequiredFields = false
   ;
 
@@ -516,6 +517,210 @@ class RegisterRequest extends $pb.GeneratedMessage {
   $core.bool hasToken() => $_has(8);
   @$pb.TagNumber(9)
   void clearToken() => clearField(9);
+
+  @$pb.TagNumber(10)
+  $core.String get publicKey => $_getSZ(9);
+  @$pb.TagNumber(10)
+  set publicKey($core.String v) { $_setString(9, v); }
+  @$pb.TagNumber(10)
+  $core.bool hasPublicKey() => $_has(9);
+  @$pb.TagNumber(10)
+  void clearPublicKey() => clearField(10);
+}
+
+class LoginRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('LoginRequest', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOS(1, 'email')
+    ..aOS(2, 'password')
+    ..aOS(3, 'publicKey', protoName: 'publicKey')
+    ..hasRequiredFields = false
+  ;
+
+  LoginRequest._() : super();
+  factory LoginRequest() => create();
+  factory LoginRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory LoginRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  LoginRequest clone() => LoginRequest()..mergeFromMessage(this);
+  LoginRequest copyWith(void Function(LoginRequest) updates) => super.copyWith((message) => updates(message as LoginRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static LoginRequest create() => LoginRequest._();
+  LoginRequest createEmptyInstance() => create();
+  static $pb.PbList<LoginRequest> createRepeated() => $pb.PbList<LoginRequest>();
+  @$core.pragma('dart2js:noInline')
+  static LoginRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<LoginRequest>(create);
+  static LoginRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get email => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set email($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasEmail() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearEmail() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get password => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set password($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasPassword() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearPassword() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get publicKey => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set publicKey($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasPublicKey() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearPublicKey() => clearField(3);
+}
+
+class LoginSmsRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('LoginSmsRequest', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOS(1, 'sessionId', protoName: 'sessionId')
+    ..hasRequiredFields = false
+  ;
+
+  LoginSmsRequest._() : super();
+  factory LoginSmsRequest() => create();
+  factory LoginSmsRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory LoginSmsRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  LoginSmsRequest clone() => LoginSmsRequest()..mergeFromMessage(this);
+  LoginSmsRequest copyWith(void Function(LoginSmsRequest) updates) => super.copyWith((message) => updates(message as LoginSmsRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static LoginSmsRequest create() => LoginSmsRequest._();
+  LoginSmsRequest createEmptyInstance() => create();
+  static $pb.PbList<LoginSmsRequest> createRepeated() => $pb.PbList<LoginSmsRequest>();
+  @$core.pragma('dart2js:noInline')
+  static LoginSmsRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<LoginSmsRequest>(create);
+  static LoginSmsRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get sessionId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set sessionId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasSessionId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearSessionId() => clearField(1);
+}
+
+class VerifyLoginSmsRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('VerifyLoginSmsRequest', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOS(1, 'sessionId', protoName: 'sessionId')
+    ..aOS(2, 'code')
+    ..hasRequiredFields = false
+  ;
+
+  VerifyLoginSmsRequest._() : super();
+  factory VerifyLoginSmsRequest() => create();
+  factory VerifyLoginSmsRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory VerifyLoginSmsRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  VerifyLoginSmsRequest clone() => VerifyLoginSmsRequest()..mergeFromMessage(this);
+  VerifyLoginSmsRequest copyWith(void Function(VerifyLoginSmsRequest) updates) => super.copyWith((message) => updates(message as VerifyLoginSmsRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static VerifyLoginSmsRequest create() => VerifyLoginSmsRequest._();
+  VerifyLoginSmsRequest createEmptyInstance() => create();
+  static $pb.PbList<VerifyLoginSmsRequest> createRepeated() => $pb.PbList<VerifyLoginSmsRequest>();
+  @$core.pragma('dart2js:noInline')
+  static VerifyLoginSmsRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<VerifyLoginSmsRequest>(create);
+  static VerifyLoginSmsRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get sessionId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set sessionId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasSessionId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearSessionId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get code => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set code($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasCode() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearCode() => clearField(2);
+}
+
+class CheckPinRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('CheckPinRequest', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOS(1, 'sessionId', protoName: 'sessionId')
+    ..aOS(2, 'pin')
+    ..hasRequiredFields = false
+  ;
+
+  CheckPinRequest._() : super();
+  factory CheckPinRequest() => create();
+  factory CheckPinRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory CheckPinRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  CheckPinRequest clone() => CheckPinRequest()..mergeFromMessage(this);
+  CheckPinRequest copyWith(void Function(CheckPinRequest) updates) => super.copyWith((message) => updates(message as CheckPinRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static CheckPinRequest create() => CheckPinRequest._();
+  CheckPinRequest createEmptyInstance() => create();
+  static $pb.PbList<CheckPinRequest> createRepeated() => $pb.PbList<CheckPinRequest>();
+  @$core.pragma('dart2js:noInline')
+  static CheckPinRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CheckPinRequest>(create);
+  static CheckPinRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get sessionId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set sessionId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasSessionId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearSessionId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get pin => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set pin($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasPin() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearPin() => clearField(2);
+}
+
+class ProlongateSessionRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ProlongateSessionRequest', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOS(1, 'sessionId', protoName: 'sessionId')
+    ..hasRequiredFields = false
+  ;
+
+  ProlongateSessionRequest._() : super();
+  factory ProlongateSessionRequest() => create();
+  factory ProlongateSessionRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ProlongateSessionRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  ProlongateSessionRequest clone() => ProlongateSessionRequest()..mergeFromMessage(this);
+  ProlongateSessionRequest copyWith(void Function(ProlongateSessionRequest) updates) => super.copyWith((message) => updates(message as ProlongateSessionRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ProlongateSessionRequest create() => ProlongateSessionRequest._();
+  ProlongateSessionRequest createEmptyInstance() => create();
+  static $pb.PbList<ProlongateSessionRequest> createRepeated() => $pb.PbList<ProlongateSessionRequest>();
+  @$core.pragma('dart2js:noInline')
+  static ProlongateSessionRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProlongateSessionRequest>(create);
+  static ProlongateSessionRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get sessionId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set sessionId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasSessionId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearSessionId() => clearField(1);
 }
 
 enum MarketsRequest_OptionalAssetPairId {
@@ -3152,7 +3357,7 @@ class VerifyResponse extends $pb.GeneratedMessage {
 
 class RegisterResponse_RegisterPayload extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('RegisterResponse.RegisterPayload', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
-    ..aOS(1, 'token')
+    ..aOS(1, 'sessionId', protoName: 'sessionId')
     ..aOS(2, 'notificationsId', protoName: 'notificationsId')
     ..aOM<PersonalData>(3, 'personalData', protoName: 'personalData', subBuilder: PersonalData.create)
     ..aOB(4, 'canCashInViaBankCard', protoName: 'canCashInViaBankCard')
@@ -3177,13 +3382,13 @@ class RegisterResponse_RegisterPayload extends $pb.GeneratedMessage {
   static RegisterResponse_RegisterPayload _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get token => $_getSZ(0);
+  $core.String get sessionId => $_getSZ(0);
   @$pb.TagNumber(1)
-  set token($core.String v) { $_setString(0, v); }
+  set sessionId($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasToken() => $_has(0);
+  $core.bool hasSessionId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearToken() => clearField(1);
+  void clearSessionId() => clearField(1);
 
   @$pb.TagNumber(2)
   $core.String get notificationsId => $_getSZ(1);
@@ -3265,6 +3470,244 @@ class RegisterResponse extends $pb.GeneratedMessage {
   void clearResult() => clearField(1);
   @$pb.TagNumber(1)
   RegisterResponse_RegisterPayload ensureResult() => $_ensure(0);
+
+  @$pb.TagNumber(2)
+  ErrorV1 get error => $_getN(1);
+  @$pb.TagNumber(2)
+  set error(ErrorV1 v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasError() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearError() => clearField(2);
+  @$pb.TagNumber(2)
+  ErrorV1 ensureError() => $_ensure(1);
+}
+
+class LoginResponse_LoginPayload extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('LoginResponse.LoginPayload', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOS(1, 'sessionId', protoName: 'sessionId')
+    ..aOS(2, 'notificationId', protoName: 'notificationId')
+    ..hasRequiredFields = false
+  ;
+
+  LoginResponse_LoginPayload._() : super();
+  factory LoginResponse_LoginPayload() => create();
+  factory LoginResponse_LoginPayload.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory LoginResponse_LoginPayload.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  LoginResponse_LoginPayload clone() => LoginResponse_LoginPayload()..mergeFromMessage(this);
+  LoginResponse_LoginPayload copyWith(void Function(LoginResponse_LoginPayload) updates) => super.copyWith((message) => updates(message as LoginResponse_LoginPayload));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static LoginResponse_LoginPayload create() => LoginResponse_LoginPayload._();
+  LoginResponse_LoginPayload createEmptyInstance() => create();
+  static $pb.PbList<LoginResponse_LoginPayload> createRepeated() => $pb.PbList<LoginResponse_LoginPayload>();
+  @$core.pragma('dart2js:noInline')
+  static LoginResponse_LoginPayload getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<LoginResponse_LoginPayload>(create);
+  static LoginResponse_LoginPayload _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get sessionId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set sessionId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasSessionId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearSessionId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get notificationId => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set notificationId($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasNotificationId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearNotificationId() => clearField(2);
+}
+
+class LoginResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('LoginResponse', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOM<LoginResponse_LoginPayload>(1, 'result', subBuilder: LoginResponse_LoginPayload.create)
+    ..aOM<ErrorV1>(2, 'error', subBuilder: ErrorV1.create)
+    ..hasRequiredFields = false
+  ;
+
+  LoginResponse._() : super();
+  factory LoginResponse() => create();
+  factory LoginResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory LoginResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  LoginResponse clone() => LoginResponse()..mergeFromMessage(this);
+  LoginResponse copyWith(void Function(LoginResponse) updates) => super.copyWith((message) => updates(message as LoginResponse));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static LoginResponse create() => LoginResponse._();
+  LoginResponse createEmptyInstance() => create();
+  static $pb.PbList<LoginResponse> createRepeated() => $pb.PbList<LoginResponse>();
+  @$core.pragma('dart2js:noInline')
+  static LoginResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<LoginResponse>(create);
+  static LoginResponse _defaultInstance;
+
+  @$pb.TagNumber(1)
+  LoginResponse_LoginPayload get result => $_getN(0);
+  @$pb.TagNumber(1)
+  set result(LoginResponse_LoginPayload v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasResult() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearResult() => clearField(1);
+  @$pb.TagNumber(1)
+  LoginResponse_LoginPayload ensureResult() => $_ensure(0);
+
+  @$pb.TagNumber(2)
+  ErrorV1 get error => $_getN(1);
+  @$pb.TagNumber(2)
+  set error(ErrorV1 v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasError() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearError() => clearField(2);
+  @$pb.TagNumber(2)
+  ErrorV1 ensureError() => $_ensure(1);
+}
+
+class VerifyLoginSmsResponse_VerifyLoginSmsPayload extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('VerifyLoginSmsResponse.VerifyLoginSmsPayload', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOB(1, 'passed')
+    ..hasRequiredFields = false
+  ;
+
+  VerifyLoginSmsResponse_VerifyLoginSmsPayload._() : super();
+  factory VerifyLoginSmsResponse_VerifyLoginSmsPayload() => create();
+  factory VerifyLoginSmsResponse_VerifyLoginSmsPayload.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory VerifyLoginSmsResponse_VerifyLoginSmsPayload.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  VerifyLoginSmsResponse_VerifyLoginSmsPayload clone() => VerifyLoginSmsResponse_VerifyLoginSmsPayload()..mergeFromMessage(this);
+  VerifyLoginSmsResponse_VerifyLoginSmsPayload copyWith(void Function(VerifyLoginSmsResponse_VerifyLoginSmsPayload) updates) => super.copyWith((message) => updates(message as VerifyLoginSmsResponse_VerifyLoginSmsPayload));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static VerifyLoginSmsResponse_VerifyLoginSmsPayload create() => VerifyLoginSmsResponse_VerifyLoginSmsPayload._();
+  VerifyLoginSmsResponse_VerifyLoginSmsPayload createEmptyInstance() => create();
+  static $pb.PbList<VerifyLoginSmsResponse_VerifyLoginSmsPayload> createRepeated() => $pb.PbList<VerifyLoginSmsResponse_VerifyLoginSmsPayload>();
+  @$core.pragma('dart2js:noInline')
+  static VerifyLoginSmsResponse_VerifyLoginSmsPayload getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<VerifyLoginSmsResponse_VerifyLoginSmsPayload>(create);
+  static VerifyLoginSmsResponse_VerifyLoginSmsPayload _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.bool get passed => $_getBF(0);
+  @$pb.TagNumber(1)
+  set passed($core.bool v) { $_setBool(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasPassed() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearPassed() => clearField(1);
+}
+
+class VerifyLoginSmsResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('VerifyLoginSmsResponse', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOM<VerifyLoginSmsResponse_VerifyLoginSmsPayload>(1, 'result', subBuilder: VerifyLoginSmsResponse_VerifyLoginSmsPayload.create)
+    ..aOM<ErrorV1>(2, 'error', subBuilder: ErrorV1.create)
+    ..hasRequiredFields = false
+  ;
+
+  VerifyLoginSmsResponse._() : super();
+  factory VerifyLoginSmsResponse() => create();
+  factory VerifyLoginSmsResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory VerifyLoginSmsResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  VerifyLoginSmsResponse clone() => VerifyLoginSmsResponse()..mergeFromMessage(this);
+  VerifyLoginSmsResponse copyWith(void Function(VerifyLoginSmsResponse) updates) => super.copyWith((message) => updates(message as VerifyLoginSmsResponse));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static VerifyLoginSmsResponse create() => VerifyLoginSmsResponse._();
+  VerifyLoginSmsResponse createEmptyInstance() => create();
+  static $pb.PbList<VerifyLoginSmsResponse> createRepeated() => $pb.PbList<VerifyLoginSmsResponse>();
+  @$core.pragma('dart2js:noInline')
+  static VerifyLoginSmsResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<VerifyLoginSmsResponse>(create);
+  static VerifyLoginSmsResponse _defaultInstance;
+
+  @$pb.TagNumber(1)
+  VerifyLoginSmsResponse_VerifyLoginSmsPayload get result => $_getN(0);
+  @$pb.TagNumber(1)
+  set result(VerifyLoginSmsResponse_VerifyLoginSmsPayload v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasResult() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearResult() => clearField(1);
+  @$pb.TagNumber(1)
+  VerifyLoginSmsResponse_VerifyLoginSmsPayload ensureResult() => $_ensure(0);
+
+  @$pb.TagNumber(2)
+  ErrorV1 get error => $_getN(1);
+  @$pb.TagNumber(2)
+  set error(ErrorV1 v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasError() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearError() => clearField(2);
+  @$pb.TagNumber(2)
+  ErrorV1 ensureError() => $_ensure(1);
+}
+
+class CheckPinResponse_CheckPinPayload extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('CheckPinResponse.CheckPinPayload', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOB(1, 'passed')
+    ..hasRequiredFields = false
+  ;
+
+  CheckPinResponse_CheckPinPayload._() : super();
+  factory CheckPinResponse_CheckPinPayload() => create();
+  factory CheckPinResponse_CheckPinPayload.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory CheckPinResponse_CheckPinPayload.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  CheckPinResponse_CheckPinPayload clone() => CheckPinResponse_CheckPinPayload()..mergeFromMessage(this);
+  CheckPinResponse_CheckPinPayload copyWith(void Function(CheckPinResponse_CheckPinPayload) updates) => super.copyWith((message) => updates(message as CheckPinResponse_CheckPinPayload));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static CheckPinResponse_CheckPinPayload create() => CheckPinResponse_CheckPinPayload._();
+  CheckPinResponse_CheckPinPayload createEmptyInstance() => create();
+  static $pb.PbList<CheckPinResponse_CheckPinPayload> createRepeated() => $pb.PbList<CheckPinResponse_CheckPinPayload>();
+  @$core.pragma('dart2js:noInline')
+  static CheckPinResponse_CheckPinPayload getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CheckPinResponse_CheckPinPayload>(create);
+  static CheckPinResponse_CheckPinPayload _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.bool get passed => $_getBF(0);
+  @$pb.TagNumber(1)
+  set passed($core.bool v) { $_setBool(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasPassed() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearPassed() => clearField(1);
+}
+
+class CheckPinResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('CheckPinResponse', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOM<CheckPinResponse_CheckPinPayload>(1, 'result', subBuilder: CheckPinResponse_CheckPinPayload.create)
+    ..aOM<ErrorV1>(2, 'error', subBuilder: ErrorV1.create)
+    ..hasRequiredFields = false
+  ;
+
+  CheckPinResponse._() : super();
+  factory CheckPinResponse() => create();
+  factory CheckPinResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory CheckPinResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  CheckPinResponse clone() => CheckPinResponse()..mergeFromMessage(this);
+  CheckPinResponse copyWith(void Function(CheckPinResponse) updates) => super.copyWith((message) => updates(message as CheckPinResponse));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static CheckPinResponse create() => CheckPinResponse._();
+  CheckPinResponse createEmptyInstance() => create();
+  static $pb.PbList<CheckPinResponse> createRepeated() => $pb.PbList<CheckPinResponse>();
+  @$core.pragma('dart2js:noInline')
+  static CheckPinResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CheckPinResponse>(create);
+  static CheckPinResponse _defaultInstance;
+
+  @$pb.TagNumber(1)
+  CheckPinResponse_CheckPinPayload get result => $_getN(0);
+  @$pb.TagNumber(1)
+  set result(CheckPinResponse_CheckPinPayload v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasResult() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearResult() => clearField(1);
+  @$pb.TagNumber(1)
+  CheckPinResponse_CheckPinPayload ensureResult() => $_ensure(0);
 
   @$pb.TagNumber(2)
   ErrorV1 get error => $_getN(1);

@@ -138,6 +138,46 @@ const RegisterRequest$json = const {
     const {'1': 'affiliateCode', '3': 7, '4': 1, '5': 9, '10': 'affiliateCode'},
     const {'1': 'pin', '3': 8, '4': 1, '5': 9, '10': 'pin'},
     const {'1': 'token', '3': 9, '4': 1, '5': 9, '10': 'token'},
+    const {'1': 'publicKey', '3': 10, '4': 1, '5': 9, '10': 'publicKey'},
+  ],
+};
+
+const LoginRequest$json = const {
+  '1': 'LoginRequest',
+  '2': const [
+    const {'1': 'email', '3': 1, '4': 1, '5': 9, '10': 'email'},
+    const {'1': 'password', '3': 2, '4': 1, '5': 9, '10': 'password'},
+    const {'1': 'publicKey', '3': 3, '4': 1, '5': 9, '10': 'publicKey'},
+  ],
+};
+
+const LoginSmsRequest$json = const {
+  '1': 'LoginSmsRequest',
+  '2': const [
+    const {'1': 'sessionId', '3': 1, '4': 1, '5': 9, '10': 'sessionId'},
+  ],
+};
+
+const VerifyLoginSmsRequest$json = const {
+  '1': 'VerifyLoginSmsRequest',
+  '2': const [
+    const {'1': 'sessionId', '3': 1, '4': 1, '5': 9, '10': 'sessionId'},
+    const {'1': 'code', '3': 2, '4': 1, '5': 9, '10': 'code'},
+  ],
+};
+
+const CheckPinRequest$json = const {
+  '1': 'CheckPinRequest',
+  '2': const [
+    const {'1': 'sessionId', '3': 1, '4': 1, '5': 9, '10': 'sessionId'},
+    const {'1': 'pin', '3': 2, '4': 1, '5': 9, '10': 'pin'},
+  ],
+};
+
+const ProlongateSessionRequest$json = const {
+  '1': 'ProlongateSessionRequest',
+  '2': const [
+    const {'1': 'sessionId', '3': 1, '4': 1, '5': 9, '10': 'sessionId'},
   ],
 };
 
@@ -652,12 +692,61 @@ const RegisterResponse$json = const {
 const RegisterResponse_RegisterPayload$json = const {
   '1': 'RegisterPayload',
   '2': const [
-    const {'1': 'token', '3': 1, '4': 1, '5': 9, '10': 'token'},
+    const {'1': 'sessionId', '3': 1, '4': 1, '5': 9, '10': 'sessionId'},
     const {'1': 'notificationsId', '3': 2, '4': 1, '5': 9, '10': 'notificationsId'},
     const {'1': 'personalData', '3': 3, '4': 1, '5': 11, '6': '.antaresWallet.PersonalData', '10': 'personalData'},
     const {'1': 'canCashInViaBankCard', '3': 4, '4': 1, '5': 8, '10': 'canCashInViaBankCard'},
     const {'1': 'swiftDepositEnabled', '3': 5, '4': 1, '5': 8, '10': 'swiftDepositEnabled'},
     const {'1': 'state', '3': 6, '4': 1, '5': 9, '10': 'state'},
+  ],
+};
+
+const LoginResponse$json = const {
+  '1': 'LoginResponse',
+  '2': const [
+    const {'1': 'result', '3': 1, '4': 1, '5': 11, '6': '.antaresWallet.LoginResponse.LoginPayload', '10': 'result'},
+    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorV1', '10': 'error'},
+  ],
+  '3': const [LoginResponse_LoginPayload$json],
+};
+
+const LoginResponse_LoginPayload$json = const {
+  '1': 'LoginPayload',
+  '2': const [
+    const {'1': 'sessionId', '3': 1, '4': 1, '5': 9, '10': 'sessionId'},
+    const {'1': 'notificationId', '3': 2, '4': 1, '5': 9, '10': 'notificationId'},
+  ],
+};
+
+const VerifyLoginSmsResponse$json = const {
+  '1': 'VerifyLoginSmsResponse',
+  '2': const [
+    const {'1': 'result', '3': 1, '4': 1, '5': 11, '6': '.antaresWallet.VerifyLoginSmsResponse.VerifyLoginSmsPayload', '10': 'result'},
+    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorV1', '10': 'error'},
+  ],
+  '3': const [VerifyLoginSmsResponse_VerifyLoginSmsPayload$json],
+};
+
+const VerifyLoginSmsResponse_VerifyLoginSmsPayload$json = const {
+  '1': 'VerifyLoginSmsPayload',
+  '2': const [
+    const {'1': 'passed', '3': 1, '4': 1, '5': 8, '10': 'passed'},
+  ],
+};
+
+const CheckPinResponse$json = const {
+  '1': 'CheckPinResponse',
+  '2': const [
+    const {'1': 'result', '3': 1, '4': 1, '5': 11, '6': '.antaresWallet.CheckPinResponse.CheckPinPayload', '10': 'result'},
+    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorV1', '10': 'error'},
+  ],
+  '3': const [CheckPinResponse_CheckPinPayload$json],
+};
+
+const CheckPinResponse_CheckPinPayload$json = const {
+  '1': 'CheckPinPayload',
+  '2': const [
+    const {'1': 'passed', '3': 1, '4': 1, '5': 8, '10': 'passed'},
   ],
 };
 
