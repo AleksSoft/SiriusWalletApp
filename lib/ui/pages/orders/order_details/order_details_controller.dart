@@ -90,7 +90,7 @@ class OrderDetailsController extends GetxController {
       bids.clear();
     }
     // subscribe to orderbook stream
-    _orderbookSubscr = _api.client
+    _orderbookSubscr = _api.clientSecure
         .getOrderbookUpdates(
             OrderbookUpdatesRequest()..assetPairId = initialMarket.pairId)
         .listen((Orderbook update) {

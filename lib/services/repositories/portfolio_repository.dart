@@ -10,7 +10,7 @@ class PortfolioRepository {
 
   static Future<List<Balance>> getBalances() async {
     try {
-      var response = await _api.client.getBalances(Empty());
+      var response = await _api.clientSecure.getBalances(Empty());
       return response.payload;
     } catch (e) {
       Future.delayed(Duration()).then(
@@ -39,7 +39,7 @@ class PortfolioRepository {
       if (fromDate != null) request.from = fromDate;
       if (toDate != null) request.to = toDate;
 
-      final response = await _api.client.getFunds(request);
+      final response = await _api.clientSecure.getFunds(request);
       return response.funds;
     } catch (e) {
       Future.delayed(Duration()).then(

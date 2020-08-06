@@ -8,7 +8,7 @@ class WatchlistsRepository {
 
   static Future<List<Watchlist>> getWatchlists() async {
     try {
-      final response = await _api.client.getWatchlists(Empty());
+      final response = await _api.clientSecure.getWatchlists(Empty());
       return response.result;
     } catch (e) {
       Get.defaultDialog(
@@ -22,7 +22,7 @@ class WatchlistsRepository {
 
   static Future<Watchlist> getWatchlist(String id) async {
     try {
-      final response = await _api.client.getWatchlist(
+      final response = await _api.clientSecure.getWatchlist(
         WatchlistRequest()..id = id,
       );
       return response.result;
@@ -42,7 +42,7 @@ class WatchlistsRepository {
     List<String> assetIds,
   ) async {
     try {
-      final response = await _api.client.addWatchlist(
+      final response = await _api.clientSecure.addWatchlist(
         AddWatchlistRequest.create()
           ..name = name
           ..order = order
@@ -68,7 +68,7 @@ class WatchlistsRepository {
     List<String> assetIds,
   ) async {
     try {
-      final response = await _api.client.updateWatchlist(
+      final response = await _api.clientSecure.updateWatchlist(
         UpdateWatchlistRequest.create()
           ..id = id
           ..name = name
@@ -88,7 +88,8 @@ class WatchlistsRepository {
 
   static Future<void> deleteWatchlist(String id) async {
     try {
-      await _api.client.deleteWatchlist(DeleteWatchlistRequest()..id = id);
+      await _api.clientSecure
+          .deleteWatchlist(DeleteWatchlistRequest()..id = id);
     } catch (e) {
       Get.defaultDialog(
         title: 'Error',

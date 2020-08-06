@@ -11,7 +11,7 @@ class MarketsRepository {
     try {
       var request = MarketsRequest();
       if (assetPairId != null) request.assetPairId = assetPairId;
-      final response = await _api.client.getMarkets(request);
+      final response = await _api.clientSecure.getMarkets(request);
       return response.markets;
     } catch (e) {
       Get.defaultDialog(

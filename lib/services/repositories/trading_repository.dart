@@ -15,7 +15,7 @@ class TradingRepository {
     @required Timestamp to,
   }) async {
     try {
-      final response = await _api.client.getCandles(CandlesRequest()
+      final response = await _api.clientSecure.getCandles(CandlesRequest()
         ..assetPairId = assetPairId
         ..type = type
         ..interval = interval
@@ -36,7 +36,7 @@ class TradingRepository {
     try {
       var request = LimitOrdersRequest();
       if (assetPairId != null) request.assetPairId = assetPairId;
-      final response = await _api.client.getOrders(request);
+      final response = await _api.clientSecure.getOrders(request);
       return response.result.orders;
     } catch (e) {
       Get.defaultDialog(
@@ -64,7 +64,7 @@ class TradingRepository {
       if (fromDate != null) request.from = fromDate;
       if (toDate != null) request.to = toDate;
 
-      final response = await _api.client.getTrades(request);
+      final response = await _api.clientSecure.getTrades(request);
       return response.trades;
     } catch (e) {
       Future.delayed(Duration()).then((value) => Get.defaultDialog(
@@ -77,7 +77,7 @@ class TradingRepository {
 
   static Future<bool> cancelOrder(String orderId) async {
     try {
-      final response = await _api.client.cancelOrder(
+      final response = await _api.clientSecure.cancelOrder(
         CancelOrderRequest()..orderId = orderId,
       );
       return response.payload;
@@ -93,7 +93,7 @@ class TradingRepository {
 
   static Future<bool> cancelAllOrders() async {
     try {
-      final response = await _api.client.cancelAllOrders(
+      final response = await _api.clientSecure.cancelAllOrders(
         CancelOrdersRequest(),
       );
       return response.payload;
@@ -114,7 +114,7 @@ class TradingRepository {
     @required double price,
   }) async {
     try {
-      final response = await _api.client.placeLimitOrder(
+      final response = await _api.clientSecure.placeLimitOrder(
         LimitOrderRequest()
           ..assetPairId = assetPairId
           ..assetId = assetId
@@ -138,7 +138,7 @@ class TradingRepository {
     @required double volume,
   }) async {
     try {
-      final response = await _api.client.placeMarketOrder(
+      final response = await _api.clientSecure.placeMarketOrder(
         MarketOrderRequest()
           ..assetPairId = assetPairId
           ..assetId = assetId

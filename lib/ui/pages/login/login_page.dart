@@ -1,6 +1,7 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
+import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/ui/widgets/gradient_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -44,7 +45,7 @@ class LoginPage extends StatelessWidget {
                         value: _.urlDropValue,
                         isDense: true,
                         onChanged: (String s) => _.urlDropValue = s,
-                        items: LoginController.urls.map((String value) {
+                        items: ApiService.urls.map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value ?? 'Custom'),

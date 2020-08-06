@@ -28,7 +28,7 @@ class SettingsRepository {
     String settingsStr = await _storage.read(AppStorageKeys.settingsData);
 
     AppSettingsResponse_AppSettingsData data = settingsStr == null
-        ? (await _api.client.getAppSettings(Empty())).result
+        ? (await _api.clientSecure.getAppSettings(Empty())).result
         : AppSettingsResponse_AppSettingsData.fromJson(settingsStr);
 
     if (_settingsData != data) {

@@ -9,7 +9,7 @@ class AssetsRepository {
 
   static Future<AssetsDictionaryResponse> assetsDictionary() async {
     try {
-      return await _api.client.assetsDictionary(Empty());
+      return await _api.clientSecure.assetsDictionary(Empty());
     } catch (e) {
       Future.delayed(Duration()).then(
         (_) => Get.defaultDialog(
@@ -24,7 +24,7 @@ class AssetsRepository {
 
   static Future<String> getBaseAsset() async {
     try {
-      return (await _api.client.getBaseAsset(Empty())).baseAsset.assetId;
+      return (await _api.clientSecure.getBaseAsset(Empty())).baseAsset.assetId;
     } catch (e) {
       Future.delayed(Duration()).then(
         (_) => Get.defaultDialog(
@@ -39,7 +39,7 @@ class AssetsRepository {
 
   static Future<void> setBaseAsset(String id) async {
     try {
-      await _api.client
+      await _api.clientSecure
           .setBaseAsset(BaseAssetUpdateRequest()..baseAssetId = id);
     } catch (e) {
       Future.delayed(Duration()).then(
@@ -54,7 +54,7 @@ class AssetsRepository {
 
   static Future<List<AssetPair>> getAssetPairs() async {
     try {
-      return (await _api.client.getAssetPairs(Empty())).assetPairs;
+      return (await _api.clientSecure.getAssetPairs(Empty())).assetPairs;
     } catch (e) {
       Future.delayed(Duration()).then(
         (_) => Get.defaultDialog(
@@ -70,7 +70,7 @@ class AssetsRepository {
   static Future<List<AmountInBaseAssetResponse_AmountInBasePayload>>
       getAmountInBaseAsset(String baseAssetId) async {
     try {
-      return (await _api.client.getAmountInBaseAsset(
+      return (await _api.clientSecure.getAmountInBaseAsset(
               AmountInBaseRequest.create()..assetId = baseAssetId))
           .values;
     } catch (e) {

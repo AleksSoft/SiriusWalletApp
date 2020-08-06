@@ -11,17 +11,11 @@ class LoginController extends GetxController {
   static final _api = Get.find<ApiService>();
   final _storage = GetStorage();
 
-  static final List<String> urls = <String>[
-    'antares-api-grpc-dev.lykkex.net',
-    'antares-api-grpc-test.lykkex.net',
-    null,
-  ];
-
   final _loading = true.obs;
   get loading => this._loading.value;
   set loading(value) => this._loading.value = value;
 
-  final _urlDropValue = urls[0].obs;
+  final _urlDropValue = ApiService.urls[0].obs;
   String get urlDropValue => this._urlDropValue.value;
   set urlDropValue(String value) => this._urlDropValue.value = value;
 
@@ -62,7 +56,7 @@ class LoginController extends GetxController {
     loading = true;
     try {
       // TODO: replace with actual login logics
-      await _api.client.getAppSettings(Empty());
+      await _api.clientSecure.getAppSettings(Empty());
       Get.offAllNamed(RootPage.route);
     } catch (e) {
       _storage.remove(AppStorageKeys.token);

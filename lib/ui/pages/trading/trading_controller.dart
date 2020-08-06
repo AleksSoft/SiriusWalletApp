@@ -163,7 +163,7 @@ class TradingController extends GetxController {
     // load candle data
     await updateCandlesHistory().then((value) {
       // subscribe to candle stream
-      _candleSubscr = _api.client
+      _candleSubscr = _api.clientSecure
           .getCandleUpdates(CandleUpdatesRequest()
             ..assetPairId = initialMarket.pairId
             ..type = CandleType.Mid
@@ -180,7 +180,7 @@ class TradingController extends GetxController {
       bids.clear();
     }
     // subscribe to orderbook stream
-    _orderbookSubscr = _api.client
+    _orderbookSubscr = _api.clientSecure
         .getOrderbookUpdates(
             OrderbookUpdatesRequest()..assetPairId = initialMarket.pairId)
         .listen((Orderbook update) {
@@ -196,7 +196,7 @@ class TradingController extends GetxController {
       trades.clear();
     }
     // subscribe to tades stream
-    _tradesSubscr = _api.client
+    _tradesSubscr = _api.clientSecure
         .getPublicTradeUpdates(
             PublicTradesUpdatesRequest()..assetPairId = initialMarket.pairId)
         .listen(

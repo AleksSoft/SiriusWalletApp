@@ -6,6 +6,7 @@ import 'package:antares_wallet/ui/widgets/gradient_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class RegisterPage extends StatelessWidget {
   static final String route = '/register';
@@ -22,14 +23,32 @@ class RegisterPage extends StatelessWidget {
         ),
         elevation: 0.0,
       ),
-      body: PageView(
-        controller: c.pageViewController,
-        physics: NeverScrollableScrollPhysics(),
+      body: Stack(
         children: <Widget>[
-          _EmailScreen(),
-          _CodeScreen(),
-          _PasswordScreen(),
-          _CompleteProfileScreen(),
+          PageView(
+            controller: c.pageViewController,
+            physics: NeverScrollableScrollPhysics(),
+            children: <Widget>[
+              _EmailScreen(),
+              _CodeScreen(),
+              _PasswordScreen(),
+              _CompleteProfileScreen(),
+            ],
+          ),
+          Obx(
+            () => AnimatedSwitcher(
+              duration: const Duration(milliseconds: 150),
+              child: c.loading
+                  ? Center(
+                      child: CircularProgressIndicator(
+                        valueColor: new AlwaysStoppedAnimation<Color>(
+                          Colors.black,
+                        ),
+                      ),
+                    )
+                  : SizedBox.shrink(),
+            ),
+          ),
         ],
       ),
     );
@@ -38,6 +57,11 @@ class RegisterPage extends StatelessWidget {
 
 class _EmailScreen extends StatelessWidget {
   final c = RegisterController.con;
+  final subtitleTheme = Get.textTheme.subtitle1.copyWith(
+    color: AppColors.secondary,
+    fontWeight: FontWeight.w600,
+    fontSize: 16.0,
+  );
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -57,20 +81,25 @@ class _EmailScreen extends StatelessWidget {
             ),
             child: Text(
               'Enter your email',
-              style: Get.textTheme.subtitle1.copyWith(
-                color: AppColors.secondary,
-                fontWeight: FontWeight.w600,
-                fontSize: 16.0,
-              ),
+              style: subtitleTheme,
               textAlign: TextAlign.center,
             ),
           ),
           AppUiHelpers.vSpaceExtraLarge,
           Theme(
             data: Get.theme.copyWith(primaryColor: AppColors.accent),
-            child: TextField(
-              // onChanged: (String s) => _.tokenValue = s,
+            child: TextFormField(
+              onChanged: (String s) => c.emailValue = s,
+              validator: (String value) {
+                if (value.isEmpty || value.isEmail) {
+                  return null;
+                } else {
+                  return 'Email is wrong';
+                }
+              },
+              autovalidate: true,
               obscureText: false,
+              initialValue: c.emailValue,
               decoration: InputDecoration(
                 labelText: 'Email',
                 labelStyle: TextStyle(color: AppColors.secondary),
@@ -80,19 +109,17 @@ class _EmailScreen extends StatelessWidget {
           ),
           AppUiHelpers.vSpaceExtraLarge,
           RaisedGradientButton(
+            onPressed: () => c.proceed(),
             gradient: LinearGradient(
               colors: [AppColors.accent, AppColors.accent],
             ),
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              child: Text(
-                'PROCEED',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: 'Proxima_Nova',
-                  fontSize: 20.0,
-                  color: AppColors.primary,
-                ),
+            child: Text(
+              'PROCEED',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'Proxima_Nova',
+                fontSize: 20.0,
+                color: AppColors.primary,
               ),
             ),
           ),
@@ -136,7 +163,7 @@ class _CodeScreen extends StatelessWidget {
           Theme(
             data: Get.theme.copyWith(primaryColor: AppColors.accent),
             child: TextField(
-              // onChanged: (String s) => _.tokenValue = s,
+              onChanged: (String s) => c.codeValue = s,
               obscureText: false,
               decoration: InputDecoration(
                 labelText: 'Code',
@@ -146,42 +173,42 @@ class _CodeScreen extends StatelessWidget {
           ),
           AppUiHelpers.vSpaceExtraLarge,
           RaisedGradientButton(
+            onPressed: () => c.proceed(),
             gradient: LinearGradient(
               colors: [AppColors.accent, AppColors.accent],
             ),
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              child: Text(
-                'PROCEED',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: 'Proxima_Nova',
-                  fontSize: 20.0,
-                  color: AppColors.primary,
-                ),
+            child: Text(
+              'PROCEED',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'Proxima_Nova',
+                fontSize: 20.0,
+                color: AppColors.primary,
               ),
             ),
           ),
           AppUiHelpers.vSpaceMedium,
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
-            child: c.isCodeWaiting
-                ? Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Icon(Icons.timer, color: AppColors.secondary),
-                      AppUiHelpers.hSpaceExtraSmall,
-                      Text(
-                        'Request new code in ${c.timerValue}',
-                        style: subtitleTheme,
-                      )
-                    ],
-                  )
-                : CupertinoButton(
-                    onPressed: () {},
-                    child: Text('Havent\'t received the code?'),
-                  ),
+          Obx(
+            () => AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: c.isCodeWaiting
+                  ? Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Icon(Icons.timer, color: AppColors.secondary),
+                        AppUiHelpers.hSpaceExtraSmall,
+                        Text(
+                          'Request new code in ${DateFormat('mm:ss').format(c.timerValue)}',
+                          style: subtitleTheme,
+                        ),
+                      ],
+                    )
+                  : CupertinoButton(
+                      onPressed: () => c.proceedEmail(),
+                      child: Text('Havent\'t received the code?'),
+                    ),
+            ),
           ),
         ],
       ),

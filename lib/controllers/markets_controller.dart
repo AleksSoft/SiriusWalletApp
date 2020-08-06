@@ -32,7 +32,7 @@ class MarketsController extends GetxController {
     ever(RootController.con.pageIndexObs, (pageIndex) async {
       if (pageIndex == 2) await rebuildWatchedMarkets();
     });
-    _priceSubscription = _api.client
+    _priceSubscription = _api.clientSecure
         .getPriceUpdates(PriceUpdatesRequest())
         .asBroadcastStream()
         .listen((PriceUpdate update) => _updateMarket(update));
