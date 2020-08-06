@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:antares_wallet/services/repositories/register_repository.dart';
+import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
@@ -16,24 +17,52 @@ class RegisterController extends GetxController {
   set loading(bool value) => this._loading.value = value;
 
   final _isCodeWaiting = false.obs;
-  bool get isCodeWaiting => this._isCodeWaiting.value;
-  set isCodeWaiting(bool value) => this._isCodeWaiting.value = value;
+  bool get isEmailCodeWaiting => this._isCodeWaiting.value;
+  set isEmailCodeWaiting(bool value) => this._isCodeWaiting.value = value;
 
   final _timerValue = DateTime.fromMillisecondsSinceEpoch(60 * 1000).obs;
   DateTime get timerValue => this._timerValue.value;
   set timerValue(DateTime value) => this._timerValue.value = value;
 
+  final _countries = List<Country>().obs;
+  List<Country> get countries => this._countries.value;
+  set countries(List<Country> value) => this._countries.value = value;
+
+  // token
   String token = '';
+
+  // email verification
   String emailValue = '';
-  String codeValue = '';
+  String emailCodeValue = '';
+
+  // additional profile setup
+  final TextEditingController countryController = TextEditingController();
+  String fullNameValue = '';
+  Country countryValue = Country();
+  String affiliateCode = '';
+
+  // phone setup
+  final _phonePrefix = ''.obs;
+  String get phonePrefix => this._phonePrefix.value;
+  set phonePrefix(String value) => this._phonePrefix.value = value;
+  String phoneValue = '';
+  String smsCode = '';
+
+  // password setup
+  String passwordValue = '';
+  String confirmPasswordValue = '';
+  String passwordHintValue = '';
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
+    loading = true;
+    countries = await RegisterRepository.getCountryPhoneCodes();
+    loading = false;
   }
 
   @override
-  void onClose() {
+  void onClose() async {
     _stopTimer();
     super.onClose();
   }
@@ -41,7 +70,7 @@ class RegisterController extends GetxController {
   _startTimer() {
     int seconds = 60;
     _stopTimer();
-    isCodeWaiting = true;
+    isEmailCodeWaiting = true;
     _codeTimer = Timer.periodic(
       Duration(seconds: 1),
       (Timer _) {
@@ -83,7 +112,7 @@ class RegisterController extends GetxController {
   }
 
   proceedEmail() async {
-    if (!isCodeWaiting) {
+    if (!isEmailCodeWaiting || !token.isNullOrBlank) {
       token = await RegisterRepository.sendVerificationEmail(email: emailValue);
       if (token.isNullOrBlank) {
         Get.rawSnackbar(message: 'Email not verified');
@@ -100,7 +129,7 @@ class RegisterController extends GetxController {
 
   _proceedCode() async {
     if (await RegisterRepository.verifyEmail(
-        email: emailValue, code: codeValue, token: token)) {
+        email: emailValue, code: emailCodeValue, token: token)) {
       Get.rawSnackbar(message: 'Code verified');
       _animateToPage(2);
     } else {
@@ -119,6 +148,6 @@ class RegisterController extends GetxController {
 
   _stopTimer() {
     _codeTimer?.cancel();
-    isCodeWaiting = false;
+    isEmailCodeWaiting = false;
   }
 }
