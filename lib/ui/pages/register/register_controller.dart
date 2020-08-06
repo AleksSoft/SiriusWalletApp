@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:antares_wallet/services/repositories/register_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
@@ -95,7 +96,14 @@ class RegisterController extends GetxController {
         await _proceedCode();
         break;
       case 2:
+        return;
       case 3:
+        return;
+      case 4:
+        return;
+      case 5:
+        _proceedPIN();
+        break;
       default:
         return;
     }
@@ -135,6 +143,10 @@ class RegisterController extends GetxController {
     } else {
       Get.rawSnackbar(message: 'Code not verified');
     }
+  }
+
+  _proceedPIN() async {
+    await Get.toNamed(LocalAuthPage.route);
   }
 
   _animateToPage(int page) {

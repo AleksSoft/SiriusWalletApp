@@ -626,19 +626,17 @@ class _PasswordScreen extends StatelessWidget {
           ),
           AppUiHelpers.vSpaceExtraLarge,
           RaisedGradientButton(
+            onPressed: () => c.proceed(),
             gradient: LinearGradient(
               colors: [AppColors.accent, AppColors.accent],
             ),
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              child: Text(
-                'PROCEED',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: 'Proxima_Nova',
-                  fontSize: 20.0,
-                  color: AppColors.primary,
-                ),
+            child: Text(
+              'PROCEED',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'Proxima_Nova',
+                fontSize: 20.0,
+                color: AppColors.primary,
               ),
             ),
           ),

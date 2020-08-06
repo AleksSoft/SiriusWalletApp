@@ -10,6 +10,7 @@ import 'package:antares_wallet/ui/pages/asset_info/asset_info_page.dart';
 import 'package:antares_wallet/ui/pages/exchange/watchlists/edit/edit_watchlist_page.dart';
 import 'package:antares_wallet/ui/pages/exchange/watchlists/watchlists_page.dart';
 import 'package:antares_wallet/ui/pages/initial/initial_page.dart';
+import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
 import 'package:antares_wallet/ui/pages/login/login_page.dart';
 import 'package:antares_wallet/ui/pages/more/profile/profile_page.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_choose_doc.dart';
@@ -35,6 +36,10 @@ class AppRoutes {
       name: StartPage.route,
       page: () => StartPage(),
       binding: StartBinding(),
+    ),
+    GetPage(
+      name: LocalAuthPage.route,
+      page: () => LocalAuthPage(),
     ),
     GetPage(
       name: LoginPage.route,
