@@ -1,135 +1,243 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
-import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/ui/widgets/gradient_button.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import 'login_controller.dart';
 
 class LoginPage extends StatelessWidget {
   static final String route = '/login';
-  final TextStyle style = TextStyle(fontFamily: 'Proxima_Nova', fontSize: 20.0);
+  final c = LoginController.con;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(elevation: 0.0),
-      body: SingleChildScrollView(
-        child: Container(
-          alignment: Alignment.topCenter,
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(36.0),
-            child: GetX<LoginController>(
-              builder: (_) => Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    height: AppSizes.extraLarge * 2,
-                    child: Image.asset(
-                      "assets/images/logo_lykke.png",
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                  AppUiHelpers.vSpaceExtraLarge,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text('Url:', style: Get.textTheme.headline6),
-                      AppUiHelpers.hSpaceMedium,
-                      DropdownButton<String>(
-                        value: _.urlDropValue,
-                        isDense: true,
-                        onChanged: (String s) => _.urlDropValue = s,
-                        items: ApiService.urls.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value ?? 'Custom'),
-                          );
-                        }).toList(),
-                      ),
-                    ],
-                  ),
-                  AppUiHelpers.vSpaceLarge,
-                  AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 300),
-                    child: _.urlDropValue == null
-                        ? Theme(
-                            data: Get.theme.copyWith(
-                              primaryColor: AppColors.accent,
-                            ),
-                            child: TextField(
-                              onChanged: (String s) => _.customUrl = s,
-                              obscureText: false,
-                              style: style,
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.fromLTRB(
-                                  0.0,
-                                  AppSizes.small,
-                                  AppSizes.medium,
-                                  AppSizes.small,
-                                ),
-                                labelText: "Custom url",
-                              ),
-                            ),
-                          )
-                        : SizedBox.shrink(),
-                  ),
-                  AppUiHelpers.vSpaceLarge,
-                  Theme(
-                    data: Get.theme.copyWith(primaryColor: AppColors.accent),
-                    child: TextField(
-                      onChanged: (String s) => _.tokenValue = s,
-                      obscureText: false,
-                      style: style,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.fromLTRB(
-                          0.0,
-                          AppSizes.small,
-                          AppSizes.medium,
-                          AppSizes.small,
+    return WillPopScope(
+      onWillPop: () => c.back(),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          leading: BackButton(
+            color: AppColors.dark,
+            onPressed: () => c.back(),
+          ),
+          elevation: 0.0,
+        ),
+        body: Stack(
+          children: <Widget>[
+            PageView(
+              controller: c.pageViewController,
+              physics: NeverScrollableScrollPhysics(),
+              children: <Widget>[
+                _LoginScreen(),
+                _VerifySmsScreen(),
+              ],
+            ),
+            Obx(
+              () => AnimatedSwitcher(
+                duration: const Duration(milliseconds: 150),
+                child: c.loading
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          valueColor: new AlwaysStoppedAnimation<Color>(
+                            Colors.black,
+                          ),
                         ),
-                        labelText: "Token (without 'Bearer' word)",
+                      )
+                    : SizedBox.shrink(),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _LoginScreen extends StatelessWidget {
+  final c = LoginController.con;
+  @override
+  Widget build(BuildContext context) {
+    var showPassword;
+    return Padding(
+      padding: const EdgeInsets.all(AppSizes.large),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Text(
+            'Sign in',
+            style: Get.textTheme.headline6.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          AppUiHelpers.vSpaceSmall,
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSizes.extraLarge,
+            ),
+            child: Text(
+              'Login using email and password',
+              style: Get.textTheme.subtitle1.copyWith(
+                color: AppColors.secondary,
+                fontWeight: FontWeight.w600,
+                fontSize: 18.0,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          AppUiHelpers.vSpaceExtraLarge,
+          Theme(
+            data: Get.theme.copyWith(primaryColor: AppColors.accent),
+            child: Column(
+              children: <Widget>[
+                TextFormField(
+                  onChanged: (String s) => c.emailValue = s,
+                  initialValue: c.emailValue,
+                  keyboardType: TextInputType.emailAddress,
+                  obscureText: false,
+                  autovalidate: true,
+                  validator: (String value) {
+                    if (value.isEmpty || value.isEmail) {
+                      return null;
+                    } else {
+                      return 'Email is wrong';
+                    }
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                  ),
+                ),
+                AppUiHelpers.vSpaceSmall,
+                Obx(
+                  () => TextFormField(
+                    onChanged: (String s) => c.passwordValue = s,
+                    obscureText: c.passwordVisible,
+                    initialValue: c.passwordValue,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      suffix: IconButton(
+                        onPressed: () => c.passwordVisible = !c.passwordVisible,
+                        icon: FaIcon(
+                          c.passwordVisible
+                              ? FontAwesomeIcons.eyeSlash
+                              : FontAwesomeIcons.eye,
+                        ),
                       ),
                     ),
                   ),
-                  AppUiHelpers.vSpaceExtraLarge,
-                  RaisedGradientButton(
-                    onPressed:
-                        _.loginAllowed ? () => _.saveTokenAndLogin() : null,
-                    gradient: LinearGradient(
-                      colors: [Colors.grey[300], Colors.grey[300]],
-                    ),
-                    child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 300),
-                      child: !_.loading
-                          ? Text(
-                              "SIGN IN",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: 'Proxima_Nova',
-                                fontSize: 20.0,
-                                color: AppColors.secondary,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          : CircularProgressIndicator(
-                              valueColor: new AlwaysStoppedAnimation<Color>(
-                                Colors.black,
-                              ),
-                            ),
-                    ),
-                  ),
-                  AppUiHelpers.vSpaceLarge,
-                ],
+                ),
+              ],
+            ),
+          ),
+          AppUiHelpers.vSpaceExtraLarge,
+          RaisedGradientButton(
+            onPressed: () => c.login(),
+            gradient: LinearGradient(
+              colors: [AppColors.accent, AppColors.accent],
+            ),
+            child: Text(
+              'SIGN IN',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'Proxima_Nova',
+                fontSize: 20.0,
+                color: AppColors.primary,
               ),
             ),
           ),
-        ),
+        ],
+      ),
+    );
+  }
+}
+
+class _VerifySmsScreen extends StatelessWidget {
+  final c = LoginController.con;
+  final subtitleTheme = Get.textTheme.subtitle1.copyWith(
+    color: AppColors.secondary,
+    fontWeight: FontWeight.w600,
+    fontSize: 16.0,
+  );
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(AppSizes.large),
+      child: Column(
+        children: <Widget>[
+          Text(
+            'Verify phone number',
+            style: Get.textTheme.headline6.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          AppUiHelpers.vSpaceSmall,
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSizes.extraLarge,
+            ),
+            child: Text(
+              'Please enter the verification code you recieved via sms',
+              style: subtitleTheme,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          AppUiHelpers.vSpaceExtraLarge,
+          Theme(
+            data: Get.theme.copyWith(primaryColor: AppColors.accent),
+            child: TextFormField(
+              onChanged: (String s) => c.smsCode = s,
+              obscureText: false,
+              initialValue: c.smsCode,
+              decoration: InputDecoration(
+                labelText: 'Sms code',
+              ),
+            ),
+          ),
+          AppUiHelpers.vSpaceExtraLarge,
+          RaisedGradientButton(
+            onPressed: () => c.verifySms(),
+            gradient: LinearGradient(
+              colors: [AppColors.accent, AppColors.accent],
+            ),
+            child: Text(
+              'PROCEED',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'Proxima_Nova',
+                fontSize: 20.0,
+                color: AppColors.primary,
+              ),
+            ),
+          ),
+          AppUiHelpers.vSpaceMedium,
+          Obx(
+            () => AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: c.isSmsWaiting
+                  ? Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Icon(Icons.timer, color: AppColors.secondary),
+                        AppUiHelpers.hSpaceExtraSmall,
+                        Text(
+                          'Request new code in ${DateFormat('mm:ss').format(c.timerValue)}',
+                          style: subtitleTheme,
+                        ),
+                      ],
+                    )
+                  : CupertinoButton(
+                      onPressed: () => c.requestSmsVerification(),
+                      child: Text('Haven\'t received the code?'),
+                    ),
+            ),
+          ),
+        ],
       ),
     );
   }

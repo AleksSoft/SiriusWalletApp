@@ -31,7 +31,7 @@ class RegisterPage extends StatelessWidget {
           children: <Widget>[
             PageView(
               controller: c.pageViewController,
-              // physics: NeverScrollableScrollPhysics(),
+              physics: NeverScrollableScrollPhysics(),
               children: <Widget>[
                 _EmailScreen(),
                 _VerifyEmailScreen(),
@@ -392,7 +392,7 @@ class _PhoneScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              keyboardType: TextInputType.emailAddress,
+              keyboardType: TextInputType.phone,
             ),
           ),
           AppUiHelpers.vSpaceExtraLarge,
@@ -502,7 +502,7 @@ class _VerifyPhoneScreen extends StatelessWidget {
           Obx(
             () => AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
-              child: c.isEmailCodeWaiting
+              child: c.isSmsWaiting
                   ? Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,

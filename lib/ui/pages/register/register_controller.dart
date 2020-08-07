@@ -82,7 +82,6 @@ class RegisterController extends GetxController {
 
   _startTimer() {
     int seconds = 60;
-    _stopTimer();
     _codeTimer = Timer.periodic(
       Duration(seconds: 1),
       (Timer _) {
@@ -141,7 +140,7 @@ class RegisterController extends GetxController {
   backResult() {}
 
   proceedEmail() async {
-    if (!isEmailCodeWaiting || !token.isNullOrBlank) {
+    if (!isEmailCodeWaiting) {
       token = await RegisterRepository.sendVerificationEmail(email: emailValue);
       if (token.isNullOrBlank) {
         Get.rawSnackbar(message: 'Email not verified');
@@ -161,6 +160,7 @@ class RegisterController extends GetxController {
     if (await RegisterRepository.verifyEmail(
         email: emailValue, code: emailCodeValue, token: token)) {
       Get.rawSnackbar(message: 'Code verified');
+      _stopTimer();
       _animateToPage(2);
     } else {
       Get.rawSnackbar(message: 'Code not verified');
@@ -172,7 +172,7 @@ class RegisterController extends GetxController {
   }
 
   _proceedPhone() async {
-    if (!isSmsWaiting || !token.isNullOrBlank) {
+    if (!isSmsWaiting) {
       if (await RegisterRepository.sendVerificationSms(
           phone: phonePrefix + phoneValue, token: token)) {
         Get.rawSnackbar(message: 'Sms sent');
@@ -192,6 +192,7 @@ class RegisterController extends GetxController {
     if (await RegisterRepository.verifyPhone(
         phone: phonePrefix + phoneValue, code: smsCode, token: token)) {
       Get.rawSnackbar(message: 'Sms verified');
+      _stopTimer();
       _animateToPage(5);
     } else {
       Get.rawSnackbar(message: 'Sms not verified');

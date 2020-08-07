@@ -1,8 +1,8 @@
-import 'package:antares_wallet/app/common/app_storage_keys.dart';
+import 'dart:async';
+
 import 'package:antares_wallet/services/api/api_service.dart';
-import 'package:antares_wallet/src/google/protobuf/empty.pb.dart';
 import 'package:antares_wallet/ui/pages/register/register_page.dart';
-import 'package:antares_wallet/ui/pages/root/root_page.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -11,66 +11,79 @@ class LoginController extends GetxController {
   static final _api = Get.find<ApiService>();
   final _storage = GetStorage();
 
-  final _loading = true.obs;
-  get loading => this._loading.value;
-  set loading(value) => this._loading.value = value;
+  final pageViewController = PageController(initialPage: 0);
 
-  final _urlDropValue = ApiService.urls[0].obs;
-  String get urlDropValue => this._urlDropValue.value;
-  set urlDropValue(String value) => this._urlDropValue.value = value;
+  Timer _codeTimer;
 
-  final _cusomUrl = ''.obs;
-  String get customUrl => this._cusomUrl.value;
-  set customUrl(String value) => this._cusomUrl.value = value;
+  final _loading = false.obs;
+  bool get loading => this._loading.value;
+  set loading(bool value) => this._loading.value = value;
 
-  final _tokenValue = ''.obs;
-  get tokenValue => this._tokenValue.value;
-  set tokenValue(value) => this._tokenValue.value = value;
+  final _showPass = false.obs;
+  bool get passwordVisible => this._loading.value;
+  set passwordVisible(bool value) => this._loading.value = value;
 
-  bool get loginAllowed {
-    if (urlDropValue == null) {
-      return !GetUtils.isNullOrBlank(customUrl) &&
-          !GetUtils.isNullOrBlank(tokenValue);
-    } else {
-      return !GetUtils.isNullOrBlank(tokenValue);
-    }
-  }
+  final _isSmsWaiting = false.obs;
+  bool get isSmsWaiting => this._isSmsWaiting.value;
+  set isSmsWaiting(bool value) => this._isSmsWaiting.value = value;
+
+  final _timerValue = DateTime.fromMillisecondsSinceEpoch(60 * 1000).obs;
+  DateTime get timerValue => this._timerValue.value;
+  set timerValue(DateTime value) => this._timerValue.value = value;
+
+  String emailValue = '';
+  String passwordValue = '';
+  String smsCode = '';
 
   @override
-  void onReady() async {
-    super.onReady();
-    if (_storage.hasData(AppStorageKeys.token) &&
-        _storage.hasData(AppStorageKeys.baseUrl)) {
-      await _login();
-    }
-    loading = false;
+  void onClose() async {
+    _stopTimer();
+    super.onClose();
   }
 
-  saveTokenAndLogin() async {
-    _storage.write(AppStorageKeys.token, tokenValue);
-    _storage.write(AppStorageKeys.baseUrl, urlDropValue);
-    await _login();
+  back() {
+    int currentPage = pageViewController.page.toInt();
+    if (currentPage > 0) {
+      _animateToPage(currentPage - 1);
+    } else {
+      Get.back();
+    }
   }
 
-  _login() async {
-    loading = true;
-    try {
-      // TODO: replace with actual login logics
-      await _api.clientSecure.getAppSettings(Empty());
-      Get.offAllNamed(RootPage.route);
-    } catch (e) {
-      _storage.remove(AppStorageKeys.token);
-      _storage.remove(AppStorageKeys.baseUrl);
-      Future.delayed(Duration()).then(
-        (_) => Get.defaultDialog(
-          title: 'Error',
-          middleText: e.message,
-          onConfirm: () => Get.back(),
-        ),
-      );
-    }
-    loading = false;
+  _animateToPage(int page) {
+    int currentPage = pageViewController.page.toInt();
+    pageViewController.animateToPage(
+      page,
+      duration: const Duration(milliseconds: 300),
+      curve: page > currentPage ? Curves.easeInCubic : Curves.easeOutCubic,
+    );
+  }
+
+  _startTimer() {
+    int seconds = 60;
+    _codeTimer = Timer.periodic(
+      Duration(seconds: 1),
+      (Timer _) {
+        timerValue = DateTime.fromMillisecondsSinceEpoch(
+          (seconds - _.tick) * 1000,
+        );
+        if (_.tick == seconds) {
+          _stopTimer();
+        }
+      },
+    );
+  }
+
+  _stopTimer() {
+    _codeTimer?.cancel();
+    isSmsWaiting = false;
   }
 
   openRegister() => Get.toNamed(RegisterPage.route);
+
+  login() {}
+
+  verifySms() {}
+
+  requestSmsVerification() {}
 }
