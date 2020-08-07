@@ -8,7 +8,7 @@ class RegisterResultPage extends StatelessWidget {
     final c = RegisterController.con;
 
     return WillPopScope(
-      onWillPop: () => c.backResult(),
+      // onWillPop: () => c.backResult(),
       child: Scaffold(
         body: Container(
           alignment: Alignment.center,

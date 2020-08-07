@@ -24,6 +24,7 @@ dependencies:
   clipboard_manager: ^0.0.4
   collection: ^1.14.12
   local_auth: ^0.6.2+3
+  crypto: ^2.1.5
 
   #fireabse
   firebase_analytics: ^5.0.16

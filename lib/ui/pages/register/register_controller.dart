@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:antares_wallet/app/common/app_storage_keys.dart';
 import 'package:antares_wallet/services/repositories/register_repository.dart';
@@ -6,6 +7,7 @@ import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
 import 'package:antares_wallet/ui/pages/register/register_result_page.dart';
 import 'package:antares_wallet/ui/pages/root/root_page.dart';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -100,26 +102,31 @@ class RegisterController extends GetxController {
     switch (currentPage) {
       case 0:
         await proceedEmail();
+        loading = false;
         break;
       case 1:
         await _proceedEmailCode();
+        loading = false;
         break;
       case 2:
         await _proceedAdditionalData();
+        loading = false;
         return;
       case 3:
         await _proceedPhone();
+        loading = false;
         return;
       case 4:
         await _proceedPhoneSms();
+        loading = false;
         return;
       case 5:
         await _proceedPassword();
+        loading = false;
         break;
       default:
         return;
     }
-    loading = false;
   }
 
   back() {
@@ -194,19 +201,20 @@ class RegisterController extends GetxController {
   _proceedPassword() async {
     await Get.toNamed(LocalAuthPage.route);
     Get.to(RegisterResultPage(), fullscreenDialog: true);
-    if (await RegisterRepository.register(
+    var registerPayload = await RegisterRepository.register(
       fullName: fullNameValue,
       email: emailValue,
       phone: phonePrefix + phoneValue,
-      password: passwordValue,
+      password: sha256.convert(utf8.encode(passwordValue)).toString(),
       hint: passwordHintValue,
-      countryIso3Code: countryValue.iso2,
+      countryIso3Code: countryValue.id,
       affiliateCode: affiliateCodeValue,
       pin: _box.read(AppStorageKeys.pinCode),
       token: token,
       publicKey: '1111',
-    )) {
-      _box.write(AppStorageKeys.token, token);
+    );
+    if (!registerPayload.isNull) {
+      _box.write(AppStorageKeys.token, registerPayload.sessionId);
       Get.offAllNamed(RootPage.route);
     } else {
       Get.rawSnackbar(message: 'Registration failed!');

@@ -3,6 +3,7 @@ import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/src/google/protobuf/empty.pb.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class RegisterRepository {
   static final _api = Get.find<ApiService>();
@@ -106,7 +107,7 @@ class RegisterRepository {
     }
   }
 
-  static Future<bool> register({
+  static Future<RegisterResponse_RegisterPayload> register({
     @required String fullName,
     @required String email,
     @required String phone,
@@ -119,35 +120,36 @@ class RegisterRepository {
     @required String publicKey,
   }) async {
     try {
-      final response = await _api.client.register(
-        RegisterRequest()
-          ..fullName = fullName
-          ..email = email
-          ..phone = phone
-          ..password = password
-          ..hint = hint
-          ..countryIso3Code = countryIso3Code
-          ..affiliateCode = affiliateCode
-          ..pin = pin
-          ..token = token
-          ..publicKey = publicKey,
-      );
-      if (response?.error != null) {
+      var request = RegisterRequest()
+        ..fullName = fullName
+        ..email = email
+        ..phone = phone
+        ..password = password
+        ..hint = hint
+        ..countryIso3Code = countryIso3Code
+        ..affiliateCode = affiliateCode
+        ..pin = pin
+        ..token = token
+        ..publicKey = publicKey;
+      print('Register request: ${request.toProto3Json()}');
+      final response = await _api.client.register(request);
+      print('Register response: ${response.toProto3Json()}');
+      if (response.error.hasCode()) {
         Get.defaultDialog(
           title: response.error.code,
           middleText: response.error.message,
           onConfirm: () => Get.back(),
         );
-        return false;
+        return null;
       }
-      return true;
+      return response.result;
     } catch (e) {
       Get.defaultDialog(
         title: 'Register Error',
         middleText: e.message,
         onConfirm: () => Get.back(),
       );
-      return false;
+      return null;
     }
   }
 }
