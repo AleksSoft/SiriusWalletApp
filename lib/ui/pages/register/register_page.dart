@@ -16,44 +16,47 @@ class RegisterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        leading: BackButton(
-          color: AppColors.dark,
-          onPressed: () => c.back(),
+    return WillPopScope(
+      onWillPop: () => c.back(),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          leading: BackButton(
+            color: AppColors.dark,
+            onPressed: () => c.back(),
+          ),
+          elevation: 0.0,
         ),
-        elevation: 0.0,
-      ),
-      body: Stack(
-        children: <Widget>[
-          PageView(
-            controller: c.pageViewController,
-            // physics: NeverScrollableScrollPhysics(),
-            children: <Widget>[
-              _EmailScreen(),
-              _VerifyEmailScreen(),
-              _AdditionalDataScreen(),
-              _PhoneScreen(),
-              _VerifyPhoneScreen(),
-              _PasswordScreen(),
-            ],
-          ),
-          Obx(
-            () => AnimatedSwitcher(
-              duration: const Duration(milliseconds: 150),
-              child: c.loading
-                  ? Center(
-                      child: CircularProgressIndicator(
-                        valueColor: new AlwaysStoppedAnimation<Color>(
-                          Colors.black,
-                        ),
-                      ),
-                    )
-                  : SizedBox.shrink(),
+        body: Stack(
+          children: <Widget>[
+            PageView(
+              controller: c.pageViewController,
+              // physics: NeverScrollableScrollPhysics(),
+              children: <Widget>[
+                _EmailScreen(),
+                _VerifyEmailScreen(),
+                _AdditionalDataScreen(),
+                _PhoneScreen(),
+                _VerifyPhoneScreen(),
+                _PasswordScreen(),
+              ],
             ),
-          ),
-        ],
+            Obx(
+              () => AnimatedSwitcher(
+                duration: const Duration(milliseconds: 150),
+                child: c.loading
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          valueColor: new AlwaysStoppedAnimation<Color>(
+                            Colors.black,
+                          ),
+                        ),
+                      )
+                    : SizedBox.shrink(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -282,7 +285,7 @@ class _AdditionalDataScreen extends StatelessWidget {
                 ),
                 AppUiHelpers.vSpaceSmall,
                 TextFormField(
-                  onChanged: (String s) => c.affiliateCode = s,
+                  onChanged: (String s) => c.affiliateCodeValue = s,
                   obscureText: false,
                   initialValue: c.passwordHintValue,
                   decoration: InputDecoration(
@@ -294,19 +297,17 @@ class _AdditionalDataScreen extends StatelessWidget {
           ),
           AppUiHelpers.vSpaceExtraLarge,
           RaisedGradientButton(
+            onPressed: () => c.proceed(),
             gradient: LinearGradient(
               colors: [AppColors.accent, AppColors.accent],
             ),
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              child: Text(
-                'PROCEED',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: 'Proxima_Nova',
-                  fontSize: 20.0,
-                  color: AppColors.primary,
-                ),
+            child: Text(
+              'PROCEED',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'Proxima_Nova',
+                fontSize: 20.0,
+                color: AppColors.primary,
               ),
             ),
           ),
@@ -375,7 +376,7 @@ class _PhoneScreen extends StatelessWidget {
           Theme(
             data: Get.theme.copyWith(primaryColor: AppColors.accent),
             child: TextFormField(
-              onChanged: (String s) => c.emailValue = s,
+              onChanged: (String s) => c.phoneValue = s,
               obscureText: false,
               initialValue: c.phoneValue,
               decoration: InputDecoration(
@@ -473,9 +474,9 @@ class _VerifyPhoneScreen extends StatelessWidget {
           Theme(
             data: Get.theme.copyWith(primaryColor: AppColors.accent),
             child: TextFormField(
-              onChanged: (String s) => c.emailCodeValue = s,
+              onChanged: (String s) => c.smsCode = s,
               obscureText: false,
-              initialValue: c.emailCodeValue,
+              initialValue: c.smsCode,
               decoration: InputDecoration(
                 labelText: 'Sms code',
               ),

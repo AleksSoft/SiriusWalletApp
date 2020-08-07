@@ -119,7 +119,7 @@ class RegisterRepository {
     @required String publicKey,
   }) async {
     try {
-      await _api.client.register(
+      final response = await _api.client.register(
         RegisterRequest()
           ..fullName = fullName
           ..email = email
@@ -132,6 +132,14 @@ class RegisterRepository {
           ..token = token
           ..publicKey = publicKey,
       );
+      if (response?.error != null) {
+        Get.defaultDialog(
+          title: response.error.code,
+          middleText: response.error.message,
+          onConfirm: () => Get.back(),
+        );
+        return false;
+      }
       return true;
     } catch (e) {
       Get.defaultDialog(

@@ -1,13 +1,19 @@
 import 'dart:async';
 
+import 'package:antares_wallet/app/common/app_storage_keys.dart';
 import 'package:antares_wallet/services/repositories/register_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
+import 'package:antares_wallet/ui/pages/register/register_result_page.dart';
+import 'package:antares_wallet/ui/pages/root/root_page.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class RegisterController extends GetxController {
   static RegisterController get con => Get.find();
+
+  final _box = GetStorage();
 
   final pageViewController = PageController(initialPage: 0);
 
@@ -20,6 +26,10 @@ class RegisterController extends GetxController {
   final _isCodeWaiting = false.obs;
   bool get isEmailCodeWaiting => this._isCodeWaiting.value;
   set isEmailCodeWaiting(bool value) => this._isCodeWaiting.value = value;
+
+  final _isSmsWaiting = false.obs;
+  bool get isSmsWaiting => this._isSmsWaiting.value;
+  set isSmsWaiting(bool value) => this._isSmsWaiting.value = value;
 
   final _timerValue = DateTime.fromMillisecondsSinceEpoch(60 * 1000).obs;
   DateTime get timerValue => this._timerValue.value;
@@ -40,7 +50,7 @@ class RegisterController extends GetxController {
   final TextEditingController countryController = TextEditingController();
   String fullNameValue = '';
   Country countryValue = Country();
-  String affiliateCode = '';
+  String affiliateCodeValue = '';
 
   // phone setup
   final _phonePrefix = ''.obs;
@@ -71,7 +81,6 @@ class RegisterController extends GetxController {
   _startTimer() {
     int seconds = 60;
     _stopTimer();
-    isEmailCodeWaiting = true;
     _codeTimer = Timer.periodic(
       Duration(seconds: 1),
       (Timer _) {
@@ -93,16 +102,19 @@ class RegisterController extends GetxController {
         await proceedEmail();
         break;
       case 1:
-        await _proceedCode();
+        await _proceedEmailCode();
         break;
       case 2:
+        await _proceedAdditionalData();
         return;
       case 3:
+        await _proceedPhone();
         return;
       case 4:
+        await _proceedPhoneSms();
         return;
       case 5:
-        _proceedPIN();
+        await _proceedPassword();
         break;
       default:
         return;
@@ -119,6 +131,8 @@ class RegisterController extends GetxController {
     }
   }
 
+  backResult() {}
+
   proceedEmail() async {
     if (!isEmailCodeWaiting || !token.isNullOrBlank) {
       token = await RegisterRepository.sendVerificationEmail(email: emailValue);
@@ -128,6 +142,7 @@ class RegisterController extends GetxController {
       } else {
         Get.rawSnackbar(message: 'Code sent');
         _animateToPage(1);
+        isEmailCodeWaiting = true;
         _startTimer();
       }
     } else {
@@ -135,7 +150,7 @@ class RegisterController extends GetxController {
     }
   }
 
-  _proceedCode() async {
+  _proceedEmailCode() async {
     if (await RegisterRepository.verifyEmail(
         email: emailValue, code: emailCodeValue, token: token)) {
       Get.rawSnackbar(message: 'Code verified');
@@ -145,8 +160,59 @@ class RegisterController extends GetxController {
     }
   }
 
-  _proceedPIN() async {
+  _proceedAdditionalData() async {
+    await _animateToPage(3);
+  }
+
+  _proceedPhone() async {
+    if (!isSmsWaiting || !token.isNullOrBlank) {
+      if (await RegisterRepository.sendVerificationSms(
+          phone: phonePrefix + phoneValue, token: token)) {
+        Get.rawSnackbar(message: 'Sms sent');
+        _animateToPage(4);
+        isSmsWaiting = true;
+        _startTimer();
+      } else {
+        Get.rawSnackbar(message: 'Phone not accepted');
+        _stopTimer();
+      }
+    } else {
+      _animateToPage(4);
+    }
+  }
+
+  _proceedPhoneSms() async {
+    if (await RegisterRepository.verifyPhone(
+        phone: phonePrefix + phoneValue, code: smsCode, token: token)) {
+      Get.rawSnackbar(message: 'Sms verified');
+      _animateToPage(5);
+    } else {
+      Get.rawSnackbar(message: 'Sms not verified');
+    }
+  }
+
+  _proceedPassword() async {
     await Get.toNamed(LocalAuthPage.route);
+    Get.to(RegisterResultPage(), fullscreenDialog: true);
+    if (await RegisterRepository.register(
+      fullName: fullNameValue,
+      email: emailValue,
+      phone: phonePrefix + phoneValue,
+      password: passwordValue,
+      hint: passwordHintValue,
+      countryIso3Code: countryValue.iso2,
+      affiliateCode: affiliateCodeValue,
+      pin: _box.read(AppStorageKeys.pinCode),
+      token: token,
+      publicKey: '1111',
+    )) {
+      _box.write(AppStorageKeys.token, token);
+      Get.offAllNamed(RootPage.route);
+    } else {
+      Get.rawSnackbar(message: 'Registration failed!');
+      await _box.erase();
+      Get.back();
+    }
   }
 
   _animateToPage(int page) {
@@ -161,5 +227,6 @@ class RegisterController extends GetxController {
   _stopTimer() {
     _codeTimer?.cancel();
     isEmailCodeWaiting = false;
+    isSmsWaiting = false;
   }
 }
