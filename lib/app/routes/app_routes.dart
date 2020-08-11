@@ -40,6 +40,7 @@ class AppRoutes {
     GetPage(
       name: LocalAuthPage.route,
       page: () => LocalAuthPage(),
+      fullscreenDialog: true,
     ),
     GetPage(
       name: LoginPage.route,
