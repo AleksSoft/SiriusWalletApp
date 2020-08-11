@@ -62,7 +62,6 @@ class _LoginScreen extends StatelessWidget {
   final c = LoginController.con;
   @override
   Widget build(BuildContext context) {
-    var showPassword;
     return Padding(
       padding: const EdgeInsets.all(AppSizes.large),
       child: Column(
@@ -116,16 +115,17 @@ class _LoginScreen extends StatelessWidget {
                 Obx(
                   () => TextFormField(
                     onChanged: (String s) => c.passwordValue = s,
-                    obscureText: c.passwordVisible,
+                    obscureText: c.hidePassword,
                     initialValue: c.passwordValue,
                     decoration: InputDecoration(
                       labelText: 'Password',
-                      suffix: IconButton(
-                        onPressed: () => c.passwordVisible = !c.passwordVisible,
-                        icon: FaIcon(
-                          c.passwordVisible
+                      suffix: InkWell(
+                        onTap: () => c.hidePassword = !c.hidePassword,
+                        child: FaIcon(
+                          c.hidePassword
                               ? FontAwesomeIcons.eyeSlash
                               : FontAwesomeIcons.eye,
+                          size: 16.0,
                         ),
                       ),
                     ),
@@ -136,7 +136,7 @@ class _LoginScreen extends StatelessWidget {
           ),
           AppUiHelpers.vSpaceExtraLarge,
           RaisedGradientButton(
-            onPressed: () => c.login(),
+            onPressed: () => c.signIn(),
             gradient: LinearGradient(
               colors: [AppColors.accent, AppColors.accent],
             ),
@@ -190,9 +190,9 @@ class _VerifySmsScreen extends StatelessWidget {
           Theme(
             data: Get.theme.copyWith(primaryColor: AppColors.accent),
             child: TextFormField(
-              onChanged: (String s) => c.smsCode = s,
+              onChanged: (String s) => c.smsCodeValue = s,
               obscureText: false,
-              initialValue: c.smsCode,
+              initialValue: c.smsCodeValue,
               decoration: InputDecoration(
                 labelText: 'Sms code',
               ),

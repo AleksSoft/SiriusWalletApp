@@ -9,7 +9,6 @@ import 'package:antares_wallet/bindings/trading_binding.dart';
 import 'package:antares_wallet/ui/pages/asset_info/asset_info_page.dart';
 import 'package:antares_wallet/ui/pages/exchange/watchlists/edit/edit_watchlist_page.dart';
 import 'package:antares_wallet/ui/pages/exchange/watchlists/watchlists_page.dart';
-import 'package:antares_wallet/ui/pages/initial/initial_page.dart';
 import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
 import 'package:antares_wallet/ui/pages/login/login_page.dart';
 import 'package:antares_wallet/ui/pages/more/profile/profile_page.dart';
@@ -27,6 +26,7 @@ import 'package:antares_wallet/ui/pages/portfolio/transaction_details/transactio
 import 'package:antares_wallet/ui/pages/register/register_page.dart';
 import 'package:antares_wallet/ui/pages/root/root_page.dart';
 import 'package:antares_wallet/ui/pages/select_asset/select_asset_page.dart';
+import 'package:antares_wallet/ui/pages/start/start_page.dart';
 import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
 import 'package:get/get.dart';
 

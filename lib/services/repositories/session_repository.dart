@@ -3,9 +3,8 @@ import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/src/google/protobuf/empty.pb.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
-class RegisterRepository {
+class SessionRepository {
   static final _api = Get.find<ApiService>();
 
   static Future<List<Country>> getCountryPhoneCodes() async {
@@ -21,6 +20,93 @@ class RegisterRepository {
       return List();
     }
   }
+
+  /// LOGIN ENDPOINTS
+
+  static Future<LoginResponse_LoginPayload> login({
+    @required String email,
+    @required String password,
+    @required String publicKey,
+  }) async {
+    try {
+      final response = await _api.client.login(
+        LoginRequest()
+          ..email = email
+          ..password = password
+          ..publicKey = publicKey,
+      );
+      return response.result;
+    } catch (e) {
+      Get.defaultDialog(
+        title: 'Login Error',
+        middleText: e.message,
+        onConfirm: () => Get.back(),
+      );
+      return null;
+    }
+  }
+
+  static Future<bool> sendLoginSms({
+    @required String sessionId,
+  }) async {
+    try {
+      await _api.client.sendLoginSms(
+        LoginSmsRequest()..sessionId = sessionId,
+      );
+      return true;
+    } catch (e) {
+      Get.defaultDialog(
+        title: 'SendLoginSms Error',
+        middleText: e.message,
+        onConfirm: () => Get.back(),
+      );
+      return false;
+    }
+  }
+
+  static Future<bool> varifyLoginSms({
+    @required String sessionId,
+    @required String code,
+  }) async {
+    try {
+      final response = await _api.client.verifyLoginSms(
+        VerifyLoginSmsRequest()
+          ..sessionId = sessionId
+          ..code = code,
+      );
+      return response.result.passed;
+    } catch (e) {
+      Get.defaultDialog(
+        title: 'SendLoginSms Error',
+        middleText: e.message,
+        onConfirm: () => Get.back(),
+      );
+      return false;
+    }
+  }
+
+  static Future<bool> checkPin({
+    @required String sessionId,
+    @required String pin,
+  }) async {
+    try {
+      final response = await _api.client.checkPin(
+        CheckPinRequest()
+          ..sessionId = sessionId
+          ..pin = pin,
+      );
+      return response.result.passed;
+    } catch (e) {
+      Get.defaultDialog(
+        title: 'SendLoginSms Error',
+        middleText: e.message,
+        onConfirm: () => Get.back(),
+      );
+      return false;
+    }
+  }
+
+  /// REGISTRATION ENDPOINTS
 
   static Future<String> sendVerificationEmail({
     @required String email,

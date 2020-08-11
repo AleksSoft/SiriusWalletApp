@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:antares_wallet/app/common/app_storage_keys.dart';
-import 'package:antares_wallet/services/repositories/register_repository.dart';
+import 'package:antares_wallet/services/repositories/session_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
 import 'package:antares_wallet/ui/pages/register/register_result_page.dart';
@@ -70,7 +70,7 @@ class RegisterController extends GetxController {
   void onInit() async {
     super.onInit();
     loading = true;
-    countries = await RegisterRepository.getCountryPhoneCodes();
+    countries = await SessionRepository.getCountryPhoneCodes();
     loading = false;
   }
 
@@ -141,7 +141,7 @@ class RegisterController extends GetxController {
 
   proceedEmail() async {
     if (!isEmailCodeWaiting) {
-      token = await RegisterRepository.sendVerificationEmail(email: emailValue);
+      token = await SessionRepository.sendVerificationEmail(email: emailValue);
       if (token.isNullOrBlank) {
         Get.rawSnackbar(message: 'Email not verified');
         _stopTimer();
@@ -157,7 +157,7 @@ class RegisterController extends GetxController {
   }
 
   _proceedEmailCode() async {
-    if (await RegisterRepository.verifyEmail(
+    if (await SessionRepository.verifyEmail(
         email: emailValue, code: emailCodeValue, token: token)) {
       Get.rawSnackbar(message: 'Code verified');
       _stopTimer();
@@ -173,7 +173,7 @@ class RegisterController extends GetxController {
 
   _proceedPhone() async {
     if (!isSmsWaiting) {
-      if (await RegisterRepository.sendVerificationSms(
+      if (await SessionRepository.sendVerificationSms(
           phone: phonePrefix + phoneValue, token: token)) {
         Get.rawSnackbar(message: 'Sms sent');
         _animateToPage(4);
@@ -189,7 +189,7 @@ class RegisterController extends GetxController {
   }
 
   _proceedPhoneSms() async {
-    if (await RegisterRepository.verifyPhone(
+    if (await SessionRepository.verifyPhone(
         phone: phonePrefix + phoneValue, code: smsCode, token: token)) {
       Get.rawSnackbar(message: 'Sms verified');
       _stopTimer();
@@ -202,7 +202,7 @@ class RegisterController extends GetxController {
   _proceedPassword() async {
     await Get.toNamed(LocalAuthPage.route);
     Get.to(RegisterResultPage(), fullscreenDialog: true);
-    var registerPayload = await RegisterRepository.register(
+    var registerPayload = await SessionRepository.register(
       fullName: fullNameValue,
       email: emailValue,
       phone: phonePrefix + phoneValue,

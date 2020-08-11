@@ -16,21 +16,33 @@ class LocalAuthController extends GetxController {
   final FocusNode pinPutFocusNode = FocusNode();
 
   final _viewState = PinViewState.CREATE_PIN.obs;
-
   get viewState => this._viewState.value;
+
+  final _pinValue = ''.obs;
+  get pinValue => this._pinValue.value;
+  set pinValue(value) => this._pinValue.value = value;
 
   String _prevPIN = '';
 
   String get header => _getHeaderStr();
 
-  bool get showBack => (Get.arguments as bool) ?? false;
+  bool _showBack;
+  bool get showBack => _showBack;
+
+  int get fieldsCount => 4;
 
   @override
   void onInit() {
-    super.onInit();
+    _showBack = (Get.arguments as bool) ?? false;
     _viewState.value = _box.hasData(AppStorageKeys.pinCode)
         ? PinViewState.DEFAULT
         : PinViewState.CREATE_PIN;
+    ever(_pinValue, (pin) {
+      if (pin?.length == fieldsCount) {
+        submit(pin);
+      }
+    });
+    super.onInit();
   }
 
   @override
@@ -47,12 +59,10 @@ class LocalAuthController extends GetxController {
     }
   }
 
-  void submit(String pin) {
+  submit(String pin) {
     switch (_viewState.value) {
       case PinViewState.CREATE_PIN:
-        _prevPIN = pinPutController.text;
-        pinPutController.clear();
-        _viewState.value = PinViewState.REPEAT_PIN;
+        _createPIN();
         break;
       case PinViewState.REPEAT_PIN:
         _saveNewPIN();
@@ -64,10 +74,16 @@ class LocalAuthController extends GetxController {
     }
   }
 
-  void _submitPIN() async {
-    bool pinCorrect =
-        _box.read(AppStorageKeys.pinCode) == pinPutController.text;
-    if (pinCorrect) {
+  _createPIN() {
+    _prevPIN = pinValue;
+    pinValue = '';
+    pinPutController.clear();
+    _viewState.value = PinViewState.REPEAT_PIN;
+  }
+
+  _submitPIN() {
+    String pinCode = _box.read(AppStorageKeys.pinCode);
+    if (pinCode == pinValue) {
       navigateBack(true);
     } else {
       Get.defaultDialog(
@@ -78,6 +94,7 @@ class LocalAuthController extends GetxController {
         confirmTextColor: Colors.white,
         onConfirm: () {
           _viewState.value = PinViewState.DEFAULT;
+          pinValue = '';
           pinPutController.clear();
           Get.back();
         },
@@ -85,8 +102,8 @@ class LocalAuthController extends GetxController {
     }
   }
 
-  void _saveNewPIN() {
-    if (_prevPIN == pinPutController.text) {
+  _saveNewPIN() {
+    if (_prevPIN == pinValue) {
       _box.write(AppStorageKeys.pinCode, _prevPIN);
       _submitPIN();
     } else {
@@ -98,6 +115,7 @@ class LocalAuthController extends GetxController {
         confirmTextColor: Colors.white,
         onConfirm: () {
           _viewState.value = PinViewState.CREATE_PIN;
+          pinValue = '';
           pinPutController.clear();
           Get.back();
         },
