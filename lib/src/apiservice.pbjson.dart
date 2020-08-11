@@ -174,8 +174,8 @@ const CheckPinRequest$json = const {
   ],
 };
 
-const ProlongateSessionRequest$json = const {
-  '1': 'ProlongateSessionRequest',
+const CheckSessionRequest$json = const {
+  '1': 'CheckSessionRequest',
   '2': const [
     const {'1': 'sessionId', '3': 1, '4': 1, '5': 9, '10': 'sessionId'},
   ],
@@ -747,6 +747,13 @@ const CheckPinResponse_CheckPinPayload$json = const {
   '1': 'CheckPinPayload',
   '2': const [
     const {'1': 'passed', '3': 1, '4': 1, '5': 8, '10': 'passed'},
+  ],
+};
+
+const CheckSessionResponse$json = const {
+  '1': 'CheckSessionResponse',
+  '2': const [
+    const {'1': 'expired', '3': 1, '4': 1, '5': 8, '10': 'expired'},
   ],
 };
 

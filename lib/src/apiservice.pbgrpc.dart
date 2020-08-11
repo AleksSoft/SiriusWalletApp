@@ -133,10 +133,16 @@ class ApiServiceClient extends $grpc.Client {
           ($1.CheckPinRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $1.CheckPinResponse.fromBuffer(value));
+  static final _$isSessionExpired =
+      $grpc.ClientMethod<$1.CheckSessionRequest, $1.CheckSessionResponse>(
+          '/antaresWallet.ApiService/IsSessionExpired',
+          ($1.CheckSessionRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $1.CheckSessionResponse.fromBuffer(value));
   static final _$prolongateSession =
-      $grpc.ClientMethod<$1.ProlongateSessionRequest, $1.EmptyResponse>(
+      $grpc.ClientMethod<$0.Empty, $1.EmptyResponse>(
           '/antaresWallet.ApiService/ProlongateSession',
-          ($1.ProlongateSessionRequest value) => value.writeToBuffer(),
+          ($0.Empty value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $1.EmptyResponse.fromBuffer(value));
   static final _$getOrders =
       $grpc.ClientMethod<$1.LimitOrdersRequest, $1.LimitOrdersResponse>(
@@ -579,8 +585,16 @@ class ApiServiceClient extends $grpc.Client {
     return $grpc.ResponseFuture(call);
   }
 
-  $grpc.ResponseFuture<$1.EmptyResponse> prolongateSession(
-      $1.ProlongateSessionRequest request,
+  $grpc.ResponseFuture<$1.CheckSessionResponse> isSessionExpired(
+      $1.CheckSessionRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$isSessionExpired, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
+  $grpc.ResponseFuture<$1.EmptyResponse> prolongateSession($0.Empty request,
       {$grpc.CallOptions options}) {
     final call = $createCall(
         _$prolongateSession, $async.Stream.fromIterable([request]),
@@ -1153,14 +1167,21 @@ abstract class ApiServiceBase extends $grpc.Service {
         ($core.List<$core.int> value) => $1.CheckPinRequest.fromBuffer(value),
         ($1.CheckPinResponse value) => value.writeToBuffer()));
     $addMethod(
-        $grpc.ServiceMethod<$1.ProlongateSessionRequest, $1.EmptyResponse>(
-            'ProlongateSession',
-            prolongateSession_Pre,
+        $grpc.ServiceMethod<$1.CheckSessionRequest, $1.CheckSessionResponse>(
+            'IsSessionExpired',
+            isSessionExpired_Pre,
             false,
             false,
             ($core.List<$core.int> value) =>
-                $1.ProlongateSessionRequest.fromBuffer(value),
-            ($1.EmptyResponse value) => value.writeToBuffer()));
+                $1.CheckSessionRequest.fromBuffer(value),
+            ($1.CheckSessionResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.Empty, $1.EmptyResponse>(
+        'ProlongateSession',
+        prolongateSession_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
+        ($1.EmptyResponse value) => value.writeToBuffer()));
     $addMethod(
         $grpc.ServiceMethod<$1.LimitOrdersRequest, $1.LimitOrdersResponse>(
             'GetOrders',
@@ -1638,8 +1659,14 @@ abstract class ApiServiceBase extends $grpc.Service {
     return checkPin(call, await request);
   }
 
-  $async.Future<$1.EmptyResponse> prolongateSession_Pre($grpc.ServiceCall call,
-      $async.Future<$1.ProlongateSessionRequest> request) async {
+  $async.Future<$1.CheckSessionResponse> isSessionExpired_Pre(
+      $grpc.ServiceCall call,
+      $async.Future<$1.CheckSessionRequest> request) async {
+    return isSessionExpired(call, await request);
+  }
+
+  $async.Future<$1.EmptyResponse> prolongateSession_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.Empty> request) async {
     return prolongateSession(call, await request);
   }
 
@@ -1933,8 +1960,10 @@ abstract class ApiServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $1.VerifyLoginSmsRequest request);
   $async.Future<$1.CheckPinResponse> checkPin(
       $grpc.ServiceCall call, $1.CheckPinRequest request);
+  $async.Future<$1.CheckSessionResponse> isSessionExpired(
+      $grpc.ServiceCall call, $1.CheckSessionRequest request);
   $async.Future<$1.EmptyResponse> prolongateSession(
-      $grpc.ServiceCall call, $1.ProlongateSessionRequest request);
+      $grpc.ServiceCall call, $0.Empty request);
   $async.Future<$1.LimitOrdersResponse> getOrders(
       $grpc.ServiceCall call, $1.LimitOrdersRequest request);
   $async.Future<$1.PlaceOrderResponse> placeLimitOrder(

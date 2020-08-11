@@ -692,26 +692,26 @@ class CheckPinRequest extends $pb.GeneratedMessage {
   void clearPin() => clearField(2);
 }
 
-class ProlongateSessionRequest extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ProlongateSessionRequest', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+class CheckSessionRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('CheckSessionRequest', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
     ..aOS(1, 'sessionId', protoName: 'sessionId')
     ..hasRequiredFields = false
   ;
 
-  ProlongateSessionRequest._() : super();
-  factory ProlongateSessionRequest() => create();
-  factory ProlongateSessionRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory ProlongateSessionRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-  ProlongateSessionRequest clone() => ProlongateSessionRequest()..mergeFromMessage(this);
-  ProlongateSessionRequest copyWith(void Function(ProlongateSessionRequest) updates) => super.copyWith((message) => updates(message as ProlongateSessionRequest));
+  CheckSessionRequest._() : super();
+  factory CheckSessionRequest() => create();
+  factory CheckSessionRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory CheckSessionRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  CheckSessionRequest clone() => CheckSessionRequest()..mergeFromMessage(this);
+  CheckSessionRequest copyWith(void Function(CheckSessionRequest) updates) => super.copyWith((message) => updates(message as CheckSessionRequest));
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static ProlongateSessionRequest create() => ProlongateSessionRequest._();
-  ProlongateSessionRequest createEmptyInstance() => create();
-  static $pb.PbList<ProlongateSessionRequest> createRepeated() => $pb.PbList<ProlongateSessionRequest>();
+  static CheckSessionRequest create() => CheckSessionRequest._();
+  CheckSessionRequest createEmptyInstance() => create();
+  static $pb.PbList<CheckSessionRequest> createRepeated() => $pb.PbList<CheckSessionRequest>();
   @$core.pragma('dart2js:noInline')
-  static ProlongateSessionRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProlongateSessionRequest>(create);
-  static ProlongateSessionRequest _defaultInstance;
+  static CheckSessionRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CheckSessionRequest>(create);
+  static CheckSessionRequest _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get sessionId => $_getSZ(0);
@@ -3719,6 +3719,37 @@ class CheckPinResponse extends $pb.GeneratedMessage {
   void clearError() => clearField(2);
   @$pb.TagNumber(2)
   ErrorV1 ensureError() => $_ensure(1);
+}
+
+class CheckSessionResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('CheckSessionResponse', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOB(1, 'expired')
+    ..hasRequiredFields = false
+  ;
+
+  CheckSessionResponse._() : super();
+  factory CheckSessionResponse() => create();
+  factory CheckSessionResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory CheckSessionResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  CheckSessionResponse clone() => CheckSessionResponse()..mergeFromMessage(this);
+  CheckSessionResponse copyWith(void Function(CheckSessionResponse) updates) => super.copyWith((message) => updates(message as CheckSessionResponse));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static CheckSessionResponse create() => CheckSessionResponse._();
+  CheckSessionResponse createEmptyInstance() => create();
+  static $pb.PbList<CheckSessionResponse> createRepeated() => $pb.PbList<CheckSessionResponse>();
+  @$core.pragma('dart2js:noInline')
+  static CheckSessionResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CheckSessionResponse>(create);
+  static CheckSessionResponse _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.bool get expired => $_getBF(0);
+  @$pb.TagNumber(1)
+  set expired($core.bool v) { $_setBool(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasExpired() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearExpired() => clearField(1);
 }
 
 class LimitOrdersResponse_OrdersPayload extends $pb.GeneratedMessage {
