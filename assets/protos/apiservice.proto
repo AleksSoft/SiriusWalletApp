@@ -47,7 +47,8 @@ service ApiService {
     rpc VerifyLoginSms(VerifyLoginSmsRequest) returns (VerifyLoginSmsResponse);
     rpc CheckPin(CheckPinRequest) returns (CheckPinResponse);
 
-    rpc ProlongateSession(ProlongateSessionRequest) returns (EmptyResponse);
+    rpc IsSessionExpired(CheckSessionRequest) returns (CheckSessionResponse);
+    rpc ProlongateSession(google.protobuf.Empty) returns (EmptyResponse);
 
     // GET /api/offchain/limit/list
     rpc GetOrders (LimitOrdersRequest) returns (LimitOrdersResponse);
@@ -226,7 +227,7 @@ message CheckPinRequest {
     string pin = 2;
 }
 
-message ProlongateSessionRequest {
+message CheckSessionRequest {
     string sessionId = 1;
 }
 
@@ -624,6 +625,10 @@ message CheckPinResponse {
     message CheckPinPayload {
         bool passed = 1;
     }
+}
+
+message CheckSessionResponse {
+    bool expired = 1;
 }
 
 message LimitOrdersResponse {

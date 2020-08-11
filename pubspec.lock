@@ -323,7 +323,7 @@ packages:
       name: get
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.4.1"
+    version: "3.4.4"
   get_storage:
     dependency: "direct main"
     description:
