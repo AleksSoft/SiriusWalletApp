@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:antares_wallet/app/common/app_storage_keys.dart';
 import 'package:antares_wallet/app/ui/app_colors.dart';
+import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/services/repositories/session_repository.dart';
 import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
 import 'package:antares_wallet/ui/pages/register/register_page.dart';
@@ -38,6 +39,21 @@ class LoginController extends GetxController {
   String passwordValue = '';
   String smsCodeValue = '';
   String token = '';
+
+  final _currentBaseUrl = ''.obs;
+  String get currentBaseUrl => this._currentBaseUrl.value;
+  set currentBaseUrl(String url) {
+    if (url != currentBaseUrl) {
+      _currentBaseUrl.value = url;
+      _storage.write(AppStorageKeys.baseUrl, url);
+    }
+  }
+
+  @override
+  void onInit() {
+    currentBaseUrl = Get.find<ApiService>().baseUrl;
+    super.onInit();
+  }
 
   @override
   void onReady() async {
