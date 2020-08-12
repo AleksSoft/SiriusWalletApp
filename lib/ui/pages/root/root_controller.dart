@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:antares_wallet/app/common/app_storage_keys.dart';
 import 'package:antares_wallet/services/repositories/session_repository.dart';
 import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
@@ -19,6 +21,15 @@ class RootController extends GetxController with WidgetsBindingObserver {
   @override
   void onInit() {
     WidgetsBinding.instance.addObserver(this);
+    Timer.periodic(
+      Duration(minutes: 2),
+      (Timer _) async {
+        String sessionId = _storage.read(AppStorageKeys.token);
+        var expired =
+            await SessionRepository.isSessionExpired(sessionId: sessionId);
+        if (expired) await SessionRepository.prolongateSession();
+      },
+    );
     super.onInit();
   }
 

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/src/google/protobuf/empty.pb.dart';
@@ -18,6 +20,35 @@ class SessionRepository {
         onConfirm: () => Get.back(),
       );
       return List();
+    }
+  }
+
+  static Future<bool> prolongateSession() async {
+    try {
+      await _api.clientSecure.prolongateSession(Empty());
+      return true;
+    } catch (e) {
+      Get.defaultDialog(
+        title: 'ProlongateSession Error',
+        middleText: e.message,
+        onConfirm: () => Get.back(),
+      );
+      return false;
+    }
+  }
+
+  static Future<bool> isSessionExpired({@required String sessionId}) async {
+    try {
+      final response = await _api.client
+          .isSessionExpired(CheckSessionRequest()..sessionId = sessionId);
+      return response.expired;
+    } catch (e) {
+      Get.defaultDialog(
+        title: 'IsSessionExpired Error',
+        middleText: e.message,
+        onConfirm: () => Get.back(),
+      );
+      return true;
     }
   }
 
