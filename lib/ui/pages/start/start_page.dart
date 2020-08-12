@@ -121,7 +121,7 @@ class StartPage extends StatelessWidget {
                         ),
                 ),
                 Visibility(
-                  visible: true,
+                  visible: !_.loading,
                   child: Positioned(
                     top: AppSizes.small,
                     right: AppSizes.small,

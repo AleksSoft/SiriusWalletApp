@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
-import 'package:antares_wallet/services/repositories/trading_repository.dart';
+import 'package:antares_wallet/repositories/trading_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
 import 'package:antares_wallet/ui/pages/orders/order_details/order_details_page.dart';
@@ -94,15 +94,15 @@ class TradingController extends GetxController {
   // }
 
   openOrderDetails(bool isBuy) async {
-    _candleSubscr.pause();
-    _orderbookSubscr.pause();
-    _tradesSubscr.pause();
+    _candleSubscr?.pause();
+    _orderbookSubscr?.pause();
+    _tradesSubscr?.pause();
     await Get.toNamed(
         '${OrderDetailsPage.route}?operationType=${isBuy ? 'buy' : 'sell'}',
         arguments: initialMarket);
-    _candleSubscr.resume();
-    _orderbookSubscr.resume();
-    _tradesSubscr.resume();
+    _candleSubscr?.resume();
+    _orderbookSubscr?.resume();
+    _tradesSubscr?.resume();
   }
 
   onZooming(ZoomPanArgs args) {
@@ -143,7 +143,10 @@ class TradingController extends GetxController {
       from: from,
       to: to,
     ).then((newCandles) {
-      if (newCandles != null && newCandles.isNotEmpty) {
+      if (newCandles == null) {
+        noCandleData = true;
+        allCandlesLoaded = true;
+      } else if (newCandles.isNotEmpty) {
         candles.insertAll(0, newCandles);
         if (candleController != null) {
           candleController.updateDataSource(
@@ -176,7 +179,6 @@ class TradingController extends GetxController {
               ..interval = CandleInterval.Hour)
             .listen((CandleUpdate update) => _updateCandles(update));
       },
-      onError: (_) => noCandleData = true,
     );
   }
 

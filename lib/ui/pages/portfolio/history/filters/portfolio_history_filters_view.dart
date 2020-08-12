@@ -1,7 +1,7 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
-import 'package:antares_wallet/services/repositories/portfolio_history_repository.dart';
+import 'package:antares_wallet/repositories/portfolio_history_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:date_range_picker/date_range_picker.dart' as DateRagePicker;
 import 'package:flutter/cupertino.dart';

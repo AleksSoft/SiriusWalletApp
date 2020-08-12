@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:antares_wallet/app/common/app_storage_keys.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
+import 'package:antares_wallet/repositories/markets_repository.dart';
+import 'package:antares_wallet/repositories/watchists_repository.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
-import 'package:antares_wallet/services/repositories/markets_repository.dart';
-import 'package:antares_wallet/services/repositories/watchists_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/root/root_controller.dart';
 import 'package:flutter/foundation.dart';

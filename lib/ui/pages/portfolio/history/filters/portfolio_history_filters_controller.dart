@@ -1,4 +1,4 @@
-import 'package:antares_wallet/services/repositories/portfolio_history_repository.dart';
+import 'package:antares_wallet/repositories/portfolio_history_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/select_asset/select_asset_controller.dart';
 import 'package:antares_wallet/ui/pages/select_asset/select_asset_page.dart';

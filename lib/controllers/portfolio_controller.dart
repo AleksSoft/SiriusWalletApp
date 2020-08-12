@@ -1,5 +1,5 @@
 import 'package:antares_wallet/controllers/assets_controller.dart';
-import 'package:antares_wallet/services/repositories/portfolio_repository.dart';
+import 'package:antares_wallet/repositories/portfolio_repository.dart';
 import 'package:antares_wallet/src/apiservice.pbgrpc.dart';
 import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
 import 'package:antares_wallet/ui/pages/root/root_controller.dart';

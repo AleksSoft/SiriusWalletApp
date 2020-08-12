@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:antares_wallet/app/common/app_storage_keys.dart';
-import 'package:antares_wallet/services/repositories/session_repository.dart';
+import 'package:antares_wallet/repositories/session_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
 import 'package:antares_wallet/ui/pages/register/register_result_page.dart';

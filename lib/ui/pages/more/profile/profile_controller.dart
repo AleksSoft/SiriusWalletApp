@@ -1,6 +1,6 @@
 import 'package:antares_wallet/models/account_data.dart';
 import 'package:antares_wallet/models/personal_data.dart';
-import 'package:antares_wallet/services/repositories/profile_repository.dart';
+import 'package:antares_wallet/repositories/profile_repository.dart';
 import 'package:get/get.dart';
 
 class ProfileController extends GetxController {

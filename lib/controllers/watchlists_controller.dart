@@ -1,5 +1,5 @@
 import 'package:antares_wallet/app/common/app_storage_keys.dart';
-import 'package:antares_wallet/services/repositories/watchists_repository.dart';
+import 'package:antares_wallet/repositories/watchists_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/ui/pages/exchange/watchlists/edit/edit_watchlist_page.dart';

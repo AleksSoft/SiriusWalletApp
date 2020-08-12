@@ -1,4 +1,4 @@
-import 'package:antares_wallet/services/repositories/trading_repository.dart';
+import 'package:antares_wallet/repositories/trading_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
 import 'package:get/get.dart';
