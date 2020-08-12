@@ -43,8 +43,13 @@ class TradingController extends GetxController {
 
   final trades = List<PublicTrade>().obs;
 
+  final _noCandleData = false.obs;
+  bool get noCandleData => this._noCandleData.value;
+  set noCandleData(bool value) => this._noCandleData.value = value;
+
   @override
   void onInit() async {
+    noCandleData = false;
     loading = true;
     // load pair market data
     updateWithMarket(Get.arguments as MarketModel)
@@ -161,15 +166,18 @@ class TradingController extends GetxController {
       candles.clear();
     }
     // load candle data
-    await updateCandlesHistory().then((value) {
-      // subscribe to candle stream
-      _candleSubscr = _api.clientSecure
-          .getCandleUpdates(CandleUpdatesRequest()
-            ..assetPairId = initialMarket.pairId
-            ..type = CandleType.Mid
-            ..interval = CandleInterval.Hour)
-          .listen((CandleUpdate update) => _updateCandles(update));
-    });
+    await updateCandlesHistory().then(
+      (value) {
+        // subscribe to candle stream
+        _candleSubscr = _api.clientSecure
+            .getCandleUpdates(CandleUpdatesRequest()
+              ..assetPairId = initialMarket.pairId
+              ..type = CandleType.Mid
+              ..interval = CandleInterval.Hour)
+            .listen((CandleUpdate update) => _updateCandles(update));
+      },
+      onError: (_) => noCandleData = true,
+    );
   }
 
   _initOrders() async {
