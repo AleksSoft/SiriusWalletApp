@@ -28,12 +28,10 @@ class Formatter {
     var splitted = s.split('.');
     if (splitted.length == 2) {
       var length = splitted[1].length;
-      if (length > decimalDigits) {
-        if (maxDecimal == null) {
-          decimalDigits = length > 8 ? maxDecimalDigits : length;
-        } else {
-          decimalDigits = maxDecimal;
-        }
+      if (maxDecimal == null) {
+        decimalDigits = length > 8 ? maxDecimalDigits : length;
+      } else {
+        decimalDigits = maxDecimal;
       }
     }
 

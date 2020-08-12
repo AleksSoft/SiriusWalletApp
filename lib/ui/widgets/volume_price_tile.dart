@@ -31,6 +31,7 @@ class VolumePriceTile extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           LinearPercentIndicator(
+            isRTL: true,
             lineHeight: AppSizes.extraLarge - 2,
             padding: const EdgeInsets.all(0.0),
             linearStrokeCap: LinearStrokeCap.butt,

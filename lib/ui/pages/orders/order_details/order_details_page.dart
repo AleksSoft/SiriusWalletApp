@@ -376,16 +376,14 @@ class _OrderbookView extends StatelessWidget {
               shrinkWrap: true,
               itemBuilder: (context, i) {
                 if (c.bids.length <= i) {
-                  return VolumePriceTile(
-                    color: AppColors.red,
-                  );
+                  return VolumePriceTile(color: AppColors.red);
                 } else {
                   var a = c.bids[i];
                   return VolumePriceTile(
-                    volume: Formatter.currency(a.v),
+                    volume: Formatter.currency(a.v, maxDecimal: 8),
                     price: Formatter.currency(a.p),
                     color: AppColors.red,
-                    percent: 0.35,
+                    percent: 0.50,
                   );
                 }
               },
@@ -402,16 +400,14 @@ class _OrderbookView extends StatelessWidget {
                   : c.orderbookItemsCount,
               itemBuilder: (context, i) {
                 if (c.asks.length <= i) {
-                  return VolumePriceTile(
-                    color: AppColors.green,
-                  );
+                  return VolumePriceTile(color: AppColors.green);
                 } else {
                   var a = c.asks[i];
                   return VolumePriceTile(
-                    volume: Formatter.currency(a.v),
+                    volume: Formatter.currency(a.v, maxDecimal: 8),
                     price: Formatter.currency(a.p),
                     color: AppColors.green,
-                    percent: 0.35,
+                    percent: 0.50,
                   );
                 }
               },
