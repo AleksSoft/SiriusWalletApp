@@ -43,7 +43,7 @@ void main() async {
         title: 'Antares Wallet',
         theme: AppThemes.light,
         themeMode: ThemeMode.system,
-        initialBinding: StartBinding(),
+        initialBinding: InitialBinding(),
         // navigatorObservers: [
         //   FirebaseAnalyticsObserver(analytics: FirebaseAnalytics()),
         // ],

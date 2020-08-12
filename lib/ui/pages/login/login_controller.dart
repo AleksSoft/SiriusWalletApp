@@ -44,7 +44,7 @@ class LoginController extends GetxController {
     super.onReady();
     String sessionId = _storage.read(AppStorageKeys.token);
     if (!sessionId.isNullOrBlank) {
-      _verifyPin(sessionId);
+      _verifyPin(sessionId).whenComplete(() => loading = false);
     } else {
       loading = false;
     }
@@ -116,7 +116,7 @@ class LoginController extends GetxController {
     loading = false;
   }
 
-  _verifyPin(String token) async {
+  Future _verifyPin(String token) async {
     var pinCorrect = await Get.toNamed(LocalAuthPage.route);
     if (pinCorrect) {
       var pin = _storage.read(AppStorageKeys.pinCode);

@@ -1,9 +1,10 @@
-import 'package:antares_wallet/bindings/initial_binding.dart';
+import 'package:antares_wallet/bindings/local_auth_binding.dart';
 import 'package:antares_wallet/bindings/order_details_binding.dart';
 import 'package:antares_wallet/bindings/register_binding.dart';
 import 'package:antares_wallet/bindings/root_binding.dart';
 import 'package:antares_wallet/bindings/profile_binding.dart';
 import 'package:antares_wallet/bindings/settings_binding.dart';
+import 'package:antares_wallet/bindings/start_binding.dart';
 import 'package:antares_wallet/bindings/support_binding.dart';
 import 'package:antares_wallet/bindings/trading_binding.dart';
 import 'package:antares_wallet/ui/pages/asset_info/asset_info_page.dart';
@@ -40,6 +41,7 @@ class AppRoutes {
     GetPage(
       name: LocalAuthPage.route,
       page: () => LocalAuthPage(),
+      binding: LocalAuthBinding(),
       fullscreenDialog: true,
     ),
     GetPage(
