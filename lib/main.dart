@@ -44,6 +44,7 @@ void main() async {
         theme: AppThemes.light,
         themeMode: ThemeMode.system,
         initialBinding: InitialBinding(),
+
         // navigatorObservers: [
         //   FirebaseAnalyticsObserver(analytics: FirebaseAnalytics()),
         // ],
