@@ -5,6 +5,7 @@ import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class OrderDetailsController extends GetxController {
@@ -14,6 +15,9 @@ class OrderDetailsController extends GetxController {
 
   static final _api = Get.find<ApiService>();
 
+  final priceTextController = TextEditingController();
+  final buyTextController = TextEditingController();
+  final totalTextController = TextEditingController();
   final _portfolioCon = PortfolioController.con;
 
   StreamSubscription _orderbookSubscr;
@@ -25,10 +29,6 @@ class OrderDetailsController extends GetxController {
   final _orderType = 'Limit'.obs;
   String get orderType => this._orderType.value;
   set orderType(String value) => this._orderType.value = value;
-
-  final _price = ''.obs;
-  String get price => this._price.value;
-  set price(String value) => this._price.value = value;
 
   final _amount = 0.0.obs;
   double get amount => this._amount.value;
@@ -81,14 +81,15 @@ class OrderDetailsController extends GetxController {
             .getMarkets(assetPairId: initialMarket.pairId))
         .first;
 
+    priceTextController.text = marketModel.lastPrice;
+
     // load balances
     await _portfolioCon.getBalances();
 
-    if (_orderbookSubscr != null) {
-      await _orderbookSubscr.cancel();
-      asks.clear();
-      bids.clear();
-    }
+    await _orderbookSubscr?.cancel();
+    asks.clear();
+    bids.clear();
+
     // subscribe to orderbook stream
     _orderbookSubscr = _api.clientSecure
         .getOrderbookUpdates(

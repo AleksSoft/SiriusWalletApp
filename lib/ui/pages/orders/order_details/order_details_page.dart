@@ -7,6 +7,7 @@ import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
 import 'package:antares_wallet/ui/widgets/volume_price_tile.dart';
 import 'package:antares_wallet/utils/formatter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:search_page/search_page.dart';
 import 'dart:math' as math;
@@ -144,16 +145,10 @@ class _EditView extends StatelessWidget {
             child: c.orderType.toLowerCase() == 'limit'
                 ? Theme(
                     data: Get.theme.copyWith(primaryColor: AppColors.accent),
-                    child: TextField(
-                      onChanged: (p) => c.price = p,
+                    child: TextFormField(
+                      controller: c.priceTextController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.fromLTRB(
-                          0.0,
-                          AppSizes.small,
-                          AppSizes.medium,
-                          AppSizes.small,
-                        ),
                         labelText: 'Price',
                       ),
                     ),
@@ -165,16 +160,10 @@ class _EditView extends StatelessWidget {
         Obx(
           () => Theme(
             data: Get.theme.copyWith(primaryColor: AppColors.accent),
-            child: TextField(
-              onChanged: (p) => c.price = p,
+            child: TextFormField(
+              controller: c.buyTextController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.fromLTRB(
-                  0.0,
-                  AppSizes.small,
-                  AppSizes.medium,
-                  AppSizes.small,
-                ),
                 labelText:
                     '${c.isBuy ? 'Buy' : 'Sell'} (${c.initialMarket.pairBaseAsset.displayId})',
               ),
@@ -217,16 +206,10 @@ class _EditView extends StatelessWidget {
         Obx(
           () => Theme(
             data: Get.theme.copyWith(primaryColor: AppColors.accent),
-            child: TextField(
-              onChanged: (p) => c.price = p,
+            child: TextFormField(
+              controller: c.totalTextController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.fromLTRB(
-                  0.0,
-                  AppSizes.small,
-                  AppSizes.medium,
-                  AppSizes.small,
-                ),
                 labelText:
                     'Total (${c.initialMarket.pairQuotingAsset.displayId})',
               ),
@@ -380,7 +363,7 @@ class _OrderbookView extends StatelessWidget {
                 } else {
                   var a = c.bids[i];
                   return VolumePriceTile(
-                    volume: Formatter.currency(a.v, maxDecimal: 8),
+                    volume: Formatter.currency(a.v),
                     price: Formatter.currency(a.p),
                     color: AppColors.red,
                     percent: 0.50,
@@ -404,7 +387,7 @@ class _OrderbookView extends StatelessWidget {
                 } else {
                   var a = c.asks[i];
                   return VolumePriceTile(
-                    volume: Formatter.currency(a.v, maxDecimal: 8),
+                    volume: Formatter.currency(a.v),
                     price: Formatter.currency(a.p),
                     color: AppColors.green,
                     percent: 0.50,

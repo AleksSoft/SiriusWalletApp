@@ -55,40 +55,45 @@ class TradingPage extends StatelessWidget {
           ),
         ),
       ),
-      body: Stack(
-        children: <Widget>[
-          ListView(
-            shrinkWrap: true,
-            children: [
-              _HeaderView(),
-              Divider(height: 1),
-              _CandleChartView(),
-              Divider(height: 1),
-              Container(
-                height: 28 * AppSizes.extraLarge,
-                child: DefaultTabController(
-                  initialIndex: 0,
-                  length: 2,
-                  child: Column(
-                    children: [
-                      TabBar(
-                        indicatorWeight: 1.0,
-                        indicatorColor: Colors.black,
-                        tabs: [Tab(text: 'Order book'), Tab(text: 'Tradelog')],
-                      ),
-                      Expanded(
-                        child: TabBarView(
-                          children: [_Orderbook(), _Tradelog()],
+      body: SafeArea(
+        child: Stack(
+          children: <Widget>[
+            ListView(
+              shrinkWrap: true,
+              children: [
+                _HeaderView(),
+                Divider(height: 1),
+                _CandleChartView(),
+                Divider(height: 1),
+                Container(
+                  height: 28 * AppSizes.extraLarge,
+                  child: DefaultTabController(
+                    initialIndex: 0,
+                    length: 2,
+                    child: Column(
+                      children: [
+                        TabBar(
+                          indicatorWeight: 1.0,
+                          indicatorColor: Colors.black,
+                          tabs: [
+                            Tab(text: 'Order book'),
+                            Tab(text: 'Tradelog')
+                          ],
                         ),
-                      ),
-                    ],
+                        Expanded(
+                          child: TabBarView(
+                            children: [_Orderbook(), _Tradelog()],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          _BuySellButtonRow(),
-        ],
+              ],
+            ),
+            _BuySellButtonRow(),
+          ],
+        ),
       ),
     );
   }
@@ -331,16 +336,14 @@ class _CandleChartView extends StatelessWidget {
                       ),
                       primaryXAxis: DateTimeAxis(
                         name: 'primaryXAxis',
-                        zoomFactor: 0.1,
-                        desiredIntervals: 4,
-                        zoomPosition: 0.9,
+                        zoomFactor: 0.01,
+                        zoomPosition: 0.99,
                         dateFormat: DateFormat('dd.MM.yy HH:mm'),
                         intervalType: DateTimeIntervalType.days,
                         majorGridLines: MajorGridLines(width: 0),
                       ),
                       primaryYAxis: NumericAxis(
                         name: 'primaryYAxis',
-                        desiredIntervals: 4,
                         opposedPosition: true,
                         labelStyle: TextStyle(color: AppColors.secondary),
                         axisLine: AxisLine(width: 0),
@@ -367,11 +370,11 @@ class _CandleChartView extends StatelessWidget {
                           lowValueMapper: (candle, _) =>
                               double.parse(candle.low, (_) => 0.0),
                           highValueMapper: (candle, _) =>
-                              double.parse(candle.low, (_) => 0.0),
+                              double.parse(candle.high, (_) => 0.0),
                           openValueMapper: (candle, _) =>
-                              double.parse(candle.low, (_) => 0.0),
+                              double.parse(candle.open, (_) => 0.0),
                           closeValueMapper: (candle, _) =>
-                              double.parse(candle.low, (_) => 0.0),
+                              double.parse(candle.close, (_) => 0.0),
                           dataLabelSettings:
                               DataLabelSettings(isVisible: false),
                           onRendererCreated:

@@ -134,7 +134,7 @@ class LoginController extends GetxController {
 
   Future _verifyPin(String token) async {
     var pinCorrect = await Get.toNamed(LocalAuthPage.route);
-    if (pinCorrect) {
+    if (pinCorrect ?? false) {
       var pin = _storage.read(AppStorageKeys.pinCode);
       if (await SessionRepository.checkPin(sessionId: token, pin: pin)) {
         _storage.write(AppStorageKeys.token, token);
