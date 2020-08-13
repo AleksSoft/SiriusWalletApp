@@ -94,13 +94,44 @@ class OrderDetailsController extends GetxController {
     _orderbookSubscr = _api.clientSecure
         .getOrderbookUpdates(
             OrderbookUpdatesRequest()..assetPairId = initialMarket.pairId)
-        .listen((Orderbook update) {
-      asks.addAllNonNull(update?.asks);
-      bids.addAllNonNull(update?.bids);
+        .map((event) {
+      var orderbook = Orderbook();
+      orderbook.assetPairId = event.assetPairId;
+      orderbook.bids.addAll(_getMergedPriceVolumes(bids.value, event.bids));
+      orderbook.asks.addAll(_getMergedPriceVolumes(asks.value, event.asks));
+      return orderbook;
+    }).listen((update) {
+      if (update.bids.isNotEmpty) bids.assignAll(update.bids);
+      if (update.asks.isNotEmpty) asks.assignAll(update.asks);
     });
   }
 
   updatePercent(num percent) {}
 
-  perform() {}
+  perform() {
+    if (orderType.toLowerCase() == 'limit') {
+    } else if (orderType.toLowerCase() == 'market') {}
+  }
+
+  List<Orderbook_PriceVolume> _getMergedPriceVolumes(
+    List<Orderbook_PriceVolume> oldPV,
+    List<Orderbook_PriceVolume> newPV,
+  ) {
+    newPV.forEach((update) {
+      if (update.v == '0') {
+        oldPV.removeWhere((_) => _.p == update.p);
+      } else {
+        if (update.v.startsWith('-')) {
+          update.v = update.v.replaceFirst('-', '');
+        }
+        int index = oldPV.indexWhere((_) => _.p == update.p);
+        if (index < 0) {
+          oldPV.add(update);
+        } else {
+          oldPV[index] = update;
+        }
+      }
+    });
+    return oldPV;
+  }
 }

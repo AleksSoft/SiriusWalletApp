@@ -161,13 +161,11 @@ class TradingController extends GetxController {
 
   _initCandles() async {
     // reload candle data list and subscription
-    if (_candleSubscr != null) {
-      await _candleSubscr.cancel();
-      candleController.updateDataSource(
-        removedDataIndexes: <int>[candles.length],
-      );
-      candles.clear();
-    }
+    await _candleSubscr?.cancel();
+    candleController?.updateDataSource(
+      removedDataIndexes: <int>[candles.length],
+    );
+    candles.clear();
     // load candle data
     await updateCandlesHistory().then(
       (value) {
@@ -183,28 +181,30 @@ class TradingController extends GetxController {
   }
 
   _initOrders() async {
-    // subscribe to orderbook stream
-    if (_orderbookSubscr != null) {
-      await _orderbookSubscr.cancel();
-      asks.clear();
-      bids.clear();
-    }
+    // reload orderbook and subscription
+    await _orderbookSubscr?.cancel();
+    asks.clear();
+    bids.clear();
     // subscribe to orderbook stream
     _orderbookSubscr = _api.clientSecure
         .getOrderbookUpdates(
             OrderbookUpdatesRequest()..assetPairId = initialMarket.pairId)
-        .listen((Orderbook update) {
-      asks.addAllNonNull(update?.asks);
-      bids.addAllNonNull(update?.bids);
+        .map((event) {
+      var orderbook = Orderbook();
+      orderbook.assetPairId = event.assetPairId;
+      orderbook.bids.addAll(_getMergedPriceVolumes(bids.value, event.bids));
+      orderbook.asks.addAll(_getMergedPriceVolumes(asks.value, event.asks));
+      return orderbook;
+    }).listen((update) {
+      if (update.bids.isNotEmpty) bids.assignAll(update.bids);
+      if (update.asks.isNotEmpty) asks.assignAll(update.asks);
     });
   }
 
   _initTrades() async {
     // reload tade data list and subscription
-    if (_tradesSubscr != null) {
-      await _tradesSubscr.cancel();
-      trades.clear();
-    }
+    await _tradesSubscr?.cancel();
+    trades.clear();
     // subscribe to tades stream
     _tradesSubscr = _api.clientSecure
         .getPublicTradeUpdates(
@@ -243,6 +243,28 @@ class TradingController extends GetxController {
         }
       }
     }
+  }
+
+  List<Orderbook_PriceVolume> _getMergedPriceVolumes(
+    List<Orderbook_PriceVolume> oldPV,
+    List<Orderbook_PriceVolume> newPV,
+  ) {
+    newPV.forEach((update) {
+      if (update.v == '0') {
+        oldPV.removeWhere((_) => _.p == update.p);
+      } else {
+        if (update.v.startsWith('-')) {
+          update.v = update.v.replaceFirst('-', '');
+        }
+        int index = oldPV.indexWhere((_) => _.p == update.p);
+        if (index < 0) {
+          oldPV.add(update);
+        } else {
+          oldPV[index] = update;
+        }
+      }
+    });
+    return oldPV;
   }
 
   Duration _getCandleUpdateTimeDelta(CandleInterval interval) {
