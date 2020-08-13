@@ -15,7 +15,7 @@ class ErrorHandler {
         )
         .catchError(_handleError);
     try {
-      if (response?.error != null && response.error.hasRequiredFields()) {
+      if (response?.error != null && response.error.hasMessage()) {
         _handleApiError(response.error);
         return null;
       }
