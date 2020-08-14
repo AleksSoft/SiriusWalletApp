@@ -16,7 +16,7 @@ class OrderDetailsController extends GetxController {
   static final _api = Get.find<ApiService>();
 
   final priceTextController = TextEditingController();
-  final buyTextController = TextEditingController();
+  final amountTextController = TextEditingController();
   final totalTextController = TextEditingController();
   final _portfolioCon = PortfolioController.con;
 
@@ -30,9 +30,17 @@ class OrderDetailsController extends GetxController {
   String get orderType => this._orderType.value;
   set orderType(String value) => this._orderType.value = value;
 
-  final _amount = 0.0.obs;
-  double get amount => this._amount.value;
-  set amount(double value) => this._amount.value = value;
+  final _locked = false.obs;
+  bool get locked => this._locked.value;
+  set locked(bool value) => this._locked.value = value;
+
+  final _actionAllowed = false.obs;
+  bool get actionAllowed => this._actionAllowed.value;
+  set actionAllowed(bool value) => this._actionAllowed.value = value;
+
+  final _amount = '0.0'.obs;
+  String get amount => this._amount.value;
+  set amount(String value) => this._amount.value = value;
 
   final _initialMarket = MarketModel.empty().obs;
   MarketModel get initialMarket => this._initialMarket.value;
@@ -49,21 +57,25 @@ class OrderDetailsController extends GetxController {
 
   final _defaultHeight =
       (Get.height - (Get.context.mediaQueryPadding.top + 56.0 * 2));
-  double get defaultHeight => _defaultHeight;
-
-  int get orderbookItemsCount => (defaultHeight / 2) ~/ AppSizes.extraLarge;
 
   @override
   void onInit() async {
     // load pair market data
     await updateWithMarket(Get.arguments as MarketModel);
+
+    ever(_isBuy, (_) => reloadTextValues());
+    ever(_amount, (_) => _updateAllowed());
+
     super.onInit();
   }
 
   @override
   void onClose() async {
     // close orderbook stream subscription
-    if (_orderbookSubscr != null) await _orderbookSubscr.cancel();
+    await _orderbookSubscr?.cancel();
+    priceTextController.dispose();
+    amountTextController.dispose();
+    totalTextController.dispose();
     super.onClose();
   }
 
@@ -75,13 +87,16 @@ class OrderDetailsController extends GetxController {
   String get quotingBalance =>
       _portfolioCon.assetBalance(initialMarket.pairQuotingAsset.id)?.available;
 
+  double get defaultHeight => _defaultHeight;
+  int get orderbookItemsCount => (defaultHeight / 2) ~/ AppSizes.extraLarge;
+
   updateWithMarket(MarketModel data) async {
     initialMarket = data;
     marketModel = (await MarketsController.con
             .getMarkets(assetPairId: initialMarket.pairId))
         .first;
 
-    priceTextController.text = marketModel.lastPrice;
+    reloadTextValues();
 
     // load balances
     await _portfolioCon.getBalances();
@@ -106,11 +121,52 @@ class OrderDetailsController extends GetxController {
     });
   }
 
-  updatePercent(num percent) {}
+  reloadTextValues() {
+    priceTextController.text = marketModel.lastPrice;
+    amountTextController.text = '0.00';
+    amount = amountTextController.text;
+    totalTextController.text = '0.00';
+  }
+
+  updatePercent(double percent) {
+    double balance =
+        double.tryParse(isBuy ? quotingBalance : baseBalance) ?? 0.0;
+    amountTextController.text = (balance * percent).toString();
+    amount = amountTextController.text;
+    totalTextController.text = _countTotal().toString();
+  }
 
   perform() {
+    print('Action Performed');
     if (orderType.toLowerCase() == 'limit') {
     } else if (orderType.toLowerCase() == 'market') {}
+  }
+
+  priceChanged(String s) {
+    totalTextController.text = _countTotal().toString();
+    _updateAllowed();
+  }
+
+  amountChanged(String s) {
+    amount = amountTextController.text;
+    totalTextController.text = _countTotal().toString();
+  }
+
+  totalChanged(String s) {
+    amountTextController.text = _countAmount().toString();
+    amount = amountTextController.text;
+  }
+
+  double _countTotal() {
+    double price = double.tryParse(priceTextController.text) ?? 0.0;
+    double amount = double.tryParse(amountTextController.text) ?? 0.0;
+    return price * amount;
+  }
+
+  double _countAmount() {
+    double price = double.tryParse(priceTextController.text) ?? 0.0;
+    double total = double.tryParse(totalTextController.text) ?? 0.0;
+    return total / price;
   }
 
   List<Orderbook_PriceVolume> _getMergedPriceVolumes(
@@ -133,5 +189,13 @@ class OrderDetailsController extends GetxController {
       }
     });
     return oldPV;
+  }
+
+  _updateAllowed() {
+    double balance =
+        double.tryParse(isBuy ? quotingBalance : baseBalance) ?? 0.0;
+    double amount = double.tryParse(amountTextController.text) ?? 0.0;
+    locked = isBuy ? _countTotal() > balance : amount > balance;
+    actionAllowed = !locked && amount > 0;
   }
 }

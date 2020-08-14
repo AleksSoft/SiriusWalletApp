@@ -146,6 +146,7 @@ class _EditView extends StatelessWidget {
                 ? Theme(
                     data: Get.theme.copyWith(primaryColor: AppColors.accent),
                     child: TextFormField(
+                      onChanged: (String s) => c.priceChanged(s),
                       controller: c.priceTextController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
@@ -161,7 +162,8 @@ class _EditView extends StatelessWidget {
           () => Theme(
             data: Get.theme.copyWith(primaryColor: AppColors.accent),
             child: TextFormField(
-              controller: c.buyTextController,
+              onChanged: (String s) => c.amountChanged(s),
+              controller: c.amountTextController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 labelText:
@@ -172,9 +174,21 @@ class _EditView extends StatelessWidget {
         ),
         AppUiHelpers.vSpaceMedium,
         Obx(
-          () => Text(
-            '${c.initialMarket.pairQuotingAsset.displayId} ${Formatter.currency(c.quotingBalance, maxDecimal: 2)} available',
-            style: Get.textTheme.caption,
+          () => AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            child: c.isBuy
+                ? Text(
+                    '${c.initialMarket.pairQuotingAsset.displayId} ${Formatter.currency(c.quotingBalance, maxDecimal: 2)} available',
+                    style: Get.textTheme.caption.copyWith(
+                      color: c.locked ? AppColors.red : AppColors.secondary,
+                    ),
+                  )
+                : Text(
+                    '${c.initialMarket.pairBaseAsset.displayId} ${Formatter.currency(c.baseBalance, maxDecimal: 2)} available',
+                    style: Get.textTheme.caption.copyWith(
+                      color: c.locked ? AppColors.red : AppColors.secondary,
+                    ),
+                  ),
           ),
         ),
         AppUiHelpers.vSpaceSmall,
@@ -186,7 +200,7 @@ class _EditView extends StatelessWidget {
             childAspectRatio: 3,
             mainAxisSpacing: AppSizes.small,
             crossAxisSpacing: AppSizes.small,
-            children: [0.25, 0.5, 0.75, 1]
+            children: <double>[0.25, 0.5, 0.75, 1.0]
                 .map((e) => SizedBox(
                       height: AppSizes.extraLarge,
                       child: OutlineButton(
@@ -207,6 +221,7 @@ class _EditView extends StatelessWidget {
           () => Theme(
             data: Get.theme.copyWith(primaryColor: AppColors.accent),
             child: TextFormField(
+              onChanged: (String s) => c.totalChanged(s),
               controller: c.totalTextController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
@@ -217,32 +232,47 @@ class _EditView extends StatelessWidget {
           ),
         ),
         AppUiHelpers.vSpaceMedium,
-        OutlineButton(
-          padding: const EdgeInsets.symmetric(
-            vertical: AppSizes.medium,
-          ),
-          shape: RoundedRectangleBorder(
-            side: BorderSide(color: AppColors.secondary),
-            borderRadius: BorderRadius.circular(AppSizes.small),
-          ),
-          onPressed: () => c.perform(),
-          child: Column(
-            children: <Widget>[
-              Obx(() => Text(
-                  '${Formatter.currency(c.amount.toString(), maxDecimal: 2)} ${c.initialMarket.pairQuotingAsset.displayId}')),
-              Obx(
-                () => Text(
-                  c.isBuy ? 'Buy' : 'Sell',
-                  style: Get.textTheme.caption.copyWith(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              )
-            ],
-          ),
-        )
+        _ActionButton()
       ],
+    );
+  }
+}
+
+class _ActionButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GetX<OrderDetailsController>(
+      builder: (_) => RaisedButton(
+        onPressed: _.actionAllowed ? () => _.perform() : null,
+        padding: const EdgeInsets.symmetric(vertical: AppSizes.small),
+        shape: RoundedRectangleBorder(
+          side: BorderSide(
+            color: _.actionAllowed ? AppColors.accent : AppColors.secondary,
+          ),
+          borderRadius: BorderRadius.circular(AppSizes.small),
+        ),
+        color: AppColors.accent,
+        disabledColor: AppColors.primary,
+        disabledTextColor: AppColors.secondary,
+        textColor: AppColors.primary,
+        splashColor: Colors.blue,
+        child: Column(
+          children: <Widget>[
+            Text(
+              '${Formatter.currency(_.amount, maxDecimal: 2)} ${_.initialMarket.pairBaseAsset.displayId}',
+            ),
+            Text(
+              _.isBuy ? 'Buy' : 'Sell',
+              style: Get.textTheme.caption.copyWith(
+                color:
+                    _.actionAllowed ? AppColors.primary : AppColors.secondary,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
