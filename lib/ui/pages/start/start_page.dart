@@ -1,4 +1,3 @@
-import 'package:antares_wallet/app/common/app_storage_keys.dart';
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/services/api/api_service.dart';

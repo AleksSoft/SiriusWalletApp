@@ -178,13 +178,13 @@ class _EditView extends StatelessWidget {
             duration: const Duration(milliseconds: 300),
             child: c.isBuy
                 ? Text(
-                    '${c.initialMarket.pairQuotingAsset.displayId} ${Formatter.currency(c.quotingBalance, maxDecimal: 2)} available',
+                    '${c.initialMarket.pairQuotingAsset.displayId} ${Formatter.currency(c.quotingBalance)} available',
                     style: Get.textTheme.caption.copyWith(
                       color: c.locked ? AppColors.red : AppColors.secondary,
                     ),
                   )
                 : Text(
-                    '${c.initialMarket.pairBaseAsset.displayId} ${Formatter.currency(c.baseBalance, maxDecimal: 2)} available',
+                    '${c.initialMarket.pairBaseAsset.displayId} ${Formatter.currency(c.baseBalance)} available',
                     style: Get.textTheme.caption.copyWith(
                       color: c.locked ? AppColors.red : AppColors.secondary,
                     ),
@@ -243,7 +243,7 @@ class _ActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetX<OrderDetailsController>(
       builder: (_) => RaisedButton(
-        onPressed: _.actionAllowed ? () => _.perform() : null,
+        onPressed: _.actionAllowed && !_.loading ? () => _.perform() : null,
         padding: const EdgeInsets.symmetric(vertical: AppSizes.small),
         shape: RoundedRectangleBorder(
           side: BorderSide(
@@ -256,21 +256,30 @@ class _ActionButton extends StatelessWidget {
         disabledTextColor: AppColors.secondary,
         textColor: AppColors.primary,
         splashColor: Colors.blue,
-        child: Column(
-          children: <Widget>[
-            Text(
-              '${Formatter.currency(_.amount, maxDecimal: 2)} ${_.initialMarket.pairBaseAsset.displayId}',
-            ),
-            Text(
-              _.isBuy ? 'Buy' : 'Sell',
-              style: Get.textTheme.caption.copyWith(
-                color:
-                    _.actionAllowed ? AppColors.primary : AppColors.secondary,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          child: !_.loading
+              ? Column(
+                  children: <Widget>[
+                    Text(
+                      '${Formatter.currency(_.amount)} ${_.initialMarket.pairBaseAsset.displayId}',
+                    ),
+                    Text(
+                      _.isBuy ? 'Buy' : 'Sell',
+                      style: Get.textTheme.caption.copyWith(
+                        color: _.actionAllowed
+                            ? AppColors.primary
+                            : AppColors.secondary,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                )
+              : Center(
+                  child: CircularProgressIndicator(
+                  backgroundColor: AppColors.primary,
+                )),
         ),
       ),
     );

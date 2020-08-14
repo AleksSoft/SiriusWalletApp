@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
+import 'package:antares_wallet/repositories/trading_repository.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +23,10 @@ class OrderDetailsController extends GetxController {
   final _portfolioCon = PortfolioController.con;
 
   StreamSubscription _orderbookSubscr;
+
+  final _loading = false.obs;
+  bool get loading => this._loading.value;
+  set loading(bool value) => this._loading.value = value;
 
   final _isBuy = (Get.parameters['operationType'].toLowerCase() == 'buy').obs;
   bool get isBuy => this._isBuy.value;
@@ -129,17 +135,47 @@ class OrderDetailsController extends GetxController {
   }
 
   updatePercent(double percent) {
+    double priceValue = double.tryParse(priceTextController.text) ?? 0.0;
     double balance =
         double.tryParse(isBuy ? quotingBalance : baseBalance) ?? 0.0;
-    amountTextController.text = (balance * percent).toString();
+    double amountValue =
+        isBuy ? (balance * percent) / priceValue : balance * percent;
+
+    amountTextController.text = amountValue.toString();
     amount = amountTextController.text;
     totalTextController.text = _countTotal().toString();
   }
 
-  perform() {
-    print('Action Performed');
+  perform() async {
+    var response;
+    String assetPairId = initialMarket?.pairId;
+    String assetId = initialMarket?.pairBaseAsset?.id;
+    double volume = double.tryParse(amountTextController.text) ?? 0.0;
+    double pirce = double.tryParse(priceTextController.text) ?? 0.0;
+    loading = true;
     if (orderType.toLowerCase() == 'limit') {
-    } else if (orderType.toLowerCase() == 'market') {}
+      response = await TradingRepository.placeLimitOrder(
+        assetPairId: assetPairId,
+        assetId: assetId,
+        volume: isBuy ? volume : volume * -1,
+        price: pirce,
+      );
+    } else if (orderType.toLowerCase() == 'market') {
+      response = await TradingRepository.placeMarketOrder(
+        assetPairId: assetPairId,
+        assetId: assetId,
+        volume: isBuy ? volume : volume * -1,
+      );
+    }
+    loading = false;
+    if (response == null) {
+      Get.rawSnackbar(
+        message: 'Order failed',
+        backgroundColor: AppColors.red,
+      );
+    } else {
+      Get.rawSnackbar(message: 'Order placed');
+    }
   }
 
   priceChanged(String s) {
