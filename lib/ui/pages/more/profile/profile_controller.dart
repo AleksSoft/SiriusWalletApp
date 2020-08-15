@@ -7,17 +7,17 @@ class ProfileController extends GetxController {
   static ProfileController get con => Get.find();
   final ProfileRepository _repository = Get.find<ProfileRepository>();
 
-  PersonalData get personalData => _repository.personalData;
-  AccountData get accountData => _repository.accountData;
+  PersonalData get personalData => PersonalData();
+  AccountData get accountData => AccountData();
 
   @override
   void onInit() async {
-    await _repository.updateProfile();
+    // await _repository.updateProfile();
     super.onInit();
   }
 
   void upgradeAccount() async {
-    await _repository.upgradeAccount();
-    Get.until((route) => route.isFirst);
+    // await _repository.upgradeAccount();
+    // Get.until((route) => route.isFirst);
   }
 }

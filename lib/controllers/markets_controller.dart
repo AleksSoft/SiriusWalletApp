@@ -53,7 +53,7 @@ class MarketsController extends GetxController {
     update();
     String id = GetStorage().read(AppStorageKeys.watchlistId);
     _initMarketsListIfNeeded(force: true);
-    if (!GetUtils.isNullOrBlank(id)) {
+    if (!id.isNullOrBlank) {
       List<MarketModel> result = List();
       (await WatchlistsRepository.getWatchlist(id)).assetIds.forEach((id) {
         var market = initialMarketList.firstWhere(
@@ -109,9 +109,9 @@ class MarketsController extends GetxController {
       pairId: pair.id,
       pairBaseAsset: pairBaseAsset,
       pairQuotingAsset: pairQuotingAsset,
-      volume: double.parse(responseModel.volume24H),
-      price: double.parse(responseModel.lastPrice),
-      change: double.parse(responseModel.priceChange24H),
+      volume: double.tryParse(responseModel?.volume24H) ?? 0.0,
+      price: double.tryParse(responseModel?.lastPrice) ?? 0.0,
+      change: double.tryParse(responseModel?.priceChange24H) ?? 0.0,
     );
   }
 }
@@ -145,12 +145,8 @@ class MarketModel {
         this.change = 0;
 
   MarketModel update(PriceUpdate update) {
-    this.volume = update.volumeBase24H.isNotEmpty
-        ? double.parse(update.volumeBase24H)
-        : 0;
-    this.change = update.priceChange24H.isNotEmpty
-        ? double.parse(update.priceChange24H)
-        : 0;
+    this.volume = double.tryParse(update?.volumeBase24H) ?? 0.0;
+    this.change = double.tryParse(update?.priceChange24H) ?? 0.0;
     return this;
   }
 }

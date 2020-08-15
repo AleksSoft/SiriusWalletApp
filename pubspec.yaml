@@ -16,7 +16,7 @@ dependencies:
   get: ^3.4.4
   get_storage: ^1.2.1
   intl: ^0.16.1
-  equatable: ^1.2.0
+  equatable: ^1.2.3
   grpc: ^2.2.0
   protobuf: ^1.0.1
   enum_to_string: ^1.0.9

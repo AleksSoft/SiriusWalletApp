@@ -87,7 +87,6 @@ class LocalAuthController extends GetxController {
       navigateBack(true);
     } else {
       Get.defaultDialog(
-        radius: 16.0,
         title: 'Wrong PIN',
         middleText: 'Try again',
         buttonColor: Colors.black,
@@ -108,7 +107,6 @@ class LocalAuthController extends GetxController {
       _submitPIN();
     } else {
       Get.defaultDialog(
-        radius: 16.0,
         title: 'PIN\'s not equal',
         middleText: 'Try again',
         buttonColor: Colors.black,

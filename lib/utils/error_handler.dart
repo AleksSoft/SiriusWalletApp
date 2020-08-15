@@ -1,4 +1,3 @@
-import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart' as apiservice;
 import 'package:antares_wallet/ui/pages/start/start_page.dart';
 import 'package:flutter/foundation.dart';
@@ -6,7 +5,11 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:grpc/grpc.dart';
 
+import 'dialog_manager.dart';
+
 class ErrorHandler {
+  static final _dialogManager = Get.find<DialogManager>();
+
   static Future safeCall(Future future) async {
     dynamic response = await future
         .catchError(
@@ -39,8 +42,8 @@ class ErrorHandler {
         _showErrorDialog(
           code: e.code.toString(),
           message: e.message,
-          onConfirm: () => GetStorage().erase().then(
-                (value) => Get.offAllNamed(StartPage.route),
+          action: () => GetStorage().erase().whenComplete(
+                () => Get.offAllNamed(StartPage.route),
               ),
         );
         break;
@@ -58,17 +61,13 @@ class ErrorHandler {
     String code,
     String customTitle,
     String message,
-    VoidCallback onConfirm,
+    VoidCallback action,
   }) {
     String title = code.isNullOrBlank ? 'Error' : 'Error ($code)';
-    Future.delayed(Duration()).then(
-      (_) => Get.defaultDialog(
-        title: customTitle ?? title,
-        middleText: message ?? '',
-        buttonColor: AppColors.red,
-        confirmTextColor: AppColors.primary,
-        onConfirm: () => onConfirm ?? Get.back(),
-      ),
-    );
+    _dialogManager.error(ErrorContent(
+      title: customTitle ?? title,
+      message: message,
+      action: action,
+    ));
   }
 }

@@ -67,18 +67,20 @@ class LoginController extends GetxController {
   }
 
   @override
-  void onClose() async {
+  void onClose() {
     _stopTimer();
+    pageViewController?.dispose();
     super.onClose();
   }
 
   back() {
-    int currentPage = pageViewController.page.toInt();
-    if (currentPage > 0) {
-      _animateToPage(currentPage - 1);
-    } else {
-      Get.back();
-    }
+    pageViewController?.jumpToPage(0);
+    emailValue = '';
+    passwordValue = '';
+    smsCodeValue = '';
+    token = '';
+    _stopTimer();
+    Get.back();
   }
 
   openRegister() => Get.toNamed(RegisterPage.route);
@@ -90,7 +92,7 @@ class LoginController extends GetxController {
       password: passwordValue,
       publicKey: '1111',
     );
-    if (response.isNull) {
+    if (response == null) {
       Get.rawSnackbar(message: 'Login failed', backgroundColor: AppColors.red);
     } else {
       token = response.sessionId;

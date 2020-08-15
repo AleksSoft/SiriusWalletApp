@@ -79,9 +79,9 @@ class OrderDetailsController extends GetxController {
   void onClose() async {
     // close orderbook stream subscription
     await _orderbookSubscr?.cancel();
-    priceTextController.dispose();
-    amountTextController.dispose();
-    totalTextController.dispose();
+    priceTextController?.dispose();
+    amountTextController?.dispose();
+    totalTextController?.dispose();
     super.onClose();
   }
 

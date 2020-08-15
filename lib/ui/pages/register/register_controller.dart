@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:antares_wallet/app/common/app_storage_keys.dart';
+import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/repositories/session_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
@@ -131,7 +132,12 @@ class RegisterController extends GetxController {
   back() {
     int currentPage = pageViewController.page.toInt();
     if (currentPage > 0) {
-      _animateToPage(currentPage - 1);
+      Get.defaultDialog(
+        title: 'Cancel',
+        middleText: 'Are you shure to cancel registration?',
+        buttonColor: AppColors.red,
+        onConfirm: () => Get.back(closeOverlays: true),
+      );
     } else {
       Get.back();
     }
@@ -214,7 +220,7 @@ class RegisterController extends GetxController {
       token: token,
       publicKey: '1111',
     );
-    if (!registerPayload.isNull) {
+    if (registerPayload != null) {
       _box.write(AppStorageKeys.token, registerPayload.sessionId);
       Get.offAllNamed(RootPage.route);
     } else {

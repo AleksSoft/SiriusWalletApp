@@ -109,7 +109,7 @@ class _PortfolioCategoryBlock extends StatelessWidget {
             ),
           ),
           Visibility(
-            visible: assets.length >= 3,
+            visible: (assets?.length ?? 0) > 3,
             child: Builder(
               builder: (context) {
                 var controller = ExpandableController.of(context);
@@ -130,7 +130,7 @@ class _PortfolioCategoryBlock extends StatelessWidget {
   }
 
   Column _buildExpanded(String iconUrl, List<Asset> assets) {
-    List<Asset> list = assets.length > 3 ? assets.sublist(3) : List();
+    List<Asset> list = (assets?.length ?? 0) > 3 ? assets.sublist(3) : List();
     return Column(
       children: <Widget>[
         _buildCollapsed(iconUrl, assets),
@@ -145,9 +145,12 @@ class _PortfolioCategoryBlock extends StatelessWidget {
   }
 
   Column _buildCollapsed(String iconUrl, List<Asset> assets) {
-    var list = assets.length > 3 ? assets.sublist(0, 3) : assets;
+    List<Asset> list =
+        (assets?.length ?? 0) > 3 ? assets.sublist(0, 3) : assets;
     return Column(
-      children: list.map((a) => AssetListTile(iconUrl, a)).toList(),
+      children: (list ?? List<Asset>())
+          .map((a) => AssetListTile(iconUrl, a))
+          .toList(),
     );
   }
 }

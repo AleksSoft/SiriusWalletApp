@@ -1,53 +1,50 @@
-import 'dart:convert';
-
-import 'package:antares_wallet/app/common/app_storage_keys.dart';
-import 'package:antares_wallet/models/account_data.dart';
-import 'package:antares_wallet/models/personal_data.dart';
-import 'package:antares_wallet/services/api/mock_api.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:antares_wallet/services/api/api_service.dart';
+import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:antares_wallet/src/google/protobuf/empty.pb.dart';
+import 'package:antares_wallet/utils/error_handler.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 class ProfileRepository {
-  final _storage = GetStorage();
-  final _api = Get.find<MockApiService>();
+  static final _api = Get.find<ApiService>();
 
-  PersonalData personalData = PersonalData();
-  AccountData accountData = AccountData();
-
-  Future<void> updateProfile() async {
-    personalData = await loadPersonalData();
-    accountData = await loadAccountData();
-  }
-
-  Future<PersonalData> loadPersonalData() async {
-    var str = await _storage.read(AppStorageKeys.personalData);
-
-    PersonalData data = str == null
-        ? await _api.fetchPersonalData()
-        : PersonalData().fromJson(json.decode(str));
-
-    _storage.write(AppStorageKeys.personalData, jsonEncode(data.toJson()));
-    return data;
-  }
-
-  Future<AccountData> loadAccountData() async {
-    var str = await _storage.read(AppStorageKeys.accountData);
-
-    AccountData data = str == null
-        ? await _api.fetchAccountLevel()
-        : AccountData().fromJson(json.decode(str));
-
-    _storage.write(AppStorageKeys.accountData, jsonEncode(data.toJson()));
-    return data;
-  }
-
-  Future<void> upgradeAccount() async {
-    accountData = await _api.upgradeAccountLevel();
-    _storage.write(
-      AppStorageKeys.accountData,
-      jsonEncode(
-        accountData.toJson(),
-      ),
+  static Future<TierInfoPayload> getTierInfo() async {
+    final response = await ErrorHandler.safeCall(
+      _api.clientSecure.getTierInfo(Empty()),
     );
+    return response?.result ?? TierInfoPayload();
+  }
+
+  static Future<PersonalData> getPersonalData() async {
+    final response = await ErrorHandler.safeCall(
+      _api.clientSecure.getPersonalData(Empty()),
+    );
+    return response?.result ?? PersonalData();
+  }
+
+  static Future<Map<String, KycDocumentsResponse_KycDocument>>
+      getKycDocuments() async {
+    final response = await ErrorHandler.safeCall(
+      _api.clientSecure.getKycDocuments(Empty()),
+    );
+    return response?.result ?? Map();
+  }
+
+  static Future<bool> setAdress({
+    @required String address,
+  }) async {
+    final response = await ErrorHandler.safeCall(
+      _api.clientSecure.setAddress(SetAddressRequest()..address = address),
+    );
+    return response != null;
+  }
+
+  static Future<bool> setZip({
+    @required String zip,
+  }) async {
+    final response = await ErrorHandler.safeCall(
+      _api.clientSecure.setZip(SetZipRequest()..zip = zip),
+    );
+    return response != null;
   }
 }

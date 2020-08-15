@@ -32,8 +32,8 @@ class OrderOpenData {
       String baseName, String quoteName, LimitOrderModel order)
       : this.baseAssetName = baseName,
         this.quoteAssetName = quoteName,
-        this.amount = double.parse(order.volume),
-        this.remainingVolume = double.parse(order.remainingVolume),
+        this.amount = double.tryParse(order?.volume) ?? 0.0,
+        this.remainingVolume = double.tryParse(order?.remainingVolume) ?? 0.0,
         this.price = order.price,
         this.orderType = order.orderType,
         this.date = DateFormat().addPattern('dd.MM.yy HH:mm:ss').format(

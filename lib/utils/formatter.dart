@@ -12,17 +12,17 @@ class Formatter {
     String locale,
     String ifZeroOrNull,
   }) {
-    if (GetUtils.isNullOrBlank(s)) {
-      if (!GetUtils.isNullOrBlank(ifZeroOrNull)) {
+    if (s.isNullOrBlank) {
+      if (!ifZeroOrNull.isNullOrBlank) {
         return ifZeroOrNull;
       } else {
-        s = GetUtils.isNullOrBlank(s) ? '0.0' : s;
+        s = s.isNullOrBlank ? '0.0' : s;
       }
-    } else if (double.parse(s, (_) => 0.0) == 0) {
-      if (!GetUtils.isNullOrBlank(ifZeroOrNull)) return ifZeroOrNull;
+    } else if ((double.tryParse(s) ?? 0.0) == 0) {
+      if (!ifZeroOrNull.isNullOrBlank) return ifZeroOrNull;
     }
 
-    String formatSymbol = GetUtils.isNullOrBlank(symbol) ? '' : '$symbol ';
+    String formatSymbol = symbol.isNullOrBlank ? '' : '$symbol ';
     int decimalDigits = minDecimal;
 
     var splitted = s.split('.');
@@ -39,6 +39,6 @@ class Formatter {
       locale: locale ?? 'eu',
       symbol: '',
       decimalDigits: decimalDigits,
-    ).format(double.parse(s, (_) => 0.0))}';
+    ).format(double.tryParse(s) ?? 0.0)}';
   }
 }

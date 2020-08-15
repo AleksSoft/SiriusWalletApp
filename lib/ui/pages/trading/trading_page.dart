@@ -199,13 +199,10 @@ class _BuySellButtonRow extends StatelessWidget {
 
 class _HeaderView extends StatelessWidget {
   final c = TradingController.con;
-  final change = double.parse(
-    TradingController.con.marketModel.priceChange24H,
-    (_) => 0.0,
-  );
 
   @override
   Widget build(BuildContext context) {
+    final change = double.tryParse(c.marketModel?.priceChange24H) ?? 0.0;
     final titleTheme = Get.textTheme.headline5.copyWith(
       fontFamily: 'Akrobat',
       fontWeight: FontWeight.w700,
@@ -368,13 +365,13 @@ class _CandleChartView extends StatelessWidget {
                             candle.timestamp.seconds.toInt() * 1000,
                           ),
                           lowValueMapper: (candle, _) =>
-                              double.parse(candle.low, (_) => 0.0),
+                              double.tryParse(candle?.low) ?? 0.0,
                           highValueMapper: (candle, _) =>
-                              double.parse(candle.high, (_) => 0.0),
+                              double.tryParse(candle?.high) ?? 0.0,
                           openValueMapper: (candle, _) =>
-                              double.parse(candle.open, (_) => 0.0),
+                              double.tryParse(candle?.open) ?? 0.0,
                           closeValueMapper: (candle, _) =>
-                              double.parse(candle.close, (_) => 0.0),
+                              double.tryParse(candle?.close) ?? 0.0,
                           dataLabelSettings:
                               DataLabelSettings(isVisible: false),
                           onRendererCreated:

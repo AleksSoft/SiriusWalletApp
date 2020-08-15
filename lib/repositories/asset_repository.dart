@@ -26,9 +26,9 @@ class AssetsRepository {
   }
 
   static Future<List<AssetPair>> getAssetPairs() async {
-    return (await ErrorHandler.safeCall(
-            _api.clientSecure.getAssetPairs(Empty())))
-        .assetPairs;
+    final response =
+        await ErrorHandler.safeCall(_api.clientSecure.getAssetPairs(Empty()));
+    return response?.assetPairs ?? List();
   }
 
   static Future<List<AmountInBaseAssetResponse_AmountInBasePayload>>
