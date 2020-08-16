@@ -1,6 +1,7 @@
 import 'package:antares_wallet/app/common/app_storage_keys.dart';
+import 'package:antares_wallet/app/ui/app_colors.dart';
+import 'package:antares_wallet/repositories/session_repository.dart';
 import 'package:antares_wallet/services/local_auth_service.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -12,31 +13,35 @@ class LocalAuthController extends GetxController {
   final _box = GetStorage();
   final _localAuthService = Get.find<LocalAuthService>();
 
-  final TextEditingController pinPutController = TextEditingController();
-  final FocusNode pinPutFocusNode = FocusNode();
-
   final _viewState = PinViewState.CREATE_PIN.obs;
   get viewState => this._viewState.value;
 
+  final _loading = false.obs;
+  bool get loading => this._loading.value;
+  set loading(bool value) => this._loading.value = value;
+
   final _pinValue = ''.obs;
-  get pinValue => this._pinValue.value;
-  set pinValue(value) => this._pinValue.value = value;
+  String get pinValue => this._pinValue.value;
+  set pinValue(String value) => this._pinValue.value = value;
 
   String _prevPIN = '';
 
   String get header => _getHeaderStr();
 
-  bool _showBack;
-  bool get showBack => _showBack;
+  bool _isRegister;
+  bool get showBack => !_isRegister;
+
+  bool _showLocalAuth;
+  bool get showLocalAuth => _showLocalAuth;
 
   int get fieldsCount => 4;
 
   @override
   void onInit() {
-    _showBack = (Get.arguments as bool) ?? false;
-    _viewState.value = _box.hasData(AppStorageKeys.pinCode)
-        ? PinViewState.DEFAULT
-        : PinViewState.CREATE_PIN;
+    _isRegister = (Get.arguments as bool) ?? false;
+    _showLocalAuth = !_isRegister && _box.hasData(AppStorageKeys.pinCode);
+    _viewState.value =
+        _isRegister ? PinViewState.CREATE_PIN : PinViewState.DEFAULT;
     ever(_pinValue, (pin) {
       if (pin?.length == fieldsCount) {
         submit(pin);
@@ -48,18 +53,29 @@ class LocalAuthController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    pinPutFocusNode.requestFocus();
     toggleLocalAuth();
   }
 
   void toggleLocalAuth() async {
-    if (_box.hasData(AppStorageKeys.pinCode)) {
+    if (!_isRegister) {
       bool authorized = await _localAuthService.authenticate();
       if (authorized) navigateBack(true);
     }
   }
 
-  submit(String pin) {
+  setValue(String val) {
+    if (pinValue.length < fieldsCount) {
+      pinValue += val;
+    }
+  }
+
+  backspace() {
+    if (pinValue.length > 0) {
+      pinValue = pinValue.split('').sublist(0, pinValue.length - 1).join('');
+    }
+  }
+
+  submit(String pin) async {
     switch (_viewState.value) {
       case PinViewState.CREATE_PIN:
         _createPIN();
@@ -69,7 +85,7 @@ class LocalAuthController extends GetxController {
         break;
       case PinViewState.DEFAULT:
       default:
-        _submitPIN();
+        await _submitPIN();
         break;
     }
   }
@@ -77,44 +93,44 @@ class LocalAuthController extends GetxController {
   _createPIN() {
     _prevPIN = pinValue;
     pinValue = '';
-    pinPutController.clear();
     _viewState.value = PinViewState.REPEAT_PIN;
   }
 
-  _submitPIN() {
-    String pinCode = _box.read(AppStorageKeys.pinCode);
-    if (pinCode == pinValue) {
+  _submitPIN() async {
+    loading = true;
+    String token = _box.read(AppStorageKeys.token);
+    if (await SessionRepository.checkPin(sessionId: token, pin: pinValue)) {
+      _box.writeIfNull(AppStorageKeys.pinCode, pinValue);
       navigateBack(true);
     } else {
       Get.defaultDialog(
         title: 'Wrong PIN',
         middleText: 'Try again',
-        buttonColor: Colors.black,
-        confirmTextColor: Colors.white,
+        buttonColor: AppColors.dark,
+        confirmTextColor: AppColors.primary,
         onConfirm: () {
           _viewState.value = PinViewState.DEFAULT;
           pinValue = '';
-          pinPutController.clear();
           Get.back();
         },
       );
     }
+    loading = false;
   }
 
   _saveNewPIN() {
     if (_prevPIN == pinValue) {
-      _box.write(AppStorageKeys.pinCode, _prevPIN);
-      _submitPIN();
+      _box.write(AppStorageKeys.pinCode, pinValue);
+      Get.back();
     } else {
       Get.defaultDialog(
-        title: 'PIN\'s not equal',
+        title: 'PIN\'s are not equal',
         middleText: 'Try again',
-        buttonColor: Colors.black,
-        confirmTextColor: Colors.white,
+        buttonColor: AppColors.dark,
+        confirmTextColor: AppColors.primary,
         onConfirm: () {
           _viewState.value = PinViewState.CREATE_PIN;
           pinValue = '';
-          pinPutController.clear();
           Get.back();
         },
       );

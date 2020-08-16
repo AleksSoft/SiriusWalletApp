@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:antares_wallet/app/common/app_storage_keys.dart';
 import 'package:antares_wallet/repositories/session_repository.dart';
 import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
+import 'package:antares_wallet/ui/pages/start/start_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -55,12 +56,14 @@ class RootController extends GetxController with WidgetsBindingObserver {
   }
 
   Future _verifyPin() async {
-    var pinCorrect = await Get.toNamed(LocalAuthPage.route);
+    var pinCorrect = (await Get.toNamed(LocalAuthPage.route)) ?? false;
     if (pinCorrect) {
       String pin = _storage.read(AppStorageKeys.pinCode);
       String token = _storage.read(AppStorageKeys.token);
       if (!(await SessionRepository.checkPin(sessionId: token, pin: pin))) {
-        _verifyPin();
+        GetStorage().erase().whenComplete(
+              () => Get.offAllNamed(StartPage.route),
+            );
       }
     }
   }

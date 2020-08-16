@@ -206,7 +206,7 @@ class RegisterController extends GetxController {
   }
 
   _proceedPassword() async {
-    await Get.toNamed(LocalAuthPage.route);
+    await Get.toNamed(LocalAuthPage.route, arguments: true);
     Get.to(RegisterResultPage(), fullscreenDialog: true);
     var registerPayload = await SessionRepository.register(
       fullName: fullNameValue,

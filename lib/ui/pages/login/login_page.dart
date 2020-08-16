@@ -39,9 +39,11 @@ class LoginPage extends StatelessWidget {
             ),
             Obx(
               () => AnimatedSwitcher(
-                duration: const Duration(milliseconds: 150),
+                duration: const Duration(milliseconds: 300),
                 child: c.loading
-                    ? Center(
+                    ? Container(
+                        color: AppColors.primary.withOpacity(0.9),
+                        alignment: Alignment.center,
                         child: CircularProgressIndicator(
                           valueColor: new AlwaysStoppedAnimation<Color>(
                             Colors.black,

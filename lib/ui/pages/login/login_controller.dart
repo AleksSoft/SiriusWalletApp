@@ -7,6 +7,7 @@ import 'package:antares_wallet/repositories/session_repository.dart';
 import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
 import 'package:antares_wallet/ui/pages/register/register_page.dart';
 import 'package:antares_wallet/ui/pages/root/root_page.dart';
+import 'package:antares_wallet/ui/pages/start/start_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -135,16 +136,20 @@ class LoginController extends GetxController {
   }
 
   Future _verifyPin(String token) async {
-    var pinCorrect = await Get.toNamed(LocalAuthPage.route);
-    if (pinCorrect ?? false) {
-      var pin = _storage.read(AppStorageKeys.pinCode);
-      if (await SessionRepository.checkPin(sessionId: token, pin: pin)) {
-        _storage.write(AppStorageKeys.token, token);
-        Get.offAllNamed(RootPage.route);
-      }
+    loading = true;
+    _storage.write(AppStorageKeys.token, token);
+    var pinCorrect = (await Get.toNamed(LocalAuthPage.route)) ?? false;
+    if (pinCorrect) {
+      Get.offAllNamed(RootPage.route);
     } else {
-      _verifyPin(token);
+      _storage.erase().whenComplete(() {
+        Get.rawSnackbar(
+          message: 'Pin not verified',
+          backgroundColor: AppColors.red,
+        );
+      });
     }
+    loading = false;
   }
 
   _animateToPage(int page) {
