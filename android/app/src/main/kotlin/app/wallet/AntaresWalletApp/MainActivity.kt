@@ -1,4 +1,4 @@
-package app.wallet.AntaresWalletApp
+package app.wallet.antares.demoWalletApp
 
 import io.flutter.embedding.android.FlutterActivity
 
