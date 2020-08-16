@@ -3,7 +3,7 @@ description: Antares Wallet flutter application.
 
 publish_to: "none"
 
-version: 0.1.4+14
+version: 0.1.5+15
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
