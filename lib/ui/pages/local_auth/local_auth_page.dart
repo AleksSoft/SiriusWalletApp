@@ -2,7 +2,6 @@ import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import 'local_auth_controller.dart';
@@ -122,7 +121,7 @@ class Numpad extends StatelessWidget {
             children: <Widget>[
               NumpadButton(
                 haveBorder: false,
-                icon: c.showLocalAuth ? FontAwesomeIcons.fingerprint : null,
+                icon: c.showLocalAuth ? Icons.fingerprint : null,
                 onPressed: c.showLocalAuth ? () => c.toggleLocalAuth() : null,
               ),
               NumpadButton(
