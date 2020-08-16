@@ -2,6 +2,7 @@ import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/controllers/orders_controller.dart';
+import 'package:antares_wallet/ui/pages/orders/order_details/order_details_controller.dart';
 import 'package:antares_wallet/ui/pages/orders/order_details/order_details_page.dart';
 import 'package:antares_wallet/ui/pages/orders/widgets/order_history_tile.dart';
 import 'package:antares_wallet/ui/widgets/empty_view.dart';
@@ -71,7 +72,7 @@ class OrdersPage extends StatelessWidget {
                             child: ListView.builder(
                               shrinkWrap: true,
                               itemCount: c.orders.length,
-                              itemBuilder: (context, index) {
+                              itemBuilder: (_, index) {
                                 var pair = AssetsController.con
                                     .assetPairById(c.orders[index].assetPair);
                                 var name1 = '';
@@ -80,18 +81,25 @@ class OrdersPage extends StatelessWidget {
                                   name1 = pair.name.split('/')[0];
                                   name2 = pair.name.split('/')[1];
                                 }
+                                var orderOpenData = OrderOpenData.fromOrder(
+                                  name1,
+                                  name2,
+                                  c.orders[index],
+                                );
                                 return OrderOpenTile(
-                                  data: OrderOpenData.fromOrder(
-                                    name1,
-                                    name2,
-                                    c.orders[index],
-                                  ),
-                                  onDismissed: () => c.cancelOrder(
+                                  data: orderOpenData,
+                                  confirmDismiss: (d) => c.confirmDismiss(
                                     c.orders[index].id,
                                   ),
-                                  confirmDismiss: (d) => c.confirmDismiss(),
-                                  onTap: () =>
-                                      Get.toNamed(OrderDetailsPage.route),
+                                  onTap: () {
+                                    // Get.toNamed(
+                                    //   OrderDetailsPage.route,
+                                    //   arguments: OrderDetailsArguments(
+                                    //     pair.id,
+                                    //     !orderOpenData.isSell,
+                                    //   ),
+                                    // );
+                                  },
                                 );
                               },
                             ),
@@ -105,7 +113,7 @@ class OrdersPage extends StatelessWidget {
               color: AppColors.dark,
               onRefresh: () => c.getTrades(20, 0),
               child: GetX<OrdersController>(
-                initState: (state) => c.getTrades(0, 0),
+                initState: (state) => c.getTrades(20, 0),
                 builder: (_) {
                   return EmptyView(
                     header: 'No orders history yet',

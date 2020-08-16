@@ -30,7 +30,7 @@ class OrdersController extends GetxController {
       }
     });
     ever(RootController.con.pageIndexObs, (pageIndex) async {
-      if (pageIndex == 1) {
+      if (pageIndex == 2) {
         await getOrders();
         await getTrades(20, 0);
       }
@@ -47,29 +47,17 @@ class OrdersController extends GetxController {
     String tradeType,
     Timestamp fromDate,
     Timestamp toDate,
-  }) async =>
-      trades = await TradingRepository.getTrades(
-        take: take,
-        skip: skip,
-        assetPairId: assetPairId,
-        tradeType: tradeType,
-        fromDate: fromDate,
-        toDate: toDate,
-      );
-
-  cancelOrder(String id) async {
-    await Get.defaultDialog(
-      title: 'Cancel order',
-      middleText: 'Are you shure?',
-      buttonColor: AppColors.dark,
-      cancelTextColor: AppColors.dark,
-      confirmTextColor: AppColors.primary,
-      onConfirm: () async {
-        await TradingRepository.cancelOrder(id);
-        await getOrders();
-      },
-      onCancel: () => Get.back(),
+  }) async {
+    var list = await TradingRepository.getTrades(
+      take: take,
+      skip: skip,
+      assetPairId: assetPairId,
+      tradeType: tradeType,
+      fromDate: fromDate,
+      toDate: toDate,
     );
+    list.sort((b, a) => a.timestamp.seconds.compareTo(b.timestamp.seconds));
+    trades = list;
   }
 
   cancelAllOrders() async {
@@ -111,13 +99,16 @@ class OrdersController extends GetxController {
         volume: volume,
       );
 
-  Future<bool> confirmDismiss() async => await Get.defaultDialog(
+  Future<bool> confirmDismiss(String id) async => await Get.defaultDialog(
         title: 'Cancel order',
         middleText: 'Are you shure?',
         buttonColor: AppColors.dark,
         cancelTextColor: AppColors.dark,
         confirmTextColor: AppColors.primary,
-        onConfirm: () async => Get.back(result: true),
+        onConfirm: () {
+          TradingRepository.cancelOrder(id).then((value) => getOrders());
+          Get.back(result: true);
+        },
         onCancel: () => Get.back(result: false),
       );
 }

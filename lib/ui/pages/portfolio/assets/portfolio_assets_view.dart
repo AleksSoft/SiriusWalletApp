@@ -22,10 +22,21 @@ class PortfolioAssetsTabView extends StatelessWidget {
         children: [
           _PortfolioAssetsHeader(),
           Obx(
-            () => Column(
-              children: c.categoryAssetsMap.keys
-                  .map((category) => _PortfolioCategoryBlock(category))
-                  .toList(),
+            () => AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: c.loading && c.categoryAssetsMap.isEmpty
+                  ? Center(
+                      child: CircularProgressIndicator(
+                        valueColor: new AlwaysStoppedAnimation<Color>(
+                          Colors.black,
+                        ),
+                      ),
+                    )
+                  : Column(
+                      children: c.categoryAssetsMap.keys
+                          .map((category) => _PortfolioCategoryBlock(category))
+                          .toList(),
+                    ),
             ),
           ),
         ],
@@ -57,6 +68,7 @@ class _PortfolioAssetsHeader extends StatelessWidget {
               Formatter.currency(
                 c.balanceSum.toString(),
                 symbol: AssetsController.con.baseAsset?.displayId,
+                maxDecimal: AssetsController.con.baseAsset?.accuracy,
               ),
               style: titleTheme,
             ),

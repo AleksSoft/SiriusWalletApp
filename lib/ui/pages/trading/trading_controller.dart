@@ -91,9 +91,10 @@ class TradingController extends GetxController {
   // }
 
   openOrderDetails(bool isBuy) => Get.toNamed(
-        '${OrderDetailsPage.route}?operationType=${isBuy ? 'buy' : 'sell'}',
+        OrderDetailsPage.route,
         arguments: OrderDetailsArguments(
-          initialMarket,
+          marketModel.assetPair,
+          isBuy,
           asks: asks.value,
           bids: bids.value,
         ),

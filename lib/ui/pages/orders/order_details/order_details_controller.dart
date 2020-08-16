@@ -14,10 +14,18 @@ import 'package:get/get.dart';
 class OrderDetailsArguments {
   final List<Orderbook_PriceVolume> bids;
   final List<Orderbook_PriceVolume> asks;
-  final MarketModel initialMarket;
+  final String price;
+  final String amount;
+  final String total;
+  final String pairId;
+  final bool isBuy;
 
   OrderDetailsArguments(
-    this.initialMarket, {
+    this.pairId,
+    this.isBuy, {
+    this.price,
+    this.amount,
+    this.total,
     this.bids,
     this.asks,
   });
@@ -41,7 +49,7 @@ class OrderDetailsController extends GetxController {
   bool get loading => this._loading.value;
   set loading(bool value) => this._loading.value = value;
 
-  final _isBuy = (Get.parameters['operationType'].toLowerCase() == 'buy').obs;
+  final _isBuy = false.obs;
   bool get isBuy => this._isBuy.value;
   set isBuy(bool value) => this._isBuy.value = value;
 
@@ -61,14 +69,9 @@ class OrderDetailsController extends GetxController {
   String get amount => this._amount.value;
   set amount(String value) => this._amount.value = value;
 
-  final _initialMarket = MarketModel.empty().obs;
-  MarketModel get initialMarket => this._initialMarket.value;
-  set initialMarket(MarketModel value) => this._initialMarket.value = value;
-
-  final _marketModel = MarketsResponse_MarketModel.getDefault().obs;
-  MarketsResponse_MarketModel get marketModel => this._marketModel.value;
-  set marketModel(MarketsResponse_MarketModel value) =>
-      this._marketModel.value = value;
+  final _marketModel = MarketModel.empty().obs;
+  MarketModel get marketModel => this._marketModel.value;
+  set marketModel(MarketModel value) => this._marketModel.value = value;
 
   final asks = List<Orderbook_PriceVolume>().obs;
 
@@ -85,7 +88,7 @@ class OrderDetailsController extends GetxController {
     asks.assignAll(arguments.asks ?? List());
 
     // load pair market data
-    await updateWithMarket(arguments.initialMarket);
+    await updateWithPairId(arguments.pairId);
 
     ever(_isBuy, (_) => reloadTextValues());
     ever(_amount, (_) => _updateAllowed());
@@ -101,28 +104,25 @@ class OrderDetailsController extends GetxController {
   }
 
   String get assetPairHeader =>
-      '${initialMarket.pairBaseAsset.displayId}/${initialMarket.pairQuotingAsset.displayId}';
+      '${marketModel.pairBaseAsset.displayId}/${marketModel.pairQuotingAsset.displayId}';
 
   String get baseBalance =>
-      _portfolioCon.assetBalance(initialMarket.pairBaseAsset.id)?.available;
+      _portfolioCon.assetBalance(marketModel.pairBaseAsset.id)?.available;
   String get quotingBalance =>
-      _portfolioCon.assetBalance(initialMarket.pairQuotingAsset.id)?.available;
+      _portfolioCon.assetBalance(marketModel.pairQuotingAsset.id)?.available;
 
   double get defaultHeight => _defaultHeight;
   int get orderbookItemsCount =>
       (((defaultHeight) ~/ AppSizes.extraLarge) - 1) ~/ 2;
 
-  reloadUiWithMarket(MarketModel data) {
+  reloadUiWithPairId(String pairId) {
     bids.clear();
     asks.clear();
-    updateWithMarket(data);
+    updateWithPairId(pairId);
   }
 
-  updateWithMarket(MarketModel data) async {
-    initialMarket = data;
-    marketModel = (await MarketsController.con
-            .getMarkets(assetPairId: initialMarket.pairId))
-        .first;
+  updateWithPairId(String pairId) async {
+    marketModel = MarketsController.con.marketModelByPairId(pairId);
 
     reloadTextValues();
 
@@ -133,8 +133,7 @@ class OrderDetailsController extends GetxController {
 
     // subscribe to orderbook stream
     _orderbookSubscr = _api.clientSecure
-        .getOrderbookUpdates(
-            OrderbookUpdatesRequest()..assetPairId = initialMarket.pairId)
+        .getOrderbookUpdates(OrderbookUpdatesRequest()..assetPairId = pairId)
         .map((event) {
       var orderbook = Orderbook();
       orderbook.assetPairId = event.assetPairId;
@@ -153,14 +152,14 @@ class OrderDetailsController extends GetxController {
     String orderBookPrice;
     try {
       if (orderType == orderTypes[0]) {
-        orderBookPrice =
-            (isBuy ? bids.first?.p : asks.first?.p) ?? marketModel.lastPrice;
+        orderBookPrice = (isBuy ? bids.first?.p : asks.first?.p) ??
+            marketModel.price.toString();
       } else {
-        orderBookPrice =
-            (isBuy ? asks.first?.p : bids.first?.p) ?? marketModel.lastPrice;
+        orderBookPrice = (isBuy ? asks.first?.p : bids.first?.p) ??
+            marketModel.price.toString();
       }
     } catch (e) {
-      orderBookPrice = marketModel.lastPrice;
+      orderBookPrice = marketModel.price.toString();
     }
 
     priceTextController.text = orderBookPrice;
@@ -183,8 +182,8 @@ class OrderDetailsController extends GetxController {
 
   perform() async {
     var response;
-    String assetPairId = initialMarket?.pairId;
-    String assetId = initialMarket?.pairBaseAsset?.id;
+    String assetPairId = marketModel?.pairId;
+    String assetId = marketModel?.pairBaseAsset?.id;
     double volume = double.tryParse(amountTextController.text) ?? 0.0;
     double pirce = double.tryParse(priceTextController.text) ?? 0.0;
     loading = true;
@@ -202,16 +201,17 @@ class OrderDetailsController extends GetxController {
         volume: isBuy ? volume : volume * -1,
       );
     }
-    loading = false;
     if (response == null) {
       Get.rawSnackbar(
         message: 'Order failed',
         backgroundColor: AppColors.red,
       );
+      loading = false;
     } else {
+      await OrdersController.con.getOrders();
+      loading = false;
       Get.back();
       Get.rawSnackbar(message: 'Order placed');
-      OrdersController.con.getOrders();
     }
   }
 

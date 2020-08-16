@@ -104,7 +104,7 @@ class OrderDetailsPage extends StatelessWidget {
             showTitle: true,
             onTap: () {
               Get.back();
-              c.reloadUiWithMarket(model);
+              c.reloadUiWithPairId(model.pairId);
             },
           ),
         ),
@@ -167,7 +167,7 @@ class _EditView extends StatelessWidget {
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 labelText:
-                    '${c.isBuy ? 'Buy' : 'Sell'} (${c.initialMarket.pairBaseAsset.displayId})',
+                    '${c.isBuy ? 'Buy' : 'Sell'} (${c.marketModel.pairBaseAsset.displayId})',
               ),
             ),
           ),
@@ -178,13 +178,13 @@ class _EditView extends StatelessWidget {
             duration: const Duration(milliseconds: 300),
             child: c.isBuy
                 ? Text(
-                    '${c.initialMarket.pairQuotingAsset.displayId} ${Formatter.currency(c.quotingBalance)} available',
+                    '${c.marketModel.pairQuotingAsset.displayId} ${Formatter.currency(c.quotingBalance)} available',
                     style: Get.textTheme.caption.copyWith(
                       color: c.locked ? AppColors.red : AppColors.secondary,
                     ),
                   )
                 : Text(
-                    '${c.initialMarket.pairBaseAsset.displayId} ${Formatter.currency(c.baseBalance)} available',
+                    '${c.marketModel.pairBaseAsset.displayId} ${Formatter.currency(c.baseBalance)} available',
                     style: Get.textTheme.caption.copyWith(
                       color: c.locked ? AppColors.red : AppColors.secondary,
                     ),
@@ -226,7 +226,7 @@ class _EditView extends StatelessWidget {
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 labelText:
-                    'Total (${c.initialMarket.pairQuotingAsset.displayId})',
+                    'Total (${c.marketModel.pairQuotingAsset.displayId})',
               ),
             ),
           ),
@@ -262,7 +262,7 @@ class _ActionButton extends StatelessWidget {
               ? Column(
                   children: <Widget>[
                     Text(
-                      '${Formatter.currency(_.amount)} ${_.initialMarket.pairBaseAsset.displayId}',
+                      '${Formatter.currency(_.amount)} ${_.marketModel.pairBaseAsset.displayId}',
                     ),
                     Text(
                       _.isBuy ? 'Buy' : 'Sell',
@@ -372,13 +372,13 @@ class _OrderbookView extends StatelessWidget {
             children: [
               Obx(
                 () => Text(
-                  'Price (${c.initialMarket.pairQuotingAsset.displayId})',
+                  'Price (${c.marketModel.pairQuotingAsset.displayId})',
                   style: titleStyle,
                 ),
               ),
               Obx(
                 () => Text(
-                  'Volume (${c.initialMarket.pairBaseAsset.displayId})',
+                  'Volume (${c.marketModel.pairBaseAsset.displayId})',
                   style: titleStyle,
                 ),
               ),

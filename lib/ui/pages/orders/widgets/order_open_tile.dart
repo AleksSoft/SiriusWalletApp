@@ -41,18 +41,13 @@ class OrderOpenData {
             );
 
   int get filled {
-    if (isSell) {
-      return ((amount - remainingVolume) * 100 ~/ amount).toInt();
-    } else {
-      return (remainingVolume * 100 ~/ amount).toInt();
-    }
+    return ((amount - remainingVolume) * 100 ~/ amount).toInt();
   }
 
   bool get isSell => orderType.toLowerCase() == 'sell'.toLowerCase();
 }
 
 class OrderOpenTile extends StatelessWidget {
-  final VoidCallback onDismissed;
   final ConfirmDismissCallback confirmDismiss;
   final VoidCallback onTap;
   final OrderOpenData data;
@@ -60,7 +55,6 @@ class OrderOpenTile extends StatelessWidget {
   const OrderOpenTile({
     @required this.data,
     @required this.onTap,
-    @required this.onDismissed,
     @required this.confirmDismiss,
     Key key,
   }) : super(key: key);
@@ -71,7 +65,6 @@ class OrderOpenTile extends StatelessWidget {
 
     return Dismissible(
       key: ValueKey(data),
-      onDismissed: (direction) => onDismissed?.call(),
       confirmDismiss: (direction) => confirmDismiss?.call(direction),
       direction: DismissDirection.endToStart,
       background: Container(
@@ -151,11 +144,11 @@ class OrderOpenTile extends StatelessWidget {
                 IntrinsicHeight(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: AppSizes.medium,
+                      horizontal: AppSizes.small,
                     ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         _buildInfoItem(
@@ -186,8 +179,8 @@ class OrderOpenTile extends StatelessWidget {
   }
 
   Widget _buildInfoItem(String title, String value) {
-    return Flexible(
-      flex: 1,
+    return SizedBox(
+      width: (Get.width - AppSizes.extraLarge * 3) / 3,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,

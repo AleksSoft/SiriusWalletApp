@@ -45,6 +45,11 @@ class MarketsController extends GetxController {
     super.onClose();
   }
 
+  MarketModel marketModelByPairId(String pairId) => markets.firstWhere(
+        (e) => e.pairId == pairId,
+        orElse: () => MarketModel.empty(),
+      );
+
   Future<List<MarketsResponse_MarketModel>> getMarkets(
           {String assetPairId}) async =>
       await MarketsRepository.getMarkets(assetPairId: assetPairId);

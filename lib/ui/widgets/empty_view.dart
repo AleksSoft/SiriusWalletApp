@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class EmptyView extends StatelessWidget {
   final String header;
@@ -27,14 +28,14 @@ class EmptyView extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         this.header,
-                        style: Theme.of(context).textTheme.button.copyWith(
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        style: Get.textTheme.button.copyWith(
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       Text(
                         this.message,
-                        style: Theme.of(context).textTheme.caption,
+                        style: Get.textTheme.caption,
                       )
                     ],
                   ),

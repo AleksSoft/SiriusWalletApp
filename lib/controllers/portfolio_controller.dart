@@ -46,6 +46,12 @@ class PortfolioController extends GetxController {
     super.onInit();
   }
 
+  @override
+  void onReady() {
+    super.onReady();
+    loading = true;
+  }
+
   double get balanceSum => balances.fold(
         0.0,
         (p, c) => p + _assetsController.countBalanceInBase(c.assetId, c),
