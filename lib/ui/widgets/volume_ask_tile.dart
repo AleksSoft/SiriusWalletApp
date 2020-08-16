@@ -19,7 +19,7 @@ class VolumeAskTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final style = Theme.of(context).textTheme.button.copyWith(
           fontWeight: FontWeight.w600,
-          fontSize: 12.0,
+          fontSize: 11.0,
         );
     return Container(
       height: AppSizes.extraLarge,
@@ -41,8 +41,16 @@ class VolumeAskTile extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(ask ?? '—', style: style.apply(color: AppColors.red)),
-                Text(volume ?? '—', style: style),
+                Text(
+                  ask ?? '—',
+                  style: style.apply(color: AppColors.red),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  volume ?? '—',
+                  style: style,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ],
             ),
           ),

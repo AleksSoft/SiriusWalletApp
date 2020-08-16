@@ -216,6 +216,7 @@ class _HeaderView extends StatelessWidget {
             () => Text(
               Formatter.currency(
                 c.marketModel.lastPrice,
+                maxDecimal: c.initialMarket.pairQuotingAsset.accuracy,
                 symbol: c.initialMarket.pairQuotingAsset.displayId,
               ),
               style: titleTheme,
@@ -235,7 +236,7 @@ class _HeaderView extends StatelessWidget {
                     children: [
                       Obx(
                         () => Text(
-                          '${Formatter.currency(c.marketModel.priceChange24H)}%',
+                          '${Formatter.currency(c.marketModel.priceChange24H, maxDecimal: 2)}%',
                           style: Get.textTheme.button.copyWith(
                             color: _color(change),
                           ),
@@ -319,7 +320,6 @@ class _CandleChartView extends StatelessWidget {
                       plotAreaBorderWidth: 0,
                       borderColor: AppColors.secondary,
                       plotAreaBorderColor: AppColors.secondary,
-                      // enableSideBySideSeriesPlacement: false,
                       zoomPanBehavior: ZoomPanBehavior(
                         enablePinching: true,
                         enablePanning: true,
@@ -340,11 +340,17 @@ class _CandleChartView extends StatelessWidget {
                         majorGridLines: MajorGridLines(width: 0),
                       ),
                       primaryYAxis: NumericAxis(
-                        name: 'primaryYAxis',
-                        opposedPosition: true,
-                        labelStyle: TextStyle(color: AppColors.secondary),
-                        axisLine: AxisLine(width: 0),
-                      ),
+                          name: 'primaryYAxis',
+                          opposedPosition: true,
+                          labelStyle: TextStyle(color: AppColors.secondary),
+                          axisLine: AxisLine(width: 0),
+                          numberFormat: NumberFormat.currency(
+                            locale: 'eu',
+                            symbol: '',
+                            decimalDigits:
+                                c.initialMarket?.pairQuotingAsset?.accuracy ??
+                                    2,
+                          )),
                       // axes: <ChartAxis>[
                       //   NumericAxis(
                       //     name: 'yAxis1',

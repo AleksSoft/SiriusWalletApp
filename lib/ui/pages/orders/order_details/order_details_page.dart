@@ -104,7 +104,7 @@ class OrderDetailsPage extends StatelessWidget {
             showTitle: true,
             onTap: () {
               Get.back();
-              c.updateWithMarket(model);
+              c.reloadUiWithMarket(model);
             },
           ),
         ),
@@ -392,15 +392,15 @@ class _OrderbookView extends StatelessWidget {
             () => ListView.builder(
               reverse: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: c.bids.length == c.orderbookItemsCount
-                  ? c.bids.length
+              itemCount: c.asks.length == c.orderbookItemsCount
+                  ? c.asks.length
                   : c.orderbookItemsCount,
               shrinkWrap: true,
               itemBuilder: (context, i) {
-                if (c.bids.length <= i) {
+                if (c.asks.length <= i) {
                   return VolumePriceTile(color: AppColors.red);
                 } else {
-                  var a = c.bids[i];
+                  var a = c.asks[i];
                   return VolumePriceTile(
                     volume: Formatter.currency(a.v),
                     price: Formatter.currency(a.p),
@@ -417,14 +417,14 @@ class _OrderbookView extends StatelessWidget {
           child: Obx(
             () => ListView.builder(
               physics: NeverScrollableScrollPhysics(),
-              itemCount: c.asks.length == c.orderbookItemsCount
-                  ? c.asks.length
+              itemCount: c.bids.length == c.orderbookItemsCount
+                  ? c.bids.length
                   : c.orderbookItemsCount,
               itemBuilder: (context, i) {
-                if (c.asks.length <= i) {
+                if (c.bids.length <= i) {
                   return VolumePriceTile(color: AppColors.green);
                 } else {
-                  var a = c.asks[i];
+                  var a = c.bids[i];
                   return VolumePriceTile(
                     volume: Formatter.currency(a.v),
                     price: Formatter.currency(a.p),

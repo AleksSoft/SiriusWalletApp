@@ -59,10 +59,10 @@ class AssetPairTile extends StatelessWidget {
                     child: Text(
                       pairBaseAsset.displayId,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.subtitle2.copyWith(
-                            fontSize: 14.0,
-                            color: Colors.grey[600],
-                          ),
+                      style: Get.textTheme.subtitle2.copyWith(
+                        fontSize: 14.0,
+                        color: Colors.grey[600],
+                      ),
                     ),
                   ),
                 ],
@@ -117,6 +117,7 @@ class AssetPairTile extends StatelessWidget {
                             .amountInBaseById(pairBaseAsset.id)
                             ?.amountInBase,
                         symbol: _assetC.baseAsset.displayId,
+                        maxDecimal: _assetC.baseAsset.accuracy,
                         ifZeroOrNull: '—',
                       ),
                       style: textStyleButton.copyWith(
@@ -144,7 +145,7 @@ class AssetPairTile extends StatelessWidget {
                     color: _color.withOpacity(0.2),
                   ),
                   child: Text(
-                    '$change%',
+                    '${Formatter.currency(change.toString(), maxDecimal: 2)}%',
                     textAlign: TextAlign.end,
                     style: textStyleButton.copyWith(
                       fontSize: 12.0,

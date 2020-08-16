@@ -3,12 +3,25 @@ import 'dart:async';
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
+import 'package:antares_wallet/controllers/orders_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
 import 'package:antares_wallet/repositories/trading_repository.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+class OrderDetailsArguments {
+  final List<Orderbook_PriceVolume> bids;
+  final List<Orderbook_PriceVolume> asks;
+  final MarketModel initialMarket;
+
+  OrderDetailsArguments(
+    this.initialMarket, {
+    this.bids,
+    this.asks,
+  });
+}
 
 class OrderDetailsController extends GetxController {
   static OrderDetailsController get con => Get.find();
@@ -62,12 +75,17 @@ class OrderDetailsController extends GetxController {
   final bids = List<Orderbook_PriceVolume>().obs;
 
   final _defaultHeight =
-      (Get.height - (Get.context.mediaQueryPadding.top + 56.0 * 2));
+      (Get.height - (Get.context.mediaQueryPadding.top + 56.0));
 
   @override
   void onInit() async {
+    // initial data
+    final arguments = Get.arguments as OrderDetailsArguments;
+    bids.assignAll(arguments.bids ?? List());
+    asks.assignAll(arguments.asks ?? List());
+
     // load pair market data
-    await updateWithMarket(Get.arguments as MarketModel);
+    await updateWithMarket(arguments.initialMarket);
 
     ever(_isBuy, (_) => reloadTextValues());
     ever(_amount, (_) => _updateAllowed());
@@ -79,9 +97,6 @@ class OrderDetailsController extends GetxController {
   void onClose() async {
     // close orderbook stream subscription
     await _orderbookSubscr?.cancel();
-    priceTextController?.dispose();
-    amountTextController?.dispose();
-    totalTextController?.dispose();
     super.onClose();
   }
 
@@ -94,7 +109,14 @@ class OrderDetailsController extends GetxController {
       _portfolioCon.assetBalance(initialMarket.pairQuotingAsset.id)?.available;
 
   double get defaultHeight => _defaultHeight;
-  int get orderbookItemsCount => (defaultHeight / 2) ~/ AppSizes.extraLarge;
+  int get orderbookItemsCount =>
+      (((defaultHeight) ~/ AppSizes.extraLarge) - 1) ~/ 2;
+
+  reloadUiWithMarket(MarketModel data) {
+    bids.clear();
+    asks.clear();
+    updateWithMarket(data);
+  }
 
   updateWithMarket(MarketModel data) async {
     initialMarket = data;
@@ -108,8 +130,6 @@ class OrderDetailsController extends GetxController {
     await _portfolioCon.getBalances();
 
     await _orderbookSubscr?.cancel();
-    asks.clear();
-    bids.clear();
 
     // subscribe to orderbook stream
     _orderbookSubscr = _api.clientSecure
@@ -118,8 +138,10 @@ class OrderDetailsController extends GetxController {
         .map((event) {
       var orderbook = Orderbook();
       orderbook.assetPairId = event.assetPairId;
-      orderbook.bids.addAll(_getMergedPriceVolumes(bids.value, event.bids));
-      orderbook.asks.addAll(_getMergedPriceVolumes(asks.value, event.asks));
+      orderbook.bids
+          .addAll(_getMergedPriceVolumes(bids.value, event.bids, false));
+      orderbook.asks
+          .addAll(_getMergedPriceVolumes(asks.value, event.asks, true));
       return orderbook;
     }).listen((update) {
       if (update.bids.isNotEmpty) bids.assignAll(update.bids);
@@ -128,10 +150,23 @@ class OrderDetailsController extends GetxController {
   }
 
   reloadTextValues() {
-    priceTextController.text = marketModel.lastPrice;
-    amountTextController.text = '0.00';
+    String orderBookPrice;
+    try {
+      if (orderType == orderTypes[0]) {
+        orderBookPrice =
+            (isBuy ? bids.first?.p : asks.first?.p) ?? marketModel.lastPrice;
+      } else {
+        orderBookPrice =
+            (isBuy ? asks.first?.p : bids.first?.p) ?? marketModel.lastPrice;
+      }
+    } catch (e) {
+      orderBookPrice = marketModel.lastPrice;
+    }
+
+    priceTextController.text = orderBookPrice;
+    amountTextController.clear();
     amount = amountTextController.text;
-    totalTextController.text = '0.00';
+    totalTextController.clear();
   }
 
   updatePercent(double percent) {
@@ -174,7 +209,9 @@ class OrderDetailsController extends GetxController {
         backgroundColor: AppColors.red,
       );
     } else {
+      Get.back();
       Get.rawSnackbar(message: 'Order placed');
+      OrdersController.con.getOrders();
     }
   }
 
@@ -208,6 +245,7 @@ class OrderDetailsController extends GetxController {
   List<Orderbook_PriceVolume> _getMergedPriceVolumes(
     List<Orderbook_PriceVolume> oldPV,
     List<Orderbook_PriceVolume> newPV,
+    bool ascending,
   ) {
     newPV.forEach((update) {
       if (update.v == '0') {
@@ -224,6 +262,11 @@ class OrderDetailsController extends GetxController {
         }
       }
     });
+    if (ascending) {
+      oldPV.sort((a, b) => a.p.compareTo(b.p));
+    } else {
+      oldPV.sort((b, a) => a.p.compareTo(b.p));
+    }
     return oldPV;
   }
 

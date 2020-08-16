@@ -89,6 +89,7 @@ class OrdersPage extends StatelessWidget {
                                   onDismissed: () => c.cancelOrder(
                                     c.orders[index].id,
                                   ),
+                                  confirmDismiss: (d) => c.confirmDismiss(),
                                   onTap: () =>
                                       Get.toNamed(OrderDetailsPage.route),
                                 );
@@ -102,9 +103,9 @@ class OrdersPage extends StatelessWidget {
             ),
             RefreshIndicator(
               color: AppColors.dark,
-              onRefresh: () => c.getTrades(10, 0),
+              onRefresh: () => c.getTrades(20, 0),
               child: GetX<OrdersController>(
-                initState: (state) => c.getTrades(10, 0),
+                initState: (state) => c.getTrades(0, 0),
                 builder: (_) {
                   return EmptyView(
                     header: 'No orders history yet',

@@ -53,6 +53,7 @@ class OrderOpenData {
 
 class OrderOpenTile extends StatelessWidget {
   final VoidCallback onDismissed;
+  final ConfirmDismissCallback confirmDismiss;
   final VoidCallback onTap;
   final OrderOpenData data;
 
@@ -60,6 +61,7 @@ class OrderOpenTile extends StatelessWidget {
     @required this.data,
     @required this.onTap,
     @required this.onDismissed,
+    @required this.confirmDismiss,
     Key key,
   }) : super(key: key);
 
@@ -69,7 +71,8 @@ class OrderOpenTile extends StatelessWidget {
 
     return Dismissible(
       key: ValueKey(data),
-      onDismissed: (direction) => onDismissed(),
+      onDismissed: (direction) => onDismissed?.call(),
+      confirmDismiss: (direction) => confirmDismiss?.call(direction),
       direction: DismissDirection.endToStart,
       background: Container(
         color: AppColors.red,

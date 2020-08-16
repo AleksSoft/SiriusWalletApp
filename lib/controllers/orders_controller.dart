@@ -1,6 +1,8 @@
+import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/repositories/trading_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
+import 'package:antares_wallet/ui/pages/root/root_controller.dart';
 import 'package:get/get.dart';
 
 import 'assets_controller.dart';
@@ -24,7 +26,13 @@ class OrdersController extends GetxController {
     ever(_assetsController.initialized, (inited) async {
       if (inited) {
         await getOrders();
-        await getTrades(10, 0);
+        await getTrades(20, 0);
+      }
+    });
+    ever(RootController.con.pageIndexObs, (pageIndex) async {
+      if (pageIndex == 1) {
+        await getOrders();
+        await getTrades(20, 0);
       }
     });
     super.onInit();
@@ -50,13 +58,33 @@ class OrdersController extends GetxController {
       );
 
   cancelOrder(String id) async {
-    await TradingRepository.cancelOrder(id);
-    await getOrders();
+    await Get.defaultDialog(
+      title: 'Cancel order',
+      middleText: 'Are you shure?',
+      buttonColor: AppColors.dark,
+      cancelTextColor: AppColors.dark,
+      confirmTextColor: AppColors.primary,
+      onConfirm: () async {
+        await TradingRepository.cancelOrder(id);
+        await getOrders();
+      },
+      onCancel: () => Get.back(),
+    );
   }
 
   cancelAllOrders() async {
-    await TradingRepository.cancelAllOrders();
-    await getOrders();
+    await Get.defaultDialog(
+      title: 'Cancel all orders',
+      middleText: 'Are you shure?',
+      buttonColor: AppColors.dark,
+      cancelTextColor: AppColors.dark,
+      confirmTextColor: AppColors.primary,
+      onConfirm: () async {
+        await TradingRepository.cancelAllOrders();
+        await getOrders();
+      },
+      onCancel: () => Get.back(),
+    );
   }
 
   placeLimitOrder(
@@ -81,5 +109,15 @@ class OrdersController extends GetxController {
         assetId: assetId,
         assetPairId: assetPairId,
         volume: volume,
+      );
+
+  Future<bool> confirmDismiss() async => await Get.defaultDialog(
+        title: 'Cancel order',
+        middleText: 'Are you shure?',
+        buttonColor: AppColors.dark,
+        cancelTextColor: AppColors.dark,
+        confirmTextColor: AppColors.primary,
+        onConfirm: () async => Get.back(result: true),
+        onCancel: () => Get.back(result: false),
       );
 }

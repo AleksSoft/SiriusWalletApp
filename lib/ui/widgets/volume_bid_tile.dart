@@ -42,8 +42,16 @@ class VolumeBidTile extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(volume ?? '—', style: style),
-                Text(bid ?? '—', style: style.apply(color: AppColors.green)),
+                Text(
+                  volume ?? '—',
+                  style: style,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  bid ?? '—',
+                  style: style.apply(color: AppColors.green),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ],
             ),
           ),

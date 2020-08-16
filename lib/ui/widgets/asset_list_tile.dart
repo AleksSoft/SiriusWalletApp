@@ -41,9 +41,9 @@ class AssetListTile extends StatelessWidget {
             asset.name,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.subtitle1.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
+            style: Get.textTheme.subtitle1.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
           ),
           trailing: Column(
             crossAxisAlignment: CrossAxisAlignment.end,

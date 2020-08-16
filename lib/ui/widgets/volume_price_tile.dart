@@ -44,8 +44,16 @@ class VolumePriceTile extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(price ?? '—', style: style.apply(color: color)),
-                Text(volume ?? '—', style: style),
+                Text(
+                  price ?? '—',
+                  style: style.apply(color: color),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  volume ?? '—',
+                  style: style,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ],
             ),
           ),

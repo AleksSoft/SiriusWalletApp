@@ -34,7 +34,11 @@ class TransactionTile extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          _item.assetId,
+                          _item.assetName,
+                          maxLines: 1,
+                          softWrap: true,
+                          textAlign: TextAlign.left,
+                          overflow: TextOverflow.ellipsis,
                           style: Get.textTheme.button.copyWith(
                             fontWeight: FontWeight.w700,
                             fontSize: 16.0,

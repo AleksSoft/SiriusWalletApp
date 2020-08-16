@@ -12,20 +12,17 @@ import 'package:get/get.dart';
 
 class PortfolioAssetsTabView extends StatelessWidget {
   final c = PortfolioController.con;
-
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
       color: AppColors.dark,
       onRefresh: () => c.rebuildPortfolioAssets(),
       child: ListView(
-        physics: BouncingScrollPhysics(),
         padding: EdgeInsets.only(bottom: AppSizes.medium),
-        shrinkWrap: true,
         children: [
           _PortfolioAssetsHeader(),
-          GetX<PortfolioController>(
-            builder: (_) => Column(
+          Obx(
+            () => Column(
               children: c.categoryAssetsMap.keys
                   .map((category) => _PortfolioCategoryBlock(category))
                   .toList(),
@@ -55,12 +52,14 @@ class _PortfolioAssetsHeader extends StatelessWidget {
             'balance'.tr,
             style: Get.textTheme.caption.copyWith(fontSize: 14),
           ),
-          Text(
-            Formatter.currency(
-              c.balanceSum.toString(),
-              symbol: AssetsController.con.baseAsset?.displayId,
+          Obx(
+            () => Text(
+              Formatter.currency(
+                c.balanceSum.toString(),
+                symbol: AssetsController.con.baseAsset?.displayId,
+              ),
+              style: titleTheme,
             ),
-            style: titleTheme,
           ),
         ],
       ),

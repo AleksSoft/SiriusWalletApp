@@ -20,9 +20,9 @@ class PortfolioController extends GetxController {
   set categoryAssetsMap(Map<AssetCategory, List<Asset>> value) =>
       this._categoryAssetsMap.value = value;
 
-  final _walletAssets = List<Balance>().obs;
-  List<Balance> get balances => this._walletAssets.value;
-  set balances(List<Balance> value) => this._walletAssets.value = value;
+  final _balances = List<Balance>().obs;
+  List<Balance> get balances => this._balances.value;
+  set balances(List<Balance> value) => this._balances.value = value;
 
   final _historyItems = List<FundsResponse_FundsModel>().obs;
   List<FundsResponse_FundsModel> get historyItems => this._historyItems.value;
@@ -34,13 +34,13 @@ class PortfolioController extends GetxController {
     ever(_assetsController.initialized, (inited) {
       if (inited) {
         rebuildPortfolioAssets();
-        getFunds(10, 0);
+        getFunds(20, 0);
       }
     });
     ever(RootController.con.pageIndexObs, (pageIndex) {
-      if (pageIndex == 1) {
+      if (pageIndex == 0) {
         rebuildPortfolioAssets();
-        getFunds(10, 0);
+        getFunds(20, 0);
       }
     });
     super.onInit();
@@ -58,14 +58,7 @@ class PortfolioController extends GetxController {
     loading = true;
     await _assetsController.getAssetsDictionary();
     await getBalances();
-    _assetsController.categoryList.forEach((category) {
-      var l = _assetsController.categoryAssets(category.id);
-      if (l.isNotEmpty) {
-        categoryAssetsMap.update(category, (_) => l, ifAbsent: () => l);
-      } else {
-        categoryAssetsMap.remove(category);
-      }
-    });
+    categoryAssetsMap = _mergeMap(_categoryAssetsMap.value);
     loading = false;
   }
 
@@ -86,4 +79,30 @@ class PortfolioController extends GetxController {
         fromDate: fromDate,
         toDate: toDate,
       );
+
+  Map<AssetCategory, List<Asset>> _mergeMap(
+      Map<AssetCategory, List<Asset>> oldMap) {
+    Map<AssetCategory, List<Asset>> mergedMap =
+        Map<AssetCategory, List<Asset>>.from(oldMap);
+    _assetsController.categoryList.forEach((category) {
+      var l = _assetsController.categoryAssets(category.id);
+      l.sort((a, b) {
+        var aBalance =
+            double.tryParse(assetBalance(a.id)?.available ?? '0') ?? 0.0;
+        var bBalance =
+            double.tryParse(assetBalance(b.id)?.available ?? '0') ?? 0.0;
+        return aBalance.compareTo(bBalance);
+      });
+      if (l.isNotEmpty) {
+        mergedMap.update(
+          category,
+          (_) => l.reversed.toList(),
+          ifAbsent: () => l.reversed.toList(),
+        );
+      } else {
+        mergedMap.remove(category);
+      }
+    });
+    return mergedMap;
+  }
 }

@@ -5,6 +5,7 @@ import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/repositories/trading_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
+import 'package:antares_wallet/ui/pages/orders/order_details/order_details_controller.dart';
 import 'package:antares_wallet/ui/pages/orders/order_details/order_details_page.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -49,12 +50,8 @@ class TradingController extends GetxController {
 
   @override
   void onInit() async {
-    noCandleData = false;
-    loading = true;
     // load pair market data
-    updateWithMarket(Get.arguments as MarketModel)
-        .whenComplete(() => loading = false);
-
+    updateWithMarket(Get.arguments as MarketModel);
     super.onInit();
   }
 
@@ -93,17 +90,14 @@ class TradingController extends GetxController {
   //   }
   // }
 
-  openOrderDetails(bool isBuy) async {
-    _candleSubscr?.pause();
-    _orderbookSubscr?.pause();
-    _tradesSubscr?.pause();
-    await Get.toNamed(
+  openOrderDetails(bool isBuy) => Get.toNamed(
         '${OrderDetailsPage.route}?operationType=${isBuy ? 'buy' : 'sell'}',
-        arguments: initialMarket);
-    _candleSubscr?.resume();
-    _orderbookSubscr?.resume();
-    _tradesSubscr?.resume();
-  }
+        arguments: OrderDetailsArguments(
+          initialMarket,
+          asks: asks.value,
+          bids: bids.value,
+        ),
+      );
 
   onZooming(ZoomPanArgs args) {
     if (args.axis.name == 'primaryXAxis' &&
@@ -114,6 +108,8 @@ class TradingController extends GetxController {
   }
 
   Future updateWithMarket(MarketModel data) async {
+    loading = true;
+    noCandleData = false;
     // set initial market data
     initialMarket = data;
     // load market model data
@@ -125,6 +121,8 @@ class TradingController extends GetxController {
     await _initCandles();
     await _initOrders();
     await _initTrades();
+
+    loading = false;
   }
 
   Future updateCandlesHistory() async {
@@ -192,8 +190,12 @@ class TradingController extends GetxController {
         .map((event) {
       var orderbook = Orderbook();
       orderbook.assetPairId = event.assetPairId;
-      orderbook.bids.addAll(_getMergedPriceVolumes(bids.value, event.bids));
-      orderbook.asks.addAll(_getMergedPriceVolumes(asks.value, event.asks));
+      orderbook.bids.addAll(
+        _getMergedPriceVolumes(bids.value, event.bids, false),
+      );
+      orderbook.asks.addAll(
+        _getMergedPriceVolumes(asks.value, event.asks, true),
+      );
       return orderbook;
     }).listen((update) {
       if (update.bids.isNotEmpty) bids.assignAll(update.bids);
@@ -215,7 +217,6 @@ class TradingController extends GetxController {
   }
 
   _updateCandles(CandleUpdate update) {
-    print('Candle Update ${update.toProto3Json()}');
     if (update != null && update.hasOpen()) {
       var updatedCandle = Candle()
         ..open = update.open
@@ -248,6 +249,7 @@ class TradingController extends GetxController {
   List<Orderbook_PriceVolume> _getMergedPriceVolumes(
     List<Orderbook_PriceVolume> oldPV,
     List<Orderbook_PriceVolume> newPV,
+    bool ascending,
   ) {
     newPV.forEach((update) {
       if (update.v == '0') {
@@ -264,6 +266,11 @@ class TradingController extends GetxController {
         }
       }
     });
+    if (ascending) {
+      oldPV.sort((a, b) => a.p.compareTo(b.p));
+    } else {
+      oldPV.sort((b, a) => a.p.compareTo(b.p));
+    }
     return oldPV;
   }
 
