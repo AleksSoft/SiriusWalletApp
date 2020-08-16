@@ -333,10 +333,10 @@ class _CandleChartView extends StatelessWidget {
                       ),
                       primaryXAxis: DateTimeAxis(
                         name: 'primaryXAxis',
-                        zoomFactor: 0.01,
-                        zoomPosition: 0.99,
+                        zoomFactor: 0.05,
+                        zoomPosition: 0.95,
                         dateFormat: DateFormat('dd.MM.yy HH:mm'),
-                        intervalType: DateTimeIntervalType.days,
+                        intervalType: DateTimeIntervalType.auto,
                         majorGridLines: MajorGridLines(width: 0),
                       ),
                       primaryYAxis: NumericAxis(

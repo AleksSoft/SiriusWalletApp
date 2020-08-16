@@ -70,7 +70,7 @@ class _AssetTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Image.asset(
-        'assets/images/logo_lykke.png',
+        'assets/images/ic_launcher.png',
         height: AppSizes.extraLarge,
         width: AppSizes.extraLarge,
       ),

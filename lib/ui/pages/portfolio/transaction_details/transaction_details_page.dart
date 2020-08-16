@@ -31,7 +31,7 @@ class TransactionDetailsPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset(
-                          'assets/images/logo_lykke.png',
+                          'assets/images/ic_launcher.png',
                           height: 56.0,
                           width: 56.0,
                         ),

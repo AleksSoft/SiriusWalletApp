@@ -5,9 +5,9 @@ import 'package:grpc/grpc.dart';
 
 class ApiService {
   static final List<String> urls = <String>[
-    'antares-api-grpc-dev.lykkex.net',
+    // 'antares-api-grpc-dev.lykkex.net',
     'antares-api-grpc-test.lykkex.net',
-    '10c7a3ce-ce6c-4146-b31a-e1c83fc98e53.lykkex.com',
+    // '10c7a3ce-ce6c-4146-b31a-e1c83fc98e53.lykkex.com',
   ];
   final _storage = GetStorage();
 

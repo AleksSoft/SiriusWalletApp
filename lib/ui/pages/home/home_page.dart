@@ -389,7 +389,7 @@ class _ExchangeView extends StatelessWidget {
                   ),
                 ),
                 Image.asset(
-                  'assets/images/logo_lykke.png',
+                  'assets/images/ic_launcher.png',
                   height: 20.0,
                   width: 20.0,
                 ),
@@ -473,7 +473,7 @@ class _LyCIView extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Image.asset(
-                'assets/images/logo_lykke.png',
+                'assets/images/ic_launcher.png',
                 height: AppSizes.medium,
                 width: AppSizes.medium,
               ),
@@ -610,7 +610,7 @@ class _MyLykkeView extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Image.asset(
-            'assets/images/logo_lykke.png',
+            'assets/images/ic_launcher.png',
             height: AppSizes.medium,
             width: AppSizes.medium,
           ),

@@ -134,12 +134,12 @@ class TradingController extends GetxController {
     var from = Timestamp.fromDateTime(
       DateTime.fromMicrosecondsSinceEpoch(
         to.seconds.toInt() * 1000,
-      ).subtract(_getCandleUpdateTimeDelta(CandleInterval.Hour)),
+      ).subtract(_getCandleUpdateTimeDelta(CandleInterval.Min5)),
     );
     await TradingRepository.getCandles(
       assetPairId: initialMarket.pairId,
       type: CandleType.Mid,
-      interval: CandleInterval.Hour,
+      interval: CandleInterval.Min5,
       from: from,
       to: to,
     ).then((newCandles) {
@@ -174,7 +174,7 @@ class TradingController extends GetxController {
             .getCandleUpdates(CandleUpdatesRequest()
               ..assetPairId = initialMarket.pairId
               ..type = CandleType.Mid
-              ..interval = CandleInterval.Hour)
+              ..interval = CandleInterval.Min5)
             .listen((CandleUpdate update) => _updateCandles(update));
       },
     );
