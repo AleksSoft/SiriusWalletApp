@@ -108,7 +108,7 @@ class AssetInfoDetailsView extends StatelessWidget {
                 child: Column(
                   children: _.assetPairsShort
                       .map((e) => AssetPairTile(
-                            imgUrl: MockApiService.lykkeIconUrl,
+                            imgUrl: Asset.getDefault().iconUrl,
                             pairBaseAsset: Asset.getDefault(),
                             pairQuotingAsset: Asset.getDefault(),
                             volume: 0.0,
@@ -142,7 +142,7 @@ class AssetInfoDetailsView extends StatelessWidget {
             horizontal: AppSizes.medium,
           ),
           child: AssetPairTile(
-            imgUrl: MockApiService.lykkeIconUrl,
+            imgUrl: Asset.getDefault().iconUrl,
             pairBaseAsset: Asset.getDefault(),
             pairQuotingAsset: Asset.getDefault(),
             volume: 0.0,

@@ -33,4 +33,19 @@ class PortfolioRepository {
         await ErrorHandler.safeCall(_api.clientSecure.getFunds(request));
     return response?.funds ?? List();
   }
+
+  static Future<List<ExplorerLinksResponse_ExplorerLinkModel>>
+      getExplorerLinks({
+    @required assetId,
+    @required transactionHash,
+  }) async {
+    var response = await ErrorHandler.safeCall(
+      _api.clientSecure.getExplorerLinks(
+        ExplorerLinksRequest()
+          ..assetId = assetId
+          ..transactionHash = transactionHash,
+      ),
+    );
+    return response?.links ?? [];
+  }
 }

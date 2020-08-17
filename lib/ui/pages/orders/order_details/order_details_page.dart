@@ -95,7 +95,7 @@ class OrderDetailsPage extends StatelessWidget {
             horizontal: AppSizes.medium,
           ),
           child: AssetPairTile(
-            imgUrl: MockApiService.lykkeIconUrl,
+            imgUrl: model.pairBaseAsset.iconUrl,
             pairBaseAsset: model.pairBaseAsset,
             pairQuotingAsset: model.pairQuotingAsset,
             volume: model.volume,

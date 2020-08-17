@@ -1259,6 +1259,47 @@ class FundsRequest extends $pb.GeneratedMessage {
   $3.Timestamp ensureTo() => $_ensure(4);
 }
 
+class ExplorerLinksRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ExplorerLinksRequest', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOS(1, 'assetId', protoName: 'assetId')
+    ..aOS(2, 'transactionHash', protoName: 'transactionHash')
+    ..hasRequiredFields = false
+  ;
+
+  ExplorerLinksRequest._() : super();
+  factory ExplorerLinksRequest() => create();
+  factory ExplorerLinksRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ExplorerLinksRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  ExplorerLinksRequest clone() => ExplorerLinksRequest()..mergeFromMessage(this);
+  ExplorerLinksRequest copyWith(void Function(ExplorerLinksRequest) updates) => super.copyWith((message) => updates(message as ExplorerLinksRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ExplorerLinksRequest create() => ExplorerLinksRequest._();
+  ExplorerLinksRequest createEmptyInstance() => create();
+  static $pb.PbList<ExplorerLinksRequest> createRepeated() => $pb.PbList<ExplorerLinksRequest>();
+  @$core.pragma('dart2js:noInline')
+  static ExplorerLinksRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ExplorerLinksRequest>(create);
+  static ExplorerLinksRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get assetId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set assetId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasAssetId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearAssetId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get transactionHash => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set transactionHash($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasTransactionHash() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearTransactionHash() => clearField(2);
+}
+
 class PublicTradesRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('PublicTradesRequest', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
     ..aOS(1, 'assetPairId', protoName: 'assetPairId')
@@ -4462,6 +4503,84 @@ class FundsResponse extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(1)
   $core.List<FundsResponse_FundsModel> get funds => $_getList(0);
+
+  @$pb.TagNumber(2)
+  ErrorV2 get error => $_getN(1);
+  @$pb.TagNumber(2)
+  set error(ErrorV2 v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasError() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearError() => clearField(2);
+  @$pb.TagNumber(2)
+  ErrorV2 ensureError() => $_ensure(1);
+}
+
+class ExplorerLinksResponse_ExplorerLinkModel extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ExplorerLinksResponse.ExplorerLinkModel', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOS(1, 'url')
+    ..aOS(2, 'name')
+    ..hasRequiredFields = false
+  ;
+
+  ExplorerLinksResponse_ExplorerLinkModel._() : super();
+  factory ExplorerLinksResponse_ExplorerLinkModel() => create();
+  factory ExplorerLinksResponse_ExplorerLinkModel.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ExplorerLinksResponse_ExplorerLinkModel.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  ExplorerLinksResponse_ExplorerLinkModel clone() => ExplorerLinksResponse_ExplorerLinkModel()..mergeFromMessage(this);
+  ExplorerLinksResponse_ExplorerLinkModel copyWith(void Function(ExplorerLinksResponse_ExplorerLinkModel) updates) => super.copyWith((message) => updates(message as ExplorerLinksResponse_ExplorerLinkModel));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ExplorerLinksResponse_ExplorerLinkModel create() => ExplorerLinksResponse_ExplorerLinkModel._();
+  ExplorerLinksResponse_ExplorerLinkModel createEmptyInstance() => create();
+  static $pb.PbList<ExplorerLinksResponse_ExplorerLinkModel> createRepeated() => $pb.PbList<ExplorerLinksResponse_ExplorerLinkModel>();
+  @$core.pragma('dart2js:noInline')
+  static ExplorerLinksResponse_ExplorerLinkModel getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ExplorerLinksResponse_ExplorerLinkModel>(create);
+  static ExplorerLinksResponse_ExplorerLinkModel _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get url => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set url($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasUrl() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearUrl() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get name => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set name($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasName() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearName() => clearField(2);
+}
+
+class ExplorerLinksResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ExplorerLinksResponse', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..pc<ExplorerLinksResponse_ExplorerLinkModel>(1, 'links', $pb.PbFieldType.PM, subBuilder: ExplorerLinksResponse_ExplorerLinkModel.create)
+    ..aOM<ErrorV2>(2, 'error', subBuilder: ErrorV2.create)
+    ..hasRequiredFields = false
+  ;
+
+  ExplorerLinksResponse._() : super();
+  factory ExplorerLinksResponse() => create();
+  factory ExplorerLinksResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ExplorerLinksResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  ExplorerLinksResponse clone() => ExplorerLinksResponse()..mergeFromMessage(this);
+  ExplorerLinksResponse copyWith(void Function(ExplorerLinksResponse) updates) => super.copyWith((message) => updates(message as ExplorerLinksResponse));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ExplorerLinksResponse create() => ExplorerLinksResponse._();
+  ExplorerLinksResponse createEmptyInstance() => create();
+  static $pb.PbList<ExplorerLinksResponse> createRepeated() => $pb.PbList<ExplorerLinksResponse>();
+  @$core.pragma('dart2js:noInline')
+  static ExplorerLinksResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ExplorerLinksResponse>(create);
+  static ExplorerLinksResponse _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<ExplorerLinksResponse_ExplorerLinkModel> get links => $_getList(0);
 
   @$pb.TagNumber(2)
   ErrorV2 get error => $_getN(1);
@@ -8412,6 +8531,7 @@ class Asset extends $pb.GeneratedMessage {
     ..aOB(13, 'crosschainWithdrawal', protoName: 'crosschainWithdrawal')
     ..aOB(14, 'isTrusted', protoName: 'isTrusted')
     ..aOB(15, 'canBeBase', protoName: 'canBeBase')
+    ..aOS(16, 'iconUrl', protoName: 'iconUrl')
     ..hasRequiredFields = false
   ;
 
@@ -8564,6 +8684,15 @@ class Asset extends $pb.GeneratedMessage {
   $core.bool hasCanBeBase() => $_has(14);
   @$pb.TagNumber(15)
   void clearCanBeBase() => clearField(15);
+
+  @$pb.TagNumber(16)
+  $core.String get iconUrl => $_getSZ(15);
+  @$pb.TagNumber(16)
+  set iconUrl($core.String v) { $_setString(15, v); }
+  @$pb.TagNumber(16)
+  $core.bool hasIconUrl() => $_has(15);
+  @$pb.TagNumber(16)
+  void clearIconUrl() => clearField(16);
 }
 
 class AssetPair extends $pb.GeneratedMessage {

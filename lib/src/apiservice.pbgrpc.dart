@@ -184,6 +184,12 @@ class ApiServiceClient extends $grpc.Client {
           '/antaresWallet.ApiService/GetFunds',
           ($1.FundsRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $1.FundsResponse.fromBuffer(value));
+  static final _$getExplorerLinks =
+      $grpc.ClientMethod<$1.ExplorerLinksRequest, $1.ExplorerLinksResponse>(
+          '/antaresWallet.ApiService/GetExplorerLinks',
+          ($1.ExplorerLinksRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $1.ExplorerLinksResponse.fromBuffer(value));
   static final _$getPublicTrades =
       $grpc.ClientMethod<$1.PublicTradesRequest, $1.PublicTradesResponse>(
           '/antaresWallet.ApiService/GetPublicTrades',
@@ -656,6 +662,15 @@ class ApiServiceClient extends $grpc.Client {
   $grpc.ResponseFuture<$1.FundsResponse> getFunds($1.FundsRequest request,
       {$grpc.CallOptions options}) {
     final call = $createCall(_$getFunds, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
+  $grpc.ResponseFuture<$1.ExplorerLinksResponse> getExplorerLinks(
+      $1.ExplorerLinksRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$getExplorerLinks, $async.Stream.fromIterable([request]),
         options: options);
     return $grpc.ResponseFuture(call);
   }
@@ -1240,6 +1255,15 @@ abstract class ApiServiceBase extends $grpc.Service {
         ($core.List<$core.int> value) => $1.FundsRequest.fromBuffer(value),
         ($1.FundsResponse value) => value.writeToBuffer()));
     $addMethod(
+        $grpc.ServiceMethod<$1.ExplorerLinksRequest, $1.ExplorerLinksResponse>(
+            'GetExplorerLinks',
+            getExplorerLinks_Pre,
+            false,
+            false,
+            ($core.List<$core.int> value) =>
+                $1.ExplorerLinksRequest.fromBuffer(value),
+            ($1.ExplorerLinksResponse value) => value.writeToBuffer()));
+    $addMethod(
         $grpc.ServiceMethod<$1.PublicTradesRequest, $1.PublicTradesResponse>(
             'GetPublicTrades',
             getPublicTrades_Pre,
@@ -1708,6 +1732,12 @@ abstract class ApiServiceBase extends $grpc.Service {
     return getFunds(call, await request);
   }
 
+  $async.Future<$1.ExplorerLinksResponse> getExplorerLinks_Pre(
+      $grpc.ServiceCall call,
+      $async.Future<$1.ExplorerLinksRequest> request) async {
+    return getExplorerLinks(call, await request);
+  }
+
   $async.Future<$1.PublicTradesResponse> getPublicTrades_Pre(
       $grpc.ServiceCall call,
       $async.Future<$1.PublicTradesRequest> request) async {
@@ -1978,6 +2008,8 @@ abstract class ApiServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $1.TradesRequest request);
   $async.Future<$1.FundsResponse> getFunds(
       $grpc.ServiceCall call, $1.FundsRequest request);
+  $async.Future<$1.ExplorerLinksResponse> getExplorerLinks(
+      $grpc.ServiceCall call, $1.ExplorerLinksRequest request);
   $async.Future<$1.PublicTradesResponse> getPublicTrades(
       $grpc.ServiceCall call, $1.PublicTradesRequest request);
   $async.Future<$1.WatchlistsResponse> getWatchlists(

@@ -272,6 +272,14 @@ const FundsRequest$json = const {
   ],
 };
 
+const ExplorerLinksRequest$json = const {
+  '1': 'ExplorerLinksRequest',
+  '2': const [
+    const {'1': 'assetId', '3': 1, '4': 1, '5': 9, '10': 'assetId'},
+    const {'1': 'transactionHash', '3': 2, '4': 1, '5': 9, '10': 'transactionHash'},
+  ],
+};
+
 const PublicTradesRequest$json = const {
   '1': 'PublicTradesRequest',
   '2': const [
@@ -873,6 +881,23 @@ const FundsResponse_FundsModel$json = const {
     const {'1': 'status', '3': 7, '4': 1, '5': 9, '10': 'status'},
     const {'1': 'timestamp', '3': 8, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'timestamp'},
     const {'1': 'blockchainHash', '3': 9, '4': 1, '5': 9, '10': 'blockchainHash'},
+  ],
+};
+
+const ExplorerLinksResponse$json = const {
+  '1': 'ExplorerLinksResponse',
+  '2': const [
+    const {'1': 'links', '3': 1, '4': 3, '5': 11, '6': '.antaresWallet.ExplorerLinksResponse.ExplorerLinkModel', '10': 'links'},
+    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorV2', '10': 'error'},
+  ],
+  '3': const [ExplorerLinksResponse_ExplorerLinkModel$json],
+};
+
+const ExplorerLinksResponse_ExplorerLinkModel$json = const {
+  '1': 'ExplorerLinkModel',
+  '2': const [
+    const {'1': 'url', '3': 1, '4': 1, '5': 9, '10': 'url'},
+    const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
   ],
 };
 
@@ -1565,6 +1590,7 @@ const Asset$json = const {
     const {'1': 'crosschainWithdrawal', '3': 13, '4': 1, '5': 8, '10': 'crosschainWithdrawal'},
     const {'1': 'isTrusted', '3': 14, '4': 1, '5': 8, '10': 'isTrusted'},
     const {'1': 'canBeBase', '3': 15, '4': 1, '5': 8, '10': 'canBeBase'},
+    const {'1': 'iconUrl', '3': 16, '4': 1, '5': 9, '10': 'iconUrl'},
   ],
 };
 

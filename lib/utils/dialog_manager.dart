@@ -22,7 +22,7 @@ class DialogManager {
   }
 
   _checkNext() async {
-    if (_errorsQueue.isNotEmpty) {
+    try {
       ErrorContent content = _errorsQueue.first;
       Get.defaultDialog(
         title: content?.title ?? '',
@@ -32,11 +32,11 @@ class DialogManager {
         onConfirm: () {
           Get.back();
           content?.action?.call();
-          _errorsQueue.removeFirst();
+          _errorsQueue.remove(content);
           _checkNext();
         },
       );
-    }
+    } catch (e) {}
   }
 }
 
