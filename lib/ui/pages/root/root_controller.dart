@@ -17,14 +17,14 @@ class RootController extends GetxController with WidgetsBindingObserver {
   get pageIndex => this.pageIndexObs.value;
   set pageIndex(value) => this.pageIndexObs.value = value;
 
-  Timer _pronogateSessionTimer;
+  Timer _prolongSessionTimer;
 
   bool isSelected(int index) => pageIndex == index;
 
   @override
   void onInit() {
     WidgetsBinding.instance.addObserver(this);
-    _pronogateSessionTimer = Timer.periodic(
+    _prolongSessionTimer = Timer.periodic(
       Duration(minutes: 2),
       (Timer _) async => await SessionRepository.prolongateSession(),
     );
@@ -34,7 +34,7 @@ class RootController extends GetxController with WidgetsBindingObserver {
   @override
   void onClose() {
     WidgetsBinding.instance.removeObserver(this);
-    _pronogateSessionTimer.cancel();
+    _prolongSessionTimer.cancel();
     super.onClose();
   }
 

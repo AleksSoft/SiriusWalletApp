@@ -1,5 +1,6 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/ui/pages/exchange/exchange_page.dart';
+import 'package:antares_wallet/ui/pages/home/home_page.dart';
 import 'package:antares_wallet/ui/pages/more/more_page.dart';
 import 'package:antares_wallet/ui/pages/orders/orders_page.dart';
 import 'package:antares_wallet/ui/pages/portfolio/portfolio_page.dart';
@@ -22,7 +23,7 @@ class RootPage extends StatelessWidget {
           body: IndexedStack(
             index: _.pageIndex,
             children: [
-              // HomePage(),
+              HomePage(),
               PortfolioPage(),
               ExchangePage(),
               OrdersPage(),
@@ -44,21 +45,21 @@ class RootPage extends StatelessWidget {
               onTap: (val) => _.pageIndex = val,
               backgroundColor: Get.theme.scaffoldBackgroundColor,
               items: [
-                // BottomNavigationBarItem(
-                //   icon: Icon(Icons.home, color: Colors.black),
-                //   activeIcon: Icon(Icons.home, color: AppColors.accent),
-                //   title: Text(
-                //     'home'.tr,
-                //     style: _.isSelected(0) ? styleSel : style,
-                //   ),
-                // ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home, color: Colors.black),
+                  activeIcon: Icon(Icons.home, color: AppColors.accent),
+                  title: Text(
+                    'home'.tr,
+                    style: _.isSelected(0) ? styleSel : style,
+                  ),
+                ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.account_balance_wallet, color: Colors.black),
                   activeIcon: Icon(Icons.account_balance_wallet,
                       color: AppColors.accent),
                   title: Text(
                     'portfolio'.tr,
-                    style: _.isSelected(0) ? styleSel : style,
+                    style: _.isSelected(1) ? styleSel : style,
                   ),
                 ),
                 BottomNavigationBarItem(
@@ -67,7 +68,7 @@ class RootPage extends StatelessWidget {
                       Icon(Icons.import_export, color: AppColors.accent),
                   title: Text(
                     'exchange'.tr,
-                    style: _.isSelected(1) ? styleSel : style,
+                    style: _.isSelected(2) ? styleSel : style,
                   ),
                 ),
                 BottomNavigationBarItem(
@@ -76,7 +77,7 @@ class RootPage extends StatelessWidget {
                       Icon(Icons.check_circle_outline, color: AppColors.accent),
                   title: Text(
                     'orders'.tr,
-                    style: _.isSelected(2) ? styleSel : style,
+                    style: _.isSelected(3) ? styleSel : style,
                   ),
                 ),
                 BottomNavigationBarItem(
@@ -84,7 +85,7 @@ class RootPage extends StatelessWidget {
                   activeIcon: Icon(Icons.menu, color: AppColors.accent),
                   title: Text(
                     'more'.tr,
-                    style: _.isSelected(3) ? styleSel : style,
+                    style: _.isSelected(4) ? styleSel : style,
                   ),
                 ),
               ],

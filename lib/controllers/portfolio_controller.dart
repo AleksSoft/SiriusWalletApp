@@ -38,7 +38,7 @@ class PortfolioController extends GetxController {
       }
     });
     ever(RootController.con.pageIndexObs, (pageIndex) {
-      if (pageIndex == 0) {
+      if (pageIndex == 1) {
         rebuildPortfolioAssets();
         getFunds(20, 0);
       }

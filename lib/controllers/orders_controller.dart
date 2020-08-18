@@ -30,7 +30,7 @@ class OrdersController extends GetxController {
       }
     });
     ever(RootController.con.pageIndexObs, (pageIndex) async {
-      if (pageIndex == 2) {
+      if (pageIndex == 3) {
         await getOrders();
         await getTrades(20, 0);
       }
