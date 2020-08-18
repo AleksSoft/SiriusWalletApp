@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
@@ -9,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:search_page/search_page.dart';
-import 'dart:math' as math;
 
 import 'order_details_controller.dart';
 
@@ -24,7 +25,7 @@ class OrderDetailsPage extends StatelessWidget {
         elevation: 0.5,
         centerTitle: true,
         title: FlatButton(
-          onPressed: () => _showSearch(),
+          onPressed: c.isEdit ? null : () => _showSearch(),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -34,14 +35,17 @@ class OrderDetailsPage extends StatelessWidget {
                   style: TextStyle(fontSize: 16.0),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: AppSizes.extraSmall),
-                child: Transform.rotate(
-                  angle: 3 * math.pi / 4,
-                  child: Icon(
-                    Icons.import_export,
-                    color: AppColors.accent,
-                    size: 20,
+              Visibility(
+                visible: !c.isEdit,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: AppSizes.extraSmall),
+                  child: Transform.rotate(
+                    angle: 3 * math.pi / 4,
+                    child: Icon(
+                      Icons.import_export,
+                      color: AppColors.accent,
+                      size: 20,
+                    ),
                   ),
                 ),
               ),
@@ -121,15 +125,20 @@ class _EditView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         AppUiHelpers.vSpaceSmall,
-        _BuySellHeaderView(),
+        Visibility(
+          visible: !c.isEdit,
+          child: _BuySellHeaderView(),
+        ),
         AppUiHelpers.vSpaceSmall,
         Text('Type of order', style: Get.textTheme.caption),
         Obx(
           () => DropdownButton<String>(
             value: c.orderType,
+            disabledHint: Text(c.orderType, style: Get.textTheme.caption),
             isExpanded: true,
             focusColor: AppColors.accent,
-            onChanged: (String s) => c.orderType = s,
+            onChanged: c.isEdit ? null : (String s) => c.orderType = s,
+            icon: c.isEdit ? null : Icon(Icons.keyboard_arrow_down),
             items: OrderDetailsController.orderTypes.map((String value) {
               return DropdownMenuItem<String>(
                 value: value,
@@ -231,8 +240,49 @@ class _EditView extends StatelessWidget {
           ),
         ),
         AppUiHelpers.vSpaceMedium,
-        _ActionButton()
+        c.isEdit ? _ModifyButton() : _ActionButton(),
       ],
+    );
+  }
+}
+
+class _ModifyButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GetX<OrderDetailsController>(
+      builder: (_) => RaisedButton(
+        onPressed: _.actionAllowed && !_.loading ? () => _.perform() : null,
+        padding: const EdgeInsets.symmetric(vertical: AppSizes.small),
+        shape: RoundedRectangleBorder(
+          side: BorderSide(
+            color: _.actionAllowed ? AppColors.accent : Colors.transparent,
+          ),
+          borderRadius: BorderRadius.circular(AppSizes.small),
+        ),
+        color: AppColors.accent,
+        disabledColor: AppColors.secondary.withOpacity(0.3),
+        disabledTextColor: AppColors.secondary,
+        textColor: AppColors.primary,
+        splashColor: Colors.blue,
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          child: !_.loading
+              ? Text(
+                  'Modify',
+                  style: Get.textTheme.caption.copyWith(
+                    color: _.actionAllowed
+                        ? AppColors.primary
+                        : AppColors.secondary,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )
+              : Center(
+                  child: CircularProgressIndicator(
+                  backgroundColor: AppColors.primary,
+                )),
+        ),
+      ),
     );
   }
 }

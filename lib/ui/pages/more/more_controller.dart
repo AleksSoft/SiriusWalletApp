@@ -9,7 +9,7 @@ class MoreController extends GetxController {
   signOut() {
     Get.defaultDialog(
       title: 'logout'.tr,
-      middleText: 'Are you shure to logout?',
+      middleText: 'Are you sure to logout?',
       buttonColor: AppColors.dark,
       confirmTextColor: AppColors.primary,
       onConfirm: () {

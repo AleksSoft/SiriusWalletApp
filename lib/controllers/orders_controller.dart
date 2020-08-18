@@ -63,7 +63,7 @@ class OrdersController extends GetxController {
   cancelAllOrders() async {
     await Get.defaultDialog(
       title: 'Cancel all orders',
-      middleText: 'Are you shure?',
+      middleText: 'Are you sure?',
       buttonColor: AppColors.dark,
       cancelTextColor: AppColors.dark,
       confirmTextColor: AppColors.primary,
@@ -74,6 +74,9 @@ class OrdersController extends GetxController {
       onCancel: () => Get.back(),
     );
   }
+
+  Future cancelOrder(String id) async =>
+      await TradingRepository.cancelOrder(id).then((value) => getOrders());
 
   placeLimitOrder(
     String assetId,
@@ -101,12 +104,12 @@ class OrdersController extends GetxController {
 
   Future<bool> confirmDismiss(String id) async => await Get.defaultDialog(
         title: 'Cancel order',
-        middleText: 'Are you shure?',
+        middleText: 'Are you sure?',
         buttonColor: AppColors.dark,
         cancelTextColor: AppColors.dark,
         confirmTextColor: AppColors.primary,
-        onConfirm: () {
-          TradingRepository.cancelOrder(id).then((value) => getOrders());
+        onConfirm: () async {
+          await cancelOrder(id);
           Get.back(result: true);
         },
         onCancel: () => Get.back(result: false),

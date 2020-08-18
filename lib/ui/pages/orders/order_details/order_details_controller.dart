@@ -18,11 +18,15 @@ class OrderDetailsArguments {
   final String amount;
   final String total;
   final String pairId;
+  final String orderId;
   final bool isBuy;
+  final bool isEdit;
 
   OrderDetailsArguments(
     this.pairId,
     this.isBuy, {
+    this.isEdit,
+    this.orderId,
     this.price,
     this.amount,
     this.total,
@@ -53,7 +57,7 @@ class OrderDetailsController extends GetxController {
   bool get isBuy => this._isBuy.value;
   set isBuy(bool value) => this._isBuy.value = value;
 
-  final _orderType = 'Limit'.obs;
+  final _orderType = orderTypes[0].obs;
   String get orderType => this._orderType.value;
   set orderType(String value) => this._orderType.value = value;
 
@@ -80,6 +84,9 @@ class OrderDetailsController extends GetxController {
   final _defaultHeight =
       (Get.height - (Get.context.mediaQueryPadding.top + 56.0));
 
+  bool isEdit;
+  String _orderId;
+
   @override
   void onInit() async {
     // initial data
@@ -87,6 +94,8 @@ class OrderDetailsController extends GetxController {
     bids.assignAll(arguments.bids ?? []);
     asks.assignAll(arguments.asks ?? []);
     isBuy = arguments.isBuy ?? false;
+    isEdit = arguments.isEdit ?? false;
+    _orderId = arguments.orderId;
 
     // load pair market data
     await updateWithPairId(arguments.pairId);
@@ -125,14 +134,24 @@ class OrderDetailsController extends GetxController {
   updateWithPairId(String pairId) async {
     marketModel = MarketsController.con.marketModelByPairId(pairId);
 
-    reloadTextValues();
+    if (isEdit) {
+      final arguments = Get.arguments as OrderDetailsArguments;
+      priceTextController.text =
+          (double.tryParse(arguments.price) ?? 0.0).toString();
+      totalTextController.text =
+          (double.tryParse(arguments.total) ?? 0.0).toString();
+      amountTextController.text =
+          (double.tryParse(arguments.amount) ?? 0.0).toString();
+      amount = amountTextController.text;
+    } else {
+      reloadTextValues();
+    }
 
     // load balances
     await _portfolioCon.getBalances();
 
-    await _orderbookSubscr?.cancel();
-
     // subscribe to orderbook stream
+    await _orderbookSubscr?.cancel();
     _orderbookSubscr = _api.clientSecure
         .getOrderbookUpdates(OrderbookUpdatesRequest()..assetPairId = pairId)
         .map((event) {
@@ -171,10 +190,14 @@ class OrderDetailsController extends GetxController {
 
   updatePercent(double percent) {
     double priceValue = double.tryParse(priceTextController.text) ?? 0.0;
+    print('priceValue=$priceValue');
+    print('priceTextController.text=${priceTextController.text}');
     double balance =
         double.tryParse(isBuy ? quotingBalance : baseBalance) ?? 0.0;
+    print('balance=$balance');
     double amountValue =
         isBuy ? (balance * percent) / priceValue : balance * percent;
+    print('amountValue=$amountValue');
 
     amountTextController.text = amountValue.toString();
     amount = amountTextController.text;
@@ -213,6 +236,16 @@ class OrderDetailsController extends GetxController {
       loading = false;
       Get.back();
       Get.rawSnackbar(message: 'Order placed');
+    }
+  }
+
+  modify() async {
+    if (!_orderId.isNullOrBlank) {
+      loading = true;
+      await OrdersController.con.cancelOrder(_orderId);
+      await perform();
+      loading = false;
+      Get.back();
     }
   }
 

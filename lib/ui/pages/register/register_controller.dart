@@ -134,7 +134,7 @@ class RegisterController extends GetxController {
     if (currentPage > 0) {
       Get.defaultDialog(
         title: 'Cancel',
-        middleText: 'Are you shure to cancel registration?',
+        middleText: 'Are you sure to cancel registration?',
         buttonColor: AppColors.red,
         onConfirm: () => Get.back(closeOverlays: true),
       );

@@ -2,6 +2,8 @@ import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/controllers/orders_controller.dart';
+import 'package:antares_wallet/ui/pages/orders/order_details/order_details_controller.dart';
+import 'package:antares_wallet/ui/pages/orders/order_details/order_details_page.dart';
 import 'package:antares_wallet/ui/pages/orders/widgets/order_history_tile.dart';
 import 'package:antares_wallet/ui/widgets/empty_view.dart';
 import 'package:flutter/cupertino.dart';
@@ -89,13 +91,18 @@ class OrdersPage extends StatelessWidget {
                                     c.orders[index].id,
                                   ),
                                   onTap: () {
-                                    // Get.toNamed(
-                                    //   OrderDetailsPage.route,
-                                    //   arguments: OrderDetailsArguments(
-                                    //     pair.id,
-                                    //     !orderOpenData.isSell,
-                                    //   ),
-                                    // );
+                                    Get.toNamed(
+                                      OrderDetailsPage.route,
+                                      arguments: OrderDetailsArguments(
+                                        pair.id,
+                                        !orderOpenData.isSell,
+                                        isEdit: true,
+                                        price: orderOpenData.price,
+                                        amount: orderOpenData.amount.toString(),
+                                        total: c.orders[index].totalCost
+                                            .toString(),
+                                      ),
+                                    );
                                   },
                                 );
                               },
