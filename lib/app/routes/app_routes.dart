@@ -1,8 +1,9 @@
+import 'package:antares_wallet/bindings/asset_info_binding.dart';
 import 'package:antares_wallet/bindings/local_auth_binding.dart';
 import 'package:antares_wallet/bindings/order_details_binding.dart';
+import 'package:antares_wallet/bindings/profile_binding.dart';
 import 'package:antares_wallet/bindings/register_binding.dart';
 import 'package:antares_wallet/bindings/root_binding.dart';
-import 'package:antares_wallet/bindings/profile_binding.dart';
 import 'package:antares_wallet/bindings/settings_binding.dart';
 import 'package:antares_wallet/bindings/start_binding.dart';
 import 'package:antares_wallet/bindings/support_binding.dart';
@@ -108,6 +109,7 @@ class AppRoutes {
     GetPage(
       name: AssetInfoPage.route,
       page: () => AssetInfoPage(),
+      binding: AssetInfoBinding(),
     ),
     GetPage(
       name: TradingPage.route,

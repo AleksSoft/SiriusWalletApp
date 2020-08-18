@@ -84,8 +84,9 @@ class OrderDetailsController extends GetxController {
   void onInit() async {
     // initial data
     final arguments = Get.arguments as OrderDetailsArguments;
-    bids.assignAll(arguments.bids ?? List());
-    asks.assignAll(arguments.asks ?? List());
+    bids.assignAll(arguments.bids ?? []);
+    asks.assignAll(arguments.asks ?? []);
+    isBuy = arguments.isBuy ?? false;
 
     // load pair market data
     await updateWithPairId(arguments.pairId);

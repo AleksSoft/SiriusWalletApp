@@ -23,7 +23,6 @@ class BackUpConfirmKeyPage extends StatelessWidget {
         builder: (_) {
           return ListView(
             padding: const EdgeInsets.all(AppSizes.medium),
-            physics: BouncingScrollPhysics(),
             shrinkWrap: true,
             children: [
               Padding(

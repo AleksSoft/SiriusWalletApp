@@ -23,7 +23,6 @@ class ProfilePage extends StatelessWidget {
         builder: (_) {
           return ListView(
             shrinkWrap: true,
-            physics: BouncingScrollPhysics(),
             padding: const EdgeInsets.all(AppSizes.medium),
             children: <Widget>[
               _AccountDataView(),

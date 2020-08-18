@@ -26,12 +26,7 @@ class RootController extends GetxController with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     _pronogateSessionTimer = Timer.periodic(
       Duration(minutes: 2),
-      (Timer _) async {
-        String sessionId = _storage.read(AppStorageKeys.token);
-        var expired =
-            await SessionRepository.isSessionExpired(sessionId: sessionId);
-        if (expired) await SessionRepository.prolongateSession();
-      },
+      (Timer _) async => await SessionRepository.prolongateSession(),
     );
     super.onInit();
   }

@@ -2,13 +2,10 @@ import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/controllers/orders_controller.dart';
-import 'package:antares_wallet/ui/pages/orders/order_details/order_details_controller.dart';
-import 'package:antares_wallet/ui/pages/orders/order_details/order_details_page.dart';
 import 'package:antares_wallet/ui/pages/orders/widgets/order_history_tile.dart';
 import 'package:antares_wallet/ui/widgets/empty_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 
 import 'widgets/order_open_tile.dart';

@@ -3,6 +3,7 @@ import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:antares_wallet/ui/pages/asset_info/asset_info_page.dart';
 import 'package:antares_wallet/ui/widgets/asset_list_tile.dart';
 import 'package:antares_wallet/utils/formatter.dart';
 import 'package:expandable/expandable.dart';
@@ -115,8 +116,8 @@ class _PortfolioCategoryBlock extends StatelessWidget {
             scrollOnExpand: true,
             scrollOnCollapse: true,
             child: ExpandablePanel(
-              collapsed: _buildCollapsed(category.iconUrl, assets),
-              expanded: _buildExpanded(category.iconUrl, assets),
+              collapsed: _buildCollapsed(assets),
+              expanded: _buildExpanded(assets),
             ),
           ),
           Visibility(
@@ -140,27 +141,38 @@ class _PortfolioCategoryBlock extends StatelessWidget {
     );
   }
 
-  Column _buildExpanded(String iconUrl, List<Asset> assets) {
+  Column _buildExpanded(List<Asset> assets) {
     List<Asset> list = (assets?.length ?? 0) > 3 ? assets.sublist(3) : List();
     return Column(
       children: <Widget>[
-        _buildCollapsed(iconUrl, assets),
+        _buildCollapsed(assets),
         Container(
           color: AppColors.secondary.withOpacity(0.1),
           child: Column(
-            children: list.map((a) => AssetListTile(iconUrl, a)).toList(),
+            children: list
+                .map((a) => AssetListTile(
+                      a,
+                      onTap: () => Get.toNamed(
+                        AssetInfoPage.route,
+                        arguments: a,
+                      ),
+                    ))
+                .toList(),
           ),
         ),
       ],
     );
   }
 
-  Column _buildCollapsed(String iconUrl, List<Asset> assets) {
+  Column _buildCollapsed(List<Asset> assets) {
     List<Asset> list =
         (assets?.length ?? 0) > 3 ? assets.sublist(0, 3) : assets;
     return Column(
       children: (list ?? List<Asset>())
-          .map((a) => AssetListTile(iconUrl, a))
+          .map((a) => AssetListTile(
+                a,
+                onTap: () => Get.toNamed(AssetInfoPage.route, arguments: a),
+              ))
           .toList(),
     );
   }

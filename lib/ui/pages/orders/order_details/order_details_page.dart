@@ -2,7 +2,6 @@ import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
-import 'package:antares_wallet/services/api/mock_api.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
 import 'package:antares_wallet/ui/widgets/volume_price_tile.dart';
 import 'package:antares_wallet/utils/formatter.dart';

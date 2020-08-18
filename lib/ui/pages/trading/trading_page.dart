@@ -1,10 +1,12 @@
+import 'dart:math' as math;
+
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
-import 'package:antares_wallet/services/api/mock_api.dart';
 import 'package:antares_wallet/src/apiservice.pbgrpc.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
+import 'package:antares_wallet/ui/widgets/buy_sell_button_row.dart';
 import 'package:antares_wallet/ui/widgets/tradelog_tile.dart';
 import 'package:antares_wallet/ui/widgets/volume_ask_tile.dart';
 import 'package:antares_wallet/ui/widgets/volume_bid_tile.dart';
@@ -15,7 +17,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:search_page/search_page.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'dart:math' as math;
 
 import 'trading_controller.dart';
 
@@ -89,9 +90,16 @@ class TradingPage extends StatelessWidget {
                     ),
                   ),
                 ),
+                SizedBox(height: AppSizes.extraLarge * 2),
               ],
             ),
-            _BuySellButtonRow(),
+            Positioned(
+              bottom: 0,
+              child: BuySellButtonRow(
+                onBuyTap: () => TradingController.con.openOrderDetails(true),
+                onSellTap: () => TradingController.con.openOrderDetails(false),
+              ),
+            ),
           ],
         ),
       ),
@@ -126,71 +134,6 @@ class TradingPage extends StatelessWidget {
               c.updateWithMarket(model);
             },
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _BuySellButtonRow extends StatelessWidget {
-  const _BuySellButtonRow({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      bottom: 0,
-      child: Container(
-        alignment: Alignment.center,
-        height: AppSizes.extraLarge * 2,
-        width: Get.width,
-        color: AppColors.primary,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            AppUiHelpers.hSpaceLarge,
-            Expanded(
-              child: FlatButton(
-                color: AppColors.green,
-                padding: const EdgeInsets.all(AppSizes.medium),
-                splashColor: Colors.green,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppSizes.small),
-                ),
-                onPressed: () => TradingController.con.openOrderDetails(true),
-                child: Text(
-                  'Buy',
-                  style: Get.textTheme.button.copyWith(
-                    color: AppColors.primary,
-                    fontSize: 16.0,
-                  ),
-                ),
-              ),
-            ),
-            AppUiHelpers.hSpaceLarge,
-            Expanded(
-              child: FlatButton(
-                color: AppColors.red,
-                padding: const EdgeInsets.all(AppSizes.medium),
-                splashColor: Colors.red,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppSizes.small),
-                ),
-                onPressed: () => TradingController.con.openOrderDetails(false),
-                child: Text(
-                  'Sell',
-                  style: Get.textTheme.button.copyWith(
-                    color: AppColors.primary,
-                    fontSize: 16.0,
-                  ),
-                ),
-              ),
-            ),
-            AppUiHelpers.hSpaceLarge,
-          ],
         ),
       ),
     );
@@ -342,6 +285,7 @@ class _CandleChartView extends StatelessWidget {
                       primaryYAxis: NumericAxis(
                           name: 'primaryYAxis',
                           opposedPosition: true,
+                          rangePadding: ChartRangePadding.round,
                           labelStyle: TextStyle(color: AppColors.secondary),
                           axisLine: AxisLine(width: 0),
                           numberFormat: NumberFormat.currency(

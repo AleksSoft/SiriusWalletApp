@@ -10,11 +10,9 @@ import 'package:get/get.dart';
 
 class AssetListTile extends StatelessWidget {
   final VoidCallback onTap;
-  final String iconUrl;
   final Asset asset;
 
   const AssetListTile(
-    this.iconUrl,
     this.asset, {
     this.onTap,
     Key key,
@@ -27,13 +25,13 @@ class AssetListTile extends StatelessWidget {
     return Column(
       children: [
         ListTile(
-          onTap: onTap,
+          onTap: () => onTap?.call(),
           contentPadding: const EdgeInsets.symmetric(
             horizontal: AppSizes.medium,
             vertical: AppSizes.extraSmall,
           ),
           leading: Image.network(
-            iconUrl,
+            asset.iconUrl,
             height: AppSizes.large,
             width: AppSizes.large,
           ),

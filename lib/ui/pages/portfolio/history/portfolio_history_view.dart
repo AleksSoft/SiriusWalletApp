@@ -33,7 +33,7 @@ class PortfolioHistoryView extends StatelessWidget {
           initState: (state) => c.getFunds(20, 0),
           builder: (_) {
             return EmptyView(
-              header: 'No protfolio history yet',
+              header: 'No portfolio history yet',
               message: '',
               condition: _.historyItems.isEmpty,
               child: ListView.builder(

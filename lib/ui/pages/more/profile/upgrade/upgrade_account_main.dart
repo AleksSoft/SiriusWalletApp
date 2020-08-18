@@ -24,7 +24,6 @@ class UpgradeAccountMainPage extends StatelessWidget {
               AppSizes.medium,
             ),
             shrinkWrap: true,
-            physics: BouncingScrollPhysics(),
             children: [
               _LevelCard(),
               AppUiHelpers.vSpaceExtraLarge,

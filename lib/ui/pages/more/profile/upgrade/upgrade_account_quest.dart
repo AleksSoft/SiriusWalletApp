@@ -28,7 +28,6 @@ class UpgradeAccountQuestPage extends StatelessWidget {
         centerTitle: true,
       ),
       body: ListView(
-        physics: BouncingScrollPhysics(),
         padding: const EdgeInsets.all(AppSizes.medium),
         shrinkWrap: true,
         children: [

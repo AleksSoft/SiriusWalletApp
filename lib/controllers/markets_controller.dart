@@ -19,8 +19,8 @@ class MarketsController extends GetxController {
 
   final List<MarketModel> initialMarketList = List<MarketModel>();
 
-  List<MarketModel> _markets = List<MarketModel>();
-  List<MarketModel> get markets => this._markets;
+  List<MarketModel> _watchedMarkets = List<MarketModel>();
+  List<MarketModel> get watchedMarkets => this._watchedMarkets;
 
   StreamSubscription<PriceUpdate> _priceSubscription;
 
@@ -45,10 +45,16 @@ class MarketsController extends GetxController {
     super.onClose();
   }
 
-  MarketModel marketModelByPairId(String pairId) => markets.firstWhere(
+  MarketModel marketModelByPairId(String pairId) =>
+      initialMarketList.firstWhere(
         (e) => e.pairId == pairId,
         orElse: () => MarketModel.empty(),
       );
+
+  List<MarketModel> marketModelsByAssetId(String assetId) => initialMarketList
+      .where((e) =>
+          e.pairBaseAsset.id == assetId || e.pairQuotingAsset.id == assetId)
+      .toList();
 
   Future<List<MarketsResponse_MarketModel>> getMarkets(
           {String assetPairId}) async =>
@@ -69,9 +75,9 @@ class MarketsController extends GetxController {
           result.add(market);
         }
       });
-      _markets = result;
+      _watchedMarkets = result;
     } else {
-      _markets = initialMarketList;
+      _watchedMarkets = initialMarketList;
     }
     update();
   }
@@ -96,9 +102,10 @@ class MarketsController extends GetxController {
   }
 
   _updateMarket(PriceUpdate priceUpdate) {
-    int index = markets.indexWhere((e) => e.pairId == priceUpdate.assetPairId);
+    int index =
+        watchedMarkets.indexWhere((e) => e.pairId == priceUpdate.assetPairId);
     if (index >= 0) {
-      markets[index].update(priceUpdate);
+      watchedMarkets[index].update(priceUpdate);
       update();
     }
   }
@@ -110,7 +117,7 @@ class MarketsController extends GetxController {
     Asset pairQuotingAsset,
   ) {
     return MarketModel(
-      iconUrl: _assetsController.categoryById(pairBaseAsset.categoryId).iconUrl,
+      iconUrl: pairBaseAsset.iconUrl,
       pairId: pair.id,
       pairBaseAsset: pairBaseAsset,
       pairQuotingAsset: pairQuotingAsset,

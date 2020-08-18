@@ -23,7 +23,6 @@ class MorePage extends StatelessWidget {
         init: MoreController(),
         builder: (_) {
           return ListView(
-            physics: BouncingScrollPhysics(),
             children: <Widget>[
               MenuTile(
                 title: 'settings'.tr,
