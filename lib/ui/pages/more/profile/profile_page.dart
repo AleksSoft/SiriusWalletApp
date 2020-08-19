@@ -51,9 +51,7 @@ class _AccountDataView extends StatelessWidget {
             size: 40.0,
           ),
           title: Obx(() => Text(c.tierInfo.currentTier.tier)),
-          subtitle: Obx(
-            () => Text(c.tierInfo.questionnaireAnswered ? '' : 'verified'.tr),
-          ),
+          subtitle: Text('verified'.tr),
           trailing: Visibility(
             visible: c.tierInfo.nextTier != null,
             child: OutlineButton(
@@ -76,46 +74,53 @@ class _DepositLimitsView extends StatelessWidget {
   final c = ProfileController.con;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Text(
-          'Deposit limits',
-          style: Theme.of(context).textTheme.headline6,
-        ),
-        AppUiHelpers.vSpaceSmall,
-        Text(
-          'Last 30d',
-          style: Theme.of(context).textTheme.caption,
-        ),
-        AppUiHelpers.vSpaceExtraSmall,
-        LinearPercentIndicator(
-          lineHeight: AppSizes.extraSmall,
-          padding: const EdgeInsets.all(0.0),
-          percent: c.limitPercent,
-          backgroundColor: AppColors.secondary.withOpacity(0.1),
-          progressColor: AppColors.accent,
-        ),
-        AppUiHelpers.vSpaceExtraSmall,
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Obx(
-              () => Text(
-                '${c.tierInfo.currentTier.current} ${c.tierInfo.currentTier.asset}',
-                style: Theme.of(context).textTheme.caption,
-              ),
-            ),
-            Obx(
-              () => Text(
-                '${c.tierInfo.currentTier.maxLimit} ${c.tierInfo.currentTier.asset}',
-                style: Theme.of(context).textTheme.caption,
-              ),
-            ),
-          ],
-        ),
-      ],
+    return Obx(
+      () => AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        child: c.doubleMax > 1
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text(
+                    'Deposit limits',
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  AppUiHelpers.vSpaceSmall,
+                  Text(
+                    'Last 30d',
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                  AppUiHelpers.vSpaceExtraSmall,
+                  LinearPercentIndicator(
+                    lineHeight: AppSizes.extraSmall,
+                    padding: const EdgeInsets.all(0.0),
+                    percent: c.limitPercent,
+                    backgroundColor: AppColors.secondary.withOpacity(0.1),
+                    progressColor: AppColors.accent,
+                  ),
+                  AppUiHelpers.vSpaceExtraSmall,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Obx(
+                        () => Text(
+                          '${c.tierInfo.currentTier.current} ${c.tierInfo.currentTier.asset}',
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                      ),
+                      Obx(
+                        () => Text(
+                          '${c.tierInfo.currentTier.maxLimit} ${c.tierInfo.currentTier.asset}',
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              )
+            : SizedBox.shrink(),
+      ),
     );
   }
 }

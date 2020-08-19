@@ -13,13 +13,13 @@ class ProfileController extends GetxController {
   TierInfoPayload get tierInfo => this._tierInfo.value;
   set tierInfo(TierInfoPayload value) => this._tierInfo.value = value;
 
-  double get limitPercent {
-    double doubleCurrent =
-        double.tryParse(tierInfo?.currentTier?.current ?? '0') ?? 0.0;
-    double doubleMax =
-        double.tryParse(tierInfo?.currentTier?.maxLimit ?? '0') ?? 1.0;
-    return (doubleCurrent * 100) / doubleMax;
-  }
+  double get limitPercent => (doubleCurrent * 100) / doubleMax;
+
+  double get doubleCurrent =>
+      double.tryParse(tierInfo?.currentTier?.current ?? '0') ?? 0.0;
+
+  double get doubleMax =>
+      double.tryParse(tierInfo?.currentTier?.maxLimit ?? '0') ?? 1.0;
 
   @override
   void onInit() async {
