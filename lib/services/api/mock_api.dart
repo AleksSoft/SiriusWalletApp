@@ -1,9 +1,8 @@
 import 'package:antares_wallet/models/account_data.dart';
 import 'package:antares_wallet/models/asset_dictionary_data.dart';
 import 'package:antares_wallet/models/order_data.dart';
-import 'package:antares_wallet/models/personal_data.dart';
-import 'package:antares_wallet/models/transaction_details.dart';
 import 'package:antares_wallet/models/support.dart';
+import 'package:antares_wallet/models/transaction_details.dart';
 
 class MockApiService {
   static const String lykkeIconUrl =
@@ -14,13 +13,6 @@ class MockApiService {
     ..email = 'support@lykke.com'
     ..phone = '+41 43 508 63 79';
 
-  final PersonalData _personalData = PersonalData()
-    ..firstName = 'User'
-    ..lastName = 'Test'
-    ..email = 'testuser@test.io'
-    ..contactPhone = '+41 43 508 63 79'
-    ..country = 'UK';
-
   final AccountData _accountData = AccountData()
     ..level = AccountLevel.beginner
     ..depositLimit = 0
@@ -28,8 +20,6 @@ class MockApiService {
     ..currency = 'EUR';
 
   Future<Support> fetchSupport() async => _support;
-
-  Future<PersonalData> fetchPersonalData() async => _personalData;
 
   Future<AccountData> fetchAccountLevel() async => _accountData;
 

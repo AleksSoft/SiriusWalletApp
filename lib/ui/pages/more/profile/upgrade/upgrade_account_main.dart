@@ -68,7 +68,7 @@ class _LevelCard extends StatelessWidget {
           ),
           AppUiHelpers.vSpaceExtraSmall,
           Text(
-            c.accountData.levelStr,
+            'c.accountData.levelStr',
             style: Theme.of(context).textTheme.headline6.copyWith(
                   fontWeight: FontWeight.w700,
                 ),

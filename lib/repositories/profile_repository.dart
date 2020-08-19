@@ -37,9 +37,7 @@ class ProfileRepository {
     return response != null;
   }
 
-  static Future<bool> setZip({
-    @required String zip,
-  }) async {
+  static Future<bool> setZip({@required String zip}) async {
     final response = await ErrorHandler.safeCall(
       _api.clientSecure.setZip(SetZipRequest()..zip = zip),
     );
