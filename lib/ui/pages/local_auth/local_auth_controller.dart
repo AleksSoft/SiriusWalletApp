@@ -53,13 +53,18 @@ class LocalAuthController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    toggleLocalAuth();
+    if (_showLocalAuth) {
+      toggleLocalAuth();
+    }
   }
 
   void toggleLocalAuth() async {
     if (!_isRegister) {
       bool authorized = await _localAuthService.authenticate();
-      if (authorized) navigateBack(true);
+      if (authorized) {
+        pinValue = _box.read(AppStorageKeys.pinCode);
+        _submitPIN();
+      }
     }
   }
 

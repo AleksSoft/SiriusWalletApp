@@ -42,54 +42,56 @@ class AssetInfoPage extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(
-          children: <Widget>[
-            _Details(),
-            RefreshIndicator(
-              color: AppColors.dark,
-              onRefresh: () => c.getTrades(),
-              child: GetX<AssetInfoController>(
-                initState: (state) => c.getTrades(),
-                builder: (_) {
-                  return EmptyView(
-                    header: 'No trades history yet',
-                    message: '',
-                    condition: _.trades.isEmpty,
-                    child: ListView(
-                      padding: const EdgeInsets.only(top: AppSizes.small),
-                      shrinkWrap: true,
-                      children: c.trades
-                          .map((trade) => OrderHistoryTile(
-                                data: OrderHistoryData.fromTradeModel(trade),
-                              ))
-                          .toList(),
-                    ),
-                  );
-                },
+        body: SafeArea(
+          child: TabBarView(
+            children: <Widget>[
+              _Details(),
+              RefreshIndicator(
+                color: AppColors.dark,
+                onRefresh: () => c.getTrades(),
+                child: GetX<AssetInfoController>(
+                  initState: (state) => c.getTrades(),
+                  builder: (_) {
+                    return EmptyView(
+                      header: 'No trades history yet',
+                      message: '',
+                      condition: _.trades.isEmpty,
+                      child: ListView(
+                        padding: const EdgeInsets.only(top: AppSizes.small),
+                        shrinkWrap: true,
+                        children: c.trades
+                            .map((trade) => OrderHistoryTile(
+                                  data: OrderHistoryData.fromTradeModel(trade),
+                                ))
+                            .toList(),
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
-            RefreshIndicator(
-              color: AppColors.dark,
-              onRefresh: () => c.getTrades(),
-              child: GetX<AssetInfoController>(
-                initState: (state) => c.getTrades(),
-                builder: (_) {
-                  return EmptyView(
-                    header: 'No transfers history yet',
-                    message: '',
-                    condition: _.funds.isEmpty,
-                    child: ListView(
-                      padding: const EdgeInsets.only(top: AppSizes.small),
-                      shrinkWrap: true,
-                      children: c.funds
-                          .map((trade) => TransactionTile(trade))
-                          .toList(),
-                    ),
-                  );
-                },
+              RefreshIndicator(
+                color: AppColors.dark,
+                onRefresh: () => c.getTrades(),
+                child: GetX<AssetInfoController>(
+                  initState: (state) => c.getTrades(),
+                  builder: (_) {
+                    return EmptyView(
+                      header: 'No transfers history yet',
+                      message: '',
+                      condition: _.funds.isEmpty,
+                      child: ListView(
+                        padding: const EdgeInsets.only(top: AppSizes.small),
+                        shrinkWrap: true,
+                        children: c.funds
+                            .map((trade) => TransactionTile(trade))
+                            .toList(),
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
