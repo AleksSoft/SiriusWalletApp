@@ -1,3 +1,4 @@
+import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/repositories/portfolio_repository.dart';
 import 'package:antares_wallet/repositories/trading_repository.dart';
@@ -5,12 +6,16 @@ import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
 import 'package:antares_wallet/ui/pages/orders/order_details/order_details_controller.dart';
 import 'package:antares_wallet/ui/pages/orders/order_details/order_details_page.dart';
+import 'package:antares_wallet/ui/pages/orders/widgets/order_history_tile.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 enum AssetInfoPeriod { h24, week, month, year }
 
 class AssetInfoController extends GetxController {
   static AssetInfoController get con => Get.find();
+
+  final _dateFormat = DateFormat().addPattern('dd.MM.yy HH:mm:ss');
 
   final Asset asset = Get.arguments as Asset;
 
@@ -23,10 +28,9 @@ class AssetInfoController extends GetxController {
   MarketModel get selectedMarket => this._selectedMarket.value;
   set selectedMarket(MarketModel value) => this._selectedMarket.value = value;
 
-  final _trades = List<TradesResponse_TradeModel>().obs;
-  List<TradesResponse_TradeModel> get trades => this._trades.value;
-  set trades(List<TradesResponse_TradeModel> value) =>
-      this._trades.value = value;
+  final _trades = List<OrderHistoryData>().obs;
+  List<OrderHistoryData> get trades => this._trades.value;
+  set trades(List<OrderHistoryData> value) => this._trades.value = value;
 
   final _funds = List<FundsResponse_FundsModel>().obs;
   List<FundsResponse_FundsModel> get funds => this._funds.value;
@@ -69,15 +73,47 @@ class AssetInfoController extends GetxController {
     super.onReady();
   }
 
-  Future<void> getTrades() async => trades = await TradingRepository.getTrades(
-        take: 50,
-        skip: 0,
-      );
+  Future<void> getTrades() async {
+    List<AssetTradesResponse_AssetTradeModel> assetTrades =
+        await TradingRepository.getAssetTrades(
+      assetId: asset.id,
+      take: 50,
+      skip: 0,
+    );
+    var resultList = List<OrderHistoryData>();
+    if (assetTrades != null && assetTrades.isNotEmpty) {
+      final assetC = AssetsController.con;
+      assetTrades.forEach((AssetTradesResponse_AssetTradeModel model) {
+        AssetPair assetPair = assetC.assetPairById(model.assetPairId);
+        Asset baseAsset = assetC.assetById(assetPair?.baseAssetId);
+        Asset quotingAsset = assetC.assetById(assetPair?.quotingAssetId);
+        if (assetPair != null && baseAsset != null && quotingAsset != null) {
+          double priceDouble = (double.tryParse(model.price) ?? 0.0);
+          double amountDouble = double.tryParse(model.amount) ?? 0.0;
+          resultList.add(OrderHistoryData(
+            price: priceDouble.toStringAsFixed(quotingAsset.accuracy),
+            amount: amountDouble.abs().toString(),
+            isBuy: amountDouble >= 0,
+            total: (priceDouble * amountDouble.abs())
+                .toStringAsFixed(quotingAsset.accuracy),
+            baseAssetName: baseAsset.displayId,
+            quoteAssetName: quotingAsset.displayId,
+            date: _dateFormat.format(
+              DateTime.fromMillisecondsSinceEpoch(
+                model.timestamp.seconds.toInt() * 1000,
+              ),
+            ),
+          ));
+        }
+        trades = resultList;
+      });
+    }
+  }
 
   Future<void> getFunds() async => funds = await PortfolioRepository.getFunds(
+        assetId: asset.id,
         take: 50,
         skip: 0,
-        assetId: asset.id,
       );
 
   Future<void> updateCandles() async {

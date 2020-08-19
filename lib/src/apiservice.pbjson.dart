@@ -79,6 +79,13 @@ const CandlesRequest$json = const {
   ],
 };
 
+const OrderbookRequest$json = const {
+  '1': 'OrderbookRequest',
+  '2': const [
+    const {'1': 'assetPairId', '3': 1, '4': 1, '5': 9, '10': 'assetPairId'},
+  ],
+};
+
 const AmountInBaseRequest$json = const {
   '1': 'AmountInBaseRequest',
   '2': const [
@@ -253,6 +260,15 @@ const TradesRequest$json = const {
     const {'1': 'optional_fromDate'},
     const {'1': 'optional_toDate'},
     const {'1': 'optional_tradeType'},
+  ],
+};
+
+const AssetTradesRequest$json = const {
+  '1': 'AssetTradesRequest',
+  '2': const [
+    const {'1': 'assetId', '3': 1, '4': 1, '5': 9, '10': 'assetId'},
+    const {'1': 'take', '3': 2, '4': 1, '5': 5, '10': 'take'},
+    const {'1': 'skip', '3': 3, '4': 1, '5': 5, '10': 'skip'},
   ],
 };
 
@@ -856,6 +872,27 @@ const TradesResponse_TradeModel$json = const {
     const {'1': 'baseVolume', '3': 7, '4': 1, '5': 9, '10': 'baseVolume'},
     const {'1': 'quoteAssetName', '3': 8, '4': 1, '5': 9, '10': 'quoteAssetName'},
     const {'1': 'quoteVolume', '3': 9, '4': 1, '5': 9, '10': 'quoteVolume'},
+    const {'1': 'timestamp', '3': 10, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'timestamp'},
+  ],
+};
+
+const AssetTradesResponse$json = const {
+  '1': 'AssetTradesResponse',
+  '2': const [
+    const {'1': 'trades', '3': 1, '4': 3, '5': 11, '6': '.antaresWallet.AssetTradesResponse.AssetTradeModel', '10': 'trades'},
+    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorV2', '10': 'error'},
+  ],
+  '3': const [AssetTradesResponse_AssetTradeModel$json],
+};
+
+const AssetTradesResponse_AssetTradeModel$json = const {
+  '1': 'AssetTradeModel',
+  '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'assetId', '3': 2, '4': 1, '5': 9, '10': 'assetId'},
+    const {'1': 'assetPairId', '3': 3, '4': 1, '5': 9, '10': 'assetPairId'},
+    const {'1': 'price', '3': 4, '4': 1, '5': 9, '10': 'price'},
+    const {'1': 'amount', '3': 5, '4': 1, '5': 9, '10': 'amount'},
     const {'1': 'timestamp', '3': 10, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'timestamp'},
   ],
 };

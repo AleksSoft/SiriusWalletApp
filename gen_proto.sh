@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# pub global deactivate protoc_plugin
+# pub global activate protoc_plugin
+
 # run proto file generator
 SRC_DIR=./assets/protos
 DST_DIR=./lib/src/

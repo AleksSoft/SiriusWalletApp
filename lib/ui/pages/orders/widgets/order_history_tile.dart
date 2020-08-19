@@ -12,36 +12,34 @@ import 'package:intl/intl.dart';
 class OrderHistoryData {
   final String baseAssetName;
   final String quoteAssetName;
-  final String baseVolume;
-  final String quoteVolume;
+  final String amount;
+  final String total;
   final String price;
-  final String direction;
+  final bool isBuy;
   final String date;
 
   OrderHistoryData({
     @required this.baseAssetName,
     @required this.quoteAssetName,
-    @required this.baseVolume,
-    @required this.quoteVolume,
+    @required this.amount,
+    @required this.total,
     @required this.price,
-    @required this.direction,
+    @required this.isBuy,
     @required this.date,
   });
 
   OrderHistoryData.fromTradeModel(TradesResponse_TradeModel model)
       : this.baseAssetName = model.baseAssetName,
         this.quoteAssetName = model.quoteAssetName,
-        this.baseVolume = model.baseVolume,
-        this.quoteVolume = model.quoteVolume,
+        this.amount = model.baseVolume,
+        this.total = model.quoteVolume,
         this.price = model.price,
-        this.direction = model.direction,
+        this.isBuy = model.direction.toLowerCase() == 'sell',
         this.date = DateFormat().addPattern('dd.MM.yy HH:mm:ss').format(
               DateTime.fromMillisecondsSinceEpoch(
                 model.timestamp.seconds.toInt() * 1000,
               ),
             );
-
-  bool get isSell => direction.toLowerCase() == 'sell'.toLowerCase();
 }
 
 class OrderHistoryTile extends StatelessWidget {
@@ -84,11 +82,11 @@ class OrderHistoryTile extends StatelessWidget {
                   Visibility(
                     visible: true,
                     child: Text(
-                      data.direction.toUpperCase(),
+                      data.isBuy ? 'Buy' : 'Sell',
                       style: textStyleButton.copyWith(
                         fontSize: 12.0,
                         fontWeight: FontWeight.w600,
-                        color: data.isSell ? AppColors.red : AppColors.green,
+                        color: data.isBuy ? AppColors.green : AppColors.red,
                       ),
                     ),
                   ),
@@ -115,7 +113,7 @@ class OrderHistoryTile extends StatelessWidget {
                     children: [
                       _buildInfoItem(
                         'Amount (${data.baseAssetName})',
-                        data.baseVolume,
+                        data.amount,
                       ),
                       VerticalDivider(),
                       _buildInfoItem(
@@ -125,7 +123,7 @@ class OrderHistoryTile extends StatelessWidget {
                       VerticalDivider(),
                       _buildInfoItem(
                         'Total (${data.quoteAssetName})',
-                        data.quoteVolume,
+                        data.total,
                       ),
                     ],
                   ),

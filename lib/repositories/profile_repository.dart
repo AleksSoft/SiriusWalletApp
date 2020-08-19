@@ -30,9 +30,7 @@ class ProfileRepository {
     return response?.result ?? Map();
   }
 
-  static Future<bool> setAdress({
-    @required String address,
-  }) async {
+  static Future<bool> setAddress({@required String address}) async {
     final response = await ErrorHandler.safeCall(
       _api.clientSecure.setAddress(SetAddressRequest()..address = address),
     );

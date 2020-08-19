@@ -56,6 +56,22 @@ class TradingRepository {
     return response?.trades ?? List();
   }
 
+  static Future<List<AssetTradesResponse_AssetTradeModel>> getAssetTrades({
+    @required String assetId,
+    @required int take,
+    @required int skip,
+  }) async {
+    final response = await ErrorHandler.safeCall(
+      _api.clientSecure.getAssetTrades(
+        AssetTradesRequest()
+          ..assetId = assetId
+          ..take = take
+          ..skip = skip,
+      ),
+    );
+    return response?.trades ?? List();
+  }
+
   static Future<bool> cancelOrder(String orderId) async {
     final response = await ErrorHandler.safeCall(_api.clientSecure.cancelOrder(
       CancelOrderRequest()..orderId = orderId,

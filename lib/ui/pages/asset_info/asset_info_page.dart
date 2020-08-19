@@ -60,9 +60,7 @@ class AssetInfoPage extends StatelessWidget {
                         padding: const EdgeInsets.only(top: AppSizes.small),
                         shrinkWrap: true,
                         children: c.trades
-                            .map((trade) => OrderHistoryTile(
-                                  data: OrderHistoryData.fromTradeModel(trade),
-                                ))
+                            .map((trade) => OrderHistoryTile(data: trade))
                             .toList(),
                       ),
                     );

@@ -56,6 +56,11 @@ class ApiServiceClient extends $grpc.Client {
           ($0.Empty value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $1.BalancesResponse.fromBuffer(value));
+  static final _$getOrderbook =
+      $grpc.ClientMethod<$1.OrderbookRequest, $1.Orderbook>(
+          '/antaresWallet.ApiService/GetOrderbook',
+          ($1.OrderbookRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $1.Orderbook.fromBuffer(value));
   static final _$getMarkets =
       $grpc.ClientMethod<$1.MarketsRequest, $1.MarketsResponse>(
           '/antaresWallet.ApiService/GetMarkets',
@@ -179,6 +184,12 @@ class ApiServiceClient extends $grpc.Client {
           '/antaresWallet.ApiService/GetTrades',
           ($1.TradesRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $1.TradesResponse.fromBuffer(value));
+  static final _$getAssetTrades =
+      $grpc.ClientMethod<$1.AssetTradesRequest, $1.AssetTradesResponse>(
+          '/antaresWallet.ApiService/GetAssetTrades',
+          ($1.AssetTradesRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $1.AssetTradesResponse.fromBuffer(value));
   static final _$getFunds =
       $grpc.ClientMethod<$1.FundsRequest, $1.FundsResponse>(
           '/antaresWallet.ApiService/GetFunds',
@@ -472,6 +483,14 @@ class ApiServiceClient extends $grpc.Client {
     return $grpc.ResponseFuture(call);
   }
 
+  $grpc.ResponseFuture<$1.Orderbook> getOrderbook($1.OrderbookRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$getOrderbook, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
   $grpc.ResponseFuture<$1.MarketsResponse> getMarkets($1.MarketsRequest request,
       {$grpc.CallOptions options}) {
     final call = $createCall(
@@ -655,6 +674,15 @@ class ApiServiceClient extends $grpc.Client {
   $grpc.ResponseFuture<$1.TradesResponse> getTrades($1.TradesRequest request,
       {$grpc.CallOptions options}) {
     final call = $createCall(_$getTrades, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
+  $grpc.ResponseFuture<$1.AssetTradesResponse> getAssetTrades(
+      $1.AssetTradesRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$getAssetTrades, $async.Stream.fromIterable([request]),
         options: options);
     return $grpc.ResponseFuture(call);
   }
@@ -1073,6 +1101,13 @@ abstract class ApiServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
         ($1.BalancesResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.OrderbookRequest, $1.Orderbook>(
+        'GetOrderbook',
+        getOrderbook_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $1.OrderbookRequest.fromBuffer(value),
+        ($1.Orderbook value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$1.MarketsRequest, $1.MarketsResponse>(
         'GetMarkets',
         getMarkets_Pre,
@@ -1247,6 +1282,15 @@ abstract class ApiServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $1.TradesRequest.fromBuffer(value),
         ($1.TradesResponse value) => value.writeToBuffer()));
+    $addMethod(
+        $grpc.ServiceMethod<$1.AssetTradesRequest, $1.AssetTradesResponse>(
+            'GetAssetTrades',
+            getAssetTrades_Pre,
+            false,
+            false,
+            ($core.List<$core.int> value) =>
+                $1.AssetTradesRequest.fromBuffer(value),
+            ($1.AssetTradesResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$1.FundsRequest, $1.FundsResponse>(
         'GetFunds',
         getFunds_Pre,
@@ -1609,6 +1653,11 @@ abstract class ApiServiceBase extends $grpc.Service {
     return getBalances(call, await request);
   }
 
+  $async.Future<$1.Orderbook> getOrderbook_Pre($grpc.ServiceCall call,
+      $async.Future<$1.OrderbookRequest> request) async {
+    return getOrderbook(call, await request);
+  }
+
   $async.Future<$1.MarketsResponse> getMarkets_Pre(
       $grpc.ServiceCall call, $async.Future<$1.MarketsRequest> request) async {
     return getMarkets(call, await request);
@@ -1725,6 +1774,12 @@ abstract class ApiServiceBase extends $grpc.Service {
   $async.Future<$1.TradesResponse> getTrades_Pre(
       $grpc.ServiceCall call, $async.Future<$1.TradesRequest> request) async {
     return getTrades(call, await request);
+  }
+
+  $async.Future<$1.AssetTradesResponse> getAssetTrades_Pre(
+      $grpc.ServiceCall call,
+      $async.Future<$1.AssetTradesRequest> request) async {
+    return getAssetTrades(call, await request);
   }
 
   $async.Future<$1.FundsResponse> getFunds_Pre(
@@ -1962,6 +2017,8 @@ abstract class ApiServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $1.CandlesRequest request);
   $async.Future<$1.BalancesResponse> getBalances(
       $grpc.ServiceCall call, $0.Empty request);
+  $async.Future<$1.Orderbook> getOrderbook(
+      $grpc.ServiceCall call, $1.OrderbookRequest request);
   $async.Future<$1.MarketsResponse> getMarkets(
       $grpc.ServiceCall call, $1.MarketsRequest request);
   $async.Future<$1.PendingActionsResponse> getPendingActions(
@@ -2006,6 +2063,8 @@ abstract class ApiServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $1.CancelOrderRequest request);
   $async.Future<$1.TradesResponse> getTrades(
       $grpc.ServiceCall call, $1.TradesRequest request);
+  $async.Future<$1.AssetTradesResponse> getAssetTrades(
+      $grpc.ServiceCall call, $1.AssetTradesRequest request);
   $async.Future<$1.FundsResponse> getFunds(
       $grpc.ServiceCall call, $1.FundsRequest request);
   $async.Future<$1.ExplorerLinksResponse> getExplorerLinks(

@@ -171,6 +171,37 @@ class CandlesRequest extends $pb.GeneratedMessage {
   $3.Timestamp ensureTo() => $_ensure(4);
 }
 
+class OrderbookRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('OrderbookRequest', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOS(1, 'assetPairId', protoName: 'assetPairId')
+    ..hasRequiredFields = false
+  ;
+
+  OrderbookRequest._() : super();
+  factory OrderbookRequest() => create();
+  factory OrderbookRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory OrderbookRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  OrderbookRequest clone() => OrderbookRequest()..mergeFromMessage(this);
+  OrderbookRequest copyWith(void Function(OrderbookRequest) updates) => super.copyWith((message) => updates(message as OrderbookRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static OrderbookRequest create() => OrderbookRequest._();
+  OrderbookRequest createEmptyInstance() => create();
+  static $pb.PbList<OrderbookRequest> createRepeated() => $pb.PbList<OrderbookRequest>();
+  @$core.pragma('dart2js:noInline')
+  static OrderbookRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<OrderbookRequest>(create);
+  static OrderbookRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get assetPairId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set assetPairId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasAssetPairId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearAssetPairId() => clearField(1);
+}
+
 class AmountInBaseRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('AmountInBaseRequest', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
     ..aOS(1, 'assetId', protoName: 'assetId')
@@ -1143,6 +1174,57 @@ class TradesRequest extends $pb.GeneratedMessage {
   $core.bool hasTradeType() => $_has(5);
   @$pb.TagNumber(6)
   void clearTradeType() => clearField(6);
+}
+
+class AssetTradesRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('AssetTradesRequest', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOS(1, 'assetId', protoName: 'assetId')
+    ..a<$core.int>(2, 'take', $pb.PbFieldType.O3)
+    ..a<$core.int>(3, 'skip', $pb.PbFieldType.O3)
+    ..hasRequiredFields = false
+  ;
+
+  AssetTradesRequest._() : super();
+  factory AssetTradesRequest() => create();
+  factory AssetTradesRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AssetTradesRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  AssetTradesRequest clone() => AssetTradesRequest()..mergeFromMessage(this);
+  AssetTradesRequest copyWith(void Function(AssetTradesRequest) updates) => super.copyWith((message) => updates(message as AssetTradesRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static AssetTradesRequest create() => AssetTradesRequest._();
+  AssetTradesRequest createEmptyInstance() => create();
+  static $pb.PbList<AssetTradesRequest> createRepeated() => $pb.PbList<AssetTradesRequest>();
+  @$core.pragma('dart2js:noInline')
+  static AssetTradesRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AssetTradesRequest>(create);
+  static AssetTradesRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get assetId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set assetId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasAssetId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearAssetId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get take => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set take($core.int v) { $_setSignedInt32(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasTake() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearTake() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.int get skip => $_getIZ(2);
+  @$pb.TagNumber(3)
+  set skip($core.int v) { $_setSignedInt32(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasSkip() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearSkip() => clearField(3);
 }
 
 enum FundsRequest_OptionalAssetId {
@@ -4353,6 +4435,126 @@ class TradesResponse extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(1)
   $core.List<TradesResponse_TradeModel> get trades => $_getList(0);
+
+  @$pb.TagNumber(2)
+  ErrorV2 get error => $_getN(1);
+  @$pb.TagNumber(2)
+  set error(ErrorV2 v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasError() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearError() => clearField(2);
+  @$pb.TagNumber(2)
+  ErrorV2 ensureError() => $_ensure(1);
+}
+
+class AssetTradesResponse_AssetTradeModel extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('AssetTradesResponse.AssetTradeModel', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOS(1, 'id')
+    ..aOS(2, 'assetId', protoName: 'assetId')
+    ..aOS(3, 'assetPairId', protoName: 'assetPairId')
+    ..aOS(4, 'price')
+    ..aOS(5, 'amount')
+    ..aOM<$3.Timestamp>(10, 'timestamp', subBuilder: $3.Timestamp.create)
+    ..hasRequiredFields = false
+  ;
+
+  AssetTradesResponse_AssetTradeModel._() : super();
+  factory AssetTradesResponse_AssetTradeModel() => create();
+  factory AssetTradesResponse_AssetTradeModel.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AssetTradesResponse_AssetTradeModel.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  AssetTradesResponse_AssetTradeModel clone() => AssetTradesResponse_AssetTradeModel()..mergeFromMessage(this);
+  AssetTradesResponse_AssetTradeModel copyWith(void Function(AssetTradesResponse_AssetTradeModel) updates) => super.copyWith((message) => updates(message as AssetTradesResponse_AssetTradeModel));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static AssetTradesResponse_AssetTradeModel create() => AssetTradesResponse_AssetTradeModel._();
+  AssetTradesResponse_AssetTradeModel createEmptyInstance() => create();
+  static $pb.PbList<AssetTradesResponse_AssetTradeModel> createRepeated() => $pb.PbList<AssetTradesResponse_AssetTradeModel>();
+  @$core.pragma('dart2js:noInline')
+  static AssetTradesResponse_AssetTradeModel getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AssetTradesResponse_AssetTradeModel>(create);
+  static AssetTradesResponse_AssetTradeModel _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get id => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set id($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get assetId => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set assetId($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasAssetId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearAssetId() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get assetPairId => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set assetPairId($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasAssetPairId() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearAssetPairId() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.String get price => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set price($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasPrice() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearPrice() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.String get amount => $_getSZ(4);
+  @$pb.TagNumber(5)
+  set amount($core.String v) { $_setString(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasAmount() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearAmount() => clearField(5);
+
+  @$pb.TagNumber(10)
+  $3.Timestamp get timestamp => $_getN(5);
+  @$pb.TagNumber(10)
+  set timestamp($3.Timestamp v) { setField(10, v); }
+  @$pb.TagNumber(10)
+  $core.bool hasTimestamp() => $_has(5);
+  @$pb.TagNumber(10)
+  void clearTimestamp() => clearField(10);
+  @$pb.TagNumber(10)
+  $3.Timestamp ensureTimestamp() => $_ensure(5);
+}
+
+class AssetTradesResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('AssetTradesResponse', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..pc<AssetTradesResponse_AssetTradeModel>(1, 'trades', $pb.PbFieldType.PM, subBuilder: AssetTradesResponse_AssetTradeModel.create)
+    ..aOM<ErrorV2>(2, 'error', subBuilder: ErrorV2.create)
+    ..hasRequiredFields = false
+  ;
+
+  AssetTradesResponse._() : super();
+  factory AssetTradesResponse() => create();
+  factory AssetTradesResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AssetTradesResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  AssetTradesResponse clone() => AssetTradesResponse()..mergeFromMessage(this);
+  AssetTradesResponse copyWith(void Function(AssetTradesResponse) updates) => super.copyWith((message) => updates(message as AssetTradesResponse));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static AssetTradesResponse create() => AssetTradesResponse._();
+  AssetTradesResponse createEmptyInstance() => create();
+  static $pb.PbList<AssetTradesResponse> createRepeated() => $pb.PbList<AssetTradesResponse>();
+  @$core.pragma('dart2js:noInline')
+  static AssetTradesResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AssetTradesResponse>(create);
+  static AssetTradesResponse _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<AssetTradesResponse_AssetTradeModel> get trades => $_getList(0);
 
   @$pb.TagNumber(2)
   ErrorV2 get error => $_getN(1);

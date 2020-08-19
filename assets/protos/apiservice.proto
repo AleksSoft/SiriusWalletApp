@@ -18,6 +18,7 @@ service ApiService {
     rpc GetPrices (PricesRequest) returns (PricesResponse);
     rpc GetCandles (CandlesRequest) returns (CandlesResponse);
     rpc GetBalances (google.protobuf.Empty) returns (BalancesResponse);
+    rpc GetOrderbook (OrderbookRequest) returns (Orderbook);
     // GET (v2) /api/markets
     rpc GetMarkets (MarketsRequest) returns (MarketsResponse);
     // GET	/api/Client/pendingActions
@@ -60,6 +61,8 @@ service ApiService {
     rpc CancelOrder (CancelOrderRequest) returns (CancelOrderResponse);
     // GET (v2) /api/History/{walletId}/trades
     rpc GetTrades (TradesRequest) returns (TradesResponse);
+    // GET (v2) /api/History/wallet/{walletId}
+    rpc GetAssetTrades (AssetTradesRequest) returns (AssetTradesResponse);
     // GET (v2) /api/History/{walletId}/funds
     rpc GetFunds (FundsRequest) returns (FundsResponse);
     // GET (v2) /api/History/crypto/{assetId}/transactions/{transactionHash}/links
@@ -165,6 +168,10 @@ message CandlesRequest {
     CandleInterval interval = 3;
     google.protobuf.Timestamp from = 4;
     google.protobuf.Timestamp to = 5;
+}
+
+message OrderbookRequest {
+    string assetPairId = 1;
 }
 
 message AmountInBaseRequest {
@@ -284,6 +291,12 @@ message TradesRequest {
     oneof optional_tradeType {
         string tradeType = 6;
     }
+}
+
+message AssetTradesRequest {
+    string assetId = 1;
+    int32 take = 2;
+    int32 skip = 3;
 }
 
 message FundsRequest {
@@ -699,6 +712,20 @@ message TradesResponse {
         string baseVolume = 7;
         string quoteAssetName = 8;
         string quoteVolume = 9;
+        google.protobuf.Timestamp timestamp = 10;
+    }
+}
+
+message AssetTradesResponse {
+    repeated AssetTradeModel trades = 1;
+    ErrorV2 error = 2;
+
+    message AssetTradeModel {
+        string id = 1;
+        string assetId = 2;
+        string assetPairId = 3;
+        string price = 4;
+        string amount = 5;
         google.protobuf.Timestamp timestamp = 10;
     }
 }
