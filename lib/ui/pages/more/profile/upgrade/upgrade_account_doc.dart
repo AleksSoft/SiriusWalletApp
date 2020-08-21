@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
-import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_quest.dart';
+import 'package:antares_wallet/ui/pages/more/profile/profile_controller.dart';
 import 'package:antares_wallet/ui/widgets/default_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 enum DocType {
   passport,
@@ -16,6 +16,7 @@ enum DocType {
   drivingLicense,
   selfie,
   proofOfAddress,
+  proofOfFunds,
 }
 
 class UpgradeAccountDocPage extends StatefulWidget {
@@ -188,7 +189,10 @@ class _UpgradeAccountDocPageState extends State<UpgradeAccountDocPage> {
               child: CupertinoButton.filled(
                 disabledColor: Colors.grey.withOpacity(0.7),
                 child: Text('submit'.tr),
-                onPressed: () => _pushNextRoute(widget.docType),
+                onPressed: () => ProfileController.con.submitDoc(
+                  widget.docType,
+                  _image.readAsBytesSync().toList(),
+                ),
               ),
             ),
           ],
@@ -228,30 +232,6 @@ class _UpgradeAccountDocPageState extends State<UpgradeAccountDocPage> {
         return 'msg_upgrade_proof_of_address'.tr;
       default:
         return '';
-    }
-  }
-
-  void _pushNextRoute(DocType docType) {
-    switch (docType) {
-      case DocType.passport:
-      case DocType.nationalId:
-      case DocType.drivingLicense:
-        Get.toNamed(
-          UpgradeAccountDocPage.route,
-          arguments: DocType.selfie,
-          preventDuplicates: false,
-        );
-        break;
-      case DocType.selfie:
-        Get.toNamed(
-          UpgradeAccountDocPage.route,
-          arguments: DocType.proofOfAddress,
-          preventDuplicates: false,
-        );
-        break;
-      case DocType.proofOfAddress:
-      default:
-        Get.toNamed(UpgradeAccountQuestPage.route);
     }
   }
 }

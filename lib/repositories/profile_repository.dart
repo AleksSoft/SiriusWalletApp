@@ -43,4 +43,49 @@ class ProfileRepository {
     );
     return response != null;
   }
+
+  static Future<bool> uploadKycFile({
+    @required String documentType,
+    @required String filename,
+    @required List<int> file,
+  }) async {
+    final response = await ErrorHandler.safeCall(
+      _api.clientSecure.uploadKycFile(
+        KycFileRequest()
+          ..documentType = documentType
+          ..filename = filename
+          ..file = file,
+      ),
+    );
+    return response != null;
+  }
+
+  static Future<List<QuestionnaireResponse_Question>> getQuestionnaire() async {
+    final QuestionnaireResponse response = await ErrorHandler.safeCall(
+      _api.clientSecure.getQuestionnaire(Empty()),
+    );
+    return response?.result?.questionnaire ?? [];
+  }
+
+  static Future<bool> saveQuestionnaire({
+    @required List<AnswersRequest_Choice> answers,
+  }) async {
+    final response = await ErrorHandler.safeCall(
+      _api.clientSecure.saveQuestionnaire(
+        AnswersRequest()..answers.addAll(answers),
+      ),
+    );
+    return response != null;
+  }
+
+  static Future<bool> submitProfile({
+    @required TierUpgrade tier,
+  }) async {
+    final response = await ErrorHandler.safeCall(
+      _api.clientSecure.submitProfile(
+        SubmitProfileRequest()..tier = tier,
+      ),
+    );
+    return response != null;
+  }
 }

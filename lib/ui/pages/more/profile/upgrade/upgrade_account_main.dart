@@ -2,7 +2,6 @@ import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/ui/pages/more/profile/profile_controller.dart';
-import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_choose_doc.dart';
 import 'package:antares_wallet/ui/widgets/default_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,40 +9,37 @@ import 'package:get/get.dart';
 
 class UpgradeAccountMainPage extends StatelessWidget {
   static final String route = '/upgrade-account-main';
+  final c = ProfileController.con;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(elevation: 0.0),
-      body: GetBuilder<ProfileController>(
-        builder: (_) {
-          return ListView(
-            padding: const EdgeInsets.fromLTRB(
-              AppSizes.medium,
-              AppSizes.small,
-              AppSizes.medium,
-              AppSizes.medium,
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(
+          AppSizes.medium,
+          AppSizes.small,
+          AppSizes.medium,
+          AppSizes.medium,
+        ),
+        shrinkWrap: true,
+        children: [
+          _LevelCard(),
+          AppUiHelpers.vSpaceExtraLarge,
+          _LevelHeaderView(),
+          AppUiHelpers.vSpaceExtraLarge,
+          _ListView(),
+          AppUiHelpers.vSpaceExtraLarge,
+          DefaultCard(
+            blurRadius: 10,
+            shadowColor: AppColors.accent.withOpacity(0.5),
+            borderRadius: BorderRadius.all(Radius.circular(AppSizes.small)),
+            child: CupertinoButton.filled(
+              child: Text('upgrade_account'.tr),
+              onPressed: () => c.openNextUpgradePage(),
             ),
-            shrinkWrap: true,
-            children: [
-              _LevelCard(),
-              AppUiHelpers.vSpaceExtraLarge,
-              _LevelHeaderView(),
-              AppUiHelpers.vSpaceExtraLarge,
-              _ListView(),
-              AppUiHelpers.vSpaceExtraLarge,
-              DefaultCard(
-                blurRadius: 10,
-                shadowColor: AppColors.accent.withOpacity(0.5),
-                borderRadius: BorderRadius.all(Radius.circular(AppSizes.small)),
-                child: CupertinoButton.filled(
-                  child: Text('upgrade_account'.tr),
-                  onPressed: () =>
-                      Get.toNamed(UpgradeAccountChooseDocPage.route),
-                ),
-              ),
-            ],
-          );
-        },
+          ),
+        ],
       ),
     );
   }
@@ -62,16 +58,18 @@ class _LevelCard extends StatelessWidget {
         children: [
           Text(
             'title_your_account'.tr,
-            style: Theme.of(context).textTheme.caption.copyWith(
-                  fontSize: 10.0,
-                ),
+            style: Get.textTheme.caption.copyWith(
+              fontSize: 10.0,
+            ),
           ),
           AppUiHelpers.vSpaceExtraSmall,
-          Text(
-            'c.accountData.levelStr',
-            style: Theme.of(context).textTheme.headline6.copyWith(
-                  fontWeight: FontWeight.w700,
-                ),
+          Obx(
+            () => Text(
+              c.tierInfo.currentTier.tier,
+              style: Get.textTheme.headline6.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
           const Divider(),
           Padding(
@@ -92,23 +90,27 @@ class _LevelHeaderView extends StatelessWidget {
       children: [
         Text(
           'title_upgrade_to'.tr,
-          style: Theme.of(context).textTheme.caption.copyWith(
-                fontSize: 10.0,
-              ),
+          style: Get.textTheme.caption.copyWith(
+            fontSize: 10.0,
+          ),
         ),
         AppUiHelpers.vSpaceExtraSmall,
-        Text(
-          'advanced'.tr,
-          style: Theme.of(context).textTheme.headline6.copyWith(
-                fontWeight: FontWeight.w700,
-                color: AppColors.accent,
-              ),
+        Obx(
+          () => Text(
+            c.tierInfo.nextTier.tier,
+            style: Get.textTheme.headline6.copyWith(
+              fontWeight: FontWeight.w700,
+              color: AppColors.accent,
+            ),
+          ),
         ),
         AppUiHelpers.vSpaceSmall,
-        Text(
-          'msg_upgrade_deposit_to'.trArgs(['7500']),
-          softWrap: true,
-          textAlign: TextAlign.center,
+        Obx(
+          () => Text(
+            'msg_upgrade_deposit_to'.trArgs([c.tierInfo.nextTier.maxLimit]),
+            textAlign: TextAlign.center,
+            softWrap: true,
+          ),
         ),
       ],
     );
@@ -116,6 +118,7 @@ class _LevelHeaderView extends StatelessWidget {
 }
 
 class _ListView extends StatelessWidget {
+  final c = ProfileController.con;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -124,17 +127,39 @@ class _ListView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildRow('account_information'.tr, checked: true),
-          _buildRow('identity_documents'.tr, checked: false),
-          _buildRow('selfie'.tr, checked: false),
-          _buildRow('proof_of_address'.tr, checked: false),
-          _buildRow('questionnaire'.tr, checked: false),
+          Obx(
+            () => Visibility(
+              visible: c.tierInfo.currentTier.tier.toLowerCase() == 'beginner',
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: AppSizes.small),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      c.hasAccountInfo
+                          ? CupertinoIcons.check_mark_circled
+                          : CupertinoIcons.circle,
+                      color: c.hasAccountInfo
+                          ? AppColors.accent
+                          : AppColors.secondary,
+                      size: 22.0,
+                    ),
+                    AppUiHelpers.hSpaceMedium,
+                    Text('account_information'.tr),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          for (var doc in c.tierInfo.nextTier.documents) _buildRow(doc)
         ],
       ),
     );
   }
 
-  Widget _buildRow(String title, {bool checked = false}) {
+  Widget _buildRow(String docType) {
+    final String title = c.docTitle(docType);
+    final bool checked = c.documentsMap[docType] != null;
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSizes.small),
       child: Row(

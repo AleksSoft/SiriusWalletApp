@@ -8,16 +8,17 @@ import 'package:antares_wallet/bindings/settings_binding.dart';
 import 'package:antares_wallet/bindings/start_binding.dart';
 import 'package:antares_wallet/bindings/support_binding.dart';
 import 'package:antares_wallet/bindings/trading_binding.dart';
+import 'package:antares_wallet/bindings/upgrade_account_quest_binding.dart';
 import 'package:antares_wallet/ui/pages/asset_info/asset_info_page.dart';
 import 'package:antares_wallet/ui/pages/exchange/watchlists/edit/edit_watchlist_page.dart';
 import 'package:antares_wallet/ui/pages/exchange/watchlists/watchlists_page.dart';
 import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
 import 'package:antares_wallet/ui/pages/login/login_page.dart';
 import 'package:antares_wallet/ui/pages/more/profile/profile_page.dart';
+import 'package:antares_wallet/ui/pages/more/profile/upgrade/quest/upgrade_account_quest.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_choose_doc.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_doc.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_main.dart';
-import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_quest.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_result.dart';
 import 'package:antares_wallet/ui/pages/more/settings/backup/backup_confirm_key_page.dart';
 import 'package:antares_wallet/ui/pages/more/settings/backup/backup_copy_key_page.dart';
@@ -89,6 +90,7 @@ class AppRoutes {
     GetPage(
       name: UpgradeAccountQuestPage.route,
       page: () => UpgradeAccountQuestPage(),
+      binding: UpgradeAccountQuestBinding(),
     ),
     GetPage(
       name: UpgradeAccountResultPage.route,

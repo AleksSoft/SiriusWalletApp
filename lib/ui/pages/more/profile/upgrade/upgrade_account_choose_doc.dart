@@ -35,7 +35,10 @@ class UpgradeAccountChooseDocPage extends StatelessWidget {
             ),
           ),
           Divider(
-              height: 1.0, indent: AppSizes.medium, endIndent: AppSizes.medium),
+            height: 1.0,
+            indent: AppSizes.medium,
+            endIndent: AppSizes.medium,
+          ),
           ListTile(
             title: Text('national_id'.tr),
             trailing: Icon(CupertinoIcons.forward),
@@ -45,7 +48,10 @@ class UpgradeAccountChooseDocPage extends StatelessWidget {
             ),
           ),
           Divider(
-              height: 1.0, indent: AppSizes.medium, endIndent: AppSizes.medium),
+            height: 1.0,
+            indent: AppSizes.medium,
+            endIndent: AppSizes.medium,
+          ),
           ListTile(
             title: Text('driving_license'.tr),
             trailing: Icon(CupertinoIcons.forward),
@@ -55,7 +61,10 @@ class UpgradeAccountChooseDocPage extends StatelessWidget {
             ),
           ),
           Divider(
-              height: 1.0, indent: AppSizes.medium, endIndent: AppSizes.medium),
+            height: 1.0,
+            indent: AppSizes.medium,
+            endIndent: AppSizes.medium,
+          ),
         ],
       ),
     );

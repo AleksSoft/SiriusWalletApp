@@ -52,16 +52,18 @@ class _AccountDataView extends StatelessWidget {
           ),
           title: Obx(() => Text(c.tierInfo.currentTier.tier)),
           subtitle: Text('verified'.tr),
-          trailing: Visibility(
-            visible: c.tierInfo.nextTier != null,
-            child: OutlineButton(
-              onPressed: () => Get.toNamed(UpgradeAccountMainPage.route),
-              borderSide: BorderSide(color: AppColors.accent),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(AppSizes.extraSmall),
+          trailing: Obx(
+            () => Visibility(
+              visible: !c.tierInfo.nextTier.tier.isNullOrBlank,
+              child: OutlineButton(
+                onPressed: () => Get.toNamed(UpgradeAccountMainPage.route),
+                borderSide: BorderSide(color: AppColors.accent),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppSizes.extraSmall),
+                ),
+                textColor: AppColors.accent,
+                child: Text('upgrade'.tr),
               ),
-              textColor: AppColors.accent,
-              child: Text('upgrade'.tr),
             ),
           ),
         ),
