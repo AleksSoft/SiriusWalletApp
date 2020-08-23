@@ -2,8 +2,6 @@ import 'package:antares_wallet/repositories/profile_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:get/get.dart';
 
-import '../upgrade_account_result.dart';
-
 class UpgradeAccountQuestController extends GetxController {
   static UpgradeAccountQuestController get con => Get.find();
 

@@ -69,7 +69,6 @@ class SettingsController extends GetxController {
   }
 
   void backupPrivateKey() {
-    // TODO: when API will be ready make all needed logics
     // Get.toNamed(BackUpCopyKeyPage.route);
   }
 }
