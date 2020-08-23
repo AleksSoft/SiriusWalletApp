@@ -26,6 +26,17 @@ class TradingRepository {
     return response?.candles;
   }
 
+  static Future<Orderbook> getOrderbook({
+    @required String assetPairId,
+  }) async {
+    final response = await ErrorHandler.safeCall(
+      _api.clientSecure.getOrderbook(
+        OrderbookRequest()..assetPairId = assetPairId,
+      ),
+    );
+    return response ?? Orderbook();
+  }
+
   static Future<List<LimitOrderModel>> getOrders({String assetPairId}) async {
     var request = LimitOrdersRequest();
     if (assetPairId != null) request.assetPairId = assetPairId;

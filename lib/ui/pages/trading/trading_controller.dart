@@ -58,11 +58,11 @@ class TradingController extends GetxController {
   @override
   void onClose() async {
     // close candle stream subscription
-    if (_candleSubscr != null) await _candleSubscr.cancel();
+    await _candleSubscr?.cancel();
     // close orderbook stream subscription
-    if (_orderbookSubscr != null) await _orderbookSubscr.cancel();
+    await _orderbookSubscr?.cancel();
     // close orderbook stream subscription
-    if (_tradesSubscr != null) await _tradesSubscr.cancel();
+    await _tradesSubscr?.cancel();
     super.onClose();
   }
 
@@ -181,10 +181,13 @@ class TradingController extends GetxController {
 
   _initOrders() async {
     // reload orderbook and subscription
-    await _orderbookSubscr?.cancel();
-    asks.clear();
-    bids.clear();
+    final orderbook = await TradingRepository.getOrderbook(
+      assetPairId: initialMarket.pairId,
+    );
+    asks.assignAll(orderbook.asks);
+    bids.assignAll(orderbook.bids);
     // subscribe to orderbook stream
+    await _orderbookSubscr?.cancel();
     _orderbookSubscr = _api.clientSecure
         .getOrderbookUpdates(
             OrderbookUpdatesRequest()..assetPairId = initialMarket.pairId)

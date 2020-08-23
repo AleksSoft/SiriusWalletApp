@@ -157,10 +157,12 @@ class OrderDetailsController extends GetxController {
         .map((event) {
       var orderbook = Orderbook();
       orderbook.assetPairId = event.assetPairId;
-      orderbook.bids
-          .addAll(_getMergedPriceVolumes(bids.value, event.bids, false));
-      orderbook.asks
-          .addAll(_getMergedPriceVolumes(asks.value, event.asks, true));
+      orderbook.bids.addAll(
+        _getMergedPriceVolumes(bids.value, event.bids, false),
+      );
+      orderbook.asks.addAll(
+        _getMergedPriceVolumes(asks.value, event.asks, true),
+      );
       return orderbook;
     }).listen((update) {
       if (update.bids.isNotEmpty) bids.assignAll(update.bids);
