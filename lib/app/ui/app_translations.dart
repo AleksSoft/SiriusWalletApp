@@ -87,8 +87,8 @@ class AppTranslations extends Translations {
           "h_left": "%sh left",
           "msg_check_doc_hours":
               "We will check these documents and let you know within %s hours the status of your account.",
-          "msg_upgrade_to_pro":
-              "If you wish to get a monthly limit tailored for you, no problem! Just upgrade to a Pro Individual account.",
+          "msg_upgrade_to_s_account":
+              "If you wish to get a monthly limit tailored for you, no problem! Just upgrade to a %s account.",
           "orders": "Orders",
           "opened": "Opened",
           "history": "History",
@@ -222,8 +222,8 @@ class AppTranslations extends Translations {
           "h_left": "%sч осталось",
           "msg_check_doc_hours":
               "Мы проверим документы и дадим Вам знать в течении %s часов о состоянии вашего заказа.",
-          "msg_upgrade_to_pro":
-              "Если Вы хотите настроить месячный лимит уникально для Вас, не проблема! Просто перейдите на учетную запись Pro Individual.",
+          "msg_upgrade_to_s_account":
+              "Если Вы хотите настроить месячный лимит уникально для Вас, не проблема! Просто перейдите на учетную запись %s.",
           "orders": "Ордера",
           "opened": "Открытые",
           "history": "История",

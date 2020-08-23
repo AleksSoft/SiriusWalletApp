@@ -4,6 +4,7 @@ import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/quest/upgrade_account_quest.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_choose_doc.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_doc.dart';
+import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_result.dart';
 import 'package:get/get.dart';
 
 class ProfileController extends GetxController {
@@ -49,6 +50,19 @@ class ProfileController extends GetxController {
     print('---- TierInfo: ${tierInfo.toProto3Json()}');
     print('---- PersonalData: ${personalData.toProto3Json()}');
     print('---- DocumentsMap: ${documentsMap.toString()}');
+  }
+
+  Future<void> saveQuestionnaire(List<AnswersRequest_Choice> answers) async {
+    if (await ProfileRepository.saveQuestionnaire(answers: answers)) {
+      Get.offAndToNamed(UpgradeAccountResultPage.route);
+    }
+  }
+
+  Future<void> submitProfile() async {
+    TierUpgrade tier = tierInfo.nextTier.tier.toLowerCase() == 'advanced'
+        ? TierUpgrade.Advanced
+        : TierUpgrade.ProIndividual;
+    if (await ProfileRepository.submitProfile(tier: tier)) Get.back();
   }
 
   submitDoc(DocType docType, List<int> fileIntList) async {
@@ -108,11 +122,6 @@ class ProfileController extends GetxController {
     } else if (documentsMap[kycDocType[3]] == null) {
       Get.offAndToNamed(UpgradeAccountQuestPage.route);
     }
-  }
-
-  void upgradeAccount() async {
-    // await _repository.upgradeAccount();
-    // Get.until((route) => route.isFirst);
   }
 
   String docTitle(String type) {

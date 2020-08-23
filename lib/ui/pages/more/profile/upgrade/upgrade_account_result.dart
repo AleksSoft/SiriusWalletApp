@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 
 class UpgradeAccountResultPage extends StatelessWidget {
   static final String route = '/upgrade-account-result';
+  final c = ProfileController.con;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +63,7 @@ class UpgradeAccountResultPage extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
-                                  'advanced'.tr,
+                                  c.tierInfo?.nextTier?.tier ?? '',
                                   style: Theme.of(context)
                                       .textTheme
                                       .subtitle1
@@ -85,7 +86,9 @@ class UpgradeAccountResultPage extends StatelessWidget {
                       ),
                       AppUiHelpers.vSpaceMedium,
                       Text(
-                        'msg_upgrade_to_pro'.tr,
+                        'msg_upgrade_to_s_account'.trArgs(
+                          [c.tierInfo?.nextTier?.tier ?? ''],
+                        ),
                         textAlign: TextAlign.center,
                       )
                     ],
@@ -100,14 +103,10 @@ class UpgradeAccountResultPage extends StatelessWidget {
                   borderRadius: BorderRadius.all(
                     Radius.circular(AppSizes.small),
                   ),
-                  child: GetBuilder<ProfileController>(
-                    builder: (_) {
-                      return CupertinoButton.filled(
-                        disabledColor: Colors.grey.withOpacity(0.7),
-                        child: Text('ok'.tr),
-                        onPressed: () => _.upgradeAccount(),
-                      );
-                    },
+                  child: CupertinoButton.filled(
+                    disabledColor: Colors.grey.withOpacity(0.7),
+                    child: Text('ok'.tr),
+                    onPressed: () => c.submitProfile(),
                   ),
                 ),
               ),

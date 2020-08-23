@@ -2,6 +2,8 @@ import 'package:antares_wallet/repositories/profile_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:get/get.dart';
 
+import '../upgrade_account_result.dart';
+
 class UpgradeAccountQuestController extends GetxController {
   static UpgradeAccountQuestController get con => Get.find();
 
@@ -49,7 +51,7 @@ class UpgradeAccountQuestController extends GetxController {
       if (answer != null) {
         answer.answerIds.forEach((aId) {
           int index = question.answers.indexWhere((a) => a.id == aId);
-          if (index > 0) resultList.add(index);
+          if (index >= 0) resultList.add(index);
         });
       }
     }
