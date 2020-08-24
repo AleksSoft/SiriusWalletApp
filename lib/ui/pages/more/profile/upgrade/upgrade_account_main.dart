@@ -106,10 +106,13 @@ class _LevelHeaderView extends StatelessWidget {
         ),
         AppUiHelpers.vSpaceSmall,
         Obx(
-          () => Text(
-            'msg_upgrade_deposit_to'.trArgs([c.tierInfo.nextTier.maxLimit]),
-            textAlign: TextAlign.center,
-            softWrap: true,
+          () => Visibility(
+            visible: c.tierInfo.nextTier.maxLimit != '0',
+            child: Text(
+              'msg_upgrade_deposit_to'.trArgs([c.tierInfo.nextTier.maxLimit]),
+              textAlign: TextAlign.center,
+              softWrap: true,
+            ),
           ),
         ),
       ],
@@ -129,7 +132,7 @@ class _ListView extends StatelessWidget {
         children: [
           Obx(
             () => Visibility(
-              visible: c.tierInfo.currentTier.tier.toLowerCase() == 'beginner',
+              visible: c.tierInfo.nextTier.tier.toLowerCase() == 'advanced',
               child: Padding(
                 padding: const EdgeInsets.only(bottom: AppSizes.small),
                 child: Row(

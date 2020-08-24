@@ -8,9 +8,11 @@ import 'package:get/get.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import 'profile_controller.dart';
+import 'upgrade/widgets/upgrade_request_view.dart';
 
 class ProfilePage extends StatelessWidget {
   static final String route = '/profile';
+  final c = ProfileController.con;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,6 +22,15 @@ class ProfilePage extends StatelessWidget {
           shrinkWrap: true,
           padding: const EdgeInsets.all(AppSizes.medium),
           children: <Widget>[
+            Obx(
+              () => Visibility(
+                visible: c.tierInfo.upgradeRequest.hasTier(),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: AppSizes.medium),
+                  child: UpgradeRequestView(c.tierInfo?.upgradeRequest),
+                ),
+              ),
+            ),
             _AccountDataView(),
             _DepositLimitsView(),
             AppUiHelpers.vSpaceMedium,
@@ -41,7 +52,7 @@ class _AccountDataView extends StatelessWidget {
       children: <Widget>[
         Text(
           'Account level',
-          style: Theme.of(context).textTheme.headline6,
+          style: Get.textTheme.headline6,
         ),
         ListTile(
           contentPadding: const EdgeInsets.all(0.0),
@@ -86,12 +97,12 @@ class _DepositLimitsView extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     'Deposit limits',
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Get.textTheme.headline6,
                   ),
                   AppUiHelpers.vSpaceSmall,
                   Text(
                     'Last 30d',
-                    style: Theme.of(context).textTheme.caption,
+                    style: Get.textTheme.caption,
                   ),
                   AppUiHelpers.vSpaceExtraSmall,
                   LinearPercentIndicator(
@@ -108,13 +119,13 @@ class _DepositLimitsView extends StatelessWidget {
                       Obx(
                         () => Text(
                           '${c.tierInfo.currentTier.current} ${c.tierInfo.currentTier.asset}',
-                          style: Theme.of(context).textTheme.caption,
+                          style: Get.textTheme.caption,
                         ),
                       ),
                       Obx(
                         () => Text(
                           '${c.tierInfo.currentTier.maxLimit} ${c.tierInfo.currentTier.asset}',
-                          style: Theme.of(context).textTheme.caption,
+                          style: Get.textTheme.caption,
                         ),
                       ),
                     ],
@@ -137,7 +148,7 @@ class _PersonalDataView extends StatelessWidget {
       children: <Widget>[
         Text(
           'Personal data',
-          style: Theme.of(context).textTheme.headline6,
+          style: Get.textTheme.headline6,
         ),
         ListTile(
           contentPadding: const EdgeInsets.all(0.0),

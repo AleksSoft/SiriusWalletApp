@@ -29,9 +29,9 @@ class BackUpConfirmKeyPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: AppSizes.medium),
                 child: Text(
                   'msg_back_up_confirm'.tr,
-                  style: Theme.of(context).textTheme.subtitle1.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                  style: Get.textTheme.subtitle1.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),

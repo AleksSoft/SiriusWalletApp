@@ -56,6 +56,7 @@ class AppTranslations extends Translations {
           "submit": "Submit",
           "selfie": "Selfie",
           "proof_of_address": "Proof of address",
+          "proof_of_funds": "Proof of funds",
           "msg_upgrade_passport":
               "Upload a clear and legible picture of the main page of your passport",
           "msg_upgrade_national_id":
@@ -190,6 +191,7 @@ class AppTranslations extends Translations {
           "submit": "Подтвердить",
           "selfie": "Селфи",
           "proof_of_address": "Подтверждение адреса",
+          "proof_of_funds": "Подтверждение оплаты",
           "msg_upgrade_passport":
               "Загрузите четкое и разборчивое изображение главной страницы вашего паспорта",
           "msg_upgrade_national_id":

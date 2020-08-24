@@ -1,6 +1,7 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class TradelogTile extends StatelessWidget {
   static const String defaultAction = 'buy';
@@ -19,10 +20,10 @@ class TradelogTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = Theme.of(context).textTheme.button.copyWith(
-          fontWeight: FontWeight.w600,
-          fontSize: 12.0,
-        );
+    final style = Get.textTheme.button.copyWith(
+      fontWeight: FontWeight.w600,
+      fontSize: 12.0,
+    );
     return Container(
       height: AppSizes.extraLarge,
       alignment: Alignment.center,

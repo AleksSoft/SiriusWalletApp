@@ -39,9 +39,9 @@ class HomePage extends StatelessWidget {
                 child: Text(
                   '© 2020 Lykke, Inc.',
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.button.copyWith(
-                        color: AppColors.secondary,
-                      ),
+                  style: Get.textTheme.button.copyWith(
+                    color: AppColors.secondary,
+                  ),
                 ),
               )
             ],
@@ -78,19 +78,19 @@ class _AssetsView extends StatelessWidget {
               children: [
                 Text(
                   'Assets',
-                  style: Theme.of(context).textTheme.headline6.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
+                  style: Get.textTheme.headline6.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 GestureDetector(
                   onTap: () {},
                   child: Text(
                     'Hide',
-                    style: Theme.of(context).textTheme.button.copyWith(
-                          color: AppColors.accent,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w600,
-                        ),
+                    style: Get.textTheme.button.copyWith(
+                      color: AppColors.accent,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 )
               ],
@@ -100,7 +100,7 @@ class _AssetsView extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: AppSizes.medium),
             child: Text(
               'USD 0.00',
-              style: Theme.of(context).textTheme.caption,
+              style: Get.textTheme.caption,
             ),
           ),
           AppUiHelpers.vSpaceSmall,
@@ -203,9 +203,9 @@ class _AssetsView extends StatelessWidget {
                       AppUiHelpers.vSpaceExtraSmall,
                       Text(
                         'Deposit',
-                        style: Theme.of(context).textTheme.button.copyWith(
-                              color: AppColors.primary,
-                            ),
+                        style: Get.textTheme.button.copyWith(
+                          color: AppColors.primary,
+                        ),
                       ),
                     ],
                   ),
@@ -234,9 +234,9 @@ class _AssetsView extends StatelessWidget {
                       AppUiHelpers.vSpaceExtraSmall,
                       Text(
                         'Withdraw',
-                        style: Theme.of(context).textTheme.button.copyWith(
-                              color: AppColors.primary,
-                            ),
+                        style: Get.textTheme.button.copyWith(
+                          color: AppColors.primary,
+                        ),
                       ),
                     ],
                   ),
@@ -262,9 +262,9 @@ class _AssetsView extends StatelessWidget {
                       AppUiHelpers.vSpaceExtraSmall,
                       Text(
                         'Support',
-                        style: Theme.of(context).textTheme.button.copyWith(
-                              color: AppColors.primary,
-                            ),
+                        style: Get.textTheme.button.copyWith(
+                          color: AppColors.primary,
+                        ),
                       ),
                     ],
                   ),
@@ -300,19 +300,19 @@ class _ExchangeView extends StatelessWidget {
               children: [
                 Text(
                   'Exchange',
-                  style: Theme.of(context).textTheme.headline6.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
+                  style: Get.textTheme.headline6.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 GestureDetector(
                   onTap: () {},
                   child: Text(
                     'More',
-                    style: Theme.of(context).textTheme.button.copyWith(
-                          color: AppColors.accent,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w600,
-                        ),
+                    style: Get.textTheme.button.copyWith(
+                      color: AppColors.accent,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 )
               ],
@@ -346,7 +346,7 @@ class _ExchangeView extends StatelessWidget {
   }
 
   Widget _buildPairContainer(BuildContext context) {
-    final textStyle = Theme.of(context).textTheme.button;
+    final textStyle = Get.textTheme.button;
     return Flexible(
       flex: 1,
       child: Container(
@@ -480,18 +480,18 @@ class _LyCIView extends StatelessWidget {
               AppUiHelpers.hSpaceExtraSmall,
               Text(
                 'LyCI Service Token',
-                style: Theme.of(context).textTheme.subtitle2.copyWith(
-                      fontSize: 14.0,
-                    ),
+                style: Get.textTheme.subtitle2.copyWith(
+                  fontSize: 14.0,
+                ),
               ),
             ],
           ),
           AppUiHelpers.vSpaceExtraSmall,
           Text(
             'LYCI 0,00',
-            style: Theme.of(context).textTheme.subtitle2.copyWith(
-                  fontSize: 14.0,
-                ),
+            style: Get.textTheme.subtitle2.copyWith(
+              fontSize: 14.0,
+            ),
           )
         ],
       ),
@@ -503,10 +503,10 @@ class _LyCIView extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(AppSizes.large)),
           child: Text(
             'Buy now',
-            style: Theme.of(context).textTheme.button.copyWith(
-                  fontSize: 16.0,
-                  color: AppColors.primary,
-                ),
+            style: Get.textTheme.button.copyWith(
+              fontSize: 16.0,
+              color: AppColors.primary,
+            ),
           ),
           onPressed: () {},
         ),
@@ -529,11 +529,11 @@ class _LyCIView extends StatelessWidget {
         children: [
           Text(
             'LyCI',
-            style: Theme.of(context).textTheme.headline3.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.primary,
-                  letterSpacing: 8.0,
-                ),
+            style: Get.textTheme.headline3.copyWith(
+              fontWeight: FontWeight.w700,
+              color: AppColors.primary,
+              letterSpacing: 8.0,
+            ),
           ),
           Container(
             height: 0.5,
@@ -543,11 +543,11 @@ class _LyCIView extends StatelessWidget {
           ),
           Text(
             'WHAT MATTERS TO YOU',
-            style: Theme.of(context).textTheme.subtitle2.copyWith(
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.primary,
-                  letterSpacing: 2.0,
-                ),
+            style: Get.textTheme.subtitle2.copyWith(
+              fontWeight: FontWeight.w400,
+              color: AppColors.primary,
+              letterSpacing: 2.0,
+            ),
           ),
         ],
       ),
@@ -572,9 +572,9 @@ class _MyLykkeView extends StatelessWidget {
           children: [
             Text(
               'My lykke',
-              style: Theme.of(context).textTheme.headline6.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+              style: Get.textTheme.headline6.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
             ),
             AppUiHelpers.vSpaceLarge,
             Divider(height: 1.0),
@@ -602,9 +602,9 @@ class _MyLykkeView extends StatelessWidget {
       contentPadding: EdgeInsets.all(0.0),
       title: Text(
         'LKK',
-        style: Theme.of(context).textTheme.subtitle1.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+        style: Get.textTheme.subtitle1.copyWith(
+          fontWeight: FontWeight.w600,
+        ),
       ),
       subtitle: Row(
         mainAxisSize: MainAxisSize.min,
@@ -617,7 +617,7 @@ class _MyLykkeView extends StatelessWidget {
           AppUiHelpers.hSpaceExtraSmall,
           Text(
             'LyCI Service Token',
-            style: Theme.of(context).textTheme.caption,
+            style: Get.textTheme.caption,
           ),
         ],
       ),
@@ -627,14 +627,14 @@ class _MyLykkeView extends StatelessWidget {
         children: [
           Text(
             'LKK 0,00',
-            style: Theme.of(context).textTheme.subtitle1.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
+            style: Get.textTheme.subtitle1.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
           ),
           AppUiHelpers.vSpaceExtraSmall,
           Text(
             'USD 0,00',
-            style: Theme.of(context).textTheme.caption,
+            style: Get.textTheme.caption,
           )
         ],
       ),

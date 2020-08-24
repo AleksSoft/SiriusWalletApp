@@ -63,9 +63,9 @@ class _PortfolioHistoryPeriodFilterView extends StatelessWidget {
       children: <Widget>[
         Text(
           'period'.tr,
-          style: Theme.of(context).textTheme.headline6.copyWith(
-                fontWeight: FontWeight.w700,
-              ),
+          style: Get.textTheme.headline6.copyWith(
+            fontWeight: FontWeight.w700,
+          ),
         ),
         Wrap(
           alignment: WrapAlignment.start,
@@ -178,9 +178,9 @@ class _PortfolioHistoryTransFilterView extends StatelessWidget {
       children: <Widget>[
         Text(
           'display_trans'.tr,
-          style: Theme.of(context).textTheme.headline6.copyWith(
-                fontWeight: FontWeight.w700,
-              ),
+          style: Get.textTheme.headline6.copyWith(
+            fontWeight: FontWeight.w700,
+          ),
         ),
         Wrap(
           alignment: WrapAlignment.start,
@@ -236,9 +236,9 @@ class _PortfolioHistoryAssetFilterView extends StatelessWidget {
       children: <Widget>[
         Text(
           'assets'.tr,
-          style: Theme.of(context).textTheme.headline6.copyWith(
-                fontWeight: FontWeight.w700,
-              ),
+          style: Get.textTheme.headline6.copyWith(
+            fontWeight: FontWeight.w700,
+          ),
         ),
         Wrap(
           alignment: WrapAlignment.start,

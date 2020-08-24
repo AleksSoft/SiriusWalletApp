@@ -7,6 +7,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'widgets/upgrade_request_view.dart';
+
 class UpgradeAccountResultPage extends StatelessWidget {
   static final String route = '/upgrade-account-result';
   final c = ProfileController.con;
@@ -29,54 +31,15 @@ class UpgradeAccountResultPage extends StatelessWidget {
                     children: [
                       Text(
                         'msg_have_everything'.tr,
-                        style: Theme.of(context).textTheme.headline6.copyWith(
-                              fontWeight: FontWeight.w600,
-                            ),
+                        style: Get.textTheme.headline6.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       AppUiHelpers.vSpaceLarge,
-                      DefaultCard(
-                        borderRadius: BorderRadius.circular(AppSizes.small),
-                        padding: const EdgeInsets.only(
-                          left: 12.0,
-                          right: 12.0,
-                          top: AppSizes.extraSmall,
-                          bottom: AppSizes.extraSmall,
-                        ),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                right: AppSizes.small,
-                                bottom: AppSizes.extraSmall,
-                              ),
-                              child: Center(
-                                child: Icon(
-                                  CupertinoIcons.time,
-                                  size: 44.0,
-                                  color: Colors.amber[700],
-                                ),
-                              ),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  c.tierInfo?.nextTier?.tier ?? '',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .subtitle1
-                                      .copyWith(
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                ),
-                                Text('in_review'.tr),
-                              ],
-                            ),
-                            Spacer(),
-                            Text('h_left'.trArgs(['48'])),
-                          ],
+                      Obx(
+                        () => Visibility(
+                          visible: c.tierInfo.upgradeRequest.hasTier(),
+                          child: UpgradeRequestView(c.tierInfo.upgradeRequest),
                         ),
                       ),
                       AppUiHelpers.vSpaceLarge,

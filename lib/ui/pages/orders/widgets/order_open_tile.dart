@@ -61,7 +61,7 @@ class OrderOpenTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textStyleButton = Theme.of(context).textTheme.button;
+    final textStyleButton = Get.textTheme.button;
 
     return Dismissible(
       key: ValueKey(data),

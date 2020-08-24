@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class PairRichText extends StatelessWidget {
   const PairRichText({
@@ -12,7 +13,7 @@ class PairRichText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle textStyle = Theme.of(context).textTheme.button;
+    final TextStyle textStyle = Get.textTheme.button;
     return RichText(
       text: TextSpan(
         style: textStyle.copyWith(

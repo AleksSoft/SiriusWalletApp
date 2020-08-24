@@ -1,6 +1,7 @@
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MenuTile extends StatelessWidget {
   final IconData icon;
@@ -38,7 +39,7 @@ class MenuTile extends StatelessWidget {
               leading: _buildLeading(),
               title: Text(
                 title,
-                style: Theme.of(context).textTheme.button,
+                style: Get.textTheme.button,
               ),
               subtitle: subtitle != null ? Text(subtitle) : null,
               trailing: trailing ?? SizedBox.shrink(),

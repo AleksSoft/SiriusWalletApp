@@ -1,16 +1,17 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class OrdersListHeaderView extends StatelessWidget {
   const OrdersListHeaderView({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = Theme.of(context).textTheme.button.copyWith(
-          color: AppColors.secondary,
-          fontSize: 12.0,
-        );
+    final textStyle = Get.textTheme.button.copyWith(
+      color: AppColors.secondary,
+      fontSize: 12.0,
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,

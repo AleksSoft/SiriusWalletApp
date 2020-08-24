@@ -57,9 +57,9 @@ class _UpgradeAccountDocPageState extends State<UpgradeAccountDocPage> {
           children: [
             Text(
               _title(widget.docType),
-              style: Theme.of(context).textTheme.button.copyWith(
-                    fontSize: 16.0,
-                  ),
+              style: Get.textTheme.button.copyWith(
+                fontSize: 16.0,
+              ),
               textAlign: TextAlign.center,
             ),
             AppUiHelpers.vSpaceLarge,
@@ -128,12 +128,9 @@ class _UpgradeAccountDocPageState extends State<UpgradeAccountDocPage> {
                               alignment: Alignment.bottomCenter,
                               child: Text(
                                 _photoHeader(widget.docType),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle1
-                                    .copyWith(
-                                      fontSize: 12.0,
-                                    ),
+                                style: Get.textTheme.subtitle1.copyWith(
+                                  fontSize: 12.0,
+                                ),
                                 textAlign:
                                     widget.docType == DocType.proofOfAddress
                                         ? TextAlign.left
@@ -159,13 +156,10 @@ class _UpgradeAccountDocPageState extends State<UpgradeAccountDocPage> {
                                     ),
                                     Text(
                                       'msg_upload_photo'.tr,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .button
-                                          .copyWith(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 12.0,
-                                          ),
+                                      style: Get.textTheme.button.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 12.0,
+                                      ),
                                       textAlign: TextAlign.center,
                                     ),
                                   ],
@@ -213,6 +207,8 @@ class _UpgradeAccountDocPageState extends State<UpgradeAccountDocPage> {
         return 'selfie'.tr;
       case DocType.proofOfAddress:
         return 'proof_of_address'.tr;
+      case DocType.proofOfFunds:
+        return 'proof_of_funds'.tr;
       default:
         return '';
     }
@@ -230,6 +226,7 @@ class _UpgradeAccountDocPageState extends State<UpgradeAccountDocPage> {
         return 'msg_upgrade_selfie'.tr;
       case DocType.proofOfAddress:
         return 'msg_upgrade_proof_of_address'.tr;
+      case DocType.proofOfFunds:
       default:
         return '';
     }

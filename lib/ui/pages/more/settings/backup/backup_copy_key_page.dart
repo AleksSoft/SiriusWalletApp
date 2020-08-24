@@ -28,9 +28,9 @@ class BackUpCopyKeyPage extends StatelessWidget {
               AppUiHelpers.vSpaceMedium,
               Text(
                 'msg_back_up_write_down'.tr,
-                style: Theme.of(context).textTheme.subtitle1.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+                style: Get.textTheme.subtitle1.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
                 textAlign: TextAlign.center,
               ),
               AppUiHelpers.vSpaceLarge,
@@ -63,10 +63,10 @@ class _KeyWordsCard extends StatelessWidget {
             child: SelectableText(
               // c.settings.privateKey,
               '',
-              style: Theme.of(context).textTheme.headline6.copyWith(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18.0,
-                  ),
+              style: Get.textTheme.headline6.copyWith(
+                fontWeight: FontWeight.bold,
+                fontSize: 18.0,
+              ),
             ),
           ),
           Row(

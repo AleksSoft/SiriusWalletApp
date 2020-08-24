@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 class ProfileController extends GetxController {
   static ProfileController get con => Get.find();
 
-  static final kycDocType = ['PoI', 'Selfie', 'PoA', 'Questions'];
+  static final kycDocType = ['PoI', 'Selfie', 'PoA', 'PoF', 'Questions'];
 
   final _personalData = PersonalData().obs;
   PersonalData get personalData => this._personalData.value;
@@ -120,7 +120,14 @@ class ProfileController extends GetxController {
         arguments: DocType.proofOfAddress,
       );
     } else if (documentsMap[kycDocType[3]] == null) {
+      Get.offAndToNamed(
+        UpgradeAccountDocPage.route,
+        arguments: DocType.proofOfFunds,
+      );
+    } else if (documentsMap[kycDocType[4]] == null) {
       Get.offAndToNamed(UpgradeAccountQuestPage.route);
+    } else {
+      Get.offAndToNamed(UpgradeAccountResultPage.route);
     }
   }
 
@@ -131,6 +138,8 @@ class ProfileController extends GetxController {
       return 'selfie'.tr;
     } else if (type == kycDocType[2]) {
       return 'proof_of_address'.tr;
+    } else if (type == kycDocType[3]) {
+      return 'proof_of_funds'.tr;
     } else {
       return 'questionnaire'.tr;
     }

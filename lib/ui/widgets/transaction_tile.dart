@@ -50,14 +50,14 @@ class TransactionTile extends StatelessWidget {
                                   'deposit'.toLowerCase()
                               ? 'DEPOSIT'
                               : 'WITHDRAW',
-                          style: Theme.of(context).textTheme.button.copyWith(
-                                color: _item.operation.toLowerCase() ==
-                                        'deposit'.toLowerCase()
-                                    ? AppColors.green
-                                    : AppColors.red,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 10.0,
-                              ),
+                          style: Get.textTheme.button.copyWith(
+                            color: _item.operation.toLowerCase() ==
+                                    'deposit'.toLowerCase()
+                                ? AppColors.green
+                                : AppColors.red,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 10.0,
+                          ),
                         ),
                         AppUiHelpers.hSpaceMedium,
                         Text(
