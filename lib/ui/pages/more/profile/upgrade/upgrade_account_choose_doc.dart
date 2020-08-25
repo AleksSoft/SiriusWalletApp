@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../profile_controller.dart';
+
 class UpgradeAccountChooseDocPage extends StatelessWidget {
   static final String route = '/upgrade-account-choose-doc';
   @override
@@ -11,7 +13,13 @@ class UpgradeAccountChooseDocPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.5,
-        title: Text('upgrade_to'.trArgs(['Advanced'])),
+        title: Obx(
+          () => Text(
+            'upgrade_to'.trArgs(
+              ['${ProfileController.con.tierInfo.nextTier.tier}'],
+            ),
+          ),
+        ),
         centerTitle: true,
       ),
       body: Column(

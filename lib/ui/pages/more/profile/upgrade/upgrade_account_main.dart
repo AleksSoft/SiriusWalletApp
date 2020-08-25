@@ -36,7 +36,7 @@ class UpgradeAccountMainPage extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(AppSizes.small)),
             child: CupertinoButton.filled(
               child: Text('upgrade_account'.tr),
-              onPressed: () => c.openNextUpgradePage(),
+              onPressed: () => c.openNextUpgradePage(fromMain: true),
             ),
           ),
         ],
@@ -132,7 +132,7 @@ class _ListView extends StatelessWidget {
         children: [
           Obx(
             () => Visibility(
-              visible: c.tierInfo.nextTier.tier.toLowerCase() == 'advanced',
+              visible: c.personalData.address.isNullOrBlank,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: AppSizes.small),
                 child: Row(

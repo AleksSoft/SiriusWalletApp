@@ -16,6 +16,7 @@ import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
 import 'package:antares_wallet/ui/pages/login/login_page.dart';
 import 'package:antares_wallet/ui/pages/more/profile/profile_page.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/quest/upgrade_account_quest.dart';
+import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_address.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_choose_doc.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_doc.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_main.dart';
@@ -78,6 +79,10 @@ class AppRoutes {
     GetPage(
       name: UpgradeAccountMainPage.route,
       page: () => UpgradeAccountMainPage(),
+    ),
+    GetPage(
+      name: UpgradeAccountAddress.route,
+      page: () => UpgradeAccountAddress(),
     ),
     GetPage(
       name: UpgradeAccountChooseDocPage.route,

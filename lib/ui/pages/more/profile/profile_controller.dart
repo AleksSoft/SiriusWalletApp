@@ -2,6 +2,7 @@ import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/repositories/profile_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/quest/upgrade_account_quest.dart';
+import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_address.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_choose_doc.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_doc.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_result.dart';
@@ -36,6 +37,10 @@ class ProfileController extends GetxController {
 
   bool get hasAccountInfo => !personalData.address.isNullOrBlank;
 
+  String addressValue;
+  String apartamentValue;
+  String zipCodeValue;
+
   @override
   void onInit() async {
     await reloadData();
@@ -54,6 +59,7 @@ class ProfileController extends GetxController {
 
   Future<void> saveQuestionnaire(List<AnswersRequest_Choice> answers) async {
     if (await ProfileRepository.saveQuestionnaire(answers: answers)) {
+      await reloadData();
       Get.offAndToNamed(UpgradeAccountResultPage.route);
     }
   }
@@ -62,10 +68,31 @@ class ProfileController extends GetxController {
     TierUpgrade tier = tierInfo.nextTier.tier.toLowerCase() == 'advanced'
         ? TierUpgrade.Advanced
         : TierUpgrade.ProIndividual;
-    if (await ProfileRepository.submitProfile(tier: tier)) Get.back();
+    if (await ProfileRepository.submitProfile(tier: tier)) {
+      await reloadData();
+      Get.back();
+    }
   }
 
-  submitDoc(DocType docType, List<int> fileIntList) async {
+  Future<void> submitAddress() async {
+    if (validateAddress(addressValue) == null &&
+        validateAddress(apartamentValue) == null &&
+        validateAddress(zipCodeValue) == null) {
+      await ProfileRepository.setAddress(
+        address: '$addressValue $apartamentValue',
+      );
+      await ProfileRepository.setZip(zip: zipCodeValue);
+      await reloadData();
+      openNextUpgradePage();
+    } else {
+      Get.rawSnackbar(
+        message: 'Fields are empty or too short!',
+        backgroundColor: AppColors.red,
+      );
+    }
+  }
+
+  Future<void> submitDoc(DocType docType, List<int> fileIntList) async {
     String documentType;
     switch (docType) {
       case DocType.drivingLicense:
@@ -106,30 +133,58 @@ class ProfileController extends GetxController {
     }
   }
 
-  openNextUpgradePage() {
-    if (documentsMap[kycDocType[0]] == null) {
-      Get.toNamed(UpgradeAccountChooseDocPage.route);
-    } else if (documentsMap[kycDocType[1]] == null) {
-      Get.offAndToNamed(
+  openNextUpgradePage({bool fromMain = false}) {
+    if (personalData.address.isNullOrBlank) {
+      Get.toNamed(UpgradeAccountAddress.route);
+    } else if (pageNeedsOpen(0)) {
+      openNextPage(
+        UpgradeAccountChooseDocPage.route,
+        fromMain: fromMain,
+      );
+    } else if (pageNeedsOpen(1)) {
+      openNextPage(
         UpgradeAccountDocPage.route,
         arguments: DocType.selfie,
+        fromMain: fromMain,
       );
-    } else if (documentsMap[kycDocType[2]] == null) {
-      Get.offAndToNamed(
+    } else if (pageNeedsOpen(2)) {
+      openNextPage(
         UpgradeAccountDocPage.route,
         arguments: DocType.proofOfAddress,
+        fromMain: fromMain,
       );
-    } else if (documentsMap[kycDocType[3]] == null) {
-      Get.offAndToNamed(
+    } else if (pageNeedsOpen(3)) {
+      openNextPage(
         UpgradeAccountDocPage.route,
         arguments: DocType.proofOfFunds,
+        fromMain: fromMain,
       );
-    } else if (documentsMap[kycDocType[4]] == null) {
-      Get.offAndToNamed(UpgradeAccountQuestPage.route);
+    } else if (pageNeedsOpen(4)) {
+      openNextPage(
+        UpgradeAccountQuestPage.route,
+        fromMain: fromMain,
+      );
     } else {
-      Get.offAndToNamed(UpgradeAccountResultPage.route);
+      openNextPage(
+        UpgradeAccountResultPage.route,
+        fromMain: fromMain,
+      );
     }
   }
+
+  bool pageNeedsOpen(int id) {
+    try {
+      return documentsMap[kycDocType[0]] == null &&
+          tierInfo.nextTier.documents.contains(kycDocType[0]);
+    } catch (e) {
+      return false;
+    }
+  }
+
+  openNextPage(String route, {Object arguments, bool fromMain = true}) =>
+      fromMain
+          ? Get.toNamed(route, arguments: arguments)
+          : Get.offAndToNamed(route, arguments: arguments);
 
   String docTitle(String type) {
     if (type == kycDocType[0]) {
@@ -142,6 +197,14 @@ class ProfileController extends GetxController {
       return 'proof_of_funds'.tr;
     } else {
       return 'questionnaire'.tr;
+    }
+  }
+
+  String validateAddress(String value) {
+    if (value.isNotEmpty && value.length >= 3) {
+      return null;
+    } else {
+      return 'Too short';
     }
   }
 }

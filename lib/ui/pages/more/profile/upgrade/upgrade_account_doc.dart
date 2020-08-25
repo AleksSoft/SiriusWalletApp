@@ -44,7 +44,13 @@ class _UpgradeAccountDocPageState extends State<UpgradeAccountDocPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.5,
-        title: Text('upgrade_to'.trArgs(['Advanced'])),
+        title: Obx(
+          () => Text(
+            'upgrade_to'.trArgs(
+              ['${ProfileController.con.tierInfo.nextTier.tier}'],
+            ),
+          ),
+        ),
         centerTitle: true,
       ),
       body: Padding(
