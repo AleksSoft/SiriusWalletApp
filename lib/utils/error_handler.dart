@@ -10,7 +10,7 @@ import 'dialog_manager.dart';
 class ErrorHandler {
   static final _dialogManager = Get.find<DialogManager>();
 
-  static Future safeCall(Future future) async {
+  static Future safeCall(Future future, {bool hideErrors = false}) async {
     dynamic response = await future
         .catchError(
           _handleGrpcError,

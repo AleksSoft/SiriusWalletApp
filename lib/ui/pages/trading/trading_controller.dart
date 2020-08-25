@@ -12,8 +12,8 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 class TradingController extends GetxController {
   static TradingController get con => Get.find();
-
   static final _api = Get.find<ApiService>();
+  static final candleTypes = [CandleType.Mid, CandleType.Trades];
 
   StreamSubscription _tradesSubscr;
   StreamSubscription _orderbookSubscr;
@@ -37,6 +37,15 @@ class TradingController extends GetxController {
   MarketsResponse_MarketModel get marketModel => this._marketModel.value;
   set marketModel(MarketsResponse_MarketModel value) =>
       this._marketModel.value = value;
+
+  final _selectedInterval = CandleInterval.Min5.obs;
+  CandleInterval get selectedInterval => this._selectedInterval.value;
+  set selectedInterval(CandleInterval value) =>
+      this._selectedInterval.value = value;
+
+  final _selectedType = CandleType.Mid.obs;
+  CandleType get selectedType => this._selectedType.value;
+  set selectedType(CandleType value) => this._selectedType.value = value;
 
   final asks = List<Orderbook_PriceVolume>().obs;
 
@@ -90,6 +99,33 @@ class TradingController extends GetxController {
   //   }
   // }
 
+  String getIntervalStr(CandleInterval interval) {
+    switch (interval) {
+      case CandleInterval.Min5:
+        return '5m';
+      case CandleInterval.Min15:
+        return '15m';
+      case CandleInterval.Min30:
+        return '30m';
+      case CandleInterval.Hour:
+        return '1h';
+      case CandleInterval.Hour4:
+        return '4h';
+      case CandleInterval.Hour6:
+        return '6h';
+      case CandleInterval.Hour12:
+        return '12h';
+      case CandleInterval.Day:
+        return '1d';
+      case CandleInterval.Week:
+        return '1w';
+      case CandleInterval.Month:
+        return '1M';
+      default:
+        return '';
+    }
+  }
+
   openOrderDetails(bool isBuy) => Get.toNamed(
         OrderDetailsPage.route,
         arguments: OrderDetailsArguments(
@@ -100,13 +136,15 @@ class TradingController extends GetxController {
         ),
       );
 
-  onZooming(ZoomPanArgs args) {
+  onMainZooming(ZoomPanArgs args) {
     if (args.axis.name == 'primaryXAxis' &&
         args.currentZoomPosition == 0 &&
         !allCandlesLoaded) {
       updateCandlesHistory();
     }
   }
+
+  onVolumeZooming(ZoomPanArgs args) {}
 
   Future updateWithMarket(MarketModel data) async {
     loading = true;
@@ -119,7 +157,7 @@ class TradingController extends GetxController {
         .first;
 
     // init streams
-    await _initCandles();
+    await reloadCandles();
     await _initOrders();
     await _initTrades();
 
@@ -133,12 +171,12 @@ class TradingController extends GetxController {
     var from = Timestamp.fromDateTime(
       DateTime.fromMicrosecondsSinceEpoch(
         to.seconds.toInt() * 1000,
-      ).subtract(_getCandleUpdateTimeDelta(CandleInterval.Min5)),
+      ).subtract(_getCandleUpdateTimeDelta()),
     );
     await TradingRepository.getCandles(
       assetPairId: initialMarket.pairId,
-      type: CandleType.Mid,
-      interval: CandleInterval.Min5,
+      type: selectedType,
+      interval: selectedInterval,
       from: from,
       to: to,
     ).then((newCandles) {
@@ -158,7 +196,7 @@ class TradingController extends GetxController {
     });
   }
 
-  _initCandles() async {
+  reloadCandles() async {
     // reload candle data list and subscription
     await _candleSubscr?.cancel();
     candleController?.updateDataSource(
@@ -166,17 +204,14 @@ class TradingController extends GetxController {
     );
     candles.clear();
     // load candle data
-    await updateCandlesHistory().then(
-      (value) {
-        // subscribe to candle stream
-        _candleSubscr = _api.clientSecure
-            .getCandleUpdates(CandleUpdatesRequest()
-              ..assetPairId = initialMarket.pairId
-              ..type = CandleType.Mid
-              ..interval = CandleInterval.Min5)
-            .listen((CandleUpdate update) => _updateCandles(update));
-      },
-    );
+    await updateCandlesHistory();
+    // subscribe to candle stream
+    _candleSubscr = _api.clientSecure
+        .getCandleUpdates(CandleUpdatesRequest()
+          ..assetPairId = initialMarket.pairId
+          ..type = CandleType.Mid
+          ..interval = CandleInterval.Min5)
+        .listen((CandleUpdate update) => _updateCandles(update));
   }
 
   _initOrders() async {
@@ -278,9 +313,9 @@ class TradingController extends GetxController {
     return oldPV;
   }
 
-  Duration _getCandleUpdateTimeDelta(CandleInterval interval) {
+  Duration _getCandleUpdateTimeDelta() {
     int itemsCount = 250;
-    switch (interval) {
+    switch (selectedInterval) {
       case CandleInterval.Min5:
         return Duration(minutes: itemsCount * 5);
       case CandleInterval.Min15:

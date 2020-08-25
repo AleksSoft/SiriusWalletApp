@@ -7,6 +7,7 @@ import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/src/apiservice.pbgrpc.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
 import 'package:antares_wallet/ui/widgets/buy_sell_button_row.dart';
+import 'package:antares_wallet/ui/widgets/default_card.dart';
 import 'package:antares_wallet/ui/widgets/tradelog_tile.dart';
 import 'package:antares_wallet/ui/widgets/volume_ask_tile.dart';
 import 'package:antares_wallet/ui/widgets/volume_bid_tile.dart';
@@ -244,110 +245,192 @@ class _CandleChartView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 250,
-      child: Obx(
-        () => AnimatedSwitcher(
-          duration: const Duration(milliseconds: 300),
-          child: c.loading
-              ? Center(
-                  child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(
-                      Colors.black,
+    return Stack(
+      children: [
+        SizedBox(
+          height: 280,
+          child: Obx(
+            () => AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: c.loading
+                  ? Center(
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                      ),
+                    )
+                  : c.noCandleData
+                      ? Center(child: Text('No candle data available'))
+                      : Column(
+                          children: [
+                            SfCartesianChart(
+                              plotAreaBorderWidth: 0,
+                              borderColor: AppColors.secondary,
+                              plotAreaBorderColor: AppColors.secondary,
+                              zoomPanBehavior: ZoomPanBehavior(
+                                enablePinching: true,
+                                enablePanning: true,
+                                zoomMode: ZoomMode.x,
+                              ),
+                              onZooming: (ZoomPanArgs args) =>
+                                  c.onMainZooming(args),
+                              trackballBehavior: TrackballBehavior(
+                                lineColor: AppColors.secondary.withOpacity(0.4),
+                                enable: true,
+                                activationMode: ActivationMode.singleTap,
+                              ),
+                              primaryXAxis: DateTimeAxis(
+                                name: 'primaryXAxis',
+                                zoomFactor: 0.05,
+                                zoomPosition: 0.95,
+                                dateFormat: DateFormat('dd.MM.yy HH:mm'),
+                                intervalType: DateTimeIntervalType.auto,
+                                majorGridLines: MajorGridLines(width: 0),
+                              ),
+                              primaryYAxis: NumericAxis(
+                                name: 'primaryYAxis',
+                                opposedPosition: true,
+                                rangePadding: ChartRangePadding.round,
+                                labelStyle: TextStyle(
+                                  color: AppColors.secondary,
+                                ),
+                                axisLine: AxisLine(width: 0),
+                                numberFormat: NumberFormat.currency(
+                                  locale: 'eu',
+                                  symbol: '',
+                                  decimalDigits: c.initialMarket
+                                          ?.pairQuotingAsset?.accuracy ??
+                                      2,
+                                ),
+                              ),
+                              // axes: <ChartAxis>[
+                              //   NumericAxis(
+                              //     name: 'yAxis1',
+                              //     isVisible: false,
+                              //     opposedPosition: true,
+                              //     majorGridLines: MajorGridLines(width: 0),
+                              //     labelStyle: TextStyle(color: AppColors.secondary),
+                              //   )
+                              // ],
+                              series: <ChartSeries<Candle, DateTime>>[
+                                CandleSeries<Candle, DateTime>(
+                                  dataSource: c.candles,
+                                  enableTooltip: true,
+                                  enableSolidCandles: true,
+                                  animationDuration: 500,
+                                  xValueMapper: (candle, _) =>
+                                      DateTime.fromMillisecondsSinceEpoch(
+                                    candle.timestamp.seconds.toInt() * 1000,
+                                  ),
+                                  lowValueMapper: (candle, _) =>
+                                      double.tryParse(candle?.low) ?? 0.0,
+                                  highValueMapper: (candle, _) =>
+                                      double.tryParse(candle?.high) ?? 0.0,
+                                  openValueMapper: (candle, _) =>
+                                      double.tryParse(candle?.open) ?? 0.0,
+                                  closeValueMapper: (candle, _) =>
+                                      double.tryParse(candle?.close) ?? 0.0,
+                                  dataLabelSettings:
+                                      DataLabelSettings(isVisible: false),
+                                  onRendererCreated:
+                                      (ChartSeriesController controller) {
+                                    c.candleController = controller;
+                                  },
+                                ),
+                                // ColumnSeries<ExampleChartModel, DateTime>(
+                                //   opacity: 0.2,
+                                //   dataSource: data,
+                                //   xAxisName: 'xAxis1',
+                                //   yAxisName: 'yAxis1',
+                                //   animationDuration: 500,
+                                //   enableTooltip: false,
+                                //   isTrackVisible: false,
+                                //   trackBorderColor: Colors.transparent,
+                                //   trackColor: Colors.transparent,
+                                //   color: AppColors.secondary,
+                                //   xValueMapper: (sales, _) =>
+                                //       DateTime.fromMillisecondsSinceEpoch(sales.date * 1000),
+                                //   yValueMapper: (sales, _) => sales.vol,
+                                // )
+                              ],
+                            ),
+                          ],
+                        ),
+            ),
+          ),
+        ),
+        Positioned(
+          left: AppSizes.small,
+          top: AppSizes.extraSmall,
+          child: Row(
+            children: [
+              DefaultCard(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: AppSizes.small,
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSizes.extraSmall,
+                ),
+                borderRadius: BorderRadius.circular(AppSizes.small),
+                child: Obx(
+                  () => DropdownButtonHideUnderline(
+                    child: DropdownButton<CandleType>(
+                      value: c.selectedType,
+                      isExpanded: false,
+                      onChanged: (CandleType ct) async {
+                        c.loading = true;
+                        c.selectedType = ct;
+                        await c.reloadCandles();
+                        c.loading = false;
+                      },
+                      items: TradingController.candleTypes.map(
+                        (CandleType value) {
+                          return DropdownMenuItem<CandleType>(
+                            value: value,
+                            child: Text(
+                              value == CandleType.Mid ? 'Mid price' : 'Trades',
+                            ),
+                          );
+                        },
+                      ).toList(),
                     ),
                   ),
-                )
-              : c.noCandleData
-                  ? Center(child: Text('No candle data available'))
-                  : SfCartesianChart(
-                      plotAreaBorderWidth: 0,
-                      borderColor: AppColors.secondary,
-                      plotAreaBorderColor: AppColors.secondary,
-                      zoomPanBehavior: ZoomPanBehavior(
-                        enablePinching: true,
-                        enablePanning: true,
-                        zoomMode: ZoomMode.x,
-                      ),
-                      onZooming: (ZoomPanArgs args) => c.onZooming(args),
-                      trackballBehavior: TrackballBehavior(
-                        lineColor: AppColors.secondary.withOpacity(0.4),
-                        enable: true,
-                        activationMode: ActivationMode.singleTap,
-                      ),
-                      primaryXAxis: DateTimeAxis(
-                        name: 'primaryXAxis',
-                        zoomFactor: 0.05,
-                        zoomPosition: 0.95,
-                        dateFormat: DateFormat('dd.MM.yy HH:mm'),
-                        intervalType: DateTimeIntervalType.auto,
-                        majorGridLines: MajorGridLines(width: 0),
-                      ),
-                      primaryYAxis: NumericAxis(
-                          name: 'primaryYAxis',
-                          opposedPosition: true,
-                          rangePadding: ChartRangePadding.round,
-                          labelStyle: TextStyle(color: AppColors.secondary),
-                          axisLine: AxisLine(width: 0),
-                          numberFormat: NumberFormat.currency(
-                            locale: 'eu',
-                            symbol: '',
-                            decimalDigits:
-                                c.initialMarket?.pairQuotingAsset?.accuracy ??
-                                    2,
-                          )),
-                      // axes: <ChartAxis>[
-                      //   NumericAxis(
-                      //     name: 'yAxis1',
-                      //     isVisible: false,
-                      //     opposedPosition: true,
-                      //     majorGridLines: MajorGridLines(width: 0),
-                      //     labelStyle: TextStyle(color: AppColors.secondary),
-                      //   )
-                      // ],
-                      series: <ChartSeries<Candle, DateTime>>[
-                        CandleSeries<Candle, DateTime>(
-                          dataSource: c.candles,
-                          enableTooltip: true,
-                          enableSolidCandles: true,
-                          animationDuration: 500,
-                          xValueMapper: (candle, _) =>
-                              DateTime.fromMillisecondsSinceEpoch(
-                            candle.timestamp.seconds.toInt() * 1000,
-                          ),
-                          lowValueMapper: (candle, _) =>
-                              double.tryParse(candle?.low) ?? 0.0,
-                          highValueMapper: (candle, _) =>
-                              double.tryParse(candle?.high) ?? 0.0,
-                          openValueMapper: (candle, _) =>
-                              double.tryParse(candle?.open) ?? 0.0,
-                          closeValueMapper: (candle, _) =>
-                              double.tryParse(candle?.close) ?? 0.0,
-                          dataLabelSettings:
-                              DataLabelSettings(isVisible: false),
-                          onRendererCreated:
-                              (ChartSeriesController controller) {
-                            c.candleController = controller;
-                          },
-                        ),
-                        // ColumnSeries<ExampleChartModel, DateTime>(
-                        //   opacity: 0.2,
-                        //   dataSource: data,
-                        //   xAxisName: 'xAxis1',
-                        //   yAxisName: 'yAxis1',
-                        //   animationDuration: 500,
-                        //   enableTooltip: false,
-                        //   isTrackVisible: false,
-                        //   trackBorderColor: Colors.transparent,
-                        //   trackColor: Colors.transparent,
-                        //   color: AppColors.secondary,
-                        //   xValueMapper: (sales, _) =>
-                        //       DateTime.fromMillisecondsSinceEpoch(sales.date * 1000),
-                        //   yValueMapper: (sales, _) => sales.vol,
-                        // )
-                      ],
+                ),
+              ),
+              DefaultCard(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: AppSizes.small,
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSizes.extraSmall,
+                ),
+                borderRadius: BorderRadius.circular(AppSizes.small),
+                child: Obx(
+                  () => DropdownButtonHideUnderline(
+                    child: DropdownButton<CandleInterval>(
+                      value: c.selectedInterval,
+                      isExpanded: false,
+                      onChanged: (CandleInterval i) async {
+                        c.loading = true;
+                        c.selectedInterval = i;
+                        await c.reloadCandles();
+                        c.loading = false;
+                      },
+                      items: CandleInterval.values.map(
+                        (CandleInterval value) {
+                          return DropdownMenuItem<CandleInterval>(
+                            value: value,
+                            child: Text(c.getIntervalStr(value)),
+                          );
+                        },
+                      ).toList(),
                     ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }
