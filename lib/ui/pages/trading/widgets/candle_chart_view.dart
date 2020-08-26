@@ -187,7 +187,6 @@ class _VolumeChart extends StatelessWidget {
 class _CandleChart extends StatelessWidget {
   _CandleChart({Key key}) : super(key: key);
   final c = TradingController.con;
-
   @override
   Widget build(BuildContext context) {
     return SfCartesianChart(
@@ -261,7 +260,19 @@ class _ButtonRow extends StatelessWidget {
         GestureDetector(
           onTap: () => c.toggleExpandChart(),
           child: Card(
-            child: Icon(Icons.crop_free),
+            child: Padding(
+              padding: const EdgeInsets.all(AppSizes.small),
+              child: Icon(Icons.crop_free),
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: () => c.isCandleChart = !c.isCandleChart,
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(AppSizes.small),
+              child: Icon(Icons.show_chart),
+            ),
           ),
         ),
         Card(
