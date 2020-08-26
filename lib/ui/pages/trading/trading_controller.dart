@@ -1,14 +1,18 @@
 import 'dart:async';
 
 import 'package:antares_wallet/controllers/markets_controller.dart';
-import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/repositories/trading_repository.dart';
+import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
 import 'package:antares_wallet/ui/pages/orders/order_details/order_details_controller.dart';
 import 'package:antares_wallet/ui/pages/orders/order_details/order_details_page.dart';
+import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+
+import 'candle_chart_page.dart';
 
 class TradingController extends GetxController {
   static TradingController get con => Get.find();
@@ -47,6 +51,10 @@ class TradingController extends GetxController {
   CandleType get selectedType => this._selectedType.value;
   set selectedType(CandleType value) => this._selectedType.value = value;
 
+  final _isCandleChart = true.obs;
+  bool get isCandleChart => this._isCandleChart.value;
+  set isCandleChart(bool value) => this._isCandleChart.value = value;
+
   final asks = List<Orderbook_PriceVolume>().obs;
 
   final bids = List<Orderbook_PriceVolume>().obs;
@@ -56,6 +64,14 @@ class TradingController extends GetxController {
   final _noCandleData = false.obs;
   bool get noCandleData => this._noCandleData.value;
   set noCandleData(bool value) => this._noCandleData.value = value;
+
+  final _zoomP = 0.95.obs;
+  get zoomP => this._zoomP.value;
+  set zoomP(value) => this._zoomP.value = value;
+
+  final _zoomF = 0.05.obs;
+  get zoomF => this._zoomF.value;
+  set zoomF(value) => this._zoomF.value = value;
 
   @override
   void onInit() async {
@@ -137,14 +153,21 @@ class TradingController extends GetxController {
       );
 
   onMainZooming(ZoomPanArgs args) {
-    if (args.axis.name == 'primaryXAxis' &&
-        args.currentZoomPosition == 0 &&
-        !allCandlesLoaded) {
-      updateCandlesHistory();
+    if (args.axis.name == 'primaryXAxis') {
+      zoomP = args.currentZoomPosition;
+      zoomF = args.currentZoomFactor;
+      if (args.currentZoomPosition == 0 && !allCandlesLoaded) {
+        updateCandlesHistory();
+      }
     }
   }
 
-  onVolumeZooming(ZoomPanArgs args) {}
+  onVolumeZooming(ZoomPanArgs args) {
+    if (args.axis.name == 'primaryXAxis') {
+      zoomP = args.currentZoomPosition;
+      zoomF = args.currentZoomFactor;
+    }
+  }
 
   Future updateWithMarket(MarketModel data) async {
     loading = true;
@@ -338,6 +361,19 @@ class TradingController extends GetxController {
         return Duration(days: itemsCount * 30);
       default:
         return Duration(days: itemsCount * 30 * 6);
+    }
+  }
+
+  toggleExpandChart() {
+    if (Get.currentRoute == TradingPage.route) {
+      Get.to(CandleChartPage(), transition: Transition.fade);
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.landscapeRight,
+      ]);
+    } else {
+      Get.back();
+      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     }
   }
 }
