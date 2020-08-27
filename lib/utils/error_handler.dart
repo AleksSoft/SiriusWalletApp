@@ -1,3 +1,4 @@
+import 'package:antares_wallet/controllers/disclaimers_controler.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart' as apiservice;
 import 'package:antares_wallet/ui/pages/start/start_page.dart';
 import 'package:flutter/foundation.dart';
@@ -29,10 +30,13 @@ class ErrorHandler {
   static _handleApiError(error) {
     if (error is apiservice.Error) {
       _showErrorDialog(message: error.message);
-    } else if (error is apiservice.ErrorV1) {
-      _showErrorDialog(code: error.code, message: error.message);
-    } else if (error is apiservice.ErrorV2) {
-      _showErrorDialog(code: error.error, message: error.message);
+    } else {
+      // check if it's pending disclaimer
+      if (error.error == '70') {
+        DisclaimersController.con.loadDisclaimers();
+      } else {
+        _showErrorDialog(code: error.error, message: error.message);
+      }
     }
   }
 

@@ -8,7 +8,7 @@ option csharp_namespace = "Swisschain.Lykke.AntaresWalletApi.ApiContract";
 package antaresWallet;
 
 service ApiService {
-	rpc AssetsDictionary (google.protobuf.Empty) returns (AssetsDictionaryResponse);
+    rpc AssetsDictionary (google.protobuf.Empty) returns (AssetsDictionaryResponse);
     // GET (v2) /api/assets/baseAsset
     rpc GetBaseAsset (google.protobuf.Empty) returns (BaseAssetResponse);
     // POST (v2) /api/assets/baseAsset
@@ -144,6 +144,13 @@ service ApiService {
 
     // GET /api/PrivateWallet
     rpc GetPrivateWallets(google.protobuf.Empty) returns (PrivateWalletsResponse);
+
+    // GET /api/AssetDisclaimers
+    rpc GetAssetDisclaimers(google.protobuf.Empty) returns (AssetDisclaimersResponse);
+    // GET /api/AssetDisclaimers/{disclaimerId}/approve"
+    rpc ApproveAssetDisclaimer(AssetDisclaimerRequest) returns (EmptyResponse);
+    // GET /api/AssetDisclaimers/{disclaimerId}/decline
+    rpc DeclineAssetDisclaimer(AssetDisclaimerRequest) returns (EmptyResponse);
 
     rpc GetPriceUpdates (PriceUpdatesRequest) returns (stream PriceUpdate);
     rpc GetCandleUpdates (CandleUpdatesRequest) returns (stream CandleUpdate);
@@ -467,6 +474,10 @@ message CryptoCashoutRequest {
     string destinationAddressExtension = 4;
 }
 
+message AssetDisclaimerRequest {
+    string disclaimerId = 1;
+}
+
 message CandleUpdatesRequest {
     string assetPairId = 1;
     CandleType type = 2;
@@ -511,8 +522,8 @@ message PricesResponse {
 }
 
 message AssetsDictionaryResponse {
-	repeated AssetCategory categories = 1;
-	repeated Asset assets = 2;
+    repeated AssetCategory categories = 1;
+    repeated Asset assets = 2;
 }
 
 message BaseAssetResponse {
@@ -1136,6 +1147,20 @@ message PrivateWalletsResponse {
     message PrivateWalletsPayload {
         repeated PrivateWallet wallets = 1;
     }
+}
+
+message AssetDisclaimersResponse {
+    AssetDisclaimersPayload result = 1;
+    ErrorV1 error = 2;
+
+    message AssetDisclaimersPayload {
+        repeated AssetDisclaimer disclaimers = 1;
+    }
+}
+
+message AssetDisclaimer {
+    string id = 1;
+    string text = 2;
 }
 
 message PrivateWallet {

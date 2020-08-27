@@ -2568,6 +2568,37 @@ class CryptoCashoutRequest extends $pb.GeneratedMessage {
   void clearDestinationAddressExtension() => clearField(4);
 }
 
+class AssetDisclaimerRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('AssetDisclaimerRequest', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOS(1, 'disclaimerId', protoName: 'disclaimerId')
+    ..hasRequiredFields = false
+  ;
+
+  AssetDisclaimerRequest._() : super();
+  factory AssetDisclaimerRequest() => create();
+  factory AssetDisclaimerRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AssetDisclaimerRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  AssetDisclaimerRequest clone() => AssetDisclaimerRequest()..mergeFromMessage(this);
+  AssetDisclaimerRequest copyWith(void Function(AssetDisclaimerRequest) updates) => super.copyWith((message) => updates(message as AssetDisclaimerRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static AssetDisclaimerRequest create() => AssetDisclaimerRequest._();
+  AssetDisclaimerRequest createEmptyInstance() => create();
+  static $pb.PbList<AssetDisclaimerRequest> createRepeated() => $pb.PbList<AssetDisclaimerRequest>();
+  @$core.pragma('dart2js:noInline')
+  static AssetDisclaimerRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AssetDisclaimerRequest>(create);
+  static AssetDisclaimerRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get disclaimerId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set disclaimerId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasDisclaimerId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearDisclaimerId() => clearField(1);
+}
+
 class CandleUpdatesRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('CandleUpdatesRequest', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
     ..aOS(1, 'assetPairId', protoName: 'assetPairId')
@@ -8160,6 +8191,117 @@ class PrivateWalletsResponse extends $pb.GeneratedMessage {
   void clearError() => clearField(2);
   @$pb.TagNumber(2)
   ErrorV1 ensureError() => $_ensure(1);
+}
+
+class AssetDisclaimersResponse_AssetDisclaimersPayload extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('AssetDisclaimersResponse.AssetDisclaimersPayload', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..pc<AssetDisclaimer>(1, 'disclaimers', $pb.PbFieldType.PM, subBuilder: AssetDisclaimer.create)
+    ..hasRequiredFields = false
+  ;
+
+  AssetDisclaimersResponse_AssetDisclaimersPayload._() : super();
+  factory AssetDisclaimersResponse_AssetDisclaimersPayload() => create();
+  factory AssetDisclaimersResponse_AssetDisclaimersPayload.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AssetDisclaimersResponse_AssetDisclaimersPayload.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  AssetDisclaimersResponse_AssetDisclaimersPayload clone() => AssetDisclaimersResponse_AssetDisclaimersPayload()..mergeFromMessage(this);
+  AssetDisclaimersResponse_AssetDisclaimersPayload copyWith(void Function(AssetDisclaimersResponse_AssetDisclaimersPayload) updates) => super.copyWith((message) => updates(message as AssetDisclaimersResponse_AssetDisclaimersPayload));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static AssetDisclaimersResponse_AssetDisclaimersPayload create() => AssetDisclaimersResponse_AssetDisclaimersPayload._();
+  AssetDisclaimersResponse_AssetDisclaimersPayload createEmptyInstance() => create();
+  static $pb.PbList<AssetDisclaimersResponse_AssetDisclaimersPayload> createRepeated() => $pb.PbList<AssetDisclaimersResponse_AssetDisclaimersPayload>();
+  @$core.pragma('dart2js:noInline')
+  static AssetDisclaimersResponse_AssetDisclaimersPayload getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AssetDisclaimersResponse_AssetDisclaimersPayload>(create);
+  static AssetDisclaimersResponse_AssetDisclaimersPayload _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<AssetDisclaimer> get disclaimers => $_getList(0);
+}
+
+class AssetDisclaimersResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('AssetDisclaimersResponse', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOM<AssetDisclaimersResponse_AssetDisclaimersPayload>(1, 'result', subBuilder: AssetDisclaimersResponse_AssetDisclaimersPayload.create)
+    ..aOM<ErrorV1>(2, 'error', subBuilder: ErrorV1.create)
+    ..hasRequiredFields = false
+  ;
+
+  AssetDisclaimersResponse._() : super();
+  factory AssetDisclaimersResponse() => create();
+  factory AssetDisclaimersResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AssetDisclaimersResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  AssetDisclaimersResponse clone() => AssetDisclaimersResponse()..mergeFromMessage(this);
+  AssetDisclaimersResponse copyWith(void Function(AssetDisclaimersResponse) updates) => super.copyWith((message) => updates(message as AssetDisclaimersResponse));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static AssetDisclaimersResponse create() => AssetDisclaimersResponse._();
+  AssetDisclaimersResponse createEmptyInstance() => create();
+  static $pb.PbList<AssetDisclaimersResponse> createRepeated() => $pb.PbList<AssetDisclaimersResponse>();
+  @$core.pragma('dart2js:noInline')
+  static AssetDisclaimersResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AssetDisclaimersResponse>(create);
+  static AssetDisclaimersResponse _defaultInstance;
+
+  @$pb.TagNumber(1)
+  AssetDisclaimersResponse_AssetDisclaimersPayload get result => $_getN(0);
+  @$pb.TagNumber(1)
+  set result(AssetDisclaimersResponse_AssetDisclaimersPayload v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasResult() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearResult() => clearField(1);
+  @$pb.TagNumber(1)
+  AssetDisclaimersResponse_AssetDisclaimersPayload ensureResult() => $_ensure(0);
+
+  @$pb.TagNumber(2)
+  ErrorV1 get error => $_getN(1);
+  @$pb.TagNumber(2)
+  set error(ErrorV1 v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasError() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearError() => clearField(2);
+  @$pb.TagNumber(2)
+  ErrorV1 ensureError() => $_ensure(1);
+}
+
+class AssetDisclaimer extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('AssetDisclaimer', package: const $pb.PackageName('antaresWallet'), createEmptyInstance: create)
+    ..aOS(1, 'id')
+    ..aOS(2, 'text')
+    ..hasRequiredFields = false
+  ;
+
+  AssetDisclaimer._() : super();
+  factory AssetDisclaimer() => create();
+  factory AssetDisclaimer.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AssetDisclaimer.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  AssetDisclaimer clone() => AssetDisclaimer()..mergeFromMessage(this);
+  AssetDisclaimer copyWith(void Function(AssetDisclaimer) updates) => super.copyWith((message) => updates(message as AssetDisclaimer));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static AssetDisclaimer create() => AssetDisclaimer._();
+  AssetDisclaimer createEmptyInstance() => create();
+  static $pb.PbList<AssetDisclaimer> createRepeated() => $pb.PbList<AssetDisclaimer>();
+  @$core.pragma('dart2js:noInline')
+  static AssetDisclaimer getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AssetDisclaimer>(create);
+  static AssetDisclaimer _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get id => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set id($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get text => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set text($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasText() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearText() => clearField(2);
 }
 
 enum PrivateWallet_OptionalNumber {

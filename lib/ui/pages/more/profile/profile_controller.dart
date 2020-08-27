@@ -27,7 +27,7 @@ class ProfileController extends GetxController {
   set documentsMap(Map<String, KycDocumentsResponse_KycDocument> value) =>
       this._documentsMap.value = value;
 
-  double get limitPercent => (doubleCurrent * 100) / doubleMax;
+  double get limitPercent => doubleCurrent / doubleMax;
 
   double get doubleCurrent =>
       double.tryParse(tierInfo?.currentTier?.current ?? '0') ?? 0.0;

@@ -518,6 +518,13 @@ const CryptoCashoutRequest$json = const {
   ],
 };
 
+const AssetDisclaimerRequest$json = const {
+  '1': 'AssetDisclaimerRequest',
+  '2': const [
+    const {'1': 'disclaimerId', '3': 1, '4': 1, '5': 9, '10': 'disclaimerId'},
+  ],
+};
+
 const CandleUpdatesRequest$json = const {
   '1': 'CandleUpdatesRequest',
   '2': const [
@@ -1512,6 +1519,30 @@ const PrivateWalletsResponse_PrivateWalletsPayload$json = const {
   '1': 'PrivateWalletsPayload',
   '2': const [
     const {'1': 'wallets', '3': 1, '4': 3, '5': 11, '6': '.antaresWallet.PrivateWallet', '10': 'wallets'},
+  ],
+};
+
+const AssetDisclaimersResponse$json = const {
+  '1': 'AssetDisclaimersResponse',
+  '2': const [
+    const {'1': 'result', '3': 1, '4': 1, '5': 11, '6': '.antaresWallet.AssetDisclaimersResponse.AssetDisclaimersPayload', '10': 'result'},
+    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorV1', '10': 'error'},
+  ],
+  '3': const [AssetDisclaimersResponse_AssetDisclaimersPayload$json],
+};
+
+const AssetDisclaimersResponse_AssetDisclaimersPayload$json = const {
+  '1': 'AssetDisclaimersPayload',
+  '2': const [
+    const {'1': 'disclaimers', '3': 1, '4': 3, '5': 11, '6': '.antaresWallet.AssetDisclaimer', '10': 'disclaimers'},
+  ],
+};
+
+const AssetDisclaimer$json = const {
+  '1': 'AssetDisclaimer',
+  '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'text', '3': 2, '4': 1, '5': 9, '10': 'text'},
   ],
 };
 

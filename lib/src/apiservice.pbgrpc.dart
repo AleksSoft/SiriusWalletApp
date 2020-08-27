@@ -401,6 +401,22 @@ class ApiServiceClient extends $grpc.Client {
           ($0.Empty value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $1.PrivateWalletsResponse.fromBuffer(value));
+  static final _$getAssetDisclaimers =
+      $grpc.ClientMethod<$0.Empty, $1.AssetDisclaimersResponse>(
+          '/antaresWallet.ApiService/GetAssetDisclaimers',
+          ($0.Empty value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $1.AssetDisclaimersResponse.fromBuffer(value));
+  static final _$approveAssetDisclaimer =
+      $grpc.ClientMethod<$1.AssetDisclaimerRequest, $1.EmptyResponse>(
+          '/antaresWallet.ApiService/ApproveAssetDisclaimer',
+          ($1.AssetDisclaimerRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $1.EmptyResponse.fromBuffer(value));
+  static final _$declineAssetDisclaimer =
+      $grpc.ClientMethod<$1.AssetDisclaimerRequest, $1.EmptyResponse>(
+          '/antaresWallet.ApiService/DeclineAssetDisclaimer',
+          ($1.AssetDisclaimerRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $1.EmptyResponse.fromBuffer(value));
   static final _$getPriceUpdates =
       $grpc.ClientMethod<$1.PriceUpdatesRequest, $1.PriceUpdate>(
           '/antaresWallet.ApiService/GetPriceUpdates',
@@ -1009,6 +1025,33 @@ class ApiServiceClient extends $grpc.Client {
     return $grpc.ResponseFuture(call);
   }
 
+  $grpc.ResponseFuture<$1.AssetDisclaimersResponse> getAssetDisclaimers(
+      $0.Empty request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$getAssetDisclaimers, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
+  $grpc.ResponseFuture<$1.EmptyResponse> approveAssetDisclaimer(
+      $1.AssetDisclaimerRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$approveAssetDisclaimer, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
+  $grpc.ResponseFuture<$1.EmptyResponse> declineAssetDisclaimer(
+      $1.AssetDisclaimerRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$declineAssetDisclaimer, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
   $grpc.ResponseStream<$1.PriceUpdate> getPriceUpdates(
       $1.PriceUpdatesRequest request,
       {$grpc.CallOptions options}) {
@@ -1583,6 +1626,29 @@ abstract class ApiServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
         ($1.PrivateWalletsResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.Empty, $1.AssetDisclaimersResponse>(
+        'GetAssetDisclaimers',
+        getAssetDisclaimers_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
+        ($1.AssetDisclaimersResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.AssetDisclaimerRequest, $1.EmptyResponse>(
+        'ApproveAssetDisclaimer',
+        approveAssetDisclaimer_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $1.AssetDisclaimerRequest.fromBuffer(value),
+        ($1.EmptyResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.AssetDisclaimerRequest, $1.EmptyResponse>(
+        'DeclineAssetDisclaimer',
+        declineAssetDisclaimer_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $1.AssetDisclaimerRequest.fromBuffer(value),
+        ($1.EmptyResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$1.PriceUpdatesRequest, $1.PriceUpdate>(
         'GetPriceUpdates',
         getPriceUpdates_Pre,
@@ -1982,6 +2048,23 @@ abstract class ApiServiceBase extends $grpc.Service {
     return getPrivateWallets(call, await request);
   }
 
+  $async.Future<$1.AssetDisclaimersResponse> getAssetDisclaimers_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.Empty> request) async {
+    return getAssetDisclaimers(call, await request);
+  }
+
+  $async.Future<$1.EmptyResponse> approveAssetDisclaimer_Pre(
+      $grpc.ServiceCall call,
+      $async.Future<$1.AssetDisclaimerRequest> request) async {
+    return approveAssetDisclaimer(call, await request);
+  }
+
+  $async.Future<$1.EmptyResponse> declineAssetDisclaimer_Pre(
+      $grpc.ServiceCall call,
+      $async.Future<$1.AssetDisclaimerRequest> request) async {
+    return declineAssetDisclaimer(call, await request);
+  }
+
   $async.Stream<$1.PriceUpdate> getPriceUpdates_Pre($grpc.ServiceCall call,
       $async.Future<$1.PriceUpdatesRequest> request) async* {
     yield* getPriceUpdates(call, await request);
@@ -2139,6 +2222,12 @@ abstract class ApiServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $0.Empty request);
   $async.Future<$1.PrivateWalletsResponse> getPrivateWallets(
       $grpc.ServiceCall call, $0.Empty request);
+  $async.Future<$1.AssetDisclaimersResponse> getAssetDisclaimers(
+      $grpc.ServiceCall call, $0.Empty request);
+  $async.Future<$1.EmptyResponse> approveAssetDisclaimer(
+      $grpc.ServiceCall call, $1.AssetDisclaimerRequest request);
+  $async.Future<$1.EmptyResponse> declineAssetDisclaimer(
+      $grpc.ServiceCall call, $1.AssetDisclaimerRequest request);
   $async.Stream<$1.PriceUpdate> getPriceUpdates(
       $grpc.ServiceCall call, $1.PriceUpdatesRequest request);
   $async.Stream<$1.CandleUpdate> getCandleUpdates(
