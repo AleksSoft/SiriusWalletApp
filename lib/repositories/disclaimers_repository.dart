@@ -15,7 +15,9 @@ class DisclaimersRepository {
     return response?.result?.disclaimers ?? List();
   }
 
-  static Future<bool> approveAssetDisclaimer({@required disclaimerId}) async {
+  static Future<bool> approveAssetDisclaimer({
+    @required String disclaimerId,
+  }) async {
     final response = await ErrorHandler.safeCall(
       _api.clientSecure.approveAssetDisclaimer(
         AssetDisclaimerRequest()..disclaimerId = disclaimerId,
@@ -24,7 +26,9 @@ class DisclaimersRepository {
     return response != null;
   }
 
-  static Future<bool> declineAssetDisclaimer({@required disclaimerId}) async {
+  static Future<bool> declineAssetDisclaimer({
+    @required String disclaimerId,
+  }) async {
     final response = await ErrorHandler.safeCall(
       _api.clientSecure.declineAssetDisclaimer(
         AssetDisclaimerRequest()..disclaimerId = disclaimerId,

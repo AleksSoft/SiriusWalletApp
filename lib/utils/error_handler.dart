@@ -20,23 +20,25 @@ class ErrorHandler {
         .catchError(_handleError);
     try {
       if (response?.error != null && response.error.hasMessage()) {
-        _handleApiError(response.error);
+        _handleApiError(response.error, future);
         return null;
       }
     } catch (e) {}
     return response;
   }
 
-  static _handleApiError(error) {
+  static _handleApiError(error, future) async {
     if (error is apiservice.Error) {
       _showErrorDialog(message: error.message);
-    } else {
+    } else if (error is apiservice.ErrorV1) {
       // check if it's pending disclaimer
-      if (error.error == '70') {
-        DisclaimersController.con.loadDisclaimers();
+      if (error.code == '70') {
+        DisclaimersController.con.initPage(future);
       } else {
-        _showErrorDialog(code: error.error, message: error.message);
+        _showErrorDialog(code: error.code, message: error.message);
       }
+    } else if (error is apiservice.ErrorV2) {
+      _showErrorDialog(code: error.error, message: error.message);
     }
   }
 

@@ -228,8 +228,10 @@ class OrderDetailsController extends GetxController {
       );
     }
     if (response == null) {
-      Get.rawSnackbar(
-        message: 'Order failed',
+      Get.snackbar(
+        null,
+        'Order failed',
+        colorText: AppColors.primary,
         backgroundColor: AppColors.red,
       );
       loading = false;

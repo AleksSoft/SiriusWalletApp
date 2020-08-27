@@ -12,36 +12,28 @@ class DisclaimerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.5,
-        title: Text('Disclaimer'),
-        actions: [CloseButton()],
-      ),
+      appBar: AppBar(elevation: 0.5, title: Text('Disclaimer')),
       body: Stack(
         children: [
-          Positioned(
-            left: AppSizes.medium,
-            top: AppSizes.medium,
-            right: AppSizes.medium,
-            bottom: AppSizes.extraLarge * 2 + AppSizes.medium,
-            child: Obx(
-              () => AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                child: c.disclaimers.isNotEmpty
-                    ? PageView(
+          Obx(
+            () => AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: !c.loading
+                  ? Obx(
+                      () => PageView(
                         controller: c.pageController,
                         physics: NeverScrollableScrollPhysics(),
                         children:
                             c.disclaimers.map((d) => _PageView(d)).toList(),
-                      )
-                    : Center(
-                        child: CircularProgressIndicator(
-                          valueColor: new AlwaysStoppedAnimation<Color>(
-                            Colors.black,
-                          ),
+                      ),
+                    )
+                  : Center(
+                      child: CircularProgressIndicator(
+                        valueColor: new AlwaysStoppedAnimation<Color>(
+                          Colors.black,
                         ),
                       ),
-              ),
+                    ),
             ),
           ),
           Positioned(
@@ -49,8 +41,8 @@ class DisclaimerPage extends StatelessWidget {
             right: 0,
             bottom: 0,
             child: _ButtonRow(
-              onCancel: c.cancel(),
-              onSubmit: c.submit(),
+              onCancel: () => c.decline(),
+              onSubmit: () => c.approve(),
             ),
           ),
         ],
@@ -64,12 +56,23 @@ class _PageView extends StatelessWidget {
   final AssetDisclaimer assetDisclaimer;
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Container(
+      alignment: Alignment.center,
+      padding: const EdgeInsets.only(
+        left: AppSizes.medium,
+        top: 0,
+        right: AppSizes.medium,
+        bottom: AppSizes.extraLarge * 2 + AppSizes.medium,
+      ),
       child: SingleChildScrollView(
         child: Text(
           assetDisclaimer.text,
           softWrap: true,
-          textAlign: TextAlign.left,
+          textAlign: TextAlign.center,
+          style: Get.textTheme.headline6.copyWith(
+            fontSize: 18.0,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
     );
