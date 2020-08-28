@@ -56,6 +56,13 @@ class MarketsController extends GetxController {
           e.pairBaseAsset.id == assetId || e.pairQuotingAsset.id == assetId)
       .toList();
 
+  List<MarketModel> marketModelsUpTo(int end) => watchedMarkets.sublist(
+        0,
+        end >= watchedMarkets.length || watchedMarkets.length < end
+            ? watchedMarkets.length
+            : end,
+      );
+
   Future<List<MarketsResponse_MarketModel>> getMarkets(
           {String assetPairId}) async =>
       await MarketsRepository.getMarkets(assetPairId: assetPairId);
@@ -121,9 +128,9 @@ class MarketsController extends GetxController {
       pairId: pair.id,
       pairBaseAsset: pairBaseAsset,
       pairQuotingAsset: pairQuotingAsset,
-      volume: double.tryParse(responseModel?.volume24H) ?? 0.0,
-      price: double.tryParse(responseModel?.lastPrice) ?? 0.0,
-      change: double.tryParse(responseModel?.priceChange24H) ?? 0.0,
+      volume: double.tryParse(responseModel.volume24H) ?? 0.0,
+      price: double.tryParse(responseModel.lastPrice) ?? 0.0,
+      change: double.tryParse(responseModel.priceChange24H) ?? 0.0,
     );
   }
 }

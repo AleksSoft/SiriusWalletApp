@@ -12,7 +12,6 @@ import 'root_controller.dart';
 
 class RootPage extends StatelessWidget {
   static final String route = '/root';
-
   @override
   Widget build(BuildContext context) {
     final styleSel = Get.textTheme.caption.copyWith(color: AppColors.accent);

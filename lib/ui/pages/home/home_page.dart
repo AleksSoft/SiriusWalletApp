@@ -2,7 +2,10 @@ import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
+import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
+import 'package:antares_wallet/ui/pages/root/root_controller.dart';
+import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
 import 'package:antares_wallet/ui/widgets/default_card.dart';
 import 'package:antares_wallet/utils/formatter.dart';
 import 'package:flutter/cupertino.dart';
@@ -82,17 +85,12 @@ class _AssetsView extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {},
-                  child: Text(
-                    'Hide',
-                    style: Get.textTheme.button.copyWith(
-                      color: AppColors.accent,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                )
+                CupertinoButton(
+                  onPressed: () {},
+                  minSize: 10,
+                  padding: const EdgeInsets.all(0.0),
+                  child: Text('Hide'),
+                ),
               ],
             ),
           ),
@@ -282,30 +280,28 @@ class _ExchangeView extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {},
-                  child: Text(
-                    'More',
-                    style: Get.textTheme.button.copyWith(
-                      color: AppColors.accent,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                )
+                CupertinoButton(
+                  onPressed: () => RootController.con.pageIndex = 2,
+                  minSize: 10,
+                  padding: const EdgeInsets.all(0.0),
+                  child: Text('More'),
+                ),
               ],
             ),
             AppUiHelpers.vSpaceLarge,
-            GridView.count(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              crossAxisCount: 2,
-              childAspectRatio: 2 / 1,
-              mainAxisSpacing: AppSizes.small,
-              crossAxisSpacing: AppSizes.small,
-              children: <double>[0.25, 0.5, 0.75, 1.0]
-                  .map((e) => _buildPairContainer())
-                  .toList(),
+            GetBuilder<MarketsController>(
+              builder: (_) => GridView.count(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                crossAxisCount: 2,
+                childAspectRatio: 2 / 1,
+                mainAxisSpacing: AppSizes.small,
+                crossAxisSpacing: AppSizes.small,
+                children: _
+                    .marketModelsUpTo(6)
+                    .map((e) => _buildPairContainer(e))
+                    .toList(),
+              ),
             ),
           ],
         ),
@@ -313,78 +309,96 @@ class _ExchangeView extends StatelessWidget {
     );
   }
 
-  Widget _buildPairContainer() {
+  Widget _buildPairContainer(MarketModel model) {
     final textStyle = Get.textTheme.button;
-    return Container(
-      height: AppSizes.extraLarge * 2,
-      padding: EdgeInsets.all(AppSizes.small),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(AppSizes.small)),
-        border: Border.all(color: AppColors.secondary.withOpacity(0.2)),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.baseline,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            textBaseline: TextBaseline.ideographic,
-            children: [
-              RichText(
-                text: TextSpan(
-                  text: 'LYCI',
-                  style: textStyle.copyWith(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
+    return InkWell(
+      onTap: () {
+        Get.toNamed(TradingPage.route, arguments: model);
+        RootController.con.pageIndex = 2;
+      },
+      child: Container(
+        height: AppSizes.extraLarge * 2,
+        padding: EdgeInsets.all(AppSizes.small),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(AppSizes.small)),
+          border: Border.all(color: AppColors.secondary.withOpacity(0.2)),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              textBaseline: TextBaseline.ideographic,
+              children: [
+                RichText(
+                  text: TextSpan(
+                    text: model.pairBaseAsset.displayId,
+                    style: textStyle.copyWith(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: ' / ${model.pairQuotingAsset.displayId} \n',
+                        style: textStyle.copyWith(
+                          fontSize: 10.0,
+                        ),
+                      ),
+                      TextSpan(
+                        text: model.pairBaseAsset.name,
+                        style: textStyle.copyWith(
+                          fontSize: 12.0,
+                          color: AppColors.secondary,
+                        ),
+                      ),
+                    ],
                   ),
-                  children: [
-                    TextSpan(
-                      text: ' / USD \n',
-                      style: textStyle.copyWith(
-                        fontSize: 10.0,
-                      ),
-                    ),
-                    TextSpan(
-                      text: 'LyCI Service Token',
-                      style: textStyle.copyWith(
-                        fontSize: 12.0,
-                        color: AppColors.secondary,
-                      ),
-                    ),
-                  ],
                 ),
-              ),
-              Image.asset(
-                'assets/images/ic_launcher.png',
-                height: 20.0,
-                width: 20.0,
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '258,18',
-                style: textStyle.copyWith(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 12.0,
+                Image.network(
+                  model.pairBaseAsset.iconUrl,
+                  height: 20.0,
+                  width: 20.0,
                 ),
-              ),
-              Text(
-                '+2,20%',
-                style: textStyle.copyWith(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 12.0,
-                  color: AppColors.green,
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  Formatter.currency(
+                    model.price.toString(),
+                    maxDecimal: model.pairQuotingAsset.accuracy,
+                  ),
+                  style: textStyle.copyWith(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12.0,
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+                Text(
+                  '${Formatter.currency(model.change.toString(), maxDecimal: 2)}%',
+                  style: textStyle.copyWith(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12.0,
+                    color: _color(model.change),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  Color _color(double change) {
+    if (change > 0) {
+      return AppColors.green;
+    } else if (change < 0) {
+      return AppColors.red;
+    }
+    return AppColors.secondary;
   }
 }
 
