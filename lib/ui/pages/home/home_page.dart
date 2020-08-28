@@ -4,6 +4,7 @@ import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
+import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/root/root_controller.dart';
 import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
 import 'package:antares_wallet/ui/widgets/default_card.dart';
@@ -422,18 +423,40 @@ class _MyLykkeView extends StatelessWidget {
             ),
             AppUiHelpers.vSpaceLarge,
             Divider(height: 1.0),
-            ListView.separated(
-              shrinkWrap: true,
-              itemCount: 3,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (_, index) => _buildListTile(),
-              separatorBuilder: (_, index) => Divider(height: 1.0),
+            GetX<PortfolioController>(
+              builder: (_) {
+                var list = _.assetsByCategoryName('Lykke');
+                return AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  child: !_.loading
+                      ? ListView.separated(
+                          shrinkWrap: true,
+                          itemCount: 3 >= list.length || list.length < 3
+                              ? list.length
+                              : 3,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (_, index) =>
+                              _buildListTile(list[index]),
+                          separatorBuilder: (_, index) => Divider(height: 1.0),
+                        )
+                      : Center(
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.black,
+                            ),
+                          ),
+                        ),
+                );
+              },
             ),
             AppUiHelpers.vSpaceLarge,
             CupertinoButton.filled(
               padding: EdgeInsets.all(0.0),
               child: Text('buy_now'.tr),
-              onPressed: () {},
+              onPressed: () {
+                RootController.con.pageIndex = 2;
+                MarketsController.con.search(query: 'LKK');
+              },
             )
           ],
         ),
@@ -441,12 +464,13 @@ class _MyLykkeView extends StatelessWidget {
     );
   }
 
-  ListTile _buildListTile() {
+  ListTile _buildListTile(Asset asset) {
+    final balance = PortfolioController.con.assetBalance(asset.id);
     return ListTile(
       dense: true,
-      contentPadding: EdgeInsets.all(0.0),
+      contentPadding: const EdgeInsets.all(0.0),
       title: Text(
-        'LKK',
+        asset.displayId,
         style: Get.textTheme.subtitle1.copyWith(
           fontWeight: FontWeight.w600,
         ),
@@ -455,13 +479,13 @@ class _MyLykkeView extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Image.asset(
-            'assets/images/ic_launcher.png',
+            asset.iconUrl,
             height: AppSizes.medium,
             width: AppSizes.medium,
           ),
           AppUiHelpers.hSpaceExtraSmall,
           Text(
-            'LyCI Service Token',
+            asset.name,
             style: Get.textTheme.caption,
           ),
         ],
@@ -471,14 +495,24 @@ class _MyLykkeView extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'LKK 0,00',
+            Formatter.currency(
+              balance?.available,
+              symbol: asset.displayId,
+              maxDecimal: asset.accuracy,
+            ),
             style: Get.textTheme.subtitle1.copyWith(
               fontWeight: FontWeight.w600,
             ),
           ),
           AppUiHelpers.vSpaceExtraSmall,
           Text(
-            'USD 0,00',
+            Formatter.currency(
+              AssetsController.con
+                  .countBalanceInBase(asset.id, balance)
+                  .toString(),
+              symbol: AssetsController.con.baseAsset?.displayId,
+              maxDecimal: AssetsController.con.baseAsset?.accuracy,
+            ),
             style: Get.textTheme.caption,
           )
         ],

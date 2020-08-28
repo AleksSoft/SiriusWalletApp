@@ -60,6 +60,18 @@ class PortfolioController extends GetxController {
   Balance assetBalance(String assetId) =>
       balances.firstWhere((b) => b.assetId == assetId, orElse: () => null);
 
+  List<Asset> assetsByCategoryName(String name) {
+    AssetCategory category = categoryAssetsMap.keys.firstWhere(
+      (c) => c.name.toLowerCase() == name.toLowerCase(),
+      orElse: null,
+    );
+    if (category != null) {
+      return categoryAssetsMap[category] ?? List();
+    } else {
+      return List();
+    }
+  }
+
   Future<void> rebuildPortfolioAssets() async {
     loading = true;
     await _assetsController.getAssetsDictionary();

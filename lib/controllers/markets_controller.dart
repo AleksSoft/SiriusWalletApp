@@ -1,15 +1,20 @@
 import 'dart:async';
 
 import 'package:antares_wallet/app/common/app_storage_keys.dart';
+import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/repositories/markets_repository.dart';
 import 'package:antares_wallet/repositories/watchists_repository.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/root/root_controller.dart';
+import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
+import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:search_page/search_page.dart';
 
 class MarketsController extends GetxController {
   static MarketsController get con => Get.find();
@@ -131,6 +136,40 @@ class MarketsController extends GetxController {
       volume: double.tryParse(responseModel.volume24H) ?? 0.0,
       price: double.tryParse(responseModel.lastPrice) ?? 0.0,
       change: double.tryParse(responseModel.priceChange24H) ?? 0.0,
+    );
+  }
+
+  Future<MarketModel> search({String query = ''}) {
+    return showSearch(
+      context: Get.overlayContext,
+      query: query,
+      delegate: SearchPage<MarketModel>(
+        showItemsOnEmpty: true,
+        items: MarketsController.con.initialMarketList,
+        searchLabel: 'search'.tr,
+        filter: (model) => [
+          model.pairBaseAsset.name,
+          model.pairBaseAsset.displayId,
+        ],
+        builder: (model) => Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSizes.medium,
+          ),
+          child: AssetPairTile(
+            imgUrl: model.pairBaseAsset.iconUrl,
+            pairBaseAsset: model.pairBaseAsset,
+            pairQuotingAsset: model.pairQuotingAsset,
+            volume: model.volume,
+            lastPrice: model.price,
+            change: model.change,
+            showTitle: true,
+            onTap: () {
+              Get.back();
+              Get.toNamed(TradingPage.route, arguments: model);
+            },
+          ),
+        ),
+      ),
     );
   }
 }

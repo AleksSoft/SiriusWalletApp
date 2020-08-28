@@ -51,6 +51,7 @@ class AssetListTile extends StatelessWidget {
                 Formatter.currency(
                   balance?.available,
                   symbol: asset.displayId,
+                  maxDecimal: asset.accuracy,
                 ),
                 style: Get.textTheme.subtitle1.copyWith(
                   fontWeight: FontWeight.w600,
@@ -62,7 +63,8 @@ class AssetListTile extends StatelessWidget {
                   AssetsController.con
                       .countBalanceInBase(asset.id, balance)
                       .toString(),
-                  symbol: AssetsController.con.baseAsset.displayId,
+                  symbol: AssetsController.con.baseAsset?.displayId,
+                  maxDecimal: AssetsController.con.baseAsset?.accuracy,
                 ),
                 style: Get.textTheme.caption,
               )
