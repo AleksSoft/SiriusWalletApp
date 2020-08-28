@@ -1,7 +1,10 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
+import 'package:antares_wallet/controllers/assets_controller.dart';
+import 'package:antares_wallet/controllers/portfolio_controller.dart';
 import 'package:antares_wallet/ui/widgets/default_card.dart';
+import 'package:antares_wallet/utils/formatter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,7 +30,6 @@ class HomePage extends StatelessWidget {
             children: [
               _AssetsView(),
               _ExchangeView(),
-              _LyCIView(),
               _MyLykkeView(),
               Padding(
                 padding: EdgeInsets.fromLTRB(
@@ -53,10 +55,8 @@ class HomePage extends StatelessWidget {
 }
 
 class _AssetsView extends StatelessWidget {
-  const _AssetsView({
-    Key key,
-  }) : super(key: key);
-
+  _AssetsView({Key key}) : super(key: key);
+  final assetsCon = PortfolioController.con;
   @override
   Widget build(BuildContext context) {
     return DefaultCard(
@@ -98,15 +98,22 @@ class _AssetsView extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: AppSizes.medium),
-            child: Text(
-              'USD 0.00',
-              style: Get.textTheme.caption,
+            child: Obx(
+              () => Text(
+                Formatter.currency(
+                  assetsCon.balanceSum.toString(),
+                  symbol: AssetsController.con.baseAsset?.displayId,
+                  maxDecimal: 2,
+                ),
+                style: Get.textTheme.caption,
+              ),
             ),
           ),
           AppUiHelpers.vSpaceSmall,
           ListTile(
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: AppSizes.medium),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: AppSizes.medium,
+            ),
             leading: Container(
               width: 28,
               height: 28,
@@ -128,11 +135,17 @@ class _AssetsView extends StatelessWidget {
               ),
             ),
             title: Text('portfolio'.tr),
-            trailing: Text(
-              'USD 0.00',
-              style: TextStyle(
-                fontSize: AppSizes.medium,
-                fontWeight: FontWeight.w600,
+            trailing: Obx(
+              () => Text(
+                Formatter.currency(
+                  assetsCon.balanceSum.toString(),
+                  symbol: AssetsController.con.baseAsset?.displayId,
+                  maxDecimal: 2,
+                ),
+                style: TextStyle(
+                  fontSize: AppSizes.medium,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ),
@@ -140,38 +153,6 @@ class _AssetsView extends StatelessWidget {
             height: 0.5,
             indent: AppSizes.medium,
             endIndent: AppSizes.medium,
-          ),
-          ListTile(
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: AppSizes.medium),
-            leading: Container(
-              width: 28,
-              height: 28,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.yellow[700],
-                borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: AppSizes.small,
-                    color: Colors.yellow[900].withOpacity(0.4),
-                  ),
-                ],
-              ),
-              child: Icon(
-                Icons.lock,
-                color: AppColors.primary,
-                size: AppSizes.medium,
-              ),
-            ),
-            title: Text('wallets'.tr),
-            trailing: Text(
-              'USD 0.00',
-              style: TextStyle(
-                fontSize: AppSizes.medium,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
           ),
           Container(
             height: 64.0,
@@ -279,10 +260,7 @@ class _AssetsView extends StatelessWidget {
 }
 
 class _ExchangeView extends StatelessWidget {
-  const _ExchangeView({
-    Key key,
-  }) : super(key: key);
-
+  const _ExchangeView({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return DefaultCard(
@@ -318,26 +296,16 @@ class _ExchangeView extends StatelessWidget {
               ],
             ),
             AppUiHelpers.vSpaceLarge,
-            SizedBox(
-              height: 80.0,
-              child: Row(
-                children: [
-                  _buildPairContainer(context),
-                  AppUiHelpers.hSpaceSmall,
-                  _buildPairContainer(context),
-                ],
-              ),
-            ),
-            AppUiHelpers.vSpaceSmall,
-            SizedBox(
-              height: 80.0,
-              child: Row(
-                children: [
-                  _buildPairContainer(context),
-                  AppUiHelpers.hSpaceSmall,
-                  _buildPairContainer(context),
-                ],
-              ),
+            GridView.count(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              crossAxisCount: 2,
+              childAspectRatio: 2 / 1,
+              mainAxisSpacing: AppSizes.small,
+              crossAxisSpacing: AppSizes.small,
+              children: <double>[0.25, 0.5, 0.75, 1.0]
+                  .map((e) => _buildPairContainer())
+                  .toList(),
             ),
           ],
         ),
@@ -345,209 +313,74 @@ class _ExchangeView extends StatelessWidget {
     );
   }
 
-  Widget _buildPairContainer(BuildContext context) {
+  Widget _buildPairContainer() {
     final textStyle = Get.textTheme.button;
-    return Flexible(
-      flex: 1,
-      child: Container(
-        padding: EdgeInsets.all(AppSizes.small),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(AppSizes.small)),
-          border: Border.all(color: AppColors.secondary.withOpacity(0.2)),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.baseline,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              textBaseline: TextBaseline.ideographic,
-              children: [
-                RichText(
-                  text: TextSpan(
-                    text: 'LYCI',
-                    style: textStyle.copyWith(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    children: [
-                      TextSpan(
-                        text: ' / USD \n',
-                        style: textStyle.copyWith(
-                          fontSize: 10.0,
-                        ),
-                      ),
-                      TextSpan(
-                        text: 'LyCI Service Token',
-                        style: textStyle.copyWith(
-                          fontSize: 12.0,
-                          color: AppColors.secondary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Image.asset(
-                  'assets/images/ic_launcher.png',
-                  height: 20.0,
-                  width: 20.0,
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  '258,18',
-                  style: textStyle.copyWith(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12.0,
-                  ),
-                ),
-                Text(
-                  '+2,20%',
-                  style: textStyle.copyWith(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 12.0,
-                    color: AppColors.green,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+    return Container(
+      height: AppSizes.extraLarge * 2,
+      padding: EdgeInsets.all(AppSizes.small),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(AppSizes.small)),
+        border: Border.all(color: AppColors.secondary.withOpacity(0.2)),
       ),
-    );
-  }
-}
-
-class _LyCIView extends StatelessWidget {
-  const _LyCIView({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return DefaultCard(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _buildHeader(context),
-          _buildListTile(context),
-          Divider(
-            height: 1.0,
-            indent: AppSizes.medium,
-            endIndent: AppSizes.medium,
-          ),
-          _buildListTile(context),
-          Divider(
-            height: 1.0,
-            indent: AppSizes.medium,
-            endIndent: AppSizes.medium,
-          ),
-          _buildListTile(context),
-          Divider(
-            height: 1.0,
-            indent: AppSizes.medium,
-            endIndent: AppSizes.medium,
-          ),
-          CupertinoButton(
-            onPressed: () {},
-            child: Text('learn_more'.tr),
-          ),
-        ],
-      ),
-    );
-  }
-
-  ListTile _buildListTile(BuildContext context) {
-    return ListTile(
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
-            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            textBaseline: TextBaseline.ideographic,
             children: [
+              RichText(
+                text: TextSpan(
+                  text: 'LYCI',
+                  style: textStyle.copyWith(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: ' / USD \n',
+                      style: textStyle.copyWith(
+                        fontSize: 10.0,
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'LyCI Service Token',
+                      style: textStyle.copyWith(
+                        fontSize: 12.0,
+                        color: AppColors.secondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               Image.asset(
                 'assets/images/ic_launcher.png',
-                height: AppSizes.medium,
-                width: AppSizes.medium,
-              ),
-              AppUiHelpers.hSpaceExtraSmall,
-              Text(
-                'LyCI Service Token',
-                style: Get.textTheme.subtitle2.copyWith(
-                  fontSize: 14.0,
-                ),
+                height: 20.0,
+                width: 20.0,
               ),
             ],
           ),
-          AppUiHelpers.vSpaceExtraSmall,
-          Text(
-            'LYCI 0,00',
-            style: Get.textTheme.subtitle2.copyWith(
-              fontSize: 14.0,
-            ),
-          )
-        ],
-      ),
-      subtitle: Text('USD 0,00'),
-      trailing: SizedBox(
-        height: AppSizes.extraLarge,
-        child: CupertinoButton.filled(
-          padding: const EdgeInsets.symmetric(horizontal: AppSizes.extraLarge),
-          borderRadius: const BorderRadius.all(Radius.circular(AppSizes.large)),
-          child: Text(
-            'Buy now',
-            style: Get.textTheme.button.copyWith(
-              fontSize: 16.0,
-              color: AppColors.primary,
-            ),
-          ),
-          onPressed: () {},
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHeader(BuildContext context) {
-    return Container(
-      height: 250,
-      decoration: BoxDecoration(
-        color: AppColors.accent.withOpacity(0.8),
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(AppSizes.medium),
-        ),
-      ),
-      alignment: Alignment.center,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'LyCI',
-            style: Get.textTheme.headline3.copyWith(
-              fontWeight: FontWeight.w700,
-              color: AppColors.primary,
-              letterSpacing: 8.0,
-            ),
-          ),
-          Container(
-            height: 0.5,
-            width: 120,
-            color: AppColors.primary,
-            margin: const EdgeInsets.all(AppSizes.small),
-          ),
-          Text(
-            'WHAT MATTERS TO YOU',
-            style: Get.textTheme.subtitle2.copyWith(
-              fontWeight: FontWeight.w400,
-              color: AppColors.primary,
-              letterSpacing: 2.0,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '258,18',
+                style: textStyle.copyWith(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12.0,
+                ),
+              ),
+              Text(
+                '+2,20%',
+                style: textStyle.copyWith(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 12.0,
+                  color: AppColors.green,
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -556,10 +389,7 @@ class _LyCIView extends StatelessWidget {
 }
 
 class _MyLykkeView extends StatelessWidget {
-  const _MyLykkeView({
-    Key key,
-  }) : super(key: key);
-
+  const _MyLykkeView({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return DefaultCard(
@@ -578,12 +408,13 @@ class _MyLykkeView extends StatelessWidget {
             ),
             AppUiHelpers.vSpaceLarge,
             Divider(height: 1.0),
-            _buildListTile(context),
-            Divider(height: 1.0),
-            _buildListTile(context),
-            Divider(height: 1.0),
-            _buildListTile(context),
-            Divider(height: 1.0),
+            ListView.separated(
+              shrinkWrap: true,
+              itemCount: 3,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (_, index) => _buildListTile(),
+              separatorBuilder: (_, index) => Divider(height: 1.0),
+            ),
             AppUiHelpers.vSpaceLarge,
             CupertinoButton.filled(
               padding: EdgeInsets.all(0.0),
@@ -596,7 +427,7 @@ class _MyLykkeView extends StatelessWidget {
     );
   }
 
-  ListTile _buildListTile(BuildContext context) {
+  ListTile _buildListTile() {
     return ListTile(
       dense: true,
       contentPadding: EdgeInsets.all(0.0),
