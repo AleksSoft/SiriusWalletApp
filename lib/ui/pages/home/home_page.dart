@@ -111,7 +111,9 @@ class _AssetsView extends StatelessWidget {
                                 assetsCon.balanceSum.toString(),
                                 symbol:
                                     AssetsController.con.baseAsset?.displayId,
-                                maxDecimal: 2,
+                                maxDecimal:
+                                    AssetsController.con.baseAsset?.accuracy ??
+                                        2,
                               ),
                               style: Get.textTheme.caption,
                             ),
@@ -165,7 +167,8 @@ class _AssetsView extends StatelessWidget {
                         Formatter.currency(
                           assetsCon.balanceSum.toString(),
                           symbol: AssetsController.con.baseAsset?.displayId,
-                          maxDecimal: 2,
+                          maxDecimal:
+                              AssetsController.con.baseAsset?.accuracy ?? 2,
                         ),
                         style: TextStyle(
                           fontSize: AppSizes.medium,
