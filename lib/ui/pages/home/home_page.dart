@@ -87,7 +87,7 @@ class _AssetsView extends StatelessWidget {
                   ),
                 ),
                 CupertinoButton(
-                  onPressed: () {},
+                  onPressed: () => HomeController.con.toggleHidden(),
                   minSize: 10,
                   padding: const EdgeInsets.all(0.0),
                   child: Text('Hide'),
@@ -97,14 +97,36 @@ class _AssetsView extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: AppSizes.medium),
-            child: Obx(
-              () => Text(
-                Formatter.currency(
-                  assetsCon.balanceSum.toString(),
-                  symbol: AssetsController.con.baseAsset?.displayId,
-                  maxDecimal: 2,
-                ),
-                style: Get.textTheme.caption,
+            child: SizedBox(
+              height: AppSizes.large,
+              child: Row(
+                children: [
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
+                    child: !HomeController.con.hidden
+                        ? Obx(
+                            () => Text(
+                              Formatter.currency(
+                                assetsCon.balanceSum.toString(),
+                                symbol:
+                                    AssetsController.con.baseAsset?.displayId,
+                                maxDecimal: 2,
+                              ),
+                              style: Get.textTheme.caption,
+                            ),
+                          )
+                        : Container(
+                            width: AppSizes.extraLarge * 2,
+                            height: AppSizes.medium,
+                            decoration: BoxDecoration(
+                              color: AppColors.secondary.withOpacity(0.2),
+                              borderRadius:
+                                  BorderRadius.circular(AppSizes.small),
+                            ),
+                          ),
+                  ),
+                  Spacer(),
+                ],
               ),
             ),
           ),
@@ -134,18 +156,30 @@ class _AssetsView extends StatelessWidget {
               ),
             ),
             title: Text('portfolio'.tr),
-            trailing: Obx(
-              () => Text(
-                Formatter.currency(
-                  assetsCon.balanceSum.toString(),
-                  symbol: AssetsController.con.baseAsset?.displayId,
-                  maxDecimal: 2,
-                ),
-                style: TextStyle(
-                  fontSize: AppSizes.medium,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+            trailing: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: !HomeController.con.hidden
+                  ? Obx(
+                      () => Text(
+                        Formatter.currency(
+                          assetsCon.balanceSum.toString(),
+                          symbol: AssetsController.con.baseAsset?.displayId,
+                          maxDecimal: 2,
+                        ),
+                        style: TextStyle(
+                          fontSize: AppSizes.medium,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    )
+                  : Container(
+                      width: AppSizes.extraLarge * 2.5,
+                      height: AppSizes.large,
+                      decoration: BoxDecoration(
+                        color: AppColors.secondary.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(AppSizes.small),
+                      ),
+                    ),
             ),
           ),
           Divider(
@@ -291,17 +325,29 @@ class _ExchangeView extends StatelessWidget {
             ),
             AppUiHelpers.vSpaceLarge,
             GetBuilder<MarketsController>(
-              builder: (_) => GridView.count(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                crossAxisCount: 2,
-                childAspectRatio: 2 / 1,
-                mainAxisSpacing: AppSizes.small,
-                crossAxisSpacing: AppSizes.small,
-                children: _
-                    .marketModelsUpTo(6)
-                    .map((e) => _buildPairContainer(e))
-                    .toList(),
+              builder: (_) => AnimatedSwitcher(
+                duration: const Duration(microseconds: 300),
+                child: _.watchedMarkets.isNotEmpty
+                    ? GridView.count(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        crossAxisCount: 2,
+                        childAspectRatio: 2 / 1,
+                        mainAxisSpacing: AppSizes.small,
+                        crossAxisSpacing: AppSizes.small,
+                        children: _
+                            .marketModelsUpTo(6)
+                            .map((e) => _buildPairContainer(e))
+                            .toList(),
+                      )
+                    : Center(
+                        child: LinearProgressIndicator(
+                          backgroundColor: Colors.transparent,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            AppColors.dark,
+                          ),
+                        ),
+                      ),
               ),
             ),
           ],
@@ -435,15 +481,15 @@ class _MyLykkeView extends StatelessWidget {
                               ? list.length
                               : 3,
                           physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (_, index) => _buildListTile(
-                            list[index],
-                          ),
+                          itemBuilder: (_, index) =>
+                              _buildListTile(list[index]),
                           separatorBuilder: (_, index) => Divider(height: 1.0),
                         )
                       : Center(
-                          child: CircularProgressIndicator(
+                          child: LinearProgressIndicator(
+                            backgroundColor: Colors.transparent,
                             valueColor: AlwaysStoppedAnimation<Color>(
-                              Colors.black,
+                              AppColors.dark,
                             ),
                           ),
                         ),

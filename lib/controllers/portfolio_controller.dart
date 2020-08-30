@@ -63,7 +63,7 @@ class PortfolioController extends GetxController {
   List<Asset> assetsByCategoryName(String name) {
     AssetCategory category = categoryAssetsMap.keys.firstWhere(
       (c) => c.name.toLowerCase() == name.toLowerCase(),
-      orElse: null,
+      orElse: () => null,
     );
     if (category != null) {
       return categoryAssetsMap[category] ?? List();
