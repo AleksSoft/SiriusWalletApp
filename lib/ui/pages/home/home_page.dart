@@ -91,7 +91,7 @@ class _AssetsView extends StatelessWidget {
                   onPressed: () => HomeController.con.toggleHidden(),
                   minSize: 10,
                   padding: const EdgeInsets.all(0.0),
-                  child: Text('Hide'),
+                  child: Text(HomeController.con.hidden ? 'Show' : 'Hide'),
                 ),
               ],
             ),
