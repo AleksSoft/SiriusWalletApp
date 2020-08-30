@@ -152,6 +152,7 @@ class LoginController extends GetxController {
   }
 
   _animateToPage(int page) {
+    WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
     int currentPage = pageViewController.page.toInt();
     pageViewController.animateToPage(
       page,
