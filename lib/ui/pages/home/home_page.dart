@@ -5,6 +5,7 @@ import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:antares_wallet/ui/pages/more/support/support_page.dart';
 import 'package:antares_wallet/ui/pages/root/root_controller.dart';
 import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
 import 'package:antares_wallet/ui/widgets/default_card.dart';
@@ -261,7 +262,10 @@ class _AssetsView extends StatelessWidget {
                   color: AppColors.primary.withOpacity(0.5),
                 ),
                 CupertinoButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    RootController.con.pageIndex = 4;
+                    Get.toNamed(SupportPage.route);
+                  },
                   padding: EdgeInsets.all(0.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
