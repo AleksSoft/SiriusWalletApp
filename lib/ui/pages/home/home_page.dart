@@ -43,7 +43,7 @@ class HomePage extends StatelessWidget {
                   AppSizes.medium,
                 ),
                 child: Text(
-                  '© 2020 Lykke, Inc.',
+                  'copyright'.tr,
                   textAlign: TextAlign.center,
                   style: Get.textTheme.button.copyWith(
                     color: AppColors.secondary,
@@ -435,8 +435,9 @@ class _MyLykkeView extends StatelessWidget {
                               ? list.length
                               : 3,
                           physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (_, index) =>
-                              _buildListTile(list[index]),
+                          itemBuilder: (_, index) => _buildListTile(
+                            list[index],
+                          ),
                           separatorBuilder: (_, index) => Divider(height: 1.0),
                         )
                       : Center(
@@ -478,7 +479,7 @@ class _MyLykkeView extends StatelessWidget {
       subtitle: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image.asset(
+          Image.network(
             asset.iconUrl,
             height: AppSizes.medium,
             width: AppSizes.medium,

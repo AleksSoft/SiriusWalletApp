@@ -86,6 +86,11 @@ class LoginController extends GetxController {
   openRegister() => Get.toNamed(RegisterPage.route);
 
   signIn() async {
+    if (emailValue.isNullOrBlank ||
+        !emailValue.isEmail ||
+        passwordValue.isEmpty) {
+      return;
+    }
     loading = true;
     var response = await SessionRepository.login(
       email: emailValue,
@@ -119,6 +124,9 @@ class LoginController extends GetxController {
   }
 
   verifySms() async {
+    if (smsCodeValue.isNullOrBlank) {
+      return;
+    }
     loading = true;
     if (await SessionRepository.varifyLoginSms(
         sessionId: token, code: smsCodeValue)) {

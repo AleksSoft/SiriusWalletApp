@@ -78,10 +78,7 @@ class SettingsPage extends StatelessWidget {
                           iconColor: Colors.black,
                           color: Colors.transparent,
                           showDivider: false,
-                          onTap: () => showModalBottomSheet(
-                            context: context,
-                            builder: (context) => _ChooseLanguageView(),
-                          ),
+                          onTap: () => Get.bottomSheet(_ChooseLanguageView()),
                         ),
                         MenuTile(
                           title: 'about'.tr,
@@ -89,7 +86,7 @@ class SettingsPage extends StatelessWidget {
                           iconColor: Colors.black,
                           color: Colors.transparent,
                           showDivider: false,
-                          onTap: () => showAboutDialog(context: context),
+                          onTap: () => _.showAbout(),
                         ),
                       ],
                     ),

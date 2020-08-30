@@ -143,9 +143,10 @@ class RegisterController extends GetxController {
     }
   }
 
-  backResult() {}
-
   proceedEmail() async {
+    if (emailValue.isNullOrBlank || !emailValue.isEmail) {
+      return;
+    }
     if (!isEmailCodeWaiting) {
       token = await SessionRepository.sendVerificationEmail(email: emailValue);
       if (token.isNullOrBlank) {
@@ -163,6 +164,9 @@ class RegisterController extends GetxController {
   }
 
   _proceedEmailCode() async {
+    if (emailCodeValue.isNullOrBlank) {
+      return;
+    }
     if (await SessionRepository.verifyEmail(
         email: emailValue, code: emailCodeValue, token: token)) {
       Get.rawSnackbar(message: 'Code verified');
@@ -174,10 +178,18 @@ class RegisterController extends GetxController {
   }
 
   _proceedAdditionalData() async {
+    if (fullNameValue.isNullOrBlank ||
+        fullNameValue.length < 4 ||
+        countryController.text.isNullOrBlank) {
+      return;
+    }
     await _animateToPage(3);
   }
 
   _proceedPhone() async {
+    if (phoneValue.isNullOrBlank) {
+      return;
+    }
     if (!isSmsWaiting) {
       if (await SessionRepository.sendVerificationSms(
           phone: phonePrefix + phoneValue, token: token)) {
@@ -195,6 +207,9 @@ class RegisterController extends GetxController {
   }
 
   _proceedPhoneSms() async {
+    if (smsCode.isNullOrBlank) {
+      return;
+    }
     if (await SessionRepository.verifyPhone(
         phone: phonePrefix + phoneValue, code: smsCode, token: token)) {
       Get.rawSnackbar(message: 'Sms verified');

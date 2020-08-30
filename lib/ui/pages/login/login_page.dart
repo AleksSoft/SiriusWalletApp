@@ -103,7 +103,7 @@ class _LoginScreen extends StatelessWidget {
                   obscureText: false,
                   autovalidate: true,
                   validator: (String value) {
-                    if (value.isEmpty || value.isEmail) {
+                    if (value.isEmail) {
                       return null;
                     } else {
                       return 'Email is wrong';

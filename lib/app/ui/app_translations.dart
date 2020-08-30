@@ -5,6 +5,7 @@ class AppTranslations extends Translations {
   Map<String, Map<String, String>> get keys => {
         'en': {
           "app_title": "Antares Wallet",
+          "copyright": "© 2020 Lykke, Inc.",
           "login": "Login",
           "register": "Register",
           "exchange": "Exchange",
@@ -139,6 +140,7 @@ class AppTranslations extends Translations {
         },
         'ru': {
           "app_title": "Antares Wallet",
+          "copyright": "© 2020 Lykke, Inc.",
           "login": "Логин",
           "register": "Регистрация",
           "exchange": "Биржа",
