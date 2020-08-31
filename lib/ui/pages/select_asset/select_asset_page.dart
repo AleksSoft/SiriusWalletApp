@@ -69,8 +69,8 @@ class _AssetTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Image.asset(
-        'assets/images/ic_launcher.png',
+      leading: Image.network(
+        asset.iconUrl,
         height: AppSizes.extraLarge,
         width: AppSizes.extraLarge,
       ),

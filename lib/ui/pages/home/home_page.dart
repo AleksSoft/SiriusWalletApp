@@ -203,7 +203,7 @@ class _AssetsView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 CupertinoButton(
-                  onPressed: () {},
+                  onPressed: () => HomeController.con.deposit(),
                   padding: EdgeInsets.all(0.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -234,7 +234,7 @@ class _AssetsView extends StatelessWidget {
                   color: AppColors.primary.withOpacity(0.5),
                 ),
                 CupertinoButton(
-                  onPressed: () {},
+                  onPressed: () => HomeController.con.withdraw(),
                   padding: EdgeInsets.all(0.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -387,6 +387,9 @@ class _ExchangeView extends StatelessWidget {
               textBaseline: TextBaseline.ideographic,
               children: [
                 RichText(
+                  softWrap: true,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
                   text: TextSpan(
                     text: model.pairBaseAsset.displayId,
                     style: textStyle.copyWith(
