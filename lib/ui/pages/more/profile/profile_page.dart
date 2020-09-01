@@ -16,7 +16,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(elevation: 0.5, title: Text('profile'.tr)),
+      appBar: AppBar(title: Text('profile'.tr)),
       body: SafeArea(
         child: ListView(
           shrinkWrap: true,

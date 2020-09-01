@@ -20,7 +20,6 @@ class PortfolioHistoryFiltersView extends StatelessWidget {
         builder: (_) {
           return Scaffold(
             appBar: AppBar(
-              elevation: 0.5,
               automaticallyImplyLeading: false,
               leading: IconButton(
                 icon: Icon(Icons.close),

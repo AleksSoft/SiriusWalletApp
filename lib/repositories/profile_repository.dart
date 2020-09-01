@@ -10,14 +10,14 @@ class ProfileRepository {
 
   static Future<TierInfoPayload> getTierInfo() async {
     final response = await ErrorHandler.safeCall(
-      _api.clientSecure.getTierInfo(Empty()),
+      () => _api.clientSecure.getTierInfo(Empty()),
     );
     return response?.result ?? TierInfoPayload();
   }
 
   static Future<PersonalData> getPersonalData() async {
     final response = await ErrorHandler.safeCall(
-      _api.clientSecure.getPersonalData(Empty()),
+      () => _api.clientSecure.getPersonalData(Empty()),
     );
     return response?.result ?? PersonalData();
   }
@@ -25,21 +25,23 @@ class ProfileRepository {
   static Future<Map<String, KycDocumentsResponse_KycDocument>>
       getKycDocuments() async {
     final response = await ErrorHandler.safeCall(
-      _api.clientSecure.getKycDocuments(Empty()),
+      () => _api.clientSecure.getKycDocuments(Empty()),
     );
     return response?.result ?? Map();
   }
 
   static Future<bool> setAddress({@required String address}) async {
     final response = await ErrorHandler.safeCall(
-      _api.clientSecure.setAddress(SetAddressRequest()..address = address),
+      () => _api.clientSecure.setAddress(
+        SetAddressRequest()..address = address,
+      ),
     );
     return response != null;
   }
 
   static Future<bool> setZip({@required String zip}) async {
     final response = await ErrorHandler.safeCall(
-      _api.clientSecure.setZip(SetZipRequest()..zip = zip),
+      () => _api.clientSecure.setZip(SetZipRequest()..zip = zip),
     );
     return response != null;
   }
@@ -50,7 +52,7 @@ class ProfileRepository {
     @required List<int> file,
   }) async {
     final response = await ErrorHandler.safeCall(
-      _api.clientSecure.uploadKycFile(
+      () => _api.clientSecure.uploadKycFile(
         KycFileRequest()
           ..documentType = documentType
           ..filename = filename
@@ -62,7 +64,7 @@ class ProfileRepository {
 
   static Future<List<QuestionnaireResponse_Question>> getQuestionnaire() async {
     final QuestionnaireResponse response = await ErrorHandler.safeCall(
-      _api.clientSecure.getQuestionnaire(Empty()),
+      () => _api.clientSecure.getQuestionnaire(Empty()),
     );
     return response?.result?.questionnaire ?? [];
   }
@@ -71,7 +73,7 @@ class ProfileRepository {
     @required List<AnswersRequest_Choice> answers,
   }) async {
     final response = await ErrorHandler.safeCall(
-      _api.clientSecure.saveQuestionnaire(
+      () => _api.clientSecure.saveQuestionnaire(
         AnswersRequest()..answers.addAll(answers),
       ),
     );
@@ -82,7 +84,7 @@ class ProfileRepository {
     @required TierUpgrade tier,
   }) async {
     final response = await ErrorHandler.safeCall(
-      _api.clientSecure.submitProfile(
+      () => _api.clientSecure.submitProfile(
         SubmitProfileRequest()..tier = tier,
       ),
     );

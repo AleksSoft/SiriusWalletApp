@@ -1,7 +1,6 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/repositories/disclaimers_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
-import 'package:antares_wallet/ui/pages/disclaimer/disclaimer_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
@@ -20,15 +19,12 @@ class DisclaimersController extends GetxController {
   bool get loading => this._loading.value;
   set loading(bool value) => this._loading.value = value;
 
-  Future<void> initPage(Future future) async {
-    Get.to(
-      DisclaimerPage(),
-      fullscreenDialog: true,
-      transition: Transition.downToUp,
-    );
+  @override
+  void onInit() async {
     loading = true;
     disclaimers = await DisclaimersRepository.getAssetDisclaimers();
     loading = false;
+    super.onInit();
   }
 
   Future<void> decline() async {
@@ -36,7 +32,7 @@ class DisclaimersController extends GetxController {
     await DisclaimersRepository.declineAssetDisclaimer(
       disclaimerId: disclaimers[pageController.page.toInt()].id,
     );
-    Get.back();
+    Get.back(result: false);
     loading = false;
   }
 
@@ -60,7 +56,7 @@ class DisclaimersController extends GetxController {
   _approveAgainOrSubmit() {
     int nextPage = pageController.page.toInt() + 1;
     if (nextPage >= disclaimers.length) {
-      Get.back();
+      Get.back(result: true);
     } else {
       pageController.animateToPage(
         nextPage,

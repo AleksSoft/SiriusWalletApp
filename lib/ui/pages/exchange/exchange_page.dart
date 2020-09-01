@@ -13,7 +13,6 @@ class ExchangePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0.5,
         leading: IconButton(
           icon: Icon(Icons.edit, color: AppColors.accent),
           onPressed: () => Get.toNamed(WatchlistsPage.route),

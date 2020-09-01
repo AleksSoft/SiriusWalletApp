@@ -11,8 +11,9 @@ class SessionRepository {
   static final _api = Get.find<ApiService>();
 
   static Future<List<Country>> getCountryPhoneCodes() async {
-    final response =
-        await ErrorHandler.safeCall(_api.client.getCountryPhoneCodes(Empty()));
+    final response = await ErrorHandler.safeCall(
+      () => _api.client.getCountryPhoneCodes(Empty()),
+    );
     return response?.result?.countriesList ?? List();
   }
 
@@ -26,8 +27,11 @@ class SessionRepository {
   }
 
   static Future<bool> isSessionExpired({@required String sessionId}) async {
-    final response = await ErrorHandler.safeCall(_api.client
-        .isSessionExpired(CheckSessionRequest()..sessionId = sessionId));
+    final response = await ErrorHandler.safeCall(
+      () => _api.client.isSessionExpired(
+        CheckSessionRequest()..sessionId = sessionId,
+      ),
+    );
     return response?.expired ?? true;
   }
 
@@ -39,7 +43,7 @@ class SessionRepository {
     @required String publicKey,
   }) async {
     final response = await ErrorHandler.safeCall(
-      _api.client.login(
+      () => _api.client.login(
         LoginRequest()
           ..email = email
           ..password = password
@@ -64,11 +68,13 @@ class SessionRepository {
     @required String sessionId,
     @required String code,
   }) async {
-    final response = await ErrorHandler.safeCall(_api.client.verifyLoginSms(
-      VerifyLoginSmsRequest()
-        ..sessionId = sessionId
-        ..code = code,
-    ));
+    final response = await ErrorHandler.safeCall(
+      () => _api.client.verifyLoginSms(
+        VerifyLoginSmsRequest()
+          ..sessionId = sessionId
+          ..code = code,
+      ),
+    );
     return response?.result?.passed ?? false;
   }
 
@@ -76,11 +82,13 @@ class SessionRepository {
     @required String sessionId,
     @required String pin,
   }) async {
-    final response = await ErrorHandler.safeCall(_api.client.checkPin(
-      CheckPinRequest()
-        ..sessionId = sessionId
-        ..pin = pin,
-    ));
+    final response = await ErrorHandler.safeCall(
+      () => _api.client.checkPin(
+        CheckPinRequest()
+          ..sessionId = sessionId
+          ..pin = pin,
+      ),
+    );
     return response?.result?.passed ?? false;
   }
 
@@ -89,8 +97,11 @@ class SessionRepository {
   static Future<String> sendVerificationEmail({
     @required String email,
   }) async {
-    final response = await ErrorHandler.safeCall(_api.client
-        .sendVerificationEmail(VerificationEmailRequest()..email = email));
+    final response = await ErrorHandler.safeCall(
+      () => _api.client.sendVerificationEmail(
+        VerificationEmailRequest()..email = email,
+      ),
+    );
     return response?.result?.token;
   }
 
@@ -99,12 +110,14 @@ class SessionRepository {
     @required String code,
     @required String token,
   }) async {
-    final response = await ErrorHandler.safeCall(_api.client.verifyEmail(
-      VerifyEmailRequest()
-        ..email = email
-        ..code = code
-        ..token = token,
-    ));
+    final response = await ErrorHandler.safeCall(
+      () => _api.client.verifyEmail(
+        VerifyEmailRequest()
+          ..email = email
+          ..code = code
+          ..token = token,
+      ),
+    );
     return response?.result?.passed ?? false;
   }
 
@@ -129,12 +142,14 @@ class SessionRepository {
     @required String code,
     @required String token,
   }) async {
-    final response = await ErrorHandler.safeCall(_api.client.verifyPhone(
-      VerifyPhoneRequest()
-        ..phone = phone
-        ..code = code
-        ..token = token,
-    ));
+    final response = await ErrorHandler.safeCall(
+      () => _api.client.verifyPhone(
+        VerifyPhoneRequest()
+          ..phone = phone
+          ..code = code
+          ..token = token,
+      ),
+    );
     return response?.result?.passed ?? false;
   }
 
@@ -161,7 +176,9 @@ class SessionRepository {
       ..pin = pin
       ..token = token
       ..publicKey = publicKey;
-    final response = await ErrorHandler.safeCall(_api.client.register(request));
+    final response = await ErrorHandler.safeCall(
+      () => _api.client.register(request),
+    );
     return response?.result;
   }
 }

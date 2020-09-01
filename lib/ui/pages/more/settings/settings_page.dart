@@ -12,7 +12,6 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0.5,
         title: Text('settings'.tr),
       ),
       body: GetX<SettingsController>(
@@ -98,7 +97,6 @@ class _ChooseLanguageView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0.5,
         leading: IconButton(
           icon: Icon(Icons.close),
           onPressed: () => Get.back(),

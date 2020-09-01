@@ -22,7 +22,6 @@ class OrdersPage extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          elevation: 0.5,
           title: Text('orders'.tr),
           bottom: TabBar(
             indicatorWeight: 1.0,

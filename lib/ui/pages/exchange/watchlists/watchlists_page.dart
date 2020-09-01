@@ -15,7 +15,6 @@ class WatchlistsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0.5,
         leading: CloseButton(),
         title: Text('Watch lists'),
         actions: <Widget>[
@@ -88,7 +87,6 @@ class WatchlistsPage extends StatelessWidget {
         height: 250.0,
         child: Scaffold(
           appBar: AppBar(
-            elevation: 0.5,
             automaticallyImplyLeading: false,
             title: Text(watchlist.name),
           ),

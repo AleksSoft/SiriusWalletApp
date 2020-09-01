@@ -1,5 +1,5 @@
-import 'package:antares_wallet/controllers/disclaimers_controler.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart' as apiservice;
+import 'package:antares_wallet/ui/pages/disclaimer/disclaimer_page.dart';
 import 'package:antares_wallet/ui/pages/start/start_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
@@ -8,11 +8,14 @@ import 'package:grpc/grpc.dart';
 
 import 'dialog_manager.dart';
 
+typedef Future<T> FutureGenerator<T>();
+
 class ErrorHandler {
   static final _dialogManager = Get.find<DialogManager>();
 
-  static Future safeCall(Future future, {bool hideErrors = false}) async {
-    dynamic response = await future
+  static Future safeCall(FutureGenerator future,
+      {bool hideErrors = false}) async {
+    dynamic response = await future()
         .catchError(
           _handleGrpcError,
           test: (e) => e is GrpcError,
@@ -33,7 +36,8 @@ class ErrorHandler {
     } else if (error is apiservice.ErrorV1) {
       // check if it's pending disclaimer
       if (error.code == '70') {
-        DisclaimersController.con.initPage(future);
+        final result = await Get.toNamed(DisclaimersPage.route);
+        if (result ?? false) await ErrorHandler.safeCall(() => future());
       } else {
         _showErrorDialog(code: error.code, message: error.message);
       }

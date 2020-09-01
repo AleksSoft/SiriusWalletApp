@@ -18,7 +18,6 @@ class SelectAssetPage extends StatelessWidget {
       builder: (_) {
         return Scaffold(
           appBar: AppBar(
-            elevation: 0.5,
             leading: BackButton(
               onPressed: () => _.back(),
             ),

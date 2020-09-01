@@ -22,7 +22,6 @@ class OrderDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0.5,
         centerTitle: true,
         title: FlatButton(
           onPressed: c.isEdit ? null : () => _showSearch(),

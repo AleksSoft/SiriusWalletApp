@@ -43,7 +43,6 @@ class _UpgradeAccountDocPageState extends State<UpgradeAccountDocPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0.5,
         title: Obx(
           () => Text(
             'upgrade_to'.trArgs(

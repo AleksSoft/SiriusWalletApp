@@ -16,7 +16,6 @@ class EditWatchlistPage extends StatelessWidget {
         return Scaffold(
           resizeToAvoidBottomInset: true,
           appBar: AppBar(
-            elevation: 0.5,
             title: Text(_.modeEdit ? 'Edit watch list' : 'Create watch list'),
             actions: <Widget>[
               IconButton(

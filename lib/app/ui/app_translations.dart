@@ -47,6 +47,7 @@ class AppTranslations extends Translations {
           "copy": "Copy",
           "msg_key_copied": "Private key copied to Clipboard",
           "msg_hash_copied": "Transaction hash copied to Clipboard",
+          "msg_copied": "Copied to clipboard",
           "upgrade_to": "Upgrade to %s",
           "msg_select_type_doc": "Please select the type of identity document",
           "passport": "Passport",
@@ -182,7 +183,8 @@ class AppTranslations extends Translations {
           "continue": "Продолжить",
           "copy": "Скопировать",
           "msg_key_copied": "Приватный ключ скопирован в буфер обмена",
-          "msg_hash_copied": "Transaction hash copied to Clipboard",
+          "msg_hash_copied": "Хеш транзакции скопирован в буфер обмена",
+          "msg_copied": "Скопировано в буфер обмена",
           "upgrade_to": "Обновиться до %s",
           "msg_select_type_doc":
               "Пожалуйста, выберите тип документа, удостоверяющего личность",

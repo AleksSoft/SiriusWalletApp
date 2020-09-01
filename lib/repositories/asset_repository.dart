@@ -10,21 +10,21 @@ class AssetsRepository {
 
   static Future<AssetsDictionaryResponse> assetsDictionary() async {
     final response = await ErrorHandler.safeCall(
-      _api.clientSecure.assetsDictionary(Empty()),
+      () => _api.clientSecure.assetsDictionary(Empty()),
     );
     return response ?? AssetsDictionaryResponse();
   }
 
   static Future<String> getBaseAsset() async {
     final response = await ErrorHandler.safeCall(
-      _api.clientSecure.getBaseAsset(Empty()),
+      () => _api.clientSecure.getBaseAsset(Empty()),
     );
     return response?.baseAsset?.assetId ?? '';
   }
 
   static Future<bool> setBaseAsset(String id) async {
     final response = await ErrorHandler.safeCall(
-      _api.clientSecure.setBaseAsset(
+      () => _api.clientSecure.setBaseAsset(
         BaseAssetUpdateRequest()..baseAssetId = id,
       ),
     );
@@ -33,7 +33,7 @@ class AssetsRepository {
 
   static Future<List<AssetPair>> getAssetPairs() async {
     final response = await ErrorHandler.safeCall(
-      _api.clientSecure.getAssetPairs(Empty()),
+      () => _api.clientSecure.getAssetPairs(Empty()),
     );
     return response?.assetPairs ?? List();
   }
@@ -41,7 +41,7 @@ class AssetsRepository {
   static Future<List<AmountInBaseAssetResponse_AmountInBasePayload>>
       getAmountInBaseAsset(String baseAssetId) async {
     final response = await ErrorHandler.safeCall(
-      _api.clientSecure.getAmountInBaseAsset(
+      () => _api.clientSecure.getAmountInBaseAsset(
         AmountInBaseRequest.create()..assetId = baseAssetId,
       ),
     );

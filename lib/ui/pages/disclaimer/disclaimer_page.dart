@@ -6,28 +6,28 @@ import 'package:antares_wallet/src/apiservice.pbgrpc.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class DisclaimerPage extends StatelessWidget {
+class DisclaimersPage extends StatelessWidget {
+  static final String route = '/disclaimers';
   final c = DisclaimersController.con;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(elevation: 0.5, title: Text('Disclaimer')),
+      appBar: AppBar(title: Text('Disclaimer')),
       body: Stack(
         children: [
           Obx(
             () => AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
-              child: !c.loading
-                  ? Obx(
-                      () => PageView(
-                        controller: c.pageController,
-                        physics: NeverScrollableScrollPhysics(),
-                        children:
-                            c.disclaimers.map((d) => _PageView(d)).toList(),
-                      ),
-                    )
-                  : Center(child: AppUiHelpers.circularProgress),
+              child: c.loading
+                  ? Center(child: AppUiHelpers.circularProgress)
+                  : SizedBox.shrink(),
+            ),
+          ),
+          Obx(
+            () => PageView(
+              controller: c.pageController,
+              physics: NeverScrollableScrollPhysics(),
+              children: c.disclaimers.map((d) => _PageView(d)).toList(),
             ),
           ),
           Positioned(
@@ -103,7 +103,7 @@ class _ButtonRow extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppSizes.small),
               ),
-              onPressed: () => onSubmit?.call(),
+              onPressed: () => onCancel?.call(),
               child: Text(
                 'Cancel',
                 style: Get.textTheme.button.copyWith(
@@ -122,7 +122,7 @@ class _ButtonRow extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppSizes.small),
               ),
-              onPressed: () => onCancel?.call(),
+              onPressed: () => onSubmit?.call(),
               child: Text(
                 'Submit',
                 style: Get.textTheme.button.copyWith(
