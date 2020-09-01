@@ -136,7 +136,8 @@ class AppTranslations extends Translations {
           "asset_pairs": "Asset pairs",
           "see_all": "See all",
           "search": "Search",
-          "home": "Home"
+          "home": "Home",
+          "deposit_by_swift": "Deposit by swift"
         },
         'ru': {
           "app_title": "Antares Wallet",
@@ -273,7 +274,8 @@ class AppTranslations extends Translations {
           "asset_pairs": "Пары ассетов",
           "see_all": "Увидеть все",
           "search": "Поиск",
-          "home": "Дом"
+          "home": "Дом",
+          "deposit_by_swift": "Свифт депозит"
         },
       };
 }

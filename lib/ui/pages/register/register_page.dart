@@ -48,11 +48,7 @@ class RegisterPage extends StatelessWidget {
                     ? Container(
                         color: AppColors.primary.withOpacity(0.9),
                         alignment: Alignment.center,
-                        child: CircularProgressIndicator(
-                          valueColor: new AlwaysStoppedAnimation<Color>(
-                            Colors.black,
-                          ),
-                        ),
+                        child: AppUiHelpers.circularProgress,
                       )
                     : SizedBox.shrink(),
               ),

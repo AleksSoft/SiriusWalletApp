@@ -1,5 +1,6 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
+import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
@@ -26,13 +27,7 @@ class PortfolioAssetsTabView extends StatelessWidget {
             () => AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
               child: c.loading && c.categoryAssetsMap.isEmpty
-                  ? Center(
-                      child: CircularProgressIndicator(
-                        valueColor: new AlwaysStoppedAnimation<Color>(
-                          Colors.black,
-                        ),
-                      ),
-                    )
+                  ? Center(child: AppUiHelpers.circularProgress)
                   : Column(
                       children: c.categoryAssetsMap.keys
                           .map((category) => _PortfolioCategoryBlock(category))

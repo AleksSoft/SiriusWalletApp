@@ -1,5 +1,6 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
+import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/orders/widgets/order_history_tile.dart';
@@ -317,11 +318,7 @@ class _ChartView extends StatelessWidget {
           : Container(
               height: 160.0,
               alignment: Alignment.center,
-              child: CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation<Color>(
-                  Colors.black,
-                ),
-              ),
+              child: AppUiHelpers.circularProgress,
             ),
     );
   }

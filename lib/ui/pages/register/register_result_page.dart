@@ -1,3 +1,4 @@
+import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,11 +15,7 @@ class RegisterResultPage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Text('Registering...', style: Get.textTheme.headline6),
-            CircularProgressIndicator(
-              valueColor: new AlwaysStoppedAnimation<Color>(
-                Colors.black,
-              ),
-            ),
+            AppUiHelpers.circularProgress,
           ],
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
+import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/ui/pages/login/login_controller.dart';
 import 'package:antares_wallet/ui/pages/login/login_page.dart';
@@ -23,13 +24,7 @@ class StartPage extends StatelessWidget {
                 AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
                   child: _.loading
-                      ? Center(
-                          child: CircularProgressIndicator(
-                            valueColor: new AlwaysStoppedAnimation<Color>(
-                              Colors.black,
-                            ),
-                          ),
-                        )
+                      ? Center(child: AppUiHelpers.circularProgress)
                       : Column(
                           mainAxisSize: MainAxisSize.max,
                           children: [

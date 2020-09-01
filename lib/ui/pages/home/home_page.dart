@@ -347,14 +347,7 @@ class _ExchangeView extends StatelessWidget {
                             .map((e) => _buildPairContainer(e))
                             .toList(),
                       )
-                    : Center(
-                        child: LinearProgressIndicator(
-                          backgroundColor: Colors.transparent,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            AppColors.dark,
-                          ),
-                        ),
-                      ),
+                    : Center(child: AppUiHelpers.linearProgress),
               ),
             ),
           ],
@@ -495,14 +488,7 @@ class _MyLykkeView extends StatelessWidget {
                               _buildListTile(list[index]),
                           separatorBuilder: (_, index) => Divider(height: 1.0),
                         )
-                      : Center(
-                          child: LinearProgressIndicator(
-                            backgroundColor: Colors.transparent,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              AppColors.dark,
-                            ),
-                          ),
-                        ),
+                      : Center(child: AppUiHelpers.linearProgress),
                 );
               },
             ),

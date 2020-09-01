@@ -1,4 +1,5 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
+import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/ui/pages/more/settings/settings_controller.dart';
 import 'package:antares_wallet/ui/pages/more/widgets/menu_tile.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,11 +24,7 @@ class SettingsPage extends StatelessWidget {
                   ? Container(
                       alignment: Alignment.center,
                       color: AppColors.primary,
-                      child: CircularProgressIndicator(
-                        valueColor: new AlwaysStoppedAnimation<Color>(
-                          Colors.black,
-                        ),
-                      ),
+                      child: AppUiHelpers.circularProgress,
                     )
                   : ListView(
                       children: <Widget>[

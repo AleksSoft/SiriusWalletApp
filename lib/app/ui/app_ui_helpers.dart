@@ -1,6 +1,8 @@
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:flutter/material.dart';
 
+import 'app_colors.dart';
+
 class AppUiHelpers {
   // vertical space
   static const SizedBox vSpaceExtraSmall =
@@ -19,4 +21,14 @@ class AppUiHelpers {
   static const SizedBox hSpaceLarge = const SizedBox(width: AppSizes.medium);
   static const SizedBox hSpaceExtraLarge =
       const SizedBox(width: AppSizes.extraLarge);
+
+  // progress indicators
+  static const LinearProgressIndicator linearProgress = LinearProgressIndicator(
+    backgroundColor: Colors.transparent,
+    valueColor: AlwaysStoppedAnimation<Color>(AppColors.progressColor),
+  );
+  static const CircularProgressIndicator circularProgress =
+      CircularProgressIndicator(
+    valueColor: AlwaysStoppedAnimation<Color>(AppColors.progressColor),
+  );
 }

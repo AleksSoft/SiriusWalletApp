@@ -1,5 +1,6 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
+import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -72,11 +73,7 @@ class WatchlistsPage extends StatelessWidget {
               visible: c.loading,
               child: Container(
                 alignment: Alignment.center,
-                child: CircularProgressIndicator(
-                  valueColor: new AlwaysStoppedAnimation<Color>(
-                    Colors.black,
-                  ),
-                ),
+                child: AppUiHelpers.circularProgress,
               ),
             ),
           ),

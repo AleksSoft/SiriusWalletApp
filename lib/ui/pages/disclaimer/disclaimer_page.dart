@@ -27,13 +27,7 @@ class DisclaimerPage extends StatelessWidget {
                             c.disclaimers.map((d) => _PageView(d)).toList(),
                       ),
                     )
-                  : Center(
-                      child: CircularProgressIndicator(
-                        valueColor: new AlwaysStoppedAnimation<Color>(
-                          Colors.black,
-                        ),
-                      ),
-                    ),
+                  : Center(child: AppUiHelpers.circularProgress),
             ),
           ),
           Positioned(
