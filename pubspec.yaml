@@ -13,43 +13,44 @@ dependencies:
     sdk: flutter
 
   #business
-  get: '>=3.4.4'
-  get_storage: '>=1.2.1'
-  intl: '>=0.16.1'
-  equatable: '>=1.2.3'
-  grpc: '>=2.2.0'
-  protobuf: '>=1.0.1'
-  enum_to_string: '>=1.0.9'
-  url_launcher: '>=5.5.0'
-  clipboard_manager: '>=0.0.4'
-  collection: '>=1.14.12'
-  local_auth: '>=0.6.2+3'
-  crypto: '>=2.1.5'
+  get: ^3.8.0
+  get_storage: ^1.3.0
+  intl: ^0.16.1
+  equatable: ^1.2.4
+  grpc: ^2.2.0
+  protobuf: ^1.0.1
+  enum_to_string: ^1.0.9
+  url_launcher: ^5.5.2
+  clipboard_manager: ^0.0.4
+  collection: ^1.14.13
+  local_auth: ^0.6.3+1
+  crypto: ^2.1.5
   package_info: ^0.4.3
 
   #fireabse
-  firebase_analytics: '>=5.0.16'
+  firebase_analytics: ^6.0.0
 
   #blockchain
-  bitcoin_flutter: '>=2.0.1'
-  web3dart: '>=1.2.3'
+  bitcoin_flutter: ^2.0.1
+  web3dart: ^1.2.3
 
   #ui
-  font_awesome_flutter: '>=8.8.1'
-  cupertino_icons: '>=0.1.3'
-  flutter_sparkline: '>=0.1.0'
-  percent_indicator: '>=2.1.5'
-  date_range_picker: '>=1.0.6'
-  search_page: '>=1.3.0'
-  image_picker: '>=0.6.7+4'
-  chips_choice: '>=1.2.0'
-  expandable: '>=4.1.4'
-  pinput: '>=0.2.4'
-  flutter_html: '>=1.0.2'
-  flutter_masked_text: '>=0.8.0'
-  syncfusion_flutter_charts: '>=18.2.48'
+  font_awesome_flutter: ^8.8.1
+  cupertino_icons: ^0.1.3
+  flutter_sparkline: ^0.1.0
+  percent_indicator: ^2.1.5
+  date_range_picker: ^1.0.6
+  search_page: ^1.3.0
+  image_picker: ^0.6.7+7
+  chips_choice: ^1.2.0
+  expandable: ^4.1.4
+  pinput: ^0.2.5
+  flutter_html: ^1.0.2
+  webview_flutter: ^0.3.22+1
+  transparent_image: ^1.0.0
+  syncfusion_flutter_charts: ^18.2.56
 
-  protoc_plugin: '>=19.0.1'
+  protoc_plugin: ^19.0.1
 
   flutter_localizations:
     sdk: flutter

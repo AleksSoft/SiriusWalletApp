@@ -32,7 +32,7 @@ class RootController extends GetxController with WidgetsBindingObserver {
   }
 
   @override
-  void onClose() {
+  Future<void> onClose() async {
     WidgetsBinding.instance.removeObserver(this);
     _prolongSessionTimer.cancel();
     super.onClose();

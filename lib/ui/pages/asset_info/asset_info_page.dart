@@ -186,7 +186,7 @@ class _Details extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppSizes.medium),
-              child: Obx(() => _ChartView(c.candles.value)),
+              child: Obx(() => _ChartView(c.candles)),
             ),
             Padding(
               padding: const EdgeInsets.only(left: AppSizes.medium),
@@ -257,10 +257,10 @@ class _Details extends StatelessWidget {
 
   Future<MarketModel> _showSearch() {
     return showSearch(
-      context: Get.overlayContext,
+      context: Get.context,
       delegate: SearchPage<MarketModel>(
         showItemsOnEmpty: true,
-        items: AssetInfoController.con.markets.value,
+        items: AssetInfoController.con.markets,
         searchLabel: 'search'.tr,
         filter: (model) => [
           model.pairBaseAsset.name,

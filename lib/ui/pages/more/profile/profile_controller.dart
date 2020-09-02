@@ -21,11 +21,7 @@ class ProfileController extends GetxController {
   TierInfoPayload get tierInfo => this._tierInfo.value;
   set tierInfo(TierInfoPayload value) => this._tierInfo.value = value;
 
-  final _documentsMap = Map<String, KycDocumentsResponse_KycDocument>().obs;
-  Map<String, KycDocumentsResponse_KycDocument> get documentsMap =>
-      this._documentsMap.value;
-  set documentsMap(Map<String, KycDocumentsResponse_KycDocument> value) =>
-      this._documentsMap.value = value;
+  final documentsMap = Map<String, KycDocumentsResponse_KycDocument>().obs;
 
   double get limitPercent => doubleCurrent / doubleMax;
 
@@ -50,7 +46,7 @@ class ProfileController extends GetxController {
   Future<void> reloadData() async {
     personalData = await ProfileRepository.getPersonalData();
     tierInfo = await ProfileRepository.getTierInfo();
-    documentsMap = await ProfileRepository.getKycDocuments();
+    documentsMap.addAll(await ProfileRepository.getKycDocuments());
 
     print('---- TierInfo: ${tierInfo.toProto3Json()}');
     print('---- PersonalData: ${personalData.toProto3Json()}');

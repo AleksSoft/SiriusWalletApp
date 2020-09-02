@@ -1,9 +1,13 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
+import 'package:antares_wallet/repositories/settings_repository.dart';
 import 'package:antares_wallet/repositories/wallet_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
-import 'package:antares_wallet/ui/pages/deposit/deposit_card_info_page.dart';
+import 'package:antares_wallet/ui/pages/deposit/card_deposit_page.dart';
+import 'package:antares_wallet/ui/pages/deposit/card_deposit_web_page.dart';
+import 'package:antares_wallet/ui/pages/deposit/swift_deposit_page.dart';
 import 'package:antares_wallet/ui/widgets/asset_list_tile.dart';
+import 'package:antares_wallet/utils/formatter.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,22 +29,38 @@ class DepositController extends GetxController {
   bool _loading = false;
   bool get loading => _loading;
   set loading(bool value) {
-    _loading = value;
-    update();
+    if (_loading != value) {
+      _loading = value;
+      update();
+    }
   }
 
-  String _swiftAmountValue = '';
-  String get swiftAmountValue => _swiftAmountValue;
-  set swiftAmountValue(String value) {
-    _swiftAmountValue = value;
-    update();
+  String _amountValue = '';
+  String get amountValue => _amountValue;
+  set amountValue(String value) {
+    if (_amountValue != value) {
+      _amountValue = value;
+      update();
+    }
   }
+
+  String get amountWithFee {
+    double amount = double.tryParse(amountValue) ?? 0;
+    return Formatter.currency(
+      amount == 0 ? amountValue : (amount + fee).toString(),
+      symbol: selectedAsset?.displayId,
+      maxDecimal: selectedAsset?.accuracy,
+    );
+  }
+
+  double fee = 0.0;
 
   void initialize(Asset asset, DepositMode mode) {
     selectedAsset = asset;
-    _swiftAmountValue = '';
+    fee = 0.0;
+    _amountValue = '';
     _mode = mode;
-    _initWithMode().then((value) => update());
+    _initWithMode();
   }
 
   Future<void> getSwiftCredentials() async {
@@ -50,27 +70,54 @@ class DepositController extends GetxController {
     loading = false;
   }
 
+  Future<void> getCardsFee() async {
+    loading = true;
+    var settings = await SettingsRepository.getAppSettings();
+    fee = settings?.feeSettings?.bankCardsFeeSizePercentage ?? 0.0;
+    loading = false;
+  }
+
   Future<void> sendBankTransferRequest() async {
     loading = true;
     final response = await WalletRepository.sendBankTransferRequest(
       assetId: selectedAsset?.id,
-      balanceChange: double.tryParse(swiftAmountValue ?? '0') ?? 0.0,
+      balanceChange: double.tryParse(amountValue ?? '0') ?? 0.0,
     );
     loading = false;
     if (response ?? false) {
-      _showScnackbar('Email sent', AppColors.primary);
+      _showSnackbar('Email sent', AppColors.primary);
     } else {
-      _showScnackbar('Failure performing request', AppColors.red);
+      _showSnackbar('Failure performing request', AppColors.red);
     }
   }
 
-  search() => showSearch(
-        context: Get.overlayContext,
+  Future<void> proceedCardDeposit() async {
+    var cardPaymentDetails = await WalletRepository.getBankCardPaymentDetails();
+    var cardPaymentUrl = await WalletRepository.getBankCardPaymentUrl(
+      address: cardPaymentDetails.address,
+      amount: amountValue,
+      assetId: selectedAsset.id,
+      city: cardPaymentDetails.city,
+      country: cardPaymentDetails.country,
+      email: cardPaymentDetails.email,
+      firstName: cardPaymentDetails.firstName,
+      lastName: cardPaymentDetails.lastName,
+      phone: cardPaymentDetails.phone,
+      zip: cardPaymentDetails.zip,
+      depositOption: 'BankCard',
+    );
+    print(cardPaymentUrl.toProto3Json());
+    Get.to(CardDepositWebPage(cardPaymentUrl?.url));
+  }
+
+  void search() => showSearch(
+        context: Get.context,
         delegate: SearchPage<Asset>(
           showItemsOnEmpty: true,
           items: AssetsController.con.assetList
               .where(
-                  (a) => a.cardDeposit || a.swiftDeposit || a.blockchainDeposit)
+                (a) => a.cardDeposit || a.swiftDeposit || a.blockchainDeposit,
+              )
               .toList(),
           searchLabel: 'select_asset'.tr,
           filter: (Asset asset) => [
@@ -84,7 +131,7 @@ class DepositController extends GetxController {
         ),
       );
 
-  selectDialog(Asset asset) => Get.defaultDialog(
+  void selectDialog(Asset asset) => Get.defaultDialog(
         title: 'Deposit',
         radius: AppSizes.small,
         content: Container(
@@ -125,22 +172,27 @@ class DepositController extends GetxController {
         ),
       );
 
-  copy(String value) => ClipboardManager.copyToClipBoard(value).then((result) {
+  void copy(String value) =>
+      ClipboardManager.copyToClipBoard(value).then((result) {
         Get.rawSnackbar(message: 'msg_copied'.tr);
       });
 
   Future<void> _initWithMode() async {
     switch (_mode) {
       case DepositMode.swift:
-        Get.to(DepositCardInfoPage());
+        Get.to(SwiftDepositPage());
         await getSwiftCredentials();
+        break;
+      case DepositMode.card:
+        Get.to(CardDepositPage());
+        await getCardsFee();
         break;
       default:
         break;
     }
   }
 
-  _showScnackbar(String message, Color color, {String title}) => Get.snackbar(
+  _showSnackbar(String message, Color color, {String title}) => Get.snackbar(
         title,
         message ?? '',
         colorText: AppColors.dark,

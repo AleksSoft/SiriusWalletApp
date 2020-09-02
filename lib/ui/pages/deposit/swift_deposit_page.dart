@@ -10,9 +10,7 @@ class SwiftDepositPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('deposit_by_swift'.tr),
-      ),
+      appBar: AppBar(title: Text('deposit_by_swift'.tr)),
       body: SafeArea(
         child: GetBuilder<DepositController>(
           builder: (_) => Stack(

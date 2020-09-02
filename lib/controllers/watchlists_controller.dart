@@ -11,9 +11,7 @@ class WatchlistsController extends GetxController {
   static WatchlistsController get con => Get.find();
   final _storage = GetStorage();
 
-  final _watchlists = List<Watchlist>().obs;
-  List<Watchlist> get watchlists => this._watchlists.value;
-  set watchlists(List<Watchlist> value) => this._watchlists.value = value;
+  final watchlists = List<Watchlist>().obs;
 
   final _selected = Watchlist().obs;
   get selected => this._selected.value;
@@ -39,9 +37,8 @@ class WatchlistsController extends GetxController {
     super.onInit();
   }
 
-  getWatchlists() async {
-    watchlists = await WatchlistsRepository.getWatchlists();
-  }
+  getWatchlists() async =>
+      watchlists.assignAll(await WatchlistsRepository.getWatchlists());
 
   Future<void> select(String id) async {
     loading = true;

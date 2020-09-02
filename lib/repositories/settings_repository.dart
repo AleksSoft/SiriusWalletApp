@@ -1,39 +1,16 @@
-import 'package:antares_wallet/app/common/app_storage_keys.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
-import 'package:antares_wallet/services/blockchain_service.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/src/google/protobuf/empty.pb.dart';
+import 'package:antares_wallet/utils/error_handler.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 class SettingsRepository {
   static final _api = Get.find<ApiService>();
-  final _storage = GetStorage();
-  final _bcService = Get.find<BlockchainService>();
 
-  AppSettingsResponse_AppSettingsData _settingsData =
-      AppSettingsResponse_AppSettingsData.getDefault();
-
-  AppSettingsResponse_AppSettingsData get settings => _settingsData;
-
-  List<String> randMnemonicList() {
-    return _bcService.generateMnemonic().split(' ').sublist(0, 2);
-  }
-
-  SettingsRepository() {
-    _getSettings();
-  }
-
-  Future<void> _getSettings() async {
-    String settingsStr = await _storage.read(AppStorageKeys.settingsData);
-
-    AppSettingsResponse_AppSettingsData data = settingsStr == null
-        ? (await _api.clientSecure.getAppSettings(Empty())).result
-        : AppSettingsResponse_AppSettingsData.fromJson(settingsStr);
-
-    if (_settingsData != data) {
-      _settingsData = data;
-      _storage.write(AppStorageKeys.settingsData, data.writeToJson());
-    }
+  static Future<AppSettingsResponse_AppSettingsData> getAppSettings() async {
+    final response = await ErrorHandler.safeCall(
+      () => _api.clientSecure.getAppSettings(Empty()),
+    );
+    return response?.result ?? AppSettingsResponse_AppSettingsData();
   }
 }

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 class AssetsController extends GetxController {
   static AssetsController get con => Get.find();
 
-  final initialized = false.obs;
+  final isLoaded = false.obs;
 
   final _assetDictionary = AssetsDictionaryResponse.getDefault().obs;
   AssetsDictionaryResponse get assetsDictionary => this._assetDictionary.value;
@@ -22,31 +22,29 @@ class AssetsController extends GetxController {
   Asset get baseAsset =>
       assetList.firstWhere((a) => a.id == baseAssetId, orElse: () => null);
 
-  final _assetPairs = List<AssetPair>().obs;
-  List<AssetPair> get assetPairs => this._assetPairs.value;
-  set assetPairs(List<AssetPair> value) => this._assetPairs.value = value;
+  final assetPairs = List<AssetPair>().obs;
 
   final _amountsInBase =
       List<AmountInBaseAssetResponse_AmountInBasePayload>().obs;
   List<AmountInBaseAssetResponse_AmountInBasePayload> get amountsInBase =>
-      this._amountsInBase.value;
+      this._amountsInBase;
   set amountsInBase(
           List<AmountInBaseAssetResponse_AmountInBasePayload> value) =>
       this._amountsInBase.value = value;
 
   @override
-  void onInit() async {
+  void onReady() async {
     await getAssetsDictionary();
     await getAssetPairs();
     await getBaseAsset();
     await getAmountsInBase();
-    super.onInit();
-    initialized.value = true;
+    isLoaded.value = true;
+    super.onReady();
   }
 
   @override
-  void onClose() async {
-    initialized.value = false;
+  Future<void> onClose() async {
+    isLoaded.value = false;
     super.onClose();
   }
 
@@ -98,5 +96,5 @@ class AssetsController extends GetxController {
   }
 
   Future getAssetPairs() async =>
-      assetPairs = await AssetsRepository.getAssetPairs();
+      assetPairs.assignAll(await AssetsRepository.getAssetPairs());
 }

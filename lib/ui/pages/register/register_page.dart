@@ -316,7 +316,7 @@ class _AdditionalDataScreen extends StatelessWidget {
 
   _showSearch() {
     return showSearch(
-      context: Get.overlayContext,
+      context: Get.context,
       delegate: SearchPage<Country>(
         showItemsOnEmpty: true,
         items: c.countries,
@@ -416,7 +416,7 @@ class _PhoneScreen extends StatelessWidget {
 
   _showSearch() {
     return showSearch(
-      context: Get.overlayContext,
+      context: Get.context,
       delegate: SearchPage<Country>(
         showItemsOnEmpty: true,
         items: c.countries,

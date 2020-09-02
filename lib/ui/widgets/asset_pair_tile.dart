@@ -6,6 +6,7 @@ import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/utils/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 import 'asset_pair_rich_text.dart';
 
@@ -49,8 +50,9 @@ class AssetPairTile extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Image.network(
-                    imgUrl,
+                  FadeInImage.memoryNetwork(
+                    placeholder: kTransparentImage,
+                    image: imgUrl,
                     height: AppSizes.medium,
                     width: AppSizes.medium,
                   ),

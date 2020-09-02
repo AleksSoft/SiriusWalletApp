@@ -30,9 +30,9 @@ class MarketsController extends GetxController {
   StreamSubscription<PriceUpdate> _priceSubscription;
 
   @override
-  void onInit() async {
-    ever(_assetsController.initialized, (inited) async {
-      if (inited) await rebuildWatchedMarkets();
+  void onReady() async {
+    ever(_assetsController.isLoaded, (loaded) async {
+      if (loaded) await rebuildWatchedMarkets();
     });
     ever(RootController.con.pageIndexObs, (pageIndex) async {
       if (pageIndex == 2) await rebuildWatchedMarkets();
@@ -41,11 +41,11 @@ class MarketsController extends GetxController {
         .getPriceUpdates(PriceUpdatesRequest())
         .asBroadcastStream()
         .listen((PriceUpdate update) => _updateMarket(update));
-    super.onInit();
+    super.onReady();
   }
 
   @override
-  void onClose() async {
+  Future<void> onClose() async {
     if (_priceSubscription != null) await _priceSubscription.cancel();
     super.onClose();
   }
@@ -141,7 +141,7 @@ class MarketsController extends GetxController {
 
   Future<MarketModel> search({String query = ''}) {
     return showSearch(
-      context: Get.overlayContext,
+      context: Get.context,
       query: query,
       delegate: SearchPage<MarketModel>(
         showItemsOnEmpty: true,

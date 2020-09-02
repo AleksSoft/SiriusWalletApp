@@ -1,5 +1,6 @@
 import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:antares_wallet/src/google/protobuf/empty.pb.dart';
 import 'package:antares_wallet/utils/error_handler.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
@@ -17,6 +18,29 @@ class WalletRepository {
     return response?.result ?? SwiftCredentialsResponse_SwiftCredentials();
   }
 
+  static Future<SwiftCashoutFeeResponse_SwiftCashoutFee> getSwiftCashoutFee({
+    @required String assetId,
+    @required String countryCode,
+  }) async {
+    final response = await ErrorHandler.safeCall(
+      () => _api.clientSecure.getSwiftCashoutFee(
+        SwiftCashoutFeeRequest()
+          ..assetId = assetId
+          ..countryCode = countryCode,
+      ),
+    );
+    return response?.result ?? SwiftCashoutFeeResponse_SwiftCashoutFee();
+  }
+
+  static Future<BankCardPaymentDetailsResponse_BankCardPaymentDetails>
+      getBankCardPaymentDetails() async {
+    final response = await ErrorHandler.safeCall(
+      () => _api.clientSecure.getBankCardPaymentDetails(Empty()),
+    );
+    return response?.result ??
+        BankCardPaymentDetailsResponse_BankCardPaymentDetails();
+  }
+
   static Future<bool> sendBankTransferRequest({
     @required String assetId,
     @required double balanceChange,
@@ -29,5 +53,38 @@ class WalletRepository {
       ),
     );
     return response != null;
+  }
+
+  static Future<BankCardPaymentUrlResponse_BankCardPaymentUrl>
+      getBankCardPaymentUrl({
+    @required String address,
+    @required String amount,
+    @required String assetId,
+    @required String city,
+    @required String country,
+    @required String email,
+    @required String firstName,
+    @required String lastName,
+    @required String phone,
+    @required String zip,
+    @required String depositOption,
+  }) async {
+    final response = await ErrorHandler.safeCall(
+      () => _api.clientSecure.getBankCardPaymentUrl(
+        BankCardPaymentUrlRequest()
+          ..address = address
+          ..amount = amount
+          ..assetId = assetId
+          ..city = city
+          ..country = country
+          ..email = email
+          ..firstName = firstName
+          ..lastName = lastName
+          ..phone = phone
+          ..zip = zip
+          ..depositOption = depositOption,
+      ),
+    );
+    return response?.result ?? BankCardPaymentUrlResponse_BankCardPaymentUrl();
   }
 }

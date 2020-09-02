@@ -81,7 +81,7 @@ class TradingController extends GetxController {
   }
 
   @override
-  void onClose() async {
+  Future<void> onClose() async {
     // close candle stream subscription
     await _candleSubscr?.cancel();
     // close orderbook stream subscription
@@ -147,8 +147,8 @@ class TradingController extends GetxController {
         arguments: OrderDetailsArguments(
           marketModel.assetPair,
           isBuy,
-          asks: asks.value,
-          bids: bids.value,
+          asks: asks,
+          bids: bids,
         ),
       );
 
@@ -253,10 +253,10 @@ class TradingController extends GetxController {
       var orderbook = Orderbook();
       orderbook.assetPairId = event.assetPairId;
       orderbook.bids.addAll(
-        _getMergedPriceVolumes(bids.value, event.bids, false),
+        _getMergedPriceVolumes(bids, event.bids, false),
       );
       orderbook.asks.addAll(
-        _getMergedPriceVolumes(asks.value, event.asks, true),
+        _getMergedPriceVolumes(asks, event.asks, true),
       );
       return orderbook;
     }).listen((update) {

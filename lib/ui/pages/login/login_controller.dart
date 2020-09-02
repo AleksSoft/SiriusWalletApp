@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:antares_wallet/app/common/app_storage_keys.dart';
 import 'package:antares_wallet/app/ui/app_colors.dart';
-import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/repositories/session_repository.dart';
+import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
 import 'package:antares_wallet/ui/pages/register/register_page.dart';
 import 'package:antares_wallet/ui/pages/root/root_page.dart';
@@ -67,7 +67,7 @@ class LoginController extends GetxController {
   }
 
   @override
-  void onClose() {
+  Future<void> onClose() async {
     _stopTimer();
     pageViewController?.dispose();
     super.onClose();

@@ -10,10 +10,7 @@ class DisclaimersController extends GetxController {
 
   final pageController = PageController();
 
-  final _disclaimers = List<AssetDisclaimer>().obs;
-  List<AssetDisclaimer> get disclaimers => this._disclaimers.value;
-  set disclaimers(List<AssetDisclaimer> value) =>
-      this._disclaimers.value = value;
+  final disclaimers = List<AssetDisclaimer>().obs;
 
   final _loading = false.obs;
   bool get loading => this._loading.value;
@@ -22,7 +19,7 @@ class DisclaimersController extends GetxController {
   @override
   void onInit() async {
     loading = true;
-    disclaimers = await DisclaimersRepository.getAssetDisclaimers();
+    disclaimers.assignAll(await DisclaimersRepository.getAssetDisclaimers());
     loading = false;
     super.onInit();
   }

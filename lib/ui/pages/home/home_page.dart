@@ -13,6 +13,7 @@ import 'package:antares_wallet/utils/formatter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 import 'home_controller.dart';
 
@@ -405,8 +406,9 @@ class _ExchangeView extends StatelessWidget {
                     ],
                   ),
                 ),
-                Image.network(
-                  model.pairBaseAsset.iconUrl,
+                FadeInImage.memoryNetwork(
+                  placeholder: kTransparentImage,
+                  image: model.pairBaseAsset.iconUrl,
                   height: 20.0,
                   width: 20.0,
                 ),
@@ -520,8 +522,9 @@ class _MyLykkeView extends StatelessWidget {
       subtitle: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image.network(
-            asset.iconUrl,
+          FadeInImage.memoryNetwork(
+            placeholder: kTransparentImage,
+            image: asset.iconUrl,
             height: AppSizes.medium,
             width: AppSizes.medium,
           ),

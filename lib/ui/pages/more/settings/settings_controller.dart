@@ -1,6 +1,5 @@
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
-import 'package:antares_wallet/repositories/settings_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/select_asset/select_asset_controller.dart';
 import 'package:antares_wallet/ui/pages/select_asset/select_asset_page.dart';
@@ -10,15 +9,12 @@ import 'package:package_info/package_info.dart';
 
 class SettingsController extends GetxController {
   static SettingsController get con => Get.find();
-  final _repository = Get.find<SettingsRepository>();
 
   PackageInfo _packageInfo;
 
   List<String> _confirmKeyWords = [];
 
   List<String> _confirmKeyVariants = [];
-
-  AppSettingsResponse_AppSettingsData get settings => _repository.settings;
 
   Asset get baseAsset => Get.find<AssetsController>().baseAsset;
 

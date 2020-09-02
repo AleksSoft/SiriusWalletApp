@@ -107,7 +107,7 @@ class OrderDetailsController extends GetxController {
   }
 
   @override
-  void onClose() async {
+  Future<void> onClose() async {
     // close orderbook stream subscription
     await _orderbookSubscr?.cancel();
     super.onClose();
@@ -158,10 +158,10 @@ class OrderDetailsController extends GetxController {
       var orderbook = Orderbook();
       orderbook.assetPairId = event.assetPairId;
       orderbook.bids.addAll(
-        _getMergedPriceVolumes(bids.value, event.bids, false),
+        _getMergedPriceVolumes(bids, event.bids, false),
       );
       orderbook.asks.addAll(
-        _getMergedPriceVolumes(asks.value, event.asks, true),
+        _getMergedPriceVolumes(asks, event.asks, true),
       );
       return orderbook;
     }).listen((update) {

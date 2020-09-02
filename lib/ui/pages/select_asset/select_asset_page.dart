@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:search_page/search_page.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 import 'select_asset_controller.dart';
 
@@ -44,7 +45,7 @@ class _SearchButton extends StatelessWidget {
     return IconButton(
       icon: Icon(Icons.search),
       onPressed: () => showSearch(
-        context: context,
+        context: Get.context,
         delegate: SearchPage<Asset>(
           showItemsOnEmpty: true,
           items: c.assetList,
@@ -68,8 +69,9 @@ class _AssetTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Image.network(
-        asset.iconUrl,
+      leading: FadeInImage.memoryNetwork(
+        placeholder: kTransparentImage,
+        image: asset.iconUrl,
         height: AppSizes.extraLarge,
         width: AppSizes.extraLarge,
       ),

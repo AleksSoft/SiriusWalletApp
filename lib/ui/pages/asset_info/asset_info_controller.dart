@@ -28,18 +28,14 @@ class AssetInfoController extends GetxController {
   MarketModel get selectedMarket => this._selectedMarket.value;
   set selectedMarket(MarketModel value) => this._selectedMarket.value = value;
 
-  final _trades = List<OrderHistoryData>().obs;
-  List<OrderHistoryData> get trades => this._trades.value;
-  set trades(List<OrderHistoryData> value) => this._trades.value = value;
+  final trades = List<OrderHistoryData>().obs;
 
-  final _funds = List<FundsResponse_FundsModel>().obs;
-  List<FundsResponse_FundsModel> get funds => this._funds.value;
-  set funds(List<FundsResponse_FundsModel> value) => this._funds.value = value;
+  final funds = List<FundsResponse_FundsModel>().obs;
 
   final markets = List<MarketModel>().obs;
   List<MarketModel> get marketsShort {
     var maxSize = markets.length <= 3 ? markets.length : 3;
-    return markets.value.sublist(0, maxSize);
+    return markets.sublist(0, maxSize);
   }
 
   final candles = List<Candle>().obs;
@@ -105,16 +101,17 @@ class AssetInfoController extends GetxController {
             ),
           ));
         }
-        trades = resultList;
+        trades.assignAll(resultList);
       });
     }
   }
 
-  Future<void> getFunds() async => funds = await PortfolioRepository.getFunds(
+  Future<void> getFunds() async =>
+      funds.assignAll(await PortfolioRepository.getFunds(
         assetId: asset.id,
         take: 50,
         skip: 0,
-      );
+      ));
 
   Future<void> updateCandles() async {
     candles.clear();

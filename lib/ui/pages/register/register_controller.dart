@@ -38,9 +38,7 @@ class RegisterController extends GetxController {
   DateTime get timerValue => this._timerValue.value;
   set timerValue(DateTime value) => this._timerValue.value = value;
 
-  final _countries = List<Country>().obs;
-  List<Country> get countries => this._countries.value;
-  set countries(List<Country> value) => this._countries.value = value;
+  final countries = List<Country>().obs;
 
   // token
   String token = '';
@@ -71,12 +69,12 @@ class RegisterController extends GetxController {
   void onInit() async {
     super.onInit();
     loading = true;
-    countries = await SessionRepository.getCountryPhoneCodes();
+    countries.assignAll(await SessionRepository.getCountryPhoneCodes());
     loading = false;
   }
 
   @override
-  void onClose() async {
+  Future<void> onClose() async {
     _stopTimer();
     super.onClose();
   }

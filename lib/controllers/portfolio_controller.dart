@@ -14,24 +14,15 @@ class PortfolioController extends GetxController {
   get loading => this._loading.value;
   set loading(value) => this._loading.value = value;
 
-  final _categoryAssetsMap = Map<AssetCategory, List<Asset>>().obs;
-  Map<AssetCategory, List<Asset>> get categoryAssetsMap =>
-      this._categoryAssetsMap.value;
-  set categoryAssetsMap(Map<AssetCategory, List<Asset>> value) =>
-      this._categoryAssetsMap.value = value;
+  final categoryAssetsMap = Map<AssetCategory, List<Asset>>().obs;
 
-  final _balances = List<Balance>().obs;
-  List<Balance> get balances => this._balances.value;
-  set balances(List<Balance> value) => this._balances.value = value;
+  final balances = List<Balance>().obs;
 
-  final _historyItems = List<FundsResponse_FundsModel>().obs;
-  List<FundsResponse_FundsModel> get historyItems => this._historyItems.value;
-  set historyItems(List<FundsResponse_FundsModel> value) =>
-      this._historyItems.value = value;
+  final historyItems = List<FundsResponse_FundsModel>().obs;
 
   @override
   void onInit() async {
-    ever(_assetsController.initialized, (inited) {
+    ever(_assetsController.isLoaded, (inited) {
       if (inited) {
         rebuildPortfolioAssets();
         getFunds(20, 0);
@@ -76,12 +67,12 @@ class PortfolioController extends GetxController {
     loading = true;
     await _assetsController.getAssetsDictionary();
     await getBalances();
-    categoryAssetsMap = _mergeMap(_categoryAssetsMap.value);
+    categoryAssetsMap.addAll(_mergeMap(categoryAssetsMap));
     loading = false;
   }
 
   Future<void> getBalances() async =>
-      balances = await PortfolioRepository.getBalances();
+      balances.assignAll(await PortfolioRepository.getBalances());
 
   Future<void> getFunds(
     int take,
@@ -90,13 +81,13 @@ class PortfolioController extends GetxController {
     Timestamp fromDate,
     Timestamp toDate,
   }) async =>
-      historyItems = await PortfolioRepository.getFunds(
+      historyItems.assignAll(await PortfolioRepository.getFunds(
         take: take,
         skip: skip,
         assetId: assetId,
         fromDate: fromDate,
         toDate: toDate,
-      );
+      ));
 
   Map<AssetCategory, List<Asset>> _mergeMap(
       Map<AssetCategory, List<Asset>> oldMap) {

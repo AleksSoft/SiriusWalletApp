@@ -83,7 +83,7 @@ class OrderDetailsPage extends StatelessWidget {
 
   Future<MarketModel> _showSearch() {
     return showSearch(
-      context: Get.overlayContext,
+      context: Get.context,
       delegate: SearchPage<MarketModel>(
         showItemsOnEmpty: true,
         items: MarketsController.con.initialMarketList,

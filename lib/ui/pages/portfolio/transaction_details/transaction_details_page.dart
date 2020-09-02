@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
+import 'package:transparent_image/transparent_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TransactionDetailsPage extends StatelessWidget {
@@ -34,16 +35,12 @@ class TransactionDetailsPage extends StatelessWidget {
                       children: [
                         AnimatedSwitcher(
                           duration: const Duration(microseconds: 300),
-                          child: !_.asset.iconUrl.isNullOrBlank
-                              ? Image.network(
-                                  _.asset.iconUrl,
-                                  height: 56.0,
-                                  width: 56.0,
-                                )
-                              : SizedBox(
-                                  height: 56.0,
-                                  width: 56.0,
-                                ),
+                          child: FadeInImage.memoryNetwork(
+                            placeholder: kTransparentImage,
+                            image: _.asset.iconUrl,
+                            height: 56.0,
+                            width: 56.0,
+                          ),
                         ),
                         AppUiHelpers.hSpaceSmall,
                         Text(

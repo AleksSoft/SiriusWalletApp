@@ -11,7 +11,7 @@ class WithdrawalController extends GetxController {
 
   search() => showSearch(
         query: '',
-        context: Get.overlayContext,
+        context: Get.context,
         delegate: SearchPage<Asset>(
           showItemsOnEmpty: true,
           items: AssetsController.con.assetList

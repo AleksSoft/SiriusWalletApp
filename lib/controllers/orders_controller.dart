@@ -12,18 +12,13 @@ class OrdersController extends GetxController {
 
   final _assetsController = Get.find<AssetsController>();
 
-  final _orders = List<LimitOrderModel>().obs;
-  List<LimitOrderModel> get orders => this._orders.value;
-  set orders(List<LimitOrderModel> value) => this._orders.value = value;
+  final orders = List<LimitOrderModel>().obs;
 
-  final _trades = List<TradesResponse_TradeModel>().obs;
-  List<TradesResponse_TradeModel> get trades => this._trades.value;
-  set trades(List<TradesResponse_TradeModel> value) =>
-      this._trades.value = value;
+  final trades = List<TradesResponse_TradeModel>().obs;
 
   @override
   void onInit() async {
-    ever(_assetsController.initialized, (inited) async {
+    ever(_assetsController.isLoaded, (inited) async {
       if (inited) {
         await getOrders();
         await getTrades(20, 0);
@@ -38,7 +33,8 @@ class OrdersController extends GetxController {
     super.onInit();
   }
 
-  Future getOrders() async => orders = await TradingRepository.getOrders();
+  Future getOrders() async =>
+      orders.assignAll(await TradingRepository.getOrders());
 
   Future getTrades(
     int take,
@@ -57,7 +53,7 @@ class OrdersController extends GetxController {
       toDate: toDate,
     );
     list.sort((b, a) => a.timestamp.seconds.compareTo(b.timestamp.seconds));
-    trades = list;
+    trades.assignAll(list);
   }
 
   cancelAllOrders() async {

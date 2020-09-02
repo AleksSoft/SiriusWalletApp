@@ -2,7 +2,6 @@ import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/controllers/deposit_controller.dart';
-import 'package:antares_wallet/utils/formatter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -53,7 +52,7 @@ class CardDepositPage extends StatelessWidget {
                           horizontal: AppSizes.medium,
                         ),
                         child: TextFormField(
-                          initialValue: _.fee,
+                          initialValue: _.fee.toString(),
                           keyboardType: TextInputType.numberWithOptions(
                             decimal: true,
                           ),
@@ -65,14 +64,19 @@ class CardDepositPage extends StatelessWidget {
                         ),
                       ),
                     ),
+                    AppUiHelpers.vSpaceMedium,
                     ListTile(
-                      title: Text('Total'),
+                      title: Text(
+                        'Total',
+                        style: Get.textTheme.headline6.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       subtitle: Text('Amount + Fee'),
                       trailing: Text(
-                        Formatter.currency(
-                          _.amountValue,
-                          symbol: _.selectedAsset?.displayId,
-                          maxDecimal: _.selectedAsset?.accuracy,
+                        _.amountWithFee,
+                        style: Get.textTheme.headline6.copyWith(
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
@@ -83,14 +87,19 @@ class CardDepositPage extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    CupertinoButton.filled(
-                      disabledColor: AppColors.secondary.withOpacity(0.7),
-                      onPressed: _.amountValue.isNullOrBlank
-                          ? null
-                          : () => _.sendBankTransferRequest(),
-                      child: Text('Proceed'),
+                    Padding(
+                      padding: const EdgeInsets.all(AppSizes.medium),
+                      child: CupertinoButton.filled(
+                        disabledColor: AppColors.secondary.withOpacity(0.7),
+                        onPressed:
+                            (double.tryParse(_.amountValue ?? '0') ?? 0) == 0
+                                ? null
+                                : () {
+                                    _.proceedCardDeposit();
+                                  },
+                        child: Text('Proceed'),
+                      ),
                     ),
-                    AppUiHelpers.vSpaceMedium,
                   ],
                 ),
               )
