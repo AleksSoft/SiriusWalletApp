@@ -74,6 +74,10 @@ class _AssetTile extends StatelessWidget {
         image: asset.iconUrl,
         height: AppSizes.extraLarge,
         width: AppSizes.extraLarge,
+        imageErrorBuilder: (_, error, ___) => SizedBox(
+          height: AppSizes.extraLarge,
+          width: AppSizes.extraLarge,
+        ),
       ),
       title: Text(asset.name),
       subtitle: Text(asset.displayId),

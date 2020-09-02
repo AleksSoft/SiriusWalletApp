@@ -40,6 +40,10 @@ class TransactionDetailsPage extends StatelessWidget {
                             image: _.asset.iconUrl,
                             height: 56.0,
                             width: 56.0,
+                            imageErrorBuilder: (_, error, ___) => SizedBox(
+                              height: 56.0,
+                              width: 56.0,
+                            ),
                           ),
                         ),
                         AppUiHelpers.hSpaceSmall,

@@ -85,9 +85,9 @@ class DepositController extends GetxController {
     );
     loading = false;
     if (response ?? false) {
-      _showSnackbar('Email sent', AppColors.primary);
+      _showSnackbar('Email sent', false);
     } else {
-      _showSnackbar('Failure performing request', AppColors.red);
+      _showSnackbar('Failure performing request', true);
     }
   }
 
@@ -106,8 +106,11 @@ class DepositController extends GetxController {
       zip: cardPaymentDetails.zip,
       depositOption: 'BankCard',
     );
-    print(cardPaymentUrl.toProto3Json());
-    Get.to(CardDepositWebPage(cardPaymentUrl?.url));
+    if (cardPaymentUrl != null) {
+      Get.off(CardDepositWebPage(cardPaymentUrl?.url));
+    } else {
+      _showSnackbar('Failure performing request', true);
+    }
   }
 
   void search() => showSearch(
@@ -192,11 +195,11 @@ class DepositController extends GetxController {
     }
   }
 
-  _showSnackbar(String message, Color color, {String title}) => Get.snackbar(
+  _showSnackbar(String message, bool isError, {String title}) => Get.snackbar(
         title,
         message ?? '',
-        colorText: AppColors.dark,
-        backgroundColor: color,
+        colorText: isError ? AppColors.primary : AppColors.dark,
+        backgroundColor: isError ? AppColors.red : AppColors.primary,
         snackPosition: SnackPosition.BOTTOM,
         boxShadows: [
           BoxShadow(

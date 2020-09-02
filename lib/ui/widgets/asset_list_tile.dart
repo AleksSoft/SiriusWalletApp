@@ -36,6 +36,10 @@ class AssetListTile extends StatelessWidget {
             image: asset.iconUrl,
             height: AppSizes.large,
             width: AppSizes.large,
+            imageErrorBuilder: (_, error, ___) => SizedBox(
+              height: AppSizes.large,
+              width: AppSizes.large,
+            ),
           ),
           title: Text(
             asset.name,

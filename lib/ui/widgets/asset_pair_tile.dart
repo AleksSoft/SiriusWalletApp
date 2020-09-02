@@ -55,6 +55,10 @@ class AssetPairTile extends StatelessWidget {
                     image: imgUrl,
                     height: AppSizes.medium,
                     width: AppSizes.medium,
+                    imageErrorBuilder: (_, error, ___) => SizedBox(
+                      height: AppSizes.medium,
+                      width: AppSizes.medium,
+                    ),
                   ),
                   AppUiHelpers.hSpaceExtraSmall,
                   Flexible(

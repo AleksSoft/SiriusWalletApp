@@ -411,6 +411,10 @@ class _ExchangeView extends StatelessWidget {
                   image: model.pairBaseAsset.iconUrl,
                   height: 20.0,
                   width: 20.0,
+                  imageErrorBuilder: (_, error, ___) => SizedBox(
+                    height: 20.0,
+                    width: 20.0,
+                  ),
                 ),
               ],
             ),
@@ -527,6 +531,10 @@ class _MyLykkeView extends StatelessWidget {
             image: asset.iconUrl,
             height: AppSizes.medium,
             width: AppSizes.medium,
+            imageErrorBuilder: (_, error, ___) => SizedBox(
+              height: AppSizes.medium,
+              width: AppSizes.medium,
+            ),
           ),
           AppUiHelpers.hSpaceExtraSmall,
           Text(
