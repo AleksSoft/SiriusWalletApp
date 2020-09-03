@@ -3,6 +3,7 @@ import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/repositories/settings_repository.dart';
 import 'package:antares_wallet/repositories/wallet_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:antares_wallet/ui/pages/deposit/blockchain_deposit_page.dart';
 import 'package:antares_wallet/ui/pages/deposit/card_deposit_page.dart';
 import 'package:antares_wallet/ui/pages/deposit/card_deposit_web_page.dart';
 import 'package:antares_wallet/ui/pages/deposit/swift_deposit_page.dart';
@@ -12,6 +13,7 @@ import 'package:clipboard_manager/clipboard_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:search_page/search_page.dart';
+import 'package:share/share.dart';
 
 import 'assets_controller.dart';
 
@@ -21,6 +23,8 @@ class DepositController extends GetxController {
   static DepositController get con => Get.find();
 
   var assetSwiftCreds = SwiftCredentialsResponse_SwiftCredentials();
+  var depositCryptoAddress =
+      CryptoDepositAddressResponse_CryptoDepositAddress();
 
   Asset selectedAsset = Asset();
 
@@ -57,9 +61,8 @@ class DepositController extends GetxController {
 
   void initialize(Asset asset, DepositMode mode) {
     selectedAsset = asset;
-    fee = 0.0;
-    _amountValue = '';
     _mode = mode;
+    _clearAllFields();
     _initWithMode();
   }
 
@@ -74,6 +77,14 @@ class DepositController extends GetxController {
     loading = true;
     var settings = await SettingsRepository.getAppSettings();
     fee = settings?.feeSettings?.bankCardsFeeSizePercentage ?? 0.0;
+    loading = false;
+  }
+
+  Future<void> getCryptoDepositAddress() async {
+    loading = true;
+    depositCryptoAddress = await WalletRepository.getCryptoDepositAddress(
+      selectedAsset?.id,
+    );
     loading = false;
   }
 
@@ -180,6 +191,18 @@ class DepositController extends GetxController {
         Get.rawSnackbar(message: 'msg_copied'.tr);
       });
 
+  void shareBlockchain() async {
+    final RenderBox box = Get.context.findRenderObject();
+    String forSharing = depositCryptoAddress?.address;
+    if (!forSharing.isNullOrBlank) {
+      await Share.share(
+        forSharing,
+        subject: forSharing,
+        sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size,
+      );
+    }
+  }
+
   Future<void> _initWithMode() async {
     switch (_mode) {
       case DepositMode.swift:
@@ -190,9 +213,20 @@ class DepositController extends GetxController {
         Get.to(CardDepositPage());
         await getCardsFee();
         break;
+      case DepositMode.blockchain:
+        Get.to(BlockchainDepositPage());
+        await getCryptoDepositAddress();
+        break;
       default:
         break;
     }
+  }
+
+  void _clearAllFields() {
+    assetSwiftCreds?.clear();
+    depositCryptoAddress?.clear();
+    fee = 0.0;
+    _amountValue = '';
   }
 
   _showSnackbar(String message, bool isError, {String title}) => Get.snackbar(

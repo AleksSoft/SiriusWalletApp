@@ -139,7 +139,8 @@ class AppTranslations extends Translations {
           "search": "Search",
           "home": "Home",
           "deposit_by_swift": "Deposit by swift",
-          "deposit_by_card": "Deposit by credit card"
+          "deposit_by_card": "Deposit by credit card",
+          "deposit_by_blockchain": "Deposit by blockchain"
         },
         'ru': {
           "app_title": "Antares Wallet",
@@ -279,7 +280,8 @@ class AppTranslations extends Translations {
           "search": "Поиск",
           "home": "Дом",
           "deposit_by_swift": "Свифт депозит",
-          "deposit_by_card": "Deposit by credit card"
+          "deposit_by_card": "Депозит с кредитной карты",
+          "deposit_by_blockchain": "Депозит через блокчейн"
         },
       };
 }

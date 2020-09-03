@@ -1,4 +1,8 @@
 PODS:
+  - barcode_scan (0.0.1):
+    - Flutter
+    - MTBBarcodeScanner
+    - SwiftProtobuf
   - clipboard_manager (0.0.3):
     - Flutter
   - Firebase/Analytics (6.26.0):
@@ -73,6 +77,7 @@ PODS:
     - Flutter
   - local_auth (0.0.1):
     - Flutter
+  - MTBBarcodeScanner (5.0.11)
   - nanopb (1.30905.0):
     - nanopb/decode (= 1.30905.0)
     - nanopb/encode (= 1.30905.0)
@@ -85,6 +90,9 @@ PODS:
   - PromisesObjC (1.2.10)
   - screen (0.0.1):
     - Flutter
+  - share (0.0.1):
+    - Flutter
+  - SwiftProtobuf (1.11.0)
   - url_launcher (0.0.1):
     - Flutter
   - video_player (0.0.1):
@@ -95,6 +103,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - barcode_scan (from `.symlinks/plugins/barcode_scan/ios`)
   - clipboard_manager (from `.symlinks/plugins/clipboard_manager/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -104,6 +113,7 @@ DEPENDENCIES:
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - screen (from `.symlinks/plugins/screen/ios`)
+  - share (from `.symlinks/plugins/share/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
   - video_player (from `.symlinks/plugins/video_player/ios`)
   - wakelock (from `.symlinks/plugins/wakelock/ios`)
@@ -120,10 +130,14 @@ SPEC REPOS:
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleUtilities
+    - MTBBarcodeScanner
     - nanopb
     - PromisesObjC
+    - SwiftProtobuf
 
 EXTERNAL SOURCES:
+  barcode_scan:
+    :path: ".symlinks/plugins/barcode_scan/ios"
   clipboard_manager:
     :path: ".symlinks/plugins/clipboard_manager/ios"
   firebase_analytics:
@@ -142,6 +156,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider/ios"
   screen:
     :path: ".symlinks/plugins/screen/ios"
+  share:
+    :path: ".symlinks/plugins/share/ios"
   url_launcher:
     :path: ".symlinks/plugins/url_launcher/ios"
   video_player:
@@ -152,6 +168,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter/ios"
 
 SPEC CHECKSUMS:
+  barcode_scan: a5c27959edfafaa0c771905bad0b29d6d39e4479
   clipboard_manager: f4800834e62cc26b1cc4e0a92a35cd452dd8b827
   Firebase: 7cf5f9c67f03cb3b606d1d6535286e1080e57eb6
   firebase_analytics: 3ad65aa7be059752b2c1a6392bfafe030b4ab9fa
@@ -167,11 +184,14 @@ SPEC CHECKSUMS:
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
   image_picker: 9c3312491f862b28d21ecd8fdf0ee14e601b3f09
   local_auth: 25938960984c3a7f6e3253e3f8d962fdd16852bd
+  MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
   screen: abd91ca7bf3426e1cc3646d27e9b2358d6bf07b0
+  share: 0b2c3e82132f5888bccca3351c504d0003b3b410
+  SwiftProtobuf: f889fe5772f90ef7d7b8aac352d1fddf39650713
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
   video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
   wakelock: 0d4a70faf8950410735e3f61fb15d517c8a6efc4

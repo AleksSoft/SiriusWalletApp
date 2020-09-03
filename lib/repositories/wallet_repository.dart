@@ -41,6 +41,17 @@ class WalletRepository {
         BankCardPaymentDetailsResponse_BankCardPaymentDetails();
   }
 
+  static Future<CryptoDepositAddressResponse_CryptoDepositAddress>
+      getCryptoDepositAddress(String assetId) async {
+    final response = await ErrorHandler.safeCall(
+      () => _api.clientSecure.getCryptoDepositAddress(
+        CryptoDepositAddressRequest()..assetId = assetId,
+      ),
+    );
+    return response?.address ??
+        CryptoDepositAddressResponse_CryptoDepositAddress();
+  }
+
   static Future<bool> sendBankTransferRequest({
     @required String assetId,
     @required double balanceChange,
