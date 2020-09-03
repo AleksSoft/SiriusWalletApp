@@ -3,10 +3,10 @@ import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/repositories/settings_repository.dart';
 import 'package:antares_wallet/repositories/wallet_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
-import 'package:antares_wallet/ui/pages/deposit/blockchain_deposit_page.dart';
-import 'package:antares_wallet/ui/pages/deposit/card_deposit_page.dart';
-import 'package:antares_wallet/ui/pages/deposit/card_deposit_web_page.dart';
-import 'package:antares_wallet/ui/pages/deposit/swift_deposit_page.dart';
+import 'package:antares_wallet/ui/pages/banking/deposit/blockchain_deposit_page.dart';
+import 'package:antares_wallet/ui/pages/banking/deposit/card_deposit_page.dart';
+import 'package:antares_wallet/ui/pages/banking/deposit/card_deposit_web_page.dart';
+import 'package:antares_wallet/ui/pages/banking/deposit/swift_deposit_page.dart';
 import 'package:antares_wallet/ui/widgets/asset_list_tile.dart';
 import 'package:antares_wallet/utils/formatter.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';
@@ -140,7 +140,26 @@ class DepositController extends GetxController {
           ],
           builder: (asset) => AssetListTile(
             asset,
-            onTap: () => selectDialog(asset),
+            onTap: () {
+              if (asset.cardDeposit &&
+                  !asset.swiftDeposit &&
+                  !asset.blockchainDeposit) {
+                Get.back(closeOverlays: true);
+                initialize(asset, DepositMode.card);
+              } else if (!asset.cardDeposit &&
+                  asset.swiftDeposit &&
+                  !asset.blockchainDeposit) {
+                Get.back(closeOverlays: true);
+                initialize(asset, DepositMode.swift);
+              } else if (!asset.cardDeposit &&
+                  !asset.swiftDeposit &&
+                  asset.blockchainDeposit) {
+                Get.back(closeOverlays: true);
+                initialize(asset, DepositMode.blockchain);
+              } else {
+                selectDialog(asset);
+              }
+            },
           ),
         ),
       );
