@@ -1,4 +1,3 @@
-import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/controllers/deposit_controller.dart';
@@ -33,7 +32,7 @@ class BlockchainDepositPage extends StatelessWidget {
             if (!_.depositCryptoAddress.addressExtension.isNullOrBlank) {
               qrItems.add(_QrBox(
                 qrData: _.depositCryptoAddress.addressExtension,
-                title: 'Memo',
+                title: 'Memo (text)',
               ));
             }
             return Stack(
@@ -49,7 +48,7 @@ class BlockchainDepositPage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(AppSizes.medium),
                         child: Text(
-                          'Third-party credit card payments are not accepted. First credit card deposits may take up to 24 hours to be reflected in your portfolio balance.',
+                          'Portfolio balance will be updated after transaction is confirmed in the blockchain',
                           textAlign: TextAlign.left,
                         ),
                       ),

@@ -215,6 +215,16 @@ class DepositController extends GetxController {
         break;
       case DepositMode.blockchain:
         Get.to(BlockchainDepositPage());
+        Get.defaultDialog(
+          title: 'Attention!',
+          middleText:
+              'Please make sure that destination address and the tag are correct. If details are incorrect, funds will be lost.',
+          buttonColor: AppColors.dark,
+          confirmTextColor: AppColors.primary,
+          onConfirm: () {
+            Get.back();
+          },
+        );
         await getCryptoDepositAddress();
         break;
       default:

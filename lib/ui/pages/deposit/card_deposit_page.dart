@@ -52,7 +52,9 @@ class CardDepositPage extends StatelessWidget {
                           horizontal: AppSizes.medium,
                         ),
                         child: TextFormField(
-                          initialValue: _.fee.toString(),
+                          controller: TextEditingController(
+                            text: _.fee.toString(),
+                          ),
                           keyboardType: TextInputType.numberWithOptions(
                             decimal: true,
                           ),
