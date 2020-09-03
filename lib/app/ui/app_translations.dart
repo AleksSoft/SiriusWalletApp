@@ -140,7 +140,8 @@ class AppTranslations extends Translations {
           "home": "Home",
           "deposit_by_swift": "Deposit by swift",
           "deposit_by_card": "Deposit by credit card",
-          "deposit_by_blockchain": "Deposit by blockchain"
+          "deposit_by_blockchain": "Deposit by blockchain",
+          "withdraw_funds": "Withdraw funds"
         },
         'ru': {
           "app_title": "Antares Wallet",
@@ -281,7 +282,8 @@ class AppTranslations extends Translations {
           "home": "Дом",
           "deposit_by_swift": "Свифт депозит",
           "deposit_by_card": "Депозит с кредитной карты",
-          "deposit_by_blockchain": "Депозит через блокчейн"
+          "deposit_by_blockchain": "Депозит через блокчейн",
+          "withdraw_funds": "Вывод средств"
         },
       };
 }

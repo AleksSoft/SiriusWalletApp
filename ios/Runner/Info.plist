@@ -36,7 +36,7 @@
 		<key>NSPhotoLibraryUsageDescription</key>
 		<string>Needed to verify identity</string>
 		<key>NSCameraUsageDescription</key>
-		<string>Needed to verify identity</string>
+		<string>Camera permission is required for barcode scanning and identity verification.</string>
 		<key>io.flutter.embedded_views_preview</key>
 		<string>YES</string>
 		<key>NSAppTransportSecurity</key>

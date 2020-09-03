@@ -52,6 +52,17 @@ class WalletRepository {
         CryptoDepositAddressResponse_CryptoDepositAddress();
   }
 
+  static Future<WithdrawalCryptoInfoResponse_WithdrawalCryptoInfo>
+      getWithdrawalCryptoInfo(String assetId) async {
+    final response = await ErrorHandler.safeCall(
+      () => _api.clientSecure.getWithdrawalCryptoInfo(
+        WithdrawalCryptoInfoRequest()..assetId = assetId,
+      ),
+    );
+    return response?.withdrawalInfo ??
+        WithdrawalCryptoInfoResponse_WithdrawalCryptoInfo();
+  }
+
   static Future<bool> sendBankTransferRequest({
     @required String assetId,
     @required double balanceChange,
@@ -97,5 +108,23 @@ class WalletRepository {
       ),
     );
     return response?.result ?? BankCardPaymentUrlResponse_BankCardPaymentUrl();
+  }
+
+  static Future<bool> cryptoCashout({
+    @required String assetId,
+    @required String volume,
+    @required String destinationAddress,
+    @required String destinationAddressExtension,
+  }) async {
+    final response = await ErrorHandler.safeCall(
+      () => _api.clientSecure.cryptoCashout(
+        CryptoCashoutRequest()
+          ..assetId = assetId
+          ..volume = volume
+          ..destinationAddress = destinationAddress
+          ..destinationAddressExtension = destinationAddressExtension,
+      ),
+    );
+    return response != null;
   }
 }
