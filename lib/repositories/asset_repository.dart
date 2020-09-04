@@ -11,6 +11,7 @@ class AssetsRepository {
   static Future<AssetsDictionaryResponse> assetsDictionary() async {
     final response = await ErrorHandler.safeCall(
       () => _api.clientSecure.assetsDictionary(Empty()),
+      method: 'assetsDictionary',
     );
     return response ?? AssetsDictionaryResponse();
   }
@@ -18,6 +19,7 @@ class AssetsRepository {
   static Future<String> getBaseAsset() async {
     final response = await ErrorHandler.safeCall(
       () => _api.clientSecure.getBaseAsset(Empty()),
+      method: 'getBaseAsset',
     );
     return response?.baseAsset?.assetId ?? '';
   }
@@ -27,6 +29,7 @@ class AssetsRepository {
       () => _api.clientSecure.setBaseAsset(
         BaseAssetUpdateRequest()..baseAssetId = id,
       ),
+      method: 'setBaseAsset',
     );
     return response != null;
   }
@@ -34,6 +37,7 @@ class AssetsRepository {
   static Future<List<AssetPair>> getAssetPairs() async {
     final response = await ErrorHandler.safeCall(
       () => _api.clientSecure.getAssetPairs(Empty()),
+      method: 'getAssetPairs',
     );
     return response?.assetPairs ?? List();
   }
@@ -44,6 +48,7 @@ class AssetsRepository {
       () => _api.clientSecure.getAmountInBaseAsset(
         AmountInBaseRequest.create()..assetId = baseAssetId,
       ),
+      method: 'getAmountInBaseAsset',
     );
     return response?.values ?? List();
   }

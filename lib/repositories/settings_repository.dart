@@ -10,6 +10,7 @@ class SettingsRepository {
   static Future<AppSettingsResponse_AppSettingsData> getAppSettings() async {
     final response = await ErrorHandler.safeCall(
       () => _api.clientSecure.getAppSettings(Empty()),
+      method: 'getAppSettings',
     );
     return response?.result ?? AppSettingsResponse_AppSettingsData();
   }

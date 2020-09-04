@@ -16,12 +16,15 @@ class TradingRepository {
     @required Timestamp to,
   }) async {
     final response = await ErrorHandler.safeCall(
-      () => _api.clientSecure.getCandles(CandlesRequest()
-        ..assetPairId = assetPairId
-        ..type = type
-        ..interval = interval
-        ..from = from
-        ..to = to),
+      () => _api.clientSecure.getCandles(
+        CandlesRequest()
+          ..assetPairId = assetPairId
+          ..type = type
+          ..interval = interval
+          ..from = from
+          ..to = to,
+      ),
+      method: 'getCandles',
     );
     return response?.candles;
   }
@@ -33,6 +36,7 @@ class TradingRepository {
       () => _api.clientSecure.getOrderbook(
         OrderbookRequest()..assetPairId = assetPairId,
       ),
+      method: 'getOrderbook',
     );
     return response ?? Orderbook();
   }
@@ -42,6 +46,7 @@ class TradingRepository {
     if (assetPairId != null) request.assetPairId = assetPairId;
     final response = await ErrorHandler.safeCall(
       () => _api.clientSecure.getOrders(request),
+      method: 'getOrders',
     );
     return response?.result?.orders ?? List();
   }
@@ -63,6 +68,7 @@ class TradingRepository {
 
     final response = await ErrorHandler.safeCall(
       () => _api.clientSecure.getTrades(request),
+      method: 'getTrades',
     );
     return response?.trades ?? List();
   }
@@ -79,6 +85,7 @@ class TradingRepository {
           ..take = take
           ..skip = skip,
       ),
+      method: 'getAssetTrades',
     );
     return response?.trades ?? List();
   }
@@ -88,6 +95,7 @@ class TradingRepository {
       () => _api.clientSecure.cancelOrder(
         CancelOrderRequest()..orderId = orderId,
       ),
+      method: 'cancelOrder',
     );
     return response?.payload ?? false;
   }
@@ -95,6 +103,7 @@ class TradingRepository {
   static Future<bool> cancelAllOrders() async {
     final response = await ErrorHandler.safeCall(
       () => _api.clientSecure.cancelAllOrders(CancelOrdersRequest()),
+      method: 'cancelAllOrders',
     );
     return response?.payload ?? false;
   }
@@ -113,6 +122,7 @@ class TradingRepository {
           ..volume = volume
           ..price = price,
       ),
+      method: 'placeLimitOrder',
     );
     return response?.result?.order;
   }
@@ -129,6 +139,7 @@ class TradingRepository {
           ..assetId = assetId
           ..volume = volume,
       ),
+      method: 'placeMarketOrder',
     );
     return response?.result?.order;
   }

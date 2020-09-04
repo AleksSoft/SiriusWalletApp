@@ -7,4 +7,5 @@ class AppStorageKeys {
   static final String settingsData = 'key_settings_data';
   static final String baseAsset = 'key_base_asset';
   static final String watchlistId = 'key_watchlist_id';
+  static final String errorList = 'key_errorlist';
 }

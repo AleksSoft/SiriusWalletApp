@@ -11,6 +11,7 @@ class ProfileRepository {
   static Future<TierInfoPayload> getTierInfo() async {
     final response = await ErrorHandler.safeCall(
       () => _api.clientSecure.getTierInfo(Empty()),
+      method: 'getTierInfo',
     );
     return response?.result ?? TierInfoPayload();
   }
@@ -18,6 +19,7 @@ class ProfileRepository {
   static Future<PersonalData> getPersonalData() async {
     final response = await ErrorHandler.safeCall(
       () => _api.clientSecure.getPersonalData(Empty()),
+      method: 'getPersonalData',
     );
     return response?.result ?? PersonalData();
   }
@@ -26,6 +28,7 @@ class ProfileRepository {
       getKycDocuments() async {
     final response = await ErrorHandler.safeCall(
       () => _api.clientSecure.getKycDocuments(Empty()),
+      method: 'getKycDocuments',
     );
     return response?.result ?? Map();
   }
@@ -35,6 +38,7 @@ class ProfileRepository {
       () => _api.clientSecure.setAddress(
         SetAddressRequest()..address = address,
       ),
+      method: 'setAddress',
     );
     return response != null;
   }
@@ -42,6 +46,7 @@ class ProfileRepository {
   static Future<bool> setZip({@required String zip}) async {
     final response = await ErrorHandler.safeCall(
       () => _api.clientSecure.setZip(SetZipRequest()..zip = zip),
+      method: 'setZip',
     );
     return response != null;
   }
@@ -58,6 +63,7 @@ class ProfileRepository {
           ..filename = filename
           ..file = file,
       ),
+      method: 'uploadKycFile',
     );
     return response != null;
   }
@@ -65,6 +71,7 @@ class ProfileRepository {
   static Future<List<QuestionnaireResponse_Question>> getQuestionnaire() async {
     final QuestionnaireResponse response = await ErrorHandler.safeCall(
       () => _api.clientSecure.getQuestionnaire(Empty()),
+      method: 'getQuestionnaire',
     );
     return response?.result?.questionnaire ?? [];
   }
@@ -76,6 +83,7 @@ class ProfileRepository {
       () => _api.clientSecure.saveQuestionnaire(
         AnswersRequest()..answers.addAll(answers),
       ),
+      method: 'saveQuestionnaire',
     );
     return response != null;
   }
@@ -87,6 +95,7 @@ class ProfileRepository {
       () => _api.clientSecure.submitProfile(
         SubmitProfileRequest()..tier = tier,
       ),
+      method: 'submitProfile',
     );
     return response != null;
   }

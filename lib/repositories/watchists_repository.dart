@@ -10,6 +10,7 @@ class WatchlistsRepository {
   static Future<List<Watchlist>> getWatchlists() async {
     final response = await ErrorHandler.safeCall(
       () => _api.clientSecure.getWatchlists(Empty()),
+      method: 'getWatchlists',
     );
     return response?.result;
   }
@@ -17,6 +18,7 @@ class WatchlistsRepository {
   static Future<Watchlist> getWatchlist(String id) async {
     final response = await ErrorHandler.safeCall(
       () => _api.clientSecure.getWatchlist(WatchlistRequest()..id = id),
+      method: 'getWatchlist',
     );
     return response?.result;
   }
@@ -33,6 +35,7 @@ class WatchlistsRepository {
           ..order = order
           ..assetIds.addAll(assetIds),
       ),
+      method: 'addWatchlist',
     );
     return response?.result;
   }
@@ -51,6 +54,7 @@ class WatchlistsRepository {
           ..order = order
           ..assetIds.addAll(assetIds),
       ),
+      method: 'updateWatchlist',
     );
     return response?.result;
   }
@@ -60,6 +64,7 @@ class WatchlistsRepository {
       () => _api.clientSecure.deleteWatchlist(
         DeleteWatchlistRequest()..id = id,
       ),
+      method: 'deleteWatchlist',
     );
   }
 }

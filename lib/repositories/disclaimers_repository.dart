@@ -11,6 +11,7 @@ class DisclaimersRepository {
   static Future<List<AssetDisclaimer>> getAssetDisclaimers() async {
     final response = await ErrorHandler.safeCall(
       () => _api.clientSecure.getAssetDisclaimers(Empty()),
+      method: 'getAssetDisclaimers',
     );
     return response?.result?.disclaimers ?? List();
   }
@@ -22,6 +23,7 @@ class DisclaimersRepository {
       () => _api.clientSecure.approveAssetDisclaimer(
         AssetDisclaimerRequest()..disclaimerId = disclaimerId,
       ),
+      method: 'approveAssetDisclaimer',
     );
     return response != null;
   }
@@ -33,6 +35,7 @@ class DisclaimersRepository {
       () => _api.clientSecure.declineAssetDisclaimer(
         AssetDisclaimerRequest()..disclaimerId = disclaimerId,
       ),
+      method: 'declineAssetDisclaimer',
     );
     return response != null;
   }

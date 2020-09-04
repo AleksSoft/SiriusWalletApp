@@ -8,6 +8,7 @@ import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/more/support/support_page.dart';
 import 'package:antares_wallet/ui/pages/root/root_controller.dart';
 import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
+import 'package:antares_wallet/ui/widgets/asset_pair_rich_text.dart';
 import 'package:antares_wallet/ui/widgets/default_card.dart';
 import 'package:antares_wallet/utils/formatter.dart';
 import 'package:flutter/cupertino.dart';
@@ -300,7 +301,6 @@ class _AssetsView extends StatelessWidget {
 }
 
 class _ExchangeView extends StatelessWidget {
-  const _ExchangeView({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return DefaultCard(
@@ -372,6 +372,7 @@ class _ExchangeView extends StatelessWidget {
           border: Border.all(color: AppColors.secondary.withOpacity(0.2)),
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
@@ -379,32 +380,9 @@ class _ExchangeView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               textBaseline: TextBaseline.ideographic,
               children: [
-                RichText(
-                  softWrap: true,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  text: TextSpan(
-                    text: model.pairBaseAsset.displayId,
-                    style: textStyle.copyWith(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    children: [
-                      TextSpan(
-                        text: ' / ${model.pairQuotingAsset.displayId} \n',
-                        style: textStyle.copyWith(
-                          fontSize: 10.0,
-                        ),
-                      ),
-                      TextSpan(
-                        text: model.pairBaseAsset.name,
-                        style: textStyle.copyWith(
-                          fontSize: 12.0,
-                          color: AppColors.secondary,
-                        ),
-                      ),
-                    ],
-                  ),
+                PairRichText(
+                  displayId1: model.pairBaseAsset.displayId,
+                  displayId2: model.pairQuotingAsset.displayId,
                 ),
                 FadeInImage.memoryNetwork(
                   placeholder: kTransparentImage,
@@ -417,6 +395,16 @@ class _ExchangeView extends StatelessWidget {
                   ),
                 ),
               ],
+            ),
+            Text(
+              model.pairBaseAsset.name,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              textAlign: TextAlign.start,
+              style: textStyle.copyWith(
+                fontSize: 12.0,
+                color: AppColors.secondary,
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -73,9 +73,8 @@ class MarketsController extends GetxController {
       await MarketsRepository.getMarkets(assetPairId: assetPairId);
 
   Future<void> rebuildWatchedMarkets() async {
-    update();
     String id = GetStorage().read(AppStorageKeys.watchlistId);
-    _initMarketsListIfNeeded(force: true);
+    await _initMarketsListIfNeeded(force: true);
     if (!id.isNullOrBlank) {
       List<MarketModel> result = List();
       (await WatchlistsRepository.getWatchlist(id)).assetIds.forEach((id) {
@@ -95,7 +94,7 @@ class MarketsController extends GetxController {
   }
 
   _initMarketsListIfNeeded({bool force = false}) async {
-    if (initialMarketList.isEmpty) {
+    if (initialMarketList.isEmpty || force) {
       (await getMarkets()).forEach((m) async {
         var pair = _assetsController.assetPairById(m.assetPair);
         // check if nothing is null

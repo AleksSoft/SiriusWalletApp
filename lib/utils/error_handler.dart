@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:antares_wallet/app/common/app_storage_keys.dart';
+import 'package:antares_wallet/models/saved_errors_model.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart' as apiservice;
 import 'package:antares_wallet/ui/pages/disclaimer/disclaimer_page.dart';
 import 'package:antares_wallet/ui/pages/start/start_page.dart';
@@ -6,78 +10,77 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:grpc/grpc.dart';
 
-import 'dialog_manager.dart';
-
 typedef Future<T> FutureGenerator<T>();
 
 class ErrorHandler {
-  static final _dialogManager = Get.find<DialogManager>();
-
   static Future safeCall(FutureGenerator future,
-      {bool hideErrors = false}) async {
+      {@required String method}) async {
     dynamic response = await future()
         .catchError(
-          _handleGrpcError,
+          (e) => _handleGrpcError(e, method),
           test: (e) => e is GrpcError,
         )
-        .catchError(_handleError);
+        .catchError((e) => _handleError(e, method));
     try {
-      if (response?.error != null && response.error.hasMessage()) {
-        _handleApiError(response.error, future);
+      if (response?.errors != null && response.errors.hasMessage()) {
+        _handleApiError(response.errors, future, method);
         return null;
       }
     } catch (e) {}
     return response;
   }
 
-  static _handleApiError(error, future) async {
+  static _handleApiError(
+    dynamic error,
+    FutureGenerator future,
+    String method,
+  ) async {
     if (error is apiservice.Error) {
-      _showErrorDialog(message: error.message);
+      saveError(code: '', message: error.message, method: method);
     } else if (error is apiservice.ErrorV1) {
       // check if it's pending disclaimer
       if (error.code == '70') {
         final result = await Get.toNamed(DisclaimersPage.route);
-        if (result ?? false) await ErrorHandler.safeCall(() => future());
+        if (result ?? false) {
+          await ErrorHandler.safeCall(() => future(), method: method);
+        }
       } else {
-        _showErrorDialog(code: error.code, message: error.message);
+        saveError(code: error.code, message: error.message, method: method);
       }
     } else if (error is apiservice.ErrorV2) {
-      _showErrorDialog(code: error.error, message: error.message);
+      saveError(code: error.error, message: error.message, method: method);
     }
   }
 
-  static _handleGrpcError(e) {
-    switch (e.code) {
-      case StatusCode.unauthenticated:
-        _showErrorDialog(
-          code: e.code.toString(),
-          message: e.message,
-          action: () => GetStorage().erase().whenComplete(
-                () => Get.offAllNamed(StartPage.route),
-              ),
-        );
-        break;
-      default:
-        _showErrorDialog(code: e.code.toString(), message: e.message);
-        break;
+  static _handleGrpcError(e, String method) {
+    if (e.code == StatusCode.unauthenticated) {
+      GetStorage().erase().whenComplete(
+            () => Get.offAllNamed(StartPage.route),
+          );
     }
+    saveError(code: e.code.toString(), message: e.message, method: method);
   }
 
-  static _handleError(e) {
-    _showErrorDialog(message: e.message);
+  static _handleError(dynamic e, String method) {
+    saveError(code: '', message: e.message, method: method);
   }
 
-  static _showErrorDialog({
-    String code,
-    String customTitle,
-    String message,
-    VoidCallback action,
+  static saveError({
+    @required String code,
+    @required String message,
+    @required String method,
   }) {
-    String title = code.isNullOrBlank ? 'Error' : 'Error ($code)';
-    _dialogManager.error(ErrorContent(
-      title: customTitle ?? title,
-      message: message,
-      action: action,
-    ));
+    final storage = GetStorage();
+    String jsonStr = storage.read(AppStorageKeys.errorList);
+    SavedErrorsModel model = jsonStr.isNullOrBlank
+        ? SavedErrorsModel()
+        : SavedErrorsModel().fromJson(json.decode(jsonStr));
+    model.errors.add(
+      SavedError()
+        ..code = code
+        ..message = message
+        ..method = method,
+    );
+    storage.write(AppStorageKeys.errorList, json.encode(model.toJson()));
   }
 }

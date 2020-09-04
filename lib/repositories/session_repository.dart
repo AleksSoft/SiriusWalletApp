@@ -14,6 +14,7 @@ class SessionRepository {
       getCountryPhoneCodes() async {
     final response = await ErrorHandler.safeCall(
       () => _api.client.getCountryPhoneCodes(Empty()),
+      method: 'getCountryPhoneCodes',
     );
     return response?.result ?? CountryPhoneCodesResponse_CountryPhoneCodes();
   }
@@ -23,6 +24,11 @@ class SessionRepository {
       await _api.clientSecure.prolongateSession(Empty());
       return true;
     } catch (e) {
+      ErrorHandler.saveError(
+        code: '',
+        message: e.message,
+        method: 'getCountryPhoneCodes',
+      );
       return false;
     }
   }
@@ -32,6 +38,7 @@ class SessionRepository {
       () => _api.client.isSessionExpired(
         CheckSessionRequest()..sessionId = sessionId,
       ),
+      method: 'isSessionExpired',
     );
     return response?.expired ?? true;
   }
@@ -50,6 +57,7 @@ class SessionRepository {
           ..password = password
           ..publicKey = publicKey,
       ),
+      method: 'login',
     );
     return response?.result;
   }
@@ -61,6 +69,11 @@ class SessionRepository {
       await _api.client.sendLoginSms(LoginSmsRequest()..sessionId = sessionId);
       return true;
     } catch (e) {
+      ErrorHandler.saveError(
+        code: '',
+        message: e.message,
+        method: 'sendLoginSms',
+      );
       return false;
     }
   }
@@ -75,6 +88,7 @@ class SessionRepository {
           ..sessionId = sessionId
           ..code = code,
       ),
+      method: 'verifyLoginSms',
     );
     return response?.result?.passed ?? false;
   }
@@ -89,6 +103,7 @@ class SessionRepository {
           ..sessionId = sessionId
           ..pin = pin,
       ),
+      method: 'checkPin',
     );
     return response?.result?.passed ?? false;
   }
@@ -102,6 +117,7 @@ class SessionRepository {
       () => _api.client.sendVerificationEmail(
         VerificationEmailRequest()..email = email,
       ),
+      method: 'sendVerificationEmail',
     );
     return response?.result?.token;
   }
@@ -118,6 +134,7 @@ class SessionRepository {
           ..code = code
           ..token = token,
       ),
+      method: 'verifyEmail',
     );
     return response?.result?.passed ?? false;
   }
@@ -134,6 +151,11 @@ class SessionRepository {
       );
       return true;
     } catch (e) {
+      ErrorHandler.saveError(
+        code: '',
+        message: e.message,
+        method: 'sendVerificationSms',
+      );
       return false;
     }
   }
@@ -150,6 +172,7 @@ class SessionRepository {
           ..code = code
           ..token = token,
       ),
+      method: 'verifyPhone',
     );
     return response?.result?.passed ?? false;
   }
@@ -179,6 +202,7 @@ class SessionRepository {
       ..publicKey = publicKey;
     final response = await ErrorHandler.safeCall(
       () => _api.client.register(request),
+      method: 'register',
     );
     return response?.result;
   }

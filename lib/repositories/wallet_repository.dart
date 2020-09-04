@@ -14,6 +14,7 @@ class WalletRepository {
       () => _api.clientSecure.getSwiftCredentials(
         SwiftCredentialsRequest()..assetId = assetId,
       ),
+      method: 'getSwiftCredentials',
     );
     return response?.result ?? SwiftCredentialsResponse_SwiftCredentials();
   }
@@ -22,6 +23,7 @@ class WalletRepository {
       getSwiftCashoutInfo() async {
     final response = await ErrorHandler.safeCall(
       () => _api.clientSecure.getSwiftCashoutInfo(Empty()),
+      method: 'getSwiftCashoutInfo',
     );
     return response?.result ?? SwiftCashoutInfoResponse_SwiftCashoutInfo();
   }
@@ -36,6 +38,7 @@ class WalletRepository {
           ..assetId = assetId
           ..countryCode = countryCode,
       ),
+      method: 'getSwiftCashoutFee',
     );
     return response?.result ?? SwiftCashoutFeeResponse_SwiftCashoutFee();
   }
@@ -47,6 +50,7 @@ class WalletRepository {
       () => _api.clientSecure.getOffchainChannelKey(
         OffchainChannelKeyRequest()..assetId = assetId,
       ),
+      method: 'getOffchainChannelKey',
     );
     return response?.result?.key ?? '';
   }
@@ -55,6 +59,7 @@ class WalletRepository {
       getBankCardPaymentDetails() async {
     final response = await ErrorHandler.safeCall(
       () => _api.clientSecure.getBankCardPaymentDetails(Empty()),
+      method: 'getBankCardPaymentDetails',
     );
     return response?.result ??
         BankCardPaymentDetailsResponse_BankCardPaymentDetails();
@@ -66,6 +71,7 @@ class WalletRepository {
       () => _api.clientSecure.getCryptoDepositAddress(
         CryptoDepositAddressRequest()..assetId = assetId,
       ),
+      method: 'getCryptoDepositAddress',
     );
     return response?.address ??
         CryptoDepositAddressResponse_CryptoDepositAddress();
@@ -77,6 +83,7 @@ class WalletRepository {
       () => _api.clientSecure.getWithdrawalCryptoInfo(
         WithdrawalCryptoInfoRequest()..assetId = assetId,
       ),
+      method: 'getWithdrawalCryptoInfo',
     );
     return response?.withdrawalInfo ??
         WithdrawalCryptoInfoResponse_WithdrawalCryptoInfo();
@@ -92,6 +99,7 @@ class WalletRepository {
           ..assetId = assetId
           ..balanceChange = balanceChange,
       ),
+      method: 'sendBankTransferRequest',
     );
     return response != null;
   }
@@ -125,6 +133,7 @@ class WalletRepository {
           ..zip = zip
           ..depositOption = depositOption,
       ),
+      method: 'getBankCardPaymentUrl',
     );
     return response?.result ?? BankCardPaymentUrlResponse_BankCardPaymentUrl();
   }
@@ -143,6 +152,7 @@ class WalletRepository {
           ..destinationAddress = destinationAddress
           ..destinationAddressExtension = destinationAddressExtension,
       ),
+      method: 'cryptoCashout',
     );
     return response != null;
   }
@@ -175,6 +185,7 @@ class WalletRepository {
           ..accHolderZipCode = accHolderZipCode
           ..accHolderCity = accHolderCity,
       ),
+      method: 'swiftCashout',
     );
     return response?.result ?? SwiftCashoutResponse_SwiftCashoutData();
   }
@@ -194,6 +205,7 @@ class WalletRepository {
           ..clientRevokeEncryptedPrivateKey = clientRevokeEncryptedPrivateKey
           ..signedTransferTransaction = signedTransferTransaction,
       ),
+      method: 'finalizeSwiftCashout',
     );
     return response?.result ??
         SwiftCashoutFinalizeResponse_OffchainTradeRespone();

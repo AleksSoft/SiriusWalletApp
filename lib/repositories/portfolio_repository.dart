@@ -12,6 +12,7 @@ class PortfolioRepository {
   static Future<List<Balance>> getBalances() async {
     var response = await ErrorHandler.safeCall(
       () => _api.clientSecure.getBalances(Empty()),
+      method: 'getBalances',
     );
     return response?.payload ?? List();
   }
@@ -32,6 +33,7 @@ class PortfolioRepository {
 
     final response = await ErrorHandler.safeCall(
       () => _api.clientSecure.getFunds(request),
+      method: 'getFunds',
     );
     return response?.funds ?? List();
   }
@@ -47,6 +49,7 @@ class PortfolioRepository {
           ..assetId = assetId
           ..transactionHash = transactionHash,
       ),
+      method: 'getExplorerLinks',
     );
     return response?.links ?? [];
   }

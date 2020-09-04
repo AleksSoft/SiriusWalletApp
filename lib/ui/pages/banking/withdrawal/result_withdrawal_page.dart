@@ -36,7 +36,7 @@ class ResultWithdrawalPage extends StatelessWidget {
             ),
             AppUiHelpers.vSpaceSmall,
             Text(
-              'Something bad happened.',
+              'Your request will be processed as soon as possible.',
               style: Get.textTheme.bodyText1,
               textAlign: TextAlign.center,
             ),
