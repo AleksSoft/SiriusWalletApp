@@ -10,11 +10,12 @@ import 'package:get/get.dart';
 class SessionRepository {
   static final _api = Get.find<ApiService>();
 
-  static Future<List<Country>> getCountryPhoneCodes() async {
+  static Future<CountryPhoneCodesResponse_CountryPhoneCodes>
+      getCountryPhoneCodes() async {
     final response = await ErrorHandler.safeCall(
       () => _api.client.getCountryPhoneCodes(Empty()),
     );
-    return response?.result?.countriesList ?? List();
+    return response?.result ?? CountryPhoneCodesResponse_CountryPhoneCodes();
   }
 
   static Future<bool> prolongateSession() async {

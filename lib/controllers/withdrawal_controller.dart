@@ -1,9 +1,11 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
+import 'package:antares_wallet/repositories/session_repository.dart';
 import 'package:antares_wallet/repositories/wallet_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/banking/withdrawal/blockchain_withdrawal_page.dart';
+import 'package:antares_wallet/ui/pages/banking/withdrawal/result_withdrawal_page.dart';
 import 'package:antares_wallet/ui/pages/banking/withdrawal/swift_withdrawal_page.dart';
 import 'package:antares_wallet/ui/widgets/asset_list_tile.dart';
 import 'package:antares_wallet/utils/formatter.dart';
@@ -22,8 +24,15 @@ class WithdrawalController extends GetxController {
   final _portfolioCon = PortfolioController.con;
 
   final amountController = TextEditingController();
+  final wiredAmountController = TextEditingController();
   final addressController = TextEditingController();
   final extController = TextEditingController();
+  final swiftController = TextEditingController();
+  final bankController = TextEditingController();
+  final ibanController = TextEditingController();
+  final fullNameController = TextEditingController();
+  final cityController = TextEditingController();
+  final zipController = TextEditingController();
 
   var withdrawalCryptoInfo =
       WithdrawalCryptoInfoResponse_WithdrawalCryptoInfo();
@@ -33,6 +42,8 @@ class WithdrawalController extends GetxController {
   Balance selectedAssetBalance = Balance();
 
   WithdrawalMode _mode;
+
+  String _countryCode = '';
 
   double fee = 0.0;
 
@@ -55,37 +66,61 @@ class WithdrawalController extends GetxController {
   }
 
   bool get proceedAllowed {
+    bool isAmountZero = (double.tryParse(amountController.text) ?? 0) == 0;
+    bool addressEmpty = addressController.text.isNullOrBlank;
     if (_mode == WithdrawalMode.blockchain) {
-      bool isAmountZero = (double.tryParse(amountController.text) ?? 0) == 0;
-      bool addressEmpty = addressController.text.isNullOrBlank;
       return !isAmountZero && !addressEmpty;
     } else {
-      return false;
+      bool swiftEmpty = swiftController.text.isNullOrBlank;
+      bool bankEmpty = bankController.text.isNullOrBlank;
+      bool ibanEmpty = ibanController.text.isNullOrBlank;
+      bool fullNameEmpty = fullNameController.text.isNullOrBlank;
+      bool cityEmpty = cityController.text.isNullOrBlank;
+      bool zipEmpty = zipController.text.isNullOrBlank;
+      return !isAmountZero &&
+          !addressEmpty &&
+          !swiftEmpty &&
+          !bankEmpty &&
+          !ibanEmpty &&
+          !fullNameEmpty &&
+          !cityEmpty &&
+          !zipEmpty;
     }
   }
 
   Future<void> getWithdrawalCryptoInfo() async {
-    loading = true;
     withdrawalCryptoInfo = await WalletRepository.getWithdrawalCryptoInfo(
       selectedAsset?.id,
     );
     print('----WithdrawalCryptoInfo ${withdrawalCryptoInfo.toProto3Json()}');
-    loading = false;
   }
 
   Future<void> getAssetBalance() async {
-    loading = true;
     if (_portfolioCon.balances.isEmpty) {
       await _portfolioCon.getBalances();
-      selectedAssetBalance =
-          _portfolioCon.assetBalance(selectedAsset?.id) ?? Balance();
     }
-    loading = false;
+    selectedAssetBalance =
+        _portfolioCon.assetBalance(selectedAsset?.id) ?? Balance();
   }
 
-  Future<void> confirmWithdrawal() async {
+  Future<void> getCountry() async {
+    if (_countryCode.isNullOrBlank) {
+      _countryCode = (await SessionRepository.getCountryPhoneCodes()).current;
+    }
+  }
+
+  Future<void> getSwiftFee() async {
+    String feeSize = (await WalletRepository.getSwiftCashoutFee(
+      assetId: selectedAsset?.id,
+      countryCode: _countryCode,
+    ))
+        .size;
+    fee = double.tryParse(feeSize ?? '0') ?? 0.0;
+  }
+
+  Future<void> confirmCryptoWithdrawal() async {
     loading = true;
-    await WalletRepository.cryptoCashout(
+    bool success = await WalletRepository.cryptoCashout(
       assetId: selectedAsset?.id,
       volume: amountController.text,
       destinationAddress: addressController.text,
@@ -94,7 +129,20 @@ class WithdrawalController extends GetxController {
               ? extController.text
               : '',
     );
+    Get.off(ResultWithdrawalPage(success: success), fullscreenDialog: true);
     loading = false;
+  }
+
+  Future<void> confirmSwiftWithdrawal() async {
+    loading = true;
+    loading = false;
+  }
+
+  okResult() => Get.until((route) => route.isFirst);
+
+  tryAgainResult() {
+    Get.until((route) => route.isFirst);
+    _initialize(selectedAsset, _mode);
   }
 
   search() => showSearch(
@@ -137,12 +185,19 @@ class WithdrawalController extends GetxController {
     switch (_mode) {
       case WithdrawalMode.swift:
         Get.to(SwiftWithdrawalPage());
-        // await getSwiftCredentials();
+        loading = true;
+        await getAssetBalance();
+        await getCountry();
+        await getSwiftFee();
+        await getAssetBalance();
+        loading = false;
         break;
       case WithdrawalMode.blockchain:
         Get.to(BlockchainWithdrawalPage());
+        loading = true;
         await getAssetBalance();
         await getWithdrawalCryptoInfo();
+        loading = false;
         break;
       default:
         break;
@@ -183,8 +238,17 @@ class WithdrawalController extends GetxController {
   void _clearAllFields() {
     withdrawalCryptoInfo?.clear();
     amountController?.clear();
+    wiredAmountController?.clear();
     addressController?.clear();
     extController?.clear();
+    bankController?.clear();
+    cityController?.clear();
+    fullNameController?.clear();
+    ibanController?.clear();
+    swiftController?.clear();
+    zipController?.clear();
+    fee = 0.0;
+    _countryCode = '';
     _loading = false;
   }
 

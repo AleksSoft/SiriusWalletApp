@@ -3,13 +3,12 @@ import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/controllers/withdrawal_controller.dart';
 import 'package:antares_wallet/utils/formatter.dart';
-import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-import 'blockchain_withdrawal_result_page.dart';
+import 'blockchain_withdrawal_details_page.dart';
 
 class BlockchainWithdrawalPage extends StatelessWidget {
   @override
@@ -154,7 +153,7 @@ class BlockchainWithdrawalPage extends StatelessWidget {
                       child: CupertinoButton.filled(
                         disabledColor: AppColors.secondary.withOpacity(0.7),
                         onPressed: _.proceedAllowed
-                            ? () => Get.to(BlockchainWithdrawalResultPage())
+                            ? () => Get.to(BlockchainWithdrawalDetailsPage())
                             : null,
                         child: Text('Proceed'),
                       ),

@@ -18,6 +18,14 @@ class WalletRepository {
     return response?.result ?? SwiftCredentialsResponse_SwiftCredentials();
   }
 
+  static Future<SwiftCashoutInfoResponse_SwiftCashoutInfo>
+      getSwiftCashoutInfo() async {
+    final response = await ErrorHandler.safeCall(
+      () => _api.clientSecure.getSwiftCashoutInfo(Empty()),
+    );
+    return response?.result ?? SwiftCashoutInfoResponse_SwiftCashoutInfo();
+  }
+
   static Future<SwiftCashoutFeeResponse_SwiftCashoutFee> getSwiftCashoutFee({
     @required String assetId,
     @required String countryCode,
@@ -30,6 +38,17 @@ class WalletRepository {
       ),
     );
     return response?.result ?? SwiftCashoutFeeResponse_SwiftCashoutFee();
+  }
+
+  static Future<String> getOffchainChannelKey({
+    @required String assetId,
+  }) async {
+    final response = await ErrorHandler.safeCall(
+      () => _api.clientSecure.getOffchainChannelKey(
+        OffchainChannelKeyRequest()..assetId = assetId,
+      ),
+    );
+    return response?.result?.key ?? '';
   }
 
   static Future<BankCardPaymentDetailsResponse_BankCardPaymentDetails>
@@ -126,5 +145,57 @@ class WalletRepository {
       ),
     );
     return response != null;
+  }
+
+  static Future<SwiftCashoutResponse_SwiftCashoutData> swiftCashout({
+    @required String amount,
+    @required String asset,
+    @required String prevTempPrivateKey,
+    @required String bic,
+    @required String accNumber,
+    @required String accName,
+    @required String accHolderAddress,
+    @required String bankName,
+    @required String accHolderCountry,
+    @required String accHolderZipCode,
+    @required String accHolderCity,
+  }) async {
+    final response = await ErrorHandler.safeCall(
+      () => _api.clientSecure.swiftCashout(
+        SwiftCashoutRequest()
+          ..amount = amount
+          ..asset = asset
+          ..prevTempPrivateKey = prevTempPrivateKey
+          ..bic = bic
+          ..accNumber = accNumber
+          ..accName = accName
+          ..accHolderAddress = accHolderAddress
+          ..bankName = bankName
+          ..accHolderCountry = accHolderCountry
+          ..accHolderZipCode = accHolderZipCode
+          ..accHolderCity = accHolderCity,
+      ),
+    );
+    return response?.result ?? SwiftCashoutResponse_SwiftCashoutData();
+  }
+
+  static Future<SwiftCashoutFinalizeResponse_OffchainTradeRespone>
+      finalizeSwiftCashout({
+    @required String transferId,
+    @required String clientRevokePubKey,
+    @required String clientRevokeEncryptedPrivateKey,
+    @required String signedTransferTransaction,
+  }) async {
+    final response = await ErrorHandler.safeCall(
+      () => _api.clientSecure.finalizeSwiftCashout(
+        SwiftCashoutFinalizeRequest()
+          ..transferId = transferId
+          ..clientRevokePubKey = clientRevokePubKey
+          ..clientRevokeEncryptedPrivateKey = clientRevokeEncryptedPrivateKey
+          ..signedTransferTransaction = signedTransferTransaction,
+      ),
+    );
+    return response?.result ??
+        SwiftCashoutFinalizeResponse_OffchainTradeRespone();
   }
 }

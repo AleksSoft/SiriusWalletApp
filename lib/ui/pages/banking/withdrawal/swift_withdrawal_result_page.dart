@@ -2,11 +2,12 @@ import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/controllers/withdrawal_controller.dart';
+import 'package:antares_wallet/utils/formatter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class BlockchainWithdrawalResultPage extends StatelessWidget {
+class SwiftWithdrawalResultPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,38 +27,52 @@ class BlockchainWithdrawalResultPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     ListTile(
-                      title: Text('Amount'),
-                      subtitle: Text(_.amountController.text),
-                    ),
-                    ListTile(
-                      title: Text('Fee'),
-                      subtitle: Text(_.fee.toString()),
-                    ),
-                    ListTile(
-                      title: Text('Total'),
-                      subtitle: Text(_.amountWithFee),
-                    ),
-                    ListTile(
-                      title: Text('From'),
-                      subtitle: Text('Portfolio'),
-                    ),
-                    ListTile(
-                      title: Text('To'),
-                      subtitle: Text(_.addressController.text),
-                    ),
-                    Visibility(
-                      visible: _.withdrawalCryptoInfo.addressExtensionMandatory,
-                      child: ListTile(
-                        title: Text('Memo (text)'),
-                        subtitle: Text(_.extController.text),
+                      title: Text(
+                        Formatter.currency(
+                          _.amountController.text,
+                          symbol: _.selectedAsset?.displayId,
+                          maxDecimal: _.selectedAsset?.accuracy,
+                        ),
                       ),
+                      subtitle: Text('Deducted amount'),
+                    ),
+                    ListTile(
+                      title: Text(
+                        Formatter.currency(
+                          _.fee.toString(),
+                          symbol: _.selectedAsset?.displayId,
+                          maxDecimal: _.selectedAsset?.accuracy,
+                        ),
+                      ),
+                      subtitle: Text('Fee'),
+                    ),
+                    ListTile(
+                      title: Text(_.swiftController.text),
+                      subtitle: Text('Swift'),
+                    ),
+                    ListTile(
+                      title: Text(_.bankController.text),
+                      subtitle: Text('Name of the Bank'),
+                    ),
+                    ListTile(
+                      title: Text(_.ibanController.text),
+                      subtitle: Text('Beneficiary\'s Account number (IBAN)'),
+                    ),
+                    ListTile(
+                      title: Text(_.fullNameController.text),
+                      subtitle: Text('Name of the account holder'),
+                    ),
+                    ListTile(
+                      title: Text(
+                          '${_.addressController.text} ${_.zipController.text} ${_.cityController.text}'),
+                      subtitle: Text('Address of the account holder'),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(AppSizes.medium),
                       child: CupertinoButton.filled(
                         disabledColor: AppColors.secondary.withOpacity(0.7),
                         onPressed: _.proceedAllowed
-                            ? () => _.confirmWithdrawal()
+                            ? () => _.confirmSwiftWithdrawal()
                             : null,
                         child: Text('Confirm'),
                       ),

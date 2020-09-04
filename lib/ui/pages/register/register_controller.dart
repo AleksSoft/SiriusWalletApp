@@ -69,7 +69,8 @@ class RegisterController extends GetxController {
   void onInit() async {
     super.onInit();
     loading = true;
-    countries.assignAll(await SessionRepository.getCountryPhoneCodes());
+    countries.assignAll(
+        (await SessionRepository.getCountryPhoneCodes()).countriesList);
     loading = false;
   }
 
