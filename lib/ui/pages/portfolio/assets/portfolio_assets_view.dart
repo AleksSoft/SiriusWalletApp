@@ -16,26 +16,33 @@ class PortfolioAssetsTabView extends StatelessWidget {
   final c = PortfolioController.con;
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      color: AppColors.dark,
-      onRefresh: () => c.rebuildPortfolioAssets(),
-      child: ListView(
-        padding: EdgeInsets.only(bottom: AppSizes.medium),
-        children: [
-          _PortfolioAssetsHeader(),
-          Obx(
-            () => AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              child: c.loading && c.categoryAssetsMap.isEmpty
-                  ? Center(child: AppUiHelpers.circularProgress)
-                  : Column(
-                      children: c.categoryAssetsMap.keys
-                          .map((category) => _PortfolioCategoryBlock(category))
-                          .toList(),
-                    ),
+    return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        label: Obx(() => Text(c.hideZeros ? 'Show all' : 'Hide zeros')),
+        onPressed: () => c.hideZeros = !c.hideZeros,
+      ),
+      body: RefreshIndicator(
+        color: AppColors.dark,
+        onRefresh: () => c.rebuildPortfolioAssets(),
+        child: ListView(
+          padding: EdgeInsets.only(bottom: AppSizes.medium),
+          children: [
+            _PortfolioAssetsHeader(),
+            Obx(
+              () => AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                child: c.loading && c.categoryAssetsMap.isEmpty
+                    ? Center(child: AppUiHelpers.circularProgress)
+                    : Column(
+                        children: c.categoryAssetsMap.keys
+                            .map(
+                                (category) => _PortfolioCategoryBlock(category))
+                            .toList(),
+                      ),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

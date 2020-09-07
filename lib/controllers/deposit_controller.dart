@@ -252,8 +252,8 @@ class DepositController extends GetxController {
   }
 
   void _clearAllFields() {
-    assetSwiftCreds?.clear();
-    depositCryptoAddress?.clear();
+    assetSwiftCreds = SwiftCredentialsResponse_SwiftCredentials();
+    depositCryptoAddress = CryptoDepositAddressResponse_CryptoDepositAddress();
     fee = 0.0;
     _amountValue = '';
   }

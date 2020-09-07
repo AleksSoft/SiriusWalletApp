@@ -14,6 +14,10 @@ class PortfolioController extends GetxController {
   get loading => this._loading.value;
   set loading(value) => this._loading.value = value;
 
+  final _hideZeros = false.obs;
+  get hideZeros => this._hideZeros.value;
+  set hideZeros(value) => this._hideZeros.value = value;
+
   final categoryAssetsMap = Map<AssetCategory, List<Asset>>().obs;
 
   final balances = List<Balance>().obs;
@@ -22,8 +26,8 @@ class PortfolioController extends GetxController {
 
   @override
   void onInit() async {
-    ever(_assetsController.isLoaded, (inited) {
-      if (inited) {
+    ever(_assetsController.isLoaded, (loaded) {
+      if (loaded) {
         rebuildPortfolioAssets();
         getFunds(20, 0);
       }
@@ -34,6 +38,10 @@ class PortfolioController extends GetxController {
         getFunds(20, 0);
       }
     });
+    ever(
+      _hideZeros,
+      (hide) => categoryAssetsMap.value = _mergeMap(categoryAssetsMap),
+    );
     super.onInit();
   }
 
@@ -67,7 +75,7 @@ class PortfolioController extends GetxController {
     loading = true;
     await _assetsController.getAssetsDictionary();
     await getBalances();
-    categoryAssetsMap.addAll(_mergeMap(categoryAssetsMap));
+    categoryAssetsMap.value = _mergeMap(categoryAssetsMap);
     loading = false;
   }
 
@@ -89,19 +97,16 @@ class PortfolioController extends GetxController {
         toDate: toDate,
       ));
 
-  Map<AssetCategory, List<Asset>> _mergeMap(
-      Map<AssetCategory, List<Asset>> oldMap) {
-    Map<AssetCategory, List<Asset>> mergedMap =
-        Map<AssetCategory, List<Asset>>.from(oldMap);
+  Map<AssetCategory, List<Asset>> _mergeMap(Map oldMap) {
+    var mergedMap = Map<AssetCategory, List<Asset>>.from(oldMap);
     _assetsController.categoryList.forEach((category) {
-      var l = _assetsController.categoryAssets(category.id);
-      l.sort((a, b) {
-        var aBalance =
-            double.tryParse(assetBalance(a.id)?.available ?? '0') ?? 0.0;
-        var bBalance =
-            double.tryParse(assetBalance(b.id)?.available ?? '0') ?? 0.0;
-        return aBalance.compareTo(bBalance);
-      });
+      var l = hideZeros
+          ? _assetsController
+              .categoryAssets(category.id)
+              .where((a) => _assetBalance(a.id) > 0)
+              .toList()
+          : _assetsController.categoryAssets(category.id);
+      l.sort((a, b) => _assetBalance(a.id).compareTo(_assetBalance(b.id)));
       if (l.isNotEmpty) {
         mergedMap.update(
           category,
@@ -114,4 +119,7 @@ class PortfolioController extends GetxController {
     });
     return mergedMap;
   }
+
+  double _assetBalance(String assetId) =>
+      double.tryParse(assetBalance(assetId)?.available ?? '0') ?? 0.0;
 }

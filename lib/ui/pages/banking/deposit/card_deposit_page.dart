@@ -96,9 +96,7 @@ class CardDepositPage extends StatelessWidget {
                         onPressed:
                             (double.tryParse(_.amountValue ?? '0') ?? 0) == 0
                                 ? null
-                                : () {
-                                    _.proceedCardDeposit();
-                                  },
+                                : () => _.proceedCardDeposit(),
                         child: Text('Proceed'),
                       ),
                     ),

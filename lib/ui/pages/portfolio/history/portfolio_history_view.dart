@@ -14,17 +14,9 @@ class PortfolioHistoryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Obx(
-        () => AnimatedSwitcher(
-          duration: Duration(milliseconds: 300),
-          child: c.historyItems.isNotEmpty
-              ? FloatingActionButton(
-                  onPressed: () =>
-                      Get.bottomSheet(PortfolioHistoryFiltersView()),
-                  child: Icon(Icons.filter_list),
-                )
-              : SizedBox.shrink(),
-        ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Get.bottomSheet(PortfolioHistoryFiltersView()),
+        child: Icon(Icons.filter_list),
       ),
       body: RefreshIndicator(
         color: AppColors.dark,
