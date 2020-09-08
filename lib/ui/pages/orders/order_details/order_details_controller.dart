@@ -136,6 +136,23 @@ class OrderDetailsController extends GetxController {
   int get orderbookItemsCount =>
       (((defaultHeight) ~/ AppSizes.extraLarge) - 1) ~/ 2;
 
+  bool get liquidityError {
+    double amountDouble = (double.tryParse(amount) ?? 0.0);
+    if (orderType == OrderDetailsController.orderTypes[1]) {
+      if (isBuy) {
+        return asksVolumeSum < amountDouble;
+      } else {
+        return false;
+      }
+    }
+    return false;
+  }
+
+  double get asksVolumeSum => asks.fold(
+        0.0,
+        (prev, curr) => prev + double.tryParse(curr.v) ?? 0.0,
+      );
+
   reloadUiWithPairId(String pairId) {
     bids.clear();
     asks.clear();
@@ -305,6 +322,6 @@ class OrderDetailsController extends GetxController {
         double.tryParse(isBuy ? quotingBalance : baseBalance) ?? 0.0;
     double amount = double.tryParse(amountTextController.text) ?? 0.0;
     locked = isBuy ? _countTotal() > balance : amount > balance;
-    actionAllowed = !locked && amount > 0;
+    actionAllowed = !locked && amount > 0 && !liquidityError;
   }
 }
