@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/repositories/trading_repository.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
+import 'package:antares_wallet/services/utils/orderbook_utils.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
 import 'package:antares_wallet/ui/pages/orders/order_details/order_details_controller.dart';
@@ -10,6 +11,7 @@ import 'package:antares_wallet/ui/pages/orders/order_details/order_details_page.
 import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'candle_chart_page.dart';
@@ -18,6 +20,8 @@ class TradingController extends GetxController {
   static TradingController get con => Get.find();
   static final _api = Get.find<ApiService>();
   static final candleTypes = [CandleType.Mid, CandleType.Trades];
+
+  final _logger = Get.find<Logger>();
 
   StreamSubscription _tradesSubscr;
   StreamSubscription _orderbookSubscr;
@@ -239,8 +243,11 @@ class TradingController extends GetxController {
 
   _initOrders() async {
     // reload orderbook and subscription
-    final orderbook = await TradingRepository.getOrderbook(
-      assetPairId: initialMarket.pairId,
+    var orderbook = OrderbookUtils.getMergedOrderbook(
+      Orderbook()..bids.addAll(bids)..asks.addAll(asks),
+      await TradingRepository.getOrderbook(
+        assetPairId: initialMarket.pairId,
+      ),
     );
     asks.assignAll(orderbook.asks);
     bids.assignAll(orderbook.bids);
@@ -250,18 +257,13 @@ class TradingController extends GetxController {
         .getOrderbookUpdates(
             OrderbookUpdatesRequest()..assetPairId = initialMarket.pairId)
         .map((event) {
-      var orderbook = Orderbook();
-      orderbook.assetPairId = event.assetPairId;
-      orderbook.bids.addAll(
-        _getMergedPriceVolumes(bids, event.bids, false),
+      return OrderbookUtils.getMergedOrderbook(
+        Orderbook()..bids.addAll(bids)..asks.addAll(asks),
+        event,
       );
-      orderbook.asks.addAll(
-        _getMergedPriceVolumes(asks, event.asks, true),
-      );
-      return orderbook;
     }).listen((update) {
-      if (update.bids.isNotEmpty) bids.assignAll(update.bids);
-      if (update.asks.isNotEmpty) asks.assignAll(update.asks);
+      bids.assignAll(update.bids);
+      asks.assignAll(update.asks);
     });
   }
 
@@ -306,34 +308,6 @@ class TradingController extends GetxController {
         }
       }
     }
-  }
-
-  List<Orderbook_PriceVolume> _getMergedPriceVolumes(
-    List<Orderbook_PriceVolume> oldPV,
-    List<Orderbook_PriceVolume> newPV,
-    bool ascending,
-  ) {
-    newPV.forEach((update) {
-      if (update.v == '0') {
-        oldPV.removeWhere((_) => _.p == update.p);
-      } else {
-        if (update.v.startsWith('-')) {
-          update.v = update.v.replaceFirst('-', '');
-        }
-        int index = oldPV.indexWhere((_) => _.p == update.p);
-        if (index < 0) {
-          oldPV.add(update);
-        } else {
-          oldPV[index] = update;
-        }
-      }
-    });
-    if (ascending) {
-      oldPV.sort((a, b) => a.p.compareTo(b.p));
-    } else {
-      oldPV.sort((b, a) => a.p.compareTo(b.p));
-    }
-    return oldPV;
   }
 
   Duration _getCandleUpdateTimeDelta() {

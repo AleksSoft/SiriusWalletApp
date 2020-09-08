@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:logger/logger.dart';
 import 'package:syncfusion_flutter_core/core.dart';
 
 void main() async {
@@ -22,6 +23,8 @@ void main() async {
 
   // Initialize storage
   await GetStorage.init();
+
+  var logger = Logger(printer: PrettyPrinter());
 
   runApp(
     GestureDetector(
@@ -44,7 +47,6 @@ void main() async {
         theme: AppThemes.light,
         themeMode: ThemeMode.system,
         initialBinding: InitialBinding(),
-
         // navigatorObservers: [
         //   FirebaseAnalyticsObserver(analytics: FirebaseAnalytics()),
         // ],

@@ -23,17 +23,7 @@ class Formatter {
     }
 
     String formatSymbol = symbol.isNullOrBlank ? '' : '$symbol ';
-    int decimalDigits = minDecimal;
-
-    var splitted = s.split('.');
-    if (splitted.length == 2) {
-      var length = splitted[1].length;
-      if (maxDecimal == null) {
-        decimalDigits = length > 8 ? maxDecimalDigits : length;
-      } else {
-        decimalDigits = maxDecimal;
-      }
-    }
+    int decimalDigits = maxDecimal == null ? minDecimal : maxDecimal;
 
     return '$formatSymbol${NumberFormat.currency(
       locale: locale ?? 'eu',

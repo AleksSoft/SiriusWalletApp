@@ -4,13 +4,13 @@ import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
+import 'package:antares_wallet/services/utils/formatter.dart';
 import 'package:antares_wallet/ui/pages/trading/widgets/candle_chart_view.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
 import 'package:antares_wallet/ui/widgets/buy_sell_button_row.dart';
 import 'package:antares_wallet/ui/widgets/tradelog_tile.dart';
 import 'package:antares_wallet/ui/widgets/volume_ask_tile.dart';
 import 'package:antares_wallet/ui/widgets/volume_bid_tile.dart';
-import 'package:antares_wallet/utils/formatter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -287,8 +287,15 @@ class _Orderbook extends StatelessWidget {
                       } else {
                         var a = c.bids[i];
                         return VolumeBidTile(
-                          volume: Formatter.currency(a.v),
-                          bid: Formatter.currency(a.p),
+                          volume: Formatter.currency(
+                            a.v,
+                            maxDecimal: c.initialMarket.pairBaseAsset.accuracy,
+                          ),
+                          bid: Formatter.currency(
+                            a.p,
+                            maxDecimal:
+                                c.initialMarket.pairQuotingAsset.accuracy,
+                          ),
                           percent: 0.35,
                         );
                       }
@@ -334,8 +341,15 @@ class _Orderbook extends StatelessWidget {
                       } else {
                         var a = c.asks[i];
                         return VolumeAskTile(
-                          volume: Formatter.currency(a.v),
-                          ask: Formatter.currency(a.p),
+                          volume: Formatter.currency(
+                            a.v,
+                            maxDecimal: c.initialMarket.pairBaseAsset.accuracy,
+                          ),
+                          ask: Formatter.currency(
+                            a.p,
+                            maxDecimal:
+                                c.initialMarket.pairQuotingAsset.accuracy,
+                          ),
                           percent: 0.35,
                         );
                       }

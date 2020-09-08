@@ -1,7 +1,7 @@
 import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/src/google/protobuf/empty.pb.dart';
-import 'package:antares_wallet/utils/error_handler.dart';
+import 'package:antares_wallet/services/utils/error_handler.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
