@@ -53,9 +53,7 @@ class UpgradeRequestView extends StatelessWidget {
           Spacer(),
           Text(
             'h_left'.trArgs([
-              // TODO: decide how to parse this particular date string
-              // '${DateTime.parse(upgradeRequest.submitDate).difference(DateTime.now()).inDays}',
-              '48'
+              '${DateTime.fromMillisecondsSinceEpoch(upgradeRequest.submitDate.seconds.toInt() * 1000).difference(DateTime.now()).inDays}',
             ]),
           ),
         ],

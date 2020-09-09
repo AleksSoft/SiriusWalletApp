@@ -12,21 +12,23 @@ class AssetIcon extends StatelessWidget {
         height: size,
         width: size,
       );
+
   @override
   Widget build(BuildContext context) {
-    return !iconUrl.isNullOrBlank
-        ? FadeInImage.memoryNetwork(
+    if (iconUrl.isNullOrBlank) return _placeholder;
+    return iconUrl.endsWith('.svg')
+        ? SvgPicture.network(
+            iconUrl,
+            width: size,
+            height: size,
+            placeholderBuilder: (context) => _placeholder,
+          )
+        : FadeInImage.memoryNetwork(
             placeholder: kTransparentImage,
             image: iconUrl,
             height: size,
             width: size,
-            imageErrorBuilder: (_, error, ___) => SvgPicture.network(
-              iconUrl,
-              width: size,
-              height: size,
-              placeholderBuilder: (context) => _placeholder,
-            ),
-          )
-        : _placeholder;
+            imageErrorBuilder: (_, error, ___) => _placeholder,
+          );
   }
 }

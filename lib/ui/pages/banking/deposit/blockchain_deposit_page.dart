@@ -1,3 +1,4 @@
+import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/controllers/deposit_controller.dart';
@@ -35,57 +36,60 @@ class BlockchainDepositPage extends StatelessWidget {
                 title: 'Memo (text)',
               ));
             }
-            return Stack(
-              children: [
-                Visibility(
-                  visible: _.loading,
-                  child: AppUiHelpers.linearProgress,
-                ),
-                SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(AppSizes.medium),
-                        child: Text(
-                          'Portfolio balance will be updated after transaction is confirmed in the blockchain',
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 350,
-                        child: PageView(
-                          controller: PageController(viewportFraction: 0.8),
-                          children: qrItems,
-                        ),
-                      ),
-                      ListTile(
-                        title: Text(_.depositCryptoAddress.address),
-                        subtitle: Text('Address'),
-                        trailing: IconButton(
-                          onPressed: () =>
-                              _.copy(_.depositCryptoAddress.address),
-                          icon: Icon(Icons.content_copy),
-                        ),
-                      ),
-                      Visibility(
-                        visible: !_.depositCryptoAddress.addressExtension
-                            .isNullOrBlank,
-                        child: ListTile(
-                          title: Text(_.depositCryptoAddress.addressExtension),
-                          subtitle: Text('Deposit Memo (text)'),
-                          trailing: IconButton(
-                            onPressed: () => _.copy(
-                              _.depositCryptoAddress.addressExtension,
+            return AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: _.loading
+                  ? Container(
+                      constraints: BoxConstraints.expand(),
+                      color: AppColors.primary,
+                      alignment: Alignment.center,
+                      child: AppUiHelpers.circularProgress,
+                    )
+                  : SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(AppSizes.medium),
+                            child: Text(
+                              'Portfolio balance will be updated after transaction is confirmed in the blockchain',
+                              textAlign: TextAlign.left,
                             ),
-                            icon: Icon(Icons.content_copy),
                           ),
-                        ),
+                          SizedBox(
+                            height: 350,
+                            child: PageView(
+                              controller: PageController(viewportFraction: 0.8),
+                              children: qrItems,
+                            ),
+                          ),
+                          ListTile(
+                            title: Text(_.depositCryptoAddress.address),
+                            subtitle: Text('Address'),
+                            trailing: IconButton(
+                              onPressed: () =>
+                                  _.copy(_.depositCryptoAddress.address),
+                              icon: Icon(Icons.content_copy),
+                            ),
+                          ),
+                          Visibility(
+                            visible: !_.depositCryptoAddress.addressExtension
+                                .isNullOrBlank,
+                            child: ListTile(
+                              title:
+                                  Text(_.depositCryptoAddress.addressExtension),
+                              subtitle: Text('Deposit Memo (text)'),
+                              trailing: IconButton(
+                                onPressed: () => _.copy(
+                                  _.depositCryptoAddress.addressExtension,
+                                ),
+                                icon: Icon(Icons.content_copy),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                )
-              ],
+                    ),
             );
           },
         ),

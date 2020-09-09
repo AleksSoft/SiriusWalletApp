@@ -23,6 +23,9 @@ class WithdrawalController extends GetxController {
 
   final _portfolioCon = PortfolioController.con;
 
+  final addressObs = ''.obs;
+  final extAddressObs = ''.obs;
+
   final amountController = TextEditingController();
   final wiredAmountController = TextEditingController();
   final addressController = TextEditingController();
@@ -43,9 +46,10 @@ class WithdrawalController extends GetxController {
 
   WithdrawalMode _mode;
 
-  String _countryCode = '';
-
   double fee = 0.0;
+
+  bool isAddressValid = true;
+  bool isExtAddressValid = true;
 
   bool _loading = false;
   bool get loading => _loading;
@@ -56,20 +60,34 @@ class WithdrawalController extends GetxController {
     }
   }
 
-  String get amountWithFee {
-    double amount = double.tryParse(amountController.text) ?? 0;
-    return Formatter.currency(
-      amount == 0 ? amountController.text : (amount + fee).toString(),
-      symbol: selectedAsset?.displayId,
-      maxDecimal: selectedAsset?.accuracy ?? 2,
-    );
-  }
+  String get amountWithFeeFormatted => Formatter.currency(
+        (amountWithFee - fee) == 0
+            ? amountController.text
+            : amountWithFee.toString(),
+        symbol: selectedAsset?.displayId,
+        maxDecimal: selectedAsset?.accuracy ?? 2,
+      );
+
+  double get amountWithFee =>
+      (double.tryParse(amountController.text) ?? 0) + fee;
+
+  double get availableBalance =>
+      double.tryParse(selectedAssetBalance.available) ?? 0.0;
+
+  bool get isAmountWithFeeAvailable => availableBalance >= amountWithFee;
 
   bool get proceedAllowed {
     bool isAmountZero = (double.tryParse(amountController.text) ?? 0) == 0;
     bool addressEmpty = addressController.text.isNullOrBlank;
     if (_mode == WithdrawalMode.blockchain) {
-      return !isAmountZero && !addressEmpty;
+      bool checkExt = withdrawalCryptoInfo.addressExtensionMandatory
+          ? isExtAddressValid
+          : true;
+      return !isAmountZero &&
+          !addressEmpty &&
+          isAmountWithFeeAvailable &&
+          isAddressValid &&
+          checkExt;
     } else {
       bool swiftEmpty = swiftController.text.isNullOrBlank;
       bool bankEmpty = bankController.text.isNullOrBlank;
@@ -88,11 +106,34 @@ class WithdrawalController extends GetxController {
     }
   }
 
-  Future<void> getWithdrawalCryptoInfo() async {
-    withdrawalCryptoInfo = await WalletRepository.getWithdrawalCryptoInfo(
-      selectedAsset?.id,
+  @override
+  void onInit() {
+    debounce(
+      addressObs,
+      (_) => validateAddress(),
+      time: const Duration(milliseconds: 500),
     );
-    print('----WithdrawalCryptoInfo ${withdrawalCryptoInfo.toProto3Json()}');
+    debounce(
+      extAddressObs,
+      (_) => validateExtAddress(),
+      time: const Duration(milliseconds: 500),
+    );
+    super.onInit();
+  }
+
+  Future<void> getWithdrawalCryptoInfo() async =>
+      withdrawalCryptoInfo = await WalletRepository.getWithdrawalCryptoInfo(
+        selectedAsset?.id,
+      );
+
+  Future<void> getWithdrawalSwiftInfo() async {
+    var info = await WalletRepository.getSwiftCashoutInfo();
+    swiftController.text = info.bic;
+    bankController.text = info.bankName;
+    ibanController.text = info.accNumber;
+    addressController.text = info.accHolderAddress;
+    cityController.text = info.accHolderCity;
+    zipController.text = info.accHolderZipCode;
   }
 
   Future<void> getAssetBalance() async {
@@ -103,19 +144,29 @@ class WithdrawalController extends GetxController {
         _portfolioCon.assetBalance(selectedAsset?.id) ?? Balance();
   }
 
-  Future<void> getCountry() async {
-    if (_countryCode.isNullOrBlank) {
-      _countryCode = (await SessionRepository.getCountryPhoneCodes()).current;
-    }
-  }
-
   Future<void> getSwiftFee() async {
     String feeSize = (await WalletRepository.getSwiftCashoutFee(
       assetId: selectedAsset?.id,
-      countryCode: _countryCode,
+      countryCode: (await SessionRepository.getCountryPhoneCodes()).current,
     ))
         .size;
     fee = double.tryParse(feeSize ?? '0') ?? 0.0;
+  }
+
+  Future<void> validateAddress() async {
+    isAddressValid = await WalletRepository.isCryptoAddressValid(
+      assetId: selectedAsset?.id,
+      address: addressController.text,
+    );
+    update();
+  }
+
+  Future<void> validateExtAddress() async {
+    isExtAddressValid = await WalletRepository.isCryptoAddressValid(
+      assetId: selectedAsset?.id,
+      addressExtension: extController.text,
+    );
+    update();
   }
 
   Future<void> confirmCryptoWithdrawal() async {
@@ -135,6 +186,23 @@ class WithdrawalController extends GetxController {
 
   Future<void> confirmSwiftWithdrawal() async {
     loading = true;
+    var result = await WalletRepository.swiftCashout(
+      accHolderAddress: addressController.text,
+      accHolderCity: cityController.text,
+      accHolderCountry: '', // TODO: find out how to get country code from SWIFT
+      accHolderZipCode: zipController.text,
+      accName: fullNameController.text,
+      accNumber: ibanController.text,
+      amount: amountController.text,
+      asset: selectedAsset.id,
+      bankName: bankController.text,
+      bic: swiftController.text,
+    );
+    String transferId = result?.transferId;
+    Get.off(
+      ResultWithdrawalPage(success: !transferId.isNullOrBlank),
+      fullscreenDialog: true,
+    );
     loading = false;
   }
 
@@ -187,9 +255,8 @@ class WithdrawalController extends GetxController {
         Get.to(SwiftWithdrawalPage());
         loading = true;
         await getAssetBalance();
-        await getCountry();
         await getSwiftFee();
-        await getAssetBalance();
+        await getWithdrawalSwiftInfo();
         loading = false;
         break;
       case WithdrawalMode.blockchain:
@@ -248,7 +315,6 @@ class WithdrawalController extends GetxController {
     swiftController?.clear();
     zipController?.clear();
     fee = 0.0;
-    _countryCode = '';
     _loading = false;
   }
 

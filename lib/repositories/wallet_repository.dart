@@ -33,7 +33,7 @@ class WalletRepository {
       ),
       method: 'getSwiftCredentials',
     );
-    return response?.result ?? SwiftCredentialsResponse_SwiftCredentials();
+    return response?.result;
   }
 
   static Future<SwiftCashoutInfoResponse_SwiftCashoutInfo>
@@ -147,7 +147,6 @@ class WalletRepository {
   static Future<SwiftCashoutResponse_SwiftCashoutData> swiftCashout({
     @required String amount,
     @required String asset,
-    @required String prevTempPrivateKey,
     @required String bic,
     @required String accNumber,
     @required String accName,

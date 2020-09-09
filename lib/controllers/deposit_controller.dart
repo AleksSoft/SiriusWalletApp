@@ -1,5 +1,6 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
+import 'package:antares_wallet/repositories/profile_repository.dart';
 import 'package:antares_wallet/repositories/settings_repository.dart';
 import 'package:antares_wallet/repositories/wallet_repository.dart';
 import 'package:antares_wallet/services/utils/formatter.dart';
@@ -8,6 +9,8 @@ import 'package:antares_wallet/ui/pages/banking/deposit/blockchain_deposit_page.
 import 'package:antares_wallet/ui/pages/banking/deposit/card_deposit_page.dart';
 import 'package:antares_wallet/ui/pages/banking/deposit/card_deposit_web_page.dart';
 import 'package:antares_wallet/ui/pages/banking/deposit/swift_deposit_page.dart';
+import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_main.dart';
+import 'package:antares_wallet/ui/pages/root/root_controller.dart';
 import 'package:antares_wallet/ui/widgets/asset_list_tile.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';
 import 'package:flutter/material.dart';
@@ -68,8 +71,14 @@ class DepositController extends GetxController {
 
   Future<void> getSwiftCredentials() async {
     loading = true;
-    assetSwiftCreds =
-        await WalletRepository.getSwiftCredentials(selectedAsset?.id);
+    var result = await WalletRepository.getSwiftCredentials(
+      selectedAsset?.id,
+    );
+    if (result == null) {
+      _showSnackbar('Error loading data', true);
+    } else {
+      assetSwiftCreds = result;
+    }
     loading = false;
   }
 
@@ -82,10 +91,31 @@ class DepositController extends GetxController {
 
   Future<void> getCryptoDepositAddress() async {
     loading = true;
-    depositCryptoAddress = await WalletRepository.getCryptoDepositAddress(
-      selectedAsset?.id,
-    );
+    if (await tierValid()) {
+      depositCryptoAddress = await WalletRepository.getCryptoDepositAddress(
+        selectedAsset?.id,
+      );
+      Get.defaultDialog(
+        title: 'Attention!',
+        middleText:
+            'Please make sure that destination address and the tag are correct. If details are incorrect, funds will be lost.',
+        buttonColor: AppColors.dark,
+        confirmTextColor: AppColors.primary,
+        onConfirm: () {
+          Get.back();
+        },
+      );
+    } else {
+      RootController.con.pageIndex = 4;
+      Get.offNamed(UpgradeAccountMainPage.route);
+    }
     loading = false;
+  }
+
+  Future<bool> tierValid() async {
+    var tierObj = await ProfileRepository.getTierInfo();
+    return !tierObj.currentTier.tier.isNullOrBlank &&
+        tierObj.currentTier.tier != 'Beginner';
   }
 
   Future<void> sendBankTransferRequest() async {
@@ -225,16 +255,6 @@ class DepositController extends GetxController {
         break;
       case DepositMode.blockchain:
         Get.to(BlockchainDepositPage());
-        Get.defaultDialog(
-          title: 'Attention!',
-          middleText:
-              'Please make sure that destination address and the tag are correct. If details are incorrect, funds will be lost.',
-          buttonColor: AppColors.dark,
-          confirmTextColor: AppColors.primary,
-          onConfirm: () {
-            Get.back();
-          },
-        );
         await getCryptoDepositAddress();
         break;
       default:

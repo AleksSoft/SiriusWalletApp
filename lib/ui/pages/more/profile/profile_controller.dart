@@ -38,9 +38,9 @@ class ProfileController extends GetxController {
   String zipCodeValue;
 
   @override
-  void onInit() async {
+  void onReady() async {
+    super.onReady();
     await reloadData();
-    super.onInit();
   }
 
   Future<void> reloadData() async {

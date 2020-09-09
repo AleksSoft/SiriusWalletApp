@@ -64,7 +64,11 @@ class BlockchainWithdrawalPage extends StatelessWidget {
                       padding: const EdgeInsets.all(AppSizes.medium),
                       child: Text(
                         '${Formatter.currency(_.selectedAssetBalance.available, symbol: _.selectedAsset?.displayId)} available',
-                        style: Get.textTheme.caption,
+                        style: Get.textTheme.caption.copyWith(
+                          color: _.isAmountWithFeeAvailable
+                              ? AppColors.secondary
+                              : AppColors.red,
+                        ),
                         textAlign: TextAlign.left,
                       ),
                     ),
@@ -115,7 +119,13 @@ class BlockchainWithdrawalPage extends StatelessWidget {
                         ),
                         child: TextFormField(
                           controller: _.addressController,
-                          onChanged: (String value) => _.update(),
+                          onChanged: (String value) {
+                            _.addressObs.value = value;
+                            _.update();
+                          },
+                          autovalidate: true,
+                          validator: (s) =>
+                              _.isAddressValid ? null : 'Not valid',
                           decoration: InputDecoration(
                             labelText: 'Address',
                           ),
@@ -139,7 +149,13 @@ class BlockchainWithdrawalPage extends StatelessWidget {
                           ),
                           child: TextFormField(
                             controller: _.extController,
-                            onChanged: (String value) => _.update(),
+                            onChanged: (String value) {
+                              _.extAddressObs.value = value;
+                              _.update();
+                            },
+                            autovalidate: true,
+                            validator: (s) =>
+                                _.isExtAddressValid ? null : 'Not valid',
                             decoration: InputDecoration(
                               labelText:
                                   _.withdrawalCryptoInfo.addressExtensionTitle,

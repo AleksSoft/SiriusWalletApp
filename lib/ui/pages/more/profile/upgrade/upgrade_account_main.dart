@@ -121,28 +121,27 @@ class _LevelHeaderView extends StatelessWidget {
 }
 
 class _ListView extends StatelessWidget {
-  final c = ProfileController.con;
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 250,
       alignment: Alignment.center,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Obx(
-            () => Visibility(
-              visible: c.personalData.address.isNullOrBlank,
+      child: GetX<ProfileController>(
+        builder: (_) => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Visibility(
+              visible: _.personalData.address.isNullOrBlank,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: AppSizes.small),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
-                      c.hasAccountInfo
+                      _.hasAccountInfo
                           ? CupertinoIcons.check_mark_circled
                           : CupertinoIcons.circle,
-                      color: c.hasAccountInfo
+                      color: _.hasAccountInfo
                           ? AppColors.accent
                           : AppColors.secondary,
                       size: 22.0,
@@ -153,14 +152,14 @@ class _ListView extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-          for (var doc in c.tierInfo.nextTier.documents) _buildRow(doc)
-        ],
+            for (var doc in _.tierInfo.nextTier.documents) _buildRow(doc, _)
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildRow(String docType) {
+  Widget _buildRow(String docType, ProfileController c) {
     final String title = c.docTitle(docType);
     final bool checked = c.documentsMap[docType] != null;
     return Padding(

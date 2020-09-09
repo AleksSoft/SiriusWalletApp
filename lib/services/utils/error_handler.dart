@@ -22,8 +22,8 @@ class ErrorHandler {
         )
         .catchError((e) => _handleError(e, method));
     try {
-      if (response?.errors != null && response.errors.hasMessage()) {
-        _handleApiError(response.errors, future, method);
+      if (response?.error != null && response.error.hasMessage()) {
+        _handleApiError(response.error, future, method);
         return null;
       }
     } catch (e) {}

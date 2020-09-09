@@ -16,71 +16,74 @@ class SwiftWithdrawalResultPage extends StatelessWidget {
       ),
       body: SafeArea(
         child: GetBuilder<WithdrawalController>(
-          builder: (_) => Stack(
-            children: [
-              Visibility(
-                visible: _.loading,
-                child: AppUiHelpers.linearProgress,
-              ),
-              SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    ListTile(
-                      title: Text(
-                        Formatter.currency(
-                          _.amountController.text,
-                          symbol: _.selectedAsset?.displayId,
-                          maxDecimal: _.selectedAsset?.accuracy,
+          builder: (_) => AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            child: _.loading
+                ? Container(
+                    constraints: BoxConstraints.expand(),
+                    color: AppColors.primary,
+                    alignment: Alignment.center,
+                    child: AppUiHelpers.circularProgress,
+                  )
+                : SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        ListTile(
+                          title: Text(
+                            Formatter.currency(
+                              _.amountController.text,
+                              symbol: _.selectedAsset?.displayId,
+                              maxDecimal: _.selectedAsset?.accuracy,
+                            ),
+                          ),
+                          subtitle: Text('Deducted amount'),
                         ),
-                      ),
-                      subtitle: Text('Deducted amount'),
-                    ),
-                    ListTile(
-                      title: Text(
-                        Formatter.currency(
-                          _.fee.toString(),
-                          symbol: _.selectedAsset?.displayId,
-                          maxDecimal: _.selectedAsset?.accuracy,
+                        ListTile(
+                          title: Text(
+                            Formatter.currency(
+                              _.fee.toString(),
+                              symbol: _.selectedAsset?.displayId,
+                              maxDecimal: _.selectedAsset?.accuracy,
+                            ),
+                          ),
+                          subtitle: Text('Fee'),
                         ),
-                      ),
-                      subtitle: Text('Fee'),
+                        ListTile(
+                          title: Text(_.swiftController.text),
+                          subtitle: Text('Swift'),
+                        ),
+                        ListTile(
+                          title: Text(_.bankController.text),
+                          subtitle: Text('Name of the Bank'),
+                        ),
+                        ListTile(
+                          title: Text(_.ibanController.text),
+                          subtitle:
+                              Text('Beneficiary\'s Account number (IBAN)'),
+                        ),
+                        ListTile(
+                          title: Text(_.fullNameController.text),
+                          subtitle: Text('Name of the account holder'),
+                        ),
+                        ListTile(
+                          title: Text(
+                              '${_.addressController.text} ${_.zipController.text} ${_.cityController.text}'),
+                          subtitle: Text('Address of the account holder'),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(AppSizes.medium),
+                          child: CupertinoButton.filled(
+                            disabledColor: AppColors.secondary.withOpacity(0.7),
+                            onPressed: _.proceedAllowed
+                                ? () => _.confirmSwiftWithdrawal()
+                                : null,
+                            child: Text('Confirm'),
+                          ),
+                        ),
+                      ],
                     ),
-                    ListTile(
-                      title: Text(_.swiftController.text),
-                      subtitle: Text('Swift'),
-                    ),
-                    ListTile(
-                      title: Text(_.bankController.text),
-                      subtitle: Text('Name of the Bank'),
-                    ),
-                    ListTile(
-                      title: Text(_.ibanController.text),
-                      subtitle: Text('Beneficiary\'s Account number (IBAN)'),
-                    ),
-                    ListTile(
-                      title: Text(_.fullNameController.text),
-                      subtitle: Text('Name of the account holder'),
-                    ),
-                    ListTile(
-                      title: Text(
-                          '${_.addressController.text} ${_.zipController.text} ${_.cityController.text}'),
-                      subtitle: Text('Address of the account holder'),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(AppSizes.medium),
-                      child: CupertinoButton.filled(
-                        disabledColor: AppColors.secondary.withOpacity(0.7),
-                        onPressed: _.proceedAllowed
-                            ? () => _.confirmSwiftWithdrawal()
-                            : null,
-                        child: Text('Confirm'),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
+                  ),
           ),
         ),
       ),
