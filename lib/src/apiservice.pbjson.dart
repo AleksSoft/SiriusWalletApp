@@ -438,17 +438,8 @@ const BankTransferRequest$json = const {
 const BankCardPaymentUrlRequest$json = const {
   '1': 'BankCardPaymentUrlRequest',
   '2': const [
-    const {'1': 'address', '3': 1, '4': 1, '5': 9, '10': 'address'},
-    const {'1': 'amount', '3': 2, '4': 1, '5': 9, '10': 'amount'},
-    const {'1': 'assetId', '3': 3, '4': 1, '5': 9, '10': 'assetId'},
-    const {'1': 'city', '3': 4, '4': 1, '5': 9, '10': 'city'},
-    const {'1': 'country', '3': 5, '4': 1, '5': 9, '10': 'country'},
-    const {'1': 'email', '3': 6, '4': 1, '5': 9, '10': 'email'},
-    const {'1': 'firstName', '3': 7, '4': 1, '5': 9, '10': 'firstName'},
-    const {'1': 'lastName', '3': 8, '4': 1, '5': 9, '10': 'lastName'},
-    const {'1': 'phone', '3': 9, '4': 1, '5': 9, '10': 'phone'},
-    const {'1': 'zip', '3': 10, '4': 1, '5': 9, '10': 'zip'},
-    const {'1': 'depositOption', '3': 11, '4': 1, '5': 9, '10': 'depositOption'},
+    const {'1': 'amount', '3': 1, '4': 1, '5': 9, '10': 'amount'},
+    const {'1': 'assetId', '3': 2, '4': 1, '5': 9, '10': 'assetId'},
   ],
 };
 
@@ -466,6 +457,15 @@ const WithdrawalCryptoInfoRequest$json = const {
   ],
 };
 
+const CheckCryptoAddressRequest$json = const {
+  '1': 'CheckCryptoAddressRequest',
+  '2': const [
+    const {'1': 'assetId', '3': 1, '4': 1, '5': 9, '10': 'assetId'},
+    const {'1': 'address', '3': 2, '4': 1, '5': 9, '10': 'address'},
+    const {'1': 'addressExtension', '3': 3, '4': 1, '5': 9, '10': 'addressExtension'},
+  ],
+};
+
 const SwiftCashoutFeeRequest$json = const {
   '1': 'SwiftCashoutFeeRequest',
   '2': const [
@@ -474,37 +474,19 @@ const SwiftCashoutFeeRequest$json = const {
   ],
 };
 
-const OffchainChannelKeyRequest$json = const {
-  '1': 'OffchainChannelKeyRequest',
-  '2': const [
-    const {'1': 'assetId', '3': 1, '4': 1, '5': 9, '10': 'assetId'},
-  ],
-};
-
 const SwiftCashoutRequest$json = const {
   '1': 'SwiftCashoutRequest',
   '2': const [
     const {'1': 'amount', '3': 1, '4': 1, '5': 9, '10': 'amount'},
     const {'1': 'asset', '3': 2, '4': 1, '5': 9, '10': 'asset'},
-    const {'1': 'prevTempPrivateKey', '3': 3, '4': 1, '5': 9, '10': 'prevTempPrivateKey'},
-    const {'1': 'bic', '3': 4, '4': 1, '5': 9, '10': 'bic'},
-    const {'1': 'accNumber', '3': 5, '4': 1, '5': 9, '10': 'accNumber'},
-    const {'1': 'accName', '3': 6, '4': 1, '5': 9, '10': 'accName'},
-    const {'1': 'accHolderAddress', '3': 7, '4': 1, '5': 9, '10': 'accHolderAddress'},
-    const {'1': 'bankName', '3': 8, '4': 1, '5': 9, '10': 'bankName'},
-    const {'1': 'accHolderCountry', '3': 9, '4': 1, '5': 9, '10': 'accHolderCountry'},
-    const {'1': 'accHolderZipCode', '3': 10, '4': 1, '5': 9, '10': 'accHolderZipCode'},
-    const {'1': 'accHolderCity', '3': 11, '4': 1, '5': 9, '10': 'accHolderCity'},
-  ],
-};
-
-const SwiftCashoutFinalizeRequest$json = const {
-  '1': 'SwiftCashoutFinalizeRequest',
-  '2': const [
-    const {'1': 'transferId', '3': 1, '4': 1, '5': 9, '10': 'transferId'},
-    const {'1': 'clientRevokePubKey', '3': 2, '4': 1, '5': 9, '10': 'clientRevokePubKey'},
-    const {'1': 'clientRevokeEncryptedPrivateKey', '3': 3, '4': 1, '5': 9, '10': 'clientRevokeEncryptedPrivateKey'},
-    const {'1': 'signedTransferTransaction', '3': 4, '4': 1, '5': 9, '10': 'signedTransferTransaction'},
+    const {'1': 'bic', '3': 3, '4': 1, '5': 9, '10': 'bic'},
+    const {'1': 'accNumber', '3': 4, '4': 1, '5': 9, '10': 'accNumber'},
+    const {'1': 'accName', '3': 5, '4': 1, '5': 9, '10': 'accName'},
+    const {'1': 'accHolderAddress', '3': 6, '4': 1, '5': 9, '10': 'accHolderAddress'},
+    const {'1': 'bankName', '3': 7, '4': 1, '5': 9, '10': 'bankName'},
+    const {'1': 'accHolderCountry', '3': 8, '4': 1, '5': 9, '10': 'accHolderCountry'},
+    const {'1': 'accHolderZipCode', '3': 9, '4': 1, '5': 9, '10': 'accHolderZipCode'},
+    const {'1': 'accHolderCity', '3': 10, '4': 1, '5': 9, '10': 'accHolderCity'},
   ],
 };
 
@@ -824,7 +806,7 @@ const OrderModel$json = const {
   '1': 'OrderModel',
   '2': const [
     const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
-    const {'1': 'dateTime', '3': 2, '4': 1, '5': 9, '10': 'dateTime'},
+    const {'1': 'dateTime', '3': 2, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'dateTime'},
     const {'1': 'orderType', '3': 3, '4': 1, '5': 9, '10': 'orderType'},
     const {'1': 'volume', '3': 4, '4': 1, '5': 9, '10': 'volume'},
     const {'1': 'price', '3': 5, '4': 1, '5': 9, '10': 'price'},
@@ -838,7 +820,7 @@ const LimitOrderModel$json = const {
   '1': 'LimitOrderModel',
   '2': const [
     const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
-    const {'1': 'dateTime', '3': 2, '4': 1, '5': 9, '10': 'dateTime'},
+    const {'1': 'dateTime', '3': 2, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'dateTime'},
     const {'1': 'orderType', '3': 3, '4': 1, '5': 9, '10': 'orderType'},
     const {'1': 'volume', '3': 4, '4': 1, '5': 9, '10': 'volume'},
     const {'1': 'price', '3': 5, '4': 1, '5': 9, '10': 'price'},
@@ -961,7 +943,7 @@ const PublicTrade$json = const {
     const {'1': 'dateTime', '3': 3, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'dateTime'},
     const {'1': 'volume', '3': 4, '4': 1, '5': 9, '10': 'volume'},
     const {'1': 'price', '3': 5, '4': 1, '5': 9, '10': 'price'},
-    const {'1': 'action', '3': 6, '4': 1, '5': 9, '10': 'action'},
+    const {'1': 'side', '3': 6, '4': 1, '5': 9, '10': 'side'},
   ],
 };
 
@@ -1322,6 +1304,22 @@ const EthereumSettingsResponse_BitcoinFee$json = const {
   ],
 };
 
+const CheckCryptoAddressResponse$json = const {
+  '1': 'CheckCryptoAddressResponse',
+  '2': const [
+    const {'1': 'result', '3': 1, '4': 1, '5': 11, '6': '.antaresWallet.CheckCryptoAddressResponse.CheckCryptoAddressPayload', '10': 'result'},
+    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorV1', '10': 'error'},
+  ],
+  '3': const [CheckCryptoAddressResponse_CheckCryptoAddressPayload$json],
+};
+
+const CheckCryptoAddressResponse_CheckCryptoAddressPayload$json = const {
+  '1': 'CheckCryptoAddressPayload',
+  '2': const [
+    const {'1': 'isValid', '3': 1, '4': 1, '5': 8, '10': 'isValid'},
+  ],
+};
+
 const CryptoDepositAddressResponse$json = const {
   '1': 'CryptoDepositAddressResponse',
   '2': const [
@@ -1381,22 +1379,6 @@ const SwiftCashoutInfoResponse_SwiftCashoutInfo$json = const {
   ],
 };
 
-const OffchainChannelKeyResponse$json = const {
-  '1': 'OffchainChannelKeyResponse',
-  '2': const [
-    const {'1': 'result', '3': 1, '4': 1, '5': 11, '6': '.antaresWallet.OffchainChannelKeyResponse.OffchainChannel', '10': 'result'},
-    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorV1', '10': 'error'},
-  ],
-  '3': const [OffchainChannelKeyResponse_OffchainChannel$json],
-};
-
-const OffchainChannelKeyResponse_OffchainChannel$json = const {
-  '1': 'OffchainChannel',
-  '2': const [
-    const {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-  ],
-};
-
 const SwiftCashoutResponse$json = const {
   '1': 'SwiftCashoutResponse',
   '2': const [
@@ -1410,43 +1392,6 @@ const SwiftCashoutResponse_SwiftCashoutData$json = const {
   '1': 'SwiftCashoutData',
   '2': const [
     const {'1': 'transferId', '3': 1, '4': 1, '5': 9, '10': 'transferId'},
-    const {'1': 'transactionHex', '3': 2, '4': 1, '5': 9, '10': 'transactionHex'},
-    const {'1': 'operationResult', '3': 3, '4': 1, '5': 9, '10': 'operationResult'},
-  ],
-};
-
-const SwiftCashoutFinalizeResponse$json = const {
-  '1': 'SwiftCashoutFinalizeResponse',
-  '2': const [
-    const {'1': 'result', '3': 1, '4': 1, '5': 11, '6': '.antaresWallet.SwiftCashoutFinalizeResponse.OffchainTradeRespone', '10': 'result'},
-    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorV1', '10': 'error'},
-  ],
-  '3': const [SwiftCashoutFinalizeResponse_OffchainTradeRespone$json, SwiftCashoutFinalizeResponse_OffchainOrder$json],
-};
-
-const SwiftCashoutFinalizeResponse_OffchainTradeRespone$json = const {
-  '1': 'OffchainTradeRespone',
-  '2': const [
-    const {'1': 'transferId', '3': 1, '4': 1, '5': 9, '10': 'transferId'},
-    const {'1': 'transactionHex', '3': 2, '4': 1, '5': 9, '10': 'transactionHex'},
-    const {'1': 'operationResult', '3': 3, '4': 1, '5': 9, '10': 'operationResult'},
-    const {'1': 'order', '3': 4, '4': 1, '5': 11, '6': '.antaresWallet.SwiftCashoutFinalizeResponse.OffchainOrder', '10': 'order'},
-  ],
-};
-
-const SwiftCashoutFinalizeResponse_OffchainOrder$json = const {
-  '1': 'OffchainOrder',
-  '2': const [
-    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
-    const {'1': 'dateTime', '3': 2, '4': 1, '5': 9, '10': 'dateTime'},
-    const {'1': 'orderType', '3': 3, '4': 1, '5': 9, '10': 'orderType'},
-    const {'1': 'volume', '3': 4, '4': 1, '5': 9, '10': 'volume'},
-    const {'1': 'price', '3': 5, '4': 1, '5': 9, '10': 'price'},
-    const {'1': 'asset', '3': 6, '4': 1, '5': 9, '10': 'asset'},
-    const {'1': 'assetPair', '3': 7, '4': 1, '5': 9, '10': 'assetPair'},
-    const {'1': 'totalCost', '3': 8, '4': 1, '5': 9, '10': 'totalCost'},
-    const {'1': 'remainingVolume', '3': 9, '4': 1, '5': 9, '10': 'remainingVolume'},
-    const {'1': 'remainingOtherVolume', '3': 10, '4': 1, '5': 9, '10': 'remainingOtherVolume'},
   ],
 };
 
@@ -1625,7 +1570,7 @@ const UpgradeRequest$json = const {
   '1': 'UpgradeRequest',
   '2': const [
     const {'1': 'tier', '3': 1, '4': 1, '5': 9, '10': 'tier'},
-    const {'1': 'submitDate', '3': 2, '4': 1, '5': 9, '10': 'submitDate'},
+    const {'1': 'submitDate', '3': 2, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'submitDate'},
     const {'1': 'status', '3': 3, '4': 1, '5': 9, '10': 'status'},
     const {'1': 'limit', '3': 4, '4': 1, '5': 9, '10': 'limit'},
   ],
@@ -1659,6 +1604,7 @@ const Asset$json = const {
     const {'1': 'isTrusted', '3': 14, '4': 1, '5': 8, '10': 'isTrusted'},
     const {'1': 'canBeBase', '3': 15, '4': 1, '5': 8, '10': 'canBeBase'},
     const {'1': 'iconUrl', '3': 16, '4': 1, '5': 9, '10': 'iconUrl'},
+    const {'1': 'popularPairs', '3': 17, '4': 3, '5': 9, '10': 'popularPairs'},
   ],
 };
 

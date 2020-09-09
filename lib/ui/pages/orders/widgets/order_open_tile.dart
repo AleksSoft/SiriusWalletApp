@@ -37,7 +37,9 @@ class OrderOpenData {
         this.price = order.price,
         this.orderType = order.orderType,
         this.date = DateFormat().addPattern('dd.MM.yy HH:mm:ss').format(
-              DateTime.parse(order.dateTime),
+              DateTime.fromMillisecondsSinceEpoch(
+                order.dateTime.seconds.toInt() * 1000,
+              ),
             );
 
   int get filled {

@@ -149,6 +149,10 @@ class ApiServiceClient extends $grpc.Client {
           '/antaresWallet.ApiService/ProlongateSession',
           ($0.Empty value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $1.EmptyResponse.fromBuffer(value));
+  static final _$logout = $grpc.ClientMethod<$0.Empty, $1.EmptyResponse>(
+      '/antaresWallet.ApiService/Logout',
+      ($0.Empty value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $1.EmptyResponse.fromBuffer(value));
   static final _$getOrders =
       $grpc.ClientMethod<$1.LimitOrdersRequest, $1.LimitOrdersResponse>(
           '/antaresWallet.ApiService/GetOrders',
@@ -354,6 +358,12 @@ class ApiServiceClient extends $grpc.Client {
       ($1.WithdrawalCryptoInfoRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) =>
           $1.WithdrawalCryptoInfoResponse.fromBuffer(value));
+  static final _$isCryptoAddressValid = $grpc.ClientMethod<
+          $1.CheckCryptoAddressRequest, $1.CheckCryptoAddressResponse>(
+      '/antaresWallet.ApiService/IsCryptoAddressValid',
+      ($1.CheckCryptoAddressRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) =>
+          $1.CheckCryptoAddressResponse.fromBuffer(value));
   static final _$getSwiftCashoutInfo =
       $grpc.ClientMethod<$0.Empty, $1.SwiftCashoutInfoResponse>(
           '/antaresWallet.ApiService/GetSwiftCashoutInfo',
@@ -366,24 +376,12 @@ class ApiServiceClient extends $grpc.Client {
           ($1.SwiftCashoutFeeRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $1.SwiftCashoutFeeResponse.fromBuffer(value));
-  static final _$getOffchainChannelKey = $grpc.ClientMethod<
-          $1.OffchainChannelKeyRequest, $1.OffchainChannelKeyResponse>(
-      '/antaresWallet.ApiService/GetOffchainChannelKey',
-      ($1.OffchainChannelKeyRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) =>
-          $1.OffchainChannelKeyResponse.fromBuffer(value));
   static final _$swiftCashout =
       $grpc.ClientMethod<$1.SwiftCashoutRequest, $1.SwiftCashoutResponse>(
           '/antaresWallet.ApiService/SwiftCashout',
           ($1.SwiftCashoutRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $1.SwiftCashoutResponse.fromBuffer(value));
-  static final _$finalizeSwiftCashout = $grpc.ClientMethod<
-          $1.SwiftCashoutFinalizeRequest, $1.SwiftCashoutFinalizeResponse>(
-      '/antaresWallet.ApiService/FinalizeSwiftCashout',
-      ($1.SwiftCashoutFinalizeRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) =>
-          $1.SwiftCashoutFinalizeResponse.fromBuffer(value));
   static final _$cryptoCashout =
       $grpc.ClientMethod<$1.CryptoCashoutRequest, $1.EmptyResponse>(
           '/antaresWallet.ApiService/CryptoCashout',
@@ -639,6 +637,13 @@ class ApiServiceClient extends $grpc.Client {
       {$grpc.CallOptions options}) {
     final call = $createCall(
         _$prolongateSession, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
+  $grpc.ResponseFuture<$1.EmptyResponse> logout($0.Empty request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(_$logout, $async.Stream.fromIterable([request]),
         options: options);
     return $grpc.ResponseFuture(call);
   }
@@ -954,6 +959,15 @@ class ApiServiceClient extends $grpc.Client {
     return $grpc.ResponseFuture(call);
   }
 
+  $grpc.ResponseFuture<$1.CheckCryptoAddressResponse> isCryptoAddressValid(
+      $1.CheckCryptoAddressRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$isCryptoAddressValid, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
   $grpc.ResponseFuture<$1.SwiftCashoutInfoResponse> getSwiftCashoutInfo(
       $0.Empty request,
       {$grpc.CallOptions options}) {
@@ -972,29 +986,11 @@ class ApiServiceClient extends $grpc.Client {
     return $grpc.ResponseFuture(call);
   }
 
-  $grpc.ResponseFuture<$1.OffchainChannelKeyResponse> getOffchainChannelKey(
-      $1.OffchainChannelKeyRequest request,
-      {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getOffchainChannelKey, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
-  }
-
   $grpc.ResponseFuture<$1.SwiftCashoutResponse> swiftCashout(
       $1.SwiftCashoutRequest request,
       {$grpc.CallOptions options}) {
     final call = $createCall(
         _$swiftCashout, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
-  }
-
-  $grpc.ResponseFuture<$1.SwiftCashoutFinalizeResponse> finalizeSwiftCashout(
-      $1.SwiftCashoutFinalizeRequest request,
-      {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$finalizeSwiftCashout, $async.Stream.fromIterable([request]),
         options: options);
     return $grpc.ResponseFuture(call);
   }
@@ -1271,6 +1267,13 @@ abstract class ApiServiceBase extends $grpc.Service {
     $addMethod($grpc.ServiceMethod<$0.Empty, $1.EmptyResponse>(
         'ProlongateSession',
         prolongateSession_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
+        ($1.EmptyResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.Empty, $1.EmptyResponse>(
+        'Logout',
+        logout_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
@@ -1561,6 +1564,15 @@ abstract class ApiServiceBase extends $grpc.Service {
         ($core.List<$core.int> value) =>
             $1.WithdrawalCryptoInfoRequest.fromBuffer(value),
         ($1.WithdrawalCryptoInfoResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.CheckCryptoAddressRequest,
+            $1.CheckCryptoAddressResponse>(
+        'IsCryptoAddressValid',
+        isCryptoAddressValid_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $1.CheckCryptoAddressRequest.fromBuffer(value),
+        ($1.CheckCryptoAddressResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.Empty, $1.SwiftCashoutInfoResponse>(
         'GetSwiftCashoutInfo',
         getSwiftCashoutInfo_Pre,
@@ -1577,15 +1589,6 @@ abstract class ApiServiceBase extends $grpc.Service {
         ($core.List<$core.int> value) =>
             $1.SwiftCashoutFeeRequest.fromBuffer(value),
         ($1.SwiftCashoutFeeResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$1.OffchainChannelKeyRequest,
-            $1.OffchainChannelKeyResponse>(
-        'GetOffchainChannelKey',
-        getOffchainChannelKey_Pre,
-        false,
-        false,
-        ($core.List<$core.int> value) =>
-            $1.OffchainChannelKeyRequest.fromBuffer(value),
-        ($1.OffchainChannelKeyResponse value) => value.writeToBuffer()));
     $addMethod(
         $grpc.ServiceMethod<$1.SwiftCashoutRequest, $1.SwiftCashoutResponse>(
             'SwiftCashout',
@@ -1595,15 +1598,6 @@ abstract class ApiServiceBase extends $grpc.Service {
             ($core.List<$core.int> value) =>
                 $1.SwiftCashoutRequest.fromBuffer(value),
             ($1.SwiftCashoutResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$1.SwiftCashoutFinalizeRequest,
-            $1.SwiftCashoutFinalizeResponse>(
-        'FinalizeSwiftCashout',
-        finalizeSwiftCashout_Pre,
-        false,
-        false,
-        ($core.List<$core.int> value) =>
-            $1.SwiftCashoutFinalizeRequest.fromBuffer(value),
-        ($1.SwiftCashoutFinalizeResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$1.CryptoCashoutRequest, $1.EmptyResponse>(
         'CryptoCashout',
         cryptoCashout_Pre,
@@ -1809,6 +1803,11 @@ abstract class ApiServiceBase extends $grpc.Service {
     return prolongateSession(call, await request);
   }
 
+  $async.Future<$1.EmptyResponse> logout_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.Empty> request) async {
+    return logout(call, await request);
+  }
+
   $async.Future<$1.LimitOrdersResponse> getOrders_Pre($grpc.ServiceCall call,
       $async.Future<$1.LimitOrdersRequest> request) async {
     return getOrders(call, await request);
@@ -2004,6 +2003,12 @@ abstract class ApiServiceBase extends $grpc.Service {
     return getWithdrawalCryptoInfo(call, await request);
   }
 
+  $async.Future<$1.CheckCryptoAddressResponse> isCryptoAddressValid_Pre(
+      $grpc.ServiceCall call,
+      $async.Future<$1.CheckCryptoAddressRequest> request) async {
+    return isCryptoAddressValid(call, await request);
+  }
+
   $async.Future<$1.SwiftCashoutInfoResponse> getSwiftCashoutInfo_Pre(
       $grpc.ServiceCall call, $async.Future<$0.Empty> request) async {
     return getSwiftCashoutInfo(call, await request);
@@ -2015,22 +2020,10 @@ abstract class ApiServiceBase extends $grpc.Service {
     return getSwiftCashoutFee(call, await request);
   }
 
-  $async.Future<$1.OffchainChannelKeyResponse> getOffchainChannelKey_Pre(
-      $grpc.ServiceCall call,
-      $async.Future<$1.OffchainChannelKeyRequest> request) async {
-    return getOffchainChannelKey(call, await request);
-  }
-
   $async.Future<$1.SwiftCashoutResponse> swiftCashout_Pre(
       $grpc.ServiceCall call,
       $async.Future<$1.SwiftCashoutRequest> request) async {
     return swiftCashout(call, await request);
-  }
-
-  $async.Future<$1.SwiftCashoutFinalizeResponse> finalizeSwiftCashout_Pre(
-      $grpc.ServiceCall call,
-      $async.Future<$1.SwiftCashoutFinalizeRequest> request) async {
-    return finalizeSwiftCashout(call, await request);
   }
 
   $async.Future<$1.EmptyResponse> cryptoCashout_Pre($grpc.ServiceCall call,
@@ -2134,6 +2127,8 @@ abstract class ApiServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $1.CheckSessionRequest request);
   $async.Future<$1.EmptyResponse> prolongateSession(
       $grpc.ServiceCall call, $0.Empty request);
+  $async.Future<$1.EmptyResponse> logout(
+      $grpc.ServiceCall call, $0.Empty request);
   $async.Future<$1.LimitOrdersResponse> getOrders(
       $grpc.ServiceCall call, $1.LimitOrdersRequest request);
   $async.Future<$1.PlaceOrderResponse> placeLimitOrder(
@@ -2206,16 +2201,14 @@ abstract class ApiServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $1.CryptoDepositAddressRequest request);
   $async.Future<$1.WithdrawalCryptoInfoResponse> getWithdrawalCryptoInfo(
       $grpc.ServiceCall call, $1.WithdrawalCryptoInfoRequest request);
+  $async.Future<$1.CheckCryptoAddressResponse> isCryptoAddressValid(
+      $grpc.ServiceCall call, $1.CheckCryptoAddressRequest request);
   $async.Future<$1.SwiftCashoutInfoResponse> getSwiftCashoutInfo(
       $grpc.ServiceCall call, $0.Empty request);
   $async.Future<$1.SwiftCashoutFeeResponse> getSwiftCashoutFee(
       $grpc.ServiceCall call, $1.SwiftCashoutFeeRequest request);
-  $async.Future<$1.OffchainChannelKeyResponse> getOffchainChannelKey(
-      $grpc.ServiceCall call, $1.OffchainChannelKeyRequest request);
   $async.Future<$1.SwiftCashoutResponse> swiftCashout(
       $grpc.ServiceCall call, $1.SwiftCashoutRequest request);
-  $async.Future<$1.SwiftCashoutFinalizeResponse> finalizeSwiftCashout(
-      $grpc.ServiceCall call, $1.SwiftCashoutFinalizeRequest request);
   $async.Future<$1.EmptyResponse> cryptoCashout(
       $grpc.ServiceCall call, $1.CryptoCashoutRequest request);
   $async.Future<$1.AppSettingsResponse> getAppSettings(
