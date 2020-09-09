@@ -49,6 +49,7 @@ dependencies:
   chips_choice: ^1.2.0
   expandable: ^4.1.4
   pinput: ^0.2.5
+  flutter_svg: ^0.18.1
   flutter_html: ^1.0.2
   webview_flutter: ^0.3.22+1
   transparent_image: ^1.0.0

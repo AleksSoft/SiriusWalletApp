@@ -7,7 +7,8 @@ import 'package:antares_wallet/services/utils/formatter.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:transparent_image/transparent_image.dart';
+
+import 'asset_icon.dart';
 
 class AssetListTile extends StatelessWidget {
   final VoidCallback onTap;
@@ -31,16 +32,7 @@ class AssetListTile extends StatelessWidget {
             horizontal: AppSizes.medium,
             vertical: AppSizes.extraSmall,
           ),
-          leading: FadeInImage.memoryNetwork(
-            placeholder: kTransparentImage,
-            image: asset.iconUrl,
-            height: AppSizes.large,
-            width: AppSizes.large,
-            imageErrorBuilder: (_, error, ___) => SizedBox(
-              height: AppSizes.large,
-              width: AppSizes.large,
-            ),
-          ),
+          leading: AssetIcon(asset.iconUrl, AppSizes.large),
           title: Text(
             asset.name,
             maxLines: 1,

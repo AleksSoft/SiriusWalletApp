@@ -11,7 +11,6 @@ import 'package:antares_wallet/ui/pages/orders/order_details/order_details_page.
 import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:logger/logger.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'candle_chart_page.dart';
@@ -20,8 +19,6 @@ class TradingController extends GetxController {
   static TradingController get con => Get.find();
   static final _api = Get.find<ApiService>();
   static final candleTypes = [CandleType.Mid, CandleType.Trades];
-
-  final _logger = Get.find<Logger>();
 
   StreamSubscription _tradesSubscr;
   StreamSubscription _orderbookSubscr;

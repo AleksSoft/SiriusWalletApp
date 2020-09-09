@@ -4,12 +4,12 @@ import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/services/utils/formatter.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/portfolio/transaction_details/transaction_details_controller.dart';
+import 'package:antares_wallet/ui/widgets/asset_icon.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
-import 'package:transparent_image/transparent_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TransactionDetailsPage extends StatelessWidget {
@@ -33,19 +33,7 @@ class TransactionDetailsPage extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        AnimatedSwitcher(
-                          duration: const Duration(microseconds: 300),
-                          child: FadeInImage.memoryNetwork(
-                            placeholder: kTransparentImage,
-                            image: _.asset.iconUrl,
-                            height: 56.0,
-                            width: 56.0,
-                            imageErrorBuilder: (_, error, ___) => SizedBox(
-                              height: 56.0,
-                              width: 56.0,
-                            ),
-                          ),
-                        ),
+                        AssetIcon(_.asset.iconUrl, 56.0),
                         AppUiHelpers.hSpaceSmall,
                         Text(
                           _.asset.displayId,

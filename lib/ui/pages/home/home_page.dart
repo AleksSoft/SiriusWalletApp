@@ -9,12 +9,12 @@ import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/more/support/support_page.dart';
 import 'package:antares_wallet/ui/pages/root/root_controller.dart';
 import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
+import 'package:antares_wallet/ui/widgets/asset_icon.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_rich_text.dart';
 import 'package:antares_wallet/ui/widgets/default_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 import 'home_controller.dart';
 
@@ -384,16 +384,7 @@ class _ExchangeView extends StatelessWidget {
                   displayId1: model.pairBaseAsset.displayId,
                   displayId2: model.pairQuotingAsset.displayId,
                 ),
-                FadeInImage.memoryNetwork(
-                  placeholder: kTransparentImage,
-                  image: model.pairBaseAsset.iconUrl,
-                  height: 20.0,
-                  width: 20.0,
-                  imageErrorBuilder: (_, error, ___) => SizedBox(
-                    height: 20.0,
-                    width: 20.0,
-                  ),
-                ),
+                AssetIcon(model.pairBaseAsset.iconUrl, 20.0),
               ],
             ),
             Text(
@@ -514,16 +505,7 @@ class _MyLykkeView extends StatelessWidget {
       subtitle: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          FadeInImage.memoryNetwork(
-            placeholder: kTransparentImage,
-            image: asset.iconUrl,
-            height: AppSizes.medium,
-            width: AppSizes.medium,
-            imageErrorBuilder: (_, error, ___) => SizedBox(
-              height: AppSizes.medium,
-              width: AppSizes.medium,
-            ),
-          ),
+          AssetIcon(asset.iconUrl, AppSizes.medium),
           AppUiHelpers.hSpaceExtraSmall,
           Text(
             asset.name,

@@ -1,11 +1,11 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:antares_wallet/ui/widgets/asset_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:search_page/search_page.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 import 'select_asset_controller.dart';
 
@@ -69,16 +69,7 @@ class _AssetTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: FadeInImage.memoryNetwork(
-        placeholder: kTransparentImage,
-        image: asset.iconUrl,
-        height: AppSizes.extraLarge,
-        width: AppSizes.extraLarge,
-        imageErrorBuilder: (_, error, ___) => SizedBox(
-          height: AppSizes.extraLarge,
-          width: AppSizes.extraLarge,
-        ),
-      ),
+      leading: AssetIcon(asset.iconUrl, AppSizes.extraLarge),
       title: Text(asset.name),
       subtitle: Text(asset.displayId),
       trailing: Visibility(
