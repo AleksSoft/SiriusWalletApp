@@ -142,13 +142,18 @@ class OrderDetailsController extends GetxController {
       if (isBuy) {
         return asksVolumeSum < amountDouble;
       } else {
-        return false;
+        return bidsVolumeSum < amountDouble;
       }
     }
     return false;
   }
 
   double get asksVolumeSum => asks.fold(
+        0.0,
+        (prev, curr) => prev + double.tryParse(curr.v) ?? 0.0,
+      );
+
+  double get bidsVolumeSum => bids.fold(
         0.0,
         (prev, curr) => prev + double.tryParse(curr.v) ?? 0.0,
       );
