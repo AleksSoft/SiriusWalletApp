@@ -103,19 +103,9 @@ class DepositController extends GetxController {
   }
 
   Future<void> proceedCardDeposit() async {
-    var cardPaymentDetails = await WalletRepository.getBankCardPaymentDetails();
     var cardPaymentUrl = await WalletRepository.getBankCardPaymentUrl(
-      address: cardPaymentDetails.address,
       amount: amountValue,
       assetId: selectedAsset.id,
-      city: cardPaymentDetails.city,
-      country: cardPaymentDetails.country,
-      email: cardPaymentDetails.email,
-      firstName: cardPaymentDetails.firstName,
-      lastName: cardPaymentDetails.lastName,
-      phone: cardPaymentDetails.phone,
-      zip: cardPaymentDetails.zip,
-      depositOption: 'BankCard',
     );
     if (cardPaymentUrl != null) {
       Get.off(CardDepositWebPage(cardPaymentUrl?.url));
@@ -229,6 +219,7 @@ class DepositController extends GetxController {
         await getSwiftCredentials();
         break;
       case DepositMode.card:
+        // var cardPaymentDetails = await WalletRepository.getBankCardPaymentDetails();
         Get.to(CardDepositPage());
         await getCardsFee();
         break;

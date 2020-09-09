@@ -8,6 +8,23 @@ import 'package:get/get.dart';
 class WalletRepository {
   static final _api = Get.find<ApiService>();
 
+  static Future<bool> isCryptoAddressValid({
+    @required String assetId,
+    String address,
+    String addressExtension,
+  }) async {
+    final response = await ErrorHandler.safeCall(
+      () => _api.clientSecure.isCryptoAddressValid(
+        CheckCryptoAddressRequest()
+          ..assetId = assetId
+          ..address = address ?? ''
+          ..addressExtension = addressExtension ?? '',
+      ),
+      method: 'isCryptoAddressValid',
+    );
+    return response?.result?.isValid ?? false;
+  }
+
   static Future<SwiftCredentialsResponse_SwiftCredentials> getSwiftCredentials(
       String assetId) async {
     final response = await ErrorHandler.safeCall(
@@ -41,18 +58,6 @@ class WalletRepository {
       method: 'getSwiftCashoutFee',
     );
     return response?.result ?? SwiftCashoutFeeResponse_SwiftCashoutFee();
-  }
-
-  static Future<String> getOffchainChannelKey({
-    @required String assetId,
-  }) async {
-    final response = await ErrorHandler.safeCall(
-      () => _api.clientSecure.getOffchainChannelKey(
-        OffchainChannelKeyRequest()..assetId = assetId,
-      ),
-      method: 'getOffchainChannelKey',
-    );
-    return response?.result?.key ?? '';
   }
 
   static Future<BankCardPaymentDetailsResponse_BankCardPaymentDetails>
@@ -106,32 +111,14 @@ class WalletRepository {
 
   static Future<BankCardPaymentUrlResponse_BankCardPaymentUrl>
       getBankCardPaymentUrl({
-    @required String address,
     @required String amount,
     @required String assetId,
-    @required String city,
-    @required String country,
-    @required String email,
-    @required String firstName,
-    @required String lastName,
-    @required String phone,
-    @required String zip,
-    @required String depositOption,
   }) async {
     final response = await ErrorHandler.safeCall(
       () => _api.clientSecure.getBankCardPaymentUrl(
         BankCardPaymentUrlRequest()
-          ..address = address
           ..amount = amount
-          ..assetId = assetId
-          ..city = city
-          ..country = country
-          ..email = email
-          ..firstName = firstName
-          ..lastName = lastName
-          ..phone = phone
-          ..zip = zip
-          ..depositOption = depositOption,
+          ..assetId = assetId,
       ),
       method: 'getBankCardPaymentUrl',
     );
@@ -175,7 +162,6 @@ class WalletRepository {
         SwiftCashoutRequest()
           ..amount = amount
           ..asset = asset
-          ..prevTempPrivateKey = prevTempPrivateKey
           ..bic = bic
           ..accNumber = accNumber
           ..accName = accName
@@ -188,26 +174,5 @@ class WalletRepository {
       method: 'swiftCashout',
     );
     return response?.result ?? SwiftCashoutResponse_SwiftCashoutData();
-  }
-
-  static Future<SwiftCashoutFinalizeResponse_OffchainTradeRespone>
-      finalizeSwiftCashout({
-    @required String transferId,
-    @required String clientRevokePubKey,
-    @required String clientRevokeEncryptedPrivateKey,
-    @required String signedTransferTransaction,
-  }) async {
-    final response = await ErrorHandler.safeCall(
-      () => _api.clientSecure.finalizeSwiftCashout(
-        SwiftCashoutFinalizeRequest()
-          ..transferId = transferId
-          ..clientRevokePubKey = clientRevokePubKey
-          ..clientRevokeEncryptedPrivateKey = clientRevokeEncryptedPrivateKey
-          ..signedTransferTransaction = signedTransferTransaction,
-      ),
-      method: 'finalizeSwiftCashout',
-    );
-    return response?.result ??
-        SwiftCashoutFinalizeResponse_OffchainTradeRespone();
   }
 }

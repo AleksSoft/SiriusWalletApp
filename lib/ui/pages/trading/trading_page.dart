@@ -436,7 +436,7 @@ class _Tradelog extends StatelessWidget {
                             a.dateTime.seconds.toInt() * 1000,
                           ),
                         ),
-                        action: a.action,
+                        action: a.side,
                       );
                     }
                   },
