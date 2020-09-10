@@ -153,6 +153,7 @@ class WithdrawalController extends GetxController {
   }
 
   Future<void> getSwiftFee() async {
+    await getCountry();
     String feeSize = (await WalletRepository.getSwiftCashoutFee(
       assetId: selectedAsset?.id,
       countryCode: _countryCode,

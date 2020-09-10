@@ -7,13 +7,13 @@ import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
 import 'package:antares_wallet/ui/pages/register/register_page.dart';
 import 'package:antares_wallet/ui/pages/root/root_page.dart';
+import 'package:cross_local_storage/cross_local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 class LoginController extends GetxController {
   static LoginController get con => Get.find();
-  final _storage = GetStorage();
+  final _storage = Get.find<LocalStorageInterface>();
 
   final pageViewController = PageController(initialPage: 0);
 
@@ -45,7 +45,7 @@ class LoginController extends GetxController {
   set currentBaseUrl(String url) {
     if (url != currentBaseUrl) {
       _currentBaseUrl.value = url;
-      _storage.write(AppStorageKeys.baseUrl, url);
+      _storage.setString(AppStorageKeys.baseUrl, url);
     }
   }
 
@@ -58,7 +58,7 @@ class LoginController extends GetxController {
   @override
   void onReady() async {
     super.onReady();
-    String sessionId = _storage.read(AppStorageKeys.token);
+    String sessionId = _storage.getString(AppStorageKeys.token);
     if (!sessionId.isNullOrBlank) {
       _verifyPin(sessionId).whenComplete(() => loading = false);
     } else {
@@ -144,12 +144,12 @@ class LoginController extends GetxController {
 
   Future _verifyPin(String token) async {
     loading = true;
-    _storage.write(AppStorageKeys.token, token);
+    _storage.setString(AppStorageKeys.token, token);
     var pinCorrect = (await Get.toNamed(LocalAuthPage.route)) ?? false;
     if (pinCorrect) {
       Get.offAllNamed(RootPage.route);
     } else {
-      _storage.erase().whenComplete(() {
+      _storage.clear().whenComplete(() {
         Get.rawSnackbar(
           message: 'Pin not verified',
           backgroundColor: AppColors.red,

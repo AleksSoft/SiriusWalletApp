@@ -3,10 +3,10 @@ import 'package:antares_wallet/app/ui/app_themes.dart';
 import 'package:antares_wallet/app/ui/app_translations.dart';
 import 'package:antares_wallet/bindings/initial_binding.dart';
 import 'package:antares_wallet/ui/pages/start/start_page.dart';
+import 'package:cross_local_storage/cross_local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:syncfusion_flutter_core/core.dart';
 
 void main() async {
@@ -21,7 +21,7 @@ void main() async {
   );
 
   // Initialize storage
-  await GetStorage.init();
+  await Get.putAsync<LocalStorageInterface>(() => LocalStorage.getInstance());
 
   runApp(
     GestureDetector(

@@ -2,15 +2,15 @@ import 'package:antares_wallet/app/common/app_storage_keys.dart';
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/repositories/session_repository.dart';
 import 'package:antares_wallet/services/local_auth_service.dart';
+import 'package:cross_local_storage/cross_local_storage.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 enum PinViewState { DEFAULT, CREATE_PIN, REPEAT_PIN }
 
 class LocalAuthController extends GetxController {
   static LocalAuthController get con => Get.find();
 
-  final _box = GetStorage();
+  final _storage = Get.find<LocalStorageInterface>();
   final _localAuthService = Get.find<LocalAuthService>();
 
   final _viewState = PinViewState.CREATE_PIN.obs;
@@ -39,7 +39,10 @@ class LocalAuthController extends GetxController {
   @override
   void onInit() {
     _isRegister = (Get.arguments as bool) ?? false;
-    _showLocalAuth = !_isRegister && _box.hasData(AppStorageKeys.pinCode);
+    _showLocalAuth = !_isRegister &&
+        _storage.containsKey(
+          AppStorageKeys.pinCode,
+        );
     _viewState.value =
         _isRegister ? PinViewState.CREATE_PIN : PinViewState.DEFAULT;
     ever(_pinValue, (pin) {
@@ -62,7 +65,7 @@ class LocalAuthController extends GetxController {
     if (!_isRegister) {
       bool authorized = await _localAuthService.authenticate();
       if (authorized) {
-        pinValue = _box.read(AppStorageKeys.pinCode);
+        pinValue = _storage.getString(AppStorageKeys.pinCode);
         _submitPIN();
       }
     }
@@ -103,9 +106,9 @@ class LocalAuthController extends GetxController {
 
   _submitPIN() async {
     loading = true;
-    String token = _box.read(AppStorageKeys.token);
+    String token = _storage.getString(AppStorageKeys.token);
     if (await SessionRepository.checkPin(sessionId: token, pin: pinValue)) {
-      _box.writeIfNull(AppStorageKeys.pinCode, pinValue);
+      _storage.setString(AppStorageKeys.pinCode, pinValue);
       navigateBack(true);
     } else {
       Get.defaultDialog(
@@ -125,7 +128,7 @@ class LocalAuthController extends GetxController {
 
   _saveNewPIN() {
     if (_prevPIN == pinValue) {
-      _box.write(AppStorageKeys.pinCode, pinValue);
+      _storage.setString(AppStorageKeys.pinCode, pinValue);
       Get.back();
     } else {
       Get.defaultDialog(

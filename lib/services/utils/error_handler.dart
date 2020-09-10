@@ -5,9 +5,9 @@ import 'package:antares_wallet/models/saved_errors_model.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart' as apiservice;
 import 'package:antares_wallet/ui/pages/disclaimer/disclaimer_page.dart';
 import 'package:antares_wallet/ui/pages/start/start_page.dart';
+import 'package:cross_local_storage/cross_local_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:grpc/grpc.dart';
 
 typedef Future<T> FutureGenerator<T>();
@@ -54,7 +54,7 @@ class ErrorHandler {
 
   static _handleGrpcError(e, String method) {
     if (e.code == StatusCode.unauthenticated) {
-      GetStorage().erase().whenComplete(
+      Get.find<LocalStorageInterface>().clear().whenComplete(
             () => Get.offAllNamed(StartPage.route),
           );
     }
@@ -70,8 +70,8 @@ class ErrorHandler {
     @required String message,
     @required String method,
   }) {
-    final storage = GetStorage();
-    String jsonStr = storage.read(AppStorageKeys.errorList);
+    final storage = Get.find<LocalStorageInterface>();
+    String jsonStr = storage.getString(AppStorageKeys.errorList);
     SavedErrorsModel model = jsonStr.isNullOrBlank
         ? SavedErrorsModel()
         : SavedErrorsModel().fromJson(json.decode(jsonStr));
@@ -81,6 +81,6 @@ class ErrorHandler {
         ..message = message
         ..method = method,
     );
-    storage.write(AppStorageKeys.errorList, json.encode(model.toJson()));
+    storage.setString(AppStorageKeys.errorList, json.encode(model.toJson()));
   }
 }

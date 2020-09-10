@@ -8,15 +8,15 @@ import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
 import 'package:antares_wallet/ui/pages/register/register_result_page.dart';
 import 'package:antares_wallet/ui/pages/root/root_page.dart';
+import 'package:cross_local_storage/cross_local_storage.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 class RegisterController extends GetxController {
   static RegisterController get con => Get.find();
 
-  final _box = GetStorage();
+  final _storage = Get.find<LocalStorageInterface>();
 
   final pageViewController = PageController(initialPage: 0);
 
@@ -230,16 +230,16 @@ class RegisterController extends GetxController {
       hint: passwordHintValue,
       countryIso3Code: countryValue.id,
       affiliateCode: affiliateCodeValue,
-      pin: _box.read(AppStorageKeys.pinCode),
+      pin: _storage.getString(AppStorageKeys.pinCode),
       token: token,
       publicKey: '1111',
     );
     if (registerPayload != null) {
-      _box.write(AppStorageKeys.token, registerPayload.sessionId);
+      _storage.setString(AppStorageKeys.token, registerPayload.sessionId);
       Get.offAllNamed(RootPage.route);
     } else {
       Get.rawSnackbar(message: 'Registration failed!');
-      await _box.erase();
+      await _storage.clear();
       Get.back();
     }
   }
