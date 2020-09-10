@@ -51,6 +51,8 @@ class WithdrawalController extends GetxController {
   bool isAddressValid = true;
   bool isExtAddressValid = true;
 
+  String _countryCode = '';
+
   bool _loading = false;
   bool get loading => _loading;
   set loading(bool value) {
@@ -144,10 +146,16 @@ class WithdrawalController extends GetxController {
         _portfolioCon.assetBalance(selectedAsset?.id) ?? Balance();
   }
 
+  Future<void> getCountry() async {
+    if (_countryCode.isNullOrBlank) {
+      _countryCode = (await SessionRepository.getCountryPhoneCodes()).current;
+    }
+  }
+
   Future<void> getSwiftFee() async {
     String feeSize = (await WalletRepository.getSwiftCashoutFee(
       assetId: selectedAsset?.id,
-      countryCode: (await SessionRepository.getCountryPhoneCodes()).current,
+      countryCode: _countryCode,
     ))
         .size;
     fee = double.tryParse(feeSize ?? '0') ?? 0.0;
@@ -189,7 +197,7 @@ class WithdrawalController extends GetxController {
     var result = await WalletRepository.swiftCashout(
       accHolderAddress: addressController.text,
       accHolderCity: cityController.text,
-      accHolderCountry: '', // TODO: find out how to get country code from SWIFT
+      accHolderCountry: _countryCode,
       accHolderZipCode: zipController.text,
       accName: fullNameController.text,
       accNumber: ibanController.text,
