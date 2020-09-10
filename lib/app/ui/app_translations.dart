@@ -105,12 +105,13 @@ class AppTranslations extends Translations {
           "custom": "Custom",
           "n_days": "%s days",
           "n_weeks": "%s weeks",
+          "day": "Day",
           "week": "Week",
           "month": "Month",
           "year": "Year",
           "time_from": "Time from",
           "time_to": "Time to",
-          "display_trans": "Display transactions",
+          "display_transactions": "Display transactions",
           "deposit": "Deposit",
           "withdraw": "Withdraw",
           "withdrawal": "Withdrawal",
@@ -141,7 +142,10 @@ class AppTranslations extends Translations {
           "deposit_by_swift": "Deposit by swift",
           "deposit_by_card": "Deposit by credit card",
           "deposit_by_blockchain": "Deposit by blockchain",
-          "withdraw_funds": "Withdraw funds"
+          "withdraw_funds": "Withdraw funds",
+          "apply": "Apply",
+          "buy": "Buy",
+          "sell": "Sell"
         },
         'ru': {
           "app_title": "Antares Wallet",
@@ -247,12 +251,13 @@ class AppTranslations extends Translations {
           "custom": "Свой",
           "n_days": "%s д",
           "n_weeks": "%s нд",
-          "week": "Week",
-          "month": "Month",
-          "year": "Year",
+          "day": "День",
+          "week": "Неделя",
+          "month": "Месяц",
+          "year": "Год",
           "time_from": "От",
           "time_to": "До",
-          "display_trans": "Показывать транзакции",
+          "display_transactions": "Показывать транзакции",
           "deposit": "Депозит",
           "withdraw": "Вывод",
           "withdrawal": "Withdrawal",
@@ -283,7 +288,10 @@ class AppTranslations extends Translations {
           "deposit_by_swift": "Свифт депозит",
           "deposit_by_card": "Депозит с кредитной карты",
           "deposit_by_blockchain": "Депозит через блокчейн",
-          "withdraw_funds": "Вывод средств"
+          "withdraw_funds": "Вывод средств",
+          "apply": "Применить",
+          "buy": "Покупка",
+          "sell": "Продажа"
         },
       };
 }

@@ -22,7 +22,7 @@ class TransactionDetailsPage extends StatelessWidget {
         builder: (_) {
           return Scaffold(
             appBar: AppBar(
-              title: _buildTitleByType(_.details.type),
+              title: _buildTitleByOperation(_.details.operation),
             ),
             body: Column(
               children: [
@@ -135,9 +135,9 @@ class TransactionDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildTitleByType(String type) {
+  Widget _buildTitleByOperation(String operation) {
     String titlePrefix;
-    if (type.toLowerCase() == 'deposit') {
+    if (operation.toLowerCase() == 'deposit') {
       titlePrefix = 'deposit'.tr;
     } else {
       titlePrefix = 'withdrawal'.tr;

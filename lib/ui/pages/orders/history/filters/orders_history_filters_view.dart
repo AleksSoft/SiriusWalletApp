@@ -1,21 +1,19 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
-import 'package:antares_wallet/controllers/portfolio_history_filters_controller.dart';
-import 'package:antares_wallet/models/portfolio_history_filter.dart';
+import 'package:antares_wallet/controllers/orders_history_filters_controller.dart';
+import 'package:antares_wallet/models/orders_history_filter.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:date_range_picker/date_range_picker.dart' as DateRagePicker;
 
-class PortfolioHistoryFiltersView extends StatelessWidget {
-  const PortfolioHistoryFiltersView({Key key}) : super(key: key);
-
+class OrdersHistoryFiltersView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<PortfolioHistoryFiltersController>(
-        init: PortfolioHistoryFiltersController(),
+    return GetBuilder<OrdersHistoryFiltersController>(
+        init: OrdersHistoryFiltersController(),
         builder: (_) {
           return Scaffold(
             appBar: AppBar(
@@ -68,7 +66,7 @@ class PortfolioHistoryFiltersView extends StatelessWidget {
 }
 
 class _PortfolioHistoryPeriodFilterView extends StatelessWidget {
-  final c = PortfolioHistoryFiltersController.con;
+  final c = OrdersHistoryFiltersController.con;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -80,7 +78,7 @@ class _PortfolioHistoryPeriodFilterView extends StatelessWidget {
             fontWeight: FontWeight.w700,
           ),
         ),
-        ChipsChoice<HistoryPeriod>.single(
+        ChipsChoice<OrdersPeriod>.single(
           value: c.period,
           itemConfig: ChipsChoiceItemConfig(
             selectedColor: AppColors.accent,
@@ -89,10 +87,10 @@ class _PortfolioHistoryPeriodFilterView extends StatelessWidget {
             elevation: 3.0,
             unselectedBorderOpacity: 0.0,
           ),
-          options: ChipsChoiceOption.listFrom<HistoryPeriod, String>(
+          options: ChipsChoiceOption.listFrom<OrdersPeriod, String>(
             source:
-                HistoryPeriod.values.map((e) => c.getPeriodTitle(e)).toList(),
-            value: (i, v) => HistoryPeriod.values[i],
+                OrdersPeriod.values.map((e) => c.getPeriodTitle(e)).toList(),
+            value: (i, v) => OrdersPeriod.values[i],
             label: (i, v) => v,
           ),
           onChanged: (val) => c.period = val,
@@ -101,7 +99,7 @@ class _PortfolioHistoryPeriodFilterView extends StatelessWidget {
           duration: Duration(milliseconds: 300),
           switchInCurve: Curves.easeInCubic,
           switchOutCurve: Curves.easeOutCubic,
-          child: c.period == HistoryPeriod.custom
+          child: c.period == OrdersPeriod.custom
               ? _buildCustomPeriodView()
               : SizedBox.shrink(),
         ),
@@ -154,7 +152,7 @@ class _PortfolioHistoryPeriodFilterView extends StatelessWidget {
 }
 
 class _PortfolioHistoryTransFilterView extends StatelessWidget {
-  final c = PortfolioHistoryFiltersController.con;
+  final c = OrdersHistoryFiltersController.con;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -166,7 +164,7 @@ class _PortfolioHistoryTransFilterView extends StatelessWidget {
             fontWeight: FontWeight.w700,
           ),
         ),
-        ChipsChoice<HistoryTransactionType>.single(
+        ChipsChoice<OrdersTransactionType>.single(
           value: c.transactionType,
           itemConfig: ChipsChoiceItemConfig(
             selectedColor: AppColors.accent,
@@ -175,11 +173,11 @@ class _PortfolioHistoryTransFilterView extends StatelessWidget {
             elevation: 3.0,
             unselectedBorderOpacity: 0.0,
           ),
-          options: ChipsChoiceOption.listFrom<HistoryTransactionType, String>(
-            source: HistoryTransactionType.values
+          options: ChipsChoiceOption.listFrom<OrdersTransactionType, String>(
+            source: OrdersTransactionType.values
                 .map((e) => c.getTypeTitle(e))
                 .toList(),
-            value: (i, v) => HistoryTransactionType.values[i],
+            value: (i, v) => OrdersTransactionType.values[i],
             label: (i, v) => v,
           ),
           onChanged: (val) => c.transactionType = val,
@@ -190,10 +188,10 @@ class _PortfolioHistoryTransFilterView extends StatelessWidget {
 }
 
 class _PortfolioHistoryAssetFilterView extends StatelessWidget {
-  final c = PortfolioHistoryFiltersController.con;
+  final c = OrdersHistoryFiltersController.con;
   @override
   Widget build(BuildContext context) {
-    bool allSelected = c.asset == null;
+    bool allSelected = c.marketModel == null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
@@ -204,7 +202,7 @@ class _PortfolioHistoryAssetFilterView extends StatelessWidget {
           ),
         ),
         ListTile(
-          onTap: () => c.asset = null,
+          onTap: () => c.marketModel = null,
           title: Text('all'.tr),
           trailing: Visibility(
             visible: allSelected,
@@ -212,8 +210,12 @@ class _PortfolioHistoryAssetFilterView extends StatelessWidget {
           ),
         ),
         ListTile(
-          onTap: () => c.updateFilterAsset(),
-          title: Text(allSelected ? 'select_single'.tr : c.asset.displayId),
+          onTap: () => c.updateFilterAssetPair(),
+          title: Text(
+            allSelected
+                ? 'select_single'.tr
+                : '${c.marketModel.pairBaseAsset.displayId}/${c.marketModel.pairQuotingAsset.displayId}',
+          ),
           subtitle: allSelected ? null : Text('select_single'.tr),
           trailing: Visibility(
             visible: !allSelected,

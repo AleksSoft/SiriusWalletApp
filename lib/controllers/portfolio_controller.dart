@@ -1,4 +1,5 @@
 import 'package:antares_wallet/controllers/assets_controller.dart';
+import 'package:antares_wallet/models/portfolio_history_filter.dart';
 import 'package:antares_wallet/repositories/portfolio_repository.dart';
 import 'package:antares_wallet/src/apiservice.pbgrpc.dart';
 import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
@@ -9,6 +10,8 @@ class PortfolioController extends GetxController {
   static PortfolioController get con => Get.find();
 
   final _assetsController = AssetsController.con;
+
+  PortfolioHistoryFilter _filter;
 
   final _loading = false.obs;
   get loading => this._loading.value;
@@ -29,13 +32,13 @@ class PortfolioController extends GetxController {
     ever(_assetsController.isLoaded, (loaded) {
       if (loaded) {
         rebuildPortfolioAssets();
-        getFunds(20, 0);
+        reloadHistory();
       }
     });
     ever(RootController.con.pageIndexObs, (pageIndex) {
       if (pageIndex == 1) {
         rebuildPortfolioAssets();
-        getFunds(20, 0);
+        reloadHistory();
       }
     });
     ever(
@@ -82,20 +85,44 @@ class PortfolioController extends GetxController {
   Future<void> getBalances() async =>
       balances.assignAll(await PortfolioRepository.getBalances());
 
-  Future<void> getFunds(
+  Future<List<FundsResponse_FundsModel>> getFunds(
     int take,
     int skip, {
     String assetId,
     Timestamp fromDate,
     Timestamp toDate,
   }) async =>
-      historyItems.assignAll(await PortfolioRepository.getFunds(
+      await PortfolioRepository.getFunds(
         take: take,
         skip: skip,
         assetId: assetId,
         fromDate: fromDate,
         toDate: toDate,
-      ));
+      );
+
+  Future<void> reloadHistory({PortfolioHistoryFilter newFilter}) async {
+    if (newFilter != null) {
+      _filter = newFilter;
+    } else if (_filter == null) {
+      _filter = PortfolioHistoryFilter.fromStorage();
+    }
+    var funds = await getFunds(
+      25,
+      0,
+      assetId: _filter.assetId,
+      fromDate: _filter.fromDate,
+      toDate: _filter.toDate,
+    );
+    if (_filter.transactionType != HistoryTransactionType.all) {
+      String operation =
+          _filter.transactionType == HistoryTransactionType.deposit
+              ? 'deposit'
+              : 'withdrawal';
+      funds =
+          funds.where((f) => f.operation.toLowerCase() == operation).toList();
+    }
+    historyItems.assignAll(funds);
+  }
 
   Map<AssetCategory, List<Asset>> _mergeMap(Map oldMap) {
     var mergedMap = Map<AssetCategory, List<Asset>>.from(oldMap);

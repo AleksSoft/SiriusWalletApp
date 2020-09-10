@@ -15,14 +15,18 @@ class PortfolioHistoryView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.bottomSheet(PortfolioHistoryFiltersView()),
+        heroTag: 'portfolio-history-filter-fab',
+        onPressed: () => Get.to(
+          PortfolioHistoryFiltersView(),
+          fullscreenDialog: true,
+        ),
         child: Icon(Icons.filter_list),
       ),
       body: RefreshIndicator(
         color: AppColors.dark,
-        onRefresh: () => c.getFunds(20, 0),
+        onRefresh: () => c.reloadHistory(),
         child: GetX<PortfolioController>(
-          initState: (state) => c.getFunds(20, 0),
+          initState: (state) => c.reloadHistory(),
           builder: (_) {
             return EmptyView(
               header: 'No portfolio history yet',

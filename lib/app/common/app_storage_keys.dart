@@ -8,4 +8,6 @@ class AppStorageKeys {
   static final String baseAsset = 'key_base_asset';
   static final String watchlistId = 'key_watchlist_id';
   static final String errorList = 'key_errorlist';
+  static final String portrolioHistoryFilters = 'key_portfolio_history_filters';
+  static final String ordersHistoryFilters = 'key_orders_history_filters';
 }

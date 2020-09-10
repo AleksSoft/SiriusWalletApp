@@ -1,4 +1,5 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
+import 'package:antares_wallet/models/orders_history_filter.dart';
 import 'package:antares_wallet/repositories/trading_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
@@ -12,6 +13,8 @@ class OrdersController extends GetxController {
 
   final _assetsController = Get.find<AssetsController>();
 
+  OrdersHistoryFilter _filter;
+
   final orders = List<LimitOrderModel>().obs;
 
   final trades = List<TradesResponse_TradeModel>().obs;
@@ -21,13 +24,13 @@ class OrdersController extends GetxController {
     ever(_assetsController.isLoaded, (inited) async {
       if (inited) {
         await getOrders();
-        await getTrades(20, 0);
+        await reloadHistory();
       }
     });
     ever(RootController.con.pageIndexObs, (pageIndex) async {
       if (pageIndex == 3) {
         await getOrders();
-        await getTrades(20, 0);
+        await reloadHistory();
       }
     });
     super.onInit();
@@ -36,22 +39,42 @@ class OrdersController extends GetxController {
   Future getOrders() async =>
       orders.assignAll(await TradingRepository.getOrders());
 
-  Future getTrades(
+  Future<List<TradesResponse_TradeModel>> getTrades(
     int take,
     int skip, {
     String assetPairId,
     String tradeType,
     Timestamp fromDate,
     Timestamp toDate,
-  }) async {
-    var list = await TradingRepository.getTrades(
-      take: take,
-      skip: skip,
-      assetPairId: assetPairId,
-      tradeType: tradeType,
-      fromDate: fromDate,
-      toDate: toDate,
+  }) async =>
+      await TradingRepository.getTrades(
+        take: take,
+        skip: skip,
+        assetPairId: assetPairId,
+        tradeType: tradeType,
+        fromDate: fromDate,
+        toDate: toDate,
+      );
+
+  Future<void> reloadHistory({OrdersHistoryFilter newFilter}) async {
+    if (newFilter != null) {
+      _filter = newFilter;
+    } else if (_filter == null) {
+      _filter = OrdersHistoryFilter.fromStorage();
+    }
+    var list = await getTrades(
+      25,
+      0,
+      assetPairId: _filter.assetPairId,
+      fromDate: _filter.fromDate,
+      toDate: _filter.toDate,
     );
+    if (_filter.transactionType != OrdersTransactionType.all) {
+      String direction = _filter.transactionType == OrdersTransactionType.sell
+          ? 'sell'
+          : 'buy';
+      list = list.where((o) => o.direction.toLowerCase() == direction).toList();
+    }
     list.sort((b, a) => a.timestamp.seconds.compareTo(b.timestamp.seconds));
     trades.assignAll(list);
   }

@@ -70,8 +70,8 @@ class _AssetTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: AssetIcon(asset.iconUrl, AppSizes.extraLarge),
-      title: Text(asset.name),
-      subtitle: Text(asset.displayId),
+      title: Text(asset.displayId),
+      subtitle: Text(asset.name),
       trailing: Visibility(
         visible: checked,
         child: Icon(Icons.check, color: AppColors.accent),

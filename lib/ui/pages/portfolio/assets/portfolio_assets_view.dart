@@ -18,6 +18,7 @@ class PortfolioAssetsTabView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
+        heroTag: 'portfolio-assets-filter-fab',
         label: Obx(() => Text(c.hideZeros ? 'Show all' : 'Hide zeros')),
         onPressed: () => c.hideZeros = !c.hideZeros,
       ),
