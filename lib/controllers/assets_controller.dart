@@ -7,7 +7,7 @@ class AssetsController extends GetxController {
 
   final isLoaded = false.obs;
 
-  final _assetDictionary = AssetsDictionaryResponse.getDefault().obs;
+  final _assetDictionary = AssetsDictionaryResponse().obs;
   AssetsDictionaryResponse get assetsDictionary => this._assetDictionary.value;
   set assetsDictionary(AssetsDictionaryResponse value) =>
       this._assetDictionary.value = value;

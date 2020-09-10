@@ -19,6 +19,10 @@ class AssetInfoController extends GetxController {
 
   final Asset asset = Get.arguments as Asset;
 
+  final _loading = false.obs;
+  bool get loading => this._loading.value;
+  set loading(bool value) => this._loading.value = value;
+
   final _selectedPeriod = AssetInfoPeriod.h24.obs;
   AssetInfoPeriod get selectedPeriod => this._selectedPeriod.value;
   set selectedPeriod(AssetInfoPeriod value) =>
@@ -33,10 +37,6 @@ class AssetInfoController extends GetxController {
   final funds = List<FundsResponse_FundsModel>().obs;
 
   final markets = List<MarketModel>().obs;
-  List<MarketModel> get marketsShort {
-    var maxSize = markets.length <= 3 ? markets.length : 3;
-    return markets.sublist(0, maxSize);
-  }
 
   final candles = List<Candle>().obs;
 
@@ -48,14 +48,16 @@ class AssetInfoController extends GetxController {
     if (MarketsController.con.initialMarketList.isEmpty) {
       await MarketsController.con.rebuildWatchedMarkets();
     }
-    markets.assignAll(MarketsController.con.marketModelsByAssetId(asset.id));
+    markets.assignAll(asset.popularPairs
+        .map((p) => MarketsController.con.marketModelByPairId(p))
+        .toList());
 
     // subscribe to market and period changes
     ever(_selectedMarket, (_) => updateCandles());
     ever(_selectedPeriod, (_) => updateCandles());
 
     // set selected market
-    if (marketsShort.isNotEmpty) selectedMarket = marketsShort.first;
+    if (markets.isNotEmpty) selectedMarket = markets.first;
 
     // load tabs data
     await getTrades();
@@ -114,7 +116,7 @@ class AssetInfoController extends GetxController {
       ));
 
   Future<void> updateCandles() async {
-    candles.clear();
+    loading = true;
     final list = await TradingRepository.getCandles(
       assetPairId: selectedMarket.pairId,
       type: CandleType.Mid,
@@ -125,6 +127,7 @@ class AssetInfoController extends GetxController {
       to: Timestamp.fromDateTime(DateTime.now()),
     );
     candles.assignAll(list ?? []);
+    loading = false;
   }
 
   openOrderDetails(bool isBuy) => Get.toNamed(

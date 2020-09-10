@@ -3,7 +3,6 @@ import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/services/utils/formatter.dart';
-import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/orders/widgets/order_history_tile.dart';
 import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
 import 'package:antares_wallet/ui/widgets/asset_list_tile.dart';
@@ -152,7 +151,7 @@ class _Details extends StatelessWidget {
                         value: c.selectedMarket,
                         focusColor: AppColors.accent,
                         onChanged: (MarketModel m) => c.selectedMarket = m,
-                        items: c.marketsShort.map((MarketModel model) {
+                        items: c.markets.map((MarketModel model) {
                           return DropdownMenuItem<MarketModel>(
                             value: model,
                             child: Text(model.pairId),
@@ -186,7 +185,7 @@ class _Details extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppSizes.medium),
-              child: Obx(() => _ChartView(c.candles)),
+              child: _ChartView(),
             ),
             Padding(
               padding: const EdgeInsets.only(left: AppSizes.medium),
@@ -215,7 +214,7 @@ class _Details extends StatelessWidget {
               ),
               child: Obx(
                 () => Column(
-                  children: c.marketsShort
+                  children: c.markets
                       .map((e) => AssetPairTile(
                             imgUrl: e.pairBaseAsset.iconUrl,
                             pairBaseAsset: e.pairBaseAsset,
@@ -290,35 +289,47 @@ class _Details extends StatelessWidget {
 }
 
 class _ChartView extends StatelessWidget {
-  _ChartView(this.candles, {Key key}) : super(key: key);
-  final List<Candle> candles;
-
+  final c = AssetInfoController.con;
   @override
   Widget build(BuildContext context) {
-    return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 150),
-      child: candles.isNotEmpty
-          ? Sparkline(
-              data:
-                  candles.map((e) => double.tryParse(e.close) ?? 0.0).toList(),
-              lineWidth: 1.0,
-              fallbackHeight: 160,
-              fillMode: FillMode.below,
-              lineColor: AppColors.accent.withOpacity(0.7),
-              fillGradient: new LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  AppColors.accent.withOpacity(0.2),
-                  AppColors.accent.withOpacity(0.1),
-                ],
+    return Obx(
+      () => AnimatedSwitcher(
+        duration: const Duration(milliseconds: 150),
+        child: !c.loading
+            ? c.candles.isNotEmpty
+                ? Obx(
+                    () => Sparkline(
+                      data: c.candles
+                          .map((e) => double.tryParse(e.close) ?? 0.0)
+                          .toList(),
+                      lineWidth: 1.0,
+                      fallbackHeight: 160,
+                      fillMode: FillMode.below,
+                      lineColor: AppColors.accent.withOpacity(0.7),
+                      fillGradient: new LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          AppColors.accent.withOpacity(0.2),
+                          AppColors.accent.withOpacity(0.1),
+                        ],
+                      ),
+                    ),
+                  )
+                : Container(
+                    height: 160.0,
+                    alignment: Alignment.center,
+                    child: Text(
+                      'No candle data available',
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+            : Container(
+                height: 160.0,
+                alignment: Alignment.center,
+                child: AppUiHelpers.circularProgress,
               ),
-            )
-          : Container(
-              height: 160.0,
-              alignment: Alignment.center,
-              child: AppUiHelpers.circularProgress,
-            ),
+      ),
     );
   }
 }
