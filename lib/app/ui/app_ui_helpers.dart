@@ -24,6 +24,7 @@ class AppUiHelpers {
 
   // progress indicators
   static const LinearProgressIndicator linearProgress = LinearProgressIndicator(
+    minHeight: 1,
     backgroundColor: Colors.transparent,
     valueColor: AlwaysStoppedAnimation<Color>(AppColors.progressColor),
   );

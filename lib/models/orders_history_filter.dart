@@ -35,12 +35,6 @@ class OrdersHistoryFilter {
     }
   }
 
-  Timestamp get fromDate => timeFrom == null
-      ? null
-      : Timestamp.fromDateTime(
-          DateTime.fromMillisecondsSinceEpoch(timeFrom),
-        );
-
   int _timeTo;
   set timeTo(int value) => _timeTo = value;
   int get timeTo {
@@ -55,6 +49,12 @@ class OrdersHistoryFilter {
         return _timeTo;
     }
   }
+
+  Timestamp get fromDate => timeFrom == null
+      ? null
+      : Timestamp.fromDateTime(
+          DateTime.fromMillisecondsSinceEpoch(timeFrom),
+        );
 
   Timestamp get toDate => _timeTo == null
       ? null
@@ -76,9 +76,9 @@ class OrdersHistoryFilter {
       <String>[
         EnumToString.parse(period ?? OrdersPeriod.all),
         EnumToString.parse(transactionType ?? OrdersTransactionType.all),
-        assetPairId,
-        timeFrom?.toString(),
-        timeTo?.toString(),
+        assetPairId ?? '',
+        (timeFrom ?? '-').toString(),
+        (timeTo ?? '-').toString(),
       ],
     );
   }
@@ -94,9 +94,9 @@ class OrdersHistoryFilter {
         ..period = EnumToString.fromString(OrdersPeriod.values, filterList[0])
         ..transactionType =
             EnumToString.fromString(OrdersTransactionType.values, filterList[1])
-        ..assetPairId = filterList[2]
-        ..timeFrom = int.tryParse(filterList[3] ?? '-')
-        ..timeTo = int.tryParse(filterList[4] ?? '-');
+        ..assetPairId = filterList[2].isEmpty ? null : filterList[2]
+        ..timeFrom = int.tryParse(filterList[3])
+        ..timeTo = int.tryParse(filterList[4]);
     }
   }
 }

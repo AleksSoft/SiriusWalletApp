@@ -24,14 +24,15 @@ class OrdersHistoryView extends StatelessWidget {
       ),
       body: RefreshIndicator(
         color: AppColors.dark,
-        onRefresh: () => c.reloadHistory(),
+        onRefresh: () => c.reloadHistory(silent: true),
         child: GetX<OrdersController>(
           initState: (state) => c.reloadHistory(),
           builder: (_) {
-            return EmptyView(
-              header: 'No orders history yet',
-              message: '',
-              condition: _.trades.isEmpty,
+            return LoadHelperView(
+              emptyHeader: 'No orders history yet',
+              emptyMessage: '',
+              showEmpty: _.trades.isEmpty,
+              loading: _.loading,
               child: ListView(
                 padding: const EdgeInsets.only(top: AppSizes.small),
                 shrinkWrap: true,

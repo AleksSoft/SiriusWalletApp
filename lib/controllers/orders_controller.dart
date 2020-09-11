@@ -19,12 +19,16 @@ class OrdersController extends GetxController {
 
   final trades = List<TradesResponse_TradeModel>().obs;
 
+  final _loading = false.obs;
+  get loading => this._loading.value;
+  set loading(value) => this._loading.value = value;
+
   @override
   void onInit() async {
     ever(_assetsController.isLoaded, (inited) async {
       if (inited) {
         await getOrders();
-        await reloadHistory();
+        await reloadHistory(silent: true);
       }
     });
     ever(RootController.con.pageIndexObs, (pageIndex) async {
@@ -56,7 +60,11 @@ class OrdersController extends GetxController {
         toDate: toDate,
       );
 
-  Future<void> reloadHistory({OrdersHistoryFilter newFilter}) async {
+  Future<void> reloadHistory({
+    bool silent = false,
+    OrdersHistoryFilter newFilter,
+  }) async {
+    if (!silent) loading = true;
     if (newFilter != null) {
       _filter = newFilter;
     } else if (_filter == null) {
@@ -77,6 +85,7 @@ class OrdersController extends GetxController {
     }
     list.sort((b, a) => a.timestamp.seconds.compareTo(b.timestamp.seconds));
     trades.assignAll(list);
+    if (!silent) loading = false;
   }
 
   cancelAllOrders() async {

@@ -32,7 +32,7 @@ class PortfolioController extends GetxController {
     ever(_assetsController.isLoaded, (loaded) {
       if (loaded) {
         rebuildPortfolioAssets();
-        reloadHistory();
+        reloadHistory(silent: true);
       }
     });
     ever(RootController.con.pageIndexObs, (pageIndex) {
@@ -100,7 +100,11 @@ class PortfolioController extends GetxController {
         toDate: toDate,
       );
 
-  Future<void> reloadHistory({PortfolioHistoryFilter newFilter}) async {
+  Future<void> reloadHistory({
+    bool silent = false,
+    PortfolioHistoryFilter newFilter,
+  }) async {
+    if (!silent) loading = true;
     if (newFilter != null) {
       _filter = newFilter;
     } else if (_filter == null) {
@@ -122,6 +126,7 @@ class PortfolioController extends GetxController {
           funds.where((f) => f.operation.toLowerCase() == operation).toList();
     }
     historyItems.assignAll(funds);
+    if (!silent) loading = false;
   }
 
   Map<AssetCategory, List<Asset>> _mergeMap(Map oldMap) {

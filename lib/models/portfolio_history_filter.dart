@@ -35,12 +35,6 @@ class PortfolioHistoryFilter {
     }
   }
 
-  Timestamp get fromDate => timeFrom == null
-      ? null
-      : Timestamp.fromDateTime(
-          DateTime.fromMillisecondsSinceEpoch(timeFrom),
-        );
-
   int _timeTo;
   set timeTo(int value) => _timeTo = value;
   int get timeTo {
@@ -55,6 +49,12 @@ class PortfolioHistoryFilter {
         return _timeTo;
     }
   }
+
+  Timestamp get fromDate => timeFrom == null
+      ? null
+      : Timestamp.fromDateTime(
+          DateTime.fromMillisecondsSinceEpoch(timeFrom),
+        );
 
   Timestamp get toDate => _timeTo == null
       ? null
@@ -76,9 +76,9 @@ class PortfolioHistoryFilter {
       <String>[
         EnumToString.parse(period ?? HistoryPeriod.all),
         EnumToString.parse(transactionType ?? HistoryTransactionType.all),
-        assetId,
-        timeFrom?.toString(),
-        timeTo?.toString(),
+        assetId ?? '',
+        (timeFrom ?? '-').toString(),
+        (timeTo ?? '-').toString(),
       ],
     );
   }
@@ -94,9 +94,9 @@ class PortfolioHistoryFilter {
         ..period = EnumToString.fromString(HistoryPeriod.values, filterList[0])
         ..transactionType = EnumToString.fromString(
             HistoryTransactionType.values, filterList[1])
-        ..assetId = filterList[2]
-        ..timeFrom = int.tryParse(filterList[3] ?? '-')
-        ..timeTo = int.tryParse(filterList[4] ?? '-');
+        ..assetId = filterList[2].isEmpty ? null : filterList[2]
+        ..timeFrom = int.tryParse(filterList[3])
+        ..timeTo = int.tryParse(filterList[4]);
     }
   }
 }

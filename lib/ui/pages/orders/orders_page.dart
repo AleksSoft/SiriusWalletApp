@@ -39,10 +39,10 @@ class OrdersPage extends StatelessWidget {
               child: GetX<OrdersController>(
                 initState: (state) => c.getOrders(),
                 builder: (_) {
-                  return EmptyView(
-                    header: 'No open orders yet',
-                    message: '',
-                    condition: _.orders.isEmpty,
+                  return LoadHelperView(
+                    emptyHeader: 'No open orders yet',
+                    emptyMessage: '',
+                    showEmpty: _.orders.isEmpty,
                     child: Column(
                       children: [
                         ButtonBar(

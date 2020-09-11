@@ -24,14 +24,15 @@ class PortfolioHistoryView extends StatelessWidget {
       ),
       body: RefreshIndicator(
         color: AppColors.dark,
-        onRefresh: () => c.reloadHistory(),
+        onRefresh: () => c.reloadHistory(silent: true),
         child: GetX<PortfolioController>(
           initState: (state) => c.reloadHistory(),
           builder: (_) {
-            return EmptyView(
-              header: 'No portfolio history yet',
-              message: '',
-              condition: _.historyItems.isEmpty,
+            return LoadHelperView(
+              emptyHeader: 'No portfolio history yet',
+              emptyMessage: '',
+              showEmpty: _.historyItems.isEmpty,
+              loading: _.loading,
               child: ListView.builder(
                 itemCount: _.historyItems.length,
                 padding: EdgeInsets.only(

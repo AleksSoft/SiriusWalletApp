@@ -1,18 +1,21 @@
+import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class EmptyView extends StatelessWidget {
-  final String header;
-  final String message;
+class LoadHelperView extends StatelessWidget {
+  final String emptyHeader;
+  final String emptyMessage;
   final Widget child;
-  final bool condition;
+  final bool showEmpty;
+  final bool loading;
 
-  const EmptyView({
+  const LoadHelperView({
     Key key,
-    @required this.header,
-    @required this.message,
+    @required this.emptyHeader,
+    @required this.emptyMessage,
     @required this.child,
-    @required this.condition,
+    @required this.showEmpty,
+    this.loading,
   }) : super(key: key);
 
   @override
@@ -20,26 +23,32 @@ class EmptyView extends StatelessWidget {
     return Stack(
       children: <Widget>[
         AnimatedSwitcher(
-          duration: Duration(milliseconds: 300),
-          child: condition
+          duration: const Duration(milliseconds: 300),
+          child: showEmpty
               ? Center(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       Text(
-                        this.header,
+                        this.emptyHeader,
                         style: Get.textTheme.button.copyWith(
                           fontSize: 22.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        this.message,
+                        this.emptyMessage,
                         style: Get.textTheme.caption,
                       )
                     ],
                   ),
                 )
+              : SizedBox.shrink(),
+        ),
+        AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          child: loading != null && loading
+              ? AppUiHelpers.linearProgress
               : SizedBox.shrink(),
         ),
         child,
