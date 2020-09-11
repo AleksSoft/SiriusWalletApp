@@ -260,7 +260,7 @@ class AppTranslations extends Translations {
           "display_transactions": "Показывать транзакции",
           "deposit": "Депозит",
           "withdraw": "Вывод",
-          "withdrawal": "Withdrawal",
+          "withdrawal": "Вывод",
           "assets": "Ассеты",
           "select_single": "Выбрать один",
           "amount": "Сумма",

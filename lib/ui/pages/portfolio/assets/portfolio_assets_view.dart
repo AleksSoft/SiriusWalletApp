@@ -7,6 +7,7 @@ import 'package:antares_wallet/services/utils/formatter.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/asset_info/asset_info_page.dart';
 import 'package:antares_wallet/ui/widgets/asset_list_tile.dart';
+import 'package:antares_wallet/ui/widgets/deposit_withdraw_button_row.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,35 +17,46 @@ class PortfolioAssetsTabView extends StatelessWidget {
   final c = PortfolioController.con;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        heroTag: 'portfolio-assets-filter-fab',
-        label: Obx(() => Text(c.hideZeros ? 'Show all' : 'Hide zeros')),
-        onPressed: () => c.hideZeros = !c.hideZeros,
-      ),
-      body: RefreshIndicator(
-        color: AppColors.dark,
-        onRefresh: () => c.rebuildPortfolioAssets(),
-        child: ListView(
-          padding: EdgeInsets.only(bottom: AppSizes.medium),
-          children: [
-            _PortfolioAssetsHeader(),
-            Obx(
-              () => AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                child: c.loading && c.categoryAssetsMap.isEmpty
-                    ? Center(child: AppUiHelpers.circularProgress)
-                    : Column(
-                        children: c.categoryAssetsMap.keys
-                            .map(
-                                (category) => _PortfolioCategoryBlock(category))
-                            .toList(),
-                      ),
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: AppSizes.extraLarge * 1.5),
+          child: Scaffold(
+            floatingActionButton: FloatingActionButton.extended(
+              heroTag: 'portfolio-assets-filter-fab',
+              label: Obx(() => Text(c.hideZeros ? 'Show all' : 'Hide zeros')),
+              onPressed: () => c.hideZeros = !c.hideZeros,
+            ),
+            body: RefreshIndicator(
+              color: AppColors.dark,
+              onRefresh: () => c.rebuildPortfolioAssets(),
+              child: ListView(
+                padding: EdgeInsets.only(bottom: AppSizes.medium),
+                children: [
+                  _PortfolioAssetsHeader(),
+                  Obx(
+                    () => AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 300),
+                      child: c.loading && c.categoryAssetsMap.isEmpty
+                          ? Center(child: AppUiHelpers.circularProgress)
+                          : Column(
+                              children: c.categoryAssetsMap.keys
+                                  .map((category) =>
+                                      _PortfolioCategoryBlock(category))
+                                  .toList(),
+                            ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
+          ),
         ),
-      ),
+        Positioned(
+          bottom: 0.0,
+          child: DepositWithdrawalButtonRow(),
+        ),
+      ],
     );
   }
 }

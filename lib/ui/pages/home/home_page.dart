@@ -221,7 +221,7 @@ class _AssetsView extends StatelessWidget {
                       ),
                       AppUiHelpers.vSpaceExtraSmall,
                       Text(
-                        'Deposit',
+                        'deposit'.tr,
                         style: Get.textTheme.button.copyWith(
                           color: AppColors.primary,
                         ),
@@ -252,7 +252,7 @@ class _AssetsView extends StatelessWidget {
                       ),
                       AppUiHelpers.vSpaceExtraSmall,
                       Text(
-                        'Withdraw',
+                        'withdraw'.tr,
                         style: Get.textTheme.button.copyWith(
                           color: AppColors.primary,
                         ),
