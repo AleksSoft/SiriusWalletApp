@@ -34,7 +34,7 @@ class OrderHistoryData {
         this.amount = model.baseVolume,
         this.total = model.quoteVolume,
         this.price = model.price,
-        this.isBuy = model.direction.toLowerCase() == 'sell',
+        this.isBuy = model.direction.toLowerCase() == 'buy',
         this.date = DateFormat().addPattern('dd.MM.yy HH:mm:ss').format(
               DateTime.fromMillisecondsSinceEpoch(
                 model.timestamp.seconds.toInt() * 1000,
