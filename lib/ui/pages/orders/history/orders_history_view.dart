@@ -19,6 +19,7 @@ class OrdersHistoryView extends StatelessWidget {
         onPressed: () => Get.to(
           OrdersHistoryFiltersView(),
           fullscreenDialog: true,
+          transition: Transition.downToUp,
         ),
         child: Icon(Icons.filter_list),
       ),
