@@ -9,6 +9,7 @@ class ApiService {
     'antares-api-grpc-dev.lykkex.net',
     'antares-api-grpc-test.lykkex.net',
     '10c7a3ce-ce6c-4146-b31a-e1c83fc98e53.lykkex.com',
+    'antares-api-grpc-ex.swisschain.info',
   ];
   final _storage = Get.find<LocalStorageInterface>();
 
