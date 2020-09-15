@@ -42,16 +42,10 @@ class LoginController extends GetxController {
 
   final _currentBaseUrl = ''.obs;
   String get currentBaseUrl => this._currentBaseUrl.value;
-  set currentBaseUrl(String url) {
-    if (url != currentBaseUrl) {
-      _currentBaseUrl.value = url;
-      _storage.setString(AppStorageKeys.baseUrl, url);
-    }
-  }
 
   @override
-  void onInit() {
-    currentBaseUrl = Get.find<ApiService>().baseUrl;
+  void onInit() async {
+    await setCurrentBaseUrl(Get.find<ApiService>().baseUrl);
     super.onInit();
   }
 
@@ -73,6 +67,13 @@ class LoginController extends GetxController {
     super.onClose();
   }
 
+  Future setCurrentBaseUrl(String url) async {
+    if (url != currentBaseUrl) {
+      _currentBaseUrl.value = url;
+      await _storage.setString(AppStorageKeys.baseUrl, url);
+    }
+  }
+
   back() {
     pageViewController?.jumpToPage(0);
     emailValue = '';
@@ -85,7 +86,7 @@ class LoginController extends GetxController {
 
   openRegister() => Get.toNamed(RegisterPage.route);
 
-  signIn() async {
+  Future signIn() async {
     if (emailValue.isNullOrBlank ||
         !emailValue.isEmail ||
         passwordValue.isEmpty) {

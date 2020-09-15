@@ -122,7 +122,8 @@ class StartPage extends StatelessWidget {
                     child: DropdownButton<String>(
                       value: _.currentBaseUrl,
                       focusColor: AppColors.accent,
-                      onChanged: (String s) => _.currentBaseUrl = s,
+                      onChanged: (String s) async =>
+                          await _.setCurrentBaseUrl(s),
                       items: ApiService.urls.map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,

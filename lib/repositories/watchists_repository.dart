@@ -12,7 +12,7 @@ class WatchlistsRepository {
       () => _api.clientSecure.getWatchlists(Empty()),
       method: 'getWatchlists',
     );
-    return response?.result;
+    return response?.result ?? List();
   }
 
   static Future<Watchlist> getWatchlist(String id) async {
