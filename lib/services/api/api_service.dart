@@ -17,12 +17,20 @@ class ApiService {
     String token = _storage.getString(AppStorageKeys.token);
     return ApiServiceClient(
       ClientChannel(baseUrl, port: 443),
-      options: CallOptions(metadata: {'Authorization': 'Bearer $token'}),
+      options: CallOptions(
+        metadata: {'Authorization': 'Bearer $token'},
+        timeout: const Duration(seconds: 40),
+      ),
     );
   }
 
   ApiServiceClient get client {
-    return ApiServiceClient(ClientChannel(baseUrl, port: 443));
+    return ApiServiceClient(
+      ClientChannel(baseUrl, port: 443),
+      options: CallOptions(
+        timeout: const Duration(seconds: 40),
+      ),
+    );
   }
 
   String get baseUrl {

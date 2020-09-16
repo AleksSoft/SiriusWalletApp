@@ -6,7 +6,7 @@ import 'package:antares_wallet/services/utils/formatter.dart';
 import 'package:antares_wallet/ui/pages/orders/widgets/order_history_tile.dart';
 import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
 import 'package:antares_wallet/ui/widgets/asset_list_tile.dart';
-import 'package:antares_wallet/ui/widgets/asset_pair_list_title_view.dart';
+import 'package:antares_wallet/ui/widgets/asset_pair_sort/asset_pair_sort_tile.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
 import 'package:antares_wallet/ui/widgets/buy_sell_button_row.dart';
 import 'package:antares_wallet/ui/widgets/empty_view.dart';
@@ -204,7 +204,7 @@ class _Details extends StatelessWidget {
                 ],
               ),
             ),
-            AssetPairListHeaderView(),
+            AssetPairSortTile(),
             Padding(
               padding: const EdgeInsets.fromLTRB(
                 AppSizes.medium,
