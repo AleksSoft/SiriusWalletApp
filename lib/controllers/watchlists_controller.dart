@@ -43,7 +43,7 @@ class WatchlistsController extends GetxController {
   Future<void> select(String id) async {
     loading = true;
     selected = watchlists.firstWhere((w) => w.id == id);
-    _storage.setString(AppStorageKeys.watchlistId, id);
+    await _storage.setString(AppStorageKeys.watchlistId, id);
     await Get.find<MarketsController>().rebuildWatchedMarkets();
     loading = false;
   }

@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:antares_wallet/app/common/app_storage_keys.dart';
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/repositories/session_repository.dart';
+import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
 import 'package:antares_wallet/ui/pages/register/register_result_page.dart';
@@ -235,7 +236,8 @@ class RegisterController extends GetxController {
       publicKey: '1111',
     );
     if (registerPayload != null) {
-      _storage.setString(AppStorageKeys.token, registerPayload.sessionId);
+      await _storage.setString(AppStorageKeys.token, registerPayload.sessionId);
+      await Get.find<ApiService>().update();
       Get.offAllNamed(RootPage.route);
     } else {
       Get.rawSnackbar(message: 'Registration failed!');

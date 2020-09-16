@@ -31,12 +31,14 @@ class SavedError extends BaseModel<SavedError> {
   String code;
   String message;
   String method;
+  int timestamp;
 
   @override
   SavedError fromJson(Map<String, Object> json) {
     code = json['code'];
     message = json['message'];
     method = json['method'];
+    timestamp = json['timestamp'];
     return this;
   }
 
@@ -45,8 +47,9 @@ class SavedError extends BaseModel<SavedError> {
         'code': code,
         'message': message,
         'method': method,
+        'timestamp': timestamp,
       };
 
   @override
-  List<Object> get props => [code, message, method];
+  List<Object> get props => [code, message, method, timestamp];
 }

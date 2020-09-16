@@ -45,19 +45,19 @@ class LoginController extends GetxController {
 
   @override
   void onInit() async {
-    await setCurrentBaseUrl(Get.find<ApiService>().baseUrl);
+    await setCurrentBaseUrl(ApiService.urls[0]);
     super.onInit();
   }
 
   @override
   void onReady() async {
     super.onReady();
+    loading = true;
     String sessionId = _storage.getString(AppStorageKeys.token);
     if (!sessionId.isNullOrBlank) {
-      _verifyPin(sessionId).whenComplete(() => loading = false);
-    } else {
-      loading = false;
+      await _verifyPin(sessionId);
     }
+    loading = false;
   }
 
   @override
@@ -67,10 +67,11 @@ class LoginController extends GetxController {
     super.onClose();
   }
 
-  Future setCurrentBaseUrl(String url) async {
+  Future<void> setCurrentBaseUrl(String url) async {
     if (url != currentBaseUrl) {
-      _currentBaseUrl.value = url;
-      await _storage.setString(AppStorageKeys.baseUrl, url);
+      await Get.find<ApiService>().update(
+        url: _currentBaseUrl.value = url,
+      );
     }
   }
 
@@ -133,7 +134,7 @@ class LoginController extends GetxController {
         sessionId: token, code: smsCodeValue)) {
       Get.rawSnackbar(message: 'Sms verified');
       _stopTimer();
-      _verifyPin(token);
+      await _verifyPin(token);
     } else {
       Get.rawSnackbar(
         message: 'Sms not verified',
@@ -143,11 +144,11 @@ class LoginController extends GetxController {
     loading = false;
   }
 
-  Future _verifyPin(String token) async {
-    loading = true;
-    _storage.setString(AppStorageKeys.token, token);
+  Future<void> _verifyPin(String token) async {
+    await _storage.setString(AppStorageKeys.token, token);
     var pinCorrect = (await Get.toNamed(LocalAuthPage.route)) ?? false;
     if (pinCorrect) {
+      await Get.find<ApiService>().update();
       Get.offAllNamed(RootPage.route);
     } else {
       _storage.clear().whenComplete(() {
@@ -157,7 +158,6 @@ class LoginController extends GetxController {
         );
       });
     }
-    loading = false;
   }
 
   _animateToPage(int page) {

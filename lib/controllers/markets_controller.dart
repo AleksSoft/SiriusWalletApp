@@ -121,15 +121,18 @@ class MarketsController extends GetxController {
     await _initMarketsListIfNeeded(force: true);
     if (!id.isNullOrBlank) {
       List<MarketModel> result = List();
-      (await WatchlistsRepository.getWatchlist(id)).assetIds.forEach((id) {
-        var market = initialMarketList.firstWhere(
-          (m) => m.pairId == id,
-          orElse: () => null,
-        );
-        if (market != null) {
-          result.add(market);
-        }
-      });
+      var watchlist = await WatchlistsRepository.getWatchlist(id);
+      if (watchlist != null) {
+        watchlist.assetIds.forEach((id) {
+          var market = initialMarketList.firstWhere(
+            (m) => m.pairId == id,
+            orElse: () => null,
+          );
+          if (market != null) {
+            result.add(market);
+          }
+        });
+      }
       _watchedMarkets = result;
     } else {
       _watchedMarkets = initialMarketList;

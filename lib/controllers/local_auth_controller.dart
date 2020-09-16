@@ -108,7 +108,7 @@ class LocalAuthController extends GetxController {
     loading = true;
     String token = _storage.getString(AppStorageKeys.token);
     if (await SessionRepository.checkPin(sessionId: token, pin: pinValue)) {
-      _storage.setString(AppStorageKeys.pinCode, pinValue);
+      await _storage.setString(AppStorageKeys.pinCode, pinValue);
       navigateBack(true);
     } else {
       Get.defaultDialog(
@@ -126,9 +126,9 @@ class LocalAuthController extends GetxController {
     loading = false;
   }
 
-  _saveNewPIN() {
+  _saveNewPIN() async {
     if (_prevPIN == pinValue) {
-      _storage.setString(AppStorageKeys.pinCode, pinValue);
+      await _storage.setString(AppStorageKeys.pinCode, pinValue);
       Get.back();
     } else {
       Get.defaultDialog(

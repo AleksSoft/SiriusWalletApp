@@ -3,6 +3,7 @@ import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/controllers/login_controller.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
+import 'package:antares_wallet/ui/pages/errors_log/errors_log_page.dart';
 import 'package:antares_wallet/ui/pages/login/login_page.dart';
 import 'package:antares_wallet/ui/widgets/gradient_button.dart';
 import 'package:flutter/material.dart';
@@ -118,18 +119,29 @@ class StartPage extends StatelessWidget {
                   visible: !_.loading,
                   child: Positioned(
                     top: AppSizes.small,
-                    right: AppSizes.small,
-                    child: DropdownButton<String>(
-                      value: _.currentBaseUrl,
-                      focusColor: AppColors.accent,
-                      onChanged: (String s) async =>
-                          await _.setCurrentBaseUrl(s),
-                      items: ApiService.urls.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        DropdownButton<String>(
+                          value: _.currentBaseUrl,
+                          focusColor: AppColors.accent,
+                          onChanged: (String s) async =>
+                              await _.setCurrentBaseUrl(s),
+                          items: ApiService.urls.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                        FlatButton(
+                          onPressed: () => Get.to(
+                            SavedErrorsPage(),
+                            fullscreenDialog: true,
+                          ),
+                          child: Text('Errors log'),
+                        ),
+                      ],
                     ),
                   ),
                 ),

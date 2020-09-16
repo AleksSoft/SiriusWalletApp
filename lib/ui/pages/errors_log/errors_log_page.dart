@@ -1,6 +1,7 @@
 import 'package:antares_wallet/controllers/errors_log_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class SavedErrorsPage extends StatelessWidget {
   const SavedErrorsPage({Key key}) : super(key: key);
@@ -17,11 +18,25 @@ class SavedErrorsPage extends StatelessWidget {
             builder: (_) => ListView(
               children: _.savedErrorsModel.errors
                   .map(
-                    (e) => ListTile(
-                      isThreeLine: true,
-                      title: Text('Code: ${e.code}'),
-                      subtitle: Text(
-                        'Message: ${e.message}\nMethod: ${e.method}',
+                    (e) => Card(
+                      child: ListTile(
+                        isThreeLine: true,
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Code: ${e.code}'),
+                            Text(
+                              DateFormat.EEEE().format(
+                                DateTime.fromMillisecondsSinceEpoch(
+                                  e.timestamp,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        subtitle: Text(
+                          'Message: ${e.message}\nMethod: ${e.method}',
+                        ),
                       ),
                     ),
                   )

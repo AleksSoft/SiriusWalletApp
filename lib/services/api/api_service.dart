@@ -11,35 +11,45 @@ class ApiService {
     'antares-api-grpc-dev.lykkex.net',
     'antares-api-grpc-test.lykkex.net',
   ];
+  static final timeoutDuration = const Duration(seconds: 60);
   final _storage = Get.find<LocalStorageInterface>();
 
-  ApiServiceClient get clientSecure {
-    String token = _storage.getString(AppStorageKeys.token);
-    return ApiServiceClient(
-      ClientChannel(baseUrl, port: 443),
-      options: CallOptions(
-        metadata: {'Authorization': 'Bearer $token'},
-        timeout: const Duration(seconds: 40),
-      ),
-    );
-  }
+  ApiServiceClient _clientSecure;
+  ApiServiceClient _client;
 
-  ApiServiceClient get client {
-    return ApiServiceClient(
-      ClientChannel(baseUrl, port: 443),
-      options: CallOptions(
-        timeout: const Duration(seconds: 40),
-      ),
-    );
-  }
+  ApiServiceClient get clientSecure => this._clientSecure;
+  ApiServiceClient get client => this._client;
 
-  String get baseUrl {
-    String url = urls[0];
-    if (_storage.containsKey(AppStorageKeys.baseUrl)) {
+  /// Updates grpc clients with given [url]
+  ///
+  /// If [url] is null the stored value is used
+  Future<void> update({String url}) async {
+    if (url.isNullOrBlank) {
       url = _storage.getString(AppStorageKeys.baseUrl);
+      if (url.isNullOrBlank) {
+        url = urls[0];
+        await _storage.setString(AppStorageKeys.baseUrl, url);
+      }
     } else {
-      _storage.setString(AppStorageKeys.baseUrl, url);
+      await _storage.setString(AppStorageKeys.baseUrl, url);
     }
-    return url;
+    var channel = ClientChannel(url, port: 443);
+    print('---- Base Url: $url');
+    _clientSecure = ApiServiceClient(
+      channel,
+      options: CallOptions(
+        metadata: {
+          'Authorization': 'Bearer ${_storage.getString(AppStorageKeys.token)}',
+        },
+        timeout: timeoutDuration,
+      ),
+    );
+
+    _client = ApiServiceClient(
+      channel,
+      options: CallOptions(
+        timeout: timeoutDuration,
+      ),
+    );
   }
 }
