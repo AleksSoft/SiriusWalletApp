@@ -1,7 +1,6 @@
+import 'package:antares_wallet/controllers/errors_log_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'errors_log_controller.dart';
 
 class SavedErrorsPage extends StatelessWidget {
   const SavedErrorsPage({Key key}) : super(key: key);

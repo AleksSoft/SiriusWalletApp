@@ -1,14 +1,13 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
+import 'package:antares_wallet/controllers/profile_controller.dart';
+import 'package:antares_wallet/controllers/upgrade_account_quest_controller.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
-import 'package:antares_wallet/ui/pages/more/profile/profile_controller.dart';
 import 'package:antares_wallet/ui/widgets/default_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'upgrade_account_quest_controller.dart';
 
 class UpgradeAccountQuestPage extends StatelessWidget {
   static final String route = '/upgrade-account-quest';

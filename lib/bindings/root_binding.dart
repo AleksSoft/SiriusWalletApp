@@ -3,9 +3,9 @@ import 'package:antares_wallet/controllers/deposit_controller.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/controllers/orders_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
+import 'package:antares_wallet/controllers/profile_controller.dart';
 import 'package:antares_wallet/controllers/watchlists_controller.dart';
 import 'package:antares_wallet/controllers/withdrawal_controller.dart';
-import 'package:antares_wallet/ui/pages/more/profile/profile_controller.dart';
 import 'package:antares_wallet/ui/pages/root/root_controller.dart';
 import 'package:get/get.dart';
 

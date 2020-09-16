@@ -1,10 +1,9 @@
 import 'package:antares_wallet/app/ui/app_sizes.dart';
+import 'package:antares_wallet/controllers/profile_controller.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_doc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../profile_controller.dart';
 
 class UpgradeAccountChooseDocPage extends StatelessWidget {
   static final String route = '/upgrade-account-choose-doc';

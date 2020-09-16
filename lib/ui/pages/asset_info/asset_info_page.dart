@@ -1,12 +1,13 @@
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
+import 'package:antares_wallet/controllers/asset_info_controller.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/services/utils/formatter.dart';
 import 'package:antares_wallet/ui/pages/orders/widgets/order_history_tile.dart';
 import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
 import 'package:antares_wallet/ui/widgets/asset_list_tile.dart';
-import 'package:antares_wallet/ui/widgets/asset_pair_sort/asset_pair_sort_tile.dart';
+import 'package:antares_wallet/ui/widgets/asset_pair_sort_tile.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
 import 'package:antares_wallet/ui/widgets/buy_sell_button_row.dart';
 import 'package:antares_wallet/ui/widgets/empty_view.dart';
@@ -17,8 +18,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sparkline/flutter_sparkline.dart';
 import 'package:get/get.dart';
 import 'package:search_page/search_page.dart';
-
-import 'asset_info_controller.dart';
 
 class AssetInfoPage extends StatelessWidget {
   static final String route = '/asset-info';

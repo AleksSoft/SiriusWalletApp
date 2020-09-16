@@ -9,13 +9,14 @@ import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/root/root_controller.dart';
 import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
-import 'package:antares_wallet/ui/widgets/asset_pair_sort/asset_pair_sort_tile_controller.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
 import 'package:cross_local_storage/cross_local_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:search_page/search_page.dart';
+
+import 'asset_pair_sort_tile_controller.dart';
 
 class MarketsController extends GetxController {
   static MarketsController get con => Get.find();

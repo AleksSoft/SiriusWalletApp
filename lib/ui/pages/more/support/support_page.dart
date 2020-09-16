@@ -1,10 +1,9 @@
+import 'package:antares_wallet/controllers/support_controller.dart';
 import 'package:antares_wallet/ui/pages/more/widgets/menu_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:get/get.dart';
-
-import 'support_controller.dart';
 
 class SupportPage extends StatelessWidget {
   static final String route = '/support';

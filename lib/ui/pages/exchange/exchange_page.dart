@@ -3,7 +3,7 @@ import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/ui/pages/exchange/watchlists/watchlists_page.dart';
 import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
-import 'package:antares_wallet/ui/widgets/asset_pair_sort/asset_pair_sort_tile.dart';
+import 'package:antares_wallet/ui/widgets/asset_pair_sort_tile.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
