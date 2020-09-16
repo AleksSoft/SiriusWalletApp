@@ -39,9 +39,9 @@ class AssetPairSortTileController extends GetxController {
 
   Widget getSortIcon(int index) {
     if (_sortType == _sortTypes[index][0]) {
-      return Icon(Icons.arrow_upward, size: 10, color: AppColors.secondary);
+      return Icon(Icons.arrow_upward, size: 10, color: sortColor(index));
     } else if (_sortType == _sortTypes[index][1]) {
-      return Icon(Icons.arrow_downward, size: 10, color: AppColors.secondary);
+      return Icon(Icons.arrow_downward, size: 10, color: sortColor(index));
     } else {
       return SizedBox.shrink();
     }
@@ -57,4 +57,8 @@ class AssetPairSortTileController extends GetxController {
       sortType = _sortTypes[index][0];
     }
   }
+
+  Color sortColor(int index) => _sortTypes[index].contains(sortType)
+      ? AppColors.accent
+      : AppColors.secondary;
 }

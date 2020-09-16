@@ -57,7 +57,7 @@ class AssetPairTile extends StatelessWidget {
                   AppUiHelpers.hSpaceExtraSmall,
                   Flexible(
                     child: Text(
-                      pairBaseAsset.displayId,
+                      pairBaseAsset.name,
                       overflow: TextOverflow.ellipsis,
                       style: Get.textTheme.subtitle2.copyWith(
                         fontSize: 14.0,

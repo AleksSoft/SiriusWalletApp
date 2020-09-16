@@ -9,6 +9,7 @@ import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/root/root_controller.dart';
 import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
+import 'package:antares_wallet/ui/widgets/asset_pair_sort/asset_pair_sort_tile_controller.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
 import 'package:cross_local_storage/cross_local_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -27,8 +28,49 @@ class MarketsController extends GetxController {
 
   List<MarketModel> _watchedMarkets = List<MarketModel>();
   List<MarketModel> get watchedMarkets => this._watchedMarkets;
+  List<MarketModel> get sortedWatchedMarkets {
+    var list = List<MarketModel>.from(watchedMarkets);
+    switch (_currentSort) {
+      case PairSortType.name_bottom:
+        list.sort(
+            (a, b) => a.pairBaseAsset.name.compareTo(b.pairBaseAsset.name));
+        return list;
+      case PairSortType.name_top:
+        list.sort(
+            (a, b) => b.pairBaseAsset.name.compareTo(a.pairBaseAsset.name));
+        return list;
+      case PairSortType.vol_bottom:
+        list.sort((a, b) => a.volume.compareTo(b.volume));
+        return list;
+      case PairSortType.vol_top:
+        list.sort((a, b) => b.volume.compareTo(a.volume));
+        return list;
+      case PairSortType.price_bottom:
+        list.sort((a, b) => a.price.compareTo(b.price));
+        return list;
+      case PairSortType.price_top:
+        list.sort((a, b) => b.price.compareTo(a.price));
+        return list;
+      case PairSortType.change_bottom:
+        list.sort((a, b) => a.change.compareTo(b.change));
+        return list;
+      case PairSortType.change_top:
+        list.sort((a, b) => b.change.compareTo(a.change));
+        return list;
+      default:
+        return list;
+    }
+  }
 
   StreamSubscription<PriceUpdate> _priceSubscription;
+
+  PairSortType _currentSort = PairSortType.none;
+  set currentSort(PairSortType value) {
+    if (_currentSort != value) {
+      _currentSort = value;
+      update();
+    }
+  }
 
   @override
   void onReady() async {

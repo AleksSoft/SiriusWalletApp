@@ -99,7 +99,7 @@ class _TextButton extends StatelessWidget {
           Text(
             label,
             style: Get.textTheme.button.copyWith(
-              color: AppColors.secondary,
+              color: c.sortColor(index),
               fontSize: 12.0,
             ),
           ),

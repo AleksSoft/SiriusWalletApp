@@ -30,7 +30,7 @@ class ExchangePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           AssetPairSortTile(
-            onChanged: (value) => print(value.toString()),
+            onChanged: (value) => MarketsController.con.currentSort = value,
           ),
           Expanded(
             child: RefreshIndicator(
@@ -41,7 +41,7 @@ class ExchangePage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(
                     horizontal: AppSizes.medium,
                   ),
-                  children: _.watchedMarkets
+                  children: _.sortedWatchedMarkets
                       .map((e) => AssetPairTile(
                             imgUrl: e.iconUrl,
                             pairBaseAsset: e.pairBaseAsset,
