@@ -1,4 +1,5 @@
 import 'package:antares_wallet/controllers/assets_controller.dart';
+import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/repositories/watchists_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/controllers/watchlists_controller.dart';
@@ -50,8 +51,10 @@ class EditWatchlistController extends GetxController {
         _checkedAssetPairs.map((chap) => chap.id).toList(),
       );
     }
-    await Get.find<WatchlistsController>().getWatchlists();
-    Get.back();
+    WatchlistsController.con.getWatchlists().then((value) {
+      Get.back();
+      MarketsController.con.rebuildWatchedMarkets();
+    });
   }
 
   void check(AssetPair assetPair) {
@@ -65,9 +68,7 @@ class EditWatchlistController extends GetxController {
     update();
   }
 
-  bool checked(AssetPair assetPair) {
-    return _checkedAssetPairs.contains(assetPair);
-  }
+  bool checked(AssetPair assetPair) => _checkedAssetPairs.contains(assetPair);
 
   onReorder(int oldIndex, int newIndex) {
     var item = _checkedAssetPairs.removeAt(oldIndex);
@@ -76,6 +77,7 @@ class EditWatchlistController extends GetxController {
     } else {
       _checkedAssetPairs.insert(newIndex, item);
     }
+    edited = true;
     update();
   }
 

@@ -37,7 +37,7 @@ class WatchlistsController extends GetxController {
     super.onInit();
   }
 
-  getWatchlists() async =>
+  Future getWatchlists() async =>
       watchlists.assignAll(await WatchlistsRepository.getWatchlists());
 
   Future<void> select(String id) async {
