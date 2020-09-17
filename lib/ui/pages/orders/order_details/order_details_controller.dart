@@ -61,6 +61,7 @@ class OrderDetailsController extends GetxController {
   set amount(String value) {
     amountTextController.text = value;
     this._amount.value = amountTextController.text;
+    _updateAllowed();
   }
 
   final _loading = false.obs;
@@ -119,9 +120,6 @@ class OrderDetailsController extends GetxController {
 
     // load pair market data
     await updateWithPairId(arguments.pairId);
-
-    ever(_isBuy, (_) => reloadTextValues());
-    ever(_amount, (_) => _updateAllowed());
 
     super.onInit();
   }
@@ -308,28 +306,35 @@ class OrderDetailsController extends GetxController {
         : (double.tryParse(bids[index].v) ?? 0.0) / maxBidVol;
   }
 
+  void updateTradeMode(bool value) {
+    isBuy = value;
+    reloadTextValues();
+  }
+
   void bidPricePressed(String p) {
-    isBuy = true;
-    amount = '';
     orderType = orderTypes[0];
+    isBuy = true;
+    amount = '0.0';
+    price = p;
   }
 
   void bidVolumePressed(String v) {
+    orderType = orderTypes[1];
     isBuy = false;
     amount = v;
-    orderType = orderTypes[1];
   }
 
   void askPricePressed(String p) {
-    isBuy = false;
-    price = p;
     orderType = orderTypes[0];
+    isBuy = false;
+    amount = '0.0';
+    price = p;
   }
 
   void askVolumePressed(String v) {
+    orderType = orderTypes[1];
     isBuy = true;
     amount = v;
-    orderType = orderTypes[1];
   }
 
   double _countTotal() {
@@ -357,8 +362,8 @@ class OrderDetailsController extends GetxController {
   }
 
   void _updateAllowed() {
-    double balance =
-        double.tryParse(isBuy ? quotingBalance : baseBalance) ?? 0.0;
+    String strBalance = isBuy ? quotingBalance : baseBalance;
+    double balance = double.tryParse(strBalance ?? '0.0') ?? 0.0;
     double a = double.tryParse(amount) ?? 0.0;
     locked = isBuy ? _countTotal() > balance : a > balance;
     actionAllowed = !locked && a > 0 && !liquidityError;
