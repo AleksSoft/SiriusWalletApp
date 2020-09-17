@@ -466,6 +466,8 @@ class _OrderbookView extends StatelessWidget {
                     ),
                     color: AppColors.red,
                     percent: c.volumeAskPercent(i),
+                    onPricePressed: () => c.askPricePressed(a.p),
+                    onVolumePressed: () => c.askVolumePressed(a.v),
                   );
                 }
               },
@@ -518,6 +520,8 @@ class _OrderbookView extends StatelessWidget {
                     ),
                     color: AppColors.green,
                     percent: c.volumeBidPercent(i),
+                    onPricePressed: () => c.bidPricePressed(a.p),
+                    onVolumePressed: () => c.bidVolumePressed(a.v),
                   );
                 }
               },

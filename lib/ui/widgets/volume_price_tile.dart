@@ -10,6 +10,8 @@ class VolumePriceTile extends StatelessWidget {
     this.price,
     this.percent = 0,
     this.color = AppColors.secondary,
+    this.onVolumePressed,
+    this.onPricePressed,
     Key key,
   }) : super(key: key);
 
@@ -17,6 +19,8 @@ class VolumePriceTile extends StatelessWidget {
   final String price;
   final double percent;
   final Color color;
+  final VoidCallback onVolumePressed;
+  final VoidCallback onPricePressed;
 
   @override
   Widget build(BuildContext context) {
@@ -45,15 +49,21 @@ class VolumePriceTile extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  price ?? '—',
-                  style: style.apply(color: color),
-                  overflow: TextOverflow.ellipsis,
+                GestureDetector(
+                  onTap: () => onPricePressed?.call(),
+                  child: Text(
+                    price ?? '—',
+                    style: style.apply(color: color),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-                Text(
-                  volume ?? '—',
-                  style: style,
-                  overflow: TextOverflow.ellipsis,
+                GestureDetector(
+                  onTap: () => onVolumePressed?.call(),
+                  child: Text(
+                    volume ?? '—',
+                    style: style,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),

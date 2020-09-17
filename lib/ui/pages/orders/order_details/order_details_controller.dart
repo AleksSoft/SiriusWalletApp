@@ -43,12 +43,25 @@ class OrderDetailsController extends GetxController {
 
   static final _api = Get.find<ApiService>();
 
-  final priceTextController = TextEditingController();
-  final amountTextController = TextEditingController();
-  final totalTextController = TextEditingController();
   final _portfolioCon = PortfolioController.con;
 
   StreamSubscription _orderbookSubscr;
+
+  final priceTextController = TextEditingController();
+  String get price => priceTextController.text;
+  set price(String value) => priceTextController.text = value;
+
+  final totalTextController = TextEditingController();
+  String get total => totalTextController.text;
+  set total(String value) => totalTextController.text = value;
+
+  final amountTextController = TextEditingController();
+  final _amount = '0.0'.obs;
+  String get amount => this._amount.value;
+  set amount(String value) {
+    amountTextController.text = value;
+    this._amount.value = amountTextController.text;
+  }
 
   final _loading = false.obs;
   bool get loading => this._loading.value;
@@ -69,10 +82,6 @@ class OrderDetailsController extends GetxController {
   final _actionAllowed = false.obs;
   bool get actionAllowed => this._actionAllowed.value;
   set actionAllowed(bool value) => this._actionAllowed.value = value;
-
-  final _amount = '0.0'.obs;
-  String get amount => this._amount.value;
-  set amount(String value) => this._amount.value = value;
 
   final _marketModel = MarketModel.empty().obs;
   MarketModel get marketModel => this._marketModel.value;
@@ -169,13 +178,9 @@ class OrderDetailsController extends GetxController {
 
     if (isEdit) {
       final arguments = Get.arguments as OrderDetailsArguments;
-      priceTextController.text =
-          (double.tryParse(arguments.price) ?? 0.0).toString();
-      totalTextController.text =
-          (double.tryParse(arguments.total) ?? 0.0).toString();
-      amountTextController.text =
-          (double.tryParse(arguments.amount) ?? 0.0).toString();
-      amount = amountTextController.text;
+      price = (double.tryParse(arguments.price) ?? 0.0).toString();
+      total = (double.tryParse(arguments.total) ?? 0.0).toString();
+      amount = (double.tryParse(arguments.amount) ?? 0.0).toString();
     } else {
       reloadTextValues();
     }
@@ -214,47 +219,40 @@ class OrderDetailsController extends GetxController {
       orderBookPrice = marketModel.price.toString();
     }
 
-    priceTextController.text = orderBookPrice;
-    amountTextController.clear();
-    amount = amountTextController.text;
-    totalTextController.clear();
+    price = orderBookPrice;
+    amount = '';
+    total = '';
   }
 
   void updatePercent(double percent) {
-    double priceValue = double.tryParse(priceTextController.text) ?? 0.0;
-    print('priceValue=$priceValue');
-    print('priceTextController.text=${priceTextController.text}');
+    double priceValue = double.tryParse(price) ?? 0.0;
     double balance =
         double.tryParse(isBuy ? quotingBalance : baseBalance) ?? 0.0;
-    print('balance=$balance');
     double amountValue =
         isBuy ? (balance * percent) / priceValue : balance * percent;
-    print('amountValue=$amountValue');
-
-    amountTextController.text = amountValue.toString();
-    amount = amountTextController.text;
-    totalTextController.text = _countTotal().toString();
+    amount = amountValue.toString();
+    total = _countTotal().toString();
   }
 
   Future<void> perform() async {
     var response;
     String assetPairId = marketModel?.pairId;
     String assetId = marketModel?.pairBaseAsset?.id;
-    double volume = double.tryParse(amountTextController.text) ?? 0.0;
-    double pirce = double.tryParse(priceTextController.text) ?? 0.0;
+    double vol = double.tryParse(amount) ?? 0.0;
+    double pr = double.tryParse(price) ?? 0.0;
     loading = true;
     if (orderType.toLowerCase() == 'limit') {
       response = await TradingRepository.placeLimitOrder(
         assetPairId: assetPairId,
         assetId: assetId,
-        volume: isBuy ? volume : volume * -1,
-        price: pirce,
+        volume: isBuy ? vol : vol * -1,
+        price: pr,
       );
     } else if (orderType.toLowerCase() == 'market') {
       response = await TradingRepository.placeMarketOrder(
         assetPairId: assetPairId,
         assetId: assetId,
-        volume: isBuy ? volume : volume * -1,
+        volume: isBuy ? vol : vol * -1,
       );
     }
     if (response == null) {
@@ -284,18 +282,16 @@ class OrderDetailsController extends GetxController {
   }
 
   void priceChanged(String s) {
-    totalTextController.text = _countTotal().toString();
+    total = _countTotal().toString();
     _updateAllowed();
   }
 
   void amountChanged(String s) {
-    amount = amountTextController.text;
-    totalTextController.text = _countTotal().toString();
+    amount = _countTotal().toString();
   }
 
   void totalChanged(String s) {
-    amountTextController.text = _countAmount().toString();
-    amount = amountTextController.text;
+    amount = _countAmount().toString();
   }
 
   double volumeAskPercent(int index) {
@@ -312,16 +308,40 @@ class OrderDetailsController extends GetxController {
         : (double.tryParse(bids[index].v) ?? 0.0) / maxBidVol;
   }
 
+  void bidPricePressed(String p) {
+    isBuy = true;
+    amount = '';
+    orderType = orderTypes[0];
+  }
+
+  void bidVolumePressed(String v) {
+    isBuy = false;
+    amount = v;
+    orderType = orderTypes[1];
+  }
+
+  void askPricePressed(String p) {
+    isBuy = false;
+    price = p;
+    orderType = orderTypes[0];
+  }
+
+  void askVolumePressed(String v) {
+    isBuy = true;
+    amount = v;
+    orderType = orderTypes[1];
+  }
+
   double _countTotal() {
-    double price = double.tryParse(priceTextController.text) ?? 0.0;
-    double amount = double.tryParse(amountTextController.text) ?? 0.0;
-    return price * amount;
+    double p = double.tryParse(price) ?? 0.0;
+    double a = double.tryParse(amount) ?? 0.0;
+    return p * a;
   }
 
   double _countAmount() {
-    double price = double.tryParse(priceTextController.text) ?? 0.0;
-    double total = double.tryParse(totalTextController.text) ?? 0.0;
-    return total / price;
+    double p = double.tryParse(price) ?? 0.0;
+    double t = double.tryParse(total) ?? 0.0;
+    return t / p;
   }
 
   double _getMid() {
@@ -339,8 +359,8 @@ class OrderDetailsController extends GetxController {
   void _updateAllowed() {
     double balance =
         double.tryParse(isBuy ? quotingBalance : baseBalance) ?? 0.0;
-    double amount = double.tryParse(amountTextController.text) ?? 0.0;
-    locked = isBuy ? _countTotal() > balance : amount > balance;
-    actionAllowed = !locked && amount > 0 && !liquidityError;
+    double a = double.tryParse(amount) ?? 0.0;
+    locked = isBuy ? _countTotal() > balance : a > balance;
+    actionAllowed = !locked && a > 0 && !liquidityError;
   }
 }
