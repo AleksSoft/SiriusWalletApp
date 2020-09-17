@@ -66,24 +66,24 @@ class LocalAuthController extends GetxController {
       bool authorized = await _localAuthService.authenticate();
       if (authorized) {
         pinValue = _storage.getString(AppStorageKeys.pinCode);
-        _submitPIN();
+        await _submitPIN();
       }
     }
   }
 
-  setValue(String val) {
+  void setValue(String val) {
     if (pinValue.length < fieldsCount) {
       pinValue += val;
     }
   }
 
-  backspace() {
+  void backspace() {
     if (pinValue.length > 0) {
       pinValue = pinValue.split('').sublist(0, pinValue.length - 1).join('');
     }
   }
 
-  submit(String pin) async {
+  Future<void> submit(String pin) async {
     switch (_viewState.value) {
       case PinViewState.CREATE_PIN:
         _createPIN();
@@ -98,13 +98,13 @@ class LocalAuthController extends GetxController {
     }
   }
 
-  _createPIN() {
+  void _createPIN() {
     _prevPIN = pinValue;
     pinValue = '';
     _viewState.value = PinViewState.REPEAT_PIN;
   }
 
-  _submitPIN() async {
+  Future<void> _submitPIN() async {
     loading = true;
     String token = _storage.getString(AppStorageKeys.token);
     if (await SessionRepository.checkPin(sessionId: token, pin: pinValue)) {
@@ -126,7 +126,7 @@ class LocalAuthController extends GetxController {
     loading = false;
   }
 
-  _saveNewPIN() async {
+  Future<void> _saveNewPIN() async {
     if (_prevPIN == pinValue) {
       await _storage.setString(AppStorageKeys.pinCode, pinValue);
       Get.back();

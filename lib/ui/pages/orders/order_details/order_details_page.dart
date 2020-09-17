@@ -465,7 +465,7 @@ class _OrderbookView extends StatelessWidget {
                       maxDecimal: c.marketModel.pairQuotingAsset.accuracy,
                     ),
                     color: AppColors.red,
-                    percent: 0.50,
+                    percent: c.volumeAskPercent(i),
                   );
                 }
               },
@@ -517,7 +517,7 @@ class _OrderbookView extends StatelessWidget {
                       maxDecimal: c.marketModel.pairQuotingAsset.accuracy,
                     ),
                     color: AppColors.green,
-                    percent: 0.50,
+                    percent: c.volumeBidPercent(i),
                   );
                 }
               },

@@ -45,7 +45,7 @@ class LoginController extends GetxController {
 
   @override
   void onInit() async {
-    await setCurrentBaseUrl(ApiService.urls[0]);
+    await setCurrentBaseUrl(ApiService.defaultUrl);
     super.onInit();
   }
 

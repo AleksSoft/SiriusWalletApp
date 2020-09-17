@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:antares_wallet/src/apiservice.pb.dart';
 
 class OrderbookUtils {
@@ -52,4 +54,7 @@ class OrderbookUtils {
   }
 
   static double parsed(String v) => double.tryParse(v) ?? 0.0;
+
+  static double maxVol(List<Orderbook_PriceVolume> l) =>
+      l.map((o) => double.tryParse(o.v) ?? 0.0).reduce(max);
 }

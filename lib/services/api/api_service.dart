@@ -24,17 +24,12 @@ class ApiService {
   ///
   /// If [url] is null the stored value is used
   Future<void> update({String url}) async {
-    if (url.isNullOrBlank) {
-      url = _storage.getString(AppStorageKeys.baseUrl);
-      if (url.isNullOrBlank) {
-        url = urls[0];
-        await _storage.setString(AppStorageKeys.baseUrl, url);
-      }
-    } else {
-      await _storage.setString(AppStorageKeys.baseUrl, url);
-    }
-    var channel = ClientChannel(url, port: 443);
+    if (url.isNullOrBlank) url = defaultUrl;
+    await _storage.setString(AppStorageKeys.baseUrl, url);
     print('---- Base Url: $url');
+
+    var channel = ClientChannel(url, port: 443);
+
     _clientSecure = ApiServiceClient(
       channel,
       options: CallOptions(
@@ -51,5 +46,12 @@ class ApiService {
         timeout: timeoutDuration,
       ),
     );
+  }
+
+  static String get defaultUrl {
+    String url = Get.find<LocalStorageInterface>().getString(
+      AppStorageKeys.baseUrl,
+    );
+    return url.isNullOrBlank ? urls[0] : url;
   }
 }

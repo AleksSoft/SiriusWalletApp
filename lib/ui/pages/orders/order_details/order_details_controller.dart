@@ -158,13 +158,13 @@ class OrderDetailsController extends GetxController {
         (prev, curr) => prev + double.tryParse(curr.v) ?? 0.0,
       );
 
-  reloadUiWithPairId(String pairId) {
+  void reloadUiWithPairId(String pairId) {
     bids.clear();
     asks.clear();
     updateWithPairId(pairId);
   }
 
-  updateWithPairId(String pairId) async {
+  Future<void> updateWithPairId(String pairId) async {
     marketModel = MarketsController.con.marketModelByPairId(pairId);
 
     if (isEdit) {
@@ -200,7 +200,7 @@ class OrderDetailsController extends GetxController {
     });
   }
 
-  reloadTextValues() {
+  void reloadTextValues() {
     String orderBookPrice;
     try {
       if (orderType == orderTypes[0]) {
@@ -220,7 +220,7 @@ class OrderDetailsController extends GetxController {
     totalTextController.clear();
   }
 
-  updatePercent(double percent) {
+  void updatePercent(double percent) {
     double priceValue = double.tryParse(priceTextController.text) ?? 0.0;
     print('priceValue=$priceValue');
     print('priceTextController.text=${priceTextController.text}');
@@ -236,7 +236,7 @@ class OrderDetailsController extends GetxController {
     totalTextController.text = _countTotal().toString();
   }
 
-  perform() async {
+  Future<void> perform() async {
     var response;
     String assetPairId = marketModel?.pairId;
     String assetId = marketModel?.pairBaseAsset?.id;
@@ -273,7 +273,7 @@ class OrderDetailsController extends GetxController {
     }
   }
 
-  modify() async {
+  Future<void> modify() async {
     if (!_orderId.isNullOrBlank) {
       loading = true;
       await OrdersController.con.cancelOrder(_orderId);
@@ -283,19 +283,33 @@ class OrderDetailsController extends GetxController {
     }
   }
 
-  priceChanged(String s) {
+  void priceChanged(String s) {
     totalTextController.text = _countTotal().toString();
     _updateAllowed();
   }
 
-  amountChanged(String s) {
+  void amountChanged(String s) {
     amount = amountTextController.text;
     totalTextController.text = _countTotal().toString();
   }
 
-  totalChanged(String s) {
+  void totalChanged(String s) {
     amountTextController.text = _countAmount().toString();
     amount = amountTextController.text;
+  }
+
+  double volumeAskPercent(int index) {
+    var maxAskVol = OrderbookUtils.maxVol(asks);
+    return maxAskVol <= 0
+        ? 0
+        : (double.tryParse(asks[index].v) ?? 0.0) / maxAskVol;
+  }
+
+  double volumeBidPercent(int index) {
+    var maxBidVol = OrderbookUtils.maxVol(bids);
+    return maxBidVol <= 0
+        ? 0
+        : (double.tryParse(bids[index].v) ?? 0.0) / maxBidVol;
   }
 
   double _countTotal() {
@@ -322,7 +336,7 @@ class OrderDetailsController extends GetxController {
     return ((topAsk - topBid) / mid) * 100;
   }
 
-  _updateAllowed() {
+  void _updateAllowed() {
     double balance =
         double.tryParse(isBuy ? quotingBalance : baseBalance) ?? 0.0;
     double amount = double.tryParse(amountTextController.text) ?? 0.0;

@@ -143,7 +143,7 @@ class TradingController extends GetxController {
     }
   }
 
-  openOrderDetails(bool isBuy) => Get.toNamed(
+  void openOrderDetails(bool isBuy) => Get.toNamed(
         OrderDetailsPage.route,
         arguments: OrderDetailsArguments(
           marketModel.assetPair,
@@ -153,7 +153,7 @@ class TradingController extends GetxController {
         ),
       );
 
-  onMainZooming(ZoomPanArgs args) {
+  void onMainZooming(ZoomPanArgs args) {
     if (args.axis.name == 'primaryXAxis') {
       zoomP = args.currentZoomPosition;
       zoomF = args.currentZoomFactor;
@@ -163,14 +163,28 @@ class TradingController extends GetxController {
     }
   }
 
-  onVolumeZooming(ZoomPanArgs args) {
+  void onVolumeZooming(ZoomPanArgs args) {
     if (args.axis.name == 'primaryXAxis') {
       zoomP = args.currentZoomPosition;
       zoomF = args.currentZoomFactor;
     }
   }
 
-  Future updateWithMarket(MarketModel data) async {
+  double volumeAskPercent(int index) {
+    var maxAskVol = OrderbookUtils.maxVol(asks);
+    return maxAskVol <= 0
+        ? 0
+        : (double.tryParse(asks[index].v) ?? 0.0) / maxAskVol;
+  }
+
+  double volumeBidPercent(int index) {
+    var maxBidVol = OrderbookUtils.maxVol(bids);
+    return maxBidVol <= 0
+        ? 0
+        : (double.tryParse(bids[index].v) ?? 0.0) / maxBidVol;
+  }
+
+  Future<void> updateWithMarket(MarketModel data) async {
     loading = true;
     noCandleData = false;
     // set initial market data
@@ -188,7 +202,7 @@ class TradingController extends GetxController {
     loading = false;
   }
 
-  Future updateCandlesHistory() async {
+  Future<void> updateCandlesHistory() async {
     var to = candles.isNotEmpty
         ? candles[0].timestamp
         : Timestamp.fromDateTime(DateTime.now());
@@ -220,7 +234,7 @@ class TradingController extends GetxController {
     });
   }
 
-  reloadCandles() async {
+  Future<void> reloadCandles() async {
     // reload candle data list and subscription
     await _candleSubscr?.cancel();
     candleController?.updateDataSource(
@@ -238,7 +252,7 @@ class TradingController extends GetxController {
         .listen((CandleUpdate update) => _updateCandles(update));
   }
 
-  _initOrders() async {
+  Future<void> _initOrders() async {
     // reload orderbook and subscription
     var orderbook = OrderbookUtils.getMergedOrderbook(
       Orderbook()..bids.addAll(bids)..asks.addAll(asks),
@@ -246,8 +260,7 @@ class TradingController extends GetxController {
         assetPairId: initialMarket.pairId,
       ),
     );
-    asks.assignAll(orderbook.asks);
-    bids.assignAll(orderbook.bids);
+    _updateOrderbookValues(orderbook);
     // subscribe to orderbook stream
     await _orderbookSubscr?.cancel();
     _orderbookSubscr = _api.clientSecure
@@ -258,13 +271,15 @@ class TradingController extends GetxController {
         Orderbook()..bids.addAll(bids)..asks.addAll(asks),
         event,
       );
-    }).listen((update) {
-      bids.assignAll(update.bids);
-      asks.assignAll(update.asks);
-    });
+    }).listen(_updateOrderbookValues);
   }
 
-  _initTrades() async {
+  void _updateOrderbookValues(Orderbook update) {
+    bids.assignAll(update.bids);
+    asks.assignAll(update.asks);
+  }
+
+  Future<void> _initTrades() async {
     // reload tade data list and subscription
     await _tradesSubscr?.cancel();
     trades.clear();
@@ -277,7 +292,7 @@ class TradingController extends GetxController {
         );
   }
 
-  _updateCandles(CandleUpdate update) {
+  void _updateCandles(CandleUpdate update) {
     if (update != null && update.hasOpen()) {
       var updatedCandle = Candle()
         ..open = update.open
@@ -335,7 +350,7 @@ class TradingController extends GetxController {
     }
   }
 
-  toggleExpandChart() {
+  void toggleExpandChart() {
     if (Get.currentRoute == TradingPage.route) {
       Get.to(CandleChartPage(), transition: Transition.fade);
       SystemChrome.setPreferredOrientations([

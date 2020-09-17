@@ -296,7 +296,7 @@ class _Orderbook extends StatelessWidget {
                             maxDecimal:
                                 c.initialMarket.pairQuotingAsset.accuracy,
                           ),
-                          percent: 0.35,
+                          percent: c.volumeBidPercent(i),
                         );
                       }
                     },
@@ -350,7 +350,7 @@ class _Orderbook extends StatelessWidget {
                             maxDecimal:
                                 c.initialMarket.pairQuotingAsset.accuracy,
                           ),
-                          percent: 0.35,
+                          percent: c.volumeAskPercent(i),
                         );
                       }
                     },

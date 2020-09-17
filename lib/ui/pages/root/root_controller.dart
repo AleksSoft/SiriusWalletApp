@@ -25,8 +25,11 @@ class RootController extends GetxController with WidgetsBindingObserver {
   void onInit() {
     WidgetsBinding.instance.addObserver(this);
     _prolongSessionTimer = Timer.periodic(
-      Duration(minutes: 2),
-      (Timer _) async => await SessionRepository.prolongateSession(),
+      const Duration(seconds: 59),
+      (Timer _) async {
+        await SessionRepository.prolongateSession();
+        print('session prolongated');
+      },
     );
     super.onInit();
   }
