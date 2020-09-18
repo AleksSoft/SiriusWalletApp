@@ -3,6 +3,7 @@ import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/trading/trading_controller.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -226,6 +227,19 @@ class _ButtonRow extends StatelessWidget {
               child: Icon(Icons.show_chart),
             ),
           ),
+        ),
+        CupertinoSegmentedControl(
+          padding: const EdgeInsets.all(0.0),
+          groupValue: selectedList.isNotEmpty ? selectedList[0] ?? 0 : 0,
+          onValueChanged: (value) => c.updateAnswer(
+            AnswersRequest_Choice()
+              ..questionId = question.id
+              ..answerIds.add(question.answers[value].id),
+          ),
+          children: {
+            0: Text(question.answers[0].text),
+            1: Text(question.answers[1].text),
+          },
         ),
         Card(
           child: DropdownButtonHideUnderline(
