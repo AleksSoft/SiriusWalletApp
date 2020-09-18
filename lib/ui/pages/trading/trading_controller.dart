@@ -244,11 +244,12 @@ class TradingController extends GetxController {
     // load candle data
     await updateCandlesHistory();
     // subscribe to candle stream
+    _candleSubscr?.cancel();
     _candleSubscr = _api.clientSecure
         .getCandleUpdates(CandleUpdatesRequest()
           ..assetPairId = initialMarket.pairId
-          ..type = CandleType.Mid
-          ..interval = CandleInterval.Min5)
+          ..type = selectedType
+          ..interval = selectedInterval)
         .listen((CandleUpdate update) => _updateCandles(update));
   }
 
@@ -353,12 +354,14 @@ class TradingController extends GetxController {
   void toggleExpandChart() {
     if (Get.currentRoute == TradingPage.route) {
       Get.to(CandleChartPage(), transition: Transition.fade);
+      SystemChrome.setEnabledSystemUIOverlays([]);
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.landscapeLeft,
         DeviceOrientation.landscapeRight,
       ]);
     } else {
       Get.back();
+      SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
       SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     }
   }

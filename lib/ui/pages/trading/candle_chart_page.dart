@@ -5,6 +5,6 @@ import 'package:get/get.dart';
 class CandleChartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: CandleChartView(height: Get.width));
+    return Scaffold(body: CandleChartView(height: Get.height));
   }
 }
