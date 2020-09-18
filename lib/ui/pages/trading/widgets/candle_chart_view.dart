@@ -214,8 +214,8 @@ class _ButtonRow extends StatelessWidget {
           onTap: () => c.toggleExpandChart(),
           child: Card(
             child: Padding(
-              padding: const EdgeInsets.all(AppSizes.small),
-              child: Icon(Icons.crop_free),
+              padding: const EdgeInsets.all(AppSizes.extraSmall),
+              child: Icon(Icons.crop_free, size: 20),
             ),
           ),
         ),
@@ -223,61 +223,91 @@ class _ButtonRow extends StatelessWidget {
           onTap: () => c.isCandleChart = !c.isCandleChart,
           child: Card(
             child: Padding(
-              padding: const EdgeInsets.all(AppSizes.small),
-              child: Icon(Icons.show_chart),
+              padding: const EdgeInsets.all(AppSizes.extraSmall),
+              child: Icon(Icons.show_chart, size: 20),
             ),
           ),
         ),
         Card(
-          child: DropdownButtonHideUnderline(
-            child: Obx(
-              () => DropdownButton<CandleType>(
-                value: c.selectedType,
-                isExpanded: false,
-                onChanged: (CandleType ct) async {
-                  c.loading = true;
-                  c.selectedType = ct;
-                  await c.reloadCandles();
-                  c.loading = false;
+          child: Obx(
+            () {
+              int checked = TradingController.candleTypes.indexOf(
+                c.selectedType,
+              );
+              return CupertinoSegmentedControl<int>(
+                padding: const EdgeInsets.all(0.0),
+                groupValue: checked,
+                borderColor: Colors.transparent,
+                selectedColor: AppColors.dark,
+                onValueChanged: (index) async => c.reloadChartType(
+                  TradingController.candleTypes[index],
+                ),
+                children: {
+                  0: Text(
+                    ' Mid price ',
+                    style: Get.textTheme.button.copyWith(
+                      fontSize: 14,
+                      color: checked == 0 ? AppColors.primary : AppColors.dark,
+                    ),
+                  ),
+                  1: Text(
+                    'Trades',
+                    style: Get.textTheme.button.copyWith(
+                      fontSize: 14,
+                      color: checked == 1 ? AppColors.primary : AppColors.dark,
+                    ),
+                  ),
                 },
-                items: TradingController.candleTypes.map(
-                  (CandleType value) {
-                    return DropdownMenuItem<CandleType>(
-                      value: value,
-                      child: Text(
-                        value == CandleType.Mid ? 'Mid price' : 'Trades',
-                      ),
-                    );
-                  },
-                ).toList(),
+              );
+            },
+          ),
+        ),
+        GestureDetector(
+          onTap: () => Get.bottomSheet(
+            Scaffold(
+              appBar: AppBar(
+                leading: CloseButton(),
+                title: Text('Select interval:'),
+                centerTitle: true,
+              ),
+              body: SingleChildScrollView(
+                child: Column(
+                  children: CandleInterval.values
+                      .map(
+                        (e) => ListTile(
+                          onTap: () {
+                            Get.back();
+                            c.reloadChartInterval(e);
+                          },
+                          visualDensity: VisualDensity.compact,
+                          title: Text(
+                            c.getIntervalStr(e),
+                            textAlign: TextAlign.center,
+                            style: Get.textTheme.button.copyWith(fontSize: 14),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+            ),
+            backgroundColor: AppColors.primary,
+            elevation: AppSizes.small,
+            isDismissible: true,
+            enableDrag: true,
+          ),
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(AppSizes.extraSmall * 1.5),
+              child: Obx(
+                () => Text(
+                  c.getIntervalStr(c.selectedInterval),
+                  style: Get.textTheme.button.copyWith(fontSize: 14),
+                ),
               ),
             ),
           ),
         ),
-        Card(
-          child: DropdownButtonHideUnderline(
-            child: Obx(
-              () => DropdownButton<CandleInterval>(
-                value: c.selectedInterval,
-                isExpanded: false,
-                onChanged: (CandleInterval i) async {
-                  c.loading = true;
-                  c.selectedInterval = i;
-                  await c.reloadCandles();
-                  c.loading = false;
-                },
-                items: CandleInterval.values.map(
-                  (CandleInterval value) {
-                    return DropdownMenuItem<CandleInterval>(
-                      value: value,
-                      child: Text(c.getIntervalStr(value)),
-                    );
-                  },
-                ).toList(),
-              ),
-            ),
-          ),
-        )
       ],
     );
   }

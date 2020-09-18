@@ -9,7 +9,6 @@ import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
 import 'package:antares_wallet/ui/pages/orders/order_details/order_details_controller.dart';
 import 'package:antares_wallet/ui/pages/orders/order_details/order_details_page.dart';
 import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -253,6 +252,20 @@ class TradingController extends GetxController {
         .listen((CandleUpdate update) => _updateCandles(update));
   }
 
+  Future<void> reloadChartInterval(CandleInterval i) async {
+    loading = true;
+    selectedInterval = i;
+    await reloadCandles();
+    loading = false;
+  }
+
+  Future<void> reloadChartType(CandleType t) async {
+                  loading = true;
+                  selectedType = t;
+                  await reloadCandles();
+                  loading = false;
+  }
+
   Future<void> _initOrders() async {
     // reload orderbook and subscription
     var orderbook = OrderbookUtils.getMergedOrderbook(
@@ -354,15 +367,8 @@ class TradingController extends GetxController {
   void toggleExpandChart() {
     if (Get.currentRoute == TradingPage.route) {
       Get.to(CandleChartPage(), transition: Transition.fade);
-      SystemChrome.setEnabledSystemUIOverlays([]);
-      SystemChrome.setPreferredOrientations([
-        DeviceOrientation.landscapeLeft,
-        DeviceOrientation.landscapeRight,
-      ]);
     } else {
       Get.back();
-      SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     }
   }
 }

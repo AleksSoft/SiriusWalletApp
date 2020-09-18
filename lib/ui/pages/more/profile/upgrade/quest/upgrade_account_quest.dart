@@ -70,13 +70,13 @@ class _SingleQuestion extends StatelessWidget {
             ),
           ),
           AppUiHelpers.vSpaceSmall,
-          CupertinoSegmentedControl(
+          CupertinoSegmentedControl<int>(
             padding: const EdgeInsets.all(0.0),
             groupValue: selectedList.isNotEmpty ? selectedList[0] ?? 0 : 0,
-            onValueChanged: (value) => c.updateAnswer(
+            onValueChanged: (index) => c.updateAnswer(
               AnswersRequest_Choice()
                 ..questionId = question.id
-                ..answerIds.add(question.answers[value].id),
+                ..answerIds.add(question.answers[index].id),
             ),
             children: {
               0: Text(question.answers[0].text),
