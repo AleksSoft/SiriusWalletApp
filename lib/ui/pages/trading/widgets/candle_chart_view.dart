@@ -228,19 +228,6 @@ class _ButtonRow extends StatelessWidget {
             ),
           ),
         ),
-        CupertinoSegmentedControl(
-          padding: const EdgeInsets.all(0.0),
-          groupValue: selectedList.isNotEmpty ? selectedList[0] ?? 0 : 0,
-          onValueChanged: (value) => c.updateAnswer(
-            AnswersRequest_Choice()
-              ..questionId = question.id
-              ..answerIds.add(question.answers[value].id),
-          ),
-          children: {
-            0: Text(question.answers[0].text),
-            1: Text(question.answers[1].text),
-          },
-        ),
         Card(
           child: DropdownButtonHideUnderline(
             child: Obx(
