@@ -10,7 +10,7 @@ class PortfolioRepository {
   static final _api = Get.find<ApiService>();
 
   static Future<List<Balance>> getBalances() async {
-    var response = await ErrorHandler.safeCall(
+    var response = await ErrorHandler.safeCall<BalancesResponse>(
       () => _api.clientSecure.getBalances(Empty()),
       method: 'getBalances',
     );
@@ -31,7 +31,7 @@ class PortfolioRepository {
     if (fromDate != null) request.from = fromDate;
     if (toDate != null) request.to = toDate;
 
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<FundsResponse>(
       () => _api.clientSecure.getFunds(request),
       method: 'getFunds',
     );
@@ -43,7 +43,7 @@ class PortfolioRepository {
     @required assetId,
     @required transactionHash,
   }) async {
-    var response = await ErrorHandler.safeCall(
+    var response = await ErrorHandler.safeCall<ExplorerLinksResponse>(
       () => _api.clientSecure.getExplorerLinks(
         ExplorerLinksRequest()
           ..assetId = assetId

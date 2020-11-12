@@ -15,7 +15,7 @@ class TradingRepository {
     @required Timestamp from,
     @required Timestamp to,
   }) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<CandlesResponse>(
       () => _api.clientSecure.getCandles(
         CandlesRequest()
           ..assetPairId = assetPairId
@@ -32,7 +32,7 @@ class TradingRepository {
   static Future<Orderbook> getOrderbook({
     @required String assetPairId,
   }) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<Orderbook>(
       () => _api.clientSecure.getOrderbook(
         OrderbookRequest()..assetPairId = assetPairId,
       ),
@@ -44,7 +44,7 @@ class TradingRepository {
   static Future<List<LimitOrderModel>> getOrders({String assetPairId}) async {
     var request = LimitOrdersRequest();
     if (assetPairId != null) request.assetPairId = assetPairId;
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<LimitOrdersResponse>(
       () => _api.clientSecure.getOrders(request),
       method: 'getOrders',
     );
@@ -66,7 +66,7 @@ class TradingRepository {
     if (fromDate != null) request.from = fromDate;
     if (toDate != null) request.to = toDate;
 
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<TradesResponse>(
       () => _api.clientSecure.getTrades(request),
       method: 'getTrades',
     );
@@ -78,7 +78,7 @@ class TradingRepository {
     @required int take,
     @required int skip,
   }) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<AssetTradesResponse>(
       () => _api.clientSecure.getAssetTrades(
         AssetTradesRequest()
           ..assetId = assetId
@@ -91,7 +91,7 @@ class TradingRepository {
   }
 
   static Future<bool> cancelOrder(String orderId) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<CancelOrderResponse>(
       () => _api.clientSecure.cancelOrder(
         CancelOrderRequest()..orderId = orderId,
       ),
@@ -101,7 +101,7 @@ class TradingRepository {
   }
 
   static Future<bool> cancelAllOrders() async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<CancelOrderResponse>(
       () => _api.clientSecure.cancelAllOrders(CancelOrdersRequest()),
       method: 'cancelAllOrders',
     );
@@ -114,7 +114,7 @@ class TradingRepository {
     @required double volume,
     @required double price,
   }) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<PlaceOrderResponse>(
       () => _api.clientSecure.placeLimitOrder(
         LimitOrderRequest()
           ..assetPairId = assetPairId
@@ -132,7 +132,7 @@ class TradingRepository {
     @required String assetId,
     @required double volume,
   }) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<PlaceOrderResponse>(
       () => _api.clientSecure.placeMarketOrder(
         MarketOrderRequest()
           ..assetPairId = assetPairId

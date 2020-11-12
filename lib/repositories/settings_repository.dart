@@ -8,7 +8,7 @@ class SettingsRepository {
   static final _api = Get.find<ApiService>();
 
   static Future<AppSettingsResponse_AppSettingsData> getAppSettings() async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<AppSettingsResponse>(
       () => _api.clientSecure.getAppSettings(Empty()),
       method: 'getAppSettings',
     );

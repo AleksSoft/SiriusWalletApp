@@ -12,7 +12,7 @@ class SessionRepository {
 
   static Future<CountryPhoneCodesResponse_CountryPhoneCodes>
       getCountryPhoneCodes() async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<CountryPhoneCodesResponse>(
       () => _api.client.getCountryPhoneCodes(Empty()),
       method: 'getCountryPhoneCodes',
     );
@@ -34,7 +34,7 @@ class SessionRepository {
   }
 
   static Future<bool> isSessionExpired({@required String sessionId}) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<CheckSessionResponse>(
       () => _api.client.isSessionExpired(
         CheckSessionRequest()..sessionId = sessionId,
       ),
@@ -50,7 +50,7 @@ class SessionRepository {
     @required String password,
     @required String publicKey,
   }) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<LoginResponse>(
       () => _api.client.login(
         LoginRequest()
           ..email = email
@@ -82,7 +82,7 @@ class SessionRepository {
     @required String sessionId,
     @required String code,
   }) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<VerifyLoginSmsResponse>(
       () => _api.client.verifyLoginSms(
         VerifyLoginSmsRequest()
           ..sessionId = sessionId
@@ -97,7 +97,7 @@ class SessionRepository {
     @required String sessionId,
     @required String pin,
   }) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<CheckPinResponse>(
       () => _api.client.checkPin(
         CheckPinRequest()
           ..sessionId = sessionId
@@ -113,7 +113,7 @@ class SessionRepository {
   static Future<String> sendVerificationEmail({
     @required String email,
   }) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<VerificationEmailResponse>(
       () => _api.client.sendVerificationEmail(
         VerificationEmailRequest()..email = email,
       ),
@@ -127,7 +127,7 @@ class SessionRepository {
     @required String code,
     @required String token,
   }) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<VerifyResponse>(
       () => _api.client.verifyEmail(
         VerifyEmailRequest()
           ..email = email
@@ -165,7 +165,7 @@ class SessionRepository {
     @required String code,
     @required String token,
   }) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<VerifyResponse>(
       () => _api.client.verifyPhone(
         VerifyPhoneRequest()
           ..phone = phone
@@ -200,7 +200,7 @@ class SessionRepository {
       ..pin = pin
       ..token = token
       ..publicKey = publicKey;
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<RegisterResponse>(
       () => _api.client.register(request),
       method: 'register',
     );

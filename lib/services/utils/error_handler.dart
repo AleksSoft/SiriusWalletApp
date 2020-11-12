@@ -14,22 +14,29 @@ import 'package:grpc/grpc.dart';
 typedef Future<T> FutureGenerator<T>();
 
 class ErrorHandler {
-  static Future safeCall(FutureGenerator future,
-      {@required String method}) async {
-    dynamic response = await future()
-        .timeout(ApiService.timeoutDuration)
-        .catchError(
-          (e) => _handleGrpcError(e, method),
-          test: (e) => e is GrpcError,
-        )
-        .catchError((e) async => await _handleError(e, method));
+  static Future<T> safeCall<T>(
+    FutureGenerator<T> future, {
+    @required String method,
+  }) async {
     try {
-      if (response?.error != null && response.error.hasMessage()) {
-        await _handleApiError(response.error, future, method);
-        return null;
-      }
-    } catch (e) {}
-    return response;
+      dynamic response = await future()
+          .timeout(ApiService.timeoutDuration)
+          .catchError(
+            (e) => _handleGrpcError(e, method),
+            test: (e) => e is GrpcError,
+          )
+          .catchError((e) async => await _handleError(e, method));
+      try {
+        if (response?.error != null && response.error.hasMessage()) {
+          await _handleApiError(response.error, future, method);
+          return null;
+        }
+      } catch (e) {}
+      return response;
+    } catch (e) {
+      _handleError(e, method);
+      return null;
+    }
   }
 
   static _handleApiError(
@@ -63,11 +70,18 @@ class ErrorHandler {
           );
     }
     await saveError(
-        code: e.code.toString(), message: e.message, method: method);
+      code: e.code.toString(),
+      message: e.message,
+      method: method,
+    );
   }
 
-  static _handleError(dynamic e, String method) async {
-    await saveError(code: '', message: e.message, method: method);
+  static _handleError(dynamic error, String method) async {
+    try {
+      await saveError(code: '', message: error.message, method: method);
+    } catch (e) {
+      await saveError(code: '', message: error.toString(), method: method);
+    }
   }
 
   static saveError({

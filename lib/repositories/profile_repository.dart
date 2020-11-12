@@ -9,7 +9,7 @@ class ProfileRepository {
   static final _api = Get.find<ApiService>();
 
   static Future<TierInfoPayload> getTierInfo() async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<TierInfoRespone>(
       () => _api.clientSecure.getTierInfo(Empty()),
       method: 'getTierInfo',
     );
@@ -17,7 +17,7 @@ class ProfileRepository {
   }
 
   static Future<PersonalData> getPersonalData() async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<PersonalDataResponse>(
       () => _api.clientSecure.getPersonalData(Empty()),
       method: 'getPersonalData',
     );
@@ -26,7 +26,7 @@ class ProfileRepository {
 
   static Future<Map<String, KycDocumentsResponse_KycDocument>>
       getKycDocuments() async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<KycDocumentsResponse>(
       () => _api.clientSecure.getKycDocuments(Empty()),
       method: 'getKycDocuments',
     );
@@ -34,7 +34,7 @@ class ProfileRepository {
   }
 
   static Future<bool> setAddress({@required String address}) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<EmptyResponseV2>(
       () => _api.clientSecure.setAddress(
         SetAddressRequest()..address = address,
       ),
@@ -44,7 +44,7 @@ class ProfileRepository {
   }
 
   static Future<bool> setZip({@required String zip}) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<EmptyResponseV2>(
       () => _api.clientSecure.setZip(SetZipRequest()..zip = zip),
       method: 'setZip',
     );
@@ -56,7 +56,7 @@ class ProfileRepository {
     @required String filename,
     @required List<int> file,
   }) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<EmptyResponse>(
       () => _api.clientSecure.uploadKycFile(
         KycFileRequest()
           ..documentType = documentType
@@ -69,7 +69,8 @@ class ProfileRepository {
   }
 
   static Future<List<QuestionnaireResponse_Question>> getQuestionnaire() async {
-    final QuestionnaireResponse response = await ErrorHandler.safeCall(
+    final QuestionnaireResponse response =
+        await ErrorHandler.safeCall<QuestionnaireResponse>(
       () => _api.clientSecure.getQuestionnaire(Empty()),
       method: 'getQuestionnaire',
     );
@@ -79,7 +80,7 @@ class ProfileRepository {
   static Future<bool> saveQuestionnaire({
     @required List<AnswersRequest_Choice> answers,
   }) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<EmptyResponse>(
       () => _api.clientSecure.saveQuestionnaire(
         AnswersRequest()..answers.addAll(answers),
       ),
@@ -91,7 +92,7 @@ class ProfileRepository {
   static Future<bool> submitProfile({
     @required TierUpgrade tier,
   }) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<EmptyResponse>(
       () => _api.clientSecure.submitProfile(
         SubmitProfileRequest()..tier = tier,
       ),

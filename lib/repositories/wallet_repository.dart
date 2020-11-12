@@ -13,7 +13,7 @@ class WalletRepository {
     String address,
     String addressExtension,
   }) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<CheckCryptoAddressResponse>(
       () => _api.clientSecure.isCryptoAddressValid(
         CheckCryptoAddressRequest()
           ..assetId = assetId
@@ -27,7 +27,7 @@ class WalletRepository {
 
   static Future<SwiftCredentialsResponse_SwiftCredentials> getSwiftCredentials(
       String assetId) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<SwiftCredentialsResponse>(
       () => _api.clientSecure.getSwiftCredentials(
         SwiftCredentialsRequest()..assetId = assetId,
       ),
@@ -38,7 +38,7 @@ class WalletRepository {
 
   static Future<SwiftCashoutInfoResponse_SwiftCashoutInfo>
       getSwiftCashoutInfo() async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<SwiftCashoutInfoResponse>(
       () => _api.clientSecure.getSwiftCashoutInfo(Empty()),
       method: 'getSwiftCashoutInfo',
     );
@@ -49,7 +49,7 @@ class WalletRepository {
     @required String assetId,
     @required String countryCode,
   }) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<SwiftCashoutFeeResponse>(
       () => _api.clientSecure.getSwiftCashoutFee(
         SwiftCashoutFeeRequest()
           ..assetId = assetId
@@ -62,7 +62,8 @@ class WalletRepository {
 
   static Future<BankCardPaymentDetailsResponse_BankCardPaymentDetails>
       getBankCardPaymentDetails() async {
-    final response = await ErrorHandler.safeCall(
+    final response =
+        await ErrorHandler.safeCall<BankCardPaymentDetailsResponse>(
       () => _api.clientSecure.getBankCardPaymentDetails(Empty()),
       method: 'getBankCardPaymentDetails',
     );
@@ -72,7 +73,7 @@ class WalletRepository {
 
   static Future<CryptoDepositAddressResponse_CryptoDepositAddress>
       getCryptoDepositAddress(String assetId) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<CryptoDepositAddressResponse>(
       () => _api.clientSecure.getCryptoDepositAddress(
         CryptoDepositAddressRequest()..assetId = assetId,
       ),
@@ -84,7 +85,7 @@ class WalletRepository {
 
   static Future<WithdrawalCryptoInfoResponse_WithdrawalCryptoInfo>
       getWithdrawalCryptoInfo(String assetId) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<WithdrawalCryptoInfoResponse>(
       () => _api.clientSecure.getWithdrawalCryptoInfo(
         WithdrawalCryptoInfoRequest()..assetId = assetId,
       ),
@@ -98,7 +99,7 @@ class WalletRepository {
     @required String assetId,
     @required double balanceChange,
   }) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<EmptyResponse>(
       () => _api.clientSecure.sendBankTransferRequest(
         BankTransferRequest()
           ..assetId = assetId
@@ -114,7 +115,7 @@ class WalletRepository {
     @required String amount,
     @required String assetId,
   }) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<BankCardPaymentUrlResponse>(
       () => _api.clientSecure.getBankCardPaymentUrl(
         BankCardPaymentUrlRequest()
           ..amount = amount
@@ -131,7 +132,7 @@ class WalletRepository {
     @required String destinationAddress,
     @required String destinationAddressExtension,
   }) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<EmptyResponse>(
       () => _api.clientSecure.cryptoCashout(
         CryptoCashoutRequest()
           ..assetId = assetId
@@ -156,7 +157,7 @@ class WalletRepository {
     @required String accHolderZipCode,
     @required String accHolderCity,
   }) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<SwiftCashoutResponse>(
       () => _api.clientSecure.swiftCashout(
         SwiftCashoutRequest()
           ..amount = amount

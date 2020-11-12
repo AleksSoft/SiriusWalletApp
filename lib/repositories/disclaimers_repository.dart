@@ -9,7 +9,7 @@ class DisclaimersRepository {
   static final _api = Get.find<ApiService>();
 
   static Future<List<AssetDisclaimer>> getAssetDisclaimers() async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<AssetDisclaimersResponse>(
       () => _api.clientSecure.getAssetDisclaimers(Empty()),
       method: 'getAssetDisclaimers',
     );
@@ -19,7 +19,7 @@ class DisclaimersRepository {
   static Future<bool> approveAssetDisclaimer({
     @required String disclaimerId,
   }) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<EmptyResponse>(
       () => _api.clientSecure.approveAssetDisclaimer(
         AssetDisclaimerRequest()..disclaimerId = disclaimerId,
       ),
@@ -31,7 +31,7 @@ class DisclaimersRepository {
   static Future<bool> declineAssetDisclaimer({
     @required String disclaimerId,
   }) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<EmptyResponse>(
       () => _api.clientSecure.declineAssetDisclaimer(
         AssetDisclaimerRequest()..disclaimerId = disclaimerId,
       ),

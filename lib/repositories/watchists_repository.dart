@@ -8,7 +8,7 @@ class WatchlistsRepository {
   static final _api = Get.find<ApiService>();
 
   static Future<List<Watchlist>> getWatchlists() async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<WatchlistsResponse>(
       () => _api.clientSecure.getWatchlists(Empty()),
       method: 'getWatchlists',
     );
@@ -16,7 +16,7 @@ class WatchlistsRepository {
   }
 
   static Future<Watchlist> getWatchlist(String id) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<WatchlistResponse>(
       () => _api.clientSecure.getWatchlist(WatchlistRequest()..id = id),
       method: 'getWatchlist',
     );
@@ -28,7 +28,7 @@ class WatchlistsRepository {
     int order,
     List<String> assetIds,
   ) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<WatchlistResponse>(
       () => _api.clientSecure.addWatchlist(
         AddWatchlistRequest.create()
           ..name = name
@@ -46,7 +46,7 @@ class WatchlistsRepository {
     int order,
     List<String> assetIds,
   ) async {
-    final response = await ErrorHandler.safeCall(
+    final response = await ErrorHandler.safeCall<WatchlistResponse>(
       () => _api.clientSecure.updateWatchlist(
         UpdateWatchlistRequest.create()
           ..id = id
@@ -60,7 +60,7 @@ class WatchlistsRepository {
   }
 
   static Future<void> deleteWatchlist(String id) async {
-    await ErrorHandler.safeCall(
+    await ErrorHandler.safeCall<DeleteWatchlistResponse>(
       () => _api.clientSecure.deleteWatchlist(
         DeleteWatchlistRequest()..id = id,
       ),

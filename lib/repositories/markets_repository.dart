@@ -11,7 +11,7 @@ class MarketsRepository {
   }) async {
     var request = MarketsRequest();
     if (assetPairId != null) request.assetPairId = assetPairId;
-    var response = await ErrorHandler.safeCall(
+    var response = await ErrorHandler.safeCall<MarketsResponse>(
       () => _api.clientSecure.getMarkets(request),
       method: 'getMarkets',
     );
