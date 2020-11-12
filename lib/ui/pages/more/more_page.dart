@@ -65,6 +65,11 @@ class MorePage extends StatelessWidget {
                 icon: Icons.format_list_numbered,
                 onTap: () => Get.to(SavedErrorsPage(), fullscreenDialog: true),
               ),
+              MenuTile(
+                title: 'Share API Token',
+                icon: Icons.share_sharp,
+                onTap: () => _.shareToken(),
+              ),
             ],
           );
         },
