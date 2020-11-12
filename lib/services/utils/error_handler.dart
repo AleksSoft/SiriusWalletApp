@@ -10,22 +10,14 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:grpc/grpc.dart';
 
-typedef Future<T> FutureGenerator<T>();
-
 class ErrorHandler {
   static Future<T> safeCall<T>(
-    FutureGenerator<T> future, {
+    Future<T> Function() future, {
     @required String method,
+    bool showErrorDialog = true,
   }) async {
-    T response;
     try {
-      response = await future()
-          .catchError(
-            (e) => _handleGrpcError(e, method),
-            test: (e) => e is GrpcError,
-          )
-          .catchError((e) => _handleError(e, method));
-
+      T response = await future();
       try {
         dynamic dResponse = response as dynamic;
         if (dResponse?.error != null && dResponse.error.hasMessage()) {
@@ -33,16 +25,20 @@ class ErrorHandler {
           response = null;
         }
       } catch (e) {}
+      return response;
     } catch (e) {
-      _handleError(e, method);
-      response = null;
+      if (e is GrpcError) {
+        _handleGrpcError(e, method);
+      } else {
+        _handleError(e, method);
+      }
+      return null;
     }
-    return response;
   }
 
   static _handleApiError<T>(
     dynamic error,
-    FutureGenerator<T> future,
+    Future<T> Function() future,
     String method,
   ) async {
     if (error is apiservice.Error) {
