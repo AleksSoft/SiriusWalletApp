@@ -11,7 +11,7 @@ class ApiService {
     'antares-api-grpc-dev.lykkex.net',
     'antares-api-grpc-test.lykkex.net',
   ];
-  static final timeoutDuration = const Duration(seconds: 60);
+  static final timeoutDuration = const Duration(seconds: 30);
   final _storage = Get.find<LocalStorageInterface>();
 
   ApiServiceClient _clientSecure;

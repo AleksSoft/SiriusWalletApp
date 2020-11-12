@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:antares_wallet/app/common/app_storage_keys.dart';
 import 'package:antares_wallet/models/saved_errors_model.dart';
-import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart' as apiservice;
 import 'package:antares_wallet/ui/pages/disclaimer/disclaimer_page.dart';
 import 'package:antares_wallet/ui/pages/start/start_page.dart';
@@ -18,30 +17,32 @@ class ErrorHandler {
     FutureGenerator<T> future, {
     @required String method,
   }) async {
+    T response;
     try {
-      dynamic response = await future()
-          .timeout(ApiService.timeoutDuration)
+      response = await future()
           .catchError(
             (e) => _handleGrpcError(e, method),
             test: (e) => e is GrpcError,
           )
-          .catchError((e) async => await _handleError(e, method));
+          .catchError((e) => _handleError(e, method));
+
       try {
-        if (response?.error != null && response.error.hasMessage()) {
-          await _handleApiError(response.error, future, method);
-          return null;
+        dynamic dResponse = response as dynamic;
+        if (dResponse?.error != null && dResponse.error.hasMessage()) {
+          _handleApiError<T>(dResponse.error, future, method);
+          response = null;
         }
       } catch (e) {}
-      return response;
     } catch (e) {
       _handleError(e, method);
-      return null;
+      response = null;
     }
+    return response;
   }
 
-  static _handleApiError(
+  static _handleApiError<T>(
     dynamic error,
-    FutureGenerator future,
+    FutureGenerator<T> future,
     String method,
   ) async {
     if (error is apiservice.Error) {
@@ -51,7 +52,7 @@ class ErrorHandler {
       if (error.code == '70') {
         final result = await Get.toNamed(DisclaimersPage.route);
         if (result ?? false) {
-          await ErrorHandler.safeCall(() => future(), method: method);
+          await ErrorHandler.safeCall<T>(() => future(), method: method);
         }
       } else {
         await saveError(
