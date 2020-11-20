@@ -3,7 +3,7 @@
 //  source: apiservice.proto
 //
 // @dart = 2.3
-// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type
+// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
 import 'dart:async' as $async;
 
@@ -90,6 +90,12 @@ class ApiServiceClient extends $grpc.Client {
           '/antaresWallet.ApiService/SetPushSettings',
           ($1.PushSettingsRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $1.EmptyResponse.fromBuffer(value));
+  static final _$registerPushNotifications =
+      $grpc.ClientMethod<$1.RegisterPushRequest, $1.RegisterPushResponse>(
+          '/antaresWallet.ApiService/RegisterPushNotifications',
+          ($1.RegisterPushRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $1.RegisterPushResponse.fromBuffer(value));
   static final _$sendVerificationEmail = $grpc.ClientMethod<
           $1.VerificationEmailRequest, $1.VerificationEmailResponse>(
       '/antaresWallet.ApiService/SendVerificationEmail',
@@ -437,651 +443,459 @@ class ApiServiceClient extends $grpc.Client {
           ($core.List<$core.int> value) =>
               $1.PublicTradeUpdate.fromBuffer(value));
 
-  ApiServiceClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
-      : super(channel, options: options);
+  ApiServiceClient($grpc.ClientChannel channel,
+      {$grpc.CallOptions options,
+      $core.Iterable<$grpc.ClientInterceptor> interceptors})
+      : super(channel, options: options, interceptors: interceptors);
 
   $grpc.ResponseFuture<$1.AssetsDictionaryResponse> assetsDictionary(
       $0.Empty request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$assetsDictionary, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$assetsDictionary, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.BaseAssetResponse> getBaseAsset($0.Empty request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getBaseAsset, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getBaseAsset, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.EmptyResponseV2> setBaseAsset(
       $1.BaseAssetUpdateRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$setBaseAsset, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$setBaseAsset, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.AssetPairsResponse> getAssetPairs($0.Empty request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getAssetPairs, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getAssetPairs, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.PricesResponse> getPrices($1.PricesRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(_$getPrices, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getPrices, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.CandlesResponse> getCandles($1.CandlesRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getCandles, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getCandles, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.BalancesResponse> getBalances($0.Empty request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getBalances, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getBalances, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.Orderbook> getOrderbook($1.OrderbookRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getOrderbook, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getOrderbook, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.MarketsResponse> getMarkets($1.MarketsRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getMarkets, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getMarkets, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.PendingActionsResponse> getPendingActions(
       $0.Empty request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getPendingActions, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getPendingActions, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.AmountInBaseAssetResponse> getAmountInBaseAsset(
       $1.AmountInBaseRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getAmountInBaseAsset, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getAmountInBaseAsset, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.PushSettingsResponse> getPushSettings(
       $0.Empty request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getPushSettings, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getPushSettings, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.EmptyResponse> setPushSettings(
       $1.PushSettingsRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$setPushSettings, $async.Stream.fromIterable([request]),
+    return $createUnaryCall(_$setPushSettings, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$1.RegisterPushResponse> registerPushNotifications(
+      $1.RegisterPushRequest request,
+      {$grpc.CallOptions options}) {
+    return $createUnaryCall(_$registerPushNotifications, request,
         options: options);
-    return $grpc.ResponseFuture(call);
   }
 
   $grpc.ResponseFuture<$1.VerificationEmailResponse> sendVerificationEmail(
       $1.VerificationEmailRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$sendVerificationEmail, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$sendVerificationEmail, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.VerifyResponse> verifyEmail(
       $1.VerifyEmailRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$verifyEmail, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$verifyEmail, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.EmptyResponse> sendVerificationSms(
       $1.VerificationSmsRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$sendVerificationSms, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$sendVerificationSms, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.VerifyResponse> verifyPhone(
       $1.VerifyPhoneRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$verifyPhone, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$verifyPhone, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.RegisterResponse> register($1.RegisterRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(_$register, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$register, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.LoginResponse> login($1.LoginRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(_$login, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$login, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.EmptyResponse> sendLoginSms(
       $1.LoginSmsRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$sendLoginSms, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$sendLoginSms, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.VerifyLoginSmsResponse> verifyLoginSms(
       $1.VerifyLoginSmsRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$verifyLoginSms, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$verifyLoginSms, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.CheckPinResponse> checkPin($1.CheckPinRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(_$checkPin, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$checkPin, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.CheckSessionResponse> isSessionExpired(
       $1.CheckSessionRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$isSessionExpired, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$isSessionExpired, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.EmptyResponse> prolongateSession($0.Empty request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$prolongateSession, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$prolongateSession, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.EmptyResponse> logout($0.Empty request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(_$logout, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$logout, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.LimitOrdersResponse> getOrders(
       $1.LimitOrdersRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(_$getOrders, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getOrders, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.PlaceOrderResponse> placeLimitOrder(
       $1.LimitOrderRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$placeLimitOrder, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$placeLimitOrder, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.PlaceOrderResponse> placeMarketOrder(
       $1.MarketOrderRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$placeMarketOrder, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$placeMarketOrder, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.CancelOrderResponse> cancelAllOrders(
       $1.CancelOrdersRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$cancelAllOrders, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$cancelAllOrders, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.CancelOrderResponse> cancelOrder(
       $1.CancelOrderRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$cancelOrder, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$cancelOrder, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.TradesResponse> getTrades($1.TradesRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(_$getTrades, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getTrades, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.AssetTradesResponse> getAssetTrades(
       $1.AssetTradesRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getAssetTrades, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getAssetTrades, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.FundsResponse> getFunds($1.FundsRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(_$getFunds, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getFunds, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.ExplorerLinksResponse> getExplorerLinks(
       $1.ExplorerLinksRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getExplorerLinks, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getExplorerLinks, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.PublicTradesResponse> getPublicTrades(
       $1.PublicTradesRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getPublicTrades, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getPublicTrades, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.WatchlistsResponse> getWatchlists($0.Empty request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getWatchlists, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getWatchlists, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.WatchlistResponse> getWatchlist(
       $1.WatchlistRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getWatchlist, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getWatchlist, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.WatchlistResponse> addWatchlist(
       $1.AddWatchlistRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$addWatchlist, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$addWatchlist, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.WatchlistResponse> updateWatchlist(
       $1.UpdateWatchlistRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$updateWatchlist, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$updateWatchlist, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.DeleteWatchlistResponse> deleteWatchlist(
       $1.DeleteWatchlistRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$deleteWatchlist, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$deleteWatchlist, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.TierInfoRespone> getTierInfo($0.Empty request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getTierInfo, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getTierInfo, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.PersonalDataResponse> getPersonalData(
       $0.Empty request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getPersonalData, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getPersonalData, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.KycDocumentsResponse> getKycDocuments(
       $0.Empty request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getKycDocuments, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getKycDocuments, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.EmptyResponseV2> setAddress(
       $1.SetAddressRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$setAddress, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$setAddress, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.EmptyResponseV2> setZip($1.SetZipRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(_$setZip, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$setZip, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.EmptyResponse> uploadKycFile(
       $1.KycFileRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$uploadKycFile, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$uploadKycFile, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.QuestionnaireResponse> getQuestionnaire(
       $0.Empty request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getQuestionnaire, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getQuestionnaire, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.EmptyResponse> saveQuestionnaire(
       $1.AnswersRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$saveQuestionnaire, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$saveQuestionnaire, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.EmptyResponse> submitProfile(
       $1.SubmitProfileRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$submitProfile, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$submitProfile, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.WalletsResponse> getWallets($0.Empty request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getWallets, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getWallets, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.WalletResponse> getWallet($1.WalletRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(_$getWallet, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getWallet, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.GenerateWalletResponse> generateWallet(
       $1.GenerateWalletRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$generateWallet, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$generateWallet, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.EmptyResponseV2> generateWalletV2(
       $1.GenerateWalletV2Request request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$generateWalletV2, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$generateWalletV2, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.SwiftCredentialsResponse> getSwiftCredentials(
       $1.SwiftCredentialsRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getSwiftCredentials, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getSwiftCredentials, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.EmptyResponse> sendBankTransferRequest(
       $1.BankTransferRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$sendBankTransferRequest, $async.Stream.fromIterable([request]),
+    return $createUnaryCall(_$sendBankTransferRequest, request,
         options: options);
-    return $grpc.ResponseFuture(call);
   }
 
   $grpc.ResponseFuture<$1.CountryPhoneCodesResponse> getCountryPhoneCodes(
       $0.Empty request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getCountryPhoneCodes, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getCountryPhoneCodes, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.BankCardPaymentDetailsResponse>
       getBankCardPaymentDetails($0.Empty request, {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getBankCardPaymentDetails, $async.Stream.fromIterable([request]),
+    return $createUnaryCall(_$getBankCardPaymentDetails, request,
         options: options);
-    return $grpc.ResponseFuture(call);
   }
 
   $grpc.ResponseFuture<$1.BankCardPaymentUrlResponse> getBankCardPaymentUrl(
       $1.BankCardPaymentUrlRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getBankCardPaymentUrl, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getBankCardPaymentUrl, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.EthereumSettingsResponse> getEthereumSettings(
       $0.Empty request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getEthereumSettings, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getEthereumSettings, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.CryptoDepositAddressResponse> getCryptoDepositAddress(
       $1.CryptoDepositAddressRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getCryptoDepositAddress, $async.Stream.fromIterable([request]),
+    return $createUnaryCall(_$getCryptoDepositAddress, request,
         options: options);
-    return $grpc.ResponseFuture(call);
   }
 
   $grpc.ResponseFuture<$1.WithdrawalCryptoInfoResponse> getWithdrawalCryptoInfo(
       $1.WithdrawalCryptoInfoRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getWithdrawalCryptoInfo, $async.Stream.fromIterable([request]),
+    return $createUnaryCall(_$getWithdrawalCryptoInfo, request,
         options: options);
-    return $grpc.ResponseFuture(call);
   }
 
   $grpc.ResponseFuture<$1.CheckCryptoAddressResponse> isCryptoAddressValid(
       $1.CheckCryptoAddressRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$isCryptoAddressValid, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$isCryptoAddressValid, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.SwiftCashoutInfoResponse> getSwiftCashoutInfo(
       $0.Empty request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getSwiftCashoutInfo, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getSwiftCashoutInfo, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.SwiftCashoutFeeResponse> getSwiftCashoutFee(
       $1.SwiftCashoutFeeRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getSwiftCashoutFee, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getSwiftCashoutFee, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.SwiftCashoutResponse> swiftCashout(
       $1.SwiftCashoutRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$swiftCashout, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$swiftCashout, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.EmptyResponse> cryptoCashout(
       $1.CryptoCashoutRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$cryptoCashout, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$cryptoCashout, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.AppSettingsResponse> getAppSettings($0.Empty request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getAppSettings, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getAppSettings, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.PrivateWalletsResponse> getPrivateWallets(
       $0.Empty request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getPrivateWallets, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getPrivateWallets, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.AssetDisclaimersResponse> getAssetDisclaimers(
       $0.Empty request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$getAssetDisclaimers, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$getAssetDisclaimers, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.EmptyResponse> approveAssetDisclaimer(
       $1.AssetDisclaimerRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$approveAssetDisclaimer, $async.Stream.fromIterable([request]),
+    return $createUnaryCall(_$approveAssetDisclaimer, request,
         options: options);
-    return $grpc.ResponseFuture(call);
   }
 
   $grpc.ResponseFuture<$1.EmptyResponse> declineAssetDisclaimer(
       $1.AssetDisclaimerRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$declineAssetDisclaimer, $async.Stream.fromIterable([request]),
+    return $createUnaryCall(_$declineAssetDisclaimer, request,
         options: options);
-    return $grpc.ResponseFuture(call);
   }
 
   $grpc.ResponseStream<$1.PriceUpdate> getPriceUpdates(
       $1.PriceUpdatesRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
+    return $createStreamingCall(
         _$getPriceUpdates, $async.Stream.fromIterable([request]),
         options: options);
-    return $grpc.ResponseStream(call);
   }
 
   $grpc.ResponseStream<$1.CandleUpdate> getCandleUpdates(
       $1.CandleUpdatesRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
+    return $createStreamingCall(
         _$getCandleUpdates, $async.Stream.fromIterable([request]),
         options: options);
-    return $grpc.ResponseStream(call);
   }
 
   $grpc.ResponseStream<$1.Orderbook> getOrderbookUpdates(
       $1.OrderbookUpdatesRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
+    return $createStreamingCall(
         _$getOrderbookUpdates, $async.Stream.fromIterable([request]),
         options: options);
-    return $grpc.ResponseStream(call);
   }
 
   $grpc.ResponseStream<$1.PublicTradeUpdate> getPublicTradeUpdates(
       $1.PublicTradesUpdatesRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
+    return $createStreamingCall(
         _$getPublicTradeUpdates, $async.Stream.fromIterable([request]),
         options: options);
-    return $grpc.ResponseStream(call);
   }
 }
 
@@ -1185,6 +999,15 @@ abstract class ApiServiceBase extends $grpc.Service {
         ($core.List<$core.int> value) =>
             $1.PushSettingsRequest.fromBuffer(value),
         ($1.EmptyResponse value) => value.writeToBuffer()));
+    $addMethod(
+        $grpc.ServiceMethod<$1.RegisterPushRequest, $1.RegisterPushResponse>(
+            'RegisterPushNotifications',
+            registerPushNotifications_Pre,
+            false,
+            false,
+            ($core.List<$core.int> value) =>
+                $1.RegisterPushRequest.fromBuffer(value),
+            ($1.RegisterPushResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$1.VerificationEmailRequest,
             $1.VerificationEmailResponse>(
         'SendVerificationEmail',
@@ -1744,6 +1567,12 @@ abstract class ApiServiceBase extends $grpc.Service {
     return setPushSettings(call, await request);
   }
 
+  $async.Future<$1.RegisterPushResponse> registerPushNotifications_Pre(
+      $grpc.ServiceCall call,
+      $async.Future<$1.RegisterPushRequest> request) async {
+    return registerPushNotifications(call, await request);
+  }
+
   $async.Future<$1.VerificationEmailResponse> sendVerificationEmail_Pre(
       $grpc.ServiceCall call,
       $async.Future<$1.VerificationEmailRequest> request) async {
@@ -2105,6 +1934,8 @@ abstract class ApiServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $0.Empty request);
   $async.Future<$1.EmptyResponse> setPushSettings(
       $grpc.ServiceCall call, $1.PushSettingsRequest request);
+  $async.Future<$1.RegisterPushResponse> registerPushNotifications(
+      $grpc.ServiceCall call, $1.RegisterPushRequest request);
   $async.Future<$1.VerificationEmailResponse> sendVerificationEmail(
       $grpc.ServiceCall call, $1.VerificationEmailRequest request);
   $async.Future<$1.VerifyResponse> verifyEmail(

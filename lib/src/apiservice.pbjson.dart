@@ -3,7 +3,15 @@
 //  source: apiservice.proto
 //
 // @dart = 2.3
-// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type
+// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
+
+const MobileOsPlatform$json = const {
+  '1': 'MobileOsPlatform',
+  '2': const [
+    const {'1': 'Ios', '2': 0},
+    const {'1': 'Android', '2': 1},
+  ],
+};
 
 const TierUpgrade$json = const {
   '1': 'TierUpgrade',
@@ -97,6 +105,14 @@ const PushSettingsRequest$json = const {
   '1': 'PushSettingsRequest',
   '2': const [
     const {'1': 'enabled', '3': 1, '4': 1, '5': 8, '10': 'enabled'},
+  ],
+};
+
+const RegisterPushRequest$json = const {
+  '1': 'RegisterPushRequest',
+  '2': const [
+    const {'1': 'platform', '3': 1, '4': 1, '5': 14, '6': '.antaresWallet.MobileOsPlatform', '10': 'platform'},
+    const {'1': 'pushChannel', '3': 2, '4': 1, '5': 9, '10': 'pushChannel'},
   ],
 };
 
@@ -658,6 +674,22 @@ const PushSettingsResponse_PushSettingsPayload$json = const {
   '1': 'PushSettingsPayload',
   '2': const [
     const {'1': 'enabled', '3': 1, '4': 1, '5': 8, '10': 'enabled'},
+  ],
+};
+
+const RegisterPushResponse$json = const {
+  '1': 'RegisterPushResponse',
+  '2': const [
+    const {'1': 'result', '3': 1, '4': 1, '5': 11, '6': '.antaresWallet.RegisterPushResponse.InstallationPayload', '10': 'result'},
+    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorV2', '10': 'error'},
+  ],
+  '3': const [RegisterPushResponse_InstallationPayload$json],
+};
+
+const RegisterPushResponse_InstallationPayload$json = const {
+  '1': 'InstallationPayload',
+  '2': const [
+    const {'1': 'installationId', '3': 1, '4': 1, '5': 9, '10': 'installationId'},
   ],
 };
 
@@ -1605,6 +1637,7 @@ const Asset$json = const {
     const {'1': 'canBeBase', '3': 15, '4': 1, '5': 8, '10': 'canBeBase'},
     const {'1': 'iconUrl', '3': 16, '4': 1, '5': 9, '10': 'iconUrl'},
     const {'1': 'popularPairs', '3': 17, '4': 3, '5': 9, '10': 'popularPairs'},
+    const {'1': 'blockchainWithdrawal', '3': 18, '4': 1, '5': 8, '10': 'blockchainWithdrawal'},
   ],
 };
 

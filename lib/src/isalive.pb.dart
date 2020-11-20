@@ -3,14 +3,14 @@
 //  source: isalive.proto
 //
 // @dart = 2.3
-// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type
+// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
 import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
 class IsAliveRequest extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('IsAliveRequest', package: const $pb.PackageName('common'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'IsAliveRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'common'), createEmptyInstance: create)
     ..hasRequiredFields = false
   ;
 
@@ -18,8 +18,16 @@ class IsAliveRequest extends $pb.GeneratedMessage {
   factory IsAliveRequest() => create();
   factory IsAliveRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory IsAliveRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
   IsAliveRequest clone() => IsAliveRequest()..mergeFromMessage(this);
-  IsAliveRequest copyWith(void Function(IsAliveRequest) updates) => super.copyWith((message) => updates(message as IsAliveRequest));
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  IsAliveRequest copyWith(void Function(IsAliveRequest) updates) => super.copyWith((message) => updates(message as IsAliveRequest)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static IsAliveRequest create() => IsAliveRequest._();
@@ -31,12 +39,12 @@ class IsAliveRequest extends $pb.GeneratedMessage {
 }
 
 class IsAliveResponce extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('IsAliveResponce', package: const $pb.PackageName('common'), createEmptyInstance: create)
-    ..aOS(1, 'name')
-    ..aOS(2, 'version')
-    ..aOS(3, 'startedAt', protoName: 'startedAt')
-    ..aOS(4, 'env')
-    ..aOS(5, 'hostname')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'IsAliveResponce', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'common'), createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'name')
+    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'version')
+    ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'startedAt', protoName: 'startedAt')
+    ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'env')
+    ..aOS(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'hostname')
     ..hasRequiredFields = false
   ;
 
@@ -44,8 +52,16 @@ class IsAliveResponce extends $pb.GeneratedMessage {
   factory IsAliveResponce() => create();
   factory IsAliveResponce.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory IsAliveResponce.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
   IsAliveResponce clone() => IsAliveResponce()..mergeFromMessage(this);
-  IsAliveResponce copyWith(void Function(IsAliveResponce) updates) => super.copyWith((message) => updates(message as IsAliveResponce));
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  IsAliveResponce copyWith(void Function(IsAliveResponce) updates) => super.copyWith((message) => updates(message as IsAliveResponce)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static IsAliveResponce create() => IsAliveResponce._();
