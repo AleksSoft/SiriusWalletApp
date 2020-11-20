@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:antares_wallet/app/common/app_storage_keys.dart';
 import 'package:antares_wallet/models/saved_errors_model.dart';
+import 'package:antares_wallet/services/local_auth_service.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart' as apiservice;
 import 'package:antares_wallet/ui/pages/disclaimer/disclaimer_page.dart';
-import 'package:antares_wallet/ui/pages/start/start_page.dart';
 import 'package:cross_local_storage/cross_local_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
@@ -48,23 +48,30 @@ class ErrorHandler {
       if (error.code == '70') {
         final result = await Get.toNamed(DisclaimersPage.route);
         if (result ?? false) {
-          await ErrorHandler.safeCall<T>(() => future(), method: method);
+          await ErrorHandler.safeCall<T>(
+            () => future(),
+            method: method,
+          );
         }
       } else {
         await saveError(
-            code: error.code, message: error.message, method: method);
+          code: error.code,
+          message: error.message,
+          method: method,
+        );
       }
     } else if (error is apiservice.ErrorV2) {
       await saveError(
-          code: error.error, message: error.message, method: method);
+        code: error.error,
+        message: error.message,
+        method: method,
+      );
     }
   }
 
   static _handleGrpcError(e, String method) async {
     if (e.code == StatusCode.unauthenticated) {
-      Get.find<LocalStorageInterface>().clear().whenComplete(
-            () => Get.offAllNamed(StartPage.route),
-          );
+      Get.find<LocalAuthService>().verifyPin(logOutOnError: true);
     }
     await saveError(
       code: e.code.toString(),
@@ -75,9 +82,17 @@ class ErrorHandler {
 
   static _handleError(dynamic error, String method) async {
     try {
-      await saveError(code: '', message: error.message, method: method);
+      await saveError(
+        code: '',
+        message: error.message,
+        method: method,
+      );
     } catch (e) {
-      await saveError(code: '', message: error.toString(), method: method);
+      await saveError(
+        code: '',
+        message: error.toString(),
+        method: method,
+      );
     }
   }
 

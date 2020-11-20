@@ -63,7 +63,7 @@ class LocalAuthController extends GetxController {
 
   void toggleLocalAuth() async {
     if (!_isRegister) {
-      bool authorized = await _localAuthService.authenticate();
+      bool authorized = await _localAuthService.checkBiometrics();
       if (authorized) {
         pinValue = _storage.getString(AppStorageKeys.pinCode);
         await _submitPIN();

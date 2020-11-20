@@ -1,17 +1,14 @@
 import 'dart:async';
 
-import 'package:antares_wallet/app/common/app_storage_keys.dart';
 import 'package:antares_wallet/repositories/session_repository.dart';
-import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
-import 'package:antares_wallet/ui/pages/start/start_page.dart';
-import 'package:cross_local_storage/cross_local_storage.dart';
+import 'package:antares_wallet/services/local_auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RootController extends GetxController with WidgetsBindingObserver {
   static RootController get con => Get.find();
 
-  final _storage = Get.find<LocalStorageInterface>();
+  final _localAuth = Get.find<LocalAuthService>();
 
   final pageIndexObs = 0.obs;
   get pageIndex => this.pageIndexObs.value;
@@ -23,21 +20,15 @@ class RootController extends GetxController with WidgetsBindingObserver {
 
   @override
   void onInit() {
-    WidgetsBinding.instance.addObserver(this);
-    _prolongSessionTimer = Timer.periodic(
-      const Duration(seconds: 59),
-      (Timer _) async {
-        await SessionRepository.prolongateSession();
-        print('session prolongated');
-      },
-    );
+    WidgetsBinding?.instance?.addObserver(this);
+    _startTimer();
     super.onInit();
   }
 
   @override
   Future<void> onClose() async {
-    WidgetsBinding.instance.removeObserver(this);
-    _prolongSessionTimer.cancel();
+    WidgetsBinding?.instance?.removeObserver(this);
+    _stopTimer();
     super.onClose();
   }
 
@@ -46,23 +37,33 @@ class RootController extends GetxController with WidgetsBindingObserver {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.paused) {
       print('application backgrounded');
+      _stopTimer();
     }
     if (state == AppLifecycleState.resumed) {
       print('application came back to foreground');
-      _verifyPin();
+      _startTimer();
     }
   }
 
-  Future _verifyPin() async {
-    var pinCorrect = (await Get.toNamed(LocalAuthPage.route)) ?? false;
-    if (pinCorrect) {
-      String pin = _storage.getString(AppStorageKeys.pinCode);
-      String token = _storage.getString(AppStorageKeys.token);
-      if (!(await SessionRepository.checkPin(sessionId: token, pin: pin))) {
-        _storage.clear().whenComplete(
-              () => Get.offAllNamed(StartPage.route),
+  void _startTimer() => _prolongateSession().then(
+        (result) {
+          if (result) {
+            _prolongSessionTimer = Timer.periodic(
+              const Duration(seconds: 59),
+              (Timer _) async => await _prolongateSession(),
             );
-      }
+          }
+        },
+      );
+
+  void _stopTimer() => _prolongSessionTimer?.cancel();
+
+  Future<bool> _prolongateSession() async {
+    bool success = await SessionRepository.prolongateSession();
+    print('session prolongation result = $success');
+    if (!success) {
+      _localAuth.verifyPin(logOutOnError: true);
     }
+    return success;
   }
 }
