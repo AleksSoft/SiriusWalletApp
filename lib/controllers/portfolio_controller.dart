@@ -21,11 +21,11 @@ class PortfolioController extends GetxController {
   get hideZeros => this._hideZeros.value;
   set hideZeros(value) => this._hideZeros.value = value;
 
-  final categoryAssetsMap = Map<AssetCategory, List<Asset>>().obs;
+  var categoryAssetsMap = Map<AssetCategory, List<Asset>>().obs;
 
-  final balances = List<Balance>().obs;
+  var balances = List<Balance>().obs;
 
-  final historyItems = List<FundsResponse_FundsModel>().obs;
+  var historyItems = List<FundsResponse_FundsModel>().obs;
 
   @override
   void onInit() async {
@@ -43,7 +43,7 @@ class PortfolioController extends GetxController {
     });
     ever(
       _hideZeros,
-      (hide) => categoryAssetsMap.value = _mergeMap(categoryAssetsMap),
+      (hide) => categoryAssetsMap = _mergeMap(categoryAssetsMap),
     );
     super.onInit();
   }
@@ -78,7 +78,7 @@ class PortfolioController extends GetxController {
     loading = true;
     await _assetsController.getAssetsDictionary();
     await getBalances();
-    categoryAssetsMap.value = _mergeMap(categoryAssetsMap);
+    categoryAssetsMap = _mergeMap(categoryAssetsMap);
     loading = false;
   }
 

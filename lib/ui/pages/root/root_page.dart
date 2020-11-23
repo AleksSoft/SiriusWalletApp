@@ -14,8 +14,8 @@ class RootPage extends StatelessWidget {
   static final String route = '/root';
   @override
   Widget build(BuildContext context) {
-    final styleSel = Get.textTheme.caption.copyWith(color: AppColors.accent);
-    final style = Get.textTheme.caption.copyWith(color: AppColors.dark);
+//    final styleSel = Get.textTheme.caption.copyWith(color: AppColors.accent);
+//    final style = Get.textTheme.caption.copyWith(color: AppColors.dark);
     return GetX<RootController>(
       builder: (_) {
         return Scaffold(
@@ -45,47 +45,59 @@ class RootPage extends StatelessWidget {
               backgroundColor: Get.theme.scaffoldBackgroundColor,
               items: [
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.home, color: Colors.black),
-                  activeIcon: Icon(Icons.home, color: AppColors.accent),
-                  title: Text(
-                    'home'.tr,
-                    style: _.isSelected(0) ? styleSel : style,
+                  icon: Icon(
+                    Icons.home,
+                    color: Colors.black,
                   ),
+                  activeIcon: Icon(
+                    Icons.home,
+                    color: AppColors.accent,
+                  ),
+                  label: 'home'.tr,
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.account_balance_wallet, color: Colors.black),
-                  activeIcon: Icon(Icons.account_balance_wallet,
-                      color: AppColors.accent),
-                  title: Text(
-                    'portfolio'.tr,
-                    style: _.isSelected(1) ? styleSel : style,
+                  icon: Icon(
+                    Icons.account_balance_wallet,
+                    color: Colors.black,
                   ),
+                  activeIcon: Icon(
+                    Icons.account_balance_wallet,
+                    color: AppColors.accent,
+                  ),
+                  label: 'portfolio'.tr,
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.import_export, color: Colors.black),
-                  activeIcon:
-                      Icon(Icons.import_export, color: AppColors.accent),
-                  title: Text(
-                    'exchange'.tr,
-                    style: _.isSelected(2) ? styleSel : style,
+                  icon: Icon(
+                    Icons.import_export,
+                    color: Colors.black,
                   ),
+                  activeIcon: Icon(
+                    Icons.import_export,
+                    color: AppColors.accent,
+                  ),
+                  label: 'exchange'.tr,
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.check_circle_outline, color: Colors.black),
-                  activeIcon:
-                      Icon(Icons.check_circle_outline, color: AppColors.accent),
-                  title: Text(
-                    'orders'.tr,
-                    style: _.isSelected(3) ? styleSel : style,
+                  icon: Icon(
+                    Icons.check_circle_outline,
+                    color: Colors.black,
                   ),
+                  activeIcon: Icon(
+                    Icons.check_circle_outline,
+                    color: AppColors.accent,
+                  ),
+                  label: 'orders'.tr,
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.menu, color: Colors.black),
-                  activeIcon: Icon(Icons.menu, color: AppColors.accent),
-                  title: Text(
-                    'more'.tr,
-                    style: _.isSelected(4) ? styleSel : style,
+                  icon: Icon(
+                    Icons.menu,
+                    color: Colors.black,
                   ),
+                  activeIcon: Icon(
+                    Icons.menu,
+                    color: AppColors.accent,
+                  ),
+                  label: 'more'.tr,
                 ),
               ],
             ),

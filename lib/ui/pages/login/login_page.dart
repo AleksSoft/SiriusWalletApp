@@ -96,7 +96,6 @@ class _LoginScreen extends StatelessWidget {
                   initialValue: c.emailValue,
                   keyboardType: TextInputType.emailAddress,
                   obscureText: false,
-                  autovalidate: true,
                   validator: (String value) {
                     if (value.isEmail) {
                       return null;

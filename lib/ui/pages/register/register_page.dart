@@ -102,7 +102,6 @@ class _EmailScreen extends StatelessWidget {
                   return 'Email is wrong';
                 }
               },
-              autovalidate: true,
               obscureText: false,
               initialValue: c.emailValue,
               decoration: InputDecoration(
@@ -260,7 +259,6 @@ class _AdditionalDataScreen extends StatelessWidget {
                   onChanged: (String s) => c.fullNameValue = s,
                   obscureText: false,
                   initialValue: c.fullNameValue,
-                  autovalidate: true,
                   validator: (String value) {
                     if (value.length < 4) {
                       return 'Too short';
@@ -571,7 +569,6 @@ class _PasswordScreen extends StatelessWidget {
                   onChanged: (String s) => c.passwordValue = s,
                   obscureText: true,
                   initialValue: c.passwordValue,
-                  autovalidate: true,
                   validator: (String value) {
                     if (value == value.toUpperCase()) {
                       return 'Needs at least 1 lowercase letter';
@@ -593,7 +590,6 @@ class _PasswordScreen extends StatelessWidget {
                   onChanged: (String s) => c.confirmPasswordValue = s,
                   obscureText: true,
                   initialValue: c.confirmPasswordValue,
-                  autovalidate: true,
                   validator: (String value) {
                     if (value != c.passwordValue) {
                       return 'Passwords didn\'t match';
@@ -609,7 +605,6 @@ class _PasswordScreen extends StatelessWidget {
                   onChanged: (String s) => c.passwordHintValue = s,
                   obscureText: false,
                   initialValue: c.passwordHintValue,
-                  autovalidate: true,
                   validator: (String value) {
                     if (value.length < 4) {
                       return 'Hint is too short';

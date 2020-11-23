@@ -231,7 +231,6 @@ class _EditView extends StatelessWidget {
               onChanged: (String s) => c.totalChanged(s),
               controller: c.totalTextController,
               keyboardType: TextInputType.number,
-              autovalidate: true,
               validator: (_) =>
                   c.liquidityError ? 'Not enough liquidity' : null,
               decoration: InputDecoration(

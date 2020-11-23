@@ -123,7 +123,6 @@ class BlockchainWithdrawalPage extends StatelessWidget {
                             _.addressObs.value = value;
                             _.update();
                           },
-                          autovalidate: true,
                           validator: (s) =>
                               _.isAddressValid ? null : 'Not valid',
                           decoration: InputDecoration(
@@ -153,7 +152,6 @@ class BlockchainWithdrawalPage extends StatelessWidget {
                               _.extAddressObs.value = value;
                               _.update();
                             },
-                            autovalidate: true,
                             validator: (s) =>
                                 _.isExtAddressValid ? null : 'Not valid',
                             decoration: InputDecoration(

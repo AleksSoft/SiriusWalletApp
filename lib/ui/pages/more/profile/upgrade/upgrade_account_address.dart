@@ -35,7 +35,6 @@ class UpgradeAccountAddress extends StatelessWidget {
                 onChanged: (String s) => c.addressValue = s,
                 initialValue: c.addressValue,
                 keyboardType: TextInputType.streetAddress,
-                autovalidate: true,
                 validator: (String value) => c.validateAddress(value),
                 decoration: InputDecoration(
                   labelText: 'Address',
@@ -49,7 +48,6 @@ class UpgradeAccountAddress extends StatelessWidget {
                       onChanged: (String s) => c.apartamentValue = s,
                       initialValue: c.apartamentValue,
                       keyboardType: TextInputType.streetAddress,
-                      autovalidate: true,
                       validator: (String value) => c.validateAddress(value),
                       decoration: InputDecoration(
                         labelText: 'Apt.',
@@ -62,7 +60,6 @@ class UpgradeAccountAddress extends StatelessWidget {
                       onChanged: (String s) => c.zipCodeValue = s,
                       initialValue: c.zipCodeValue,
                       keyboardType: TextInputType.number,
-                      autovalidate: true,
                       validator: (String value) => c.validateAddress(value),
                       decoration: InputDecoration(
                         labelText: 'Zip code',

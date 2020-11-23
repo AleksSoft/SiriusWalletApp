@@ -24,13 +24,13 @@ class AssetsController extends GetxController {
 
   final assetPairs = List<AssetPair>().obs;
 
-  final _amountsInBase =
+  var _amountsInBase =
       List<AmountInBaseAssetResponse_AmountInBasePayload>().obs;
   List<AmountInBaseAssetResponse_AmountInBasePayload> get amountsInBase =>
       this._amountsInBase;
   set amountsInBase(
           List<AmountInBaseAssetResponse_AmountInBasePayload> value) =>
-      this._amountsInBase.value = value;
+      this._amountsInBase = value;
 
   @override
   void onReady() async {
