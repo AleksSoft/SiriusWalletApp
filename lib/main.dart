@@ -7,18 +7,12 @@ import 'package:cross_local_storage/cross_local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:syncfusion_flutter_core/core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Set preferred orientation
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
-  // Register Syncfusion license
-  SyncfusionLicense.registerLicense(
-    'NT8mJyc2IWhia31hfWN9Z2doYmF8YGJ8ampqanNiYmlmamlmanMDHmgwJzwTICQ6ICAwOzI6PX06PA==',
-  );
 
   // Initialize storage
   await Get.putAsync<LocalStorageInterface>(() => LocalStorage.getInstance());
