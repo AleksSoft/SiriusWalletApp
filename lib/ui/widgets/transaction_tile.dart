@@ -33,17 +33,15 @@ class TransactionTile extends StatelessWidget {
                       textBaseline: TextBaseline.alphabetic,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Flexible(
-                          child: Text(
-                            _item.assetName,
-                            maxLines: 1,
-                            softWrap: false,
-                            textAlign: TextAlign.left,
-                            overflow: TextOverflow.ellipsis,
-                            style: Get.textTheme.button.copyWith(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 16.0,
-                            ),
+                        Text(
+                          _item.assetName,
+                          maxLines: 1,
+                          softWrap: false,
+                          textAlign: TextAlign.left,
+                          overflow: TextOverflow.ellipsis,
+                          style: Get.textTheme.button.copyWith(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16.0,
                           ),
                         ),
                         AppUiHelpers.hSpaceExtraSmall,

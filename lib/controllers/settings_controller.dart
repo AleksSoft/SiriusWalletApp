@@ -83,7 +83,7 @@ class SettingsController extends GetxController {
     showAboutDialog(
       context: Get.overlayContext,
       applicationIcon: Image.asset(
-        'assets/images/ic_launcher.png',
+        'assets/images/lykke_logo.png',
         height: AppSizes.extraLarge,
         width: AppSizes.extraLarge,
       ),
