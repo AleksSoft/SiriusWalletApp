@@ -78,7 +78,7 @@ class PortfolioController extends GetxController {
     loading = true;
     await _assetsController.getAssetsDictionary();
     await getBalances();
-    categoryAssetsMap = _mergeMap(categoryAssetsMap);
+    categoryAssetsMap.assignAll(_mergeMap(categoryAssetsMap));
     loading = false;
   }
 

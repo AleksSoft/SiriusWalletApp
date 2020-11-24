@@ -227,7 +227,7 @@ class WithdrawalController extends GetxController {
         delegate: SearchPage<Asset>(
           showItemsOnEmpty: true,
           items: AssetsController.con.assetList
-              .where((a) => a.swiftWithdrawal || a.crosschainWithdrawal)
+              .where((a) => a.swiftWithdrawal || a.blockchainWithdrawal)
               .toList(),
           searchLabel: 'select_asset'.tr,
           filter: (asset) => [
@@ -237,12 +237,12 @@ class WithdrawalController extends GetxController {
           builder: (asset) => AssetListTile(
             asset,
             onTap: () {
-              if (asset.swiftWithdrawal && asset.crosschainWithdrawal) {
+              if (asset.swiftWithdrawal && asset.blockchainWithdrawal) {
                 _selectDialog(asset);
               } else if (asset.swiftWithdrawal) {
                 Get.back(closeOverlays: true);
                 _initialize(asset, WithdrawalMode.swift);
-              } else if (asset.crosschainWithdrawal) {
+              } else if (asset.blockchainWithdrawal) {
                 Get.back(closeOverlays: true);
                 _initialize(asset, WithdrawalMode.blockchain);
               }
@@ -297,7 +297,7 @@ class WithdrawalController extends GetxController {
                 ),
               ),
               Visibility(
-                visible: asset.crosschainWithdrawal,
+                visible: asset.blockchainWithdrawal,
                 child: ListTile(
                   title: Text('Blockchain'),
                   onTap: () {

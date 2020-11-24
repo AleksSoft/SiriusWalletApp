@@ -7,13 +7,15 @@ class AssetsController extends GetxController {
 
   final isLoaded = false.obs;
 
-  final _assetDictionary = AssetsDictionaryResponse().obs;
-  AssetsDictionaryResponse get assetsDictionary => this._assetDictionary.value;
+  final _assetsDictionary = AssetsDictionaryResponse().obs;
+  AssetsDictionaryResponse get assetsDictionary => this._assetsDictionary.value;
   set assetsDictionary(AssetsDictionaryResponse value) =>
-      this._assetDictionary.value = value;
+      this._assetsDictionary.value = value;
 
   List<Asset> get assetList => assetsDictionary.assets;
   List<AssetCategory> get categoryList => assetsDictionary.categories;
+
+  int assetsDictionaryTimestamp = 0;
 
   final _baseAssetId = ''.obs;
   String get baseAssetId => this._baseAssetId.value;
@@ -22,7 +24,7 @@ class AssetsController extends GetxController {
   Asset get baseAsset =>
       assetList.firstWhere((a) => a.id == baseAssetId, orElse: () => null);
 
-  final assetPairs = List<AssetPair>().obs;
+  var assetPairs = List<AssetPair>().obs;
 
   var _amountsInBase =
       List<AmountInBaseAssetResponse_AmountInBasePayload>().obs;
@@ -30,7 +32,7 @@ class AssetsController extends GetxController {
       this._amountsInBase;
   set amountsInBase(
           List<AmountInBaseAssetResponse_AmountInBasePayload> value) =>
-      this._amountsInBase = value;
+      this._amountsInBase.assignAll(value);
 
   @override
   void onReady() async {
@@ -80,21 +82,30 @@ class AssetsController extends GetxController {
   List<Asset> categoryAssets(String id) =>
       assetList.where((a) => a.categoryId == id).toList();
 
-  Future getAssetsDictionary() async =>
+  Future<void> getAssetsDictionary() async {
+    DateTime lastDateTime = DateTime.fromMillisecondsSinceEpoch(
+      assetsDictionaryTimestamp,
+    );
+    int differenceMinutes = DateTime.now().difference(lastDateTime).inMinutes;
+    if (differenceMinutes >= 5) {
       assetsDictionary = await AssetsRepository.assetsDictionary();
+      assetsDictionaryTimestamp = DateTime.now().millisecondsSinceEpoch;
+      print('assets dictionary updated');
+    }
+  }
 
-  Future getBaseAsset() async =>
+  Future<void> getBaseAsset() async =>
       baseAssetId = await AssetsRepository.getBaseAsset();
 
-  Future getAmountsInBase() async =>
+  Future<void> getAmountsInBase() async =>
       amountsInBase = await AssetsRepository.getAmountInBaseAsset(baseAssetId);
 
-  Future setBaseAsset(String id) async {
+  Future<void> setBaseAsset(String id) async {
     await AssetsRepository.setBaseAsset(id);
     await getBaseAsset();
     await getAmountsInBase();
   }
 
-  Future getAssetPairs() async =>
+  Future<void> getAssetPairs() async =>
       assetPairs.assignAll(await AssetsRepository.getAssetPairs());
 }
