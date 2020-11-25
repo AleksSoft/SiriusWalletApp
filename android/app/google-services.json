@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:767234193119:android:df2a1f3463c6a8880e1b6a",
         "android_client_info": {
-          "package_name": "app.wallet.antares"
+          "package_name": "io.antares.wallet"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "767234193119-s4k881b5cd0j1gfkh21dqjeahs87t11d.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "app.wallet.antares",
+            "package_name": "io.antares.wallet",
             "certificate_hash": "4127153f4db78c07f32d589510589904ce6131c3"
           }
         },
@@ -43,7 +43,7 @@
               "client_id": "767234193119-a23h6rtbcsj00t2povoa3fc24aemf378.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "app.wallet.antares"
+                "bundle_id": "io.antares.wallet"
               }
             }
           ]
