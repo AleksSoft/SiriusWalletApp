@@ -1,6 +1,5 @@
 import 'package:antares_wallet/bindings/asset_info_binding.dart';
 import 'package:antares_wallet/bindings/disclaimers_binding.dart';
-import 'package:antares_wallet/bindings/local_auth_binding.dart';
 import 'package:antares_wallet/bindings/order_details_binding.dart';
 import 'package:antares_wallet/bindings/register_binding.dart';
 import 'package:antares_wallet/bindings/root_binding.dart';
@@ -12,7 +11,6 @@ import 'package:antares_wallet/ui/pages/asset_info/asset_info_page.dart';
 import 'package:antares_wallet/ui/pages/disclaimer/disclaimer_page.dart';
 import 'package:antares_wallet/ui/pages/exchange/watchlists/edit/edit_watchlist_page.dart';
 import 'package:antares_wallet/ui/pages/exchange/watchlists/watchlists_page.dart';
-import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
 import 'package:antares_wallet/ui/pages/login/login_page.dart';
 import 'package:antares_wallet/ui/pages/more/profile/profile_page.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/quest/upgrade_account_quest.dart';
@@ -40,13 +38,6 @@ class AppRoutes {
       name: StartPage.route,
       page: () => StartPage(),
       binding: StartBinding(),
-    ),
-    GetPage(
-      name: LocalAuthPage.route,
-      page: () => LocalAuthPage(),
-      binding: LocalAuthBinding(),
-      fullscreenDialog: true,
-      transition: Transition.downToUp,
     ),
     GetPage(
       name: DisclaimersPage.route,

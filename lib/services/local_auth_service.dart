@@ -7,18 +7,13 @@ import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
 
 class LocalAuthService {
-  final _auth = LocalAuthentication();
-
-  final _storage = Get.find<LocalStorageInterface>();
-
-  Future<bool> checkBiometrics() async {
+  static Future<bool> authenticate() async {
+    final _auth = LocalAuthentication();
     try {
-      List<BiometricType> availableBiometrics =
-          await _auth.getAvailableBiometrics();
-      if (availableBiometrics.isNotEmpty) {
+      if (await canCheckBiometrics) {
         await Future.delayed(Duration(milliseconds: 300));
         return await _auth.authenticateWithBiometrics(
-          localizedReason: 'Authenticate to access',
+          localizedReason: 'Please authenticate to continue',
           useErrorDialogs: true,
           stickyAuth: true,
         );
@@ -31,10 +26,17 @@ class LocalAuthService {
     }
   }
 
+  static Future<bool> get canCheckBiometrics async =>
+      await LocalAuthentication().canCheckBiometrics;
+
   /// verifyPin and check update
   Future<bool> verifyPin({bool logOutOnError = false}) async {
-    var pinCorrect = (await Get.toNamed(LocalAuthPage.route)) ?? false;
-    if (pinCorrect) {
+    final LocalStorageInterface _storage = Get.find<LocalStorageInterface>();
+    bool checkLocalAuth = await LocalAuthService.canCheckBiometrics;
+    var pinCorrect = await Get.to(
+      LocalAuthPage(checkLocalAuth: checkLocalAuth),
+    );
+    if (pinCorrect ?? false) {
       String pin = _storage.getString(AppStorageKeys.pinCode);
       String token = _storage.getString(AppStorageKeys.token);
       bool pinChecked = await SessionRepository.checkPin(

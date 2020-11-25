@@ -14,7 +14,7 @@ class SettingsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('settings'.tr),
       ),
-      body: GetX<SettingsController>(
+      body: GetBuilder<SettingsController>(
           init: SettingsController(),
           builder: (_) {
             return AnimatedSwitcher(
@@ -55,8 +55,8 @@ class SettingsPage extends StatelessWidget {
                           color: Colors.transparent,
                           showDivider: false,
                           trailing: Switch(
-                            value: true,
-                            onChanged: (bool value) {},
+                            value: _.signOrders,
+                            onChanged: _.toggleSignOrderWithPin,
                           ),
                         ),
                         MenuTile(

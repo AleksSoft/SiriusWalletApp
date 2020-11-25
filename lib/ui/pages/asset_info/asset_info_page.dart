@@ -50,10 +50,10 @@ class AssetInfoPage extends StatelessWidget {
                 child: GetX<AssetInfoController>(
                   initState: (state) => c.getTrades(),
                   builder: (_) {
-                    return LoadHelperView(
+                    return EmptyReloadingView(
                       emptyHeader: 'No trades history yet',
                       emptyMessage: '',
-                      showEmpty: _.trades.isEmpty,
+                      isEmpty: _.trades.isEmpty,
                       child: ListView(
                         padding: const EdgeInsets.only(top: AppSizes.small),
                         shrinkWrap: true,
@@ -71,10 +71,10 @@ class AssetInfoPage extends StatelessWidget {
                 child: GetX<AssetInfoController>(
                   initState: (state) => c.getTrades(),
                   builder: (_) {
-                    return LoadHelperView(
+                    return EmptyReloadingView(
                       emptyHeader: 'No transfers history yet',
                       emptyMessage: '',
-                      showEmpty: _.funds.isEmpty,
+                      isEmpty: _.funds.isEmpty,
                       child: ListView(
                         padding: const EdgeInsets.only(top: AppSizes.small),
                         shrinkWrap: true,

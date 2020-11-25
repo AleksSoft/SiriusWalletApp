@@ -10,41 +10,38 @@ enum PinViewState { DEFAULT, CREATE_PIN, REPEAT_PIN }
 class LocalAuthController extends GetxController {
   static LocalAuthController get con => Get.find();
 
-  final _storage = Get.find<LocalStorageInterface>();
-  final _localAuthService = Get.find<LocalAuthService>();
+  final LocalStorageInterface _storage = Get.find<LocalStorageInterface>();
 
   final _viewState = PinViewState.CREATE_PIN.obs;
   get viewState => this._viewState.value;
-
-  final _loading = false.obs;
-  bool get loading => this._loading.value;
-  set loading(bool value) => this._loading.value = value;
 
   final _pinValue = ''.obs;
   String get pinValue => this._pinValue.value;
   set pinValue(String value) => this._pinValue.value = value;
 
+  bool _loading = false;
+  bool get loading => _loading;
+  set loading(bool value) {
+    if (loading != value) {
+      _loading = value;
+      update();
+    }
+  }
+
   String _prevPIN = '';
 
   String get header => _getHeaderStr();
 
-  bool _isRegister;
-  bool get showBack => !_isRegister;
+  bool _showBack = false;
+  bool get showBack => _showBack;
 
-  bool _showLocalAuth;
+  bool _showLocalAuth = false;
   bool get showLocalAuth => _showLocalAuth;
 
   int get fieldsCount => 4;
 
   @override
-  void onInit() {
-    _isRegister = (Get.arguments as bool) ?? false;
-    _showLocalAuth = !_isRegister &&
-        _storage.containsKey(
-          AppStorageKeys.pinCode,
-        );
-    _viewState.value =
-        _isRegister ? PinViewState.CREATE_PIN : PinViewState.DEFAULT;
+  void onInit() async {
     ever(_pinValue, (pin) {
       if (pin?.length == fieldsCount) {
         submit(pin);
@@ -53,21 +50,36 @@ class LocalAuthController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-    if (_showLocalAuth) {
-      toggleLocalAuth();
-    }
+  Future<void> initialize({
+    bool isCreatePin = false,
+    bool isCloseVisible = true,
+    bool checkLocalAuth = true,
+  }) async {
+    pinValue = '';
+    _prevPIN = '';
+    loading = false;
+
+    _showBack = isCloseVisible;
+    _showLocalAuth = checkLocalAuth &&
+        !isCreatePin &&
+        (await LocalAuthService.canCheckBiometrics);
+    _viewState.value =
+        isCreatePin ? PinViewState.CREATE_PIN : PinViewState.DEFAULT;
+
+    update();
+
+    await tryToggleLocalAuth();
   }
 
-  void toggleLocalAuth() async {
-    if (!_isRegister) {
-      bool authorized = await _localAuthService.checkBiometrics();
+  Future<void> tryToggleLocalAuth() async {
+    if (showLocalAuth) {
+      loading = true;
+      bool authorized = await LocalAuthService.authenticate();
       if (authorized) {
         pinValue = _storage.getString(AppStorageKeys.pinCode);
         await _submitPIN();
       }
+      loading = false;
     }
   }
 
@@ -129,7 +141,7 @@ class LocalAuthController extends GetxController {
   Future<void> _saveNewPIN() async {
     if (_prevPIN == pinValue) {
       await _storage.setString(AppStorageKeys.pinCode, pinValue);
-      Get.back();
+      navigateBack(true);
     } else {
       Get.defaultDialog(
         title: 'PIN\'s are not equal',

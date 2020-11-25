@@ -1,3 +1,4 @@
+import 'package:antares_wallet/controllers/local_auth_controller.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/services/local_auth_service.dart';
 import 'package:antares_wallet/services/utils/dialog_manager.dart';
@@ -12,5 +13,7 @@ class InitialBinding extends Bindings {
     Get.put<ApiService>(ApiService());
     Get.put<LocalAuthService>(LocalAuthService());
     Get.put<DialogManager>(DialogManager());
+
+    Get.put<LocalAuthController>(LocalAuthController());
   }
 }

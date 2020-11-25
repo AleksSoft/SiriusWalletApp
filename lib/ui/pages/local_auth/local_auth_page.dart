@@ -2,49 +2,70 @@ import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:antares_wallet/controllers/local_auth_controller.dart';
+import 'package:antares_wallet/ui/widgets/empty_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LocalAuthPage extends StatelessWidget {
-  static const String route = '/local-auth';
+  LocalAuthPage({
+    this.isCreatePin = false,
+    this.isCloseVisible = true,
+    this.checkLocalAuth = true,
+    Key key,
+  }) : super(key: key);
+
+  final bool isCreatePin;
+  final bool isCloseVisible;
+  final bool checkLocalAuth;
   final c = LocalAuthController.con;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Stack(
-          children: <Widget>[
-            Visibility(
-              visible: c.showBack,
-              child: Positioned(
-                top: AppSizes.medium,
-                left: AppSizes.medium,
-                child: CloseButton(),
+        child: GetBuilder<LocalAuthController>(
+          initState: (_) => c.initialize(
+            isCreatePin: this.isCreatePin,
+            isCloseVisible: this.isCloseVisible,
+            checkLocalAuth: this.checkLocalAuth,
+          ),
+          builder: (_) {
+            return EmptyReloadingView(
+              isLoading: _.loading,
+              customLoader: Container(
+                color: AppColors.secondary.withOpacity(0.5),
+                alignment: Alignment.center,
+                child: AppUiHelpers.circularProgress,
               ),
-            ),
-            Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+              child: Stack(
                 children: <Widget>[
-                  Obx(() => Text(c.header, style: Get.textTheme.headline6)),
-                  AppUiHelpers.vSpaceExtraLarge,
-                  Numpad(),
+                  Visibility(
+                    visible: _.showBack,
+                    child: Positioned(
+                      top: AppSizes.medium,
+                      left: AppSizes.medium,
+                      child: CloseButton(),
+                    ),
+                  ),
+                  Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Obx(
+                          () => Text(
+                            _.header,
+                            style: Get.textTheme.headline6,
+                          ),
+                        ),
+                        AppUiHelpers.vSpaceExtraLarge,
+                        Numpad(),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            ),
-            Obx(
-              () => AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                child: c.loading
-                    ? Container(
-                        color: AppColors.primary.withOpacity(0.9),
-                        alignment: Alignment.center,
-                        child: AppUiHelpers.circularProgress,
-                      )
-                    : SizedBox.shrink(),
-              ),
-            ),
-          ],
+            );
+          },
         ),
       ),
     );
@@ -56,7 +77,6 @@ class Numpad extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 50.0),
       child: Column(
         children: <Widget>[
           Obx(() => Preview(text: c.pinValue, length: c.fieldsCount)),
@@ -112,12 +132,13 @@ class Numpad extends StatelessWidget {
             ],
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               NumpadButton(
                 haveBorder: false,
                 icon: c.showLocalAuth ? Icons.fingerprint : null,
-                onPressed: c.showLocalAuth ? () => c.toggleLocalAuth() : null,
+                onPressed:
+                    c.showLocalAuth ? () => c.tryToggleLocalAuth() : null,
               ),
               NumpadButton(
                 text: '0',
@@ -148,7 +169,7 @@ class Preview extends StatelessWidget {
       previewLength.add(Dot(isActive: text.length >= i + 1));
     }
     return Container(
-        padding: EdgeInsets.symmetric(vertical: 10.0),
+        padding: EdgeInsets.symmetric(vertical: AppSizes.medium),
         child: Wrap(children: previewLength));
   }
 }
@@ -179,9 +200,13 @@ class NumpadButton extends StatelessWidget {
   final IconData icon;
   final bool haveBorder;
   final Function onPressed;
-  const NumpadButton(
-      {Key key, this.text, this.icon, this.haveBorder = true, this.onPressed})
-      : super(key: key);
+  const NumpadButton({
+    Key key,
+    this.text,
+    this.icon,
+    this.haveBorder = true,
+    this.onPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -194,8 +219,8 @@ class NumpadButton extends StatelessWidget {
           )
         : Text(this.text ?? '', style: buttonStyle);
 
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 10.0),
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: AppSizes.small),
       child: OutlineButton(
         borderSide: haveBorder
             ? BorderSide(color: AppColors.secondary.withOpacity(0.3))
@@ -204,7 +229,7 @@ class NumpadButton extends StatelessWidget {
             icon != null ? Colors.transparent : AppColors.dark.withOpacity(0.3),
         splashColor:
             icon != null ? Colors.transparent : AppColors.dark.withOpacity(0.1),
-        padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(AppSizes.large),
         shape: CircleBorder(),
         onPressed: onPressed,
         child: label,

@@ -1,8 +1,10 @@
+import 'package:antares_wallet/app/common/app_storage_keys.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/select_asset/select_asset_controller.dart';
 import 'package:antares_wallet/ui/pages/select_asset/select_asset_page.dart';
+import 'package:cross_local_storage/cross_local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:package_info/package_info.dart';
@@ -10,7 +12,7 @@ import 'package:package_info/package_info.dart';
 class SettingsController extends GetxController {
   static SettingsController get con => Get.find();
 
-  PackageInfo _packageInfo;
+  final LocalStorageInterface _storage = Get.find<LocalStorageInterface>();
 
   List<String> _confirmKeyWords = [];
 
@@ -22,13 +24,21 @@ class SettingsController extends GetxController {
 
   List<String> get confirmKeyVariants => _confirmKeyVariants;
 
-  final _loading = false.obs;
-  get loading => this._loading.value;
-  set loading(value) => this._loading.value = value;
+  bool _signOrders = false;
+  bool get signOrders => this._signOrders;
+
+  bool _loading = false;
+  bool get loading => this._loading;
+  set loading(bool value) {
+    if (this._loading != value) {
+      this._loading = value;
+      update();
+    }
+  }
 
   @override
-  void onInit() async {
-    _packageInfo = await PackageInfo.fromPlatform();
+  void onInit() {
+    _signOrders = _storage.getBool(AppStorageKeys.signOrders) ?? false;
     super.onInit();
   }
 
@@ -43,7 +53,7 @@ class SettingsController extends GetxController {
 
   bool get phraseComplete => wordsMatch && _confirmKeyWords.length == 12;
 
-  Future updateBaseAsset() async {
+  Future<void> updateBaseAsset() async {
     loading = true;
     final asset = await Get.toNamed(
       SelectAssetPage.route,
@@ -79,7 +89,9 @@ class SettingsController extends GetxController {
     // Get.toNamed(BackUpCopyKeyPage.route);
   }
 
-  showAbout() {
+  Future<void> showAbout() async {
+    PackageInfo info = await PackageInfo.fromPlatform();
+
     showAboutDialog(
       context: Get.overlayContext,
       applicationIcon: Image.asset(
@@ -88,8 +100,17 @@ class SettingsController extends GetxController {
         width: AppSizes.extraLarge,
       ),
       applicationName: 'app_title'.tr,
-      applicationVersion: _packageInfo.version,
+      applicationVersion: info.version,
       applicationLegalese: 'copyright'.tr,
     );
+  }
+
+  bool toggleSignOrderWithPin(bool value) {
+    if (_signOrders != value) {
+      _storage.setBool(AppStorageKeys.signOrders, value);
+      _signOrders = value;
+      update();
+    }
+    return _signOrders;
   }
 }

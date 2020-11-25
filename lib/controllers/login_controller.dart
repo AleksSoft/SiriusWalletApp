@@ -146,8 +146,13 @@ class LoginController extends GetxController {
 
   Future<void> _verifyPin(String token) async {
     await _storage.setString(AppStorageKeys.token, token);
-    var pinCorrect = (await Get.toNamed(LocalAuthPage.route)) ?? false;
-    if (pinCorrect) {
+    var pinCorrect = await Get.to(
+      LocalAuthPage(
+        checkLocalAuth: false,
+        isCloseVisible: false,
+      ),
+    );
+    if (pinCorrect ?? false) {
       await Get.find<ApiService>().update();
       Get.offAllNamed(RootPage.route);
     } else {

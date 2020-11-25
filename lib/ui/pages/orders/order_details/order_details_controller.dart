@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:antares_wallet/app/common/app_storage_keys.dart';
 import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
@@ -7,8 +8,11 @@ import 'package:antares_wallet/controllers/orders_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
 import 'package:antares_wallet/repositories/trading_repository.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
+import 'package:antares_wallet/services/local_auth_service.dart';
 import 'package:antares_wallet/services/utils/orderbook_utils.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
+import 'package:cross_local_storage/cross_local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -39,6 +43,8 @@ class OrderDetailsArguments {
 class OrderDetailsController extends GetxController {
   static OrderDetailsController get con => Get.find();
 
+  final LocalStorageInterface _storage = Get.find<LocalStorageInterface>();
+
   static final orderTypes = ['Limit', 'Market'];
 
   static final _api = Get.find<ApiService>();
@@ -55,7 +61,10 @@ class OrderDetailsController extends GetxController {
   String get total => totalTextController.text;
   set total(String value) => totalTextController.text = value;
 
-  final amountTextController = TextEditingController();
+  bool _signOrders = false;
+  bool get signOrders => this._signOrders;
+
+  final TextEditingController amountTextController = TextEditingController();
   final _amount = '0.0'.obs;
   String get amount => this._amount.value;
   set amount(String value) {
@@ -64,11 +73,11 @@ class OrderDetailsController extends GetxController {
     _updateAllowed();
   }
 
-  final _loading = false.obs;
+  final RxBool _loading = false.obs;
   bool get loading => this._loading.value;
   set loading(bool value) => this._loading.value = value;
 
-  final _isBuy = false.obs;
+  final RxBool _isBuy = false.obs;
   bool get isBuy => this._isBuy.value;
   set isBuy(bool value) => this._isBuy.value = value;
 
@@ -76,11 +85,11 @@ class OrderDetailsController extends GetxController {
   String get orderType => this._orderType.value;
   set orderType(String value) => this._orderType.value = value;
 
-  final _locked = false.obs;
+  final RxBool _locked = false.obs;
   bool get locked => this._locked.value;
   set locked(bool value) => this._locked.value = value;
 
-  final _actionAllowed = false.obs;
+  final RxBool _actionAllowed = false.obs;
   bool get actionAllowed => this._actionAllowed.value;
   set actionAllowed(bool value) => this._actionAllowed.value = value;
 
@@ -107,19 +116,17 @@ class OrderDetailsController extends GetxController {
   String _orderId;
 
   @override
-  void onInit() async {
+  void onInit() {
     // initial data
+    _signOrders = _storage.getBool(AppStorageKeys.signOrders) ?? false;
+
+    // init with arguments
     final arguments = Get.arguments as OrderDetailsArguments;
-    bids.assignAll(arguments?.bids ?? []);
-    asks.assignAll(arguments?.asks ?? []);
-    mid = _getMid();
+    _initWithArguments(arguments);
     midPercent = _getMidPercent();
-    isBuy = arguments.isBuy ?? false;
-    isEdit = arguments.isEdit ?? false;
-    _orderId = arguments.orderId;
 
     // load pair market data
-    await updateWithPairId(arguments.pairId);
+    updateWithPairId(arguments.pairId);
 
     super.onInit();
   }
@@ -233,26 +240,15 @@ class OrderDetailsController extends GetxController {
   }
 
   Future<void> perform() async {
-    var response;
     String assetPairId = marketModel?.pairId;
     String assetId = marketModel?.pairBaseAsset?.id;
     double vol = double.tryParse(amount) ?? 0.0;
     double pr = double.tryParse(price) ?? 0.0;
+
     loading = true;
-    if (orderType.toLowerCase() == 'limit') {
-      response = await TradingRepository.placeLimitOrder(
-        assetPairId: assetPairId,
-        assetId: assetId,
-        volume: isBuy ? vol : vol * -1,
-        price: pr,
-      );
-    } else if (orderType.toLowerCase() == 'market') {
-      response = await TradingRepository.placeMarketOrder(
-        assetPairId: assetPairId,
-        assetId: assetId,
-        volume: isBuy ? vol : vol * -1,
-      );
-    }
+
+    OrderModel response = await _placeOrder(assetPairId, assetId, vol, pr);
+
     if (response == null) {
       Get.snackbar(
         null,
@@ -367,5 +363,45 @@ class OrderDetailsController extends GetxController {
     double a = double.tryParse(amount) ?? 0.0;
     locked = isBuy ? _countTotal() > balance : a > balance;
     actionAllowed = !locked && a > 0 && !liquidityError;
+  }
+
+  void _initWithArguments(OrderDetailsArguments arguments) {
+    bids.assignAll(arguments?.bids ?? []);
+    asks.assignAll(arguments?.asks ?? []);
+    mid = _getMid();
+    isBuy = arguments.isBuy ?? false;
+    isEdit = arguments.isEdit ?? false;
+    _orderId = arguments.orderId;
+  }
+
+  Future<OrderModel> _placeOrder(
+    String assetPairId,
+    String assetId,
+    double volume,
+    double price,
+  ) async {
+    // check pin if sign orders enabled
+    if (_signOrders) {
+      bool checkLocalAuth = await LocalAuthService.canCheckBiometrics;
+      await Get.to(LocalAuthPage(checkLocalAuth: checkLocalAuth));
+    }
+
+    // place order
+    OrderModel response;
+    if (orderType.toLowerCase() == 'limit') {
+      response = await TradingRepository.placeLimitOrder(
+        assetPairId: assetPairId,
+        assetId: assetId,
+        volume: isBuy ? volume : volume * -1,
+        price: price,
+      );
+    } else if (orderType.toLowerCase() == 'market') {
+      response = await TradingRepository.placeMarketOrder(
+        assetPairId: assetPairId,
+        assetId: assetId,
+        volume: isBuy ? volume : volume * -1,
+      );
+    }
+    return response;
   }
 }

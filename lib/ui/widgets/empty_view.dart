@@ -1,58 +1,68 @@
+import 'dart:ui';
+
+import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class LoadHelperView extends StatelessWidget {
+class EmptyReloadingView extends StatelessWidget {
   final String emptyHeader;
   final String emptyMessage;
   final Widget child;
-  final bool showEmpty;
-  final bool loading;
+  final Widget customLoader;
+  final bool isEmpty;
+  final bool isLoading;
+  final RefreshCallback onRefresh;
 
-  const LoadHelperView({
-    Key key,
-    @required this.emptyHeader,
-    @required this.emptyMessage,
+  const EmptyReloadingView({
     @required this.child,
-    @required this.showEmpty,
-    this.loading,
+    this.customLoader,
+    this.isEmpty,
+    this.emptyMessage,
+    this.emptyHeader,
+    this.isLoading,
+    this.onRefresh,
+    Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        AnimatedSwitcher(
-          duration: const Duration(milliseconds: 300),
-          child: showEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        this.emptyHeader,
-                        style: Get.textTheme.button.copyWith(
-                          fontSize: 22.0,
-                          fontWeight: FontWeight.bold,
+    return RefreshIndicator(
+      onRefresh: () => Future.delayed(Duration()).whenComplete(
+        () => onRefresh?.call(),
+      ),
+      color: AppColors.dark,
+      child: Stack(
+        children: <Widget>[
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            child: isEmpty ?? false
+                ? Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Text(
+                          this.emptyHeader ?? '',
+                          style: Get.textTheme.button.copyWith(
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      Text(
-                        this.emptyMessage,
-                        style: Get.textTheme.caption,
-                      )
-                    ],
-                  ),
-                )
-              : SizedBox.shrink(),
-        ),
-        AnimatedSwitcher(
-          duration: const Duration(milliseconds: 300),
-          child: loading != null && loading
-              ? AppUiHelpers.linearProgress
-              : SizedBox.shrink(),
-        ),
-        child,
-      ],
+                        Text(
+                          this.emptyMessage ?? '',
+                          style: Get.textTheme.caption,
+                        )
+                      ],
+                    ),
+                  )
+                : SizedBox.shrink(),
+          ),
+          child,
+          isLoading != null && isLoading
+              ? this.customLoader ?? AppUiHelpers.linearProgress
+              : SizedBox.shrink()
+        ],
+      ),
     );
   }
 }

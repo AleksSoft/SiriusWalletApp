@@ -29,11 +29,11 @@ class PortfolioHistoryView extends StatelessWidget {
         child: GetX<PortfolioController>(
           initState: (state) => c.reloadHistory(),
           builder: (_) {
-            return LoadHelperView(
+            return EmptyReloadingView(
               emptyHeader: 'No portfolio history yet',
               emptyMessage: '',
-              showEmpty: _.historyItems.isEmpty,
-              loading: _.loading,
+              isEmpty: _.historyItems.isEmpty,
+              isLoading: _.loading,
               child: ListView.builder(
                 itemCount: _.historyItems.length,
                 padding: EdgeInsets.only(
