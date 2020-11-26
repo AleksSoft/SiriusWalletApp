@@ -1,8 +1,11 @@
-import 'package:antares_wallet/app/common/app_storage_keys.dart';
+import 'dart:convert';
+
+import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/models/history_filter.dart';
 import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
-import 'package:cross_local_storage/cross_local_storage.dart';
 import 'package:enum_to_string/enum_to_string.dart';
-import 'package:get/get.dart';
+import 'package:get/get_utils/get_utils.dart';
+import 'package:get_storage/get_storage.dart';
 
 enum OrdersPeriod { all, day, week, custom }
 
@@ -70,33 +73,49 @@ class OrdersHistoryFilter {
     timeTo = null;
   }
 
-  void save() {
-    Get.find<LocalStorageInterface>().setStringList(
-      AppStorageKeys.ordersHistoryFilters,
-      <String>[
-        EnumToString.parse(period ?? OrdersPeriod.all),
-        EnumToString.parse(transactionType ?? OrdersTransactionType.all),
-        assetPairId ?? '',
-        (timeFrom ?? '-').toString(),
-        (timeTo ?? '-').toString(),
-      ],
+  Future<void> save() async {
+    final storage = GetStorage();
+
+    HistoryFilter filter = HistoryFilter(
+      period: EnumToString.parse(
+        period ?? OrdersPeriod.all,
+      ),
+      transactionType: EnumToString.parse(
+        transactionType ?? OrdersTransactionType.all,
+      ),
+      asset: assetPairId ?? '',
+      timeFrom: timeFrom,
+      timeTo: timeTo,
     );
+
+    await storage.write(AppStorageKeys.ordersHistoryFilters, filter);
   }
 
   static OrdersHistoryFilter fromStorage() {
-    var filterList = Get.find<LocalStorageInterface>().getStringList(
-      AppStorageKeys.ordersHistoryFilters,
-    );
-    if (filterList == null || filterList.isEmpty || filterList.length != 5) {
+    final storage = GetStorage();
+
+    String filterJson = storage.read(AppStorageKeys.errorList);
+    HistoryFilter historyFilter = GetUtils.isNullOrBlank(filterJson)
+        ? HistoryFilter()
+        : HistoryFilter.fromJson(json.decode(filterJson));
+
+    if (historyFilter == null) {
       return OrdersHistoryFilter();
     } else {
       return OrdersHistoryFilter()
-        ..period = EnumToString.fromString(OrdersPeriod.values, filterList[0])
-        ..transactionType =
-            EnumToString.fromString(OrdersTransactionType.values, filterList[1])
-        ..assetPairId = filterList[2].isEmpty ? null : filterList[2]
-        ..timeFrom = int.tryParse(filterList[3])
-        ..timeTo = int.tryParse(filterList[4]);
+        ..period = EnumToString.fromString(
+          OrdersPeriod.values,
+          historyFilter.period,
+        )
+        ..transactionType = EnumToString.fromString(
+          OrdersTransactionType.values,
+          historyFilter.transactionType,
+        )
+        ..assetPairId = GetUtils.isNullOrBlank(historyFilter.asset)
+            ? null
+            : historyFilter.asset
+        ..timeFrom = historyFilter.timeFrom
+        ..timeTo = historyFilter.timeTo;
     }
   }
 }

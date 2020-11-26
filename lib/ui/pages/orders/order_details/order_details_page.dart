@@ -1,10 +1,8 @@
 import 'dart:math' as math;
 
-import 'package:antares_wallet/app/ui/app_colors.dart';
-import 'package:antares_wallet/app/ui/app_sizes.dart';
-import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
+import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/utils/utils.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
-import 'package:antares_wallet/services/utils/formatter.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
 import 'package:antares_wallet/ui/widgets/volume_price_tile.dart';
 import 'package:flutter/material.dart';
@@ -185,13 +183,13 @@ class _EditView extends StatelessWidget {
             duration: const Duration(milliseconds: 300),
             child: c.isBuy
                 ? Text(
-                    '${c.marketModel.pairQuotingAsset.displayId} ${Formatter.currency(c.quotingBalance, maxDecimal: c.marketModel.pairQuotingAsset.accuracy)} available',
+                    '${c.marketModel.pairQuotingAsset.displayId} ${Formatter.currency(c.quotingBalance, fractionDigits: c.marketModel.pairQuotingAsset.accuracy)} available',
                     style: Get.textTheme.caption.copyWith(
                       color: c.locked ? AppColors.red : AppColors.secondary,
                     ),
                   )
                 : Text(
-                    '${c.marketModel.pairBaseAsset.displayId} ${Formatter.currency(c.baseBalance, maxDecimal: c.marketModel.pairBaseAsset.accuracy)} available',
+                    '${c.marketModel.pairBaseAsset.displayId} ${Formatter.currency(c.baseBalance, fractionDigits: c.marketModel.pairBaseAsset.accuracy)} available',
                     style: Get.textTheme.caption.copyWith(
                       color: c.locked ? AppColors.red : AppColors.secondary,
                     ),
@@ -315,7 +313,7 @@ class _ActionButton extends StatelessWidget {
               ? Column(
                   children: <Widget>[
                     Text(
-                      '${Formatter.currency(_.amount, maxDecimal: _.marketModel.pairQuotingAsset.accuracy)} ${_.marketModel.pairBaseAsset.displayId}',
+                      '${Formatter.currency(_.amount, fractionDigits: _.marketModel.pairQuotingAsset.accuracy)} ${_.marketModel.pairBaseAsset.displayId}',
                     ),
                     Text(
                       _.isBuy ? 'Buy' : 'Sell',
@@ -457,11 +455,11 @@ class _OrderbookView extends StatelessWidget {
                   return VolumePriceTile(
                     volume: Formatter.currency(
                       a.v,
-                      maxDecimal: c.marketModel.pairBaseAsset.accuracy,
+                      fractionDigits: c.marketModel.pairBaseAsset.accuracy,
                     ),
                     price: Formatter.currency(
                       a.p,
-                      maxDecimal: c.marketModel.pairQuotingAsset.accuracy,
+                      fractionDigits: c.marketModel.pairQuotingAsset.accuracy,
                     ),
                     color: AppColors.red,
                     percent: c.volumeAskPercent(i),
@@ -481,7 +479,7 @@ class _OrderbookView extends StatelessWidget {
             children: [
               Obx(
                 () => Text(
-                  '${Formatter.currency(c.mid.toString(), maxDecimal: c.marketModel.pairQuotingAsset.accuracy)}',
+                  '${Formatter.currency(c.mid.toString(), fractionDigits: c.marketModel.pairQuotingAsset.accuracy)}',
                   style: Get.textTheme.headline6.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
@@ -489,7 +487,7 @@ class _OrderbookView extends StatelessWidget {
               ),
               Obx(
                 () => Text(
-                  '${Formatter.currency(c.midPercent.toString(), maxDecimal: 2)}%',
+                  '${Formatter.currency(c.midPercent.toString(), fractionDigits: 2)}%',
                   style: Get.textTheme.caption,
                 ),
               ),
@@ -511,11 +509,11 @@ class _OrderbookView extends StatelessWidget {
                   return VolumePriceTile(
                     volume: Formatter.currency(
                       a.v,
-                      maxDecimal: c.marketModel.pairBaseAsset.accuracy,
+                      fractionDigits: c.marketModel.pairBaseAsset.accuracy,
                     ),
                     price: Formatter.currency(
                       a.p,
-                      maxDecimal: c.marketModel.pairQuotingAsset.accuracy,
+                      fractionDigits: c.marketModel.pairQuotingAsset.accuracy,
                     ),
                     color: AppColors.green,
                     percent: c.volumeBidPercent(i),

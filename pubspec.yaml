@@ -21,9 +21,13 @@ dependencies:
   protobuf: ^1.1.0
   protoc_plugin: ^19.2.0+1
 
-  #utils
-  cross_local_storage: ^1.1.1
-  intl: ^0.16.1
+  # crypto
+  bitcoin_flutter: ^2.0.1
+  crypto: ^2.1.5
+  web3dart: ^1.2.3
+
+  # utils and features
+  intl: ^0.15.8
   equatable: ^1.2.5
   enum_to_string: ^1.0.9
   url_launcher: ^5.5.3
@@ -34,18 +38,14 @@ dependencies:
   share: ^0.6.5
   qr_flutter: ^3.2.0
   barcode_scan: ^3.0.1
-  logger: ^0.9.2
+  flutter_money_formatter: ^0.8.3
+  logger_flutter: ^0.7.1
 
-  #fireabse
+  # fireabse
   firebase_analytics: ^6.0.0
+  firebase_core: ^0.5.0+1
 
-  #crypto
-  bitcoin_flutter: ^2.0.1
-  crypto: ^2.1.5
-  web3dart: ^1.2.3
-
-  #ui
-  font_awesome_flutter: ^8.8.1
+  # ui & animation
   flutter_sparkline: ^0.1.0
   percent_indicator: ^2.1.6
   date_range_picker: ^1.0.6
@@ -59,14 +59,9 @@ dependencies:
   syncfusion_flutter_charts: ^18.3.51
   smooth_page_indicator: ^0.2.0
 
-  flutter_localizations:
-    sdk: flutter
-
 dev_dependencies:
-  # flutter_test:
-  #   sdk: flutter
-
-  build_runner:
+  flutter_test:
+    sdk: flutter
 
 flutter:
   uses-material-design: true

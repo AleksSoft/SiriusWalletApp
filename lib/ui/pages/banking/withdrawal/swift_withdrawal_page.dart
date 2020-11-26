@@ -1,8 +1,6 @@
-import 'package:antares_wallet/app/ui/app_colors.dart';
-import 'package:antares_wallet/app/ui/app_sizes.dart';
-import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
+import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/utils/utils.dart';
 import 'package:antares_wallet/controllers/withdrawal_controller.dart';
-import 'package:antares_wallet/services/utils/formatter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,7 +18,7 @@ class SwiftWithdrawalPage extends StatelessWidget {
             Text('Withdraw'),
             GetBuilder<WithdrawalController>(
               builder: (_) => Text(
-                '${Formatter.currency(_.selectedAssetBalance.available, symbol: _.selectedAsset?.displayId)} available',
+                '${Formatter.currency(_.selectedAssetBalance.available, prefix: _.selectedAsset?.displayId)} available',
                 style: Get.textTheme.caption,
                 textAlign: TextAlign.left,
               ),

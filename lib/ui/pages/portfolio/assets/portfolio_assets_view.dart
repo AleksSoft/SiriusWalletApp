@@ -1,9 +1,7 @@
-import 'package:antares_wallet/app/ui/app_colors.dart';
-import 'package:antares_wallet/app/ui/app_sizes.dart';
-import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
+import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/utils/utils.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
-import 'package:antares_wallet/services/utils/formatter.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/asset_info/asset_info_page.dart';
 import 'package:antares_wallet/ui/widgets/asset_list_tile.dart';
@@ -83,8 +81,8 @@ class _PortfolioAssetsHeader extends StatelessWidget {
             () => Text(
               Formatter.currency(
                 c.balanceSum.toString(),
-                symbol: AssetsController.con.baseAsset?.displayId,
-                maxDecimal: AssetsController.con.baseAsset?.accuracy,
+                prefix: AssetsController.con.baseAsset?.displayId,
+                fractionDigits: AssetsController.con.baseAsset?.accuracy,
               ),
               style: titleTheme,
             ),

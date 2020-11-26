@@ -1,4 +1,4 @@
-import 'package:antares_wallet/app/ui/app_sizes.dart';
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

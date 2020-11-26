@@ -1,9 +1,8 @@
-import 'package:antares_wallet/app/ui/app_colors.dart';
-import 'package:antares_wallet/app/ui/app_sizes.dart';
+import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/utils/utils.dart';
 import 'package:antares_wallet/repositories/profile_repository.dart';
 import 'package:antares_wallet/repositories/settings_repository.dart';
 import 'package:antares_wallet/repositories/wallet_repository.dart';
-import 'package:antares_wallet/services/utils/formatter.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/banking/deposit/blockchain_deposit_page.dart';
 import 'package:antares_wallet/ui/pages/banking/deposit/card_deposit_page.dart';
@@ -55,8 +54,8 @@ class DepositController extends GetxController {
     double amount = double.tryParse(amountValue) ?? 0;
     return Formatter.currency(
       amount == 0 ? amountValue : (amount + fee).toString(),
-      symbol: selectedAsset?.displayId,
-      maxDecimal: selectedAsset?.accuracy,
+      prefix: selectedAsset?.displayId,
+      fractionDigits: selectedAsset?.accuracy,
     );
   }
 

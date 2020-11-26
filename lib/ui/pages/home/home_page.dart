@@ -1,11 +1,9 @@
-import 'package:antares_wallet/app/ui/app_colors.dart';
-import 'package:antares_wallet/app/ui/app_sizes.dart';
-import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
+import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/utils/utils.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/controllers/home_controller.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
-import 'package:antares_wallet/services/utils/formatter.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/more/support/support_page.dart';
 import 'package:antares_wallet/ui/pages/root/root_controller.dart';
@@ -109,9 +107,9 @@ class _AssetsView extends StatelessWidget {
                             () => Text(
                               Formatter.currency(
                                 assetsCon.balanceSum.toString(),
-                                symbol:
+                                prefix:
                                     AssetsController.con.baseAsset?.displayId,
-                                maxDecimal:
+                                fractionDigits:
                                     AssetsController.con.baseAsset?.accuracy ??
                                         2,
                               ),
@@ -166,8 +164,8 @@ class _AssetsView extends StatelessWidget {
                       () => Text(
                         Formatter.currency(
                           assetsCon.balanceSum.toString(),
-                          symbol: AssetsController.con.baseAsset?.displayId,
-                          maxDecimal:
+                          prefix: AssetsController.con.baseAsset?.displayId,
+                          fractionDigits:
                               AssetsController.con.baseAsset?.accuracy ?? 2,
                         ),
                         style: TextStyle(
@@ -402,7 +400,7 @@ class _ExchangeView extends StatelessWidget {
                 Text(
                   Formatter.currency(
                     model.price.toString(),
-                    maxDecimal: model.pairQuotingAsset.accuracy,
+                    fractionDigits: model.pairQuotingAsset.accuracy,
                   ),
                   style: textStyle.copyWith(
                     fontWeight: FontWeight.w600,
@@ -410,7 +408,7 @@ class _ExchangeView extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '${Formatter.currency(model.change.toString(), maxDecimal: 2)}%',
+                  '${Formatter.currency(model.change.toString(), fractionDigits: 2)}%',
                   style: textStyle.copyWith(
                     fontWeight: FontWeight.w400,
                     fontSize: 12.0,
@@ -519,8 +517,8 @@ class _MyLykkeView extends StatelessWidget {
           Text(
             Formatter.currency(
               balance?.available,
-              symbol: asset.displayId,
-              maxDecimal: asset.accuracy,
+              prefix: asset.displayId,
+              fractionDigits: asset.accuracy,
             ),
             style: Get.textTheme.subtitle1.copyWith(
               fontWeight: FontWeight.w600,
@@ -532,8 +530,8 @@ class _MyLykkeView extends StatelessWidget {
               AssetsController.con
                   .countBalanceInBase(asset.id, balance)
                   .toString(),
-              symbol: AssetsController.con.baseAsset?.displayId,
-              maxDecimal: AssetsController.con.baseAsset?.accuracy,
+              prefix: AssetsController.con.baseAsset?.displayId,
+              fractionDigits: AssetsController.con.baseAsset?.accuracy,
             ),
             style: Get.textTheme.caption,
           )

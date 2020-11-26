@@ -1,9 +1,7 @@
-import 'package:antares_wallet/app/ui/app_colors.dart';
-import 'package:antares_wallet/app/ui/app_sizes.dart';
-import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
+import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/utils/utils.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
-import 'package:antares_wallet/services/utils/formatter.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -48,8 +46,8 @@ class AssetListTile extends StatelessWidget {
               Text(
                 Formatter.currency(
                   balance?.available,
-                  symbol: asset.displayId,
-                  maxDecimal: asset.accuracy,
+                  prefix: asset.displayId,
+                  fractionDigits: asset.accuracy,
                 ),
                 style: Get.textTheme.subtitle1.copyWith(
                   fontWeight: FontWeight.w600,
@@ -61,8 +59,8 @@ class AssetListTile extends StatelessWidget {
                   AssetsController.con
                       .countBalanceInBase(asset.id, balance)
                       .toString(),
-                  symbol: AssetsController.con.baseAsset?.displayId,
-                  maxDecimal: AssetsController.con.baseAsset?.accuracy,
+                  prefix: AssetsController.con.baseAsset?.displayId,
+                  fractionDigits: AssetsController.con.baseAsset?.accuracy,
                 ),
                 style: Get.textTheme.caption,
               )

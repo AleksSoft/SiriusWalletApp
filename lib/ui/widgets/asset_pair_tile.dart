@@ -1,8 +1,6 @@
-import 'package:antares_wallet/app/ui/app_colors.dart';
-import 'package:antares_wallet/app/ui/app_sizes.dart';
-import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
+import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/utils/utils.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
-import 'package:antares_wallet/services/utils/formatter.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -103,7 +101,7 @@ class AssetPairTile extends StatelessWidget {
                     Text(
                       Formatter.currency(
                         lastPrice.toString(),
-                        ifZeroOrNull: '—',
+                        orElse: '—',
                       ),
                       style: textStyleButton.copyWith(
                         fontSize: 16.0,
@@ -116,9 +114,9 @@ class AssetPairTile extends StatelessWidget {
                         _assetC
                             .amountInBaseById(pairBaseAsset.id)
                             ?.amountInBase,
-                        symbol: _assetC.baseAsset.displayId,
-                        maxDecimal: _assetC.baseAsset.accuracy,
-                        ifZeroOrNull: '—',
+                        prefix: _assetC.baseAsset.displayId,
+                        fractionDigits: _assetC.baseAsset.accuracy,
+                        orElse: '—',
                       ),
                       style: textStyleButton.copyWith(
                         color: AppColors.secondary,
@@ -145,7 +143,7 @@ class AssetPairTile extends StatelessWidget {
                     color: _color.withOpacity(0.2),
                   ),
                   child: Text(
-                    '${Formatter.currency(change.toString(), maxDecimal: 2)}%',
+                    '${Formatter.currency(change.toString(), fractionDigits: 2)}%',
                     textAlign: TextAlign.end,
                     style: textStyleButton.copyWith(
                       fontSize: 12.0,

@@ -1,14 +1,13 @@
-import 'package:antares_wallet/app/common/app_storage_keys.dart';
-import 'package:antares_wallet/app/ui/app_colors.dart';
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/ui/pages/start/start_page.dart';
-import 'package:cross_local_storage/cross_local_storage.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:share/share.dart';
 
 class MoreController extends GetxController {
   static MoreController get con => Get.find();
 
-  final _storage = Get.find<LocalStorageInterface>();
+  final _storage = GetStorage();
 
   void signOut() {
     Get.defaultDialog(
@@ -17,13 +16,12 @@ class MoreController extends GetxController {
       buttonColor: AppColors.dark,
       confirmTextColor: AppColors.primary,
       onConfirm: () {
-        _storage.clear().whenComplete(
+        _storage.erase().whenComplete(
               () => Get.offAllNamed(StartPage.route),
             );
       },
     );
   }
 
-  void shareToken() =>
-      Share.share(_storage.getString(AppStorageKeys.token) ?? '');
+  void shareToken() => Share.share(_storage.read(AppStorageKeys.token) ?? '');
 }

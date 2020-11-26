@@ -1,4 +1,4 @@
-import 'package:antares_wallet/app/ui/app_sizes.dart';
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/controllers/more_controller.dart';
 import 'package:antares_wallet/ui/pages/errors_log/errors_log_page.dart';
 import 'package:antares_wallet/ui/pages/more/profile/profile_page.dart';

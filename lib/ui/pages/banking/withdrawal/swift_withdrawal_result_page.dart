@@ -1,8 +1,6 @@
-import 'package:antares_wallet/app/ui/app_colors.dart';
-import 'package:antares_wallet/app/ui/app_sizes.dart';
-import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
+import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/utils/utils.dart';
 import 'package:antares_wallet/controllers/withdrawal_controller.dart';
-import 'package:antares_wallet/services/utils/formatter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -33,8 +31,8 @@ class SwiftWithdrawalResultPage extends StatelessWidget {
                           title: Text(
                             Formatter.currency(
                               _.amountController.text,
-                              symbol: _.selectedAsset?.displayId,
-                              maxDecimal: _.selectedAsset?.accuracy,
+                              prefix: _.selectedAsset?.displayId,
+                              fractionDigits: _.selectedAsset?.accuracy,
                             ),
                           ),
                           subtitle: Text('Deducted amount'),
@@ -43,8 +41,8 @@ class SwiftWithdrawalResultPage extends StatelessWidget {
                           title: Text(
                             Formatter.currency(
                               _.fee.toString(),
-                              symbol: _.selectedAsset?.displayId,
-                              maxDecimal: _.selectedAsset?.accuracy,
+                              prefix: _.selectedAsset?.displayId,
+                              fractionDigits: _.selectedAsset?.accuracy,
                             ),
                           ),
                           subtitle: Text('Fee'),

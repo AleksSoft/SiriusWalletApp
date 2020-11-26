@@ -1,6 +1,4 @@
-import 'package:antares_wallet/app/ui/app_colors.dart';
-import 'package:antares_wallet/app/ui/app_sizes.dart';
-import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/controllers/local_auth_controller.dart';
 import 'package:antares_wallet/ui/widgets/empty_view.dart';
 import 'package:flutter/material.dart';

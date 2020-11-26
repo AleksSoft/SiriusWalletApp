@@ -1,10 +1,8 @@
 import 'dart:math' as math;
 
-import 'package:antares_wallet/app/ui/app_colors.dart';
-import 'package:antares_wallet/app/ui/app_sizes.dart';
-import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
+import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/utils/utils.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
-import 'package:antares_wallet/services/utils/formatter.dart';
 import 'package:antares_wallet/ui/pages/trading/widgets/candle_chart_view.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
 import 'package:antares_wallet/ui/widgets/buy_sell_button_row.dart';
@@ -157,8 +155,8 @@ class _HeaderView extends StatelessWidget {
             () => Text(
               Formatter.currency(
                 c.marketModel.lastPrice,
-                maxDecimal: c.initialMarket.pairQuotingAsset.accuracy,
-                symbol: c.initialMarket.pairQuotingAsset.displayId,
+                fractionDigits: c.initialMarket.pairQuotingAsset.accuracy,
+                prefix: c.initialMarket.pairQuotingAsset.displayId,
               ),
               style: titleTheme,
             ),
@@ -177,7 +175,7 @@ class _HeaderView extends StatelessWidget {
                     children: [
                       Obx(
                         () => Text(
-                          '${Formatter.currency(c.marketModel.priceChange24H, maxDecimal: 2)}%',
+                          '${Formatter.currency(c.marketModel.priceChange24H, fractionDigits: 2)}%',
                           style: Get.textTheme.button.copyWith(
                             color: _color(change),
                           ),
@@ -195,7 +193,7 @@ class _HeaderView extends StatelessWidget {
                   AppUiHelpers.vSpaceExtraSmall,
                   Obx(
                     () => Text(
-                      'Vol ${Formatter.currency(c.marketModel.volume24H, ifZeroOrNull: '—')}',
+                      'Vol ${Formatter.currency(c.marketModel.volume24H, orElse: '—')}',
                       style: Get.textTheme.caption,
                     ),
                   ),
@@ -207,14 +205,14 @@ class _HeaderView extends StatelessWidget {
                 children: [
                   Obx(
                     () => Text(
-                      'High ${Formatter.currency(c.marketModel.high, ifZeroOrNull: '—')}',
+                      'High ${Formatter.currency(c.marketModel.high, orElse: '—')}',
                       style: Get.textTheme.caption,
                     ),
                   ),
                   AppUiHelpers.vSpaceExtraSmall,
                   Obx(
                     () => Text(
-                      'Low ${Formatter.currency(c.marketModel.low, ifZeroOrNull: '—')}',
+                      'Low ${Formatter.currency(c.marketModel.low, orElse: '—')}',
                       style: Get.textTheme.caption,
                     ),
                   ),
@@ -289,11 +287,12 @@ class _Orderbook extends StatelessWidget {
                         return VolumeBidTile(
                           volume: Formatter.currency(
                             a.v,
-                            maxDecimal: c.initialMarket.pairBaseAsset.accuracy,
+                            fractionDigits:
+                                c.initialMarket.pairBaseAsset.accuracy,
                           ),
                           bid: Formatter.currency(
                             a.p,
-                            maxDecimal:
+                            fractionDigits:
                                 c.initialMarket.pairQuotingAsset.accuracy,
                           ),
                           percent: c.volumeBidPercent(i),
@@ -343,11 +342,12 @@ class _Orderbook extends StatelessWidget {
                         return VolumeAskTile(
                           volume: Formatter.currency(
                             a.v,
-                            maxDecimal: c.initialMarket.pairBaseAsset.accuracy,
+                            fractionDigits:
+                                c.initialMarket.pairBaseAsset.accuracy,
                           ),
                           ask: Formatter.currency(
                             a.p,
-                            maxDecimal:
+                            fractionDigits:
                                 c.initialMarket.pairQuotingAsset.accuracy,
                           ),
                           percent: c.volumeAskPercent(i),

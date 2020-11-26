@@ -1,8 +1,11 @@
-import 'package:antares_wallet/app/common/app_storage_keys.dart';
+import 'dart:convert';
+
+import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/models/history_filter.dart';
 import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
-import 'package:cross_local_storage/cross_local_storage.dart';
 import 'package:enum_to_string/enum_to_string.dart';
-import 'package:get/get.dart';
+import 'package:get/get_utils/get_utils.dart';
+import 'package:get_storage/get_storage.dart';
 
 enum HistoryPeriod { all, day, week, custom }
 
@@ -70,33 +73,47 @@ class PortfolioHistoryFilter {
     timeTo = null;
   }
 
-  void save() {
-    Get.find<LocalStorageInterface>().setStringList(
-      AppStorageKeys.portrolioHistoryFilters,
-      <String>[
-        EnumToString.parse(period ?? HistoryPeriod.all),
-        EnumToString.parse(transactionType ?? HistoryTransactionType.all),
-        assetId ?? '',
-        (timeFrom ?? '-').toString(),
-        (timeTo ?? '-').toString(),
-      ],
+  Future<void> save() async {
+    final storage = GetStorage();
+
+    HistoryFilter filter = HistoryFilter(
+      period: EnumToString.parse(period ?? HistoryPeriod.all),
+      transactionType: EnumToString.parse(
+        transactionType ?? HistoryTransactionType.all,
+      ),
+      asset: assetId ?? '',
+      timeFrom: timeFrom,
+      timeTo: timeTo,
     );
+
+    await storage.write(AppStorageKeys.ordersHistoryFilters, filter);
   }
 
   static PortfolioHistoryFilter fromStorage() {
-    var filterList = Get.find<LocalStorageInterface>().getStringList(
-      AppStorageKeys.portrolioHistoryFilters,
-    );
-    if (filterList == null || filterList.isEmpty || filterList.length != 5) {
+    final storage = GetStorage();
+
+    String filterJson = storage.read(AppStorageKeys.errorList);
+    HistoryFilter historyFilter = GetUtils.isNullOrBlank(filterJson)
+        ? HistoryFilter()
+        : HistoryFilter.fromJson(json.decode(filterJson));
+
+    if (historyFilter == null) {
       return PortfolioHistoryFilter();
     } else {
       return PortfolioHistoryFilter()
-        ..period = EnumToString.fromString(HistoryPeriod.values, filterList[0])
+        ..period = EnumToString.fromString(
+          HistoryPeriod.values,
+          historyFilter.period,
+        )
         ..transactionType = EnumToString.fromString(
-            HistoryTransactionType.values, filterList[1])
-        ..assetId = filterList[2].isEmpty ? null : filterList[2]
-        ..timeFrom = int.tryParse(filterList[3])
-        ..timeTo = int.tryParse(filterList[4]);
+          HistoryTransactionType.values,
+          historyFilter.transactionType,
+        )
+        ..assetId = GetUtils.isNullOrBlank(historyFilter.asset)
+            ? null
+            : historyFilter.asset
+        ..timeFrom = historyFilter.timeFrom
+        ..timeTo = historyFilter.timeTo;
     }
   }
 }

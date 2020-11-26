@@ -1,20 +1,18 @@
 import 'dart:async';
 
-import 'package:antares_wallet/app/common/app_storage_keys.dart';
-import 'package:antares_wallet/app/ui/app_colors.dart';
-import 'package:antares_wallet/app/ui/app_sizes.dart';
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/controllers/orders_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
 import 'package:antares_wallet/repositories/trading_repository.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/services/local_auth_service.dart';
-import 'package:antares_wallet/services/utils/orderbook_utils.dart';
+import 'package:antares_wallet/app/utils/orderbook_utils.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
-import 'package:cross_local_storage/cross_local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class OrderDetailsArguments {
   final List<Orderbook_PriceVolume> bids;
@@ -43,7 +41,7 @@ class OrderDetailsArguments {
 class OrderDetailsController extends GetxController {
   static OrderDetailsController get con => Get.find();
 
-  final LocalStorageInterface _storage = Get.find<LocalStorageInterface>();
+  final _storage = GetStorage();
 
   static final orderTypes = ['Limit', 'Market'];
 
@@ -118,7 +116,7 @@ class OrderDetailsController extends GetxController {
   @override
   void onInit() {
     // initial data
-    _signOrders = _storage.getBool(AppStorageKeys.signOrders) ?? false;
+    _signOrders = _storage.read(AppStorageKeys.signOrders) ?? false;
 
     // init with arguments
     final arguments = Get.arguments as OrderDetailsArguments;

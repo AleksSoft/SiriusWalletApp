@@ -1,11 +1,8 @@
-import 'package:antares_wallet/app/ui/app_colors.dart';
-import 'package:antares_wallet/app/ui/app_sizes.dart';
-import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/controllers/login_controller.dart';
 import 'package:antares_wallet/ui/widgets/gradient_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -117,10 +114,10 @@ class _LoginScreen extends StatelessWidget {
                       labelText: 'Password',
                       suffix: InkWell(
                         onTap: () => c.hidePassword = !c.hidePassword,
-                        child: FaIcon(
+                        child: Icon(
                           c.hidePassword
-                              ? FontAwesomeIcons.eyeSlash
-                              : FontAwesomeIcons.eye,
+                              ? Icons.visibility_off
+                              : Icons.visibility,
                           size: 16.0,
                         ),
                       ),

@@ -1,6 +1,4 @@
-import 'package:antares_wallet/app/ui/app_colors.dart';
-import 'package:antares_wallet/app/ui/app_sizes.dart';
-import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/controllers/orders_history_filters_controller.dart';
 import 'package:antares_wallet/models/orders_history_filter.dart';
 import 'package:chips_choice/chips_choice.dart';
@@ -54,7 +52,7 @@ class OrdersHistoryFiltersView extends StatelessWidget {
                   right: AppSizes.medium,
                   bottom: AppSizes.small,
                   child: CupertinoButton.filled(
-                    onPressed: () => _.applyFilter(),
+                    onPressed: () async => await _.applyFilter(),
                     child: Text('apply'.tr),
                   ),
                 ),

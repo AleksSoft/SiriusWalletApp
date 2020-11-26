@@ -1,20 +1,20 @@
 import 'dart:convert';
 
-import 'package:antares_wallet/app/common/app_storage_keys.dart';
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/models/saved_errors_model.dart';
-import 'package:cross_local_storage/cross_local_storage.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class ErrorsLogController extends GetxController {
   static ErrorsLogController get con => Get.find();
 
-  final _storage = Get.find<LocalStorageInterface>();
+  final _storage = GetStorage();
 
   var savedErrorsModel = SavedErrorsModel();
 
   @override
   void onReady() {
-    String jsonStr = _storage.getString(AppStorageKeys.errorList);
+    String jsonStr = _storage.read(AppStorageKeys.errorList);
     savedErrorsModel = jsonStr.isNullOrBlank
         ? SavedErrorsModel()
         : SavedErrorsModel().fromJson(json.decode(jsonStr));

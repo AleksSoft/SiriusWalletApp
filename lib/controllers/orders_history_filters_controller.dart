@@ -1,4 +1,4 @@
-import 'package:antares_wallet/app/ui/app_sizes.dart';
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/controllers/orders_controller.dart';
 import 'package:antares_wallet/models/orders_history_filter.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
@@ -64,8 +64,8 @@ class OrdersHistoryFiltersController extends GetxController {
     super.onInit();
   }
 
-  void applyFilter() {
-    _filter.save();
+  Future<void> applyFilter() async {
+    await _filter.save();
     OrdersController.con.reloadHistory(newFilter: _filter);
     Get.back();
   }

@@ -1,4 +1,4 @@
-import 'package:antares_wallet/app/ui/app_colors.dart';
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/repositories/disclaimers_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:flutter/material.dart';

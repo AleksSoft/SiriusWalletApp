@@ -1,11 +1,8 @@
-import 'package:antares_wallet/app/ui/app_colors.dart';
-import 'package:antares_wallet/app/ui/app_sizes.dart';
-import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
+import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/utils/utils.dart';
 import 'package:antares_wallet/controllers/withdrawal_controller.dart';
-import 'package:antares_wallet/services/utils/formatter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import 'blockchain_withdrawal_details_page.dart';
@@ -63,7 +60,7 @@ class BlockchainWithdrawalPage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(AppSizes.medium),
                       child: Text(
-                        '${Formatter.currency(_.selectedAssetBalance.available, symbol: _.selectedAsset?.displayId)} available',
+                        '${Formatter.currency(_.selectedAssetBalance.available, prefix: _.selectedAsset?.displayId)} available',
                         style: Get.textTheme.caption.copyWith(
                           color: _.isAmountWithFeeAvailable
                               ? AppColors.secondary
@@ -108,8 +105,8 @@ class BlockchainWithdrawalPage extends StatelessWidget {
                       leading: IconButton(
                         onPressed: () async =>
                             _.addressController.text = await _.getQrCodeValue(),
-                        icon: FaIcon(
-                          FontAwesomeIcons.qrcode,
+                        icon: Icon(
+                          Icons.qr_code,
                           color: AppColors.secondary,
                         ),
                       ),
@@ -137,8 +134,8 @@ class BlockchainWithdrawalPage extends StatelessWidget {
                         leading: IconButton(
                           onPressed: () async =>
                               _.extController.text = await _.getQrCodeValue(),
-                          icon: FaIcon(
-                            FontAwesomeIcons.qrcode,
+                          icon: Icon(
+                            Icons.qr_code,
                             color: AppColors.secondary,
                           ),
                         ),

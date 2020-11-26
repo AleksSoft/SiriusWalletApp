@@ -1,9 +1,8 @@
-import 'package:antares_wallet/app/ui/app_colors.dart';
-import 'package:antares_wallet/app/ui/app_sizes.dart';
+import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/utils/utils.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
 import 'package:antares_wallet/repositories/session_repository.dart';
 import 'package:antares_wallet/repositories/wallet_repository.dart';
-import 'package:antares_wallet/services/utils/formatter.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/banking/withdrawal/blockchain_withdrawal_page.dart';
 import 'package:antares_wallet/ui/pages/banking/withdrawal/result_withdrawal_page.dart';
@@ -66,8 +65,8 @@ class WithdrawalController extends GetxController {
         (amountWithFee - fee) == 0
             ? amountController.text
             : amountWithFee.toString(),
-        symbol: selectedAsset?.displayId,
-        maxDecimal: selectedAsset?.accuracy ?? 2,
+        prefix: selectedAsset?.displayId,
+        fractionDigits: selectedAsset?.accuracy ?? 2,
       );
 
   double get amountWithFee =>

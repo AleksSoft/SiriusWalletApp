@@ -1,7 +1,6 @@
 import 'dart:async';
 
-import 'package:antares_wallet/app/common/app_storage_keys.dart';
-import 'package:antares_wallet/app/ui/app_sizes.dart';
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/repositories/markets_repository.dart';
 import 'package:antares_wallet/repositories/watchists_repository.dart';
@@ -10,10 +9,10 @@ import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/root/root_controller.dart';
 import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
-import 'package:cross_local_storage/cross_local_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:search_page/search_page.dart';
 
 import 'asset_pair_sort_tile_controller.dart';
@@ -22,7 +21,7 @@ class MarketsController extends GetxController {
   static MarketsController get con => Get.find();
   static final _api = Get.find<ApiService>();
 
-  final _storage = Get.find<LocalStorageInterface>();
+  final _storage = GetStorage();
   final _assetsController = Get.find<AssetsController>();
 
   final List<MarketModel> initialMarketList = List<MarketModel>();
@@ -117,7 +116,7 @@ class MarketsController extends GetxController {
       await MarketsRepository.getMarkets(assetPairId: assetPairId);
 
   Future<void> rebuildWatchedMarkets() async {
-    String id = _storage.getString(AppStorageKeys.watchlistId);
+    String id = _storage.read(AppStorageKeys.watchlistId);
     await _initMarketsListIfNeeded(force: true);
     if (!id.isNullOrBlank) {
       List<MarketModel> result = List();

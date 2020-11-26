@@ -60,8 +60,8 @@ class PortfolioHistoryFiltersController extends GetxController {
     super.onInit();
   }
 
-  void applyFilter() {
-    _filter.save();
+  Future<void> applyFilter() async {
+    await _filter.save();
     PortfolioController.con.reloadHistory(newFilter: _filter);
     Get.back();
   }

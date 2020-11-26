@@ -1,7 +1,7 @@
-import 'package:antares_wallet/app/common/app_storage_keys.dart';
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/src/apiservice.pbgrpc.dart';
-import 'package:cross_local_storage/cross_local_storage.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:grpc/grpc.dart';
 
 class ApiService {
@@ -12,7 +12,7 @@ class ApiService {
     'antares-api-grpc-test.lykkex.net',
   ];
   static final timeoutDuration = const Duration(seconds: 30);
-  final _storage = Get.find<LocalStorageInterface>();
+  final _storage = GetStorage();
 
   ApiServiceClient _clientSecure;
   ApiServiceClient _client;
@@ -25,7 +25,7 @@ class ApiService {
   /// If [url] is null the stored value is used
   Future<void> update({String url}) async {
     if (url.isNullOrBlank) url = defaultUrl;
-    await _storage.setString(AppStorageKeys.baseUrl, url);
+    await _storage.write(AppStorageKeys.baseUrl, url);
     print('---- Base Url: $url');
 
     var channel = ClientChannel(url, port: 443);
@@ -34,7 +34,7 @@ class ApiService {
       channel,
       options: CallOptions(
         metadata: {
-          'Authorization': 'Bearer ${_storage.getString(AppStorageKeys.token)}',
+          'Authorization': 'Bearer ${_storage.read(AppStorageKeys.token)}',
         },
         timeout: timeoutDuration,
       ),
@@ -49,9 +49,7 @@ class ApiService {
   }
 
   static String get defaultUrl {
-    String url = Get.find<LocalStorageInterface>().getString(
-      AppStorageKeys.baseUrl,
-    );
+    String url = GetStorage().read(AppStorageKeys.baseUrl);
     return url.isNullOrBlank ? urls[0] : url;
   }
 }

@@ -1,16 +1,15 @@
-import 'package:antares_wallet/app/common/app_storage_keys.dart';
-import 'package:antares_wallet/app/ui/app_colors.dart';
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/repositories/session_repository.dart';
 import 'package:antares_wallet/services/local_auth_service.dart';
-import 'package:cross_local_storage/cross_local_storage.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 enum PinViewState { DEFAULT, CREATE_PIN, REPEAT_PIN }
 
 class LocalAuthController extends GetxController {
   static LocalAuthController get con => Get.find();
 
-  final LocalStorageInterface _storage = Get.find<LocalStorageInterface>();
+  final _storage = GetStorage();
 
   final _viewState = PinViewState.CREATE_PIN.obs;
   get viewState => this._viewState.value;
@@ -76,7 +75,7 @@ class LocalAuthController extends GetxController {
       loading = true;
       bool authorized = await LocalAuthService.authenticate();
       if (authorized) {
-        pinValue = _storage.getString(AppStorageKeys.pinCode);
+        pinValue = _storage.read(AppStorageKeys.pinCode);
         await _submitPIN();
       }
       loading = false;
@@ -118,9 +117,9 @@ class LocalAuthController extends GetxController {
 
   Future<void> _submitPIN() async {
     loading = true;
-    String token = _storage.getString(AppStorageKeys.token);
+    String token = _storage.read(AppStorageKeys.token);
     if (await SessionRepository.checkPin(sessionId: token, pin: pinValue)) {
-      await _storage.setString(AppStorageKeys.pinCode, pinValue);
+      await _storage.write(AppStorageKeys.pinCode, pinValue);
       navigateBack(true);
     } else {
       Get.defaultDialog(
@@ -140,7 +139,7 @@ class LocalAuthController extends GetxController {
 
   Future<void> _saveNewPIN() async {
     if (_prevPIN == pinValue) {
-      await _storage.setString(AppStorageKeys.pinCode, pinValue);
+      await _storage.write(AppStorageKeys.pinCode, pinValue);
       navigateBack(true);
     } else {
       Get.defaultDialog(

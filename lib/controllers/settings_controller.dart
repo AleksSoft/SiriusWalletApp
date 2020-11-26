@@ -1,18 +1,17 @@
-import 'package:antares_wallet/app/common/app_storage_keys.dart';
-import 'package:antares_wallet/app/ui/app_sizes.dart';
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/select_asset/select_asset_controller.dart';
 import 'package:antares_wallet/ui/pages/select_asset/select_asset_page.dart';
-import 'package:cross_local_storage/cross_local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:package_info/package_info.dart';
 
 class SettingsController extends GetxController {
   static SettingsController get con => Get.find();
 
-  final LocalStorageInterface _storage = Get.find<LocalStorageInterface>();
+  final _storage = GetStorage();
 
   List<String> _confirmKeyWords = [];
 
@@ -38,7 +37,7 @@ class SettingsController extends GetxController {
 
   @override
   void onInit() {
-    _signOrders = _storage.getBool(AppStorageKeys.signOrders) ?? false;
+    _signOrders = _storage.read(AppStorageKeys.signOrders) ?? false;
     super.onInit();
   }
 
@@ -107,7 +106,7 @@ class SettingsController extends GetxController {
 
   bool toggleSignOrderWithPin(bool value) {
     if (_signOrders != value) {
-      _storage.setBool(AppStorageKeys.signOrders, value);
+      _storage.write(AppStorageKeys.signOrders, value);
       _signOrders = value;
       update();
     }

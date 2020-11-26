@@ -1,9 +1,7 @@
-import 'package:antares_wallet/app/ui/app_colors.dart';
-import 'package:antares_wallet/app/ui/app_sizes.dart';
-import 'package:antares_wallet/app/ui/app_ui_helpers.dart';
+import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/utils/utils.dart';
 import 'package:antares_wallet/controllers/asset_info_controller.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
-import 'package:antares_wallet/services/utils/formatter.dart';
 import 'package:antares_wallet/ui/pages/orders/widgets/order_history_tile.dart';
 import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
 import 'package:antares_wallet/ui/widgets/asset_list_tile.dart';
@@ -127,9 +125,9 @@ class _Details extends StatelessWidget {
                           () => Text(
                             Formatter.currency(
                               c.selectedMarket.price.toString(),
-                              maxDecimal:
+                              fractionDigits:
                                   c.selectedMarket.pairQuotingAsset.accuracy,
-                              symbol:
+                              prefix:
                                   c.selectedMarket.pairQuotingAsset.displayId,
                             ),
                             style: titleTheme.copyWith(fontSize: 16.0),
@@ -137,7 +135,7 @@ class _Details extends StatelessWidget {
                         ),
                         Obx(
                           () => Text(
-                            '${Formatter.currency(c.selectedMarket.volume.toString())} ${Formatter.currency(c.selectedMarket.change.toString(), maxDecimal: 2)}%',
+                            '${Formatter.currency(c.selectedMarket.volume.toString())} ${Formatter.currency(c.selectedMarket.change.toString(), fractionDigits: 2)}%',
                             style: Get.textTheme.button.copyWith(
                               color: _color(c.selectedMarket.change),
                             ),

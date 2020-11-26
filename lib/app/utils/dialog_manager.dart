@@ -1,9 +1,11 @@
 import 'dart:collection';
 
-import 'package:antares_wallet/app/ui/app_colors.dart';
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+
+import 'app_log.dart';
 
 class DialogManager {
   ListQueue<ErrorContent> _errorsQueue = ListQueue<ErrorContent>();
@@ -36,7 +38,9 @@ class DialogManager {
           _checkNext();
         },
       );
-    } catch (e) {}
+    } catch (e) {
+      AppLog.logger.e(e);
+    }
   }
 }
 

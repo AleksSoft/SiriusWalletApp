@@ -1,23 +1,22 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:antares_wallet/app/common/app_storage_keys.dart';
-import 'package:antares_wallet/app/ui/app_colors.dart';
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/repositories/session_repository.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
 import 'package:antares_wallet/ui/pages/register/register_result_page.dart';
 import 'package:antares_wallet/ui/pages/root/root_page.dart';
-import 'package:cross_local_storage/cross_local_storage.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class RegisterController extends GetxController {
   static RegisterController get con => Get.find();
 
-  final _storage = Get.find<LocalStorageInterface>();
+  final _storage = GetStorage();
 
   final pageViewController = PageController(initialPage: 0);
 
@@ -227,25 +226,30 @@ class RegisterController extends GetxController {
       isCloseVisible: false,
     ));
     Get.to(RegisterResultPage(), fullscreenDialog: true);
-    var registerPayload = await SessionRepository.register(
+
+    List<int> utf8Password = utf8.encode(passwordValue);
+    String shaPassword = sha256.convert(utf8Password).toString();
+    String pinCode = _storage.read(AppStorageKeys.pinCode);
+
+    final registerPayload = await SessionRepository.register(
       fullName: fullNameValue,
       email: emailValue,
       phone: phonePrefix + phoneValue,
-      password: sha256.convert(utf8.encode(passwordValue)).toString(),
+      password: shaPassword,
       hint: passwordHintValue,
       countryIso3Code: countryValue.id,
       affiliateCode: affiliateCodeValue,
-      pin: _storage.getString(AppStorageKeys.pinCode),
+      pin: pinCode,
       token: token,
       publicKey: '1111',
     );
     if (registerPayload != null) {
-      await _storage.setString(AppStorageKeys.token, registerPayload.sessionId);
+      await _storage.write(AppStorageKeys.token, registerPayload.sessionId);
       await Get.find<ApiService>().update();
       Get.offAllNamed(RootPage.route);
     } else {
       Get.rawSnackbar(message: 'Registration failed!');
-      await _storage.clear();
+      await _storage.erase();
       Get.back();
     }
   }

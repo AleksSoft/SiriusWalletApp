@@ -1,5 +1,6 @@
-import 'package:antares_wallet/app/ui/app_colors.dart';
 import 'package:flutter/material.dart';
+
+import 'app_colors.dart';
 
 class AppThemes {
   static final ThemeData light = ThemeData(

@@ -1,16 +1,19 @@
 import 'dart:convert';
 
-import 'package:antares_wallet/app/common/app_storage_keys.dart';
+import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/utils/utils.dart';
 import 'package:antares_wallet/models/saved_errors_model.dart';
 import 'package:antares_wallet/services/local_auth_service.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart' as apiservice;
 import 'package:antares_wallet/ui/pages/disclaimer/disclaimer_page.dart';
-import 'package:cross_local_storage/cross_local_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:grpc/grpc.dart';
 
 class ErrorHandler {
+  static final _dialogManager = Get.find<DialogManager>();
+
   static Future<T> safeCall<T>(
     Future<T> Function() future, {
     @required String method,
@@ -28,9 +31,9 @@ class ErrorHandler {
       return response;
     } catch (e) {
       if (e is GrpcError) {
-        _handleGrpcError(e, method);
+        _handleGrpcError(e, method, showErrorDialog);
       } else {
-        _handleError(e, method);
+        _handleError(e, method, showErrorDialog);
       }
       return null;
     }
@@ -42,7 +45,7 @@ class ErrorHandler {
     String method,
   ) async {
     if (error is apiservice.Error) {
-      await saveError(code: '', message: error.message, method: method);
+      logError(code: '', message: error.message, method: method);
     } else if (error is apiservice.ErrorV1) {
       // check if it's pending disclaimer
       if (error.code == '70') {
@@ -54,14 +57,14 @@ class ErrorHandler {
           );
         }
       } else {
-        await saveError(
+        logError(
           code: error.code,
           message: error.message,
           method: method,
         );
       }
     } else if (error is apiservice.ErrorV2) {
-      await saveError(
+      logError(
         code: error.error,
         message: error.message,
         method: method,
@@ -69,40 +72,56 @@ class ErrorHandler {
     }
   }
 
-  static _handleGrpcError(e, String method) async {
+  static void _handleGrpcError(
+    GrpcError e,
+    String method,
+    bool showDialog,
+  ) {
     if (e.code == StatusCode.unauthenticated) {
       Get.find<LocalAuthService>().verifyPin(logOutOnError: true);
     }
-    await saveError(
+    logError(
       code: e.code.toString(),
       message: e.message,
       method: method,
     );
   }
 
-  static _handleError(dynamic error, String method) async {
-    try {
-      await saveError(
-        code: '',
-        message: error.message,
-        method: method,
-      );
-    } catch (e) {
-      await saveError(
-        code: '',
-        message: error.toString(),
-        method: method,
-      );
-    }
+  static void _handleError(
+    dynamic e,
+    String method,
+    bool showDialog,
+  ) {
+    logError(
+      code: e.toString(),
+      message: '',
+      method: method,
+    );
+    if (showDialog) _defaultErrorDialog();
   }
+
+  static void _defaultErrorDialog() => _dialogManager.error(
+        ErrorContent(
+            title: 'Oops',
+            message: 'Something went wrong. Please try again later.'),
+      );
+
+  static void logError({
+    @required String code,
+    @required String message,
+    @required String method,
+  }) =>
+      AppLog.logger.e('''Error in method: $method
+        Code: $code
+        Message: $message''');
 
   static saveError({
     @required String code,
     @required String message,
     @required String method,
   }) async {
-    final storage = Get.find<LocalStorageInterface>();
-    String jsonStr = storage.getString(AppStorageKeys.errorList);
+    final storage = GetStorage();
+    String jsonStr = storage.read(AppStorageKeys.errorList);
     SavedErrorsModel model = jsonStr.isNullOrBlank
         ? SavedErrorsModel()
         : SavedErrorsModel().fromJson(json.decode(jsonStr));
@@ -113,7 +132,7 @@ class ErrorHandler {
         ..method = method
         ..timestamp = DateTime.now().millisecondsSinceEpoch,
     );
-    await storage.setString(
+    await storage.write(
       AppStorageKeys.errorList,
       json.encode(model.toJson()),
     );

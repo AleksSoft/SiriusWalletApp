@@ -1,7 +1,7 @@
-import 'package:antares_wallet/app/ui/app_sizes.dart';
 import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
+import 'app_sizes.dart';
 
 class AppUiHelpers {
   // vertical space
