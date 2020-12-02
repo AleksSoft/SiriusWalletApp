@@ -1,6 +1,6 @@
 import 'package:antares_wallet/app/common/common.dart';
-import 'package:antares_wallet/ui/pages/exchange/exchange_page.dart';
 import 'package:antares_wallet/ui/pages/home/home_page.dart';
+import 'package:antares_wallet/ui/pages/markets/markets_page.dart';
 import 'package:antares_wallet/ui/pages/more/more_page.dart';
 import 'package:antares_wallet/ui/pages/orders/orders_page.dart';
 import 'package:antares_wallet/ui/pages/portfolio/portfolio_page.dart';
@@ -24,7 +24,7 @@ class RootPage extends StatelessWidget {
             children: [
               HomePage(),
               PortfolioPage(),
-              ExchangePage(),
+              MarketsPage(),
               OrdersPage(),
               MorePage(),
             ],
@@ -75,7 +75,7 @@ class RootPage extends StatelessWidget {
                     Icons.import_export,
                     color: AppColors.accent,
                   ),
-                  label: 'exchange'.tr,
+                  label: 'markets'.tr,
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(

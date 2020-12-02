@@ -1,5 +1,6 @@
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/controllers/deposit_controller.dart';
+import 'package:antares_wallet/controllers/investments_controller.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/controllers/orders_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
@@ -18,6 +19,7 @@ class RootPageBinding extends Bindings {
     Get.put<PortfolioController>(PortfolioController());
     Get.put<OrdersController>(OrdersController());
     Get.put<MarketsController>(MarketsController());
+    Get.put<InvestmentsController>(InvestmentsController());
     Get.put<WatchlistsController>(WatchlistsController());
     Get.put<WithdrawalController>(WithdrawalController());
     Get.put<DepositController>(DepositController());
