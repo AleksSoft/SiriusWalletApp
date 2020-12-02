@@ -7,30 +7,30 @@ import 'package:enum_to_string/enum_to_string.dart';
 import 'package:get/get_utils/get_utils.dart';
 import 'package:get_storage/get_storage.dart';
 
-enum HistoryPeriod { all, day, week, custom }
+enum PortfolioPeriod { all, day, week, custom }
 
-enum HistoryTransactionType { all, deposit, withdraw }
+enum PortfolioTransactionType { all, deposit, withdraw }
 
 class PortfolioHistoryFilter {
-  HistoryPeriod period = HistoryPeriod.all;
-  HistoryTransactionType transactionType = HistoryTransactionType.all;
+  PortfolioPeriod period = PortfolioPeriod.all;
+  PortfolioTransactionType transactionType = PortfolioTransactionType.all;
   String assetId;
 
   int _timeFrom;
   set timeFrom(int value) => _timeFrom = value;
   int get timeFrom {
     switch (period) {
-      case HistoryPeriod.all:
+      case PortfolioPeriod.all:
         return null;
-      case HistoryPeriod.day:
+      case PortfolioPeriod.day:
         return DateTime.now()
             .subtract(Duration(hours: 24))
             .millisecondsSinceEpoch;
-      case HistoryPeriod.week:
+      case PortfolioPeriod.week:
         return DateTime.now()
             .subtract(Duration(days: 7))
             .millisecondsSinceEpoch;
-      case HistoryPeriod.custom:
+      case PortfolioPeriod.custom:
         return _timeFrom ??
             DateTime.now().subtract(Duration(days: 7)).millisecondsSinceEpoch;
       default:
@@ -42,11 +42,11 @@ class PortfolioHistoryFilter {
   set timeTo(int value) => _timeTo = value;
   int get timeTo {
     switch (period) {
-      case HistoryPeriod.all:
-      case HistoryPeriod.day:
-      case HistoryPeriod.week:
+      case PortfolioPeriod.all:
+      case PortfolioPeriod.day:
+      case PortfolioPeriod.week:
         return DateTime.now().millisecondsSinceEpoch;
-      case HistoryPeriod.custom:
+      case PortfolioPeriod.custom:
         return _timeTo ?? DateTime.now().millisecondsSinceEpoch;
       default:
         return _timeTo;
@@ -66,8 +66,8 @@ class PortfolioHistoryFilter {
         );
 
   void clear() {
-    period = HistoryPeriod.all;
-    transactionType = HistoryTransactionType.all;
+    period = PortfolioPeriod.all;
+    transactionType = PortfolioTransactionType.all;
     assetId = null;
     timeFrom = null;
     timeTo = null;
@@ -77,36 +77,34 @@ class PortfolioHistoryFilter {
     final storage = GetStorage();
 
     HistoryFilter filter = HistoryFilter(
-      period: EnumToString.parse(period ?? HistoryPeriod.all),
+      period: EnumToString.parse(period ?? PortfolioPeriod.all),
       transactionType: EnumToString.parse(
-        transactionType ?? HistoryTransactionType.all,
+        transactionType ?? PortfolioTransactionType.all,
       ),
       asset: assetId ?? '',
       timeFrom: timeFrom,
       timeTo: timeTo,
     );
 
-    await storage.write(AppStorageKeys.ordersHistoryFilters, filter);
+    await storage.write(AppStorageKeys.ordersHistoryFilter, filter);
   }
 
   static PortfolioHistoryFilter fromStorage() {
-    final storage = GetStorage();
+    String filterJson = GetStorage().read(
+      AppStorageKeys.portrolioHistoryFilter,
+    );
 
-    String filterJson = storage.read(AppStorageKeys.errorList);
-    HistoryFilter historyFilter = GetUtils.isNullOrBlank(filterJson)
-        ? HistoryFilter()
-        : HistoryFilter.fromJson(json.decode(filterJson));
-
-    if (historyFilter == null) {
+    if (GetUtils.isNullOrBlank(filterJson)) {
       return PortfolioHistoryFilter();
     } else {
+      final historyFilter = HistoryFilter.fromJson(json.decode(filterJson));
       return PortfolioHistoryFilter()
         ..period = EnumToString.fromString(
-          HistoryPeriod.values,
+          PortfolioPeriod.values,
           historyFilter.period,
         )
         ..transactionType = EnumToString.fromString(
-          HistoryTransactionType.values,
+          PortfolioTransactionType.values,
           historyFilter.transactionType,
         )
         ..assetId = GetUtils.isNullOrBlank(historyFilter.asset)

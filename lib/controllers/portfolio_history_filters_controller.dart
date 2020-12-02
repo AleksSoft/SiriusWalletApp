@@ -16,16 +16,16 @@ class PortfolioHistoryFiltersController extends GetxController {
 
   PortfolioHistoryFilter _filter;
 
-  HistoryPeriod get period => _filter.period;
-  set period(HistoryPeriod value) {
+  PortfolioPeriod get period => _filter.period;
+  set period(PortfolioPeriod value) {
     if (_filter.period != value) {
       _filter.period = value;
       update();
     }
   }
 
-  HistoryTransactionType get transactionType => _filter.transactionType;
-  set transactionType(HistoryTransactionType value) {
+  PortfolioTransactionType get transactionType => _filter.transactionType;
+  set transactionType(PortfolioTransactionType value) {
     if (_filter.transactionType != value) {
       _filter.transactionType = value;
       update();
@@ -81,28 +81,28 @@ class PortfolioHistoryFiltersController extends GetxController {
     )) as Asset;
   }
 
-  String getTypeTitle(HistoryTransactionType type) {
+  String getTypeTitle(PortfolioTransactionType type) {
     switch (type) {
-      case HistoryTransactionType.all:
+      case PortfolioTransactionType.all:
         return 'all'.tr;
-      case HistoryTransactionType.deposit:
+      case PortfolioTransactionType.deposit:
         return 'deposit'.tr;
-      case HistoryTransactionType.withdraw:
+      case PortfolioTransactionType.withdraw:
         return 'withdraw'.tr;
       default:
         return '';
     }
   }
 
-  String getPeriodTitle(HistoryPeriod period) {
+  String getPeriodTitle(PortfolioPeriod period) {
     switch (period) {
-      case HistoryPeriod.all:
+      case PortfolioPeriod.all:
         return 'all'.tr;
-      case HistoryPeriod.day:
+      case PortfolioPeriod.day:
         return 'day'.tr;
-      case HistoryPeriod.week:
+      case PortfolioPeriod.week:
         return 'week'.tr;
-      case HistoryPeriod.custom:
+      case PortfolioPeriod.custom:
         return 'custom'.tr;
       default:
         return '';

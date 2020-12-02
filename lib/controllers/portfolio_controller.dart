@@ -117,9 +117,9 @@ class PortfolioController extends GetxController {
       fromDate: _filter.fromDate,
       toDate: _filter.toDate,
     );
-    if (_filter.transactionType != HistoryTransactionType.all) {
+    if (_filter.transactionType != PortfolioTransactionType.all) {
       String operation =
-          _filter.transactionType == HistoryTransactionType.deposit
+          _filter.transactionType == PortfolioTransactionType.deposit
               ? 'deposit'
               : 'withdrawal';
       funds =

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:logger_flutter/logger_flutter.dart';
 
 import 'app/bindings/initial_binding.dart';
 import 'app/common/common.dart';
@@ -34,6 +35,7 @@ Future<void> mainCommon(Environment environment) async {
   );
 
   final AppConfig _appConfig = Get.find<AppConfig>();
+  if (!_appConfig.isProd) LogConsole.init();
 
   // start app with all configurations done
   runApp(

@@ -88,20 +88,16 @@ class OrdersHistoryFilter {
       timeTo: timeTo,
     );
 
-    await storage.write(AppStorageKeys.ordersHistoryFilters, filter);
+    await storage.write(AppStorageKeys.ordersHistoryFilter, filter);
   }
 
   static OrdersHistoryFilter fromStorage() {
-    final storage = GetStorage();
+    String filterJson = GetStorage().read(AppStorageKeys.ordersHistoryFilter);
 
-    String filterJson = storage.read(AppStorageKeys.errorList);
-    HistoryFilter historyFilter = GetUtils.isNullOrBlank(filterJson)
-        ? HistoryFilter()
-        : HistoryFilter.fromJson(json.decode(filterJson));
-
-    if (historyFilter == null) {
+    if (GetUtils.isNullOrBlank(filterJson)) {
       return OrdersHistoryFilter();
     } else {
+      final historyFilter = HistoryFilter.fromJson(json.decode(filterJson));
       return OrdersHistoryFilter()
         ..period = EnumToString.fromString(
           OrdersPeriod.values,

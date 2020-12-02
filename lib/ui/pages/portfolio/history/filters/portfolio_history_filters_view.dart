@@ -78,7 +78,7 @@ class _PortfolioHistoryPeriodFilterView extends StatelessWidget {
             fontWeight: FontWeight.w700,
           ),
         ),
-        ChipsChoice<HistoryPeriod>.single(
+        ChipsChoice<PortfolioPeriod>.single(
           value: c.period,
           itemConfig: ChipsChoiceItemConfig(
             selectedColor: AppColors.accent,
@@ -87,10 +87,10 @@ class _PortfolioHistoryPeriodFilterView extends StatelessWidget {
             elevation: 3.0,
             unselectedBorderOpacity: 0.0,
           ),
-          options: ChipsChoiceOption.listFrom<HistoryPeriod, String>(
+          options: ChipsChoiceOption.listFrom<PortfolioPeriod, String>(
             source:
-                HistoryPeriod.values.map((e) => c.getPeriodTitle(e)).toList(),
-            value: (i, v) => HistoryPeriod.values[i],
+                PortfolioPeriod.values.map((e) => c.getPeriodTitle(e)).toList(),
+            value: (i, v) => PortfolioPeriod.values[i],
             label: (i, v) => v,
           ),
           onChanged: (val) => c.period = val,
@@ -99,7 +99,7 @@ class _PortfolioHistoryPeriodFilterView extends StatelessWidget {
           duration: Duration(milliseconds: 300),
           switchInCurve: Curves.easeInCubic,
           switchOutCurve: Curves.easeOutCubic,
-          child: c.period == HistoryPeriod.custom
+          child: c.period == PortfolioPeriod.custom
               ? _buildCustomPeriodView()
               : SizedBox.shrink(),
         ),
@@ -164,7 +164,7 @@ class _PortfolioHistoryTransFilterView extends StatelessWidget {
             fontWeight: FontWeight.w700,
           ),
         ),
-        ChipsChoice<HistoryTransactionType>.single(
+        ChipsChoice<PortfolioTransactionType>.single(
           value: c.transactionType,
           itemConfig: ChipsChoiceItemConfig(
             selectedColor: AppColors.accent,
@@ -173,11 +173,11 @@ class _PortfolioHistoryTransFilterView extends StatelessWidget {
             elevation: 3.0,
             unselectedBorderOpacity: 0.0,
           ),
-          options: ChipsChoiceOption.listFrom<HistoryTransactionType, String>(
-            source: HistoryTransactionType.values
+          options: ChipsChoiceOption.listFrom<PortfolioTransactionType, String>(
+            source: PortfolioTransactionType.values
                 .map((e) => c.getTypeTitle(e))
                 .toList(),
-            value: (i, v) => HistoryTransactionType.values[i],
+            value: (i, v) => PortfolioTransactionType.values[i],
             label: (i, v) => v,
           ),
           onChanged: (val) => c.transactionType = val,
