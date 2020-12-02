@@ -1,6 +1,6 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/controllers/local_auth_controller.dart';
-import 'package:antares_wallet/ui/widgets/empty_view.dart';
+import 'package:antares_wallet/ui/widgets/empty_reloading_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -30,11 +30,6 @@ class LocalAuthPage extends StatelessWidget {
           builder: (_) {
             return EmptyReloadingView(
               isLoading: _.loading,
-              customLoader: Container(
-                color: AppColors.secondary.withOpacity(0.5),
-                alignment: Alignment.center,
-                child: AppUiHelpers.circularProgress,
-              ),
               child: Stack(
                 children: <Widget>[
                   Visibility(

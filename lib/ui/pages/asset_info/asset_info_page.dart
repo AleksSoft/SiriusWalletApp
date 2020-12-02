@@ -8,7 +8,7 @@ import 'package:antares_wallet/ui/widgets/asset_list_tile.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_sort_tile.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
 import 'package:antares_wallet/ui/widgets/buy_sell_button_row.dart';
-import 'package:antares_wallet/ui/widgets/empty_view.dart';
+import 'package:antares_wallet/ui/widgets/empty_reloading_view.dart';
 import 'package:antares_wallet/ui/widgets/transaction_tile.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/cupertino.dart';
@@ -42,47 +42,41 @@ class AssetInfoPage extends StatelessWidget {
           child: TabBarView(
             children: <Widget>[
               _Details(),
-              RefreshIndicator(
-                color: AppColors.dark,
-                onRefresh: () => c.getTrades(),
-                child: GetX<AssetInfoController>(
-                  initState: (state) => c.getTrades(),
-                  builder: (_) {
-                    return EmptyReloadingView(
-                      emptyHeader: 'No trades history yet',
-                      emptyMessage: '',
-                      isEmpty: _.trades.isEmpty,
-                      child: ListView(
-                        padding: const EdgeInsets.only(top: AppSizes.small),
-                        shrinkWrap: true,
-                        children: c.trades
-                            .map((trade) => OrderHistoryTile(data: trade))
-                            .toList(),
-                      ),
-                    );
-                  },
-                ),
+              GetX<AssetInfoController>(
+                initState: (state) => c.getTrades(),
+                builder: (_) {
+                  return EmptyReloadingView(
+                    emptyHeader: 'No trades history yet',
+                    emptyMessage: '',
+                    isEmpty: _.trades.isEmpty,
+                    onRefresh: () => c.getTrades(),
+                    child: ListView(
+                      padding: const EdgeInsets.only(top: AppSizes.small),
+                      shrinkWrap: true,
+                      children: c.trades
+                          .map((trade) => OrderHistoryTile(data: trade))
+                          .toList(),
+                    ),
+                  );
+                },
               ),
-              RefreshIndicator(
-                color: AppColors.dark,
-                onRefresh: () => c.getTrades(),
-                child: GetX<AssetInfoController>(
-                  initState: (state) => c.getTrades(),
-                  builder: (_) {
-                    return EmptyReloadingView(
-                      emptyHeader: 'No transfers history yet',
-                      emptyMessage: '',
-                      isEmpty: _.funds.isEmpty,
-                      child: ListView(
-                        padding: const EdgeInsets.only(top: AppSizes.small),
-                        shrinkWrap: true,
-                        children: c.funds
-                            .map((trade) => TransactionTile(trade))
-                            .toList(),
-                      ),
-                    );
-                  },
-                ),
+              GetX<AssetInfoController>(
+                initState: (state) => c.getTrades(),
+                builder: (_) {
+                  return EmptyReloadingView(
+                    emptyHeader: 'No transfers history yet',
+                    emptyMessage: '',
+                    isEmpty: _.funds.isEmpty,
+                    onRefresh: () => c.getTrades(),
+                    child: ListView(
+                      padding: const EdgeInsets.only(top: AppSizes.small),
+                      shrinkWrap: true,
+                      children: c.funds
+                          .map((trade) => TransactionTile(trade))
+                          .toList(),
+                    ),
+                  );
+                },
               ),
             ],
           ),

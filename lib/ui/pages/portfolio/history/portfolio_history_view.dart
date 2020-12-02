@@ -1,15 +1,13 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
-import 'package:antares_wallet/ui/widgets/empty_view.dart';
+import 'package:antares_wallet/ui/widgets/empty_reloading_view.dart';
 import 'package:antares_wallet/ui/widgets/transaction_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'filters/portfolio_history_filters_view.dart';
 
-class PortfolioHistoryView extends StatelessWidget {
-  final c = PortfolioController.con;
-
+class PortfolioHistoryView extends GetView<PortfolioController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,29 +20,26 @@ class PortfolioHistoryView extends StatelessWidget {
         ),
         child: Icon(Icons.filter_list),
       ),
-      body: RefreshIndicator(
-        color: AppColors.dark,
-        onRefresh: () => c.reloadHistory(silent: true),
-        child: GetX<PortfolioController>(
-          initState: (state) => c.reloadHistory(),
-          builder: (_) {
-            return EmptyReloadingView(
-              emptyHeader: 'No portfolio history yet',
-              emptyMessage: '',
-              isEmpty: _.historyItems.isEmpty,
-              isLoading: _.loading,
-              child: ListView.builder(
-                itemCount: _.historyItems.length,
-                padding: EdgeInsets.only(
-                  top: AppSizes.small,
-                  bottom: AppSizes.medium,
-                ),
-                itemBuilder: (context, index) =>
-                    TransactionTile(_.historyItems[index]),
+      body: GetX<PortfolioController>(
+        initState: (state) => controller.reloadHistory(),
+        builder: (_) {
+          return EmptyReloadingView(
+            emptyHeader: 'No portfolio history yet',
+            emptyMessage: '',
+            isEmpty: _.historyItems.isEmpty,
+            isLoading: _.loading,
+            onRefresh: () => controller.reloadHistory(silent: true),
+            child: ListView.builder(
+              itemCount: _.historyItems.length,
+              padding: EdgeInsets.only(
+                top: AppSizes.small,
+                bottom: AppSizes.medium,
               ),
-            );
-          },
-        ),
+              itemBuilder: (context, index) =>
+                  TransactionTile(_.historyItems[index]),
+            ),
+          );
+        },
       ),
     );
   }

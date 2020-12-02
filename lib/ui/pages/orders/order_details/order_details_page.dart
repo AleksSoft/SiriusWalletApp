@@ -10,7 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:search_page/search_page.dart';
 
-import 'order_details_controller.dart';
+import '../../../../controllers/order_details_controller.dart';
 
 class OrderDetailsPage extends StatelessWidget {
   static final String route = '/order-details';

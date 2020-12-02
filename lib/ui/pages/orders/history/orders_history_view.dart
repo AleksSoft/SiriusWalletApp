@@ -1,15 +1,13 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/controllers/orders_controller.dart';
 import 'package:antares_wallet/ui/pages/orders/widgets/order_history_tile.dart';
-import 'package:antares_wallet/ui/widgets/empty_view.dart';
+import 'package:antares_wallet/ui/widgets/empty_reloading_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'filters/orders_history_filters_view.dart';
 
-class OrdersHistoryView extends StatelessWidget {
-  final c = OrdersController.con;
-
+class OrdersHistoryView extends GetView<OrdersController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,29 +20,26 @@ class OrdersHistoryView extends StatelessWidget {
         ),
         child: Icon(Icons.filter_list),
       ),
-      body: RefreshIndicator(
-        color: AppColors.dark,
-        onRefresh: () => c.reloadHistory(silent: true),
-        child: GetX<OrdersController>(
-          initState: (state) => c.reloadHistory(),
-          builder: (_) {
-            return EmptyReloadingView(
-              emptyHeader: 'No orders history yet',
-              emptyMessage: '',
-              isEmpty: _.trades.isEmpty,
-              isLoading: _.loading,
-              child: ListView(
-                padding: const EdgeInsets.only(top: AppSizes.small),
-                shrinkWrap: true,
-                children: c.trades
-                    .map((trade) => OrderHistoryTile(
-                          data: OrderHistoryData.fromTradeModel(trade),
-                        ))
-                    .toList(),
-              ),
-            );
-          },
-        ),
+      body: GetX<OrdersController>(
+        initState: (state) => controller.reloadHistory(),
+        builder: (_) {
+          return EmptyReloadingView(
+            emptyHeader: 'No orders history yet',
+            emptyMessage: '',
+            isEmpty: _.trades.isEmpty,
+            isLoading: _.loading,
+            onRefresh: () => controller.reloadHistory(silent: true),
+            child: ListView(
+              padding: const EdgeInsets.only(top: AppSizes.small),
+              shrinkWrap: true,
+              children: controller.trades
+                  .map((trade) => OrderHistoryTile(
+                        data: OrderHistoryData.fromTradeModel(trade),
+                      ))
+                  .toList(),
+            ),
+          );
+        },
       ),
     );
   }

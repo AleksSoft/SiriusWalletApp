@@ -27,9 +27,7 @@ class EmptyReloadingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () => Future.delayed(Duration()).whenComplete(
-        () => onRefresh?.call(),
-      ),
+      onRefresh: () => 0.delay().whenComplete(() => onRefresh?.call()),
       color: AppColors.dark,
       child: Stack(
         children: <Widget>[
@@ -58,7 +56,12 @@ class EmptyReloadingView extends StatelessWidget {
           ),
           child,
           isLoading != null && isLoading
-              ? this.customLoader ?? AppUiHelpers.linearProgress
+              ? this.customLoader ??
+                  Container(
+                    color: AppColors.secondary.withOpacity(0.4),
+                    alignment: Alignment.center,
+                    child: AppUiHelpers.circularProgress,
+                  )
               : SizedBox.shrink()
         ],
       ),

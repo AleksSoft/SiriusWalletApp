@@ -1,12 +1,12 @@
 import 'dart:async';
 
+import 'package:antares_wallet/app/utils/orderbook_utils.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
+import 'package:antares_wallet/controllers/order_details_controller.dart';
 import 'package:antares_wallet/repositories/trading_repository.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
-import 'package:antares_wallet/app/utils/orderbook_utils.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
-import 'package:antares_wallet/ui/pages/orders/order_details/order_details_controller.dart';
 import 'package:antares_wallet/ui/pages/orders/order_details/order_details_page.dart';
 import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
 import 'package:get/get.dart';

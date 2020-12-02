@@ -4,11 +4,12 @@ import 'package:antares_wallet/repositories/portfolio_repository.dart';
 import 'package:antares_wallet/repositories/trading_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
-import 'package:antares_wallet/ui/pages/orders/order_details/order_details_controller.dart';
 import 'package:antares_wallet/ui/pages/orders/order_details/order_details_page.dart';
 import 'package:antares_wallet/ui/pages/orders/widgets/order_history_tile.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+
+import 'order_details_controller.dart';
 
 enum AssetInfoPeriod { h24, week, month, year }
 
