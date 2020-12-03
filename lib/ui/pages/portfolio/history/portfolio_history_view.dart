@@ -3,6 +3,7 @@ import 'package:antares_wallet/controllers/portfolio_controller.dart';
 import 'package:antares_wallet/ui/widgets/empty_reloading_view.dart';
 import 'package:antares_wallet/ui/widgets/transaction_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 
 import 'filters/portfolio_history_filters_view.dart';
@@ -21,7 +22,9 @@ class PortfolioHistoryView extends GetView<PortfolioController> {
         child: Icon(Icons.filter_list),
       ),
       body: GetX<PortfolioController>(
-        initState: (state) => controller.reloadHistory(),
+        initState: (state) => SchedulerBinding.instance.addPostFrameCallback(
+          (_) => controller.reloadHistory(),
+        ),
         builder: (_) {
           return EmptyReloadingView(
             emptyHeader: 'No portfolio history yet',
@@ -35,8 +38,9 @@ class PortfolioHistoryView extends GetView<PortfolioController> {
                 top: AppSizes.small,
                 bottom: AppSizes.medium,
               ),
-              itemBuilder: (context, index) =>
-                  TransactionTile(_.historyItems[index]),
+              itemBuilder: (context, index) => TransactionTile(
+                _.historyItems[index],
+              ),
             ),
           );
         },
