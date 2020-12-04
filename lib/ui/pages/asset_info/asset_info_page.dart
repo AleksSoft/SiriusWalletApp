@@ -21,6 +21,13 @@ class AssetInfoPage extends StatelessWidget {
   static final String route = '/asset-info';
   final c = AssetInfoController.con;
 
+  final _tabBarContent = <Tab, GetView>{
+    Tab(text: 'details'.tr): _Details(),
+    Tab(text: 'trades'.tr): _TradingHistory(),
+    Tab(text: 'transfers'.tr): _TransfersHistory(),
+    // Tab(text: 'investments'.tr): InvestmentOrdersView(),
+  };
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -31,63 +38,16 @@ class AssetInfoPage extends StatelessWidget {
           bottom: TabBar(
             indicatorWeight: 1.0,
             indicatorColor: Colors.black,
-            tabs: <Widget>[
-              Tab(text: 'details'.tr),
-              Tab(text: 'trades'.tr),
-              Tab(text: 'transfers'.tr),
-            ],
+            tabs: _tabBarContent.keys.toList(),
           ),
         ),
-        body: SafeArea(
-          child: TabBarView(
-            children: <Widget>[
-              _Details(),
-              GetX<AssetInfoController>(
-                initState: (state) => c.getTrades(),
-                builder: (_) {
-                  return EmptyReloadingView(
-                    emptyHeader: 'No trades history yet',
-                    emptyMessage: '',
-                    isEmpty: _.trades.isEmpty,
-                    onRefresh: () => c.getTrades(),
-                    child: ListView(
-                      padding: const EdgeInsets.only(top: AppSizes.small),
-                      shrinkWrap: true,
-                      children: c.trades
-                          .map((trade) => OrderHistoryTile(data: trade))
-                          .toList(),
-                    ),
-                  );
-                },
-              ),
-              GetX<AssetInfoController>(
-                initState: (state) => c.getTrades(),
-                builder: (_) {
-                  return EmptyReloadingView(
-                    emptyHeader: 'No transfers history yet',
-                    emptyMessage: '',
-                    isEmpty: _.funds.isEmpty,
-                    onRefresh: () => c.getTrades(),
-                    child: ListView(
-                      padding: const EdgeInsets.only(top: AppSizes.small),
-                      shrinkWrap: true,
-                      children: c.funds
-                          .map((trade) => TransactionTile(trade))
-                          .toList(),
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
+        body: TabBarView(children: _tabBarContent.values.toList()),
       ),
     );
   }
 }
 
-class _Details extends StatelessWidget {
-  final c = AssetInfoController.con;
+class _Details extends GetView<AssetInfoController> {
   @override
   Widget build(BuildContext context) {
     final titleTheme = Get.textTheme.headline5.copyWith(
@@ -98,7 +58,7 @@ class _Details extends StatelessWidget {
       children: [
         ListView(
           children: [
-            AssetListTile(c.asset),
+            AssetListTile(controller.asset),
             SizedBox(
               height: AppSizes.extraLarge * 2,
               child: Padding(
@@ -118,20 +78,20 @@ class _Details extends StatelessWidget {
                         Obx(
                           () => Text(
                             Formatter.currency(
-                              c.selectedMarket.price.toString(),
-                              fractionDigits:
-                                  c.selectedMarket.pairQuotingAsset.accuracy,
-                              prefix:
-                                  c.selectedMarket.pairQuotingAsset.displayId,
+                              controller.selectedMarket.price.toString(),
+                              fractionDigits: controller
+                                  .selectedMarket.pairQuotingAsset.accuracy,
+                              prefix: controller
+                                  .selectedMarket.pairQuotingAsset.displayId,
                             ),
                             style: titleTheme.copyWith(fontSize: 16.0),
                           ),
                         ),
                         Obx(
                           () => Text(
-                            '${Formatter.currency(c.selectedMarket.volume.toString())} ${Formatter.currency(c.selectedMarket.change.toString(), fractionDigits: 2)}%',
+                            '${Formatter.currency(controller.selectedMarket.volume.toString())} ${Formatter.currency(controller.selectedMarket.change.toString(), fractionDigits: 2)}%',
                             style: Get.textTheme.button.copyWith(
-                              color: _color(c.selectedMarket.change),
+                              color: _color(controller.selectedMarket.change),
                             ),
                           ),
                         ),
@@ -139,10 +99,11 @@ class _Details extends StatelessWidget {
                     ),
                     Obx(
                       () => DropdownButton<MarketModel>(
-                        value: c.selectedMarket,
+                        value: controller.selectedMarket,
                         focusColor: AppColors.accent,
-                        onChanged: (MarketModel m) => c.selectedMarket = m,
-                        items: c.markets.map((MarketModel model) {
+                        onChanged: (MarketModel m) =>
+                            controller.selectedMarket = m,
+                        items: controller.markets.map((MarketModel model) {
                           return DropdownMenuItem<MarketModel>(
                             value: model,
                             child: Text(model.pairId),
@@ -156,7 +117,7 @@ class _Details extends StatelessWidget {
             ),
             Obx(
               () => ChipsChoice<AssetInfoPeriod>.single(
-                value: c.selectedPeriod,
+                value: controller.selectedPeriod,
                 itemConfig: ChipsChoiceItemConfig(
                   selectedColor: AppColors.accent,
                   unselectedColor: AppColors.secondary,
@@ -166,12 +127,12 @@ class _Details extends StatelessWidget {
                 ),
                 options: ChipsChoiceOption.listFrom<AssetInfoPeriod, String>(
                   source: AssetInfoPeriod.values
-                      .map((e) => c.getPeriodStr(e))
+                      .map((e) => controller.getPeriodStr(e))
                       .toList(),
                   value: (i, v) => AssetInfoPeriod.values[i],
                   label: (i, v) => v,
                 ),
-                onChanged: (val) => c.selectedPeriod = val,
+                onChanged: (val) => controller.selectedPeriod = val,
               ),
             ),
             Padding(
@@ -189,7 +150,8 @@ class _Details extends StatelessWidget {
                   Obx(
                     () => CupertinoButton(
                       child: Text('see_all'.tr),
-                      onPressed: c.seeAllActive ? () => _showSearch() : null,
+                      onPressed:
+                          controller.seeAllActive ? () => _showSearch() : null,
                     ),
                   ),
                 ],
@@ -205,7 +167,7 @@ class _Details extends StatelessWidget {
               ),
               child: Obx(
                 () => Column(
-                  children: c.markets
+                  children: controller.markets
                       .map((e) => AssetPairTile(
                             imgUrl: e.pairBaseAsset.iconUrl,
                             pairBaseAsset: e.pairBaseAsset,
@@ -228,8 +190,8 @@ class _Details extends StatelessWidget {
         Positioned(
           bottom: 0,
           child: BuySellButtonRow(
-            onBuyTap: () => c.openOrderDetails(true),
-            onSellTap: () => c.openOrderDetails(false),
+            onBuyTap: () => controller.openOrderDetails(true),
+            onSellTap: () => controller.openOrderDetails(false),
           ),
         ),
       ],
@@ -279,18 +241,17 @@ class _Details extends StatelessWidget {
   }
 }
 
-class _ChartView extends StatelessWidget {
-  final c = AssetInfoController.con;
+class _ChartView extends GetView<AssetInfoController> {
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => AnimatedSwitcher(
         duration: const Duration(milliseconds: 150),
-        child: !c.loading
-            ? c.candles.isNotEmpty
+        child: !controller.loading
+            ? controller.candles.isNotEmpty
                 ? Obx(
                     () => Sparkline(
-                      data: c.candles
+                      data: controller.candles
                           .map((e) => double.tryParse(e.close) ?? 0.0)
                           .toList(),
                       lineWidth: 1.0,
@@ -321,6 +282,54 @@ class _ChartView extends StatelessWidget {
                 child: AppUiHelpers.circularProgress,
               ),
       ),
+    );
+  }
+}
+
+class _TradingHistory extends GetView<AssetInfoController> {
+  @override
+  Widget build(BuildContext context) {
+    return GetX<AssetInfoController>(
+      initState: (state) => controller.getTrades(),
+      builder: (_) {
+        return EmptyReloadingView(
+          emptyHeader: 'No trades history yet',
+          emptyMessage: '',
+          isEmpty: _.trades.isEmpty,
+          onRefresh: () => controller.getTrades(),
+          child: ListView(
+            padding: const EdgeInsets.only(top: AppSizes.small),
+            shrinkWrap: true,
+            children: controller.trades
+                .map((trade) => OrderHistoryTile(data: trade))
+                .toList(),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _TransfersHistory extends GetView<AssetInfoController> {
+  @override
+  Widget build(BuildContext context) {
+    return GetX<AssetInfoController>(
+      initState: (state) => controller.getFunds(),
+      builder: (_) {
+        return EmptyReloadingView(
+          emptyHeader: 'No transfers history yet',
+          emptyMessage: '',
+          isEmpty: _.funds.isEmpty,
+          onRefresh: () => controller.getFunds(),
+          child: ListView(
+            padding: const EdgeInsets.only(top: AppSizes.small),
+            shrinkWrap: true,
+            children: controller.funds
+                .map((trade) => TransactionTile(trade))
+                .toList(),
+          ),
+        );
+      },
     );
   }
 }

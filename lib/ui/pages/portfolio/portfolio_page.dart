@@ -7,6 +7,12 @@ import 'package:get/get.dart';
 class PortfolioPage extends StatelessWidget {
   static final String route = '/portfolio';
 
+  final _tabBarContent = <Tab, GetView>{
+    Tab(text: 'assets'.tr): PortfolioAssetsTabView(),
+    Tab(text: 'history'.tr): PortfolioHistoryView(),
+    // Tab(text: 'investments'.tr): InvestmentOrdersView(),
+  };
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -18,18 +24,10 @@ class PortfolioPage extends StatelessWidget {
           bottom: TabBar(
             indicatorWeight: 1.0,
             indicatorColor: Colors.black,
-            tabs: <Widget>[
-              Tab(text: 'assets'.tr),
-              Tab(text: 'history'.tr),
-            ],
+            tabs: _tabBarContent.keys.toList(),
           ),
         ),
-        body: TabBarView(
-          children: <Widget>[
-            PortfolioAssetsTabView(),
-            PortfolioHistoryView(),
-          ],
-        ),
+        body: TabBarView(children: _tabBarContent.values.toList()),
       ),
     );
   }

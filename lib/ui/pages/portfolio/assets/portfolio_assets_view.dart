@@ -11,8 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class PortfolioAssetsTabView extends StatelessWidget {
-  final c = PortfolioController.con;
+class PortfolioAssetsTabView extends GetView<PortfolioController> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -22,12 +21,13 @@ class PortfolioAssetsTabView extends StatelessWidget {
           child: Scaffold(
             floatingActionButton: FloatingActionButton.extended(
               heroTag: 'portfolio-assets-filter-fab',
-              label: Obx(() => Text(c.hideZeros ? 'Show all' : 'Hide zeros')),
-              onPressed: () => c.hideZeros = !c.hideZeros,
+              label: Obx(
+                  () => Text(controller.hideZeros ? 'Show all' : 'Hide zeros')),
+              onPressed: () => controller.hideZeros = !controller.hideZeros,
             ),
             body: RefreshIndicator(
               color: AppColors.dark,
-              onRefresh: () => c.rebuildPortfolioAssets(),
+              onRefresh: () => controller.rebuildPortfolioAssets(),
               child: ListView(
                 padding: EdgeInsets.only(bottom: AppSizes.medium),
                 children: [
@@ -35,10 +35,11 @@ class PortfolioAssetsTabView extends StatelessWidget {
                   Obx(
                     () => AnimatedSwitcher(
                       duration: const Duration(milliseconds: 300),
-                      child: c.loading && c.categoryAssetsMap.isEmpty
+                      child: controller.loading &&
+                              controller.categoryAssetsMap.isEmpty
                           ? Center(child: AppUiHelpers.circularProgress)
                           : Column(
-                              children: c.categoryAssetsMap.keys
+                              children: controller.categoryAssetsMap.keys
                                   .map((category) =>
                                       _PortfolioCategoryBlock(category))
                                   .toList(),
@@ -59,8 +60,7 @@ class PortfolioAssetsTabView extends StatelessWidget {
   }
 }
 
-class _PortfolioAssetsHeader extends StatelessWidget {
-  final c = PortfolioController.con;
+class _PortfolioAssetsHeader extends GetView<PortfolioController> {
   @override
   Widget build(BuildContext context) {
     final titleTheme = Get.textTheme.headline5.copyWith(
@@ -80,7 +80,7 @@ class _PortfolioAssetsHeader extends StatelessWidget {
           Obx(
             () => Text(
               Formatter.currency(
-                c.balanceSum.toString(),
+                controller.balanceSum.toString(),
                 prefix: AssetsController.con.baseAsset?.displayId,
                 fractionDigits: AssetsController.con.baseAsset?.accuracy,
               ),
@@ -93,15 +93,14 @@ class _PortfolioAssetsHeader extends StatelessWidget {
   }
 }
 
-class _PortfolioCategoryBlock extends StatelessWidget {
+class _PortfolioCategoryBlock extends GetView<PortfolioController> {
   final AssetCategory category;
-  final c = PortfolioController.con;
 
-  _PortfolioCategoryBlock(this.category);
+  _PortfolioCategoryBlock(this.category, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final assets = c.categoryAssetsMap[category];
+    final assets = controller.categoryAssetsMap[category];
     final titleTheme = Get.textTheme.headline5.copyWith(
       fontFamily: 'Akrobat',
       fontWeight: FontWeight.w700,
