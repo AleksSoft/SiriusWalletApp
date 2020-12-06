@@ -51,7 +51,6 @@ class _Details extends GetView<AssetInfoController> {
   @override
   Widget build(BuildContext context) {
     final titleTheme = Get.textTheme.headline5.copyWith(
-      fontFamily: 'Akrobat',
       fontWeight: FontWeight.w700,
     );
     return Stack(

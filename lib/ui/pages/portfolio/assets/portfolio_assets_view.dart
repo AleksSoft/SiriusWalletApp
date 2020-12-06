@@ -64,7 +64,6 @@ class _PortfolioAssetsHeader extends GetView<PortfolioController> {
   @override
   Widget build(BuildContext context) {
     final titleTheme = Get.textTheme.headline5.copyWith(
-      fontFamily: 'Akrobat',
       fontWeight: FontWeight.w700,
     );
     return Container(
@@ -102,7 +101,6 @@ class _PortfolioCategoryBlock extends GetView<PortfolioController> {
   Widget build(BuildContext context) {
     final assets = controller.categoryAssetsMap[category];
     final titleTheme = Get.textTheme.headline5.copyWith(
-      fontFamily: 'Akrobat',
       fontWeight: FontWeight.w700,
     );
     return ExpandableNotifier(

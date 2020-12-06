@@ -143,7 +143,6 @@ class _HeaderView extends StatelessWidget {
   Widget build(BuildContext context) {
     final change = double.tryParse(c.marketModel?.priceChange24H) ?? 0.0;
     final titleTheme = Get.textTheme.headline5.copyWith(
-      fontFamily: 'Akrobat',
       fontWeight: FontWeight.w700,
     );
     return Padding(

@@ -42,10 +42,6 @@ Future<void> mainCommon(Environment environment) async {
     GestureDetector(
       onTap: () => GestureUtils.unfocus(),
       child: GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        debugShowMaterialGrid: false,
-        showPerformanceOverlay: false,
-        showSemanticsDebugger: false,
         enableLog: !_appConfig.isProd,
         defaultTransition: Get.defaultTransition,
         transitionDuration: Get.defaultTransitionDuration,
