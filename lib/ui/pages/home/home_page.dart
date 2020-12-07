@@ -1,13 +1,9 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/utils/utils.dart';
-import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/controllers/home_controller.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
-import 'package:antares_wallet/ui/pages/more/support/support_page.dart';
-import 'package:antares_wallet/ui/pages/root/root_controller.dart';
-import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
 import 'package:antares_wallet/ui/widgets/asset_icon.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_rich_text.dart';
 import 'package:antares_wallet/ui/widgets/default_card.dart';
@@ -57,9 +53,8 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class _AssetsView extends StatelessWidget {
+class _AssetsView extends GetView<HomeController> {
   _AssetsView({Key key}) : super(key: key);
-  final assetsCon = PortfolioController.con;
   @override
   Widget build(BuildContext context) {
     return DefaultCard(
@@ -86,10 +81,10 @@ class _AssetsView extends StatelessWidget {
                   ),
                 ),
                 CupertinoButton(
-                  onPressed: () => HomeController.con.toggleHidden(),
+                  onPressed: () => controller.hidden.toggle(),
                   minSize: 10,
                   padding: const EdgeInsets.all(0.0),
-                  child: Text(HomeController.con.hidden ? 'Show' : 'Hide'),
+                  child: Obx(() => Text(controller.shoHideTitle)),
                 ),
               ],
             ),
@@ -100,31 +95,32 @@ class _AssetsView extends StatelessWidget {
               height: AppSizes.large,
               child: Row(
                 children: [
-                  AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 300),
-                    child: !HomeController.con.hidden
-                        ? Obx(
-                            () => Text(
+                  Obx(
+                    () => AnimatedSwitcher(
+                      duration: Get.defaultTransitionDuration,
+                      child: !controller.hidden.value
+                          ? Text(
                               Formatter.currency(
-                                assetsCon.balanceSum.toString(),
+                                controller.portfolioCon.balanceSum.toString(),
                                 prefix:
-                                    AssetsController.con.baseAsset?.displayId,
+                                    controller.assetsCon.baseAsset?.displayId,
                                 fractionDigits:
-                                    AssetsController.con.baseAsset?.accuracy ??
+                                    controller.assetsCon.baseAsset?.accuracy ??
                                         2,
                               ),
                               style: Get.textTheme.caption,
+                            )
+                          : Container(
+                              width: AppSizes.extraLarge * 2,
+                              height: AppSizes.medium,
+                              decoration: BoxDecoration(
+                                color: AppColors.secondary.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(
+                                  AppSizes.small,
+                                ),
+                              ),
                             ),
-                          )
-                        : Container(
-                            width: AppSizes.extraLarge * 2,
-                            height: AppSizes.medium,
-                            decoration: BoxDecoration(
-                              color: AppColors.secondary.withOpacity(0.2),
-                              borderRadius:
-                                  BorderRadius.circular(AppSizes.small),
-                            ),
-                          ),
+                    ),
                   ),
                   Spacer(),
                 ],
@@ -133,12 +129,13 @@ class _AssetsView extends StatelessWidget {
           ),
           AppUiHelpers.vSpaceSmall,
           ListTile(
+            onTap: () => controller.openPortfolio(),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: AppSizes.medium,
             ),
             leading: Container(
-              width: 28,
-              height: 28,
+              width: AppSizes.extraLarge,
+              height: AppSizes.extraLarge,
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: AppColors.accent,
@@ -157,31 +154,31 @@ class _AssetsView extends StatelessWidget {
               ),
             ),
             title: Text('portfolio'.tr),
-            trailing: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              child: !HomeController.con.hidden
-                  ? Obx(
-                      () => Text(
+            trailing: Obx(
+              () => AnimatedSwitcher(
+                duration: Get.defaultTransitionDuration,
+                child: !controller.hidden.value
+                    ? Text(
                         Formatter.currency(
-                          assetsCon.balanceSum.toString(),
-                          prefix: AssetsController.con.baseAsset?.displayId,
+                          controller.portfolioCon.balanceSum.toString(),
+                          prefix: controller.assetsCon.baseAsset?.displayId,
                           fractionDigits:
-                              AssetsController.con.baseAsset?.accuracy ?? 2,
+                              controller.assetsCon.baseAsset?.accuracy ?? 2,
                         ),
                         style: TextStyle(
                           fontSize: AppSizes.medium,
                           fontWeight: FontWeight.w600,
                         ),
+                      )
+                    : Container(
+                        width: AppSizes.extraLarge * 2.5,
+                        height: AppSizes.large,
+                        decoration: BoxDecoration(
+                          color: AppColors.secondary.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(AppSizes.small),
+                        ),
                       ),
-                    )
-                  : Container(
-                      width: AppSizes.extraLarge * 2.5,
-                      height: AppSizes.large,
-                      decoration: BoxDecoration(
-                        color: AppColors.secondary.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(AppSizes.small),
-                      ),
-                    ),
+              ),
             ),
           ),
           Divider(
@@ -190,7 +187,7 @@ class _AssetsView extends StatelessWidget {
             endIndent: AppSizes.medium,
           ),
           Container(
-            height: 64.0,
+            height: AppSizes.extraLarge * 2,
             decoration: BoxDecoration(
               color: AppColors.accent,
               borderRadius: BorderRadius.vertical(
@@ -201,7 +198,7 @@ class _AssetsView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 CupertinoButton(
-                  onPressed: () => HomeController.con.deposit(),
+                  onPressed: () => controller.deposit(),
                   padding: EdgeInsets.all(0.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -232,7 +229,7 @@ class _AssetsView extends StatelessWidget {
                   color: AppColors.primary.withOpacity(0.5),
                 ),
                 CupertinoButton(
-                  onPressed: () => HomeController.con.withdraw(),
+                  onPressed: () => controller.withdraw(),
                   padding: EdgeInsets.all(0.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -263,10 +260,7 @@ class _AssetsView extends StatelessWidget {
                   color: AppColors.primary.withOpacity(0.5),
                 ),
                 CupertinoButton(
-                  onPressed: () {
-                    RootController.con.pageIndex = 4;
-                    Get.toNamed(SupportPage.route);
-                  },
+                  onPressed: () => controller.openSupport(),
                   padding: EdgeInsets.all(0.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -297,7 +291,7 @@ class _AssetsView extends StatelessWidget {
   }
 }
 
-class _ExchangeView extends StatelessWidget {
+class _ExchangeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return DefaultCard(
@@ -320,7 +314,7 @@ class _ExchangeView extends StatelessWidget {
                   ),
                 ),
                 CupertinoButton(
-                  onPressed: () => RootController.con.pageIndex = 2,
+                  onPressed: () => controller.openPortfolio(),
                   minSize: 10,
                   padding: const EdgeInsets.all(0.0),
                   child: Text('More'),
@@ -341,7 +335,7 @@ class _ExchangeView extends StatelessWidget {
                         crossAxisSpacing: AppSizes.small,
                         children: _
                             .marketModelsUpTo(6)
-                            .map((e) => _buildPairContainer(e))
+                            .map((e) => _ExchangePairView(e))
                             .toList(),
                       )
                     : Center(child: AppUiHelpers.linearProgress),
@@ -352,14 +346,18 @@ class _ExchangeView extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildPairContainer(MarketModel model) {
-    final textStyle = Get.textTheme.button;
+class _ExchangePairView extends GetView<HomeController> {
+  _ExchangePairView(this.model, {Key key}) : super(key: key);
+  final MarketModel model;
+
+  final textStyle = Get.textTheme.button;
+
+  @override
+  Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Get.toNamed(TradingPage.route, arguments: model);
-        RootController.con.pageIndex = 2;
-      },
+      onTap: () => controller.trade(model),
       child: Container(
         height: AppSizes.extraLarge * 2,
         padding: EdgeInsets.all(AppSizes.small),
@@ -433,7 +431,7 @@ class _ExchangeView extends StatelessWidget {
   }
 }
 
-class _MyLykkeView extends StatelessWidget {
+class _MyLykkeView extends GetView<HomeController> {
   const _MyLykkeView({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -465,9 +463,8 @@ class _MyLykkeView extends StatelessWidget {
                               ? list.length
                               : 3,
                           physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (_, index) =>
-                              _buildListTile(list[index]),
-                          separatorBuilder: (_, index) => Divider(height: 1.0),
+                          itemBuilder: (_, i) => _LykkeListTile(list[i]),
+                          separatorBuilder: (_, i) => Divider(height: 1.0),
                         )
                       : Center(child: AppUiHelpers.linearProgress),
                 );
@@ -477,20 +474,23 @@ class _MyLykkeView extends StatelessWidget {
             CupertinoButton.filled(
               padding: EdgeInsets.all(0.0),
               child: Text('buy_now'.tr),
-              onPressed: () {
-                RootController.con.pageIndex = 2;
-                MarketsController.con.search(query: 'LKK');
-              },
+              onPressed: () => controller.openMyLykke(),
             )
           ],
         ),
       ),
     );
   }
+}
 
-  ListTile _buildListTile(Asset asset) {
-    final balance = PortfolioController.con.assetBalance(asset.id);
+class _LykkeListTile extends GetView<HomeController> {
+  _LykkeListTile(this.asset, {Key key}) : super(key: key);
+  final Asset asset;
+  @override
+  Widget build(BuildContext context) {
+    final balance = controller.portfolioCon.assetBalance(asset.id);
     return ListTile(
+      onTap: () => controller.openAssetInfo(asset),
       dense: true,
       contentPadding: const EdgeInsets.all(0.0),
       title: Text(
@@ -527,11 +527,11 @@ class _MyLykkeView extends StatelessWidget {
           AppUiHelpers.vSpaceExtraSmall,
           Text(
             Formatter.currency(
-              AssetsController.con
+              controller.assetsCon
                   .countBalanceInBase(asset.id, balance)
                   .toString(),
-              prefix: AssetsController.con.baseAsset?.displayId,
-              fractionDigits: AssetsController.con.baseAsset?.accuracy,
+              prefix: controller.assetsCon.baseAsset?.displayId,
+              fractionDigits: controller.assetsCon.baseAsset?.accuracy,
             ),
             style: Get.textTheme.caption,
           )
