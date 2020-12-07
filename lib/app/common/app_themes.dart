@@ -11,5 +11,14 @@ class AppThemes {
     accentColor: AppColors.accent,
     scaffoldBackgroundColor: AppColors.scaffoldBkg,
     textTheme: GoogleFonts.montserratTextTheme(Get.textTheme),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      selectedItemColor: AppColors.accent,
+      showSelectedLabels: true,
+      showUnselectedLabels: true,
+      unselectedLabelStyle: TextStyle(color: AppColors.dark),
+      selectedLabelStyle: TextStyle(color: AppColors.accent),
+      selectedIconTheme: IconThemeData(color: AppColors.accent),
+      unselectedIconTheme: IconThemeData(color: AppColors.dark),
+    ),
   );
 }

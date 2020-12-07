@@ -55,7 +55,7 @@ class _AccountDataView extends StatelessWidget {
         ListTile(
           contentPadding: const EdgeInsets.all(0.0),
           leading: Icon(
-            CupertinoIcons.check_mark_circled,
+            Icons.check_circle_outline_outlined,
             color: AppColors.accent,
             size: 40.0,
           ),

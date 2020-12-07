@@ -137,8 +137,8 @@ class _ListView extends StatelessWidget {
                   children: [
                     Icon(
                       _.hasAccountInfo
-                          ? CupertinoIcons.check_mark_circled
-                          : CupertinoIcons.circle,
+                          ? Icons.check_circle_outline_outlined
+                          : Icons.circle,
                       color: _.hasAccountInfo
                           ? AppColors.accent
                           : AppColors.secondary,
@@ -166,7 +166,7 @@ class _ListView extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
-            checked ? CupertinoIcons.check_mark_circled : CupertinoIcons.circle,
+            checked ? Icons.check_circle_outline_outlined : Icons.circle,
             color: checked ? AppColors.accent : AppColors.secondary,
             size: 22.0,
           ),

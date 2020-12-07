@@ -42,61 +42,28 @@ class RootPage extends StatelessWidget {
               type: BottomNavigationBarType.fixed,
               currentIndex: _.pageIndex,
               onTap: (val) => _.pageIndex = val,
-              backgroundColor: Get.theme.scaffoldBackgroundColor,
               items: [
                 BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.home,
-                    color: Colors.black,
-                  ),
-                  activeIcon: Icon(
-                    Icons.home,
-                    color: AppColors.accent,
-                  ),
+                  icon: Icon(Icons.home_outlined),
                   label: 'home'.tr,
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.account_balance_wallet,
-                    color: Colors.black,
-                  ),
-                  activeIcon: Icon(
-                    Icons.account_balance_wallet,
-                    color: AppColors.accent,
-                  ),
+                  icon: Icon(Icons.account_balance_wallet_outlined),
                   label: 'portfolio'.tr,
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.import_export,
-                    color: Colors.black,
+                  icon: RotatedBox(
+                    quarterTurns: 1,
+                    child: Icon(Icons.import_export_outlined),
                   ),
-                  activeIcon: Icon(
-                    Icons.import_export,
-                    color: AppColors.accent,
-                  ),
-                  label: 'markets'.tr,
+                  label: 'exchange'.tr,
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.check_circle_outline,
-                    color: Colors.black,
-                  ),
-                  activeIcon: Icon(
-                    Icons.check_circle_outline,
-                    color: AppColors.accent,
-                  ),
+                  icon: Icon(Icons.check_circle_outline_outlined),
                   label: 'orders'.tr,
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.menu,
-                    color: Colors.black,
-                  ),
-                  activeIcon: Icon(
-                    Icons.menu,
-                    color: AppColors.accent,
-                  ),
+                  icon: Icon(Icons.menu_outlined),
                   label: 'more'.tr,
                 ),
               ],

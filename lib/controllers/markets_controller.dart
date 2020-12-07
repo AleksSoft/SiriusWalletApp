@@ -193,8 +193,11 @@ class MarketsController extends GetxController {
         items: MarketsController.con.initialMarketList,
         searchLabel: 'search'.tr,
         filter: (model) => [
+          model.pairId,
           model.pairBaseAsset.name,
           model.pairBaseAsset.displayId,
+          model.pairQuotingAsset.name,
+          model.pairQuotingAsset.displayId,
         ],
         builder: (model) => Padding(
           padding: const EdgeInsets.symmetric(

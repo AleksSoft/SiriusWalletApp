@@ -34,7 +34,7 @@ class UpgradeAccountChooseDocPage extends StatelessWidget {
           Divider(height: 1.0),
           ListTile(
             title: Text('passport'.tr),
-            trailing: Icon(CupertinoIcons.forward),
+            trailing: Icon(Icons.arrow_forward_ios_outlined),
             onTap: () => Get.toNamed(
               UpgradeAccountDocPage.route,
               arguments: DocType.passport,
@@ -47,7 +47,7 @@ class UpgradeAccountChooseDocPage extends StatelessWidget {
           ),
           ListTile(
             title: Text('national_id'.tr),
-            trailing: Icon(CupertinoIcons.forward),
+            trailing: Icon(Icons.arrow_forward_ios_outlined),
             onTap: () => Get.toNamed(
               UpgradeAccountDocPage.route,
               arguments: DocType.nationalId,
@@ -60,7 +60,7 @@ class UpgradeAccountChooseDocPage extends StatelessWidget {
           ),
           ListTile(
             title: Text('driving_license'.tr),
-            trailing: Icon(CupertinoIcons.forward),
+            trailing: Icon(Icons.arrow_forward_ios_outlined),
             onTap: () => Get.toNamed(
               UpgradeAccountDocPage.route,
               arguments: DocType.drivingLicense,

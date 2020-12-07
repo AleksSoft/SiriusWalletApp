@@ -138,7 +138,7 @@ class _MultipleQuestion extends StatelessWidget {
               trailing: Visibility(
                 visible: selectedList.contains(i),
                 child: Icon(
-                  CupertinoIcons.check_mark,
+                  Icons.check,
                   color: AppColors.accent,
                 ),
               ),

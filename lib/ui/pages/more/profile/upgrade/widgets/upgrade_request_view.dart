@@ -6,9 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class UpgradeRequestView extends StatelessWidget {
+class UpgradeRequestView extends GetView<ProfileController> {
   UpgradeRequestView(this.upgradeRequest, {Key key}) : super(key: key);
-  final c = ProfileController.con;
   final UpgradeRequest upgradeRequest;
   @override
   Widget build(BuildContext context) {
@@ -30,7 +29,7 @@ class UpgradeRequestView extends StatelessWidget {
             ),
             child: Center(
               child: Icon(
-                CupertinoIcons.time,
+                Icons.access_time_outlined,
                 size: 44.0,
                 color: Colors.amber[700],
               ),
@@ -42,7 +41,7 @@ class UpgradeRequestView extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                c.tierInfo?.upgradeRequest?.tier ?? '',
+                controller.tierInfo?.upgradeRequest?.tier ?? '',
                 style: Get.textTheme.subtitle1.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
