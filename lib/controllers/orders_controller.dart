@@ -40,7 +40,7 @@ class OrdersController extends GetxController {
     super.onInit();
   }
 
-  Future getOrders() async =>
+  Future<void> getOrders() async =>
       orders.assignAll(await TradingRepository.getOrders());
 
   Future<List<TradesResponse_TradeModel>> getTrades(
@@ -88,20 +88,21 @@ class OrdersController extends GetxController {
     if (!silent) loading = false;
   }
 
-  cancelAllOrders() async {
-    await Get.defaultDialog(
-      title: 'Cancel all orders',
-      middleText: 'Are you sure?',
-      buttonColor: AppColors.dark,
-      cancelTextColor: AppColors.dark,
-      confirmTextColor: AppColors.primary,
-      onConfirm: () async {
-        await TradingRepository.cancelAllOrders();
-        await getOrders();
-      },
-      onCancel: () => Get.back(),
-    );
-  }
+  void cancelAllOrders() => Get.defaultDialog(
+        title: 'Cancel all orders',
+        middleText: 'Are you sure?',
+        buttonColor: AppColors.dark,
+        cancelTextColor: AppColors.dark,
+        confirmTextColor: AppColors.primary,
+        onConfirm: () async {
+          Get.back();
+          loading = true;
+          await TradingRepository.cancelAllOrders();
+          await getOrders();
+          loading = false;
+        },
+        onCancel: () {},
+      );
 
   Future cancelOrder(String id) async =>
       await TradingRepository.cancelOrder(id).then((value) => getOrders());
