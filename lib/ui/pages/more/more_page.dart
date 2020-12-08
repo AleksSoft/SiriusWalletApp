@@ -58,10 +58,13 @@ class MorePage extends StatelessWidget {
                 color: Colors.red,
                 trailing: Icon(Icons.chevron_right),
               ),
-              MenuTile(
-                title: 'Developer settings',
-                icon: Icons.settings_applications_outlined,
-                onTap: () => Get.to(DevSettingsPage()),
+              Visibility(
+                visible: !Get.find<AppConfig>().isProd,
+                child: MenuTile(
+                  title: 'Developer settings',
+                  icon: Icons.settings_applications_outlined,
+                  onTap: () => Get.to(DevSettingsPage()),
+                ),
               ),
             ],
           );
