@@ -17,7 +17,7 @@ class EditWatchlistPage extends StatelessWidget {
             title: Text(_.modeEdit ? 'Edit watch list' : 'Create watch list'),
             actions: <Widget>[
               IconButton(
-                onPressed: _.edited ? () => _.perform() : null,
+                onPressed: () => _.perform(),
                 icon: Icon(Icons.check),
               ),
             ],
@@ -37,7 +37,6 @@ class EditWatchlistPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(AppSizes.extraSmall),
                   ),
                   child: TextFormField(
-                    onChanged: (value) => _.updateEdited(),
                     controller: _.nameController,
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(

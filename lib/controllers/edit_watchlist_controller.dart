@@ -1,8 +1,8 @@
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
+import 'package:antares_wallet/controllers/watchlists_controller.dart';
 import 'package:antares_wallet/repositories/watchists_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
-import 'package:antares_wallet/controllers/watchlists_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -22,8 +22,6 @@ class EditWatchlistController extends GetxController {
   bool get modeEdit => _originalWatchlist != null;
 
   String get name => modeEdit ? _originalWatchlist.name : '';
-
-  bool edited = false;
 
   @override
   void onInit() async {
@@ -60,10 +58,8 @@ class EditWatchlistController extends GetxController {
   void check(AssetPair assetPair) {
     if (_checkedAssetPairs.contains(assetPair)) {
       _checkedAssetPairs.remove(assetPair);
-      if (edited && _checkedAssetPairs.isEmpty) edited = false;
     } else {
       _checkedAssetPairs.add(assetPair);
-      if (!edited) edited = true;
     }
     update();
   }
@@ -77,12 +73,6 @@ class EditWatchlistController extends GetxController {
     } else {
       _checkedAssetPairs.insert(newIndex, item);
     }
-    edited = true;
-    update();
-  }
-
-  updateEdited() {
-    if (!edited) edited = true;
     update();
   }
 }
