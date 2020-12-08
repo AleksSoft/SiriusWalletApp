@@ -2,7 +2,7 @@ import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/ui/pages/start/start_page.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MoreController extends GetxController {
   static MoreController get con => Get.find();
@@ -23,5 +23,5 @@ class MoreController extends GetxController {
     );
   }
 
-  void shareToken() => Share.share(_storage.read(AppStorageKeys.token) ?? '');
+  void launchTAC() => launch('https://lykke.com/terms-and-conditions/');
 }

@@ -118,7 +118,6 @@ class _EmailScreen extends StatelessWidget {
               'PROCEED',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontFamily: 'Proxima_Nova',
                 fontSize: 20.0,
                 color: AppColors.primary,
               ),
@@ -182,7 +181,6 @@ class _VerifyEmailScreen extends StatelessWidget {
               'PROCEED',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontFamily: 'Proxima_Nova',
                 fontSize: 20.0,
                 color: AppColors.primary,
               ),
@@ -299,7 +297,6 @@ class _AdditionalDataScreen extends StatelessWidget {
               'PROCEED',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontFamily: 'Proxima_Nova',
                 fontSize: 20.0,
                 color: AppColors.primary,
               ),
@@ -399,7 +396,6 @@ class _PhoneScreen extends StatelessWidget {
               'PROCEED',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontFamily: 'Proxima_Nova',
                 fontSize: 20.0,
                 color: AppColors.primary,
               ),
@@ -486,7 +482,6 @@ class _VerifyPhoneScreen extends StatelessWidget {
               'PROCEED',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontFamily: 'Proxima_Nova',
                 fontSize: 20.0,
                 color: AppColors.primary,
               ),
@@ -626,7 +621,6 @@ class _PasswordScreen extends StatelessWidget {
               'PROCEED',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontFamily: 'Proxima_Nova',
                 fontSize: 20.0,
                 color: AppColors.primary,
               ),

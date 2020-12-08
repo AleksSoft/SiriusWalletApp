@@ -1,17 +1,15 @@
 import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/utils/utils.dart';
 import 'package:antares_wallet/src/apiservice.pbgrpc.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:grpc/grpc.dart';
 
 class ApiService {
-  static final List<String> urls = <String>[
-    '10c7a3ce-ce6c-4146-b31a-e1c83fc98e53.lykkex.com',
-    'antares-api-grpc-ex.swisschain.info',
-    'antares-api-grpc-dev.lykkex.net',
-    'antares-api-grpc-test.lykkex.net',
-  ];
   static final timeoutDuration = const Duration(seconds: 30);
+
+  List<String> apiUrls = [];
+
   final _storage = GetStorage();
 
   ApiServiceClient _clientSecure;
@@ -20,22 +18,37 @@ class ApiService {
   ApiServiceClient get clientSecure => this._clientSecure;
   ApiServiceClient get client => this._client;
 
+  String get defaultUrl {
+    String url = _storage.read(AppStorageKeys.baseUrl);
+    return url.isNullOrBlank ? apiUrls[0] : url;
+  }
+
+  Future<ApiService> init(AppConfig appConfig) async {
+    // init urls from config
+    apiUrls = appConfig.apiUrls;
+    AppLog.loggerNoStack.i('API urls:\n$apiUrls');
+
+    // update services
+    await update();
+    return this;
+  }
+
   /// Updates grpc clients with given [url]
   ///
   /// If [url] is null the stored value is used
   Future<void> update({String url}) async {
     if (url.isNullOrBlank) url = defaultUrl;
     await _storage.write(AppStorageKeys.baseUrl, url);
-    print('---- Base Url: $url');
+    AppLog.loggerNoStack.i('Base Url: $url');
 
-    var channel = ClientChannel(url, port: 443);
+    final channel = ClientChannel(url, port: 443);
+
+    String authToken = 'Bearer ${_storage.read(AppStorageKeys.token)}';
 
     _clientSecure = ApiServiceClient(
       channel,
       options: CallOptions(
-        metadata: {
-          'Authorization': 'Bearer ${_storage.read(AppStorageKeys.token)}',
-        },
+        metadata: {'Authorization': authToken},
         timeout: timeoutDuration,
       ),
     );
@@ -46,10 +59,5 @@ class ApiService {
         timeout: timeoutDuration,
       ),
     );
-  }
-
-  static String get defaultUrl {
-    String url = GetStorage().read(AppStorageKeys.baseUrl);
-    return url.isNullOrBlank ? urls[0] : url;
   }
 }

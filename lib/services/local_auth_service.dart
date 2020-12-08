@@ -1,4 +1,5 @@
 import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/utils/utils.dart';
 import 'package:antares_wallet/repositories/session_repository.dart';
 import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
 import 'package:antares_wallet/ui/pages/start/start_page.dart';
@@ -21,7 +22,7 @@ class LocalAuthService {
         return false;
       }
     } catch (e) {
-      print(e);
+      AppLog.logger.e(e);
       return false;
     }
   }

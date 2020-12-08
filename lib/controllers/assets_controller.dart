@@ -1,3 +1,4 @@
+import 'package:antares_wallet/app/utils/utils.dart';
 import 'package:antares_wallet/repositories/asset_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:get/get.dart';
@@ -90,7 +91,7 @@ class AssetsController extends GetxController {
     if (differenceMinutes >= 5) {
       assetsDictionary = await AssetsRepository.assetsDictionary();
       assetsDictionaryTimestamp = DateTime.now().millisecondsSinceEpoch;
-      print('assets dictionary updated');
+      AppLog.loggerNoStack.d('assets dictionary updated');
     }
   }
 

@@ -1,4 +1,5 @@
 import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/utils/app_log.dart';
 import 'package:antares_wallet/repositories/profile_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/quest/upgrade_account_quest.dart';
@@ -48,9 +49,9 @@ class ProfileController extends GetxController {
     tierInfo = await ProfileRepository.getTierInfo();
     documentsMap.addAll(await ProfileRepository.getKycDocuments());
 
-    print('---- TierInfo: ${tierInfo.toProto3Json()}');
-    print('---- PersonalData: ${personalData.toProto3Json()}');
-    print('---- DocumentsMap: ${documentsMap.toString()}');
+    AppLog.loggerNoStack.d('TierInfo: ${tierInfo.toProto3Json()}');
+    AppLog.loggerNoStack.d('PersonalData: ${personalData.toProto3Json()}');
+    AppLog.loggerNoStack.d('DocumentsMap: ${documentsMap.toString()}');
   }
 
   Future<void> saveQuestionnaire(List<AnswersRequest_Choice> answers) async {

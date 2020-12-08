@@ -52,8 +52,7 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-class _LoginScreen extends StatelessWidget {
-  final c = LoginController.con;
+class _LoginScreen extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -89,8 +88,8 @@ class _LoginScreen extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 TextFormField(
-                  onChanged: (String s) => c.emailValue = s,
-                  initialValue: c.emailValue,
+                  onChanged: (String s) => controller.emailValue = s,
+                  initialValue: controller.emailValue,
                   keyboardType: TextInputType.emailAddress,
                   obscureText: false,
                   validator: (String value) {
@@ -107,17 +106,17 @@ class _LoginScreen extends StatelessWidget {
                 AppUiHelpers.vSpaceSmall,
                 Obx(
                   () => TextFormField(
-                    onChanged: (String s) => c.passwordValue = s,
-                    obscureText: c.hidePassword,
-                    initialValue: c.passwordValue,
+                    onChanged: (String s) => controller.passwordValue = s,
+                    obscureText: controller.hidePassword.value,
+                    initialValue: controller.passwordValue,
                     decoration: InputDecoration(
                       labelText: 'Password',
                       suffix: InkWell(
-                        onTap: () => c.hidePassword = !c.hidePassword,
+                        onTap: () => controller.hidePassword.toggle(),
                         child: Icon(
-                          c.hidePassword
-                              ? Icons.visibility_off
-                              : Icons.visibility,
+                          controller.hidePassword.value
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined,
                           size: 16.0,
                         ),
                       ),
@@ -129,7 +128,7 @@ class _LoginScreen extends StatelessWidget {
           ),
           AppUiHelpers.vSpaceExtraLarge,
           RaisedGradientButton(
-            onPressed: () => c.signIn(),
+            onPressed: () => controller.signIn(),
             gradient: LinearGradient(
               colors: [AppColors.accent, AppColors.accent],
             ),
@@ -137,7 +136,6 @@ class _LoginScreen extends StatelessWidget {
               'SIGN IN',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontFamily: 'Proxima_Nova',
                 fontSize: 20.0,
                 color: AppColors.primary,
               ),
@@ -201,7 +199,6 @@ class _VerifySmsScreen extends StatelessWidget {
               'PROCEED',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontFamily: 'Proxima_Nova',
                 fontSize: 20.0,
                 color: AppColors.primary,
               ),

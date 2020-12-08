@@ -1,3 +1,4 @@
+import 'package:antares_wallet/app/utils/app_log.dart';
 import 'package:antares_wallet/repositories/profile_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:get/get.dart';
@@ -29,7 +30,7 @@ class UpgradeAccountQuestController extends GetxController {
     } else {
       answers.add(answer);
     }
-    print(answers);
+    AppLog.loggerNoStack.i(answers);
     update();
   }
 

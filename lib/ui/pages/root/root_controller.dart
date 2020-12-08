@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:antares_wallet/app/utils/app_log.dart';
 import 'package:antares_wallet/repositories/session_repository.dart';
 import 'package:antares_wallet/services/local_auth_service.dart';
 import 'package:flutter/material.dart';
@@ -36,11 +37,11 @@ class RootController extends GetxController with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.paused) {
-      print('application backgrounded');
+      AppLog.loggerNoStack.d('application backgrounded');
       _stopTimer();
     }
     if (state == AppLifecycleState.resumed) {
-      print('application came back to foreground');
+      AppLog.loggerNoStack.d('application came back to foreground');
       _startTimer();
     }
   }
@@ -60,7 +61,7 @@ class RootController extends GetxController with WidgetsBindingObserver {
 
   Future<bool> _prolongateSession() async {
     bool success = await SessionRepository.prolongateSession();
-    print('session prolongation result = $success');
+    AppLog.loggerNoStack.d('session prolongation result = $success');
     if (!success) {
       _localAuth.verifyPin(logOutOnError: true);
     }

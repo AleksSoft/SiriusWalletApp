@@ -4,7 +4,6 @@ import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/repositories/session_repository.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
-import 'package:antares_wallet/ui/pages/register/register_page.dart';
 import 'package:antares_wallet/ui/pages/root/root_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,9 +21,7 @@ class LoginController extends GetxController {
   bool get loading => this._loading.value;
   set loading(bool value) => this._loading.value = value;
 
-  final _hidePassword = true.obs;
-  bool get hidePassword => this._hidePassword.value;
-  set hidePassword(bool value) => this._hidePassword.value = value;
+  final hidePassword = true.obs;
 
   final _isSmsWaiting = false.obs;
   bool get isSmsWaiting => this._isSmsWaiting.value;
@@ -38,15 +35,6 @@ class LoginController extends GetxController {
   String passwordValue = '';
   String smsCodeValue = '';
   String token = '';
-
-  final _currentBaseUrl = ''.obs;
-  String get currentBaseUrl => this._currentBaseUrl.value;
-
-  @override
-  void onInit() async {
-    await setCurrentBaseUrl(ApiService.defaultUrl);
-    super.onInit();
-  }
 
   @override
   void onReady() async {
@@ -66,14 +54,6 @@ class LoginController extends GetxController {
     super.onClose();
   }
 
-  Future<void> setCurrentBaseUrl(String url) async {
-    if (url != currentBaseUrl) {
-      await Get.find<ApiService>().update(
-        url: _currentBaseUrl.value = url,
-      );
-    }
-  }
-
   back() {
     pageViewController?.jumpToPage(0);
     emailValue = '';
@@ -83,8 +63,6 @@ class LoginController extends GetxController {
     _stopTimer();
     Get.back();
   }
-
-  openRegister() => Get.toNamed(RegisterPage.route);
 
   Future signIn() async {
     if (emailValue.isNullOrBlank ||

@@ -1,8 +1,9 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/controllers/login_controller.dart';
-import 'package:antares_wallet/services/api/api_service.dart';
-import 'package:antares_wallet/ui/pages/errors_log/errors_log_page.dart';
+import 'package:antares_wallet/ui/pages/dev_settings/dev_settings_page.dart';
 import 'package:antares_wallet/ui/pages/login/login_page.dart';
+import 'package:antares_wallet/ui/pages/register/register_page.dart';
+import 'package:antares_wallet/ui/widgets/empty_reloading_view.dart';
 import 'package:antares_wallet/ui/widgets/gradient_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,48 +17,15 @@ class StartPage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: GetX<LoginController>(
-          builder: (_) {
-            return Stack(
-              children: [
-                AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 300),
-                  child: _.loading
-                      ? Center(child: AppUiHelpers.circularProgress)
-                      : _StartPageContent(),
-                ),
-                Visibility(
-                  visible: !_.loading,
-                  child: Positioned(
-                    top: AppSizes.small,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        DropdownButton<String>(
-                          value: _.currentBaseUrl,
-                          focusColor: AppColors.accent,
-                          onChanged: (String s) async =>
-                              await _.setCurrentBaseUrl(s),
-                          items: ApiService.urls.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                        ),
-                        FlatButton(
-                          onPressed: () => Get.to(
-                            SavedErrorsPage(),
-                            fullscreenDialog: true,
-                          ),
-                          child: Text('Errors log'),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            );
-          },
+          builder: (_) => EmptyReloadingView(
+            customLoader: Container(
+              alignment: Alignment.center,
+              color: AppColors.scaffoldBkg,
+              child: AppUiHelpers.circularProgress,
+            ),
+            isLoading: _.loading,
+            child: _StartPageContent(),
+          ),
         ),
       ),
     );
@@ -96,6 +64,18 @@ class _StartPageContent extends StatelessWidget {
           flex: 2,
           child: _StartFooter(),
         ),
+        Visibility(
+          visible: !Get.find<AppConfig>().isProd,
+          child: Flexible(
+            flex: 1,
+            child: Center(
+              child: FlatButton(
+                onPressed: () => Get.to(DevSettingsPage()),
+                child: Text("Dev Settings", textAlign: TextAlign.center),
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -113,7 +93,7 @@ class _StartFooter extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           RaisedGradientButton(
-            onPressed: () => LoginController.con.openRegister(),
+            onPressed: () => Get.toNamed(RegisterPage.route),
             gradient: LinearGradient(
               colors: <Color>[
                 Colors.yellowAccent,
