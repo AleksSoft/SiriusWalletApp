@@ -19,7 +19,7 @@ class RegisterController extends GetxController {
 
   final _storage = GetStorage();
 
-  final pageViewController = PageController(initialPage: 0);
+  final pageViewController = PageController(initialPage: 5);
 
   Timer _codeTimer;
 

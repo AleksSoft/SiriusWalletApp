@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:search_page/search_page.dart';
+import 'package:string_validator/string_validator.dart' as stringValidator;
 
 class RegisterPage extends StatelessWidget {
   static final String route = '/register';
@@ -562,15 +563,18 @@ class _PasswordScreen extends GetView<RegisterController> {
                     onChanged: (String s) => controller.passwordValue = s,
                     obscureText: controller.hidePassword.value,
                     initialValue: controller.passwordValue,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (String value) {
-                      if (value == value.toUpperCase()) {
+                      if (stringValidator.isUppercase(value)) {
                         return 'Needs at least 1 lowercase letter';
-                      } else if (value == value.toLowerCase()) {
+                      } else if (stringValidator.isLowercase(value)) {
                         return 'Needs at least 1 uppercase letter';
-                      } else if (value.isAlphabetOnly) {
+                      } else if (stringValidator.isAlpha(value)) {
+                        return 'Needs at least 1 digit ';
+                      } else if (stringValidator.isAlphanumeric(value)) {
                         return 'Needs at least 1 special symbol';
-                      } else if (value.isAlphabetOnly) {
-                        return 'Needs at least 1 special symbol';
+                      } else if (value.length < 8) {
+                        return 'Should be at least 8 characters long';
                       } else
                         return null;
                     },
@@ -595,6 +599,7 @@ class _PasswordScreen extends GetView<RegisterController> {
                         controller.confirmPasswordValue = s,
                     obscureText: controller.hidePassword.value,
                     initialValue: controller.confirmPasswordValue,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (String value) {
                       if (value != controller.passwordValue) {
                         return 'Passwords didn\'t match';
