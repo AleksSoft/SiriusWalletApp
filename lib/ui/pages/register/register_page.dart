@@ -516,8 +516,7 @@ class _VerifyPhoneScreen extends StatelessWidget {
   }
 }
 
-class _PasswordScreen extends StatelessWidget {
-  final c = RegisterController.con;
+class _PasswordScreen extends GetView<RegisterController> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -558,46 +557,69 @@ class _PasswordScreen extends StatelessWidget {
             data: Get.theme.copyWith(primaryColor: AppColors.accent),
             child: Column(
               children: <Widget>[
-                TextFormField(
-                  onChanged: (String s) => c.passwordValue = s,
-                  obscureText: true,
-                  initialValue: c.passwordValue,
-                  validator: (String value) {
-                    if (value == value.toUpperCase()) {
-                      return 'Needs at least 1 lowercase letter';
-                    } else if (value == value.toLowerCase()) {
-                      return 'Needs at least 1 uppercase letter';
-                    } else if (value.isAlphabetOnly) {
-                      return 'Needs at least 1 special symbol';
-                    } else if (value.isAlphabetOnly) {
-                      return 'Needs at least 1 special symbol';
-                    } else
-                      return null;
-                  },
-                  decoration: InputDecoration(
-                    labelText: 'Password',
+                Obx(
+                  () => TextFormField(
+                    onChanged: (String s) => controller.passwordValue = s,
+                    obscureText: controller.hidePassword.value,
+                    initialValue: controller.passwordValue,
+                    validator: (String value) {
+                      if (value == value.toUpperCase()) {
+                        return 'Needs at least 1 lowercase letter';
+                      } else if (value == value.toLowerCase()) {
+                        return 'Needs at least 1 uppercase letter';
+                      } else if (value.isAlphabetOnly) {
+                        return 'Needs at least 1 special symbol';
+                      } else if (value.isAlphabetOnly) {
+                        return 'Needs at least 1 special symbol';
+                      } else
+                        return null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      suffix: InkWell(
+                        onTap: () => controller.hidePassword.toggle(),
+                        child: Icon(
+                          controller.hidePassword.value
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined,
+                          size: 16.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                AppUiHelpers.vSpaceSmall,
+                Obx(
+                  () => TextFormField(
+                    onChanged: (String s) =>
+                        controller.confirmPasswordValue = s,
+                    obscureText: controller.hidePassword.value,
+                    initialValue: controller.confirmPasswordValue,
+                    validator: (String value) {
+                      if (value != controller.passwordValue) {
+                        return 'Passwords didn\'t match';
+                      } else
+                        return null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Confirm password',
+                      suffix: InkWell(
+                        onTap: () => controller.hidePassword.toggle(),
+                        child: Icon(
+                          controller.hidePassword.value
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined,
+                          size: 16.0,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 AppUiHelpers.vSpaceSmall,
                 TextFormField(
-                  onChanged: (String s) => c.confirmPasswordValue = s,
-                  obscureText: true,
-                  initialValue: c.confirmPasswordValue,
-                  validator: (String value) {
-                    if (value != c.passwordValue) {
-                      return 'Passwords didn\'t match';
-                    } else
-                      return null;
-                  },
-                  decoration: InputDecoration(
-                    labelText: 'Confirm password',
-                  ),
-                ),
-                AppUiHelpers.vSpaceSmall,
-                TextFormField(
-                  onChanged: (String s) => c.passwordHintValue = s,
+                  onChanged: (String s) => controller.passwordHintValue = s,
                   obscureText: false,
-                  initialValue: c.passwordHintValue,
+                  initialValue: controller.passwordHintValue,
                   validator: (String value) {
                     if (value.length < 4) {
                       return 'Hint is too short';
@@ -613,7 +635,7 @@ class _PasswordScreen extends StatelessWidget {
           ),
           AppUiHelpers.vSpaceExtraLarge,
           RaisedGradientButton(
-            onPressed: () => c.proceed(),
+            onPressed: () => controller.proceed(),
             gradient: LinearGradient(
               colors: [AppColors.accent, AppColors.accent],
             ),

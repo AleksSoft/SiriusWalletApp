@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/utils/gesture_utils.dart';
 import 'package:antares_wallet/repositories/session_repository.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
@@ -25,6 +26,8 @@ class RegisterController extends GetxController {
   final _loading = false.obs;
   bool get loading => this._loading.value;
   set loading(bool value) => this._loading.value = value;
+
+  final hidePassword = true.obs;
 
   final _isCodeWaiting = false.obs;
   bool get isEmailCodeWaiting => this._isCodeWaiting.value;
@@ -135,7 +138,10 @@ class RegisterController extends GetxController {
         title: 'Cancel',
         middleText: 'Are you sure to cancel registration?',
         buttonColor: AppColors.red,
-        onConfirm: () => Get.back(closeOverlays: true),
+        onConfirm: () {
+          GestureUtils.unfocus();
+          Get.back(closeOverlays: true);
+        },
       );
     } else {
       Get.back();
