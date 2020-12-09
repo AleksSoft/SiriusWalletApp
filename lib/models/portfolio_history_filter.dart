@@ -77,8 +77,8 @@ class PortfolioHistoryFilter {
     final storage = GetStorage();
 
     HistoryFilter filter = HistoryFilter(
-      period: EnumToString.parse(period ?? PortfolioPeriod.all),
-      transactionType: EnumToString.parse(
+      period: EnumToString.convertToString(period ?? PortfolioPeriod.all),
+      transactionType: EnumToString.convertToString(
         transactionType ?? PortfolioTransactionType.all,
       ),
       asset: assetId ?? '',
@@ -86,11 +86,13 @@ class PortfolioHistoryFilter {
       timeTo: timeTo,
     );
 
-    await storage.write(AppStorageKeys.ordersHistoryFilter, filter);
+    String filterJson = json.encode(filter.toJson());
+
+    await storage.write(AppStorageKeys.portrolioHistoryFilter, filterJson);
   }
 
   static PortfolioHistoryFilter fromStorage() {
-    String filterJson = GetStorage().read(
+    String filterJson = GetStorage().read<String>(
       AppStorageKeys.portrolioHistoryFilter,
     );
 

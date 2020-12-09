@@ -121,7 +121,7 @@ class PortfolioController extends GetxController {
       String operation =
           _filter.transactionType == PortfolioTransactionType.deposit
               ? 'deposit'
-              : 'withdrawal';
+              : 'withdraw';
       funds =
           funds.where((f) => f.operation.toLowerCase() == operation).toList();
     }

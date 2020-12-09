@@ -77,10 +77,8 @@ class OrdersHistoryFilter {
     final storage = GetStorage();
 
     HistoryFilter filter = HistoryFilter(
-      period: EnumToString.parse(
-        period ?? OrdersPeriod.all,
-      ),
-      transactionType: EnumToString.parse(
+      period: EnumToString.convertToString(period ?? OrdersPeriod.all),
+      transactionType: EnumToString.convertToString(
         transactionType ?? OrdersTransactionType.all,
       ),
       asset: assetPairId ?? '',
@@ -88,11 +86,15 @@ class OrdersHistoryFilter {
       timeTo: timeTo,
     );
 
-    await storage.write(AppStorageKeys.ordersHistoryFilter, filter);
+    String filterJson = json.encode(filter.toJson());
+
+    await storage.write(AppStorageKeys.ordersHistoryFilter, filterJson);
   }
 
   static OrdersHistoryFilter fromStorage() {
-    String filterJson = GetStorage().read(AppStorageKeys.ordersHistoryFilter);
+    String filterJson = GetStorage().read<String>(
+      AppStorageKeys.ordersHistoryFilter,
+    );
 
     if (GetUtils.isNullOrBlank(filterJson)) {
       return OrdersHistoryFilter();
