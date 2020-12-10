@@ -6,8 +6,6 @@ import 'package:get/get.dart';
 class AssetsController extends GetxController {
   static AssetsController get con => Get.find();
 
-  final isLoaded = false.obs;
-
   final _assetsDictionary = AssetsDictionaryResponse().obs;
   AssetsDictionaryResponse get assetsDictionary => this._assetsDictionary.value;
   set assetsDictionary(AssetsDictionaryResponse value) =>
@@ -34,20 +32,11 @@ class AssetsController extends GetxController {
           List<AmountInBaseAssetResponse_AmountInBasePayload> value) =>
       this._amountsInBase.assignAll(value);
 
-  @override
-  void onReady() async {
+  Future<void> initialize() async {
     await getAssetsDictionary();
     await getAssetPairs();
     await getBaseAsset();
     await getAmountsInBase();
-    isLoaded.value = true;
-    super.onReady();
-  }
-
-  @override
-  Future<void> onClose() async {
-    isLoaded.value = false;
-    super.onClose();
   }
 
   Asset assetById(String id) =>

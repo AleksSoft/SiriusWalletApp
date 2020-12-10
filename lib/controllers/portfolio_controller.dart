@@ -3,7 +3,6 @@ import 'package:antares_wallet/models/portfolio_history_filter.dart';
 import 'package:antares_wallet/repositories/portfolio_repository.dart';
 import 'package:antares_wallet/src/apiservice.pbgrpc.dart';
 import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
-import 'package:antares_wallet/ui/pages/root/root_controller.dart';
 import 'package:get/get.dart';
 
 class PortfolioController extends GetxController {
@@ -28,19 +27,7 @@ class PortfolioController extends GetxController {
   var historyItems = List<FundsResponse_FundsModel>().obs;
 
   @override
-  void onInit() async {
-    ever(_assetsController.isLoaded, (loaded) {
-      if (loaded) {
-        rebuildPortfolioAssets();
-        reloadHistory(silent: true);
-      }
-    });
-    ever(RootController.con.pageIndexObs, (pageIndex) {
-      if (pageIndex == 1) {
-        rebuildPortfolioAssets();
-        reloadHistory();
-      }
-    });
+  void onInit() {
     ever(
       _hideZeros,
       (hide) => categoryAssetsMap = _mergeMap(categoryAssetsMap),
@@ -52,6 +39,11 @@ class PortfolioController extends GetxController {
   void onReady() {
     super.onReady();
     loading = true;
+  }
+
+  Future<void> initialize() async {
+    rebuildPortfolioAssets();
+    reloadHistory(silent: true);
   }
 
   double get balanceSum => balances.fold(

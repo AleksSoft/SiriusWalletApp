@@ -4,7 +4,6 @@ import 'package:antares_wallet/models/orders_history_filter.dart';
 import 'package:antares_wallet/repositories/trading_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
-import 'package:antares_wallet/ui/pages/root/root_controller.dart';
 import 'package:get/get.dart';
 
 import 'assets_controller.dart';
@@ -13,7 +12,6 @@ class OrdersController extends GetxController {
   static OrdersController get con => Get.find();
 
   final _assetsCon = Get.find<AssetsController>();
-  final _rootCon = Get.find<RootController>();
 
   final orders = <OrderOpenData>[].obs;
 
@@ -25,21 +23,9 @@ class OrdersController extends GetxController {
 
   OrdersHistoryFilter _filter;
 
-  @override
-  void onInit() {
-    ever(_assetsCon.isLoaded, (bool inited) {
-      if (inited) {
-        getOrders();
-        reloadHistory(silent: true);
-      }
-    });
-    ever(_rootCon.pageIndexObs, (int pageIndex) {
-      if (pageIndex == 3) {
-        getOrders();
-        reloadHistory();
-      }
-    });
-    super.onInit();
+  Future<void> initialize() async {
+    getOrders();
+    reloadHistory(silent: true);
   }
 
   Future<void> getOrders() => TradingRepository.getOrders().then(

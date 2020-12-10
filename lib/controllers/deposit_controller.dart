@@ -1,5 +1,6 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/utils/utils.dart';
+import 'package:antares_wallet/controllers/app_controller.dart';
 import 'package:antares_wallet/repositories/profile_repository.dart';
 import 'package:antares_wallet/repositories/settings_repository.dart';
 import 'package:antares_wallet/repositories/wallet_repository.dart';
@@ -9,7 +10,6 @@ import 'package:antares_wallet/ui/pages/banking/deposit/card_deposit_page.dart';
 import 'package:antares_wallet/ui/pages/banking/deposit/card_deposit_web_page.dart';
 import 'package:antares_wallet/ui/pages/banking/deposit/swift_deposit_page.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_main.dart';
-import 'package:antares_wallet/ui/pages/root/root_controller.dart';
 import 'package:antares_wallet/ui/widgets/asset_list_tile.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';
 import 'package:flutter/material.dart';
@@ -107,7 +107,7 @@ class DepositController extends GetxController {
         },
       );
     } else {
-      RootController.con.pageIndex = 4;
+      AppController.con.pageIndexObs.value = 4;
       Get.offNamed(UpgradeAccountMainPage.route);
     }
     loading = false;

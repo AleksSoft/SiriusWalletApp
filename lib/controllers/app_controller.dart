@@ -6,28 +6,53 @@ import 'package:antares_wallet/services/local_auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class RootController extends GetxController with WidgetsBindingObserver {
-  static RootController get con => Get.find();
+import 'assets_controller.dart';
+import 'markets_controller.dart';
+import 'orders_controller.dart';
+import 'portfolio_controller.dart';
+
+class AppController extends GetxController with WidgetsBindingObserver {
+  static AppController get con => Get.find();
 
   final _localAuth = Get.find<LocalAuthService>();
 
+  final _assetsCon = Get.find<AssetsController>();
+  final _marketsCon = Get.find<MarketsController>();
+  final _ordersCon = Get.find<OrdersController>();
+  final _portfolioCon = Get.find<PortfolioController>();
+
+  final loading = false.obs;
+
   final pageIndexObs = 0.obs;
-  get pageIndex => this.pageIndexObs.value;
-  set pageIndex(value) => this.pageIndexObs.value = value;
 
   Timer _prolongSessionTimer;
 
-  bool isSelected(int index) => pageIndex == index;
+  bool isSelected(int index) => pageIndexObs.value == index;
 
   @override
   void onInit() {
     WidgetsBinding?.instance?.addObserver(this);
+    ever(pageIndexObs, (int pageIndex) {
+      switch (pageIndex) {
+        case 1:
+          _portfolioCon.initialize();
+          break;
+        case 2:
+          _marketsCon.initialize();
+          break;
+        case 3:
+          _ordersCon.initialize();
+          break;
+        default:
+          break;
+      }
+    });
     super.onInit();
   }
 
   @override
   void onReady() {
-    _startTimer();
+    _initialize();
     super.onReady();
   }
 
@@ -51,12 +76,23 @@ class RootController extends GetxController with WidgetsBindingObserver {
     }
   }
 
-  void _startTimer() => _prolongateSession().then(
+  /// initialised app controllers
+  Future<void> _initialize() async {
+    loading.toggle();
+    await _assetsCon.initialize();
+    await _marketsCon.initialize();
+    await _ordersCon.initialize();
+    await _portfolioCon.initialize();
+    loading.toggle();
+    _startTimer();
+  }
+
+  void _startTimer() => _prolongSession().then(
         (result) {
           if (result) {
             _prolongSessionTimer = Timer.periodic(
               const Duration(seconds: 59),
-              (Timer _) async => await _prolongateSession(),
+              (Timer _) async => await _prolongSession(),
             );
           }
         },
@@ -64,7 +100,7 @@ class RootController extends GetxController with WidgetsBindingObserver {
 
   void _stopTimer() => _prolongSessionTimer?.cancel();
 
-  Future<bool> _prolongateSession() async {
+  Future<bool> _prolongSession() async {
     bool success = await SessionRepository.prolongateSession();
     AppLog.loggerNoStack.d('session prolongation result = $success');
     if (!success) {

@@ -6,7 +6,6 @@ import 'package:antares_wallet/repositories/markets_repository.dart';
 import 'package:antares_wallet/repositories/watchists_repository.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
-import 'package:antares_wallet/ui/pages/root/root_controller.dart';
 import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
 import 'package:flutter/foundation.dart';
@@ -73,24 +72,22 @@ class MarketsController extends GetxController {
   }
 
   @override
-  void onReady() async {
-    ever(_assetsController.isLoaded, (loaded) async {
-      if (loaded) await rebuildWatchedMarkets();
-    });
-    ever(RootController.con.pageIndexObs, (pageIndex) async {
-      if (pageIndex == 2) await rebuildWatchedMarkets();
-    });
+  void onInit() {
     _priceSubscription = _api.clientSecure
         .getPriceUpdates(PriceUpdatesRequest())
         .asBroadcastStream()
         .listen((PriceUpdate update) => _updateMarket(update));
-    super.onReady();
+    super.onInit();
   }
 
   @override
   Future<void> onClose() async {
     if (_priceSubscription != null) await _priceSubscription.cancel();
     super.onClose();
+  }
+
+  Future<void> initialize() async {
+    await rebuildWatchedMarkets();
   }
 
   MarketModel marketModelByPairId(String pairId) =>

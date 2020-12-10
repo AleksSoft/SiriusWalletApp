@@ -1,7 +1,7 @@
+import 'package:antares_wallet/controllers/app_controller.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/asset_info/asset_info_page.dart';
 import 'package:antares_wallet/ui/pages/more/support/support_page.dart';
-import 'package:antares_wallet/ui/pages/root/root_controller.dart';
 import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +14,7 @@ import 'withdrawal_controller.dart';
 class HomeController extends GetxController {
   static HomeController get con => Get.find();
 
-  final rootCon = RootController.con;
+  final rootCon = AppController.con;
   final portfolioCon = PortfolioController.con;
   final assetsCon = AssetsController.con;
   final marketsCon = MarketsController.con;
@@ -27,11 +27,11 @@ class HomeController extends GetxController {
 
   void withdraw() => WithdrawalController.con.search();
 
-  void openPortfolio() => rootCon.pageIndex = 2;
+  void openPortfolio() => rootCon.pageIndexObs.value = 2;
 
   void openSupport() {
     Get.toNamed(SupportPage.route);
-    rootCon.pageIndex = 4;
+    rootCon.pageIndexObs.value = 4;
   }
 
   void openMyLykke() {
