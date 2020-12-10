@@ -18,7 +18,6 @@ class RootPageBinding extends Bindings {
     Get.put<PortfolioController>(PortfolioController());
     Get.put<OrdersController>(OrdersController());
     Get.put<MarketsController>(MarketsController());
-    // Get.put<InvestmentsController>(InvestmentsController());
     Get.put<WatchlistsController>(WatchlistsController());
     Get.put<WithdrawalController>(WithdrawalController());
     Get.put<DepositController>(DepositController());

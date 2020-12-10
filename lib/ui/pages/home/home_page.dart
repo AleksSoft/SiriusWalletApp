@@ -324,7 +324,7 @@ class _ExchangeView extends GetView<HomeController> {
             AppUiHelpers.vSpaceLarge,
             GetBuilder<MarketsController>(
               builder: (_) => AnimatedSwitcher(
-                duration: const Duration(microseconds: 300),
+                duration: Get.defaultTransitionDuration,
                 child: _.watchedMarkets.isNotEmpty
                     ? GridView.count(
                         physics: NeverScrollableScrollPhysics(),
@@ -350,8 +350,8 @@ class _ExchangeView extends GetView<HomeController> {
 
 class _ExchangePairView extends GetView<HomeController> {
   _ExchangePairView(this.model, {Key key}) : super(key: key);
-  final MarketModel model;
 
+  final MarketModel model;
   final textStyle = Get.textTheme.button;
 
   @override
