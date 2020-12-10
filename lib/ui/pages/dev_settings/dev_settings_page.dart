@@ -58,6 +58,15 @@ class DevSettingsPage extends GetView<DevSettingsController> {
                       ),
                     ),
                   ),
+                  Obx(
+                    () => ListTile(
+                      title: Text(
+                        controller.appVersion.value,
+                        style: Get.textTheme.caption,
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
