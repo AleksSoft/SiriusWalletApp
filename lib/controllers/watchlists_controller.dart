@@ -28,8 +28,13 @@ class WatchlistsController extends GetxController {
 
     // set selected watchlist
     String id = _storage.read(AppStorageKeys.watchlistId);
-    if (id == null || id.isEmpty) {
-      selected = watchlists.isEmpty ? Watchlist() : watchlists.first;
+    if (id.isNullOrBlank) {
+      if (watchlists.isNotEmpty) {
+        selected = watchlists.first;
+        await _storage.write(AppStorageKeys.watchlistId, selected.id);
+      } else {
+        selected = Watchlist();
+      }
     } else {
       selected = await WatchlistsRepository.getWatchlist(id);
     }
