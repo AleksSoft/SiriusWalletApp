@@ -16,6 +16,8 @@ enum AssetInfoPeriod { h24, week, month, year }
 class AssetInfoController extends GetxController {
   static AssetInfoController get con => Get.find();
 
+  final _assetCon = AssetsController.con;
+
   final _dateFormat = DateFormat().addPattern('dd.MM.yy HH:mm:ss');
 
   final Asset asset = Get.arguments as Asset;
@@ -73,19 +75,17 @@ class AssetInfoController extends GetxController {
   }
 
   Future<void> getTrades() async {
-    List<AssetTradesResponse_AssetTradeModel> assetTrades =
-        await TradingRepository.getAssetTrades(
+    final assetTrades = await TradingRepository.getAssetTrades(
       assetId: asset.id,
       take: 50,
       skip: 0,
     );
     var resultList = List<OrderHistoryData>();
     if (assetTrades != null && assetTrades.isNotEmpty) {
-      final assetC = AssetsController.con;
       assetTrades.forEach((AssetTradesResponse_AssetTradeModel model) {
-        AssetPair assetPair = assetC.assetPairById(model.assetPairId);
-        Asset baseAsset = assetC.assetById(assetPair?.baseAssetId);
-        Asset quotingAsset = assetC.assetById(assetPair?.quotingAssetId);
+        AssetPair assetPair = _assetCon.assetPairById(model.assetPairId);
+        Asset baseAsset = _assetCon.assetById(assetPair?.baseAssetId);
+        Asset quotingAsset = _assetCon.assetById(assetPair?.quotingAssetId);
         if (assetPair != null && baseAsset != null && quotingAsset != null) {
           double priceDouble = (double.tryParse(model.price) ?? 0.0);
           double amountDouble = double.tryParse(model.amount) ?? 0.0;

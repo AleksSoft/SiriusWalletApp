@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 
 import 'asset_icon.dart';
 
-class AssetListTile extends StatelessWidget {
+class AssetListTile extends GetView<AssetsController> {
   final VoidCallback onTap;
   final Asset asset;
 
@@ -21,7 +21,6 @@ class AssetListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var balance = PortfolioController.con.assetBalance(asset.id);
-
     return Column(
       children: [
         ListTile(
@@ -56,11 +55,9 @@ class AssetListTile extends StatelessWidget {
               AppUiHelpers.vSpaceSmall,
               Text(
                 Formatter.currency(
-                  AssetsController.con
-                      .countBalanceInBase(asset.id, balance)
-                      .toString(),
-                  prefix: AssetsController.con.baseAsset?.displayId,
-                  fractionDigits: AssetsController.con.baseAsset?.accuracy,
+                  controller.countBalanceInBase(asset.id, balance).toString(),
+                  prefix: controller.baseAsset?.displayId,
+                  fractionDigits: controller.baseAsset?.accuracy,
                 ),
                 style: Get.textTheme.caption,
               )

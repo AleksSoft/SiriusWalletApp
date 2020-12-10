@@ -22,8 +22,13 @@ class RootController extends GetxController with WidgetsBindingObserver {
   @override
   void onInit() {
     WidgetsBinding?.instance?.addObserver(this);
-    _startTimer();
     super.onInit();
+  }
+
+  @override
+  void onReady() {
+    _startTimer();
+    super.onReady();
   }
 
   @override

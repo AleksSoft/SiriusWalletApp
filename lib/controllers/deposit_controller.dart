@@ -24,6 +24,8 @@ enum DepositMode { swift, card, blockchain }
 class DepositController extends GetxController {
   static DepositController get con => Get.find();
 
+  final _assetsCon = AssetsController.con;
+
   var assetSwiftCreds = SwiftCredentialsResponse_SwiftCredentials();
   var depositCryptoAddress =
       CryptoDepositAddressResponse_CryptoDepositAddress();
@@ -147,10 +149,9 @@ class DepositController extends GetxController {
         context: Get.context,
         delegate: SearchPage<Asset>(
           showItemsOnEmpty: true,
-          items: AssetsController.con.assetList
+          items: _assetsCon.assetList
               .where(
-                (a) => a.cardDeposit || a.swiftDeposit || a.blockchainDeposit,
-              )
+                  (a) => a.cardDeposit || a.swiftDeposit || a.blockchainDeposit)
               .toList(),
           searchLabel: 'select_asset'.tr,
           filter: (Asset asset) => [

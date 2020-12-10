@@ -61,6 +61,7 @@ class PortfolioAssetsTabView extends GetView<PortfolioController> {
 }
 
 class _PortfolioAssetsHeader extends GetView<PortfolioController> {
+  final assetsCon = AssetsController.con;
   @override
   Widget build(BuildContext context) {
     final titleTheme = Get.textTheme.headline5.copyWith(
@@ -80,8 +81,8 @@ class _PortfolioAssetsHeader extends GetView<PortfolioController> {
             () => Text(
               Formatter.currency(
                 controller.balanceSum.toString(),
-                prefix: AssetsController.con.baseAsset?.displayId,
-                fractionDigits: AssetsController.con.baseAsset?.accuracy,
+                prefix: assetsCon.baseAsset?.displayId,
+                fractionDigits: assetsCon.baseAsset?.accuracy,
               ),
               style: titleTheme,
             ),

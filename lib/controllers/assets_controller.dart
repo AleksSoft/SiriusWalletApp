@@ -27,8 +27,7 @@ class AssetsController extends GetxController {
 
   var assetPairs = List<AssetPair>().obs;
 
-  var _amountsInBase =
-      List<AmountInBaseAssetResponse_AmountInBasePayload>().obs;
+  var _amountsInBase = <AmountInBaseAssetResponse_AmountInBasePayload>[].obs;
   List<AmountInBaseAssetResponse_AmountInBasePayload> get amountsInBase =>
       this._amountsInBase;
   set amountsInBase(

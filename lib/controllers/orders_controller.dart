@@ -1,4 +1,5 @@
 import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/models/order_open_data.dart';
 import 'package:antares_wallet/models/orders_history_filter.dart';
 import 'package:antares_wallet/repositories/trading_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
@@ -11,37 +12,38 @@ import 'assets_controller.dart';
 class OrdersController extends GetxController {
   static OrdersController get con => Get.find();
 
-  final _assetsController = Get.find<AssetsController>();
+  final _assetsCon = Get.find<AssetsController>();
+  final _rootCon = Get.find<RootController>();
 
-  OrdersHistoryFilter _filter;
+  final orders = <OrderOpenData>[].obs;
 
-  final orders = List<LimitOrderModel>().obs;
-
-  final trades = List<TradesResponse_TradeModel>().obs;
+  final trades = <TradesResponse_TradeModel>[].obs;
 
   final _loading = false.obs;
   get loading => this._loading.value;
   set loading(value) => this._loading.value = value;
 
+  OrdersHistoryFilter _filter;
+
   @override
-  void onInit() async {
-    ever(_assetsController.isLoaded, (inited) async {
+  void onInit() {
+    ever(_assetsCon.isLoaded, (bool inited) {
       if (inited) {
-        await getOrders();
-        await reloadHistory(silent: true);
+        getOrders();
+        reloadHistory(silent: true);
       }
     });
-    ever(RootController.con.pageIndexObs, (pageIndex) async {
+    ever(_rootCon.pageIndexObs, (int pageIndex) {
       if (pageIndex == 3) {
-        await getOrders();
-        await reloadHistory();
+        getOrders();
+        reloadHistory();
       }
     });
     super.onInit();
   }
 
-  Future<void> getOrders() async =>
-      orders.assignAll(await TradingRepository.getOrders());
+  Future<void> getOrders() => TradingRepository.getOrders().then(
+      (List<LimitOrderModel> orderList) => _generateOrderDataList(orderList));
 
   Future<List<TradesResponse_TradeModel>> getTrades(
     int take,
@@ -88,6 +90,33 @@ class OrdersController extends GetxController {
     if (!silent) loading = false;
   }
 
+  Future<bool> cancelOrder(String id) async =>
+      await TradingRepository.cancelOrder(id).whenComplete(() => getOrders());
+
+  Future<OrderModel> placeLimitOrder(
+    String assetId,
+    String assetPairId,
+    double volume,
+    double price,
+  ) async =>
+      await TradingRepository.placeLimitOrder(
+        assetId: assetId,
+        assetPairId: assetPairId,
+        volume: volume,
+        price: price,
+      );
+
+  Future<OrderModel> placeMarketOrder(
+    String assetId,
+    String assetPairId,
+    double volume,
+  ) async =>
+      await TradingRepository.placeMarketOrder(
+        assetId: assetId,
+        assetPairId: assetPairId,
+        volume: volume,
+      );
+
   void cancelAllOrders() => Get.defaultDialog(
         title: 'Cancel all orders',
         middleText: 'Are you sure?',
@@ -104,33 +133,6 @@ class OrdersController extends GetxController {
         onCancel: () {},
       );
 
-  Future cancelOrder(String id) async =>
-      await TradingRepository.cancelOrder(id).then((value) => getOrders());
-
-  placeLimitOrder(
-    String assetId,
-    String assetPairId,
-    double volume,
-    double price,
-  ) async =>
-      await TradingRepository.placeLimitOrder(
-        assetId: assetId,
-        assetPairId: assetPairId,
-        volume: volume,
-        price: price,
-      );
-
-  placeMarketOrder(
-    String assetId,
-    String assetPairId,
-    double volume,
-  ) async =>
-      await TradingRepository.placeMarketOrder(
-        assetId: assetId,
-        assetPairId: assetPairId,
-        volume: volume,
-      );
-
   Future<bool> confirmDismiss(String id) async => await Get.defaultDialog(
         title: 'Cancel order',
         middleText: 'Are you sure?',
@@ -143,4 +145,21 @@ class OrdersController extends GetxController {
         },
         onCancel: () => Get.back(result: false),
       );
+
+  void _generateOrderDataList(List<LimitOrderModel> limitOrders) {
+    var list = <OrderOpenData>[];
+    limitOrders?.forEach((order) {
+      AssetPair assetPair = _assetsCon.assetPairById(order.assetPair);
+      Asset baseAsset = _assetsCon.assetById(assetPair?.baseAssetId);
+      Asset quotingAsset = _assetsCon.assetById(assetPair?.quotingAssetId);
+      if (assetPair != null && baseAsset != null && quotingAsset != null) {
+        list.add(OrderOpenData.fromOrder(
+          baseAsset.name,
+          quotingAsset.name,
+          order,
+        ));
+      }
+    });
+    orders.assignAll(list);
+  }
 }

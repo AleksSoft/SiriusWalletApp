@@ -35,7 +35,7 @@ class ProfileController extends GetxController {
   bool get hasAccountInfo => !personalData.address.isNullOrBlank;
 
   String addressValue;
-  String apartamentValue;
+  String apartmentValue;
   String zipCodeValue;
 
   @override
@@ -73,10 +73,10 @@ class ProfileController extends GetxController {
 
   Future<void> submitAddress() async {
     if (validateAddress(addressValue) == null &&
-        validateAddress(apartamentValue) == null &&
+        validateAddress(apartmentValue) == null &&
         validateAddress(zipCodeValue) == null) {
       await ProfileRepository.setAddress(
-        address: '$addressValue $apartamentValue',
+        address: '$addressValue $apartmentValue',
       );
       await ProfileRepository.setZip(zip: zipCodeValue);
       await reloadData();

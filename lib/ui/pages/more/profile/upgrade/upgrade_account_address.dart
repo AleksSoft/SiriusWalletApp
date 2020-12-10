@@ -43,8 +43,8 @@ class UpgradeAccountAddress extends StatelessWidget {
                 children: [
                   Flexible(
                     child: TextFormField(
-                      onChanged: (String s) => c.apartamentValue = s,
-                      initialValue: c.apartamentValue,
+                      onChanged: (String s) => c.apartmentValue = s,
+                      initialValue: c.apartmentValue,
                       keyboardType: TextInputType.streetAddress,
                       validator: (String value) => c.validateAddress(value),
                       decoration: InputDecoration(
