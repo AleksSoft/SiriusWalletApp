@@ -504,9 +504,16 @@ class _LykkeListTile extends GetView<HomeController> {
         children: [
           AssetIcon(asset.iconUrl, AppSizes.medium),
           AppUiHelpers.hSpaceExtraSmall,
-          Text(
-            asset.name,
-            style: Get.textTheme.caption,
+          LimitedBox(
+            maxWidth: 120,
+            child: Text(
+              asset.name,
+              maxLines: 1,
+              softWrap: false,
+              textAlign: TextAlign.left,
+              overflow: TextOverflow.ellipsis,
+              style: Get.textTheme.caption,
+            ),
           ),
         ],
       ),
