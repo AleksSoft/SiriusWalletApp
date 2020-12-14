@@ -36,6 +36,7 @@ class LocalAuthService {
     bool checkLocalAuth = await LocalAuthService.canCheckBiometrics;
     var pinCorrect = await Get.to(
       LocalAuthPage(checkLocalAuth: checkLocalAuth),
+      fullscreenDialog: true,
     );
     if (pinCorrect ?? false) {
       String pin = _storage.read(AppStorageKeys.pinCode);

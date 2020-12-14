@@ -11,7 +11,7 @@ class WatchlistsController extends GetxController {
   static WatchlistsController get con => Get.find();
   final _storage = GetStorage();
 
-  final watchlists = List<Watchlist>().obs;
+  final watchlists = <Watchlist>[].obs;
 
   final _selected = Watchlist().obs;
   get selected => this._selected.value;

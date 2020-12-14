@@ -27,7 +27,7 @@ class TradingController extends GetxController {
 
   bool allCandlesLoaded = false;
 
-  final List<Candle> candles = List<Candle>();
+  final List<Candle> candles = <Candle>[];
 
   final _loading = false.obs;
   get loading => this._loading.value;
@@ -55,11 +55,11 @@ class TradingController extends GetxController {
   bool get isCandleChart => this._isCandleChart.value;
   set isCandleChart(bool value) => this._isCandleChart.value = value;
 
-  final asks = List<Orderbook_PriceVolume>().obs;
+  final asks = <Orderbook_PriceVolume>[].obs;
 
-  final bids = List<Orderbook_PriceVolume>().obs;
+  final bids = <Orderbook_PriceVolume>[].obs;
 
-  final trades = List<PublicTrade>().obs;
+  final trades = <PublicTrade>[].obs;
 
   final _noCandleData = false.obs;
   bool get noCandleData => this._noCandleData.value;

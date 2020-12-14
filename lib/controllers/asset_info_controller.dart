@@ -35,13 +35,13 @@ class AssetInfoController extends GetxController {
   MarketModel get selectedMarket => this._selectedMarket.value;
   set selectedMarket(MarketModel value) => this._selectedMarket.value = value;
 
-  final trades = List<OrderHistoryData>().obs;
+  final trades = <OrderHistoryData>[].obs;
 
-  final funds = List<FundsResponse_FundsModel>().obs;
+  final funds = <FundsResponse_FundsModel>[].obs;
 
-  final markets = List<MarketModel>().obs;
+  final markets = <MarketModel>[].obs;
 
-  final candles = List<Candle>().obs;
+  final candles = <Candle>[].obs;
 
   bool get seeAllActive => markets.length > 3;
 
@@ -80,7 +80,7 @@ class AssetInfoController extends GetxController {
       take: 50,
       skip: 0,
     );
-    var resultList = List<OrderHistoryData>();
+    var resultList = <OrderHistoryData>[];
     if (assetTrades != null && assetTrades.isNotEmpty) {
       assetTrades.forEach((AssetTradesResponse_AssetTradeModel model) {
         AssetPair assetPair = _assetCon.assetPairById(model.assetPairId);

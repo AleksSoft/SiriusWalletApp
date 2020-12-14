@@ -103,9 +103,9 @@ class OrderDetailsController extends GetxController {
   double get midPercent => this._midPercent.value;
   set midPercent(double value) => this._midPercent.value = value;
 
-  final asks = List<Orderbook_PriceVolume>().obs;
+  final asks = <Orderbook_PriceVolume>[].obs;
 
-  final bids = List<Orderbook_PriceVolume>().obs;
+  final bids = <Orderbook_PriceVolume>[].obs;
 
   final _defaultHeight =
       (Get.height - (Get.context.mediaQueryPadding.top + 56.0));
@@ -381,7 +381,10 @@ class OrderDetailsController extends GetxController {
     // check pin if sign orders enabled
     if (_signOrders) {
       bool checkLocalAuth = await LocalAuthService.canCheckBiometrics;
-      await Get.to(LocalAuthPage(checkLocalAuth: checkLocalAuth));
+      await Get.to(
+        LocalAuthPage(checkLocalAuth: checkLocalAuth),
+        fullscreenDialog: true,
+      );
     }
 
     // place order

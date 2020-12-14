@@ -39,7 +39,7 @@ class AssetsRepository {
       () => _api.clientSecure.getAssetPairs(Empty()),
       method: 'getAssetPairs',
     );
-    return response?.assetPairs ?? List();
+    return response?.assetPairs ?? [];
   }
 
   static Future<List<AmountInBaseAssetResponse_AmountInBasePayload>>
@@ -50,6 +50,6 @@ class AssetsRepository {
       ),
       method: 'getAmountInBaseAsset',
     );
-    return response?.values ?? List();
+    return response?.values ?? [];
   }
 }

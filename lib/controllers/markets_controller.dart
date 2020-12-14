@@ -23,9 +23,9 @@ class MarketsController extends GetxController {
   final _storage = GetStorage();
   final _assetsController = Get.find<AssetsController>();
 
-  final List<MarketModel> initialMarketList = List<MarketModel>();
+  final List<MarketModel> initialMarketList = <MarketModel>[];
 
-  List<MarketModel> _watchedMarkets = List<MarketModel>();
+  List<MarketModel> _watchedMarkets = <MarketModel>[];
   List<MarketModel> get watchedMarkets => this._watchedMarkets;
   List<MarketModel> get sortedWatchedMarkets {
     var list = List<MarketModel>.from(watchedMarkets);
@@ -116,7 +116,7 @@ class MarketsController extends GetxController {
     String id = _storage.read(AppStorageKeys.watchlistId);
     await _initMarketsListIfNeeded(force: true);
     if (!id.isNullOrBlank) {
-      List<MarketModel> result = List();
+      List<MarketModel> result = [];
       var watchlist = await WatchlistsRepository.getWatchlist(id);
       if (watchlist != null) {
         watchlist.assetIds.forEach((id) {

@@ -14,7 +14,7 @@ class PortfolioRepository {
       () => _api.clientSecure.getBalances(Empty()),
       method: 'getBalances',
     );
-    return response?.payload ?? List();
+    return response?.payload ?? [];
   }
 
   static Future<List<FundsResponse_FundsModel>> getFunds({
@@ -35,7 +35,7 @@ class PortfolioRepository {
       () => _api.clientSecure.getFunds(request),
       method: 'getFunds',
     );
-    return response?.funds ?? List();
+    return response?.funds ?? [];
   }
 
   static Future<List<ExplorerLinksResponse_ExplorerLinkModel>>

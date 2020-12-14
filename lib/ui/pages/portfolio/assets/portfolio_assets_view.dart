@@ -153,7 +153,7 @@ class _PortfolioCategoryBlock extends GetView<PortfolioController> {
   }
 
   Column _buildExpanded(List<Asset> assets) {
-    List<Asset> list = (assets?.length ?? 0) > 3 ? assets.sublist(3) : List();
+    List<Asset> list = (assets?.length ?? 0) > 3 ? assets.sublist(3) : [];
     return Column(
       children: <Widget>[
         _buildCollapsed(assets),
@@ -179,7 +179,7 @@ class _PortfolioCategoryBlock extends GetView<PortfolioController> {
     List<Asset> list =
         (assets?.length ?? 0) > 3 ? assets.sublist(0, 3) : assets;
     return Column(
-      children: (list ?? List<Asset>())
+      children: (list ?? <Asset>[])
           .map((a) => AssetListTile(
                 a,
                 onTap: () => Get.toNamed(AssetInfoPage.route, arguments: a),

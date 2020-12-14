@@ -13,7 +13,7 @@ class DisclaimersRepository {
       () => _api.clientSecure.getAssetDisclaimers(Empty()),
       method: 'getAssetDisclaimers',
     );
-    return response?.result?.disclaimers ?? List();
+    return response?.result?.disclaimers ?? [];
   }
 
   static Future<bool> approveAssetDisclaimer({

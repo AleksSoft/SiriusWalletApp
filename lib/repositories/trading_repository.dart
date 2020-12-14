@@ -48,7 +48,7 @@ class TradingRepository {
       () => _api.clientSecure.getOrders(request),
       method: 'getOrders',
     );
-    return response?.result?.orders ?? List();
+    return response?.result?.orders ?? [];
   }
 
   static Future<List<TradesResponse_TradeModel>> getTrades({
@@ -70,7 +70,7 @@ class TradingRepository {
       () => _api.clientSecure.getTrades(request),
       method: 'getTrades',
     );
-    return response?.trades ?? List();
+    return response?.trades ?? [];
   }
 
   static Future<List<AssetTradesResponse_AssetTradeModel>> getAssetTrades({
@@ -87,7 +87,7 @@ class TradingRepository {
       ),
       method: 'getAssetTrades',
     );
-    return response?.trades ?? List();
+    return response?.trades ?? [];
   }
 
   static Future<bool> cancelOrder(String orderId) async {

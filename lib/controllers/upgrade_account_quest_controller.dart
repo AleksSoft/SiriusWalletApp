@@ -44,7 +44,7 @@ class UpgradeAccountQuestController extends GetxController {
       (q) => q.id == questionId,
       orElse: () => null,
     );
-    List<int> resultList = List();
+    List<int> resultList = [];
     if (question != null) {
       var answer = answerById(questionId);
       if (answer != null) {

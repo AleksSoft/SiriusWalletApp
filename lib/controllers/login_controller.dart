@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/repositories/session_repository.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
+import 'package:antares_wallet/services/local_auth_service.dart';
 import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
 import 'package:antares_wallet/ui/pages/root/root_page.dart';
 import 'package:flutter/material.dart';
@@ -123,11 +124,15 @@ class LoginController extends GetxController {
 
   Future<void> _verifyPin(String token) async {
     await _storage.write(AppStorageKeys.token, token);
+    bool canCheckBio = await LocalAuthService.canCheckBiometrics;
+    bool pinExists = _storage.hasData(AppStorageKeys.pinCode);
+
     var pinCorrect = await Get.to(
       LocalAuthPage(
-        checkLocalAuth: false,
+        checkLocalAuth: canCheckBio && pinExists,
         isCloseVisible: false,
       ),
+      fullscreenDialog: true,
     );
     if (pinCorrect ?? false) {
       await Get.find<ApiService>().update();

@@ -23,7 +23,7 @@ class AssetsController extends GetxController {
   Asset get baseAsset =>
       assetList.firstWhere((a) => a.id == baseAssetId, orElse: () => null);
 
-  var assetPairs = List<AssetPair>().obs;
+  var assetPairs = <AssetPair>[].obs;
 
   var _amountsInBase = <AmountInBaseAssetResponse_AmountInBasePayload>[].obs;
   List<AmountInBaseAssetResponse_AmountInBasePayload> get amountsInBase =>

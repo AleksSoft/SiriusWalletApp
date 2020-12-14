@@ -22,9 +22,9 @@ class PortfolioController extends GetxController {
 
   var categoryAssetsMap = Map<AssetCategory, List<Asset>>().obs;
 
-  var balances = List<Balance>().obs;
+  var balances = <Balance>[].obs;
 
-  var historyItems = List<FundsResponse_FundsModel>().obs;
+  var historyItems = <FundsResponse_FundsModel>[].obs;
 
   @override
   void onInit() {
@@ -60,9 +60,9 @@ class PortfolioController extends GetxController {
       orElse: () => null,
     );
     if (category != null) {
-      return categoryAssetsMap[category] ?? List();
+      return categoryAssetsMap[category] ?? [];
     } else {
-      return List();
+      return [];
     }
   }
 

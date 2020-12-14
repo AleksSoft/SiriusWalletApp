@@ -41,7 +41,7 @@ class RegisterController extends GetxController {
   DateTime get timerValue => this._timerValue.value;
   set timerValue(DateTime value) => this._timerValue.value = value;
 
-  final countries = List<Country>().obs;
+  final countries = <Country>[].obs;
 
   // token
   String token = '';
@@ -226,11 +226,14 @@ class RegisterController extends GetxController {
   }
 
   _proceedPassword() async {
-    await Get.to(LocalAuthPage(
-      isCreatePin: true,
-      checkLocalAuth: false,
-      isCloseVisible: false,
-    ));
+    await Get.to(
+      LocalAuthPage(
+        isCreatePin: true,
+        checkLocalAuth: false,
+        isCloseVisible: false,
+      ),
+      fullscreenDialog: true,
+    );
     Get.to(RegisterResultPage(), fullscreenDialog: true);
 
     List<int> utf8Password = utf8.encode(passwordValue);

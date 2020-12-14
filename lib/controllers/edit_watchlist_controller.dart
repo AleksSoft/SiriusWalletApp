@@ -13,7 +13,7 @@ class EditWatchlistController extends GetxController {
 
   final Watchlist _originalWatchlist = Get.arguments as Watchlist;
 
-  final List<AssetPair> _checkedAssetPairs = List();
+  final List<AssetPair> _checkedAssetPairs = [];
 
   List<AssetPair> get selectedPairs => _checkedAssetPairs;
 

@@ -10,7 +10,7 @@ class DisclaimersController extends GetxController {
 
   final pageController = PageController();
 
-  final disclaimers = List<AssetDisclaimer>().obs;
+  final disclaimers = <AssetDisclaimer>[].obs;
 
   final _loading = false.obs;
   bool get loading => this._loading.value;

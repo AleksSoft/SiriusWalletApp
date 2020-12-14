@@ -15,6 +15,6 @@ class MarketsRepository {
       () => _api.clientSecure.getMarkets(request),
       method: 'getMarkets',
     );
-    return response?.markets ?? List();
+    return response?.markets ?? [];
   }
 }
