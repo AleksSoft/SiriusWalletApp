@@ -90,6 +90,7 @@ class _StartFooter extends StatelessWidget {
         horizontal: AppSizes.large,
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
           RaisedGradientButton(
@@ -107,7 +108,7 @@ class _StartFooter extends StatelessWidget {
             child: Text(
               "REGISTER",
               textAlign: TextAlign.center,
-              style: style.copyWith(
+              style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
@@ -116,7 +117,7 @@ class _StartFooter extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(
               right: AppSizes.small,
-              top: AppSizes.medium,
+              top: AppSizes.small,
               left: AppSizes.small,
             ),
             child: Row(
@@ -141,16 +142,16 @@ class _StartFooter extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
-            height: 40.0,
-            child: FlatButton(
-              onPressed: () => Get.toNamed(LoginPage.route),
+          InkWell(
+            onTap: () => Get.toNamed(LoginPage.route),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: AppSizes.small,
+              ),
               child: Text(
                 "SIGN IN",
                 textAlign: TextAlign.center,
-                style: style.copyWith(
-                  color: AppColors.secondary,
-                ),
+                style: TextStyle(color: AppColors.secondary),
               ),
             ),
           ),
@@ -217,7 +218,13 @@ class _StartPager extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset('assets/images/onboarding/$imageName.png'),
+            Flexible(
+              child: Image.asset(
+                'assets/images/onboarding/$imageName.png',
+                alignment: Alignment.topCenter,
+                fit: BoxFit.fitHeight,
+              ),
+            ),
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
