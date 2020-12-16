@@ -320,8 +320,18 @@ class _AdditionalDataScreen extends StatelessWidget {
           country.prefix,
         ],
         builder: (country) => ListTile(
-          title: Text(country.name),
-          subtitle: Text(country.prefix),
+          title: Text(
+            country.name,
+            style: TextStyle(
+              color: AppColors.dark,
+            ),
+          ),
+          subtitle: Text(
+            country.prefix,
+            style: TextStyle(
+              color: AppColors.secondary,
+            ),
+          ),
           onTap: () {
             c.countryValue = country;
             c.countryController.text = country.name;
@@ -419,8 +429,18 @@ class _PhoneScreen extends StatelessWidget {
           country.prefix,
         ],
         builder: (country) => ListTile(
-          title: Text(country.name),
-          subtitle: Text(country.prefix),
+          title: Text(
+            country.name,
+            style: TextStyle(
+              color: AppColors.dark,
+            ),
+          ),
+          subtitle: Text(
+            country.prefix,
+            style: TextStyle(
+              color: AppColors.secondary,
+            ),
+          ),
           onTap: () {
             c.phonePrefix = country.prefix;
             Get.back();
