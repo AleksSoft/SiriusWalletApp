@@ -16,9 +16,7 @@ class PortfolioController extends GetxController {
   get loading => this._loading.value;
   set loading(value) => this._loading.value = value;
 
-  final _hideZeros = false.obs;
-  get hideZeros => this._hideZeros.value;
-  set hideZeros(value) => this._hideZeros.value = value;
+  final hideZeros = false.obs;
 
   var categoryAssetsMap = Map<AssetCategory, List<Asset>>().obs;
 
@@ -29,8 +27,8 @@ class PortfolioController extends GetxController {
   @override
   void onInit() {
     ever(
-      _hideZeros,
-      (hide) => categoryAssetsMap = _mergeMap(categoryAssetsMap),
+      hideZeros,
+      (hide) => categoryAssetsMap.assignAll(_mergeMap(categoryAssetsMap)),
     );
     super.onInit();
   }
@@ -50,6 +48,9 @@ class PortfolioController extends GetxController {
         0.0,
         (p, c) => p + _assetsController.countBalanceInBase(c.assetId, c),
       );
+
+  String get hideZerosButtonTitle =>
+      this.hideZeros.value ? 'Show all' : 'Hide zeros';
 
   Balance assetBalance(String assetId) =>
       balances.firstWhere((b) => b.assetId == assetId, orElse: () => null);
@@ -121,10 +122,12 @@ class PortfolioController extends GetxController {
     if (!silent) loading = false;
   }
 
-  Map<AssetCategory, List<Asset>> _mergeMap(Map oldMap) {
+  Map<AssetCategory, List<Asset>> _mergeMap(
+    Map<AssetCategory, List<Asset>> oldMap,
+  ) {
     var mergedMap = Map<AssetCategory, List<Asset>>.from(oldMap);
     _assetsController.categoryList.forEach((category) {
-      var l = hideZeros
+      var l = hideZeros.value
           ? _assetsController
               .categoryAssets(category.id)
               .where((a) => _assetBalance(a.id) > 0)

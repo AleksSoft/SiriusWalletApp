@@ -40,11 +40,11 @@ class _StartPageContent extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       children: [
         Flexible(
-          flex: 7,
+          flex: 70,
           child: _StartPager(this.pageViewController),
         ),
         Flexible(
-          flex: 1,
+          flex: 5,
           child: Center(
             child: SmoothPageIndicator(
               controller: this.pageViewController,
@@ -61,20 +61,8 @@ class _StartPageContent extends StatelessWidget {
           ),
         ),
         Flexible(
-          flex: 2,
+          flex: 25,
           child: _StartFooter(),
-        ),
-        Visibility(
-          visible: !Get.find<AppConfig>().isProd,
-          child: Flexible(
-            flex: 1,
-            child: Center(
-              child: FlatButton(
-                onPressed: () => Get.to(DevSettingsPage()),
-                child: Text("Dev Settings", textAlign: TextAlign.center),
-              ),
-            ),
-          ),
         ),
       ],
     );
@@ -219,23 +207,27 @@ class _StartPager extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Flexible(
+              flex: 5,
               child: Image.asset(
                 'assets/images/onboarding/$imageName.png',
                 alignment: Alignment.topCenter,
                 fit: BoxFit.fitHeight,
               ),
             ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(title, style: Get.textTheme.headline5),
-                AppUiHelpers.vSpaceMedium,
-                Text(
-                  subtitle,
-                  style: Get.textTheme.button,
-                  textAlign: TextAlign.center,
-                ),
-              ],
+            Flexible(
+              flex: 1,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(title, style: TextStyle(fontSize: 18)),
+                  AppUiHelpers.vSpaceMedium,
+                  Text(
+                    subtitle,
+                    style: TextStyle(fontSize: 12),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
             ),
           ],
         ),

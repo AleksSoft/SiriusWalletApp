@@ -21,9 +21,8 @@ class PortfolioAssetsTabView extends GetView<PortfolioController> {
           child: Scaffold(
             floatingActionButton: FloatingActionButton.extended(
               heroTag: 'portfolio-assets-filter-fab',
-              label: Obx(
-                  () => Text(controller.hideZeros ? 'Show all' : 'Hide zeros')),
-              onPressed: () => controller.hideZeros = !controller.hideZeros,
+              label: Obx(() => Text(controller.hideZerosButtonTitle)),
+              onPressed: () => controller.hideZeros.toggle(),
             ),
             body: RefreshIndicator(
               color: AppColors.dark,

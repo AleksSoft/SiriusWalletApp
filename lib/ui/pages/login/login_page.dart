@@ -29,7 +29,7 @@ class LoginPage extends StatelessWidget {
               controller: c.pageViewController,
               physics: NeverScrollableScrollPhysics(),
               children: <Widget>[
-                _LoginScreen(),
+                SingleChildScrollView(child: _LoginScreen()),
                 _VerifySmsScreen(),
               ],
             ),
