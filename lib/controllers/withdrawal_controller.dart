@@ -218,7 +218,7 @@ class WithdrawalController extends GetxController {
 
   tryAgainResult() {
     Get.until((route) => route.isFirst);
-    _initialize(selectedAsset, _mode);
+    _initialize(selectedAsset, _mode, false);
   }
 
   search() => showSearch(
@@ -235,22 +235,23 @@ class WithdrawalController extends GetxController {
           ],
           builder: (asset) => AssetListTile(
             asset,
-            onTap: () {
-              if (asset.swiftWithdrawal && asset.blockchainWithdrawal) {
-                _selectDialog(asset);
-              } else if (asset.swiftWithdrawal) {
-                Get.back(closeOverlays: true);
-                _initialize(asset, WithdrawalMode.swift);
-              } else if (asset.blockchainWithdrawal) {
-                Get.back(closeOverlays: true);
-                _initialize(asset, WithdrawalMode.blockchain);
-              }
-            },
+            onTap: () => tryWithdraw(asset),
           ),
         ),
       );
 
-  void _initialize(Asset asset, WithdrawalMode mode) {
+  void tryWithdraw(Asset asset, {bool closeOverlays = true}) {
+    if (asset.swiftWithdrawal && asset.blockchainWithdrawal) {
+      _selectDialog(asset, closeOverlays);
+    } else if (asset.swiftWithdrawal) {
+      _initialize(asset, WithdrawalMode.swift, closeOverlays);
+    } else if (asset.blockchainWithdrawal) {
+      _initialize(asset, WithdrawalMode.blockchain, closeOverlays);
+    }
+  }
+
+  void _initialize(Asset asset, WithdrawalMode mode, bool closeOverlays) {
+    if (closeOverlays) Get.back(closeOverlays: true);
     selectedAsset = asset;
     _mode = mode;
     _clearAllFields();
@@ -279,7 +280,7 @@ class WithdrawalController extends GetxController {
     }
   }
 
-  void _selectDialog(Asset asset) => Get.defaultDialog(
+  void _selectDialog(Asset asset, bool closeOverlays) => Get.defaultDialog(
         title: 'Deposit',
         radius: AppSizes.small,
         content: Container(
@@ -289,20 +290,22 @@ class WithdrawalController extends GetxController {
                 visible: asset.swiftWithdrawal,
                 child: ListTile(
                   title: Text('Bank transfer'),
-                  onTap: () {
-                    Get.back(closeOverlays: true);
-                    _initialize(asset, WithdrawalMode.swift);
-                  },
+                  onTap: () => _initialize(
+                    asset,
+                    WithdrawalMode.swift,
+                    closeOverlays,
+                  ),
                 ),
               ),
               Visibility(
                 visible: asset.blockchainWithdrawal,
                 child: ListTile(
                   title: Text('Blockchain'),
-                  onTap: () {
-                    Get.back(closeOverlays: true);
-                    _initialize(asset, WithdrawalMode.blockchain);
-                  },
+                  onTap: () => _initialize(
+                    asset,
+                    WithdrawalMode.blockchain,
+                    closeOverlays,
+                  ),
                 ),
               ),
             ],

@@ -8,6 +8,7 @@ import 'package:antares_wallet/ui/widgets/asset_list_tile.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_sort_tile.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
 import 'package:antares_wallet/ui/widgets/buy_sell_button_row.dart';
+import 'package:antares_wallet/ui/widgets/deposit_withdraw_button_row.dart';
 import 'package:antares_wallet/ui/widgets/empty_reloading_view.dart';
 import 'package:antares_wallet/ui/widgets/transaction_tile.dart';
 import 'package:chips_choice/chips_choice.dart';
@@ -25,7 +26,6 @@ class AssetInfoPage extends StatelessWidget {
     Tab(text: 'details'.tr): _Details(),
     Tab(text: 'trades'.tr): _TradingHistory(),
     Tab(text: 'transfers'.tr): _TransfersHistory(),
-    // Tab(text: 'investments'.tr): InvestmentOrdersView(),
   };
 
   @override
@@ -314,21 +314,27 @@ class _TransfersHistory extends GetView<AssetInfoController> {
   Widget build(BuildContext context) {
     return GetX<AssetInfoController>(
       initState: (state) => controller.getFunds(),
-      builder: (_) {
-        return EmptyReloadingView(
-          emptyHeader: 'No transfers history yet',
-          emptyMessage: '',
-          isEmpty: _.funds.isEmpty,
-          onRefresh: () => controller.getFunds(),
-          child: ListView(
-            padding: const EdgeInsets.only(top: AppSizes.small),
-            shrinkWrap: true,
-            children: controller.funds
-                .map((trade) => TransactionTile(trade))
-                .toList(),
+      builder: (_) => Stack(
+        children: [
+          EmptyReloadingView(
+            emptyHeader: 'No transfers history yet',
+            emptyMessage: '',
+            isEmpty: _.funds.isEmpty,
+            onRefresh: () => controller.getFunds(),
+            child: ListView(
+              padding: const EdgeInsets.only(top: AppSizes.small),
+              shrinkWrap: true,
+              children: controller.funds
+                  .map((trade) => TransactionTile(trade))
+                  .toList(),
+            ),
           ),
-        );
-      },
+          Positioned(
+            bottom: 0,
+            child: DepositWithdrawalButtonRow(asset: controller.asset),
+          ),
+        ],
+      ),
     );
   }
 }

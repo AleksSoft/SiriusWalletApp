@@ -23,22 +23,8 @@ class MarketsPage extends StatelessWidget {
             onPressed: () => MarketsController.con.search(),
           ),
         ],
-        // bottom: TabBar(
-        //   indicatorWeight: 1.0,
-        //   indicatorColor: Colors.black,
-        //   tabs: <Widget>[
-        //     Tab(text: 'spot'.tr),
-        //     Tab(text: 'investments'.tr),
-        //   ],
-        // ),
       ),
       body: SpotMarketsView(),
-      // body: TabBarView(
-      //   children: <Widget>[
-      //     SpotMarketsView(),
-      //     MarketsInvestmentsView(),
-      //   ],
-      // ),
     );
   }
 }

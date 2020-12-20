@@ -1,10 +1,15 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/controllers/deposit_controller.dart';
 import 'package:antares_wallet/controllers/withdrawal_controller.dart';
+import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DepositWithdrawalButtonRow extends StatelessWidget {
+  final Asset asset;
+
+  const DepositWithdrawalButtonRow({Key key, this.asset}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,7 +41,12 @@ class DepositWithdrawalButtonRow extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppSizes.small),
               ),
-              onPressed: () => DepositController.con.search(),
+              onPressed: () => this.asset == null
+                  ? DepositController.con.search()
+                  : DepositController.con.tryDeposit(
+                      asset,
+                      closeOverlays: false,
+                    ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -71,7 +81,12 @@ class DepositWithdrawalButtonRow extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppSizes.small),
               ),
-              onPressed: () => WithdrawalController.con.search(),
+              onPressed: () => this.asset == null
+                  ? WithdrawalController.con.search()
+                  : WithdrawalController.con.tryWithdraw(
+                      asset,
+                      closeOverlays: false,
+                    ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [

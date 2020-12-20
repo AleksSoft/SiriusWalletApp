@@ -63,7 +63,8 @@ class DepositController extends GetxController {
 
   double fee = 0.0;
 
-  void initialize(Asset asset, DepositMode mode) {
+  void _initialize(Asset asset, DepositMode mode, bool closeOverlays) {
+    if (closeOverlays) Get.back(closeOverlays: true);
     selectedAsset = asset;
     _mode = mode;
     _clearAllFields();
@@ -160,31 +161,28 @@ class DepositController extends GetxController {
           ],
           builder: (asset) => AssetListTile(
             asset,
-            onTap: () {
-              if (asset.cardDeposit &&
-                  !asset.swiftDeposit &&
-                  !asset.blockchainDeposit) {
-                Get.back(closeOverlays: true);
-                initialize(asset, DepositMode.card);
-              } else if (!asset.cardDeposit &&
-                  asset.swiftDeposit &&
-                  !asset.blockchainDeposit) {
-                Get.back(closeOverlays: true);
-                initialize(asset, DepositMode.swift);
-              } else if (!asset.cardDeposit &&
-                  !asset.swiftDeposit &&
-                  asset.blockchainDeposit) {
-                Get.back(closeOverlays: true);
-                initialize(asset, DepositMode.blockchain);
-              } else {
-                selectDialog(asset);
-              }
-            },
+            onTap: () => tryDeposit(asset),
           ),
         ),
       );
 
-  void selectDialog(Asset asset) => Get.defaultDialog(
+  void tryDeposit(Asset asset, {bool closeOverlays = true}) {
+    if (asset.cardDeposit && !asset.swiftDeposit && !asset.blockchainDeposit) {
+      _initialize(asset, DepositMode.card, closeOverlays);
+    } else if (!asset.cardDeposit &&
+        asset.swiftDeposit &&
+        !asset.blockchainDeposit) {
+      _initialize(asset, DepositMode.swift, closeOverlays);
+    } else if (!asset.cardDeposit &&
+        !asset.swiftDeposit &&
+        asset.blockchainDeposit) {
+      _initialize(asset, DepositMode.blockchain, closeOverlays);
+    } else {
+      _selectDialog(asset, closeOverlays);
+    }
+  }
+
+  void _selectDialog(Asset asset, bool closeOverlays) => Get.defaultDialog(
         title: 'Deposit',
         radius: AppSizes.small,
         content: Container(
@@ -194,30 +192,24 @@ class DepositController extends GetxController {
                 visible: asset.swiftDeposit,
                 child: ListTile(
                   title: Text('Bank transfer'),
-                  onTap: () {
-                    Get.back(closeOverlays: true);
-                    initialize(asset, DepositMode.swift);
-                  },
+                  onTap: () =>
+                      _initialize(asset, DepositMode.swift, closeOverlays),
                 ),
               ),
               Visibility(
                 visible: asset.cardDeposit,
                 child: ListTile(
                   title: Text('Credit card'),
-                  onTap: () {
-                    Get.back(closeOverlays: true);
-                    initialize(asset, DepositMode.card);
-                  },
+                  onTap: () =>
+                      _initialize(asset, DepositMode.card, closeOverlays),
                 ),
               ),
               Visibility(
                 visible: asset.blockchainDeposit,
                 child: ListTile(
                   title: Text('Blockchain'),
-                  onTap: () {
-                    Get.back(closeOverlays: true);
-                    initialize(asset, DepositMode.blockchain);
-                  },
+                  onTap: () =>
+                      _initialize(asset, DepositMode.blockchain, closeOverlays),
                 ),
               ),
             ],
