@@ -151,16 +151,6 @@ class WithdrawalController extends GetxController {
     }
   }
 
-  Future<void> getSwiftFee() async {
-    await getCountry();
-    String feeSize = (await WalletRepository.getSwiftCashoutFee(
-      assetId: selectedAsset?.id,
-      countryCode: _countryCode,
-    ))
-        .size;
-    fee = double.tryParse(feeSize ?? '0') ?? 0.0;
-  }
-
   Future<void> validateAddress() async {
     isAddressValid = await WalletRepository.isCryptoAddressValid(
       assetId: selectedAsset?.id,
@@ -195,14 +185,14 @@ class WithdrawalController extends GetxController {
   Future<void> confirmSwiftWithdrawal() async {
     loading = true;
     var result = await WalletRepository.swiftCashout(
-      accHolderAddress: addressController.text,
-      accHolderCity: cityController.text,
-      accHolderCountry: _countryCode,
-      accHolderZipCode: zipController.text,
-      accName: fullNameController.text,
-      accNumber: ibanController.text,
-      amount: amountController.text,
-      asset: selectedAsset.id,
+      accHolderAddress: this.addressController.text,
+      accHolderCity: this.cityController.text,
+      accHolderCountry: this._countryCode,
+      accHolderZipCode: this.zipController.text,
+      accName: this.fullNameController.text,
+      accNumber: this.ibanController.text,
+      amount: this.amountController.text,
+      asset: this.selectedAsset.id,
       bankName: bankController.text,
       bic: swiftController.text,
     );
@@ -215,6 +205,19 @@ class WithdrawalController extends GetxController {
   }
 
   okResult() => Get.until((route) => route.isFirst);
+
+  void checkSwiftCashoutFee() {
+    if (this.swiftController.text.length >= 8) {
+      String countryCode = this.swiftController.text.substring(4, 6);
+      WalletRepository.getSwiftCashoutFee(
+        assetId: this.selectedAsset.id,
+        countryCode: countryCode,
+      ).then((value) {
+        this.fee = double.tryParse(value?.size ?? '0.0') ?? 0.0;
+        update();
+      });
+    }
+  }
 
   tryAgainResult() {
     Get.until((route) => route.isFirst);
@@ -264,7 +267,7 @@ class WithdrawalController extends GetxController {
         Get.to(SwiftWithdrawalPage());
         loading = true;
         await getAssetBalance();
-        await getSwiftFee();
+        await getCountry();
         await getWithdrawalSwiftInfo();
         loading = false;
         break;
