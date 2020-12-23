@@ -193,8 +193,8 @@ class WithdrawalController extends GetxController {
       accNumber: this.ibanController.text,
       amount: this.amountController.text,
       asset: this.selectedAsset.id,
-      bankName: bankController.text,
-      bic: swiftController.text,
+      bankName: this.bankController.text,
+      bic: this.swiftController.text,
     );
     String transferId = result?.transferId;
     Get.off(
