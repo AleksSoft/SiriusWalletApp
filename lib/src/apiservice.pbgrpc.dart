@@ -305,18 +305,6 @@ class ApiServiceClient extends $grpc.Client {
           '/antaresWallet.ApiService/GetWallet',
           ($1.WalletRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $1.WalletResponse.fromBuffer(value));
-  static final _$generateWallet =
-      $grpc.ClientMethod<$1.GenerateWalletRequest, $1.GenerateWalletResponse>(
-          '/antaresWallet.ApiService/GenerateWallet',
-          ($1.GenerateWalletRequest value) => value.writeToBuffer(),
-          ($core.List<$core.int> value) =>
-              $1.GenerateWalletResponse.fromBuffer(value));
-  static final _$generateWalletV2 =
-      $grpc.ClientMethod<$1.GenerateWalletV2Request, $1.EmptyResponseV2>(
-          '/antaresWallet.ApiService/GenerateWalletV2',
-          ($1.GenerateWalletV2Request value) => value.writeToBuffer(),
-          ($core.List<$core.int> value) =>
-              $1.EmptyResponseV2.fromBuffer(value));
   static final _$getSwiftCredentials = $grpc.ClientMethod<
           $1.SwiftCredentialsRequest, $1.SwiftCredentialsResponse>(
       '/antaresWallet.ApiService/GetSwiftCredentials',
@@ -740,18 +728,6 @@ class ApiServiceClient extends $grpc.Client {
   $grpc.ResponseFuture<$1.WalletResponse> getWallet($1.WalletRequest request,
       {$grpc.CallOptions options}) {
     return $createUnaryCall(_$getWallet, request, options: options);
-  }
-
-  $grpc.ResponseFuture<$1.GenerateWalletResponse> generateWallet(
-      $1.GenerateWalletRequest request,
-      {$grpc.CallOptions options}) {
-    return $createUnaryCall(_$generateWallet, request, options: options);
-  }
-
-  $grpc.ResponseFuture<$1.EmptyResponseV2> generateWalletV2(
-      $1.GenerateWalletV2Request request,
-      {$grpc.CallOptions options}) {
-    return $createUnaryCall(_$generateWalletV2, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.SwiftCredentialsResponse> getSwiftCredentials(
@@ -1304,24 +1280,6 @@ abstract class ApiServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $1.WalletRequest.fromBuffer(value),
         ($1.WalletResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$1.GenerateWalletRequest,
-            $1.GenerateWalletResponse>(
-        'GenerateWallet',
-        generateWallet_Pre,
-        false,
-        false,
-        ($core.List<$core.int> value) =>
-            $1.GenerateWalletRequest.fromBuffer(value),
-        ($1.GenerateWalletResponse value) => value.writeToBuffer()));
-    $addMethod(
-        $grpc.ServiceMethod<$1.GenerateWalletV2Request, $1.EmptyResponseV2>(
-            'GenerateWalletV2',
-            generateWalletV2_Pre,
-            false,
-            false,
-            ($core.List<$core.int> value) =>
-                $1.GenerateWalletV2Request.fromBuffer(value),
-            ($1.EmptyResponseV2 value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$1.SwiftCredentialsRequest,
             $1.SwiftCredentialsResponse>(
         'GetSwiftCredentials',
@@ -1775,17 +1733,6 @@ abstract class ApiServiceBase extends $grpc.Service {
     return getWallet(call, await request);
   }
 
-  $async.Future<$1.GenerateWalletResponse> generateWallet_Pre(
-      $grpc.ServiceCall call,
-      $async.Future<$1.GenerateWalletRequest> request) async {
-    return generateWallet(call, await request);
-  }
-
-  $async.Future<$1.EmptyResponseV2> generateWalletV2_Pre($grpc.ServiceCall call,
-      $async.Future<$1.GenerateWalletV2Request> request) async {
-    return generateWalletV2(call, await request);
-  }
-
   $async.Future<$1.SwiftCredentialsResponse> getSwiftCredentials_Pre(
       $grpc.ServiceCall call,
       $async.Future<$1.SwiftCredentialsRequest> request) async {
@@ -2012,10 +1959,6 @@ abstract class ApiServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $0.Empty request);
   $async.Future<$1.WalletResponse> getWallet(
       $grpc.ServiceCall call, $1.WalletRequest request);
-  $async.Future<$1.GenerateWalletResponse> generateWallet(
-      $grpc.ServiceCall call, $1.GenerateWalletRequest request);
-  $async.Future<$1.EmptyResponseV2> generateWalletV2(
-      $grpc.ServiceCall call, $1.GenerateWalletV2Request request);
   $async.Future<$1.SwiftCredentialsResponse> getSwiftCredentials(
       $grpc.ServiceCall call, $1.SwiftCredentialsRequest request);
   $async.Future<$1.EmptyResponse> sendBankTransferRequest(

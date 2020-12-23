@@ -411,31 +411,6 @@ const WalletRequest$json = const {
   ],
 };
 
-const GenerateWalletRequest$json = const {
-  '1': 'GenerateWalletRequest',
-  '2': const [
-    const {'1': 'assetId', '3': 1, '4': 1, '5': 9, '10': 'assetId'},
-    const {'1': 'bcnWallet', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.GenerateWalletRequest.BcnWalletRequest', '10': 'bcnWallet'},
-  ],
-  '3': const [GenerateWalletRequest_BcnWalletRequest$json],
-};
-
-const GenerateWalletRequest_BcnWalletRequest$json = const {
-  '1': 'BcnWalletRequest',
-  '2': const [
-    const {'1': 'address', '3': 1, '4': 1, '5': 9, '10': 'address'},
-    const {'1': 'encodedKey', '3': 2, '4': 1, '5': 9, '10': 'encodedKey'},
-    const {'1': 'publicKey', '3': 3, '4': 1, '5': 9, '10': 'publicKey'},
-  ],
-};
-
-const GenerateWalletV2Request$json = const {
-  '1': 'GenerateWalletV2Request',
-  '2': const [
-    const {'1': 'assetId', '3': 1, '4': 1, '5': 9, '10': 'assetId'},
-  ],
-};
-
 const SwiftCredentialsRequest$json = const {
   '1': 'SwiftCredentialsRequest',
   '2': const [
@@ -1189,34 +1164,6 @@ const WalletResponse_WalletPayload$json = const {
   ],
 };
 
-const GenerateWalletResponse$json = const {
-  '1': 'GenerateWalletResponse',
-  '2': const [
-    const {'1': 'result', '3': 1, '4': 1, '5': 11, '6': '.antaresWallet.GenerateWalletResponse.WalletAddress', '10': 'result'},
-    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorV1', '10': 'error'},
-  ],
-  '3': const [GenerateWalletResponse_WalletAddress$json, GenerateWalletResponse_BcnAddressExtension$json],
-};
-
-const GenerateWalletResponse_WalletAddress$json = const {
-  '1': 'WalletAddress',
-  '2': const [
-    const {'1': 'address', '3': 1, '4': 1, '5': 9, '10': 'address'},
-    const {'1': 'addressExtension', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.GenerateWalletResponse.BcnAddressExtension', '10': 'addressExtension'},
-  ],
-};
-
-const GenerateWalletResponse_BcnAddressExtension$json = const {
-  '1': 'BcnAddressExtension',
-  '2': const [
-    const {'1': 'addressExtensionDisplayName', '3': 1, '4': 1, '5': 9, '10': 'addressExtensionDisplayName'},
-    const {'1': 'baseAddressDisplayName', '3': 2, '4': 1, '5': 9, '10': 'baseAddressDisplayName'},
-    const {'1': 'depositAddressExtension', '3': 3, '4': 1, '5': 9, '10': 'depositAddressExtension'},
-    const {'1': 'typeForDeposit', '3': 4, '4': 1, '5': 9, '10': 'typeForDeposit'},
-    const {'1': 'typeForWithdrawal', '3': 5, '4': 1, '5': 9, '10': 'typeForWithdrawal'},
-  ],
-};
-
 const SwiftCredentialsResponse$json = const {
   '1': 'SwiftCredentialsResponse',
   '2': const [
@@ -1365,8 +1312,7 @@ const CryptoDepositAddressResponse_CryptoDepositAddress$json = const {
   '1': 'CryptoDepositAddress',
   '2': const [
     const {'1': 'address', '3': 1, '4': 1, '5': 9, '10': 'address'},
-    const {'1': 'baseAddress', '3': 2, '4': 1, '5': 9, '10': 'baseAddress'},
-    const {'1': 'addressExtension', '3': 3, '4': 1, '5': 9, '10': 'addressExtension'},
+    const {'1': 'tag', '3': 2, '4': 1, '5': 9, '10': 'tag'},
   ],
 };
 
