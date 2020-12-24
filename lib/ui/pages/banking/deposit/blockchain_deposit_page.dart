@@ -28,9 +28,9 @@ class BlockchainDepositPage extends StatelessWidget {
                 title: 'Address',
               ));
             }
-            if (!_.depositCryptoAddress.addressExtension.isNullOrBlank) {
+            if (!_.depositCryptoAddress.tag.isNullOrBlank) {
               qrItems.add(_QrBox(
-                qrData: _.depositCryptoAddress.addressExtension,
+                qrData: _.depositCryptoAddress.tag,
                 title: 'Memo (text)',
               ));
             }
@@ -71,15 +71,13 @@ class BlockchainDepositPage extends StatelessWidget {
                             ),
                           ),
                           Visibility(
-                            visible: !_.depositCryptoAddress.addressExtension
-                                .isNullOrBlank,
+                            visible: !_.depositCryptoAddress.tag.isNullOrBlank,
                             child: ListTile(
-                              title:
-                                  Text(_.depositCryptoAddress.addressExtension),
+                              title: Text(_.depositCryptoAddress.tag),
                               subtitle: Text('Deposit Memo (text)'),
                               trailing: IconButton(
                                 onPressed: () => _.copy(
-                                  _.depositCryptoAddress.addressExtension,
+                                  _.depositCryptoAddress.tag,
                                 ),
                                 icon: Icon(Icons.content_copy),
                               ),

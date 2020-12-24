@@ -103,9 +103,7 @@ class DepositController extends GetxController {
             'Please make sure that destination address and the tag are correct. If details are incorrect, funds will be lost.',
         buttonColor: AppColors.dark,
         confirmTextColor: AppColors.primary,
-        onConfirm: () {
-          Get.back();
-        },
+        onConfirm: () => Get.back(),
       );
     } else {
       AppController.con.pageIndexObs.value = 4;
