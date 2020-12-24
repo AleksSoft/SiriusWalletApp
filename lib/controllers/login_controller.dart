@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/modules/local_auth/local_auth_controller.dart';
+import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:antares_wallet/repositories/session_repository.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
-import 'package:antares_wallet/services/local_auth_service.dart';
-import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
+import 'package:antares_wallet/app/modules/local_auth/local_auth_service.dart';
+import 'package:antares_wallet/app/modules/local_auth/local_auth_page.dart';
 import 'package:antares_wallet/ui/pages/root/root_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -124,15 +126,9 @@ class LoginController extends GetxController {
 
   Future<void> _verifyPin(String token) async {
     await _storage.write(AppStorageKeys.token, token);
-    bool canCheckBio = await LocalAuthService.canCheckBiometrics;
-    bool pinExists = _storage.hasData(AppStorageKeys.pinCode);
-
-    var pinCorrect = await Get.to(
-      LocalAuthPage(
-        checkLocalAuth: canCheckBio && pinExists,
-        isCloseVisible: false,
-      ),
-      fullscreenDialog: true,
+    var pinCorrect = await Get.toNamed(
+      Routes.LOCAL_AUTH,
+      arguments: PinMode.CHECK,
     );
     if (pinCorrect ?? false) {
       await Get.find<ApiService>().update();

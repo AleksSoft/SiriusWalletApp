@@ -1,90 +1,70 @@
 import 'package:antares_wallet/app/common/common.dart';
-import 'package:antares_wallet/controllers/local_auth_controller.dart';
 import 'package:antares_wallet/ui/widgets/empty_reloading_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class LocalAuthPage extends StatelessWidget {
-  LocalAuthPage({
-    this.isCreatePin = false,
-    this.isCloseVisible = true,
-    this.checkLocalAuth = true,
-    Key key,
-  }) : super(key: key);
+import 'local_auth_controller.dart';
 
-  final bool isCreatePin;
-  final bool isCloseVisible;
-  final bool checkLocalAuth;
-  final c = LocalAuthController.con;
-
+class LocalAuthPage extends GetView<LocalAuthController> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: GetBuilder<LocalAuthController>(
-        initState: (_) => c.initialize(
-          isCreatePin: this.isCreatePin,
-          isCloseVisible: this.isCloseVisible,
-          checkLocalAuth: this.checkLocalAuth,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0.0,
+          centerTitle: true,
+          leading: Visibility(
+            visible: controller.showBack.value,
+            child: CloseButton(),
+          ),
+          title: Obx(() => Text(controller.header)),
         ),
-        builder: (_) {
-          return EmptyReloadingView(
-            isLoading: _.loading,
-            child: Stack(
-              children: <Widget>[
-                Visibility(
-                  visible: _.showBack,
-                  child: Positioned(
-                    top: AppSizes.medium,
-                    left: AppSizes.medium,
-                    child: CloseButton(),
-                  ),
-                ),
-                Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Obx(
-                        () => Text(
-                          _.header,
-                          style: Get.textTheme.headline6,
-                        ),
-                      ),
-                      AppUiHelpers.vSpaceExtraLarge,
-                      Numpad(),
-                    ],
-                  ),
-                ),
-              ],
+        body: GetX<LocalAuthController>(
+          builder: (_) => EmptyReloadingView(
+            isLoading: controller.loading.value,
+            customLoader: Container(
+              color: AppColors.primary.withOpacity(0.8),
+              alignment: Alignment.center,
+              child: AppUiHelpers.circularProgress,
             ),
-          );
-        },
+            child: Container(
+              alignment: Alignment.bottomCenter,
+              child: Numpad(),
+            ),
+          ),
+        ),
       ),
     );
   }
 }
 
-class Numpad extends StatelessWidget {
-  final c = LocalAuthController.con;
+class Numpad extends GetView<LocalAuthController> {
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
         children: <Widget>[
-          Obx(() => Preview(text: c.pinValue, length: c.fieldsCount)),
+          Obx(
+            () => Preview(
+              text: controller.pinValue,
+              length: controller.fieldsCount,
+            ),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               NumpadButton(
                 text: '1',
-                onPressed: () => c.setValue('1'),
+                onPressed: () => controller.setValue('1'),
               ),
               NumpadButton(
                 text: '2',
-                onPressed: () => c.setValue('2'),
+                onPressed: () => controller.setValue('2'),
               ),
               NumpadButton(
                 text: '3',
-                onPressed: () => c.setValue('2'),
+                onPressed: () => controller.setValue('2'),
               ),
             ],
           ),
@@ -93,15 +73,15 @@ class Numpad extends StatelessWidget {
             children: <Widget>[
               NumpadButton(
                 text: '4',
-                onPressed: () => c.setValue('4'),
+                onPressed: () => controller.setValue('4'),
               ),
               NumpadButton(
                 text: '5',
-                onPressed: () => c.setValue('5'),
+                onPressed: () => controller.setValue('5'),
               ),
               NumpadButton(
                 text: '6',
-                onPressed: () => c.setValue('6'),
+                onPressed: () => controller.setValue('6'),
               ),
             ],
           ),
@@ -110,15 +90,15 @@ class Numpad extends StatelessWidget {
             children: <Widget>[
               NumpadButton(
                 text: '7',
-                onPressed: () => c.setValue('7'),
+                onPressed: () => controller.setValue('7'),
               ),
               NumpadButton(
                 text: '8',
-                onPressed: () => c.setValue('8'),
+                onPressed: () => controller.setValue('8'),
               ),
               NumpadButton(
                 text: '9',
-                onPressed: () => c.setValue('9'),
+                onPressed: () => controller.setValue('9'),
               ),
             ],
           ),
@@ -127,18 +107,19 @@ class Numpad extends StatelessWidget {
             children: <Widget>[
               NumpadButton(
                 haveBorder: false,
-                icon: c.showLocalAuth ? Icons.fingerprint : null,
-                onPressed:
-                    c.showLocalAuth ? () => c.tryToggleLocalAuth() : null,
+                icon: controller.showLocalAuth.value ? Icons.fingerprint : null,
+                onPressed: controller.showLocalAuth.value
+                    ? () => controller.tryToggleLocalAuth()
+                    : null,
               ),
               NumpadButton(
                 text: '0',
-                onPressed: () => c.setValue('0'),
+                onPressed: () => controller.setValue('0'),
               ),
               NumpadButton(
                 haveBorder: false,
                 icon: Icons.backspace,
-                onPressed: () => c.backspace(),
+                onPressed: () => controller.backspace(),
               ),
             ],
           )

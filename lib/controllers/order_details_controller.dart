@@ -1,15 +1,17 @@
 import 'dart:async';
 
 import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/modules/local_auth/local_auth_controller.dart';
+import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/controllers/orders_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
 import 'package:antares_wallet/repositories/trading_repository.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
-import 'package:antares_wallet/services/local_auth_service.dart';
+import 'package:antares_wallet/app/modules/local_auth/local_auth_service.dart';
 import 'package:antares_wallet/app/utils/orderbook_utils.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
-import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
+import 'package:antares_wallet/app/modules/local_auth/local_auth_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -380,10 +382,9 @@ class OrderDetailsController extends GetxController {
   ) async {
     // check pin if sign orders enabled
     if (_signOrders) {
-      bool checkLocalAuth = await LocalAuthService.canCheckBiometrics;
-      await Get.to(
-        LocalAuthPage(checkLocalAuth: checkLocalAuth),
-        fullscreenDialog: true,
+      await Get.toNamed(
+        Routes.LOCAL_AUTH,
+        arguments: PinMode.CHECK,
       );
     }
 

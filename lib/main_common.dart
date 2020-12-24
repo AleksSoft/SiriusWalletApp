@@ -10,9 +10,8 @@ import 'package:logger_flutter/logger_flutter.dart';
 
 import 'app/bindings/initial_binding.dart';
 import 'app/common/common.dart';
-import 'app/routes/app_routes.dart';
+import 'app/routes/app_pages.dart';
 import 'app/utils/utils.dart';
-import 'ui/pages/start/start_page.dart';
 
 Future<void> mainCommon(AppConfig appConfig) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,8 +39,8 @@ Future<void> mainCommon(AppConfig appConfig) async {
         enableLog: !appConfig.isProd,
         defaultTransition: Get.defaultTransition,
         transitionDuration: Get.defaultTransitionDuration,
-        initialRoute: StartPage.route,
-        getPages: AppRoutes.routes,
+        initialRoute: Routes.INITIAL,
+        getPages: AppPages.pages,
         translations: AppTranslations(),
         locale: Locale('en'),
         title: appConfig.appTitle,

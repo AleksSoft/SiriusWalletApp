@@ -1,5 +1,5 @@
 import 'package:antares_wallet/app/common/common.dart';
-import 'package:antares_wallet/ui/pages/start/start_page.dart';
+import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -17,7 +17,7 @@ class MoreController extends GetxController {
       confirmTextColor: AppColors.primary,
       onConfirm: () {
         _storage.erase().whenComplete(
-              () => Get.offAllNamed(StartPage.route),
+              () => Get.offAllNamed(Routes.START),
             );
       },
     );

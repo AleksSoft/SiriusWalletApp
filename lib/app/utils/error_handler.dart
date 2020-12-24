@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/utils/utils.dart';
 import 'package:antares_wallet/models/saved_errors_model.dart';
-import 'package:antares_wallet/services/local_auth_service.dart';
+import 'package:antares_wallet/app/modules/local_auth/local_auth_service.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart' as apiservice;
 import 'package:antares_wallet/ui/pages/disclaimer/disclaimer_page.dart';
 import 'package:flutter/foundation.dart';

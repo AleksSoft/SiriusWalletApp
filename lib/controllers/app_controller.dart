@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:antares_wallet/app/utils/app_log.dart';
 import 'package:antares_wallet/repositories/session_repository.dart';
-import 'package:antares_wallet/services/local_auth_service.dart';
+import 'package:antares_wallet/app/modules/local_auth/local_auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -1,8 +1,9 @@
 import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/modules/local_auth/local_auth_controller.dart';
+import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:antares_wallet/app/utils/utils.dart';
 import 'package:antares_wallet/repositories/session_repository.dart';
-import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
-import 'package:antares_wallet/ui/pages/start/start_page.dart';
+import 'package:antares_wallet/app/modules/local_auth/local_auth_page.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:local_auth/local_auth.dart';
@@ -33,10 +34,9 @@ class LocalAuthService {
   /// verifyPin and check update
   Future<bool> verifyPin({bool logOutOnError = false}) async {
     final _storage = GetStorage();
-    bool checkLocalAuth = await LocalAuthService.canCheckBiometrics;
-    var pinCorrect = await Get.to(
-      LocalAuthPage(checkLocalAuth: checkLocalAuth),
-      fullscreenDialog: true,
+    var pinCorrect = await Get.toNamed(
+      Routes.LOCAL_AUTH,
+      arguments: PinMode.CREATE,
     );
     if (pinCorrect ?? false) {
       String pin = _storage.read(AppStorageKeys.pinCode);
@@ -46,7 +46,7 @@ class LocalAuthService {
         pin: pin,
       );
       if (!pinChecked && logOutOnError) {
-        _storage.erase().whenComplete(() => Get.offAllNamed(StartPage.route));
+        _storage.erase().whenComplete(() => Get.offAllNamed(Routes.START));
       }
       return pinChecked;
     }

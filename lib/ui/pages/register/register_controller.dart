@@ -2,11 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/modules/local_auth/local_auth_controller.dart';
+import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:antares_wallet/app/utils/gesture_utils.dart';
 import 'package:antares_wallet/repositories/session_repository.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
-import 'package:antares_wallet/ui/pages/local_auth/local_auth_page.dart';
 import 'package:antares_wallet/ui/pages/register/register_result_page.dart';
 import 'package:antares_wallet/ui/pages/root/root_page.dart';
 import 'package:crypto/crypto.dart';
@@ -19,7 +20,7 @@ class RegisterController extends GetxController {
 
   final _storage = GetStorage();
 
-  final pageViewController = PageController(initialPage: 0);
+  final pageViewController = PageController(initialPage: 5);
 
   Timer _codeTimer;
 
@@ -226,13 +227,9 @@ class RegisterController extends GetxController {
   }
 
   _proceedPassword() async {
-    await Get.to(
-      LocalAuthPage(
-        isCreatePin: true,
-        checkLocalAuth: false,
-        isCloseVisible: false,
-      ),
-      fullscreenDialog: true,
+    await Get.toNamed(
+      Routes.LOCAL_AUTH,
+      arguments: PinMode.CREATE,
     );
     Get.to(RegisterResultPage(), fullscreenDialog: true);
 
