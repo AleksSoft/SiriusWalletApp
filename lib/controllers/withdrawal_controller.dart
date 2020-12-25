@@ -79,7 +79,7 @@ class WithdrawalController extends GetxController {
 
   bool get proceedAllowed {
     bool isAmountZero = (double.tryParse(amountController.text) ?? 0) == 0;
-    bool addressEmpty = addressController.text.isNullOrBlank;
+    bool addressEmpty = addressController.text.isBlank;
     if (_mode == WithdrawalMode.blockchain) {
       bool checkExt = withdrawalCryptoInfo.addressExtensionMandatory
           ? isExtAddressValid
@@ -90,12 +90,12 @@ class WithdrawalController extends GetxController {
           isAddressValid &&
           checkExt;
     } else {
-      bool swiftEmpty = swiftController.text.isNullOrBlank;
-      bool bankEmpty = bankController.text.isNullOrBlank;
-      bool ibanEmpty = ibanController.text.isNullOrBlank;
-      bool fullNameEmpty = fullNameController.text.isNullOrBlank;
-      bool cityEmpty = cityController.text.isNullOrBlank;
-      bool zipEmpty = zipController.text.isNullOrBlank;
+      bool swiftEmpty = swiftController.text.isBlank;
+      bool bankEmpty = bankController.text.isBlank;
+      bool ibanEmpty = ibanController.text.isBlank;
+      bool fullNameEmpty = fullNameController.text.isBlank;
+      bool cityEmpty = cityController.text.isBlank;
+      bool zipEmpty = zipController.text.isBlank;
       return !isAmountZero &&
           !addressEmpty &&
           !swiftEmpty &&
@@ -146,7 +146,7 @@ class WithdrawalController extends GetxController {
   }
 
   Future<void> getCountry() async {
-    if (_countryCode.isNullOrBlank) {
+    if (_countryCode.isBlank) {
       _countryCode = (await SessionRepository.getCountryPhoneCodes()).current;
     }
   }
@@ -198,7 +198,7 @@ class WithdrawalController extends GetxController {
     );
     String transferId = result?.transferId;
     Get.off(
-      ResultWithdrawalPage(success: !transferId.isNullOrBlank),
+      ResultWithdrawalPage(success: !transferId.isBlank),
       fullscreenDialog: true,
     );
     loading = false;

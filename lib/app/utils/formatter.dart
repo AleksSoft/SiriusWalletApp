@@ -11,7 +11,7 @@ class Formatter {
     String orElse,
   }) {
     Decimal amount = Decimal.tryParse(s ?? '0.0') ?? Decimal.zero;
-    if (amount.toDouble() == 0 && !orElse.isNullOrBlank) return orElse;
+    if (amount.toDouble() == 0 && !orElse.isBlank) return orElse;
     int currentFDLength = amount.scale;
 
     String formattedPrefix = prefix == null ? '' : '$prefix ';

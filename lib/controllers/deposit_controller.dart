@@ -114,7 +114,7 @@ class DepositController extends GetxController {
 
   Future<bool> tierValid() async {
     var tierObj = await ProfileRepository.getTierInfo();
-    return !tierObj.currentTier.tier.isNullOrBlank &&
+    return !tierObj.currentTier.tier.isBlank &&
         tierObj.currentTier.tier != 'Beginner';
   }
 
@@ -223,7 +223,7 @@ class DepositController extends GetxController {
   void shareBlockchain() async {
     final RenderBox box = Get.context.findRenderObject();
     String forSharing = depositCryptoAddress?.address;
-    if (!forSharing.isNullOrBlank) {
+    if (!forSharing.isBlank) {
       await Share.share(
         forSharing,
         subject: forSharing,

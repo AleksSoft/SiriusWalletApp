@@ -20,7 +20,7 @@ class ApiService {
 
   String get defaultUrl {
     String url = _storage.read(AppStorageKeys.baseUrl);
-    return url.isNullOrBlank ? apiUrls[0] : url;
+    return url.isBlank ? apiUrls[0] : url;
   }
 
   Future<ApiService> init(AppConfig appConfig) async {
@@ -37,7 +37,7 @@ class ApiService {
   ///
   /// If [url] is null the stored value is used
   Future<void> update({String url}) async {
-    if (url.isNullOrBlank) url = defaultUrl;
+    if (url.isBlank) url = defaultUrl;
     await _storage.write(AppStorageKeys.baseUrl, url);
     AppLog.loggerNoStack.i('Base Url: $url');
 

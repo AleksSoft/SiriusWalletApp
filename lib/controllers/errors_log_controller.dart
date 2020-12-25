@@ -15,7 +15,7 @@ class ErrorsLogController extends GetxController {
   @override
   void onReady() {
     String jsonStr = _storage.read(AppStorageKeys.errorList);
-    savedErrorsModel = jsonStr.isNullOrBlank
+    savedErrorsModel = jsonStr.isBlank
         ? SavedErrorsModel()
         : SavedErrorsModel().fromJson(json.decode(jsonStr));
     update();

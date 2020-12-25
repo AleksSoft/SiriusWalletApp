@@ -96,7 +96,7 @@ class PortfolioHistoryFilter {
       AppStorageKeys.portrolioHistoryFilter,
     );
 
-    if (GetUtils.isNullOrBlank(filterJson)) {
+    if (GetUtils.isBlank(filterJson)) {
       return PortfolioHistoryFilter();
     } else {
       final historyFilter = HistoryFilter.fromJson(json.decode(filterJson));
@@ -109,9 +109,8 @@ class PortfolioHistoryFilter {
           PortfolioTransactionType.values,
           historyFilter.transactionType,
         )
-        ..assetId = GetUtils.isNullOrBlank(historyFilter.asset)
-            ? null
-            : historyFilter.asset
+        ..assetId =
+            GetUtils.isBlank(historyFilter.asset) ? null : historyFilter.asset
         ..timeFrom = historyFilter.timeFrom
         ..timeTo = historyFilter.timeTo;
     }

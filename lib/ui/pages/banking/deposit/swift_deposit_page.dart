@@ -87,7 +87,7 @@ class SwiftDepositPage extends StatelessWidget {
                         AppUiHelpers.vSpaceMedium,
                         CupertinoButton.filled(
                           disabledColor: AppColors.secondary.withOpacity(0.7),
-                          onPressed: _.amountValue.isNullOrBlank
+                          onPressed: _.amountValue.isBlank
                               ? null
                               : () => _.sendBankTransferRequest(),
                           child: Text('Email me'),

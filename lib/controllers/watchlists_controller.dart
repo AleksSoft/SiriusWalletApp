@@ -28,7 +28,7 @@ class WatchlistsController extends GetxController {
 
     // set selected watchlist
     String id = _storage.read(AppStorageKeys.watchlistId);
-    if (id.isNullOrBlank) {
+    if (id.isBlank) {
       if (watchlists.isNotEmpty) {
         selected = watchlists.first;
         await _storage.write(AppStorageKeys.watchlistId, selected.id);

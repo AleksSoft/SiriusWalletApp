@@ -48,7 +48,7 @@ class DevSettingsPage extends GetView<DevSettingsController> {
                     ),
                   ),
                   Visibility(
-                    visible: !_.token.isNullOrBlank,
+                    visible: !_.token.isBlank,
                     child: ListTile(
                       title: Text('Api token:'),
                       subtitle: SelectableText(_.token),

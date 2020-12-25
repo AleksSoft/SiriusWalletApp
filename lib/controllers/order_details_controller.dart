@@ -8,10 +8,8 @@ import 'package:antares_wallet/controllers/orders_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
 import 'package:antares_wallet/repositories/trading_repository.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
-import 'package:antares_wallet/app/modules/local_auth/local_auth_service.dart';
 import 'package:antares_wallet/app/utils/orderbook_utils.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
-import 'package:antares_wallet/app/modules/local_auth/local_auth_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -266,7 +264,7 @@ class OrderDetailsController extends GetxController {
   }
 
   Future<void> modify() async {
-    if (!_orderId.isNullOrBlank) {
+    if (!_orderId.isBlank) {
       loading = true;
       await OrdersController.con.cancelOrder(_orderId);
       await perform();

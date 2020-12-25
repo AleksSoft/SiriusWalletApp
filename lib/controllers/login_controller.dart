@@ -5,8 +5,6 @@ import 'package:antares_wallet/app/modules/local_auth/local_auth_controller.dart
 import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:antares_wallet/repositories/session_repository.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
-import 'package:antares_wallet/app/modules/local_auth/local_auth_service.dart';
-import 'package:antares_wallet/app/modules/local_auth/local_auth_page.dart';
 import 'package:antares_wallet/ui/pages/root/root_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -44,7 +42,7 @@ class LoginController extends GetxController {
     super.onReady();
     loading = true;
     String sessionId = _storage.read(AppStorageKeys.token);
-    if (!sessionId.isNullOrBlank) {
+    if (!sessionId.isBlank) {
       await _verifyPin(sessionId);
     }
     loading = false;
@@ -68,9 +66,7 @@ class LoginController extends GetxController {
   }
 
   Future signIn() async {
-    if (emailValue.isNullOrBlank ||
-        !emailValue.isEmail ||
-        passwordValue.isEmpty) {
+    if (emailValue.isBlank || !emailValue.isEmail || passwordValue.isEmpty) {
       return;
     }
     loading = true;
@@ -106,7 +102,7 @@ class LoginController extends GetxController {
   }
 
   verifySms() async {
-    if (smsCodeValue.isNullOrBlank) {
+    if (smsCodeValue.isBlank) {
       return;
     }
     loading = true;

@@ -3,7 +3,6 @@ import 'package:antares_wallet/app/modules/local_auth/local_auth_controller.dart
 import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:antares_wallet/app/utils/utils.dart';
 import 'package:antares_wallet/repositories/session_repository.dart';
-import 'package:antares_wallet/app/modules/local_auth/local_auth_page.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:local_auth/local_auth.dart';

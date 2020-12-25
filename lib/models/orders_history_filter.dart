@@ -96,7 +96,7 @@ class OrdersHistoryFilter {
       AppStorageKeys.ordersHistoryFilter,
     );
 
-    if (GetUtils.isNullOrBlank(filterJson)) {
+    if (GetUtils.isBlank(filterJson)) {
       return OrdersHistoryFilter();
     } else {
       final historyFilter = HistoryFilter.fromJson(json.decode(filterJson));
@@ -109,9 +109,8 @@ class OrdersHistoryFilter {
           OrdersTransactionType.values,
           historyFilter.transactionType,
         )
-        ..assetPairId = GetUtils.isNullOrBlank(historyFilter.asset)
-            ? null
-            : historyFilter.asset
+        ..assetPairId =
+            GetUtils.isBlank(historyFilter.asset) ? null : historyFilter.asset
         ..timeFrom = historyFilter.timeFrom
         ..timeTo = historyFilter.timeTo;
     }

@@ -56,7 +56,7 @@ class TransactionDetailsPage extends StatelessWidget {
                         _buildTile('status'.tr, _.details.status),
                         Divider(height: AppSizes.extraLarge),
                         Visibility(
-                          visible: !_.details.blockchainHash.isNullOrBlank,
+                          visible: !_.details.blockchainHash.isBlank,
                           child: _buildTile(
                             'trans_hash'.tr,
                             _.details.blockchainHash,
@@ -74,7 +74,7 @@ class TransactionDetailsPage extends StatelessWidget {
                         ButtonBar(
                           children: [
                             Visibility(
-                              visible: !_.details.blockchainHash.isNullOrBlank,
+                              visible: !_.details.blockchainHash.isBlank,
                               child: CupertinoButton(
                                 onPressed: () => _copyHash(
                                   _.details.blockchainHash,

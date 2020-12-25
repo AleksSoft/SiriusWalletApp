@@ -32,7 +32,7 @@ class ProfileController extends GetxController {
   double get doubleMax =>
       double.tryParse(tierInfo?.currentTier?.maxLimit ?? '0') ?? 1.0;
 
-  bool get hasAccountInfo => !personalData.address.isNullOrBlank;
+  bool get hasAccountInfo => !personalData.address.isBlank;
 
   String addressValue;
   String apartmentValue;
@@ -131,7 +131,7 @@ class ProfileController extends GetxController {
   }
 
   openNextUpgradePage({bool fromMain = false}) {
-    if (personalData.address.isNullOrBlank) {
+    if (personalData.address.isBlank) {
       Get.toNamed(UpgradeAccountAddress.route);
     } else if (pageNeedsOpen(0)) {
       openNextPage(
