@@ -17,7 +17,7 @@ class TransactionDetailsController extends GetxController {
   @override
   void onInit() {
     asset = AssetsController.con.assetById(details.assetId);
-    if (!details.blockchainHash.isBlank) {
+    if (!details.blockchainHash.isNullOrBlank) {
       PortfolioRepository.getExplorerLinks(
         assetId: details.assetId,
         transactionHash: details.blockchainHash,

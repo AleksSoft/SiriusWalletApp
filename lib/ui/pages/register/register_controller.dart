@@ -150,12 +150,12 @@ class RegisterController extends GetxController {
   }
 
   proceedEmail() async {
-    if (emailValue.isBlank || !emailValue.isEmail) {
+    if (emailValue.isNullOrBlank || !emailValue.isEmail) {
       return;
     }
     if (!isEmailCodeWaiting) {
       token = await SessionRepository.sendVerificationEmail(email: emailValue);
-      if (token.isBlank) {
+      if (token.isNullOrBlank) {
         Get.rawSnackbar(message: 'Email not verified');
         _stopTimer();
       } else {
@@ -170,7 +170,7 @@ class RegisterController extends GetxController {
   }
 
   _proceedEmailCode() async {
-    if (emailCodeValue.isBlank) {
+    if (emailCodeValue.isNullOrBlank) {
       return;
     }
     if (await SessionRepository.verifyEmail(
@@ -184,16 +184,16 @@ class RegisterController extends GetxController {
   }
 
   _proceedAdditionalData() async {
-    if (fullNameValue.isBlank ||
+    if (fullNameValue.isNullOrBlank ||
         fullNameValue.length < 4 ||
-        countryController.text.isBlank) {
+        countryController.text.isNullOrBlank) {
       return;
     }
     await _animateToPage(3);
   }
 
   _proceedPhone() async {
-    if (phoneValue.isBlank) {
+    if (phoneValue.isNullOrBlank) {
       return;
     }
     if (!isSmsWaiting) {
@@ -213,7 +213,7 @@ class RegisterController extends GetxController {
   }
 
   _proceedPhoneSms() async {
-    if (smsCode.isBlank) {
+    if (smsCode.isNullOrBlank) {
       return;
     }
     if (await SessionRepository.verifyPhone(

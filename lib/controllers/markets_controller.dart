@@ -115,7 +115,7 @@ class MarketsController extends GetxController {
   Future<void> rebuildWatchedMarkets() async {
     String id = _storage.read(AppStorageKeys.watchlistId);
     await _initMarketsListIfNeeded(force: true);
-    if (!id.isBlank) {
+    if (!id.isNullOrBlank) {
       List<MarketModel> result = [];
       var watchlist = await WatchlistsRepository.getWatchlist(id);
       if (watchlist != null) {

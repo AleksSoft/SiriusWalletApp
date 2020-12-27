@@ -316,7 +316,7 @@ packages:
       name: get_storage
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.3.2"
+    version: "1.4.0"
   glob:
     dependency: transitive
     description:
@@ -713,14 +713,14 @@ packages:
       name: syncfusion_flutter_charts
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "18.4.30"
+    version: "18.4.31"
   syncfusion_flutter_core:
     dependency: transitive
     description:
       name: syncfusion_flutter_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "18.4.30"
+    version: "18.4.31"
   term_glyph:
     dependency: transitive
     description:

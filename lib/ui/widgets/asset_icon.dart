@@ -15,7 +15,7 @@ class AssetIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (iconUrl.isBlank) return _placeholder;
+    if (iconUrl.isNullOrBlank) return _placeholder;
     return iconUrl.endsWith('.svg')
         ? SvgPicture.network(
             iconUrl,

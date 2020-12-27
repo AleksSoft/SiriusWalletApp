@@ -42,7 +42,7 @@ class LoginController extends GetxController {
     super.onReady();
     loading = true;
     String sessionId = _storage.read(AppStorageKeys.token);
-    if (!sessionId.isBlank) {
+    if (!sessionId.isNullOrBlank) {
       await _verifyPin(sessionId);
     }
     loading = false;
@@ -66,7 +66,9 @@ class LoginController extends GetxController {
   }
 
   Future signIn() async {
-    if (emailValue.isBlank || !emailValue.isEmail || passwordValue.isEmpty) {
+    if (emailValue.isNullOrBlank ||
+        !emailValue.isEmail ||
+        passwordValue.isEmpty) {
       return;
     }
     loading = true;
@@ -102,7 +104,7 @@ class LoginController extends GetxController {
   }
 
   verifySms() async {
-    if (smsCodeValue.isBlank) {
+    if (smsCodeValue.isNullOrBlank) {
       return;
     }
     loading = true;

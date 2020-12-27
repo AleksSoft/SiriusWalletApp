@@ -264,7 +264,7 @@ class OrderDetailsController extends GetxController {
   }
 
   Future<void> modify() async {
-    if (!_orderId.isBlank) {
+    if (!_orderId.isNullOrBlank) {
       loading = true;
       await OrdersController.con.cancelOrder(_orderId);
       await perform();

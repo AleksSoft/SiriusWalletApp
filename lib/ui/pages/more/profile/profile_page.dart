@@ -63,7 +63,7 @@ class _AccountDataView extends StatelessWidget {
           subtitle: Text('verified'.tr),
           trailing: Obx(
             () => Visibility(
-              visible: !c.tierInfo.nextTier.tier.isBlank,
+              visible: !c.tierInfo.nextTier.tier.isNullOrBlank,
               child: OutlineButton(
                 onPressed: () => Get.toNamed(UpgradeAccountMainPage.route),
                 borderSide: BorderSide(color: AppColors.accent),

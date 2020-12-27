@@ -129,7 +129,7 @@ class _ListView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Visibility(
-              visible: _.personalData.address.isBlank,
+              visible: _.personalData.address.isNullOrBlank,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: AppSizes.small),
                 child: Row(

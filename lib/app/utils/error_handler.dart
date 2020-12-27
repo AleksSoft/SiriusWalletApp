@@ -122,7 +122,7 @@ class ErrorHandler {
   }) async {
     final storage = GetStorage();
     String jsonStr = storage.read(AppStorageKeys.errorList);
-    SavedErrorsModel model = jsonStr.isBlank
+    SavedErrorsModel model = jsonStr.isNullOrBlank
         ? SavedErrorsModel()
         : SavedErrorsModel().fromJson(json.decode(jsonStr));
     model.errors.add(
