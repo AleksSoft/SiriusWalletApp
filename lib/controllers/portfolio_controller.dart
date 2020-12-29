@@ -28,7 +28,9 @@ class PortfolioController extends GetxController {
   void onInit() {
     ever(
       hideZeros,
-      (hide) => categoryAssetsMap.assignAll(_mergeMap(categoryAssetsMap)),
+      (hide) => _mergeMap(categoryAssetsMap).then(
+        (value) => categoryAssetsMap.assignAll(value),
+      ),
     );
     super.onInit();
   }
@@ -68,11 +70,12 @@ class PortfolioController extends GetxController {
   }
 
   Future<void> rebuildPortfolioAssets() async {
-    loading = true;
+    _loading(true);
     await _assetsController.getAssetsDictionary();
     await getBalances();
-    categoryAssetsMap.assignAll(_mergeMap(categoryAssetsMap));
-    loading = false;
+    _mergeMap(categoryAssetsMap)
+        .then((value) => categoryAssetsMap.assignAll(value))
+        .whenComplete(() => _loading(false));
   }
 
   Future<void> getBalances() async =>
@@ -122,9 +125,9 @@ class PortfolioController extends GetxController {
     if (!silent) loading = false;
   }
 
-  Map<AssetCategory, List<Asset>> _mergeMap(
+  Future<Map<AssetCategory, List<Asset>>> _mergeMap(
     Map<AssetCategory, List<Asset>> oldMap,
-  ) {
+  ) async {
     var mergedMap = Map<AssetCategory, List<Asset>>.from(oldMap);
     _assetsController.categoryList.forEach((category) {
       var l = hideZeros.value
