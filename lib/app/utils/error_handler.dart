@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:antares_wallet/app/common/common.dart';
-import 'package:antares_wallet/app/modules/local_auth/local_auth_service.dart';
+import 'package:antares_wallet/app/data/service/session_service.dart';
 import 'package:antares_wallet/app/utils/utils.dart';
 import 'package:antares_wallet/models/saved_errors_model.dart';
 import 'package:flutter/foundation.dart';
@@ -76,7 +76,7 @@ class ErrorHandler {
     bool showDialog,
   ) {
     if (e.code == StatusCode.unauthenticated) {
-      Get.find<LocalAuthService>().verifyPin(logOutOnError: true);
+      Get.find<SessionService>().verifySessionPIN(logOutOnError: true);
     }
     logError(
       code: e.code.toString(),

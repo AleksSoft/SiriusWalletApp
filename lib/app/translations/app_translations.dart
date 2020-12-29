@@ -1,6 +1,7 @@
-import 'package:antares_wallet/app/common/translations/en.dart';
-import 'package:antares_wallet/app/common/translations/ru.dart';
 import 'package:get/get.dart';
+
+import 'locales/en.dart';
+import 'locales/ru.dart';
 
 class AppTranslations extends Translations {
   @override

@@ -143,5 +143,8 @@ final Map<String, String> enUS = {
   "withdraw_funds": "Withdraw funds",
   "apply": "Apply",
   "buy": "Buy",
-  "sell": "Sell"
+  "sell": "Sell",
+  "msg_local_auth": "Please authenticate to continue",
+  "msg_pin_wrong": "Pin not verified",
+  "msg_pin_create_fail": "PIN creation failed"
 };

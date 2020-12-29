@@ -1,31 +1,39 @@
 import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/data/repository/local_auth_repository.dart';
 import 'package:antares_wallet/repositories/session_repository.dart';
-import 'package:antares_wallet/app/modules/local_auth/local_auth_service.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:meta/meta.dart';
 
-enum PinMode { CHECK, CREATE, UPDATE }
+enum PinMode { check, create, update }
 
-enum LocalAuthState { CHECK_PIN, CREATE_PIN, UPDATE_PIN }
+enum LocalAuthState { checkPIN, createPIN, updatePIN }
 
 class LocalAuthController extends GetxController {
   static LocalAuthController get con => Get.find();
 
-  final _storage = GetStorage();
+  final ILocalAuthRepository repository;
+  final GetStorage storage;
+  LocalAuthController({
+    @required this.repository,
+    @required this.storage,
+  });
 
-  final _state = LocalAuthState.CHECK_PIN.obs;
-  final _pinValue = ''.obs;
   final showBack = false.obs;
   final loading = false.obs;
-  final showLocalAuth = false.obs;
+  final localAuthType = LocalAuthType.none.obs;
+  final _state = LocalAuthState.checkPIN.obs;
+  final _pinValue = ''.obs;
 
-  PinMode _mode = PinMode.CHECK;
+  PinMode _mode = PinMode.check;
   String _prevPIN = '';
 
   int get fieldsCount => 4;
-
   String get header => _getViewTitle();
   String get pinValue => _pinValue.value;
+  bool get showLocalAuth => localAuthType.value != LocalAuthType.none;
+  bool get isFingerprint => localAuthType.value == LocalAuthType.fingerprint;
+  bool get isFace => localAuthType.value == LocalAuthType.face;
 
   @override
   void onInit() {
@@ -42,38 +50,37 @@ class LocalAuthController extends GetxController {
   }
 
   void initWithMode(PinMode mode) {
-    _mode = mode ?? PinMode.CHECK;
-    showBack(_mode != PinMode.CHECK);
+    _mode = mode ?? PinMode.check;
+    showBack(_mode != PinMode.check);
 
     switch (_mode) {
-      case PinMode.CREATE:
-        _state(LocalAuthState.CREATE_PIN);
+      case PinMode.create:
+        _state(LocalAuthState.createPIN);
         break;
-      case PinMode.UPDATE:
-        _state(LocalAuthState.UPDATE_PIN);
+      case PinMode.update:
+        _state(LocalAuthState.updatePIN);
         break;
-      case PinMode.CHECK:
+      case PinMode.check:
       default:
-        _state(LocalAuthState.CHECK_PIN);
+        _state(LocalAuthState.checkPIN);
         break;
     }
 
-    LocalAuthService.canCheckBiometrics.then((canCheck) {
-      showLocalAuth(canCheck);
-      tryToggleLocalAuth();
-    });
+    repository
+        .getLocalAuthType()
+        .then(localAuthType)
+        .whenComplete(() => tryToggleLocalAuth());
   }
 
   void tryToggleLocalAuth() {
-    if (showLocalAuth.value) {
+    if (showLocalAuth) {
       loading(true);
-      LocalAuthService.authenticate().then((authorized) {
+      repository.authenticate('msg_local_auth'.tr).then((authorized) {
         if (authorized) {
-          _pinValue(_storage.read<String>(AppStorageKeys.pinCode));
+          _pinValue(storage.read<String>(AppStorageKeys.pinCode));
           _submitPIN();
         }
-        loading(false);
-      });
+      }).whenComplete(() => loading(false));
     }
   }
 
@@ -91,13 +98,13 @@ class LocalAuthController extends GetxController {
 
   void submit(String pin) {
     switch (_state.value) {
-      case LocalAuthState.CREATE_PIN:
+      case LocalAuthState.createPIN:
         _createPIN();
         break;
-      case LocalAuthState.UPDATE_PIN:
+      case LocalAuthState.updatePIN:
         _saveNewPIN();
         break;
-      case LocalAuthState.CHECK_PIN:
+      case LocalAuthState.checkPIN:
       default:
         _submitPIN();
         break;
@@ -107,12 +114,12 @@ class LocalAuthController extends GetxController {
   void _createPIN() {
     _prevPIN = pinValue;
     _pinValue('');
-    _state(LocalAuthState.UPDATE_PIN);
+    _state(LocalAuthState.updatePIN);
   }
 
   Future<void> _submitPIN() async {
     loading(true);
-    String token = _storage.read(AppStorageKeys.token);
+    String token = storage.read(AppStorageKeys.token);
     bool result = await SessionRepository.checkPin(
       sessionId: token,
       pin: pinValue,
@@ -126,7 +133,7 @@ class LocalAuthController extends GetxController {
         buttonColor: AppColors.dark,
         confirmTextColor: AppColors.primary,
         onConfirm: () {
-          _state(LocalAuthState.CHECK_PIN);
+          _state(LocalAuthState.checkPIN);
           _pinValue('');
           Get.back();
         },
@@ -137,7 +144,7 @@ class LocalAuthController extends GetxController {
 
   Future<void> _saveNewPIN() async {
     if (_prevPIN == pinValue) {
-      await _storage.write(AppStorageKeys.pinCode, pinValue);
+      await storage.write(AppStorageKeys.pinCode, pinValue);
       navigateBack(true);
     } else {
       Get.defaultDialog(
@@ -146,7 +153,7 @@ class LocalAuthController extends GetxController {
         buttonColor: AppColors.dark,
         confirmTextColor: AppColors.primary,
         onConfirm: () {
-          _state(LocalAuthState.CREATE_PIN);
+          _state(LocalAuthState.createPIN);
           _pinValue('');
           Get.back();
         },
@@ -156,11 +163,11 @@ class LocalAuthController extends GetxController {
 
   String _getViewTitle() {
     switch (_state.value) {
-      case LocalAuthState.CREATE_PIN:
+      case LocalAuthState.createPIN:
         return 'Create new PIN';
-      case LocalAuthState.UPDATE_PIN:
+      case LocalAuthState.updatePIN:
         return 'Repeat PIN';
-      case LocalAuthState.CHECK_PIN:
+      case LocalAuthState.checkPIN:
       default:
         return 'Enter PIN';
     }

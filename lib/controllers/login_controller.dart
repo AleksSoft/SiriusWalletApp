@@ -126,7 +126,7 @@ class LoginController extends GetxController {
     await _storage.write(AppStorageKeys.token, token);
     var pinCorrect = await Get.toNamed(
       Routes.LOCAL_AUTH,
-      arguments: PinMode.CHECK,
+      arguments: PinMode.check,
     );
     if (pinCorrect ?? false) {
       await Get.find<ApiService>().update();
@@ -134,7 +134,7 @@ class LoginController extends GetxController {
     } else {
       _storage.erase().whenComplete(() {
         Get.rawSnackbar(
-          message: 'Pin not verified',
+          message: 'msg_pin_wrong'.tr,
           backgroundColor: AppColors.red,
         );
       });

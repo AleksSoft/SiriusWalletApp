@@ -227,11 +227,18 @@ class RegisterController extends GetxController {
   }
 
   _proceedPassword() async {
-    await Get.toNamed(
+    var pinCreated = await Get.toNamed(
       Routes.LOCAL_AUTH,
-      arguments: PinMode.CREATE,
+      arguments: PinMode.create,
     );
-    Get.to(RegisterResultPage(), fullscreenDialog: true);
+    if (pinCreated ?? false) {
+      Get.to(RegisterResultPage(), fullscreenDialog: true);
+    } else {
+      Get.rawSnackbar(
+        message: 'msg_pin_create_fail'.tr,
+        backgroundColor: AppColors.red,
+      );
+    }
 
     List<int> utf8Password = utf8.encode(passwordValue);
     String shaPassword = sha256.convert(utf8Password).toString();

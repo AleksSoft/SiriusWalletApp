@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:antares_wallet/app/data/service/session_service.dart';
 import 'package:antares_wallet/app/utils/app_log.dart';
 import 'package:antares_wallet/repositories/session_repository.dart';
-import 'package:antares_wallet/app/modules/local_auth/local_auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +14,7 @@ import 'portfolio_controller.dart';
 class AppController extends GetxController with WidgetsBindingObserver {
   static AppController get con => Get.find();
 
-  final _localAuth = Get.find<LocalAuthService>();
+  final _localAuth = Get.find<SessionService>();
 
   final _assetsCon = Get.find<AssetsController>();
   final _marketsCon = Get.find<MarketsController>();
@@ -103,9 +103,7 @@ class AppController extends GetxController with WidgetsBindingObserver {
   Future<bool> _prolongSession() async {
     bool success = await SessionRepository.prolongateSession();
     AppLog.loggerNoStack.d('session prolongation result = $success');
-    if (!success) {
-      _localAuth.verifyPin(logOutOnError: true);
-    }
+    if (!success) _localAuth.verifySessionPIN(logOutOnError: true);
     return success;
   }
 }

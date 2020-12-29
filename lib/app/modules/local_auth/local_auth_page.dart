@@ -107,8 +107,10 @@ class Numpad extends GetView<LocalAuthController> {
             children: <Widget>[
               NumpadButton(
                 haveBorder: false,
-                icon: controller.showLocalAuth.value ? Icons.fingerprint : null,
-                onPressed: controller.showLocalAuth.value
+                icon: controller.isFingerprint
+                    ? Icons.fingerprint
+                    : (controller.isFace ? Icons.face_unlock_outlined : null),
+                onPressed: controller.showLocalAuth
                     ? () => controller.tryToggleLocalAuth()
                     : null,
               ),

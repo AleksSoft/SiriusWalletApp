@@ -11,6 +11,7 @@ import 'package:logger_flutter/logger_flutter.dart';
 import 'app/bindings/initial_binding.dart';
 import 'app/common/common.dart';
 import 'app/routes/app_pages.dart';
+import 'app/translations/app_translations.dart';
 import 'app/utils/utils.dart';
 
 Future<void> mainCommon(AppConfig appConfig) async {

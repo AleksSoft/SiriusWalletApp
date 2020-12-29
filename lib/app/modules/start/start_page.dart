@@ -1,5 +1,6 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/controllers/login_controller.dart';
+import 'package:antares_wallet/ui/pages/dev_settings/dev_settings_page.dart';
 import 'package:antares_wallet/ui/pages/login/login_page.dart';
 import 'package:antares_wallet/ui/pages/register/register_page.dart';
 import 'package:antares_wallet/ui/widgets/empty_reloading_view.dart';
@@ -137,6 +138,16 @@ class _StartFooter extends StatelessWidget {
                 "SIGN IN",
                 textAlign: TextAlign.center,
                 style: TextStyle(color: AppColors.secondary),
+              ),
+            ),
+          ),
+          Visibility(
+            visible: !Get.find<AppConfig>().isProd,
+            child: InkWell(
+              onTap: () => Get.to(DevSettingsPage()),
+              child: Text(
+                'Developer settings',
+                textAlign: TextAlign.center,
               ),
             ),
           ),

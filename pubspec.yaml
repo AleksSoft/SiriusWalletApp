@@ -27,6 +27,7 @@ dependencies:
   web3dart: ^1.2.3
 
   # utils and features
+  meta: ^1.2.4
   intl: ^0.15.8
   equatable: ^1.2.5
   enum_to_string: ^1.0.9
