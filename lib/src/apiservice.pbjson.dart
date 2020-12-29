@@ -531,6 +531,17 @@ const PricesResponse$json = const {
 const AssetsDictionaryResponse$json = const {
   '1': 'AssetsDictionaryResponse',
   '2': const [
+    const {'1': 'body', '3': 1, '4': 1, '5': 11, '6': '.antaresWallet.AssetsDictionaryResponseBody', '9': 0, '10': 'body'},
+    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorResponseBody', '9': 0, '10': 'error'},
+  ],
+  '8': const [
+    const {'1': 'result'},
+  ],
+};
+
+const AssetsDictionaryResponseBody$json = const {
+  '1': 'AssetsDictionaryResponseBody',
+  '2': const [
     const {'1': 'categories', '3': 1, '4': 3, '5': 11, '6': '.antaresWallet.AssetCategory', '10': 'categories'},
     const {'1': 'assets', '3': 2, '4': 3, '5': 11, '6': '.antaresWallet.Asset', '10': 'assets'},
   ],
@@ -571,7 +582,7 @@ const BalancesResponse$json = const {
   '1': 'BalancesResponse',
   '2': const [
     const {'1': 'payload', '3': 1, '4': 3, '5': 11, '6': '.antaresWallet.Balance', '10': 'payload'},
-    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.Error', '10': 'error'},
+    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.Error3', '10': 'error'},
   ],
 };
 
@@ -843,7 +854,7 @@ const CancelOrderResponse$json = const {
   '1': 'CancelOrderResponse',
   '2': const [
     const {'1': 'payload', '3': 1, '4': 1, '5': 8, '10': 'payload'},
-    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.Error', '10': 'error'},
+    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.Error3', '10': 'error'},
   ],
 };
 
@@ -885,11 +896,13 @@ const AssetTradesResponse_AssetTradeModel$json = const {
   '1': 'AssetTradeModel',
   '2': const [
     const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
-    const {'1': 'assetId', '3': 2, '4': 1, '5': 9, '10': 'assetId'},
-    const {'1': 'assetPairId', '3': 3, '4': 1, '5': 9, '10': 'assetPairId'},
-    const {'1': 'price', '3': 4, '4': 1, '5': 9, '10': 'price'},
-    const {'1': 'amount', '3': 5, '4': 1, '5': 9, '10': 'amount'},
-    const {'1': 'timestamp', '3': 10, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'timestamp'},
+    const {'1': 'assetPairId', '3': 2, '4': 1, '5': 9, '10': 'assetPairId'},
+    const {'1': 'baseAssetId', '3': 3, '4': 1, '5': 9, '10': 'baseAssetId'},
+    const {'1': 'quoteAssetId', '3': 4, '4': 1, '5': 9, '10': 'quoteAssetId'},
+    const {'1': 'price', '3': 5, '4': 1, '5': 9, '10': 'price'},
+    const {'1': 'baseVolume', '3': 6, '4': 1, '5': 9, '10': 'baseVolume'},
+    const {'1': 'quoteVolume', '3': 7, '4': 1, '5': 9, '10': 'quoteVolume'},
+    const {'1': 'timestamp', '3': 8, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'timestamp'},
   ],
 };
 
@@ -1712,16 +1725,16 @@ const EmptyResponseV2$json = const {
   ],
 };
 
-const Error$json = const {
-  '1': 'Error',
+const Error3$json = const {
+  '1': 'Error3',
   '2': const [
     const {'1': 'message', '3': 1, '4': 1, '5': 9, '10': 'message'},
-    const {'1': 'fields', '3': 2, '4': 3, '5': 11, '6': '.antaresWallet.Error.FieldsEntry', '10': 'fields'},
+    const {'1': 'fields', '3': 2, '4': 3, '5': 11, '6': '.antaresWallet.Error3.FieldsEntry', '10': 'fields'},
   ],
-  '3': const [Error_FieldsEntry$json],
+  '3': const [Error3_FieldsEntry$json],
 };
 
-const Error_FieldsEntry$json = const {
+const Error3_FieldsEntry$json = const {
   '1': 'FieldsEntry',
   '2': const [
     const {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},

@@ -1,11 +1,9 @@
 import 'dart:convert';
 
 import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/modules/local_auth/local_auth_service.dart';
 import 'package:antares_wallet/app/utils/utils.dart';
 import 'package:antares_wallet/models/saved_errors_model.dart';
-import 'package:antares_wallet/app/modules/local_auth/local_auth_service.dart';
-import 'package:antares_wallet/src/apiservice.pb.dart' as apiservice;
-import 'package:antares_wallet/ui/pages/disclaimer/disclaimer_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -44,32 +42,32 @@ class ErrorHandler {
     Future<T> Function() future,
     String method,
   ) async {
-    if (error is apiservice.Error) {
-      logError(code: '', message: error.message, method: method);
-    } else if (error is apiservice.ErrorV1) {
-      // check if it's pending disclaimer
-      if (error.code == '70') {
-        final result = await Get.toNamed(DisclaimersPage.route);
-        if (result ?? false) {
-          await ErrorHandler.safeCall<T>(
-            () => future(),
-            method: method,
-          );
-        }
-      } else {
-        logError(
-          code: error.code,
-          message: error.message,
-          method: method,
-        );
-      }
-    } else if (error is apiservice.ErrorV2) {
-      logError(
-        code: error.error,
-        message: error.message,
-        method: method,
-      );
-    }
+    // if (error is apiservice.Error) {
+    //   logError(code: '', message: error.message, method: method);
+    // } else if (error is apiservice.ErrorV1) {
+    //   // check if it's pending disclaimer
+    //   if (error.code == '70') {
+    //     final result = await Get.toNamed(DisclaimersPage.route);
+    //     if (result ?? false) {
+    //       await ErrorHandler.safeCall<T>(
+    //         () => future(),
+    //         method: method,
+    //       );
+    //     }
+    //   } else {
+    //     logError(
+    //       code: error.code,
+    //       message: error.message,
+    //       method: method,
+    //     );
+    //   }
+    // } else if (error is apiservice.ErrorV2) {
+    //   logError(
+    //     code: error.error,
+    //     message: error.message,
+    //     method: method,
+    //   );
+    // }
   }
 
   static void _handleGrpcError(

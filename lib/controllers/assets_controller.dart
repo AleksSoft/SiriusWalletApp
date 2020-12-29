@@ -11,8 +11,8 @@ class AssetsController extends GetxController {
   set assetsDictionary(AssetsDictionaryResponse value) =>
       this._assetsDictionary.value = value;
 
-  List<Asset> get assetList => assetsDictionary.assets;
-  List<AssetCategory> get categoryList => assetsDictionary.categories;
+  List<Asset> get assetList => assetsDictionary.body.assets;
+  List<AssetCategory> get categoryList => assetsDictionary.body.categories;
 
   int assetsDictionaryTimestamp = 0;
 

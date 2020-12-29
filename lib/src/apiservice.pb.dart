@@ -10,6 +10,7 @@ import 'dart:core' as $core;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'google/protobuf/timestamp.pb.dart' as $3;
+import 'common.pb.dart' as $4;
 
 import 'apiservice.pbenum.dart';
 
@@ -2944,10 +2945,22 @@ class PricesResponse extends $pb.GeneratedMessage {
   $core.List<PriceUpdate> get prices => $_getList(0);
 }
 
+enum AssetsDictionaryResponse_Result {
+  body, 
+  error, 
+  notSet
+}
+
 class AssetsDictionaryResponse extends $pb.GeneratedMessage {
+  static const $core.Map<$core.int, AssetsDictionaryResponse_Result> _AssetsDictionaryResponse_ResultByTag = {
+    1 : AssetsDictionaryResponse_Result.body,
+    2 : AssetsDictionaryResponse_Result.error,
+    0 : AssetsDictionaryResponse_Result.notSet
+  };
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'AssetsDictionaryResponse', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'antaresWallet'), createEmptyInstance: create)
-    ..pc<AssetCategory>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'categories', $pb.PbFieldType.PM, subBuilder: AssetCategory.create)
-    ..pc<Asset>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'assets', $pb.PbFieldType.PM, subBuilder: Asset.create)
+    ..oo(0, [1, 2])
+    ..aOM<AssetsDictionaryResponseBody>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'body', subBuilder: AssetsDictionaryResponseBody.create)
+    ..aOM<$4.ErrorResponseBody>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'error', subBuilder: $4.ErrorResponseBody.create)
     ..hasRequiredFields = false
   ;
 
@@ -2973,6 +2986,62 @@ class AssetsDictionaryResponse extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static AssetsDictionaryResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AssetsDictionaryResponse>(create);
   static AssetsDictionaryResponse _defaultInstance;
+
+  AssetsDictionaryResponse_Result whichResult() => _AssetsDictionaryResponse_ResultByTag[$_whichOneof(0)];
+  void clearResult() => clearField($_whichOneof(0));
+
+  @$pb.TagNumber(1)
+  AssetsDictionaryResponseBody get body => $_getN(0);
+  @$pb.TagNumber(1)
+  set body(AssetsDictionaryResponseBody v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasBody() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearBody() => clearField(1);
+  @$pb.TagNumber(1)
+  AssetsDictionaryResponseBody ensureBody() => $_ensure(0);
+
+  @$pb.TagNumber(2)
+  $4.ErrorResponseBody get error => $_getN(1);
+  @$pb.TagNumber(2)
+  set error($4.ErrorResponseBody v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasError() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearError() => clearField(2);
+  @$pb.TagNumber(2)
+  $4.ErrorResponseBody ensureError() => $_ensure(1);
+}
+
+class AssetsDictionaryResponseBody extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'AssetsDictionaryResponseBody', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'antaresWallet'), createEmptyInstance: create)
+    ..pc<AssetCategory>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'categories', $pb.PbFieldType.PM, subBuilder: AssetCategory.create)
+    ..pc<Asset>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'assets', $pb.PbFieldType.PM, subBuilder: Asset.create)
+    ..hasRequiredFields = false
+  ;
+
+  AssetsDictionaryResponseBody._() : super();
+  factory AssetsDictionaryResponseBody() => create();
+  factory AssetsDictionaryResponseBody.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AssetsDictionaryResponseBody.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  AssetsDictionaryResponseBody clone() => AssetsDictionaryResponseBody()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  AssetsDictionaryResponseBody copyWith(void Function(AssetsDictionaryResponseBody) updates) => super.copyWith((message) => updates(message as AssetsDictionaryResponseBody)); // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static AssetsDictionaryResponseBody create() => AssetsDictionaryResponseBody._();
+  AssetsDictionaryResponseBody createEmptyInstance() => create();
+  static $pb.PbList<AssetsDictionaryResponseBody> createRepeated() => $pb.PbList<AssetsDictionaryResponseBody>();
+  @$core.pragma('dart2js:noInline')
+  static AssetsDictionaryResponseBody getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AssetsDictionaryResponseBody>(create);
+  static AssetsDictionaryResponseBody _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.List<AssetCategory> get categories => $_getList(0);
@@ -3154,7 +3223,7 @@ class CandlesResponse extends $pb.GeneratedMessage {
 class BalancesResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'BalancesResponse', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'antaresWallet'), createEmptyInstance: create)
     ..pc<Balance>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'payload', $pb.PbFieldType.PM, subBuilder: Balance.create)
-    ..aOM<Error>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'error', subBuilder: Error.create)
+    ..aOM<Error3>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'error', subBuilder: Error3.create)
     ..hasRequiredFields = false
   ;
 
@@ -3185,15 +3254,15 @@ class BalancesResponse extends $pb.GeneratedMessage {
   $core.List<Balance> get payload => $_getList(0);
 
   @$pb.TagNumber(2)
-  Error get error => $_getN(1);
+  Error3 get error => $_getN(1);
   @$pb.TagNumber(2)
-  set error(Error v) { setField(2, v); }
+  set error(Error3 v) { setField(2, v); }
   @$pb.TagNumber(2)
   $core.bool hasError() => $_has(1);
   @$pb.TagNumber(2)
   void clearError() => clearField(2);
   @$pb.TagNumber(2)
-  Error ensureError() => $_ensure(1);
+  Error3 ensureError() => $_ensure(1);
 }
 
 class MarketsResponse_MarketModel extends $pb.GeneratedMessage {
@@ -4846,7 +4915,7 @@ class LimitOrderModel extends $pb.GeneratedMessage {
 class CancelOrderResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'CancelOrderResponse', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'antaresWallet'), createEmptyInstance: create)
     ..aOB(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'payload')
-    ..aOM<Error>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'error', subBuilder: Error.create)
+    ..aOM<Error3>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'error', subBuilder: Error3.create)
     ..hasRequiredFields = false
   ;
 
@@ -4883,15 +4952,15 @@ class CancelOrderResponse extends $pb.GeneratedMessage {
   void clearPayload() => clearField(1);
 
   @$pb.TagNumber(2)
-  Error get error => $_getN(1);
+  Error3 get error => $_getN(1);
   @$pb.TagNumber(2)
-  set error(Error v) { setField(2, v); }
+  set error(Error3 v) { setField(2, v); }
   @$pb.TagNumber(2)
   $core.bool hasError() => $_has(1);
   @$pb.TagNumber(2)
   void clearError() => clearField(2);
   @$pb.TagNumber(2)
-  Error ensureError() => $_ensure(1);
+  Error3 ensureError() => $_ensure(1);
 }
 
 class TradesResponse_TradeModel extends $pb.GeneratedMessage {
@@ -5073,11 +5142,13 @@ class TradesResponse extends $pb.GeneratedMessage {
 class AssetTradesResponse_AssetTradeModel extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'AssetTradesResponse.AssetTradeModel', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'antaresWallet'), createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id')
-    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'assetId', protoName: 'assetId')
-    ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'assetPairId', protoName: 'assetPairId')
-    ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'price')
-    ..aOS(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'amount')
-    ..aOM<$3.Timestamp>(10, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'timestamp', subBuilder: $3.Timestamp.create)
+    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'assetPairId', protoName: 'assetPairId')
+    ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'baseAssetId', protoName: 'baseAssetId')
+    ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'quoteAssetId', protoName: 'quoteAssetId')
+    ..aOS(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'price')
+    ..aOS(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'baseVolume', protoName: 'baseVolume')
+    ..aOS(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'quoteVolume', protoName: 'quoteVolume')
+    ..aOM<$3.Timestamp>(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'timestamp', subBuilder: $3.Timestamp.create)
     ..hasRequiredFields = false
   ;
 
@@ -5114,51 +5185,69 @@ class AssetTradesResponse_AssetTradeModel extends $pb.GeneratedMessage {
   void clearId() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get assetId => $_getSZ(1);
+  $core.String get assetPairId => $_getSZ(1);
   @$pb.TagNumber(2)
-  set assetId($core.String v) { $_setString(1, v); }
+  set assetPairId($core.String v) { $_setString(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasAssetId() => $_has(1);
+  $core.bool hasAssetPairId() => $_has(1);
   @$pb.TagNumber(2)
-  void clearAssetId() => clearField(2);
+  void clearAssetPairId() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.String get assetPairId => $_getSZ(2);
+  $core.String get baseAssetId => $_getSZ(2);
   @$pb.TagNumber(3)
-  set assetPairId($core.String v) { $_setString(2, v); }
+  set baseAssetId($core.String v) { $_setString(2, v); }
   @$pb.TagNumber(3)
-  $core.bool hasAssetPairId() => $_has(2);
+  $core.bool hasBaseAssetId() => $_has(2);
   @$pb.TagNumber(3)
-  void clearAssetPairId() => clearField(3);
+  void clearBaseAssetId() => clearField(3);
 
   @$pb.TagNumber(4)
-  $core.String get price => $_getSZ(3);
+  $core.String get quoteAssetId => $_getSZ(3);
   @$pb.TagNumber(4)
-  set price($core.String v) { $_setString(3, v); }
+  set quoteAssetId($core.String v) { $_setString(3, v); }
   @$pb.TagNumber(4)
-  $core.bool hasPrice() => $_has(3);
+  $core.bool hasQuoteAssetId() => $_has(3);
   @$pb.TagNumber(4)
-  void clearPrice() => clearField(4);
+  void clearQuoteAssetId() => clearField(4);
 
   @$pb.TagNumber(5)
-  $core.String get amount => $_getSZ(4);
+  $core.String get price => $_getSZ(4);
   @$pb.TagNumber(5)
-  set amount($core.String v) { $_setString(4, v); }
+  set price($core.String v) { $_setString(4, v); }
   @$pb.TagNumber(5)
-  $core.bool hasAmount() => $_has(4);
+  $core.bool hasPrice() => $_has(4);
   @$pb.TagNumber(5)
-  void clearAmount() => clearField(5);
+  void clearPrice() => clearField(5);
 
-  @$pb.TagNumber(10)
-  $3.Timestamp get timestamp => $_getN(5);
-  @$pb.TagNumber(10)
-  set timestamp($3.Timestamp v) { setField(10, v); }
-  @$pb.TagNumber(10)
-  $core.bool hasTimestamp() => $_has(5);
-  @$pb.TagNumber(10)
-  void clearTimestamp() => clearField(10);
-  @$pb.TagNumber(10)
-  $3.Timestamp ensureTimestamp() => $_ensure(5);
+  @$pb.TagNumber(6)
+  $core.String get baseVolume => $_getSZ(5);
+  @$pb.TagNumber(6)
+  set baseVolume($core.String v) { $_setString(5, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasBaseVolume() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearBaseVolume() => clearField(6);
+
+  @$pb.TagNumber(7)
+  $core.String get quoteVolume => $_getSZ(6);
+  @$pb.TagNumber(7)
+  set quoteVolume($core.String v) { $_setString(6, v); }
+  @$pb.TagNumber(7)
+  $core.bool hasQuoteVolume() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearQuoteVolume() => clearField(7);
+
+  @$pb.TagNumber(8)
+  $3.Timestamp get timestamp => $_getN(7);
+  @$pb.TagNumber(8)
+  set timestamp($3.Timestamp v) { setField(8, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasTimestamp() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearTimestamp() => clearField(8);
+  @$pb.TagNumber(8)
+  $3.Timestamp ensureTimestamp() => $_ensure(7);
 }
 
 class AssetTradesResponse extends $pb.GeneratedMessage {
@@ -10640,35 +10729,35 @@ class EmptyResponseV2 extends $pb.GeneratedMessage {
   ErrorV2 ensureError() => $_ensure(0);
 }
 
-class Error extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Error', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'antaresWallet'), createEmptyInstance: create)
+class Error3 extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Error3', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'antaresWallet'), createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'message')
-    ..m<$core.String, $core.String>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'fields', entryClassName: 'Error.FieldsEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OS, packageName: const $pb.PackageName('antaresWallet'))
+    ..m<$core.String, $core.String>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'fields', entryClassName: 'Error3.FieldsEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OS, packageName: const $pb.PackageName('antaresWallet'))
     ..hasRequiredFields = false
   ;
 
-  Error._() : super();
-  factory Error() => create();
-  factory Error.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory Error.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  Error3._() : super();
+  factory Error3() => create();
+  factory Error3.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Error3.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  Error clone() => Error()..mergeFromMessage(this);
+  Error3 clone() => Error3()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  Error copyWith(void Function(Error) updates) => super.copyWith((message) => updates(message as Error)); // ignore: deprecated_member_use
+  Error3 copyWith(void Function(Error3) updates) => super.copyWith((message) => updates(message as Error3)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static Error create() => Error._();
-  Error createEmptyInstance() => create();
-  static $pb.PbList<Error> createRepeated() => $pb.PbList<Error>();
+  static Error3 create() => Error3._();
+  Error3 createEmptyInstance() => create();
+  static $pb.PbList<Error3> createRepeated() => $pb.PbList<Error3>();
   @$core.pragma('dart2js:noInline')
-  static Error getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Error>(create);
-  static Error _defaultInstance;
+  static Error3 getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Error3>(create);
+  static Error3 _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get message => $_getSZ(0);

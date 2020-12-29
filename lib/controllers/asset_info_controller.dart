@@ -88,7 +88,7 @@ class AssetInfoController extends GetxController {
         Asset quotingAsset = _assetCon.assetById(assetPair?.quotingAssetId);
         if (assetPair != null && baseAsset != null && quotingAsset != null) {
           double priceDouble = (double.tryParse(model.price) ?? 0.0);
-          double amountDouble = double.tryParse(model.amount) ?? 0.0;
+          double amountDouble = double.tryParse(model.baseVolume) ?? 0.0;
           resultList.add(OrderHistoryData(
             price: priceDouble.toStringAsFixed(quotingAsset.accuracy),
             amount: amountDouble.abs().toString(),
