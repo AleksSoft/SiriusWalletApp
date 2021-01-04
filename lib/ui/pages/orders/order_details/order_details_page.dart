@@ -2,15 +2,14 @@ import 'dart:math' as math;
 
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
+import 'package:antares_wallet/app/widgets/asset_pair_tile.dart';
+import 'package:antares_wallet/app/widgets/volume_price_tile.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
-import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
-import 'package:antares_wallet/ui/widgets/volume_price_tile.dart';
+import 'package:antares_wallet/controllers/order_details_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:search_page/search_page.dart';
-
-import '../../../../controllers/order_details_controller.dart';
 
 class OrderDetailsPage extends StatelessWidget {
   static final String route = '/order-details';

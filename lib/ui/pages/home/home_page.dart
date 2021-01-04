@@ -1,12 +1,12 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
+import 'package:antares_wallet/app/widgets/asset_icon.dart';
+import 'package:antares_wallet/app/widgets/asset_pair_rich_text.dart';
+import 'package:antares_wallet/app/widgets/default_card.dart';
 import 'package:antares_wallet/controllers/home_controller.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
-import 'package:antares_wallet/ui/widgets/asset_icon.dart';
-import 'package:antares_wallet/ui/widgets/asset_pair_rich_text.dart';
-import 'package:antares_wallet/ui/widgets/default_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

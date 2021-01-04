@@ -1,4 +1,4 @@
-import 'package:antares_wallet/controllers/login_controller.dart';
+import 'package:antares_wallet/app/features/login/presentation/login_controller.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 

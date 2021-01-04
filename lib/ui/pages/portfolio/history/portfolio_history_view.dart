@@ -1,7 +1,7 @@
 import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/widgets/empty_reloading_view.dart';
+import 'package:antares_wallet/app/widgets/transaction_tile.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
-import 'package:antares_wallet/ui/widgets/empty_reloading_view.dart';
-import 'package:antares_wallet/ui/widgets/transaction_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';

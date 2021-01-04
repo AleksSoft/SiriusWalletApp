@@ -2,13 +2,13 @@ import 'dart:math' as math;
 
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
+import 'package:antares_wallet/app/widgets/asset_pair_tile.dart';
+import 'package:antares_wallet/app/widgets/buy_sell_button_row.dart';
+import 'package:antares_wallet/app/widgets/tradelog_tile.dart';
+import 'package:antares_wallet/app/widgets/volume_ask_tile.dart';
+import 'package:antares_wallet/app/widgets/volume_bid_tile.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/ui/pages/trading/widgets/candle_chart_view.dart';
-import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';
-import 'package:antares_wallet/ui/widgets/buy_sell_button_row.dart';
-import 'package:antares_wallet/ui/widgets/tradelog_tile.dart';
-import 'package:antares_wallet/ui/widgets/volume_ask_tile.dart';
-import 'package:antares_wallet/ui/widgets/volume_bid_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

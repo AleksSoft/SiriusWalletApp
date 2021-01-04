@@ -1,7 +1,7 @@
 import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/widgets/gradient_button.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/register/register_controller.dart';
-import 'package:antares_wallet/ui/widgets/gradient_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
