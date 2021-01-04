@@ -1,6 +1,6 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/data/repository/local_auth_repository.dart';
-import 'package:antares_wallet/repositories/session_repository.dart';
+import 'package:antares_wallet/app/data/repository/session_repository.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:meta/meta.dart';

@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/data/repository/trading_repository.dart';
 import 'package:antares_wallet/app/modules/local_auth/local_auth_controller.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:antares_wallet/app/utils/orderbook_utils.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/controllers/orders_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
-import 'package:antares_wallet/repositories/trading_repository.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:flutter/material.dart';

@@ -1,5 +1,5 @@
+import 'package:antares_wallet/app/data/repository/portfolio_repository.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
-import 'package:antares_wallet/repositories/portfolio_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:get/get.dart';
 

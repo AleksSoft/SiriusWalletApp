@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:antares_wallet/app/data/repository/session_repository.dart';
 import 'package:antares_wallet/app/data/service/session_service.dart';
 import 'package:antares_wallet/app/utils/app_log.dart';
-import 'package:antares_wallet/repositories/session_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -1,7 +1,7 @@
 import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/data/repository/trading_repository.dart';
 import 'package:antares_wallet/models/order_open_data.dart';
 import 'package:antares_wallet/models/orders_history_filter.dart';
-import 'package:antares_wallet/repositories/trading_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
 import 'package:get/get.dart';

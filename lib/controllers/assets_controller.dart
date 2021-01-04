@@ -1,18 +1,23 @@
+import 'package:antares_wallet/app/data/repository/assets_repository.dart';
 import 'package:antares_wallet/app/utils/utils.dart';
-import 'package:antares_wallet/repositories/asset_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:get/get.dart';
+import 'package:meta/meta.dart';
 
 class AssetsController extends GetxController {
   static AssetsController get con => Get.find();
 
-  final _assetsDictionary = AssetsDictionaryResponse().obs;
-  AssetsDictionaryResponse get assetsDictionary => this._assetsDictionary.value;
-  set assetsDictionary(AssetsDictionaryResponse value) =>
+  final IAssetsRepository repository;
+  AssetsController({@required this.repository});
+
+  final _assetsDictionary = AssetsDictionaryResponseBody().obs;
+  AssetsDictionaryResponseBody get assetsDictionary =>
+      this._assetsDictionary.value;
+  set assetsDictionary(AssetsDictionaryResponseBody value) =>
       this._assetsDictionary.value = value;
 
-  List<Asset> get assetList => assetsDictionary.body.assets;
-  List<AssetCategory> get categoryList => assetsDictionary.body.categories;
+  List<Asset> get assetList => assetsDictionary.assets;
+  List<AssetCategory> get categoryList => assetsDictionary.categories;
 
   int assetsDictionaryTimestamp = 0;
 
@@ -77,24 +82,24 @@ class AssetsController extends GetxController {
     );
     int differenceMinutes = DateTime.now().difference(lastDateTime).inMinutes;
     if (differenceMinutes >= 5) {
-      assetsDictionary = await AssetsRepository.assetsDictionary();
+      assetsDictionary = await repository.assetsDictionary();
       assetsDictionaryTimestamp = DateTime.now().millisecondsSinceEpoch;
       AppLog.loggerNoStack.d('assets dictionary updated');
     }
   }
 
   Future<void> getBaseAsset() async =>
-      baseAssetId = await AssetsRepository.getBaseAsset();
+      baseAssetId = await repository.getBaseAssetId();
 
   Future<void> getAmountsInBase() async =>
-      amountsInBase = await AssetsRepository.getAmountInBaseAsset(baseAssetId);
+      amountsInBase = await repository.getAmountInBaseAssetList(baseAssetId);
 
   Future<void> setBaseAsset(String id) async {
-    await AssetsRepository.setBaseAsset(id);
+    await repository.setBaseAsset(id);
     await getBaseAsset();
     await getAmountsInBase();
   }
 
   Future<void> getAssetPairs() async =>
-      assetPairs.assignAll(await AssetsRepository.getAssetPairs());
+      assetPairs.assignAll(await repository.getAssetPairs());
 }

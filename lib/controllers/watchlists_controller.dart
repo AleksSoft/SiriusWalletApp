@@ -1,6 +1,6 @@
 import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/data/repository/watchists_repository.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
-import 'package:antares_wallet/repositories/watchists_repository.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/markets/spot/watchlists/edit/edit_watchlist_page.dart';
 import 'package:flutter/foundation.dart';
