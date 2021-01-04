@@ -1,8 +1,8 @@
 import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/repository/profile_repository.dart';
 import 'package:antares_wallet/app/data/repository/settings_repository.dart';
 import 'package:antares_wallet/app/data/repository/wallet_repository.dart';
-import 'package:antares_wallet/app/utils/utils.dart';
 import 'package:antares_wallet/controllers/app_controller.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/banking/deposit/blockchain_deposit_page.dart';

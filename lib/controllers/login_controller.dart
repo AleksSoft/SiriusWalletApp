@@ -2,17 +2,22 @@ import 'dart:async';
 
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/data/repository/session_repository.dart';
-import 'package:antares_wallet/app/modules/local_auth/local_auth_controller.dart';
+import 'package:antares_wallet/app/features/local_auth/presentation/local_auth_controller.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
-import 'package:antares_wallet/ui/pages/root/root_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class LoginController extends GetxController {
   static LoginController get con => Get.find();
-  final _storage = GetStorage();
+
+  LoginController({
+    @required this.storage,
+    @required this.apiService,
+  });
+  final GetStorage storage;
+  final ApiService apiService;
 
   final pageViewController = PageController(initialPage: 0);
 
@@ -36,17 +41,6 @@ class LoginController extends GetxController {
   String passwordValue = '';
   String smsCodeValue = '';
   String token = '';
-
-  @override
-  void onReady() async {
-    super.onReady();
-    loading = true;
-    String sessionId = _storage.read(AppStorageKeys.token);
-    if (!sessionId.isNullOrBlank) {
-      await _verifyPin(sessionId);
-    }
-    loading = false;
-  }
 
   @override
   Future<void> onClose() async {
@@ -123,16 +117,16 @@ class LoginController extends GetxController {
   }
 
   Future<void> _verifyPin(String token) async {
-    await _storage.write(AppStorageKeys.token, token);
+    await storage.write(AppStorageKeys.token, token);
     var pinCorrect = await Get.toNamed(
       Routes.LOCAL_AUTH,
       arguments: PinMode.check,
     );
     if (pinCorrect ?? false) {
-      await Get.find<ApiService>().update();
-      Get.offAllNamed(RootPage.route);
+      await apiService.update();
+      Get.offAllNamed(Routes.ROOT);
     } else {
-      _storage.erase().whenComplete(() {
+      storage.erase().whenComplete(() {
         Get.rawSnackbar(
           message: 'msg_pin_wrong'.tr,
           backgroundColor: AppColors.red,

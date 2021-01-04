@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:antares_wallet/app/common/common.dart';
-import 'package:antares_wallet/app/utils/utils.dart';
+import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/ui/pages/trading/widgets/candle_chart_view.dart';
 import 'package:antares_wallet/ui/widgets/asset_pair_tile.dart';

@@ -1,6 +1,6 @@
 import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/service/session_service.dart';
-import 'package:antares_wallet/app/utils/dialog_manager.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:logger/logger.dart';

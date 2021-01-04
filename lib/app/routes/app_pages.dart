@@ -1,5 +1,7 @@
 import 'package:antares_wallet/app/bindings/asset_info_binding.dart';
+import 'package:antares_wallet/app/bindings/dev_settings_binding.dart';
 import 'package:antares_wallet/app/bindings/disclaimers_binding.dart';
+import 'package:antares_wallet/app/bindings/login_binding.dart';
 import 'package:antares_wallet/app/bindings/order_details_binding.dart';
 import 'package:antares_wallet/app/bindings/register_binding.dart';
 import 'package:antares_wallet/app/bindings/root_binding.dart';
@@ -7,10 +9,13 @@ import 'package:antares_wallet/app/bindings/start_binding.dart';
 import 'package:antares_wallet/app/bindings/support_binding.dart';
 import 'package:antares_wallet/app/bindings/trading_binding.dart';
 import 'package:antares_wallet/app/bindings/upgrade_account_quest_binding.dart';
-import 'package:antares_wallet/app/modules/local_auth/local_auth_binding.dart';
-import 'package:antares_wallet/app/modules/local_auth/local_auth_page.dart';
-import 'package:antares_wallet/app/modules/splash/splash_page.dart';
+import 'package:antares_wallet/app/features/local_auth/presentation/local_auth_binding.dart';
+import 'package:antares_wallet/app/features/local_auth/presentation/local_auth_page.dart';
+import 'package:antares_wallet/app/features/splash/presentation/splash_binding.dart';
+import 'package:antares_wallet/app/features/splash/presentation/splash_page.dart';
+import 'package:antares_wallet/app/features/start/presentation/start_page.dart';
 import 'package:antares_wallet/ui/pages/asset_info/asset_info_page.dart';
+import 'package:antares_wallet/ui/pages/dev_settings/dev_settings_page.dart';
 import 'package:antares_wallet/ui/pages/disclaimer/disclaimer_page.dart';
 import 'package:antares_wallet/ui/pages/login/login_page.dart';
 import 'package:antares_wallet/ui/pages/markets/spot/watchlists/edit/edit_watchlist_page.dart';
@@ -31,9 +36,9 @@ import 'package:antares_wallet/ui/pages/portfolio/transaction_details/transactio
 import 'package:antares_wallet/ui/pages/register/register_page.dart';
 import 'package:antares_wallet/ui/pages/root/root_page.dart';
 import 'package:antares_wallet/ui/pages/select_asset/select_asset_page.dart';
-import 'package:antares_wallet/app/modules/start/start_page.dart';
 import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
 import 'package:get/get.dart';
+
 part './app_routes.dart';
 
 abstract class AppPages {
@@ -41,6 +46,7 @@ abstract class AppPages {
     GetPage(
       name: Routes.INITIAL,
       page: () => SplashPage(),
+      binding: SplashBinding(),
     ),
     GetPage(
       name: Routes.START,
@@ -54,22 +60,28 @@ abstract class AppPages {
       fullscreenDialog: true,
     ),
     GetPage(
-      name: DisclaimersPage.route,
+      name: Routes.DISCLAIMERS,
       page: () => DisclaimersPage(),
       binding: DisclaimersBinding(),
       fullscreenDialog: true,
     ),
     GetPage(
-      name: LoginPage.route,
+      name: Routes.LOGIN,
       page: () => LoginPage(),
+      binding: LoginBinding(),
     ),
     GetPage(
-      name: RegisterPage.route,
+      name: Routes.REGISTER,
       page: () => RegisterPage(),
       binding: RegisterBinding(),
     ),
     GetPage(
-      name: RootPage.route,
+      name: Routes.DEV_SETTINGS,
+      page: () => DevSettingsPage(),
+      binding: DevSettingsBinding(),
+    ),
+    GetPage(
+      name: Routes.ROOT,
       page: () => RootPage(),
       binding: RootPageBinding(),
     ),

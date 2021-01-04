@@ -1,20 +1,13 @@
-import 'package:antares_wallet/app/data/provider/local_auth_provider.dart';
-import 'package:antares_wallet/app/utils/app_log.dart';
+import 'package:antares_wallet/app/core/utils/utils.dart';
+import 'package:antares_wallet/app/features/local_auth/data/datasources/local_auth_data_source.dart';
+import 'package:antares_wallet/app/features/local_auth/domain/repositories/local_auth_repository.dart';
 import 'package:get/get_utils/get_utils.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:meta/meta.dart';
 
-enum LocalAuthType { face, fingerprint, none }
-
-abstract class ILocalAuthRepository {
-  Future<bool> authenticate(String reason);
-  Future<bool> isBiometricsAvailable();
-  Future<LocalAuthType> getLocalAuthType();
-}
-
 class LocalAuthRepository implements ILocalAuthRepository {
   LocalAuthRepository({@required this.provider});
-  final ILocalAuthProvider provider;
+  final ILocalAuthDataSource provider;
 
   @override
   Future<bool> authenticate(String reason) async {

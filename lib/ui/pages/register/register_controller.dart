@@ -2,14 +2,13 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/repository/session_repository.dart';
-import 'package:antares_wallet/app/modules/local_auth/local_auth_controller.dart';
+import 'package:antares_wallet/app/features/local_auth/presentation/local_auth_controller.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
-import 'package:antares_wallet/app/utils/gesture_utils.dart';
 import 'package:antares_wallet/services/api/api_service.dart';
 import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/register/register_result_page.dart';
-import 'package:antares_wallet/ui/pages/root/root_page.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -18,7 +17,12 @@ import 'package:get_storage/get_storage.dart';
 class RegisterController extends GetxController {
   static RegisterController get con => Get.find();
 
-  final _storage = GetStorage();
+  RegisterController({
+    @required this.apiService,
+    @required this.storage,
+  });
+  final ApiService apiService;
+  final GetStorage storage;
 
   final pageViewController = PageController(initialPage: 5);
 
@@ -242,7 +246,7 @@ class RegisterController extends GetxController {
 
     List<int> utf8Password = utf8.encode(passwordValue);
     String shaPassword = sha256.convert(utf8Password).toString();
-    String pinCode = _storage.read(AppStorageKeys.pinCode);
+    String pinCode = storage.read(AppStorageKeys.pinCode);
 
     final registerPayload = await SessionRepository.register(
       fullName: fullNameValue,
@@ -257,12 +261,12 @@ class RegisterController extends GetxController {
       publicKey: '1111',
     );
     if (registerPayload != null) {
-      await _storage.write(AppStorageKeys.token, registerPayload.sessionId);
-      await Get.find<ApiService>().update();
-      Get.offAllNamed(RootPage.route);
+      await storage.write(AppStorageKeys.token, registerPayload.sessionId);
+      await apiService.update();
+      Get.offAllNamed(Routes.ROOT);
     } else {
       Get.rawSnackbar(message: 'Registration failed!');
-      await _storage.erase();
+      await storage.erase();
       Get.back();
     }
   }
@@ -272,7 +276,7 @@ class RegisterController extends GetxController {
     int currentPage = pageViewController.page.toInt();
     pageViewController.animateToPage(
       page,
-      duration: const Duration(milliseconds: 300),
+      duration: Get.defaultTransitionDuration,
       curve: page > currentPage ? Curves.easeInCubic : Curves.easeOutCubic,
     );
   }

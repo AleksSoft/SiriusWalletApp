@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/repository/session_repository.dart';
 import 'package:antares_wallet/app/data/service/session_service.dart';
-import 'package:antares_wallet/app/utils/app_log.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,12 +14,18 @@ import 'portfolio_controller.dart';
 class AppController extends GetxController with WidgetsBindingObserver {
   static AppController get con => Get.find();
 
-  final _localAuth = Get.find<SessionService>();
-
-  final _assetsCon = Get.find<AssetsController>();
-  final _marketsCon = Get.find<MarketsController>();
-  final _ordersCon = Get.find<OrdersController>();
-  final _portfolioCon = Get.find<PortfolioController>();
+  AppController({
+    @required this.sessionService,
+    @required this.assetsCon,
+    @required this.marketsCon,
+    @required this.ordersCon,
+    @required this.portfolioCon,
+  });
+  final SessionService sessionService;
+  final AssetsController assetsCon;
+  final MarketsController marketsCon;
+  final OrdersController ordersCon;
+  final PortfolioController portfolioCon;
 
   final loading = false.obs;
 
@@ -32,16 +38,17 @@ class AppController extends GetxController with WidgetsBindingObserver {
   @override
   void onInit() {
     WidgetsBinding?.instance?.addObserver(this);
+    loading.value = true;
     ever(pageIndexObs, (int pageIndex) {
       switch (pageIndex) {
         case 1:
-          _portfolioCon.initialize();
+          portfolioCon.initialize();
           break;
         case 2:
-          _marketsCon.initialize();
+          marketsCon.initialize();
           break;
         case 3:
-          _ordersCon.initialize();
+          ordersCon.initialize();
           break;
         default:
           break;
@@ -52,7 +59,9 @@ class AppController extends GetxController with WidgetsBindingObserver {
 
   @override
   void onReady() {
-    _initialize();
+    sessionService.verifySessionPIN(logOutOnError: true).then((value) {
+      if (value ?? false) _initialize();
+    });
     super.onReady();
   }
 
@@ -78,12 +87,11 @@ class AppController extends GetxController with WidgetsBindingObserver {
 
   /// initialised app controllers
   Future<void> _initialize() async {
-    loading.toggle();
-    await _assetsCon.initialize();
-    await _marketsCon.initialize();
-    await _ordersCon.initialize();
-    await _portfolioCon.initialize();
-    loading.toggle();
+    await assetsCon.initialize();
+    await marketsCon.initialize();
+    await ordersCon.initialize();
+    await portfolioCon.initialize();
+    loading.value = false;
     _startTimer();
   }
 
@@ -103,7 +111,7 @@ class AppController extends GetxController with WidgetsBindingObserver {
   Future<bool> _prolongSession() async {
     bool success = await SessionRepository.prolongateSession();
     AppLog.loggerNoStack.d('session prolongation result = $success');
-    if (!success) _localAuth.verifySessionPIN(logOutOnError: true);
+    if (!success) sessionService.verifySessionPIN(logOutOnError: true);
     return success;
   }
 }

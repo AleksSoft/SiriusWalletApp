@@ -1,5 +1,5 @@
 import 'package:antares_wallet/app/common/common.dart';
-import 'package:antares_wallet/app/utils/utils.dart';
+import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/controllers/asset_info_controller.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/ui/pages/orders/widgets/order_history_tile.dart';

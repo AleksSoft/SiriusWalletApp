@@ -1,20 +1,10 @@
 import 'package:antares_wallet/app/common/app_colors.dart';
-import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SplashPage extends StatefulWidget {
-  @override
-  _SplashPageState createState() => _SplashPageState();
-}
+import 'splash_controller.dart';
 
-class _SplashPageState extends State<SplashPage> {
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration(seconds: 1), () => Get.offAndToNamed(Routes.START));
-  }
-
+class SplashPage extends GetView<SplashController> {
   @override
   Widget build(BuildContext context) {
     return Container(

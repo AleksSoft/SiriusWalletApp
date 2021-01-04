@@ -17,17 +17,24 @@ class RootPageBinding extends Bindings {
     Get.lazyPut<ProfileController>(() => ProfileController(), fenix: true);
 
     Get.lazyPut<IAssetsProvider>(() => AssetsProvider(api: Get.find()));
-    Get.lazyPut<IAssetsRepository>(
-        () => AssetsRepository(provider: Get.find()));
-    Get.lazyPut(() => AssetsController(repository: Get.find()));
-
-    Get.put<PortfolioController>(PortfolioController());
-    Get.put<OrdersController>(OrdersController());
-    Get.put<MarketsController>(MarketsController());
-    Get.put<WatchlistsController>(WatchlistsController());
-    Get.put<WithdrawalController>(WithdrawalController());
-    Get.put<DepositController>(DepositController());
-
-    Get.put<AppController>(AppController());
+    Get.lazyPut<IAssetsRepository>(() => AssetsRepository(
+          provider: Get.find(),
+        ));
+    Get.lazyPut<AssetsController>(() => AssetsController(
+          repository: Get.find(),
+        ));
+    Get.lazyPut<PortfolioController>(() => PortfolioController());
+    Get.lazyPut<OrdersController>(() => OrdersController());
+    Get.lazyPut<MarketsController>(() => MarketsController());
+    Get.lazyPut<WatchlistsController>(() => WatchlistsController());
+    Get.lazyPut<WithdrawalController>(() => WithdrawalController());
+    Get.lazyPut<DepositController>(() => DepositController());
+    Get.lazyPut<AppController>(() => AppController(
+          assetsCon: Get.find(),
+          marketsCon: Get.find(),
+          ordersCon: Get.find(),
+          portfolioCon: Get.find(),
+          sessionService: Get.find(),
+        ));
   }
 }

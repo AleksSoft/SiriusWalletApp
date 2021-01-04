@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DisclaimersPage extends StatelessWidget {
-  static final String route = '/disclaimers';
   final c = DisclaimersController.con;
   @override
   Widget build(BuildContext context) {

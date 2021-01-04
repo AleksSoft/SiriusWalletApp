@@ -6,27 +6,24 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-class LoginPage extends StatelessWidget {
-  static final String route = '/login';
-  final c = LoginController.con;
-
+class LoginPage extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () => c.back(),
+      onWillPop: () => controller.back(),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           leading: BackButton(
             color: AppColors.dark,
-            onPressed: () => c.back(),
+            onPressed: () => controller.back(),
           ),
           elevation: 0.0,
         ),
         body: Stack(
           children: <Widget>[
             PageView(
-              controller: c.pageViewController,
+              controller: controller.pageViewController,
               physics: NeverScrollableScrollPhysics(),
               children: <Widget>[
                 SingleChildScrollView(child: _LoginScreen()),
@@ -36,7 +33,7 @@ class LoginPage extends StatelessWidget {
             Obx(
               () => AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
-                child: c.loading
+                child: controller.loading
                     ? Container(
                         color: AppColors.primary.withOpacity(0.9),
                         alignment: Alignment.center,
@@ -147,8 +144,7 @@ class _LoginScreen extends GetView<LoginController> {
   }
 }
 
-class _VerifySmsScreen extends StatelessWidget {
-  final c = LoginController.con;
+class _VerifySmsScreen extends GetView<LoginController> {
   final subtitleTheme = Get.textTheme.subtitle1.copyWith(
     color: AppColors.secondary,
     fontWeight: FontWeight.w600,
@@ -181,9 +177,9 @@ class _VerifySmsScreen extends StatelessWidget {
           Theme(
             data: Get.theme.copyWith(primaryColor: AppColors.accent),
             child: TextFormField(
-              onChanged: (String s) => c.smsCodeValue = s,
+              onChanged: (String s) => controller.smsCodeValue = s,
               obscureText: false,
-              initialValue: c.smsCodeValue,
+              initialValue: controller.smsCodeValue,
               decoration: InputDecoration(
                 labelText: 'Sms code',
               ),
@@ -191,7 +187,7 @@ class _VerifySmsScreen extends StatelessWidget {
           ),
           AppUiHelpers.vSpaceExtraLarge,
           RaisedGradientButton(
-            onPressed: () => c.verifySms(),
+            onPressed: () => controller.verifySms(),
             gradient: LinearGradient(
               colors: [AppColors.accent, AppColors.accent],
             ),
@@ -208,7 +204,7 @@ class _VerifySmsScreen extends StatelessWidget {
           Obx(
             () => AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
-              child: c.isSmsWaiting
+              child: controller.isSmsWaiting
                   ? Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
@@ -216,13 +212,13 @@ class _VerifySmsScreen extends StatelessWidget {
                         Icon(Icons.timer, color: AppColors.secondary),
                         AppUiHelpers.hSpaceExtraSmall,
                         Text(
-                          'Request new code in ${DateFormat('mm:ss').format(c.timerValue)}',
+                          'Request new code in ${DateFormat('mm:ss').format(controller.timerValue)}',
                           style: subtitleTheme,
                         ),
                       ],
                     )
                   : CupertinoButton(
-                      onPressed: () => c.requestSmsVerification(),
+                      onPressed: () => controller.requestSmsVerification(),
                       child: Text('Haven\'t received the code?'),
                     ),
             ),

@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RootPage extends StatelessWidget {
-  static final String route = '/root';
   @override
   Widget build(BuildContext context) {
     return GetX<AppController>(

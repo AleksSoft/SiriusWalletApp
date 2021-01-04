@@ -1,9 +1,6 @@
 import 'package:antares_wallet/app/common/common.dart';
-import 'package:antares_wallet/controllers/login_controller.dart';
-import 'package:antares_wallet/ui/pages/dev_settings/dev_settings_page.dart';
-import 'package:antares_wallet/ui/pages/login/login_page.dart';
-import 'package:antares_wallet/ui/pages/register/register_page.dart';
-import 'package:antares_wallet/ui/widgets/empty_reloading_view.dart';
+import 'package:antares_wallet/app/features/start/presentation/start_controller.dart';
+import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:antares_wallet/ui/widgets/gradient_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,24 +11,13 @@ class StartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: GetX<LoginController>(
-          builder: (_) => EmptyReloadingView(
-            customLoader: Container(
-              alignment: Alignment.center,
-              color: AppColors.scaffoldBkg,
-              child: AppUiHelpers.circularProgress,
-            ),
-            isLoading: _.loading,
-            child: _StartPageContent(),
-          ),
-        ),
+        child: _StartPageContent(),
       ),
     );
   }
 }
 
-class _StartPageContent extends StatelessWidget {
-  final PageController pageViewController = PageController(initialPage: 0);
+class _StartPageContent extends GetView<StartController> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -39,13 +25,13 @@ class _StartPageContent extends StatelessWidget {
       children: [
         Flexible(
           flex: 70,
-          child: _StartPager(this.pageViewController),
+          child: _StartPager(),
         ),
         Flexible(
           flex: 5,
           child: Center(
             child: SmoothPageIndicator(
-              controller: this.pageViewController,
+              controller: controller.pageViewController,
               count: 6,
               effect: WormEffect(
                 dotHeight: AppSizes.small,
@@ -53,8 +39,7 @@ class _StartPageContent extends StatelessWidget {
                 dotColor: AppColors.secondary.withOpacity(0.4),
                 activeDotColor: Colors.purpleAccent,
               ),
-              onDotClicked: (index) =>
-                  this.pageViewController.jumpToPage(index),
+              onDotClicked: controller.openPageByIndex,
             ),
           ),
         ),
@@ -67,8 +52,7 @@ class _StartPageContent extends StatelessWidget {
   }
 }
 
-class _StartFooter extends StatelessWidget {
-  final style = Get.textTheme.headline6;
+class _StartFooter extends GetView<StartController> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -80,7 +64,7 @@ class _StartFooter extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           RaisedGradientButton(
-            onPressed: () => Get.toNamed(RegisterPage.route),
+            onPressed: () => Get.toNamed(Routes.REGISTER),
             gradient: LinearGradient(
               colors: <Color>[
                 Colors.yellowAccent,
@@ -129,7 +113,7 @@ class _StartFooter extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () => Get.toNamed(LoginPage.route),
+            onTap: () => controller.openLogin(),
             child: Padding(
               padding: const EdgeInsets.symmetric(
                 vertical: AppSizes.small,
@@ -142,9 +126,9 @@ class _StartFooter extends StatelessWidget {
             ),
           ),
           Visibility(
-            visible: !Get.find<AppConfig>().isProd,
+            visible: controller.isDevSettingsVisible,
             child: InkWell(
-              onTap: () => Get.to(DevSettingsPage()),
+              onTap: () => controller.openDevSettings(),
               child: Text(
                 'Developer settings',
                 textAlign: TextAlign.center,
@@ -157,43 +141,41 @@ class _StartFooter extends StatelessWidget {
   }
 }
 
-class _StartPager extends StatelessWidget {
-  const _StartPager(this.pageViewController, {Key key}) : super(key: key);
-  final PageController pageViewController;
+class _StartPager extends GetView<StartController> {
   @override
   Widget build(BuildContext context) {
     return PageView(
-      controller: this.pageViewController,
+      controller: controller.pageViewController,
       children: [
-        _buidPage(
+        _buildPage(
           title: 'WELCOME TO LYKKE',
           subtitle: 'Your gateway to the world of digital assets.',
           imageName: 'welcome',
         ),
-        _buidPage(
+        _buildPage(
           title: 'DEPOSIT SECURELY',
           subtitle:
               'Safety deposit bitcoins and other digital assets to your wallet.',
           imageName: 'deposit',
         ),
-        _buidPage(
+        _buildPage(
           title: 'TRADE FREELY',
           subtitle:
               'Buy and sell bitcoin, ethereum and other digital assets with 0% commission',
           imageName: 'trade',
         ),
-        _buidPage(
+        _buildPage(
           title: 'SETTLE IMMEDIATELY',
           subtitle:
               'Receive settlement of yours transactions in minutes instead of days.',
           imageName: 'settle',
         ),
-        _buidPage(
+        _buildPage(
           title: 'WITHDRAW SAFELY',
           subtitle: 'Request immediate withdrawal to your crypto wallet.',
           imageName: 'withdraw',
         ),
-        _buidPage(
+        _buildPage(
           title: 'START EASILY',
           subtitle:
               'All you need is a selfie, photo ID and proof of address and you are ready to go!',
@@ -203,7 +185,7 @@ class _StartPager extends StatelessWidget {
     );
   }
 
-  Widget _buidPage({
+  Widget _buildPage({
     @required String title,
     @required String subtitle,
     @required String imageName,

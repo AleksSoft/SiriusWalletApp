@@ -1,5 +1,5 @@
 import 'package:antares_wallet/app/common/common.dart';
-import 'package:antares_wallet/app/utils/utils.dart';
+import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/src/apiservice.pbgrpc.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';

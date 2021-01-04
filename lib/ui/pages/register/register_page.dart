@@ -9,27 +9,24 @@ import 'package:intl/intl.dart';
 import 'package:search_page/search_page.dart';
 import 'package:string_validator/string_validator.dart' as stringValidator;
 
-class RegisterPage extends StatelessWidget {
-  static final String route = '/register';
-  final c = RegisterController.con;
-
+class RegisterPage extends GetView<RegisterController> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () => c.back(),
+      onWillPop: () => controller.back(),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           leading: BackButton(
             color: AppColors.dark,
-            onPressed: () => c.back(),
+            onPressed: () => controller.back(),
           ),
           elevation: 0.0,
         ),
         body: Stack(
           children: <Widget>[
             PageView(
-              controller: c.pageViewController,
+              controller: controller.pageViewController,
               physics: NeverScrollableScrollPhysics(),
               children: <Widget>[
                 _EmailScreen(),
@@ -43,7 +40,7 @@ class RegisterPage extends StatelessWidget {
             Obx(
               () => AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
-                child: c.loading
+                child: controller.loading
                     ? Container(
                         color: AppColors.primary.withOpacity(0.9),
                         alignment: Alignment.center,
@@ -59,8 +56,7 @@ class RegisterPage extends StatelessWidget {
   }
 }
 
-class _EmailScreen extends StatelessWidget {
-  final c = RegisterController.con;
+class _EmailScreen extends GetView<RegisterController> {
   final subtitleTheme = Get.textTheme.subtitle1.copyWith(
     color: AppColors.secondary,
     fontWeight: FontWeight.w600,
@@ -93,7 +89,7 @@ class _EmailScreen extends StatelessWidget {
           Theme(
             data: Get.theme.copyWith(primaryColor: AppColors.accent),
             child: TextFormField(
-              onChanged: (String s) => c.emailValue = s,
+              onChanged: (String s) => controller.emailValue = s,
               validator: (String value) {
                 if (value.isEmpty || value.isEmail) {
                   return null;
@@ -102,7 +98,7 @@ class _EmailScreen extends StatelessWidget {
                 }
               },
               obscureText: false,
-              initialValue: c.emailValue,
+              initialValue: controller.emailValue,
               decoration: InputDecoration(
                 labelText: 'Email',
               ),
@@ -111,7 +107,7 @@ class _EmailScreen extends StatelessWidget {
           ),
           AppUiHelpers.vSpaceExtraLarge,
           RaisedGradientButton(
-            onPressed: () => c.proceed(),
+            onPressed: () => controller.proceed(),
             gradient: LinearGradient(
               colors: [AppColors.accent, AppColors.accent],
             ),
@@ -130,8 +126,7 @@ class _EmailScreen extends StatelessWidget {
   }
 }
 
-class _VerifyEmailScreen extends StatelessWidget {
-  final c = RegisterController.con;
+class _VerifyEmailScreen extends GetView<RegisterController> {
   final subtitleTheme = Get.textTheme.subtitle1.copyWith(
     color: AppColors.secondary,
     fontWeight: FontWeight.w600,
@@ -164,9 +159,9 @@ class _VerifyEmailScreen extends StatelessWidget {
           Theme(
             data: Get.theme.copyWith(primaryColor: AppColors.accent),
             child: TextFormField(
-              onChanged: (String s) => c.emailCodeValue = s,
+              onChanged: (String s) => controller.emailCodeValue = s,
               obscureText: false,
-              initialValue: c.emailCodeValue,
+              initialValue: controller.emailCodeValue,
               decoration: InputDecoration(
                 labelText: 'Code',
               ),
@@ -174,7 +169,7 @@ class _VerifyEmailScreen extends StatelessWidget {
           ),
           AppUiHelpers.vSpaceExtraLarge,
           RaisedGradientButton(
-            onPressed: () => c.proceed(),
+            onPressed: () => controller.proceed(),
             gradient: LinearGradient(
               colors: [AppColors.accent, AppColors.accent],
             ),
@@ -191,7 +186,7 @@ class _VerifyEmailScreen extends StatelessWidget {
           Obx(
             () => AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
-              child: c.isEmailCodeWaiting
+              child: controller.isEmailCodeWaiting
                   ? Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
@@ -199,13 +194,13 @@ class _VerifyEmailScreen extends StatelessWidget {
                         Icon(Icons.timer, color: AppColors.secondary),
                         AppUiHelpers.hSpaceExtraSmall,
                         Text(
-                          'Request new code in ${DateFormat('mm:ss').format(c.timerValue)}',
+                          'Request new code in ${DateFormat('mm:ss').format(controller.timerValue)}',
                           style: subtitleTheme,
                         ),
                       ],
                     )
                   : CupertinoButton(
-                      onPressed: () => c.proceedEmail(),
+                      onPressed: () => controller.proceedEmail(),
                       child: Text('Haven\'t received the code?'),
                     ),
             ),
@@ -216,8 +211,7 @@ class _VerifyEmailScreen extends StatelessWidget {
   }
 }
 
-class _AdditionalDataScreen extends StatelessWidget {
-  final c = RegisterController.con;
+class _AdditionalDataScreen extends GetView<RegisterController> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -253,9 +247,9 @@ class _AdditionalDataScreen extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 TextFormField(
-                  onChanged: (String s) => c.fullNameValue = s,
+                  onChanged: (String s) => controller.fullNameValue = s,
                   obscureText: false,
-                  initialValue: c.fullNameValue,
+                  initialValue: controller.fullNameValue,
                   validator: (String value) {
                     if (value.length < 4) {
                       return 'Too short';
@@ -268,7 +262,7 @@ class _AdditionalDataScreen extends StatelessWidget {
                 ),
                 AppUiHelpers.vSpaceSmall,
                 TextFormField(
-                  controller: c.countryController,
+                  controller: controller.countryController,
                   onTap: () => _showSearch(),
                   obscureText: false,
                   decoration: InputDecoration(
@@ -278,9 +272,9 @@ class _AdditionalDataScreen extends StatelessWidget {
                 ),
                 AppUiHelpers.vSpaceSmall,
                 TextFormField(
-                  onChanged: (String s) => c.affiliateCodeValue = s,
+                  onChanged: (String s) => controller.affiliateCodeValue = s,
                   obscureText: false,
-                  initialValue: c.passwordHintValue,
+                  initialValue: controller.passwordHintValue,
                   decoration: InputDecoration(
                     labelText: 'Affiliate code (optional)',
                   ),
@@ -290,7 +284,7 @@ class _AdditionalDataScreen extends StatelessWidget {
           ),
           AppUiHelpers.vSpaceExtraLarge,
           RaisedGradientButton(
-            onPressed: () => c.proceed(),
+            onPressed: () => controller.proceed(),
             gradient: LinearGradient(
               colors: [AppColors.accent, AppColors.accent],
             ),
@@ -313,7 +307,7 @@ class _AdditionalDataScreen extends StatelessWidget {
       context: Get.context,
       delegate: SearchPage<Country>(
         showItemsOnEmpty: true,
-        items: c.countries,
+        items: controller.countries,
         searchLabel: 'search'.tr,
         filter: (country) => [
           country.name,
@@ -333,9 +327,9 @@ class _AdditionalDataScreen extends StatelessWidget {
             ),
           ),
           onTap: () {
-            c.countryValue = country;
-            c.countryController.text = country.name;
-            c.phonePrefix = country.prefix;
+            controller.countryValue = country;
+            controller.countryController.text = country.name;
+            controller.phonePrefix = country.prefix;
             Get.back();
           },
         ),
@@ -344,8 +338,7 @@ class _AdditionalDataScreen extends StatelessWidget {
   }
 }
 
-class _PhoneScreen extends StatelessWidget {
-  final c = RegisterController.con;
+class _PhoneScreen extends GetView<RegisterController> {
   final subtitleTheme = Get.textTheme.subtitle1.copyWith(
     color: AppColors.secondary,
     fontWeight: FontWeight.w600,
@@ -378,9 +371,9 @@ class _PhoneScreen extends StatelessWidget {
           Theme(
             data: Get.theme.copyWith(primaryColor: AppColors.accent),
             child: TextFormField(
-              onChanged: (String s) => c.phoneValue = s,
+              onChanged: (String s) => controller.phoneValue = s,
               obscureText: false,
-              initialValue: c.phoneValue,
+              initialValue: controller.phoneValue,
               decoration: InputDecoration(
                 labelText: 'Phone number',
                 prefix: InkWell(
@@ -388,7 +381,7 @@ class _PhoneScreen extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Obx(() => Text(c.phonePrefix)),
+                      Obx(() => Text(controller.phonePrefix)),
                       Icon(Icons.keyboard_arrow_down),
                     ],
                   ),
@@ -399,7 +392,7 @@ class _PhoneScreen extends StatelessWidget {
           ),
           AppUiHelpers.vSpaceExtraLarge,
           RaisedGradientButton(
-            onPressed: () => c.proceed(),
+            onPressed: () => controller.proceed(),
             gradient: LinearGradient(
               colors: [AppColors.accent, AppColors.accent],
             ),
@@ -422,7 +415,7 @@ class _PhoneScreen extends StatelessWidget {
       context: Get.context,
       delegate: SearchPage<Country>(
         showItemsOnEmpty: true,
-        items: c.countries,
+        items: controller.countries,
         searchLabel: 'search'.tr,
         filter: (country) => [
           country.name,
@@ -442,7 +435,7 @@ class _PhoneScreen extends StatelessWidget {
             ),
           ),
           onTap: () {
-            c.phonePrefix = country.prefix;
+            controller.phonePrefix = country.prefix;
             Get.back();
           },
         ),
@@ -451,8 +444,7 @@ class _PhoneScreen extends StatelessWidget {
   }
 }
 
-class _VerifyPhoneScreen extends StatelessWidget {
-  final c = RegisterController.con;
+class _VerifyPhoneScreen extends GetView<RegisterController> {
   final subtitleTheme = Get.textTheme.subtitle1.copyWith(
     color: AppColors.secondary,
     fontWeight: FontWeight.w600,
@@ -485,9 +477,9 @@ class _VerifyPhoneScreen extends StatelessWidget {
           Theme(
             data: Get.theme.copyWith(primaryColor: AppColors.accent),
             child: TextFormField(
-              onChanged: (String s) => c.smsCode = s,
+              onChanged: (String s) => controller.smsCode = s,
               obscureText: false,
-              initialValue: c.smsCode,
+              initialValue: controller.smsCode,
               decoration: InputDecoration(
                 labelText: 'Sms code',
               ),
@@ -495,7 +487,7 @@ class _VerifyPhoneScreen extends StatelessWidget {
           ),
           AppUiHelpers.vSpaceExtraLarge,
           RaisedGradientButton(
-            onPressed: () => c.proceed(),
+            onPressed: () => controller.proceed(),
             gradient: LinearGradient(
               colors: [AppColors.accent, AppColors.accent],
             ),
@@ -512,7 +504,7 @@ class _VerifyPhoneScreen extends StatelessWidget {
           Obx(
             () => AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
-              child: c.isSmsWaiting
+              child: controller.isSmsWaiting
                   ? Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
@@ -520,13 +512,13 @@ class _VerifyPhoneScreen extends StatelessWidget {
                         Icon(Icons.timer, color: AppColors.secondary),
                         AppUiHelpers.hSpaceExtraSmall,
                         Text(
-                          'Request new code in ${DateFormat('mm:ss').format(c.timerValue)}',
+                          'Request new code in ${DateFormat('mm:ss').format(controller.timerValue)}',
                           style: subtitleTheme,
                         ),
                       ],
                     )
                   : CupertinoButton(
-                      onPressed: () => c.proceedEmail(),
+                      onPressed: () => controller.proceedEmail(),
                       child: Text('Haven\'t received the code?'),
                     ),
             ),
