@@ -1,9 +1,12 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
+import 'package:antares_wallet/app/data/data_sources/local_auth_data_source.dart';
 import 'package:antares_wallet/app/data/data_sources/session_data_source.dart';
+import 'package:antares_wallet/app/data/repository/local_auth_repository.dart';
 import 'package:antares_wallet/app/data/repository/session_repository.dart';
 import 'package:antares_wallet/app/data/services/api/api_service.dart';
 import 'package:antares_wallet/app/data/services/session_service.dart';
+import 'package:antares_wallet/app/domain/repositories/local_auth_repository.dart';
 import 'package:antares_wallet/app/domain/repositories/session_repository.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -15,6 +18,7 @@ class InitialBinding extends Bindings {
 
   @override
   void dependencies() async {
+    /// common +
     Get.lazyPut<Logger>(
       () => Logger(printer: PrettyPrinter()),
       fenix: true,
@@ -31,7 +35,9 @@ class InitialBinding extends Bindings {
       () => DialogManager(),
       fenix: true,
     );
+    // common -
 
+    /// session +
     Get.lazyPut<ISessionDataSource>(
       () => SessionDataSource(api: Get.find()),
     );
@@ -45,5 +51,20 @@ class InitialBinding extends Bindings {
     Get.lazyPut<SessionService>(
       () => SessionService(repository: Get.find()),
     );
+    // session -
+
+    /// local auth +
+    Get.lazyPut<ILocalAuthDataSource>(
+      () => LocalAuthDataSource(),
+      fenix: true,
+    );
+    Get.lazyPut<ILocalAuthRepository>(
+      () => LocalAuthRepository(
+        storage: GetStorage(),
+        source: Get.find(),
+      ),
+      fenix: true,
+    );
+    // local auth -
   }
 }

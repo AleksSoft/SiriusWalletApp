@@ -4,25 +4,23 @@ import 'dart:convert';
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
-import 'package:antares_wallet/app/data/services/api/api_service.dart';
+import 'package:antares_wallet/app/domain/repositories/local_auth_repository.dart';
 import 'package:antares_wallet/app/domain/repositories/session_repository.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
-import 'package:antares_wallet/ui/pages/register/register_result_page.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+
+import 'widgets/register_result_page.dart';
 
 class RegisterController extends GetxController {
   static RegisterController get con => Get.find();
 
-  final GetStorage storage;
-  final ApiService apiService;
-  final ISessionRepository repository;
+  final ISessionRepository sessionRepo;
+  final ILocalAuthRepository localAuthRepo;
   RegisterController({
-    @required this.storage,
-    @required this.apiService,
-    @required this.repository,
+    @required this.sessionRepo,
+    @required this.localAuthRepo,
   });
 
   final pageViewController = PageController(initialPage: 0);
@@ -57,7 +55,7 @@ class RegisterController extends GetxController {
   String emailCodeValue = '';
 
   // additional profile setup
-  final TextEditingController countryController = TextEditingController();
+  final countryController = TextEditingController();
   String fullNameValue = '';
   Country countryValue = Country();
   String affiliateCodeValue = '';
@@ -75,9 +73,9 @@ class RegisterController extends GetxController {
   String passwordHintValue = '';
 
   @override
-  void onInit() {
+  void onReady() {
     _fetchCountry();
-    super.onInit();
+    super.onReady();
   }
 
   @override
@@ -107,31 +105,26 @@ class RegisterController extends GetxController {
     switch (currentPage) {
       case 0:
         await proceedEmail();
-        loading = false;
         break;
       case 1:
         await _proceedEmailCode();
-        loading = false;
         break;
       case 2:
         await _proceedAdditionalData();
-        loading = false;
         return;
       case 3:
         await _proceedPhone();
-        loading = false;
         return;
       case 4:
         await _proceedPhoneSms();
-        loading = false;
         return;
       case 5:
         await _proceedPassword();
-        loading = false;
         break;
       default:
-        return;
+        break;
     }
+    loading = false;
   }
 
   Future<bool> back() async {
@@ -153,11 +146,10 @@ class RegisterController extends GetxController {
   }
 
   Future<void> proceedEmail() async {
-    if (emailValue.isNullOrBlank || !emailValue.isEmail) {
-      return;
-    }
+    if (emailValue.isNullOrBlank || !emailValue.isEmail) return;
+
     if (!isEmailCodeWaiting) {
-      final response = await repository.sendVerificationEmail(
+      final response = await sessionRepo.sendVerificationEmail(
         email: emailValue,
       );
       response.fold((error) {
@@ -183,7 +175,7 @@ class RegisterController extends GetxController {
   Future<void> _fetchCountry() async {
     loading = true;
 
-    final response = await repository.getCountryPhoneCodes();
+    final response = await sessionRepo.getCountryPhoneCodes();
     response.fold(
       (error) {
         AppLog.logger.e(error.toProto3Json());
@@ -204,7 +196,7 @@ class RegisterController extends GetxController {
       return;
     }
 
-    final response = await repository.verifyEmail(
+    final response = await sessionRepo.verifyEmail(
       email: emailValue,
       code: emailCodeValue,
       token: token,
@@ -245,7 +237,7 @@ class RegisterController extends GetxController {
       return;
     }
     if (!isSmsWaiting) {
-      final response = await repository.sendVerificationSms(
+      final response = await sessionRepo.sendVerificationSms(
         phone: phonePrefix + phoneValue,
         token: token,
       );
@@ -274,7 +266,7 @@ class RegisterController extends GetxController {
   Future<void> _proceedPhoneSms() async {
     if (smsCode.isNullOrBlank) return;
 
-    final response = await repository.verifyPhone(
+    final response = await sessionRepo.verifyPhone(
       phone: phonePrefix + phoneValue,
       code: smsCode,
       token: token,
@@ -312,15 +304,17 @@ class RegisterController extends GetxController {
 
     List<int> utf8Password = utf8.encode(passwordValue);
     String shaPassword = sha256.convert(utf8Password).toString();
-    String pinCode = storage.read(AppStorageKeys.pinCode);
+    String pinCode = localAuthRepo.getPIN();
+    String phone = phonePrefix + phoneValue;
+    String countryIso3code = countryValue.id;
 
-    final response = await repository.register(
+    final response = await sessionRepo.register(
       fullName: fullNameValue,
       email: emailValue,
-      phone: phonePrefix + phoneValue,
+      phone: phone,
       password: shaPassword,
       hint: passwordHintValue,
-      countryIso3Code: countryValue.id,
+      countryIso3Code: countryIso3code,
       affiliateCode: affiliateCodeValue,
       pin: pinCode,
       token: token,

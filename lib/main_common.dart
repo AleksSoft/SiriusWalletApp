@@ -46,7 +46,6 @@ Future<void> mainCommon(AppConfig appConfig) async {
         theme: AppThemes.light,
         themeMode: ThemeMode.system,
         initialBinding: InitialBinding(appConfig),
-        smartManagement: Get.smartManagement,
         navigatorObservers: [
           FirebaseAnalyticsObserver(analytics: _firebaseAnalytics),
         ],

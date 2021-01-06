@@ -62,9 +62,7 @@ class AppController extends GetxController with WidgetsBindingObserver {
   @override
   void onReady() {
     super.onReady();
-    sessionService.verifySessionPIN(logOutOnError: true).then((value) {
-      if (value ?? false) _initialize();
-    });
+    _initialize();
   }
 
   @override

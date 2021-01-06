@@ -2,11 +2,10 @@ import 'dart:convert';
 
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/data/grpc/google/protobuf/timestamp.pb.dart';
+import 'package:antares_wallet/app/data/models/history_filter.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:get/get_utils/get_utils.dart';
 import 'package:get_storage/get_storage.dart';
-
-import 'file:///C:/Users/Xiaomi/Documents/work/swisschain/Sirius%20Wallet/SiriusWalletApp/lib/app/data/models/history_filter.dart';
 
 enum PortfolioPeriod { all, day, week, custom }
 
