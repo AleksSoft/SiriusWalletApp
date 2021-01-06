@@ -1,10 +1,10 @@
 import 'dart:async';
 
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/data/data_sources/session_data_source.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/common.pb.dart';
 import 'package:antares_wallet/app/domain/repositories/session_repository.dart';
-import 'package:antares_wallet/common/common.dart';
 import 'package:dartz/dartz.dart';
 import 'package:get/get_utils/get_utils.dart';
 import 'package:get_storage/get_storage.dart';

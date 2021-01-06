@@ -1,4 +1,4 @@
-import 'package:antares_wallet/models/base_model.dart';
+import 'base_model.dart';
 
 class SavedErrorsModel extends BaseModel<SavedErrorsModel> {
   List<SavedError> errors = [];

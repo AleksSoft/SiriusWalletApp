@@ -1,9 +1,9 @@
 import 'dart:math' as math;
 
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/presentation/widgets/asset_pair_tile.dart';
 import 'package:antares_wallet/app/presentation/widgets/volume_price_tile.dart';
-import 'package:antares_wallet/common/common.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/controllers/order_details_controller.dart';
 import 'package:flutter/material.dart';

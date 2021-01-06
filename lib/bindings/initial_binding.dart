@@ -1,9 +1,10 @@
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/data_sources/session_data_source.dart';
 import 'package:antares_wallet/app/data/repository/session_repository.dart';
-import 'package:antares_wallet/app/data/service/session_service.dart';
+import 'package:antares_wallet/app/data/services/api/api_service.dart';
+import 'package:antares_wallet/app/data/services/session_service.dart';
 import 'package:antares_wallet/app/domain/repositories/session_repository.dart';
-import 'package:antares_wallet/common/common.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:logger/logger.dart';
@@ -17,6 +18,10 @@ class InitialBinding extends Bindings {
     Get.lazyPut<Logger>(
       () => Logger(printer: PrettyPrinter()),
       fenix: true,
+    );
+    await Get.putAsync<ApiService>(
+      () => ApiService().init(appConfig),
+      permanent: true,
     );
     Get.lazyPut<AppConfig>(
       () => appConfig,
@@ -39,7 +44,6 @@ class InitialBinding extends Bindings {
     );
     Get.lazyPut<SessionService>(
       () => SessionService(repository: Get.find()),
-      fenix: true,
     );
   }
 }

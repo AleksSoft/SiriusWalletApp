@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-enum Environment { dev, test, prod }
+import 'app_enums.dart';
 
 @immutable
 class AppConfig {

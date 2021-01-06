@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'app_colors.dart';
 import 'app_sizes.dart';
 
-class AppUiHelpers {
+abstract class AppUiHelpers {
   // vertical space
   static const SizedBox vSpaceExtraSmall =
       SizedBox(height: AppSizes.extraSmall);

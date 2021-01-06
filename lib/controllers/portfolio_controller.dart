@@ -1,8 +1,8 @@
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/google/protobuf/timestamp.pb.dart';
+import 'package:antares_wallet/app/data/models/portfolio_history_filter.dart';
 import 'package:antares_wallet/app/data/repository/portfolio_repository.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
-import 'package:antares_wallet/models/portfolio_history_filter.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 

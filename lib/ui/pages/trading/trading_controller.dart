@@ -4,7 +4,7 @@ import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/google/protobuf/timestamp.pb.dart';
 import 'package:antares_wallet/app/data/repository/trading_repository.dart';
-import 'package:antares_wallet/app/services/api/api_service.dart';
+import 'package:antares_wallet/app/data/services/api/api_service.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/controllers/order_details_controller.dart';
 import 'package:antares_wallet/ui/pages/orders/order_details/order_details_page.dart';

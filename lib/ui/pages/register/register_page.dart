@@ -1,6 +1,6 @@
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/presentation/widgets/gradient_button.dart';
-import 'package:antares_wallet/common/common.dart';
 import 'package:antares_wallet/ui/pages/register/register_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

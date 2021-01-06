@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AppColors {
+abstract class AppColors {
   static const Color primary = Colors.white;
   static const Color accent = Colors.blue;
   static const Color secondary = Colors.grey;

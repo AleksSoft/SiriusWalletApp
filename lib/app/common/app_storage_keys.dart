@@ -1,4 +1,4 @@
-class AppStorageKeys {
+abstract class AppStorageKeys {
   static final String baseUrl = 'key_base_url';
   static final String token = 'key_token';
   static final String pinCode = 'key_pin_code';

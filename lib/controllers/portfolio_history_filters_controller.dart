@@ -1,7 +1,7 @@
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
+import 'package:antares_wallet/app/data/models/portfolio_history_filter.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
-import 'package:antares_wallet/models/portfolio_history_filter.dart';
 import 'package:antares_wallet/ui/pages/select_asset/select_asset_controller.dart';
 import 'package:antares_wallet/ui/pages/select_asset/select_asset_page.dart';
 import 'package:get/get.dart';

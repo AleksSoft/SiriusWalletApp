@@ -1,4 +1,4 @@
-import 'package:antares_wallet/common/common.dart';
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';

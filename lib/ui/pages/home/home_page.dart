@@ -1,9 +1,9 @@
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/presentation/widgets/asset_icon.dart';
 import 'package:antares_wallet/app/presentation/widgets/asset_pair_rich_text.dart';
 import 'package:antares_wallet/app/presentation/widgets/default_card.dart';
-import 'package:antares_wallet/common/common.dart';
 import 'package:antares_wallet/controllers/home_controller.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';

@@ -1,6 +1,6 @@
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/presentation/widgets/default_card.dart';
-import 'package:antares_wallet/common/common.dart';
 import 'package:antares_wallet/controllers/profile_controller.dart';
 import 'package:antares_wallet/controllers/upgrade_account_quest_controller.dart';
 import 'package:flutter/cupertino.dart';

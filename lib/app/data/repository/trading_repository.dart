@@ -1,7 +1,7 @@
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/google/protobuf/timestamp.pb.dart';
-import 'package:antares_wallet/app/services/api/api_service.dart';
+import 'package:antares_wallet/app/data/services/api/api_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 

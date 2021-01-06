@@ -1,5 +1,5 @@
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/presentation/widgets/default_card.dart';
-import 'package:antares_wallet/common/common.dart';
 import 'package:antares_wallet/controllers/settings_controller.dart';
 import 'package:antares_wallet/ui/pages/more/settings/backup/backup_confirm_key_page.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';

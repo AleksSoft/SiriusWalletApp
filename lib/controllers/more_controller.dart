@@ -1,5 +1,5 @@
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
-import 'package:antares_wallet/common/common.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:url_launcher/url_launcher.dart';

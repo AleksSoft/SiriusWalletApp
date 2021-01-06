@@ -1,6 +1,6 @@
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/presentation/widgets/gradient_button.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
-import 'package:antares_wallet/common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';

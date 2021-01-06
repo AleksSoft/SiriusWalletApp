@@ -1,6 +1,6 @@
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/presentation/widgets/empty_reloading_view.dart';
 import 'package:antares_wallet/app/presentation/widgets/transaction_tile.dart';
-import 'package:antares_wallet/common/common.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';

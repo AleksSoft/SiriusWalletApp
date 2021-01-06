@@ -1,5 +1,5 @@
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
-import 'package:antares_wallet/common/common.dart';
 import 'package:antares_wallet/controllers/deposit_controller.dart';
 import 'package:antares_wallet/controllers/withdrawal_controller.dart';
 import 'package:flutter/material.dart';

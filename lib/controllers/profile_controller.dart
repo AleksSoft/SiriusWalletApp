@@ -1,7 +1,7 @@
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/repository/profile_repository.dart';
-import 'package:antares_wallet/common/common.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/quest/upgrade_account_quest.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_address.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_choose_doc.dart';

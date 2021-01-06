@@ -1,6 +1,6 @@
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/google/protobuf/empty.pb.dart';
-import 'package:antares_wallet/app/services/api/api_service.dart';
+import 'package:antares_wallet/app/data/services/api/api_service.dart';
 import 'package:meta/meta.dart';
 
 abstract class ISessionDataSource {

@@ -1,10 +1,10 @@
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/repository/profile_repository.dart';
 import 'package:antares_wallet/app/data/repository/settings_repository.dart';
 import 'package:antares_wallet/app/data/repository/wallet_repository.dart';
 import 'package:antares_wallet/app/presentation/widgets/asset_list_tile.dart';
-import 'package:antares_wallet/common/common.dart';
 import 'package:antares_wallet/controllers/app_controller.dart';
 import 'package:antares_wallet/ui/pages/banking/deposit/blockchain_deposit_page.dart';
 import 'package:antares_wallet/ui/pages/banking/deposit/card_deposit_page.dart';
