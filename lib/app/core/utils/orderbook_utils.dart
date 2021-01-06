@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 
 class OrderbookUtils {
   static List<Orderbook_PriceVolume> getMergedPriceVolumes(

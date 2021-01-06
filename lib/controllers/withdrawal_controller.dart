@@ -1,10 +1,10 @@
-import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
-import 'package:antares_wallet/app/data/repository/session_repository.dart';
+import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/repository/wallet_repository.dart';
-import 'package:antares_wallet/app/widgets/asset_list_tile.dart';
+import 'package:antares_wallet/app/domain/repositories/session_repository.dart';
+import 'package:antares_wallet/app/presentation/widgets/asset_list_tile.dart';
+import 'package:antares_wallet/common/common.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
-import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/banking/withdrawal/blockchain_withdrawal_page.dart';
 import 'package:antares_wallet/ui/pages/banking/withdrawal/result_withdrawal_page.dart';
 import 'package:antares_wallet/ui/pages/banking/withdrawal/swift_withdrawal_page.dart';
@@ -20,7 +20,12 @@ enum WithdrawalMode { swift, blockchain }
 class WithdrawalController extends GetxController {
   static WithdrawalController get con => Get.find();
 
-  final _portfolioCon = PortfolioController.con;
+  final ISessionRepository sessionRepo;
+  final PortfolioController portfolioCon;
+  WithdrawalController({
+    @required this.sessionRepo,
+    @required this.portfolioCon,
+  });
 
   final addressObs = ''.obs;
   final extAddressObs = ''.obs;
@@ -36,8 +41,7 @@ class WithdrawalController extends GetxController {
   final cityController = TextEditingController();
   final zipController = TextEditingController();
 
-  var withdrawalCryptoInfo =
-      WithdrawalCryptoInfoResponse_WithdrawalCryptoInfo();
+  var withdrawalCryptoInfo = WithdrawalCryptoInfoResponse_Body();
 
   Asset selectedAsset = Asset();
 
@@ -138,16 +142,20 @@ class WithdrawalController extends GetxController {
   }
 
   Future<void> getAssetBalance() async {
-    if (_portfolioCon.balances.isEmpty) {
-      await _portfolioCon.getBalances();
+    if (portfolioCon.balances.isEmpty) {
+      await portfolioCon.getBalances();
     }
     selectedAssetBalance =
-        _portfolioCon.assetBalance(selectedAsset?.id) ?? Balance();
+        portfolioCon.assetBalance(selectedAsset?.id) ?? Balance();
   }
 
   Future<void> getCountry() async {
     if (_countryCode.isNullOrBlank) {
-      _countryCode = (await SessionRepository.getCountryPhoneCodes()).current;
+      final response = await sessionRepo.getCountryPhoneCodes();
+      response.fold(
+        (error) => AppLog.loggerNoStack.i(error.toProto3Json()),
+        (result) => _countryCode = result.current,
+      );
     }
   }
 

@@ -1,14 +1,16 @@
+import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
+import 'package:antares_wallet/app/data/grpc/google/protobuf/timestamp.pb.dart';
 import 'package:antares_wallet/app/data/repository/portfolio_repository.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/models/portfolio_history_filter.dart';
-import 'package:antares_wallet/src/apiservice.pbgrpc.dart';
-import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
 import 'package:get/get.dart';
+import 'package:meta/meta.dart';
 
 class PortfolioController extends GetxController {
   static PortfolioController get con => Get.find();
 
-  final _assetsController = AssetsController.con;
+  final AssetsController assetsCon;
+  PortfolioController({@required this.assetsCon});
 
   PortfolioHistoryFilter _filter;
 
@@ -48,7 +50,7 @@ class PortfolioController extends GetxController {
 
   double get balanceSum => balances.fold(
         0.0,
-        (p, c) => p + _assetsController.countBalanceInBase(c.assetId, c),
+        (p, c) => p + assetsCon.countBalanceInBase(c.assetId, c),
       );
 
   String get hideZerosButtonTitle =>
@@ -71,7 +73,7 @@ class PortfolioController extends GetxController {
 
   Future<void> rebuildPortfolioAssets() async {
     _loading(true);
-    await _assetsController.getAssetsDictionary();
+    await assetsCon.getAssetsDictionary();
     await getBalances();
     _mergeMap(categoryAssetsMap)
         .then((value) => categoryAssetsMap.assignAll(value))
@@ -129,13 +131,13 @@ class PortfolioController extends GetxController {
     Map<AssetCategory, List<Asset>> oldMap,
   ) async {
     var mergedMap = Map<AssetCategory, List<Asset>>.from(oldMap);
-    _assetsController.categoryList.forEach((category) {
+    assetsCon.categoryList.forEach((category) {
       var l = hideZeros.value
-          ? _assetsController
+          ? assetsCon
               .categoryAssets(category.id)
               .where((a) => _assetBalance(a.id) > 0)
               .toList()
-          : _assetsController.categoryAssets(category.id);
+          : assetsCon.categoryAssets(category.id);
       l.sort((a, b) => _assetBalance(a.id).compareTo(_assetBalance(b.id)));
       if (l.isNotEmpty) {
         mergedMap.update(

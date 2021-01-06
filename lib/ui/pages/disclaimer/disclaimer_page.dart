@@ -1,6 +1,6 @@
-import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
+import 'package:antares_wallet/common/common.dart';
 import 'package:antares_wallet/controllers/disclaimers_controler.dart';
-import 'package:antares_wallet/src/apiservice.pbgrpc.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

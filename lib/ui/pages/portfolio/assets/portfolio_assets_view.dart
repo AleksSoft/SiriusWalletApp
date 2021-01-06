@@ -1,10 +1,10 @@
-import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
-import 'package:antares_wallet/app/widgets/asset_list_tile.dart';
-import 'package:antares_wallet/app/widgets/deposit_withdraw_button_row.dart';
+import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
+import 'package:antares_wallet/app/presentation/widgets/asset_list_tile.dart';
+import 'package:antares_wallet/app/presentation/widgets/deposit_withdraw_button_row.dart';
+import 'package:antares_wallet/common/common.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
-import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/asset_info/asset_info_page.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';

@@ -1,4 +1,4 @@
-import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 

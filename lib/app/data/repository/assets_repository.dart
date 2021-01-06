@@ -1,46 +1,38 @@
-import 'package:antares_wallet/app/data/provider/assets_provider.dart';
-import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:antares_wallet/app/data/data_sources/assets_data_source.dart';
+import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
+import 'package:antares_wallet/app/domain/repositories/assets_repository.dart';
 import 'package:meta/meta.dart';
 
-abstract class IAssetsRepository {
-  Future<AssetsDictionaryResponseBody> assetsDictionary();
-  Future<String> getBaseAssetId();
-  Future<EmptyResponseV2> setBaseAsset(String id);
-  Future<List<AssetPair>> getAssetPairs();
-  Future<List<AmountInBaseAssetResponse_AmountInBasePayload>>
-      getAmountInBaseAssetList(String baseAssetId);
-}
-
 class AssetsRepository implements IAssetsRepository {
-  AssetsRepository({@required this.provider});
-  final IAssetsProvider provider;
+  AssetsRepository({@required this.source});
+  final IAssetsDataSource source;
 
   @override
-  Future<AssetsDictionaryResponseBody> assetsDictionary() async {
-    return (await provider.assetsDictionary()).body;
+  Future<AssetsDictionaryResponse_Body> assetsDictionary() async {
+    return (await source.assetsDictionary()).body;
   }
 
   @override
   Future<List<AmountInBaseAssetResponse_AmountInBasePayload>>
       getAmountInBaseAssetList(String baseAssetId) async {
-    final response = await provider.getAmountInBaseAsset(baseAssetId);
-    return response?.values ?? [];
+    final response = await source.getAmountInBaseAsset(baseAssetId);
+    return response?.body?.values ?? [];
   }
 
   @override
   Future<String> getBaseAssetId() async {
-    final response = await provider.getBaseAsset();
-    return response?.baseAsset?.assetId ?? '';
+    final response = await source.getBaseAsset();
+    return response?.body?.assetId ?? '';
   }
 
   @override
   Future<List<AssetPair>> getAssetPairs() async {
-    final response = await provider.getAssetPairs();
-    return response?.assetPairs ?? [];
+    final response = await source.getAssetPairs();
+    return response?.body?.assetPairs ?? [];
   }
 
   @override
-  Future<EmptyResponseV2> setBaseAsset(String id) {
-    return provider.setBaseAsset(id);
+  Future<EmptyResponse> setBaseAsset(String id) {
+    return source.setBaseAsset(id);
   }
 }

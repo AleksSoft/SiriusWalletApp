@@ -1,17 +1,19 @@
-import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
+import 'package:antares_wallet/app/data/grpc/google/protobuf/timestamp.pb.dart';
 import 'package:antares_wallet/app/data/repository/trading_repository.dart';
+import 'package:antares_wallet/common/common.dart';
 import 'package:antares_wallet/models/order_open_data.dart';
 import 'package:antares_wallet/models/orders_history_filter.dart';
-import 'package:antares_wallet/src/apiservice.pb.dart';
-import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
 import 'package:get/get.dart';
+import 'package:meta/meta.dart';
 
 import 'assets_controller.dart';
 
 class OrdersController extends GetxController {
   static OrdersController get con => Get.find();
 
-  final _assetsCon = Get.find<AssetsController>();
+  final AssetsController assetsCon;
+  OrdersController({@required this.assetsCon});
 
   final orders = <OrderOpenData>[].obs;
 
@@ -135,9 +137,9 @@ class OrdersController extends GetxController {
   void _generateOrderDataList(List<LimitOrderModel> limitOrders) {
     var list = <OrderOpenData>[];
     limitOrders?.forEach((order) {
-      AssetPair assetPair = _assetsCon.assetPairById(order.assetPair);
-      Asset baseAsset = _assetsCon.assetById(assetPair?.baseAssetId);
-      Asset quotingAsset = _assetsCon.assetById(assetPair?.quotingAssetId);
+      AssetPair assetPair = assetsCon.assetPairById(order.assetPair);
+      Asset baseAsset = assetsCon.assetById(assetPair?.baseAssetId);
+      Asset quotingAsset = assetsCon.assetById(assetPair?.quotingAssetId);
       if (assetPair != null && baseAsset != null && quotingAsset != null) {
         list.add(OrderOpenData.fromOrder(
           baseAsset.name,

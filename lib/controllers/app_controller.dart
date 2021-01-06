@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:antares_wallet/app/core/utils/utils.dart';
-import 'package:antares_wallet/app/data/repository/session_repository.dart';
 import 'package:antares_wallet/app/data/service/session_service.dart';
+import 'package:antares_wallet/app/domain/repositories/session_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,12 +16,14 @@ class AppController extends GetxController with WidgetsBindingObserver {
 
   AppController({
     @required this.sessionService,
+    @required this.sessionRepo,
     @required this.assetsCon,
     @required this.marketsCon,
     @required this.ordersCon,
     @required this.portfolioCon,
   });
   final SessionService sessionService;
+  final ISessionRepository sessionRepo;
   final AssetsController assetsCon;
   final MarketsController marketsCon;
   final OrdersController ordersCon;
@@ -59,10 +61,10 @@ class AppController extends GetxController with WidgetsBindingObserver {
 
   @override
   void onReady() {
+    super.onReady();
     sessionService.verifySessionPIN(logOutOnError: true).then((value) {
       if (value ?? false) _initialize();
     });
-    super.onReady();
   }
 
   @override
@@ -109,9 +111,16 @@ class AppController extends GetxController with WidgetsBindingObserver {
   void _stopTimer() => _prolongSessionTimer?.cancel();
 
   Future<bool> _prolongSession() async {
-    bool success = await SessionRepository.prolongateSession();
-    AppLog.loggerNoStack.d('session prolongation result = $success');
-    if (!success) sessionService.verifySessionPIN(logOutOnError: true);
-    return success;
+    final response = await sessionRepo.prolongateSession();
+
+    bool isSuccess = false;
+    response.fold(
+      (error) => sessionService.verifySessionPIN(logOutOnError: true),
+      (result) => isSuccess = result,
+    );
+
+    AppLog.loggerNoStack.d('session prolongation result = $isSuccess');
+
+    return isSuccess;
   }
 }

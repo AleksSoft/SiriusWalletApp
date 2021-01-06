@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/data/service/session_service.dart';
+import 'package:antares_wallet/common/common.dart';
 import 'package:antares_wallet/models/saved_errors_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
@@ -76,7 +76,7 @@ class ErrorHandler {
     GrpcError e,
     String method,
     bool showDialog,
-  ) {
+  ) async {
     if (e.code == StatusCode.unauthenticated) {
       Get.find<SessionService>().verifySessionPIN(logOutOnError: true);
     }

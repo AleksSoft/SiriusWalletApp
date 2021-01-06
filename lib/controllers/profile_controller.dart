@@ -1,7 +1,7 @@
-import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
+import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/repository/profile_repository.dart';
-import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:antares_wallet/common/common.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/quest/upgrade_account_quest.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_address.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_choose_doc.dart';
@@ -22,7 +22,7 @@ class ProfileController extends GetxController {
   TierInfoPayload get tierInfo => this._tierInfo.value;
   set tierInfo(TierInfoPayload value) => this._tierInfo.value = value;
 
-  final documentsMap = Map<String, KycDocumentsResponse_KycDocument>().obs;
+  final documentsMap = Map<String, KycDocument>().obs;
 
   double get limitPercent => doubleCurrent / doubleMax;
 

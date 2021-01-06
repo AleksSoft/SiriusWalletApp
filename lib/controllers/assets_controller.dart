@@ -1,6 +1,6 @@
 import 'package:antares_wallet/app/core/utils/utils.dart';
-import 'package:antares_wallet/app/data/repository/assets_repository.dart';
-import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
+import 'package:antares_wallet/app/domain/repositories/assets_repository.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 
@@ -10,10 +10,10 @@ class AssetsController extends GetxController {
   final IAssetsRepository repository;
   AssetsController({@required this.repository});
 
-  final _assetsDictionary = AssetsDictionaryResponseBody().obs;
-  AssetsDictionaryResponseBody get assetsDictionary =>
+  final _assetsDictionary = AssetsDictionaryResponse_Body().obs;
+  AssetsDictionaryResponse_Body get assetsDictionary =>
       this._assetsDictionary.value;
-  set assetsDictionary(AssetsDictionaryResponseBody value) =>
+  set assetsDictionary(AssetsDictionaryResponse_Body value) =>
       this._assetsDictionary.value = value;
 
   List<Asset> get assetList => assetsDictionary.assets;

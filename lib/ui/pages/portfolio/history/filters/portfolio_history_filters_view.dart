@@ -1,11 +1,11 @@
-import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/common/common.dart';
 import 'package:antares_wallet/controllers/portfolio_history_filters_controller.dart';
 import 'package:antares_wallet/models/portfolio_history_filter.dart';
 import 'package:chips_choice/chips_choice.dart';
+import 'package:date_range_picker/date_range_picker.dart' as DateRagePicker;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:date_range_picker/date_range_picker.dart' as DateRagePicker;
 
 class PortfolioHistoryFiltersView extends StatelessWidget {
   const PortfolioHistoryFiltersView({Key key}) : super(key: key);

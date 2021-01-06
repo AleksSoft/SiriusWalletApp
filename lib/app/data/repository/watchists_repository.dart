@@ -1,7 +1,7 @@
 import 'package:antares_wallet/app/core/utils/utils.dart';
-import 'package:antares_wallet/services/api/api_service.dart';
-import 'package:antares_wallet/src/apiservice.pb.dart';
-import 'package:antares_wallet/src/google/protobuf/empty.pb.dart';
+import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
+import 'package:antares_wallet/app/data/grpc/google/protobuf/empty.pb.dart';
+import 'package:antares_wallet/app/services/api/api_service.dart';
 import 'package:get/get.dart';
 
 class WatchlistsRepository {
@@ -12,7 +12,7 @@ class WatchlistsRepository {
       () => _api.clientSecure.getWatchlists(Empty()),
       method: 'getWatchlists',
     );
-    return response?.result ?? [];
+    return response?.body?.result ?? [];
   }
 
   static Future<Watchlist> getWatchlist(String id) async {
@@ -20,7 +20,7 @@ class WatchlistsRepository {
       () => _api.clientSecure.getWatchlist(WatchlistRequest()..id = id),
       method: 'getWatchlist',
     );
-    return response?.result;
+    return response?.body;
   }
 
   static Future<Watchlist> addWatchlist(
@@ -37,7 +37,7 @@ class WatchlistsRepository {
       ),
       method: 'addWatchlist',
     );
-    return response?.result;
+    return response?.body;
   }
 
   static Future<Watchlist> updateWatchlist(
@@ -56,11 +56,11 @@ class WatchlistsRepository {
       ),
       method: 'updateWatchlist',
     );
-    return response?.result;
+    return response?.body;
   }
 
   static Future<void> deleteWatchlist(String id) async {
-    await ErrorHandler.safeCall<DeleteWatchlistResponse>(
+    await ErrorHandler.safeCall<EmptyResponse>(
       () => _api.clientSecure.deleteWatchlist(
         DeleteWatchlistRequest()..id = id,
       ),

@@ -1,7 +1,7 @@
 import 'package:antares_wallet/app/core/utils/utils.dart';
-import 'package:antares_wallet/services/api/api_service.dart';
-import 'package:antares_wallet/src/apiservice.pbgrpc.dart';
-import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
+import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
+import 'package:antares_wallet/app/data/grpc/google/protobuf/timestamp.pb.dart';
+import 'package:antares_wallet/app/services/api/api_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
@@ -26,19 +26,19 @@ class TradingRepository {
       ),
       method: 'getCandles',
     );
-    return response?.candles;
+    return response?.body?.candles ?? <Candle>[];
   }
 
   static Future<Orderbook> getOrderbook({
     @required String assetPairId,
   }) async {
-    final response = await ErrorHandler.safeCall<Orderbook>(
+    final response = await ErrorHandler.safeCall<OrderbookResponse>(
       () => _api.clientSecure.getOrderbook(
         OrderbookRequest()..assetPairId = assetPairId,
       ),
       method: 'getOrderbook',
     );
-    return response ?? Orderbook();
+    return response?.body ?? Orderbook();
   }
 
   static Future<List<LimitOrderModel>> getOrders({String assetPairId}) async {
@@ -48,7 +48,7 @@ class TradingRepository {
       () => _api.clientSecure.getOrders(request),
       method: 'getOrders',
     );
-    return response?.result?.orders ?? [];
+    return response?.body?.orders ?? [];
   }
 
   static Future<List<TradesResponse_TradeModel>> getTrades({
@@ -70,7 +70,7 @@ class TradingRepository {
       () => _api.clientSecure.getTrades(request),
       method: 'getTrades',
     );
-    return response?.trades ?? [];
+    return response?.body?.trades ?? [];
   }
 
   static Future<List<AssetTradesResponse_AssetTradeModel>> getAssetTrades({
@@ -87,7 +87,7 @@ class TradingRepository {
       ),
       method: 'getAssetTrades',
     );
-    return response?.trades ?? [];
+    return response?.body?.trades ?? [];
   }
 
   static Future<bool> cancelOrder(String orderId) async {
@@ -97,7 +97,7 @@ class TradingRepository {
       ),
       method: 'cancelOrder',
     );
-    return response?.payload ?? false;
+    return response?.body?.payload ?? false;
   }
 
   static Future<bool> cancelAllOrders() async {
@@ -105,7 +105,7 @@ class TradingRepository {
       () => _api.clientSecure.cancelAllOrders(CancelOrdersRequest()),
       method: 'cancelAllOrders',
     );
-    return response?.payload ?? false;
+    return response?.body?.payload ?? false;
   }
 
   static Future<OrderModel> placeLimitOrder({
@@ -124,7 +124,7 @@ class TradingRepository {
       ),
       method: 'placeLimitOrder',
     );
-    return response?.result?.order;
+    return response?.body;
   }
 
   static Future<OrderModel> placeMarketOrder({
@@ -141,6 +141,6 @@ class TradingRepository {
       ),
       method: 'placeMarketOrder',
     );
-    return response?.result?.order;
+    return response?.body;
   }
 }

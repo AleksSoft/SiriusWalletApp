@@ -1,11 +1,11 @@
-import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
+import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/repository/profile_repository.dart';
 import 'package:antares_wallet/app/data/repository/settings_repository.dart';
 import 'package:antares_wallet/app/data/repository/wallet_repository.dart';
-import 'package:antares_wallet/app/widgets/asset_list_tile.dart';
+import 'package:antares_wallet/app/presentation/widgets/asset_list_tile.dart';
+import 'package:antares_wallet/common/common.dart';
 import 'package:antares_wallet/controllers/app_controller.dart';
-import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/banking/deposit/blockchain_deposit_page.dart';
 import 'package:antares_wallet/ui/pages/banking/deposit/card_deposit_page.dart';
 import 'package:antares_wallet/ui/pages/banking/deposit/card_deposit_web_page.dart';
@@ -24,11 +24,11 @@ enum DepositMode { swift, card, blockchain }
 class DepositController extends GetxController {
   static DepositController get con => Get.find();
 
-  final _assetsCon = AssetsController.con;
+  final AssetsController assetsCon;
+  DepositController({@required this.assetsCon});
 
-  var assetSwiftCreds = SwiftCredentialsResponse_SwiftCredentials();
-  var depositCryptoAddress =
-      CryptoDepositAddressResponse_CryptoDepositAddress();
+  var assetSwiftCreds = SwiftCredentialsResponse_Body();
+  var depositCryptoAddress = CryptoDepositAddressResponse_Body();
 
   Asset selectedAsset = Asset();
 
@@ -148,7 +148,7 @@ class DepositController extends GetxController {
         context: Get.context,
         delegate: SearchPage<Asset>(
           showItemsOnEmpty: true,
-          items: _assetsCon.assetList
+          items: assetsCon.assetList
               .where(
                   (a) => a.cardDeposit || a.swiftDeposit || a.blockchainDeposit)
               .toList(),
@@ -253,8 +253,8 @@ class DepositController extends GetxController {
   }
 
   void _clearAllFields() {
-    assetSwiftCreds = SwiftCredentialsResponse_SwiftCredentials();
-    depositCryptoAddress = CryptoDepositAddressResponse_CryptoDepositAddress();
+    assetSwiftCreds = SwiftCredentialsResponse_Body();
+    depositCryptoAddress = CryptoDepositAddressResponse_Body();
     fee = 0.0;
     _amountValue = '';
   }

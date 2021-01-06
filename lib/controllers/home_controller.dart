@@ -1,5 +1,5 @@
+import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/controllers/app_controller.dart';
-import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/asset_info/asset_info_page.dart';
 import 'package:antares_wallet/ui/pages/more/support/support_page.dart';
 import 'package:antares_wallet/ui/pages/trading/trading_page.dart';

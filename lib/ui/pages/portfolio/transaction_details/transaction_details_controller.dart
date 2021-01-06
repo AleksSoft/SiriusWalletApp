@@ -1,6 +1,6 @@
+import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/repository/portfolio_repository.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
-import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:get/get.dart';
 
 class TransactionDetailsController extends GetxController {

@@ -1,7 +1,7 @@
 import 'package:antares_wallet/app/core/utils/utils.dart';
-import 'package:antares_wallet/services/api/api_service.dart';
-import 'package:antares_wallet/src/apiservice.pb.dart';
-import 'package:antares_wallet/src/google/protobuf/empty.pb.dart';
+import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
+import 'package:antares_wallet/app/data/grpc/google/protobuf/empty.pb.dart';
+import 'package:antares_wallet/app/services/api/api_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
@@ -13,7 +13,7 @@ class DisclaimersRepository {
       () => _api.clientSecure.getAssetDisclaimers(Empty()),
       method: 'getAssetDisclaimers',
     );
-    return response?.result?.disclaimers ?? [];
+    return response?.body?.disclaimers ?? [];
   }
 
   static Future<bool> approveAssetDisclaimer({

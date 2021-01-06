@@ -1,6 +1,6 @@
 import 'package:antares_wallet/app/core/utils/utils.dart';
-import 'package:antares_wallet/services/api/api_service.dart';
-import 'package:antares_wallet/src/apiservice.pbgrpc.dart';
+import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
+import 'package:antares_wallet/app/services/api/api_service.dart';
 import 'package:get/get.dart';
 
 class MarketsRepository {
@@ -15,6 +15,6 @@ class MarketsRepository {
       () => _api.clientSecure.getMarkets(request),
       method: 'getMarkets',
     );
-    return response?.markets ?? [];
+    return response?.body?.markets ?? [];
   }
 }

@@ -1,7 +1,7 @@
 import 'package:antares_wallet/app/core/utils/utils.dart';
-import 'package:antares_wallet/services/api/api_service.dart';
-import 'package:antares_wallet/src/apiservice.pb.dart';
-import 'package:antares_wallet/src/google/protobuf/empty.pb.dart';
+import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
+import 'package:antares_wallet/app/data/grpc/google/protobuf/empty.pb.dart';
+import 'package:antares_wallet/app/services/api/api_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
@@ -9,11 +9,11 @@ class ProfileRepository {
   static final _api = Get.find<ApiService>();
 
   static Future<TierInfoPayload> getTierInfo() async {
-    final response = await ErrorHandler.safeCall<TierInfoRespone>(
+    final response = await ErrorHandler.safeCall<TierInfoResponse>(
       () => _api.clientSecure.getTierInfo(Empty()),
       method: 'getTierInfo',
     );
-    return response?.result ?? TierInfoPayload();
+    return response?.body ?? TierInfoPayload();
   }
 
   static Future<PersonalData> getPersonalData() async {
@@ -21,20 +21,19 @@ class ProfileRepository {
       () => _api.clientSecure.getPersonalData(Empty()),
       method: 'getPersonalData',
     );
-    return response?.result ?? PersonalData();
+    return response?.body ?? PersonalData();
   }
 
-  static Future<Map<String, KycDocumentsResponse_KycDocument>>
-      getKycDocuments() async {
+  static Future<Map<String, KycDocument>> getKycDocuments() async {
     final response = await ErrorHandler.safeCall<KycDocumentsResponse>(
       () => _api.clientSecure.getKycDocuments(Empty()),
       method: 'getKycDocuments',
     );
-    return response?.result ?? Map();
+    return response?.body?.result ?? Map<String, KycDocument>();
   }
 
   static Future<bool> setAddress({@required String address}) async {
-    final response = await ErrorHandler.safeCall<EmptyResponseV2>(
+    final response = await ErrorHandler.safeCall<EmptyResponse>(
       () => _api.clientSecure.setAddress(
         SetAddressRequest()..address = address,
       ),
@@ -44,7 +43,7 @@ class ProfileRepository {
   }
 
   static Future<bool> setZip({@required String zip}) async {
-    final response = await ErrorHandler.safeCall<EmptyResponseV2>(
+    final response = await ErrorHandler.safeCall<EmptyResponse>(
       () => _api.clientSecure.setZip(SetZipRequest()..zip = zip),
       method: 'setZip',
     );
@@ -74,7 +73,7 @@ class ProfileRepository {
       () => _api.clientSecure.getQuestionnaire(Empty()),
       method: 'getQuestionnaire',
     );
-    return response?.result?.questionnaire ?? [];
+    return response?.body?.questionnaire ?? [];
   }
 
   static Future<bool> saveQuestionnaire({

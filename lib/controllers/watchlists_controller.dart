@@ -1,7 +1,7 @@
-import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/repository/watchists_repository.dart';
+import 'package:antares_wallet/common/common.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
-import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/markets/spot/watchlists/edit/edit_watchlist_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
@@ -9,7 +9,13 @@ import 'package:get_storage/get_storage.dart';
 
 class WatchlistsController extends GetxController {
   static WatchlistsController get con => Get.find();
-  final _storage = GetStorage();
+
+  final GetStorage storage;
+  final MarketsController marketsCon;
+  WatchlistsController({
+    @required this.storage,
+    @required this.marketsCon,
+  });
 
   final watchlists = <Watchlist>[].obs;
 
@@ -27,11 +33,11 @@ class WatchlistsController extends GetxController {
     await getWatchlists();
 
     // set selected watchlist
-    String id = _storage.read(AppStorageKeys.watchlistId);
+    String id = storage.read(AppStorageKeys.watchlistId);
     if (id.isNullOrBlank) {
       if (watchlists.isNotEmpty) {
         selected = watchlists.first;
-        await _storage.write(AppStorageKeys.watchlistId, selected.id);
+        await storage.write(AppStorageKeys.watchlistId, selected.id);
       } else {
         selected = Watchlist();
       }
@@ -48,8 +54,8 @@ class WatchlistsController extends GetxController {
   Future<void> select(String id) async {
     loading = true;
     selected = watchlists.firstWhere((w) => w.id == id);
-    await _storage.write(AppStorageKeys.watchlistId, id);
-    await Get.find<MarketsController>().rebuildWatchedMarkets();
+    await storage.write(AppStorageKeys.watchlistId, id);
+    await marketsCon.rebuildWatchedMarkets();
     loading = false;
   }
 

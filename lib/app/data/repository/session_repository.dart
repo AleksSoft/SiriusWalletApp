@@ -1,183 +1,73 @@
 import 'dart:async';
 
-import 'package:antares_wallet/app/core/utils/utils.dart';
-import 'package:antares_wallet/services/api/api_service.dart';
-import 'package:antares_wallet/src/apiservice.pb.dart';
-import 'package:antares_wallet/src/google/protobuf/empty.pb.dart';
-import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
+import 'package:antares_wallet/app/data/data_sources/session_data_source.dart';
+import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
+import 'package:antares_wallet/app/data/grpc/common.pb.dart';
+import 'package:antares_wallet/app/domain/repositories/session_repository.dart';
+import 'package:antares_wallet/common/common.dart';
+import 'package:dartz/dartz.dart';
+import 'package:get/get_utils/get_utils.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:meta/meta.dart';
 
-class SessionRepository {
-  static final _api = Get.find<ApiService>();
+class SessionRepository implements ISessionRepository {
+  final ISessionDataSource source;
+  final GetStorage storage;
+  SessionRepository({@required this.source, @required this.storage});
 
-  static Future<CountryPhoneCodesResponse_CountryPhoneCodes>
+  @override
+  Future<Either<ErrorResponseBody, bool>> checkPin({
+    @required String pin,
+  }) async {
+    var request = CheckPinRequest()
+      ..sessionId = getSessionId()
+      ..pin = pin;
+    var result = await source.checkPin(request);
+    return result.hasError() ? Left(result.error) : Right(result.body.passed);
+  }
+
+  @override
+  Future<Either<ErrorResponseBody, CountryPhoneCodesResponse_Body>>
       getCountryPhoneCodes() async {
-    final response = await ErrorHandler.safeCall<CountryPhoneCodesResponse>(
-      () => _api.client.getCountryPhoneCodes(Empty()),
-      method: 'getCountryPhoneCodes',
-    );
-    return response?.result ?? CountryPhoneCodesResponse_CountryPhoneCodes();
+    var result = await source.getCountryPhoneCodes();
+    return result.hasError() ? Left(result.error) : Right(result.body);
   }
 
-  static Future<bool> prolongateSession() async {
-    try {
-      await _api.clientSecure.prolongateSession(Empty());
-      return true;
-    } catch (e) {
-      ErrorHandler.logError(
-        code: '',
-        message: e.message,
-        method: 'prolongateSession',
-      );
-      return false;
-    }
+  @override
+  Future<Either<ErrorResponseBody, bool>> isSessionExpired() async {
+    var request = CheckSessionRequest()..sessionId = getSessionId();
+    var result = await source.isSessionExpired(request);
+    return result.hasError() ? Left(result.error) : Right(result.body.expired);
   }
 
-  static Future<bool> isSessionExpired({@required String sessionId}) async {
-    final response = await ErrorHandler.safeCall<CheckSessionResponse>(
-      () => _api.client.isSessionExpired(
-        CheckSessionRequest()..sessionId = sessionId,
-      ),
-      method: 'isSessionExpired',
-    );
-    return response?.expired ?? true;
+  @override
+  Future<Either<ErrorResponseBody, bool>> prolongateSession() async {
+    var result = await source.prolongateSession();
+    return result.hasError() ? Left(result.error) : Right(true);
   }
 
-  /// LOGIN ENDPOINTS
-
-  static Future<LoginResponse_LoginPayload> login({
+  @override
+  Future<Either<ErrorResponseBody, LoginResponse_Body>> login({
     @required String email,
     @required String password,
     @required String publicKey,
   }) async {
-    final response = await ErrorHandler.safeCall<LoginResponse>(
-      () => _api.client.login(
-        LoginRequest()
-          ..email = email
-          ..password = password
-          ..publicKey = publicKey,
-      ),
-      method: 'login',
-    );
-    return response?.result;
+    var request = LoginRequest()
+      ..email = email
+      ..password = password
+      ..publicKey = publicKey;
+    var result = await source.login(request);
+    return result.hasError() ? Left(result.error) : Right(result.body);
   }
 
-  static Future<bool> sendLoginSms({
-    @required String sessionId,
-  }) async {
-    try {
-      await _api.client.sendLoginSms(LoginSmsRequest()..sessionId = sessionId);
-      return true;
-    } catch (e) {
-      ErrorHandler.logError(
-        code: '',
-        message: e.message,
-        method: 'sendLoginSms',
-      );
-      return false;
-    }
+  @override
+  Future<void> logout() async {
+    if (!GetUtils.isNullOrBlank(getSessionId())) await source.logout();
+    await storage.erase();
   }
 
-  static Future<bool> varifyLoginSms({
-    @required String sessionId,
-    @required String code,
-  }) async {
-    final response = await ErrorHandler.safeCall<VerifyLoginSmsResponse>(
-      () => _api.client.verifyLoginSms(
-        VerifyLoginSmsRequest()
-          ..sessionId = sessionId
-          ..code = code,
-      ),
-      method: 'verifyLoginSms',
-    );
-    return response?.result?.passed ?? false;
-  }
-
-  static Future<bool> checkPin({
-    @required String sessionId,
-    @required String pin,
-  }) async {
-    final response = await ErrorHandler.safeCall<CheckPinResponse>(
-      () => _api.client.checkPin(
-        CheckPinRequest()
-          ..sessionId = sessionId
-          ..pin = pin,
-      ),
-      method: 'checkPin',
-    );
-    return response?.result?.passed ?? false;
-  }
-
-  /// REGISTRATION ENDPOINTS
-
-  static Future<String> sendVerificationEmail({
-    @required String email,
-  }) async {
-    final response = await ErrorHandler.safeCall<VerificationEmailResponse>(
-      () => _api.client.sendVerificationEmail(
-        VerificationEmailRequest()..email = email,
-      ),
-      method: 'sendVerificationEmail',
-    );
-    return response?.result?.token;
-  }
-
-  static Future<bool> verifyEmail({
-    @required String email,
-    @required String code,
-    @required String token,
-  }) async {
-    final response = await ErrorHandler.safeCall<VerifyResponse>(
-      () => _api.client.verifyEmail(
-        VerifyEmailRequest()
-          ..email = email
-          ..code = code
-          ..token = token,
-      ),
-      method: 'verifyEmail',
-    );
-    return response?.result?.passed ?? false;
-  }
-
-  static Future<bool> sendVerificationSms({
-    @required String phone,
-    @required String token,
-  }) async {
-    try {
-      await _api.client.sendVerificationSms(
-        VerificationSmsRequest()
-          ..phone = phone
-          ..token = token,
-      );
-      return true;
-    } catch (e) {
-      ErrorHandler.logError(
-        code: '',
-        message: e.message,
-        method: 'sendVerificationSms',
-      );
-      return false;
-    }
-  }
-
-  static Future<bool> verifyPhone({
-    @required String phone,
-    @required String code,
-    @required String token,
-  }) async {
-    final response = await ErrorHandler.safeCall<VerifyResponse>(
-      () => _api.client.verifyPhone(
-        VerifyPhoneRequest()
-          ..phone = phone
-          ..code = code
-          ..token = token,
-      ),
-      method: 'verifyPhone',
-    );
-    return response?.result?.passed ?? false;
-  }
-
-  static Future<RegisterResponse_RegisterPayload> register({
+  @override
+  Future<Either<ErrorResponseBody, RegisterResponse_Body>> register({
     @required String fullName,
     @required String email,
     @required String phone,
@@ -200,10 +90,104 @@ class SessionRepository {
       ..pin = pin
       ..token = token
       ..publicKey = publicKey;
-    final response = await ErrorHandler.safeCall<RegisterResponse>(
-      () => _api.client.register(request),
-      method: 'register',
-    );
-    return response?.result;
+    var result = await source.register(request);
+
+    if (result.hasError()) {
+      await logout();
+      return Left(result.error);
+    }
+
+    await saveSessionId(result.body.sessionId);
+
+    return Right(result.body);
   }
+
+  @override
+  Future<Either<ErrorResponseBody, bool>> sendLoginSms({
+    @required String sessionId,
+  }) async {
+    var request = LoginSmsRequest()..sessionId = sessionId;
+    var result = await source.sendLoginSms(request);
+    return result.hasError() ? Left(result.error) : Right(true);
+  }
+
+  @override
+  Future<Either<ErrorResponseBody, String>> sendVerificationEmail({
+    @required String email,
+  }) async {
+    var request = VerificationEmailRequest()..email = email;
+    var result = await source.sendVerificationEmail(request);
+    return result.hasError() ? Left(result.error) : Right(result.body.token);
+  }
+
+  @override
+  Future<Either<ErrorResponseBody, bool>> sendVerificationSms({
+    @required String phone,
+    @required String token,
+  }) async {
+    var request = VerificationSmsRequest()
+      ..phone = phone
+      ..token = token;
+    var result = await source.sendVerificationSms(request);
+    return result.hasError() ? Left(result.error) : Right(true);
+  }
+
+  @override
+  Future<Either<ErrorResponseBody, bool>> verifyEmail({
+    @required String email,
+    @required String code,
+    @required String token,
+  }) async {
+    var request = VerifyEmailRequest()
+      ..email = email
+      ..code = code
+      ..token = token;
+    var result = await source.verifyEmail(request);
+    return result.hasError() ? Left(result.error) : Right(result.body.passed);
+  }
+
+  @override
+  Future<Either<ErrorResponseBody, bool>> verifyLoginSms({
+    @required String sessionId,
+    @required String code,
+  }) async {
+    var request = VerifyLoginSmsRequest()
+      ..sessionId = sessionId
+      ..code = code;
+    var result = await source.verifyLoginSms(request);
+    if (result.hasError()) {
+      return Left(result.error);
+    } else {
+      bool passed = result.body?.passed ?? false;
+      if (passed) saveSessionId(sessionId);
+      return Right(passed);
+    }
+  }
+
+  @override
+  Future<Either<ErrorResponseBody, bool>> verifyPhone({
+    @required String phone,
+    @required String code,
+    @required String token,
+  }) async {
+    var request = VerifyPhoneRequest()
+      ..phone = phone
+      ..code = code
+      ..token = token;
+    var result = await source.verifyPhone(request);
+    return result.hasError() ? Left(result.error) : Right(result.body.passed);
+  }
+
+  @override
+  String getSessionId() => storage.read(AppStorageKeys.token);
+
+  @override
+  Future<void> saveSessionId(String s) async {
+    await storage.write(AppStorageKeys.token, s);
+    await updateApiSession();
+  }
+
+  @override
+  Future<void> updateApiSession({String url}) =>
+      source.updateApiSession(url: url);
 }

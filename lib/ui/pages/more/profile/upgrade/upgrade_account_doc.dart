@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:antares_wallet/app/common/common.dart';
-import 'package:antares_wallet/app/widgets/default_card.dart';
+import 'package:antares_wallet/app/presentation/widgets/default_card.dart';
+import 'package:antares_wallet/common/common.dart';
 import 'package:antares_wallet/controllers/profile_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

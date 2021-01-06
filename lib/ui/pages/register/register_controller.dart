@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
-import 'package:antares_wallet/app/data/repository/session_repository.dart';
-import 'package:antares_wallet/app/features/local_auth/presentation/local_auth_controller.dart';
+import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
+import 'package:antares_wallet/app/domain/repositories/session_repository.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
-import 'package:antares_wallet/services/api/api_service.dart';
-import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:antares_wallet/app/services/api/api_service.dart';
+import 'package:antares_wallet/common/common.dart';
 import 'package:antares_wallet/ui/pages/register/register_result_page.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/widgets.dart';
@@ -17,14 +16,16 @@ import 'package:get_storage/get_storage.dart';
 class RegisterController extends GetxController {
   static RegisterController get con => Get.find();
 
-  RegisterController({
-    @required this.apiService,
-    @required this.storage,
-  });
-  final ApiService apiService;
   final GetStorage storage;
+  final ApiService apiService;
+  final ISessionRepository repository;
+  RegisterController({
+    @required this.storage,
+    @required this.apiService,
+    @required this.repository,
+  });
 
-  final pageViewController = PageController(initialPage: 5);
+  final pageViewController = PageController(initialPage: 0);
 
   Timer _codeTimer;
 
@@ -74,12 +75,9 @@ class RegisterController extends GetxController {
   String passwordHintValue = '';
 
   @override
-  void onInit() async {
+  void onInit() {
+    _fetchCountry();
     super.onInit();
-    loading = true;
-    countries.assignAll(
-        (await SessionRepository.getCountryPhoneCodes()).countriesList);
-    loading = false;
   }
 
   @override
@@ -88,7 +86,7 @@ class RegisterController extends GetxController {
     super.onClose();
   }
 
-  _startTimer() {
+  void _startTimer() {
     int seconds = 60;
     _codeTimer = Timer.periodic(
       Duration(seconds: 1),
@@ -103,7 +101,7 @@ class RegisterController extends GetxController {
     );
   }
 
-  proceed() async {
+  Future<void> proceed() async {
     loading = true;
     int currentPage = pageViewController.page.toInt();
     switch (currentPage) {
@@ -136,7 +134,7 @@ class RegisterController extends GetxController {
     }
   }
 
-  back() {
+  Future<bool> back() async {
     int currentPage = pageViewController.page.toInt();
     if (currentPage > 0) {
       Get.defaultDialog(
@@ -151,43 +149,89 @@ class RegisterController extends GetxController {
     } else {
       Get.back();
     }
+    return false;
   }
 
-  proceedEmail() async {
+  Future<void> proceedEmail() async {
     if (emailValue.isNullOrBlank || !emailValue.isEmail) {
       return;
     }
     if (!isEmailCodeWaiting) {
-      token = await SessionRepository.sendVerificationEmail(email: emailValue);
-      if (token.isNullOrBlank) {
-        Get.rawSnackbar(message: 'Email not verified');
+      final response = await repository.sendVerificationEmail(
+        email: emailValue,
+      );
+      response.fold((error) {
+        AppLog.logger.e(error.toProto3Json());
+        Get.rawSnackbar(
+          title: 'Email not verified',
+          message: error.toProto3Json(),
+          backgroundColor: AppColors.red,
+        );
         _stopTimer();
-      } else {
+      }, (result) async {
+        token = result;
         Get.rawSnackbar(message: 'Code sent');
-        _animateToPage(1);
+        await _animateToPage(1);
         isEmailCodeWaiting = true;
         _startTimer();
-      }
+      });
     } else {
-      _animateToPage(1);
+      await _animateToPage(1);
     }
   }
 
-  _proceedEmailCode() async {
+  Future<void> _fetchCountry() async {
+    loading = true;
+
+    final response = await repository.getCountryPhoneCodes();
+    response.fold(
+      (error) {
+        AppLog.logger.e(error.toProto3Json());
+        Get.rawSnackbar(
+          title: 'Email not verified',
+          message: error.toProto3Json(),
+          backgroundColor: AppColors.red,
+        );
+      },
+      (result) => countries.assignAll(result.countriesList),
+    );
+
+    loading = false;
+  }
+
+  Future<void> _proceedEmailCode() async {
     if (emailCodeValue.isNullOrBlank) {
       return;
     }
-    if (await SessionRepository.verifyEmail(
-        email: emailValue, code: emailCodeValue, token: token)) {
-      Get.rawSnackbar(message: 'Code verified');
-      _stopTimer();
-      _animateToPage(2);
+
+    final response = await repository.verifyEmail(
+      email: emailValue,
+      code: emailCodeValue,
+      token: token,
+    );
+    response.fold(
+      (error) {
+        AppLog.logger.e(error.toProto3Json());
+        Get.rawSnackbar(
+          title: 'Code not verified',
+          message: error.toProto3Json(),
+          backgroundColor: AppColors.red,
+        );
+      },
+      (result) async {
+        Get.rawSnackbar(message: 'Code verified');
+        _stopTimer();
+        await _animateToPage(2);
+      },
+    );
+
+    if (true) {
     } else {
       Get.rawSnackbar(message: 'Code not verified');
     }
   }
 
-  _proceedAdditionalData() async {
+  Future<void> _proceedAdditionalData() async {
     if (fullNameValue.isNullOrBlank ||
         fullNameValue.length < 4 ||
         countryController.text.isNullOrBlank) {
@@ -196,41 +240,63 @@ class RegisterController extends GetxController {
     await _animateToPage(3);
   }
 
-  _proceedPhone() async {
+  Future<void> _proceedPhone() async {
     if (phoneValue.isNullOrBlank) {
       return;
     }
     if (!isSmsWaiting) {
-      if (await SessionRepository.sendVerificationSms(
-          phone: phonePrefix + phoneValue, token: token)) {
-        Get.rawSnackbar(message: 'Sms sent');
-        _animateToPage(4);
-        isSmsWaiting = true;
-        _startTimer();
-      } else {
-        Get.rawSnackbar(message: 'Phone not accepted');
+      final response = await repository.sendVerificationSms(
+        phone: phonePrefix + phoneValue,
+        token: token,
+      );
+      response.fold(
+        (error) {
+          AppLog.logger.e(error.toProto3Json());
+          Get.rawSnackbar(
+            title: 'Phone not accepted',
+            message: error.toProto3Json(),
+            backgroundColor: AppColors.red,
+          );
+          _stopTimer();
+        },
+        (result) async {
+          Get.rawSnackbar(message: 'Sms sent');
+          await _animateToPage(4);
+          isSmsWaiting = true;
+          _startTimer();
+        },
+      );
+    } else {
+      await _animateToPage(4);
+    }
+  }
+
+  Future<void> _proceedPhoneSms() async {
+    if (smsCode.isNullOrBlank) return;
+
+    final response = await repository.verifyPhone(
+      phone: phonePrefix + phoneValue,
+      code: smsCode,
+      token: token,
+    );
+    response.fold(
+      (error) {
+        AppLog.logger.e(error.toProto3Json());
+        Get.rawSnackbar(
+          title: 'Sms not verified',
+          message: error.toProto3Json(),
+          backgroundColor: AppColors.red,
+        );
+      },
+      (result) async {
+        Get.rawSnackbar(message: 'Sms verified');
         _stopTimer();
-      }
-    } else {
-      _animateToPage(4);
-    }
+        await _animateToPage(5);
+      },
+    );
   }
 
-  _proceedPhoneSms() async {
-    if (smsCode.isNullOrBlank) {
-      return;
-    }
-    if (await SessionRepository.verifyPhone(
-        phone: phonePrefix + phoneValue, code: smsCode, token: token)) {
-      Get.rawSnackbar(message: 'Sms verified');
-      _stopTimer();
-      _animateToPage(5);
-    } else {
-      Get.rawSnackbar(message: 'Sms not verified');
-    }
-  }
-
-  _proceedPassword() async {
+  Future<void> _proceedPassword() async {
     var pinCreated = await Get.toNamed(
       Routes.LOCAL_AUTH,
       arguments: PinMode.create,
@@ -248,7 +314,7 @@ class RegisterController extends GetxController {
     String shaPassword = sha256.convert(utf8Password).toString();
     String pinCode = storage.read(AppStorageKeys.pinCode);
 
-    final registerPayload = await SessionRepository.register(
+    final response = await repository.register(
       fullName: fullNameValue,
       email: emailValue,
       phone: phonePrefix + phoneValue,
@@ -260,28 +326,31 @@ class RegisterController extends GetxController {
       token: token,
       publicKey: '1111',
     );
-    if (registerPayload != null) {
-      await storage.write(AppStorageKeys.token, registerPayload.sessionId);
-      await apiService.update();
-      Get.offAllNamed(Routes.ROOT);
-    } else {
-      Get.rawSnackbar(message: 'Registration failed!');
-      await storage.erase();
-      Get.back();
-    }
+    response.fold(
+      (error) {
+        AppLog.logger.e(error.toProto3Json());
+        Get.rawSnackbar(
+          title: 'Registration failed',
+          message: error.toProto3Json(),
+          backgroundColor: AppColors.red,
+        );
+        Get.back();
+      },
+      (result) => Get.offAllNamed(Routes.ROOT),
+    );
   }
 
-  _animateToPage(int page) {
+  Future<void> _animateToPage(int page) async {
     WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
     int currentPage = pageViewController.page.toInt();
-    pageViewController.animateToPage(
+    await pageViewController.animateToPage(
       page,
       duration: Get.defaultTransitionDuration,
       curve: page > currentPage ? Curves.easeInCubic : Curves.easeOutCubic,
     );
   }
 
-  _stopTimer() {
+  void _stopTimer() {
     _codeTimer?.cancel();
     isEmailCodeWaiting = false;
     isSmsWaiting = false;

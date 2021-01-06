@@ -1,7 +1,7 @@
 import 'package:antares_wallet/app/core/utils/utils.dart';
-import 'package:antares_wallet/services/api/api_service.dart';
-import 'package:antares_wallet/src/apiservice.pb.dart';
-import 'package:antares_wallet/src/google/protobuf/empty.pb.dart';
+import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
+import 'package:antares_wallet/app/data/grpc/google/protobuf/empty.pb.dart';
+import 'package:antares_wallet/app/services/api/api_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
@@ -22,10 +22,10 @@ class WalletRepository {
       ),
       method: 'isCryptoAddressValid',
     );
-    return response?.result?.isValid ?? false;
+    return response?.body?.isValid ?? false;
   }
 
-  static Future<SwiftCredentialsResponse_SwiftCredentials> getSwiftCredentials(
+  static Future<SwiftCredentialsResponse_Body> getSwiftCredentials(
       String assetId) async {
     final response = await ErrorHandler.safeCall<SwiftCredentialsResponse>(
       () => _api.clientSecure.getSwiftCredentials(
@@ -33,19 +33,18 @@ class WalletRepository {
       ),
       method: 'getSwiftCredentials',
     );
-    return response?.result;
+    return response?.body;
   }
 
-  static Future<SwiftCashoutInfoResponse_SwiftCashoutInfo>
-      getSwiftCashoutInfo() async {
+  static Future<SwiftCashoutInfoResponse_Body> getSwiftCashoutInfo() async {
     final response = await ErrorHandler.safeCall<SwiftCashoutInfoResponse>(
       () => _api.clientSecure.getSwiftCashoutInfo(Empty()),
       method: 'getSwiftCashoutInfo',
     );
-    return response?.result ?? SwiftCashoutInfoResponse_SwiftCashoutInfo();
+    return response?.body ?? SwiftCashoutInfoResponse_Body();
   }
 
-  static Future<SwiftCashoutFeeResponse_SwiftCashoutFee> getSwiftCashoutFee({
+  static Future<SwiftCashoutFeeResponse_Body> getSwiftCashoutFee({
     @required String assetId,
     @required String countryCode,
   }) async {
@@ -57,42 +56,39 @@ class WalletRepository {
       ),
       method: 'getSwiftCashoutFee',
     );
-    return response?.result ?? SwiftCashoutFeeResponse_SwiftCashoutFee();
+    return response?.body ?? SwiftCashoutFeeResponse_Body();
   }
 
-  static Future<BankCardPaymentDetailsResponse_BankCardPaymentDetails>
+  static Future<BankCardPaymentDetailsResponse_Body>
       getBankCardPaymentDetails() async {
     final response =
         await ErrorHandler.safeCall<BankCardPaymentDetailsResponse>(
       () => _api.clientSecure.getBankCardPaymentDetails(Empty()),
       method: 'getBankCardPaymentDetails',
     );
-    return response?.result ??
-        BankCardPaymentDetailsResponse_BankCardPaymentDetails();
+    return response?.body ?? BankCardPaymentDetailsResponse_Body();
   }
 
-  static Future<CryptoDepositAddressResponse_CryptoDepositAddress>
-      getCryptoDepositAddress(String assetId) async {
+  static Future<CryptoDepositAddressResponse_Body> getCryptoDepositAddress(
+      String assetId) async {
     final response = await ErrorHandler.safeCall<CryptoDepositAddressResponse>(
       () => _api.clientSecure.getCryptoDepositAddress(
         CryptoDepositAddressRequest()..assetId = assetId,
       ),
       method: 'getCryptoDepositAddress',
     );
-    return response?.address ??
-        CryptoDepositAddressResponse_CryptoDepositAddress();
+    return response?.body ?? CryptoDepositAddressResponse_Body();
   }
 
-  static Future<WithdrawalCryptoInfoResponse_WithdrawalCryptoInfo>
-      getWithdrawalCryptoInfo(String assetId) async {
+  static Future<WithdrawalCryptoInfoResponse_Body> getWithdrawalCryptoInfo(
+      String assetId) async {
     final response = await ErrorHandler.safeCall<WithdrawalCryptoInfoResponse>(
       () => _api.clientSecure.getWithdrawalCryptoInfo(
         WithdrawalCryptoInfoRequest()..assetId = assetId,
       ),
       method: 'getWithdrawalCryptoInfo',
     );
-    return response?.withdrawalInfo ??
-        WithdrawalCryptoInfoResponse_WithdrawalCryptoInfo();
+    return response?.body ?? WithdrawalCryptoInfoResponse_Body();
   }
 
   static Future<bool> sendBankTransferRequest({
@@ -110,8 +106,7 @@ class WalletRepository {
     return response != null;
   }
 
-  static Future<BankCardPaymentUrlResponse_BankCardPaymentUrl>
-      getBankCardPaymentUrl({
+  static Future<BankCardPaymentUrlResponse_Body> getBankCardPaymentUrl({
     @required String amount,
     @required String assetId,
   }) async {
@@ -123,7 +118,7 @@ class WalletRepository {
       ),
       method: 'getBankCardPaymentUrl',
     );
-    return response?.result ?? BankCardPaymentUrlResponse_BankCardPaymentUrl();
+    return response?.body ?? BankCardPaymentUrlResponse_Body();
   }
 
   static Future<bool> cryptoCashout({
@@ -145,7 +140,7 @@ class WalletRepository {
     return response != null;
   }
 
-  static Future<SwiftCashoutResponse_SwiftCashoutData> swiftCashout({
+  static Future<SwiftCashoutResponse_Body> swiftCashout({
     @required String amount,
     @required String asset,
     @required String bic,
@@ -173,6 +168,6 @@ class WalletRepository {
       ),
       method: 'swiftCashout',
     );
-    return response?.result ?? SwiftCashoutResponse_SwiftCashoutData();
+    return response?.body ?? SwiftCashoutResponse_Body();
   }
 }

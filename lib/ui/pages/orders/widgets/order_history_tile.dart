@@ -1,7 +1,7 @@
-import 'package:antares_wallet/app/common/common.dart';
-import 'package:antares_wallet/app/widgets/asset_pair_rich_text.dart';
-import 'package:antares_wallet/app/widgets/default_card.dart';
-import 'package:antares_wallet/src/apiservice.pb.dart';
+import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
+import 'package:antares_wallet/app/presentation/widgets/asset_pair_rich_text.dart';
+import 'package:antares_wallet/app/presentation/widgets/default_card.dart';
+import 'package:antares_wallet/common/common.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

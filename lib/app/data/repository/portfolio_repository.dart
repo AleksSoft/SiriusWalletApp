@@ -1,8 +1,8 @@
 import 'package:antares_wallet/app/core/utils/utils.dart';
-import 'package:antares_wallet/services/api/api_service.dart';
-import 'package:antares_wallet/src/apiservice.pbgrpc.dart';
-import 'package:antares_wallet/src/google/protobuf/empty.pb.dart';
-import 'package:antares_wallet/src/google/protobuf/timestamp.pb.dart';
+import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
+import 'package:antares_wallet/app/data/grpc/google/protobuf/empty.pb.dart';
+import 'package:antares_wallet/app/data/grpc/google/protobuf/timestamp.pb.dart';
+import 'package:antares_wallet/app/services/api/api_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +14,7 @@ class PortfolioRepository {
       () => _api.clientSecure.getBalances(Empty()),
       method: 'getBalances',
     );
-    return response?.payload ?? [];
+    return response?.body?.balances ?? [];
   }
 
   static Future<List<FundsResponse_FundsModel>> getFunds({
@@ -35,7 +35,7 @@ class PortfolioRepository {
       () => _api.clientSecure.getFunds(request),
       method: 'getFunds',
     );
-    return response?.funds ?? [];
+    return response?.body?.funds ?? [];
   }
 
   static Future<List<ExplorerLinksResponse_ExplorerLinkModel>>
@@ -51,6 +51,6 @@ class PortfolioRepository {
       ),
       method: 'getExplorerLinks',
     );
-    return response?.links ?? [];
+    return response?.body?.links ?? [];
   }
 }

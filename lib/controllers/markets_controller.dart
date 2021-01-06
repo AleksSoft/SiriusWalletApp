@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/repository/markets_repository.dart';
 import 'package:antares_wallet/app/data/repository/watchists_repository.dart';
-import 'package:antares_wallet/app/widgets/asset_pair_tile.dart';
+import 'package:antares_wallet/app/presentation/widgets/asset_pair_tile.dart';
+import 'package:antares_wallet/app/services/api/api_service.dart';
+import 'package:antares_wallet/common/common.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
-import 'package:antares_wallet/services/api/api_service.dart';
-import 'package:antares_wallet/src/apiservice.pb.dart';
 import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -18,10 +18,15 @@ import 'asset_pair_sort_tile_controller.dart';
 
 class MarketsController extends GetxController {
   static MarketsController get con => Get.find();
-  static final _api = Get.find<ApiService>();
 
-  final _storage = GetStorage();
-  final _assetsController = Get.find<AssetsController>();
+  final ApiService api;
+  final GetStorage storage;
+  final AssetsController assetsCon;
+  MarketsController({
+    @required this.api,
+    @required this.storage,
+    @required this.assetsCon,
+  });
 
   final List<MarketModel> initialMarketList = <MarketModel>[];
 
@@ -73,7 +78,7 @@ class MarketsController extends GetxController {
 
   @override
   void onInit() {
-    _priceSubscription = _api.clientSecure
+    _priceSubscription = api.clientSecure
         .getPriceUpdates(PriceUpdatesRequest())
         .asBroadcastStream()
         .listen((PriceUpdate update) => _updateMarket(update));
@@ -113,7 +118,7 @@ class MarketsController extends GetxController {
       await MarketsRepository.getMarkets(assetPairId: assetPairId);
 
   Future<void> rebuildWatchedMarkets() async {
-    String id = _storage.read(AppStorageKeys.watchlistId);
+    String id = storage.read(AppStorageKeys.watchlistId);
     await _initMarketsListIfNeeded(force: true);
     if (!id.isNullOrBlank) {
       List<MarketModel> result = [];
@@ -139,12 +144,11 @@ class MarketsController extends GetxController {
   _initMarketsListIfNeeded({bool force = false}) async {
     if (initialMarketList.isEmpty || force) {
       (await getMarkets()).forEach((m) async {
-        var pair = _assetsController.assetPairById(m.assetPair);
+        var pair = assetsCon.assetPairById(m.assetPair);
         // check if nothing is null
         if (pair != null) {
-          var pairBaseAsset = _assetsController.assetById(pair.baseAssetId);
-          var pairQuotingAsset =
-              _assetsController.assetById(pair.quotingAssetId);
+          var pairBaseAsset = assetsCon.assetById(pair.baseAssetId);
+          var pairQuotingAsset = assetsCon.assetById(pair.quotingAssetId);
           if (pairBaseAsset != null && pairQuotingAsset != null) {
             initialMarketList.add(
               _buildMarketModel(m, pair, pairBaseAsset, pairQuotingAsset),
