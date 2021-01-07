@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class UpgradeAccountAddress extends StatelessWidget {
-  static final String route = '/upgrade-account-address';
   final c = ProfileController.con;
   @override
   Widget build(BuildContext context) {

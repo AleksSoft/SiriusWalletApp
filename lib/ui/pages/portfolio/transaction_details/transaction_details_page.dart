@@ -11,8 +11,6 @@ import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TransactionDetailsPage extends StatelessWidget {
-  static final String route = '/transaction-details';
-
   @override
   Widget build(BuildContext context) {
     return GetX<TransactionDetailsController>(

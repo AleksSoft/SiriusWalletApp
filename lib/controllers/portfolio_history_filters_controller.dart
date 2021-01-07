@@ -1,9 +1,9 @@
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/models/portfolio_history_filter.dart';
+import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
 import 'package:antares_wallet/ui/pages/select_asset/select_asset_controller.dart';
-import 'package:antares_wallet/ui/pages/select_asset/select_asset_page.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -73,7 +73,7 @@ class PortfolioHistoryFiltersController extends GetxController {
 
   void updateFilterAsset() async {
     asset = (await Get.toNamed(
-      SelectAssetPage.route,
+      Routes.SELECT_ASSET,
       arguments: SelectAssetArgs(
         title: 'select_asset'.tr,
         selectedAsset: asset,

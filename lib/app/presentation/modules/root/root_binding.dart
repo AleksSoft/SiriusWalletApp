@@ -1,6 +1,7 @@
 import 'package:antares_wallet/app/data/data_sources/assets_data_source.dart';
 import 'package:antares_wallet/app/data/repository/assets_repository.dart';
 import 'package:antares_wallet/app/domain/repositories/assets_repository.dart';
+import 'package:antares_wallet/app/presentation/modules/home/home_controller.dart';
 import 'package:antares_wallet/app/presentation/modules/root/root_controller.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/controllers/deposit_controller.dart';
@@ -42,7 +43,7 @@ class RootPageBinding extends Bindings {
       assetsCon: Get.find(),
     ));
 
-    Get.put(WatchlistsController(
+    Get.put(WatchListsController(
       storage: GetStorage(),
       marketsCon: Get.find(),
     ));
@@ -63,6 +64,15 @@ class RootPageBinding extends Bindings {
       ordersCon: Get.find(),
       portfolioCon: Get.find(),
       sessionService: Get.find(),
+    ));
+
+    Get.put(HomeController(
+      assetsCon: Get.find(),
+      marketsCon: Get.find(),
+      portfolioCon: Get.find(),
+      withdrawalCon: Get.find(),
+      depositCon: Get.find(),
+      rootCon: Get.find(),
     ));
   }
 }

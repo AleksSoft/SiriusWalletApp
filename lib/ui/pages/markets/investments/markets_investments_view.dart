@@ -1,8 +1,8 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/presentation/widgets/asset_pair_sort_tile.dart';
 import 'package:antares_wallet/app/presentation/widgets/asset_pair_tile.dart';
+import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
-import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -35,7 +35,7 @@ class MarketsInvestmentsView extends GetView<MarketsController> {
                             lastPrice: e.price,
                             change: e.change,
                             onTap: () => Get.toNamed(
-                              TradingPage.route,
+                              Routes.TRADING,
                               arguments: e,
                             ),
                           ))

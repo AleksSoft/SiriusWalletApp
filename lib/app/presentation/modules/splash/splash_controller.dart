@@ -1,23 +1,25 @@
-import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/data/services/session_service.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:meta/meta.dart';
 
 class SplashController extends GetxController {
   static SplashController get con => Get.find();
 
-  SplashController({@required this.storage});
-  final GetStorage storage;
+  static final int splashDelaySeconds = 1;
+
+  final SessionService sessionService;
+  SplashController({@required this.sessionService});
 
   @override
   void onReady() {
+    checkPINAndStartApp();
     super.onReady();
-    Future.delayed(
-      Duration(seconds: 1),
-      () => this.storage.hasData(AppStorageKeys.token)
-          ? Get.offNamed(Routes.ROOT)
-          : Get.offNamed(Routes.START),
-    );
+  }
+
+  Future<void> checkPINAndStartApp() async {
+    await Future.delayed(Duration(seconds: splashDelaySeconds));
+    bool result = await sessionService.verifySessionPIN();
+    Get.offNamed(result ? Routes.ROOT : Routes.START);
   }
 }

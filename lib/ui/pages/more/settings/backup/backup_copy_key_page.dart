@@ -1,14 +1,13 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/presentation/widgets/default_card.dart';
+import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:antares_wallet/controllers/settings_controller.dart';
-import 'package:antares_wallet/ui/pages/more/settings/backup/backup_confirm_key_page.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BackUpCopyKeyPage extends StatelessWidget {
-  static final String route = '/back-up-copy-key';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +34,7 @@ class BackUpCopyKeyPage extends StatelessWidget {
               AppUiHelpers.vSpaceLarge,
               CupertinoButton.filled(
                 child: Text('continue'.tr),
-                onPressed: () => Get.toNamed(BackUpConfirmKeyPage.route),
+                onPressed: () => Get.toNamed(Routes.BACK_UP_CONFIRM),
               ),
             ],
           );

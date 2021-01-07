@@ -9,8 +9,6 @@ import 'package:search_page/search_page.dart';
 import 'select_asset_controller.dart';
 
 class SelectAssetPage extends StatelessWidget {
-  static final String route = '/select-asset';
-
   @override
   Widget build(BuildContext context) {
     return GetBuilder<SelectAssetController>(

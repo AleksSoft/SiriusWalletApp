@@ -2,9 +2,9 @@ import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/google/protobuf/timestamp.pb.dart';
 import 'package:antares_wallet/app/data/repository/portfolio_repository.dart';
 import 'package:antares_wallet/app/data/repository/trading_repository.dart';
+import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
-import 'package:antares_wallet/ui/pages/orders/order_details/order_details_page.dart';
 import 'package:antares_wallet/ui/pages/orders/widgets/order_history_tile.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -132,7 +132,7 @@ class AssetInfoController extends GetxController {
   }
 
   openOrderDetails(bool isBuy) => Get.toNamed(
-        OrderDetailsPage.route,
+        Routes.ORDER_DETAILS,
         arguments: OrderDetailsArguments(
           selectedMarket.pairId,
           isBuy,

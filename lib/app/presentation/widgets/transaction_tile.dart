@@ -1,7 +1,7 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
-import 'package:antares_wallet/ui/pages/portfolio/transaction_details/transaction_details_page.dart';
+import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -13,7 +13,7 @@ class TransactionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Get.toNamed(TransactionDetailsPage.route, arguments: _item),
+      onTap: () => Get.toNamed(Routes.TRANSACTION_DETAILS, arguments: _item),
       child: Column(
         children: [
           Container(

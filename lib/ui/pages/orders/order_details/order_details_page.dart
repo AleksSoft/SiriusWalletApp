@@ -12,7 +12,6 @@ import 'package:get/get.dart';
 import 'package:search_page/search_page.dart';
 
 class OrderDetailsPage extends StatelessWidget {
-  static final String route = '/order-details';
   final c = OrderDetailsController.con;
 
   @override

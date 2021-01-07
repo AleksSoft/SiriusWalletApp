@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 import 'widgets/upgrade_request_view.dart';
 
 class UpgradeAccountResultPage extends StatelessWidget {
-  static final String route = '/upgrade-account-result';
   final c = ProfileController.con;
   @override
   Widget build(BuildContext context) {

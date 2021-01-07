@@ -5,19 +5,23 @@ import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 
 class SessionService extends GetxService {
-  final ISessionRepository repository;
-  SessionService({@required this.repository});
+  final ISessionRepository sessionRepo;
+  SessionService({@required this.sessionRepo});
 
   Future<bool> verifySessionPIN({bool logOutOnError = false}) async {
+    if (sessionRepo.getSessionId().isNullOrBlank) return false;
+
     final result = await Get.toNamed(
       Routes.LOCAL_AUTH,
       arguments: PinMode.check,
     );
+
     bool pinCorrect = result ?? false;
     if (!pinCorrect && logOutOnError) {
-      await repository.logout();
+      await sessionRepo.logout();
       Get.offAllNamed(Routes.START);
     }
+
     return pinCorrect;
   }
 }

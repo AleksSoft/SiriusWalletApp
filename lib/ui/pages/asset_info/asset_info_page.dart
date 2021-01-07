@@ -7,10 +7,10 @@ import 'package:antares_wallet/app/presentation/widgets/buy_sell_button_row.dart
 import 'package:antares_wallet/app/presentation/widgets/deposit_withdraw_button_row.dart';
 import 'package:antares_wallet/app/presentation/widgets/empty_reloading_view.dart';
 import 'package:antares_wallet/app/presentation/widgets/transaction_tile.dart';
+import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:antares_wallet/controllers/asset_info_controller.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/ui/pages/orders/widgets/order_history_tile.dart';
-import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -174,7 +174,7 @@ class _Details extends GetView<AssetInfoController> {
                             lastPrice: e.price,
                             change: e.change,
                             onTap: () => Get.toNamed(
-                              TradingPage.route,
+                              Routes.TRADING,
                               arguments: e,
                             ),
                           ))
@@ -230,7 +230,7 @@ class _Details extends GetView<AssetInfoController> {
             showTitle: true,
             onTap: () {
               Get.back();
-              Get.toNamed(TradingPage.route, arguments: model);
+              Get.toNamed(Routes.TRADING, arguments: model);
             },
           ),
         ),

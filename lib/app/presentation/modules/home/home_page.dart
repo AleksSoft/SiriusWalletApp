@@ -11,7 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,32 +20,27 @@ class HomePage extends StatelessWidget {
         centerTitle: false,
         title: Text('app_title'.tr),
       ),
-      body: GetBuilder<HomeController>(
-        init: HomeController(),
-        builder: (_) {
-          return ListView(
-            children: [
-              _AssetsView(),
-              _ExchangeView(),
-              _MyLykkeView(),
-              Padding(
-                padding: EdgeInsets.fromLTRB(
-                  AppSizes.medium,
-                  AppSizes.small,
-                  AppSizes.medium,
-                  AppSizes.medium,
-                ),
-                child: Text(
-                  'copyright'.tr,
-                  textAlign: TextAlign.center,
-                  style: Get.textTheme.button.copyWith(
-                    color: AppColors.secondary,
-                  ),
-                ),
-              )
-            ],
-          );
-        },
+      body: ListView(
+        children: [
+          _AssetsView(),
+          _ExchangeView(),
+          _MyLykkeView(),
+          Padding(
+            padding: EdgeInsets.fromLTRB(
+              AppSizes.medium,
+              AppSizes.small,
+              AppSizes.medium,
+              AppSizes.medium,
+            ),
+            child: Text(
+              'copyright'.tr,
+              textAlign: TextAlign.center,
+              style: Get.textTheme.button.copyWith(
+                color: AppColors.secondary,
+              ),
+            ),
+          )
+        ],
       ),
     );
   }

@@ -6,8 +6,8 @@ import 'package:antares_wallet/app/data/repository/markets_repository.dart';
 import 'package:antares_wallet/app/data/repository/watchists_repository.dart';
 import 'package:antares_wallet/app/data/services/api/api_service.dart';
 import 'package:antares_wallet/app/presentation/widgets/asset_pair_tile.dart';
+import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
-import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -214,7 +214,7 @@ class MarketsController extends GetxController {
             showTitle: true,
             onTap: () {
               Get.back();
-              Get.toNamed(TradingPage.route, arguments: model);
+              Get.toNamed(Routes.TRADING, arguments: model);
             },
           ),
         ),

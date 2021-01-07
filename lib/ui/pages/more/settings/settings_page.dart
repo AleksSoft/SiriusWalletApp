@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SettingsPage extends StatelessWidget {
-  static final String route = '/settings';
   @override
   Widget build(BuildContext context) {
     return Scaffold(

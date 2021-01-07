@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 class StartController extends GetxController {
   final PageController pageViewController = PageController(initialPage: 0);
 
-  StartController({@required this.appConfig});
   final AppConfig appConfig;
+  StartController({@required this.appConfig});
 
   bool get isDevSettingsVisible => !appConfig.isProd;
 

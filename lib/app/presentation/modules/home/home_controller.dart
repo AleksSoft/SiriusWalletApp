@@ -1,7 +1,6 @@
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/presentation/modules/root/root_controller.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
-import 'package:antares_wallet/ui/pages/more/support/support_page.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 
@@ -40,7 +39,7 @@ class HomeController extends GetxController {
   void openPortfolio() => rootCon.pageIndexObs(1);
 
   void openSupport() {
-    Get.toNamed(SupportPage.route);
+    Get.toNamed(Routes.SUPPORT);
     rootCon.pageIndexObs(4);
   }
 

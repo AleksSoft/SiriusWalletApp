@@ -2,11 +2,7 @@ import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/repository/profile_repository.dart';
-import 'package:antares_wallet/ui/pages/more/profile/upgrade/quest/upgrade_account_quest.dart';
-import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_address.dart';
-import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_choose_doc.dart';
-import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_doc.dart';
-import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_result.dart';
+import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
 class ProfileController extends GetxController {
@@ -57,7 +53,7 @@ class ProfileController extends GetxController {
   Future<void> saveQuestionnaire(List<AnswersRequest_Choice> answers) async {
     if (await ProfileRepository.saveQuestionnaire(answers: answers)) {
       await reloadData();
-      Get.offAndToNamed(UpgradeAccountResultPage.route);
+      Get.offAndToNamed(Routes.UPGRADE_ACC_RESULT);
     }
   }
 
@@ -132,38 +128,38 @@ class ProfileController extends GetxController {
 
   openNextUpgradePage({bool fromMain = false}) {
     if (personalData.address.isNullOrBlank) {
-      Get.toNamed(UpgradeAccountAddress.route);
+      Get.toNamed(Routes.UPGRADE_ACC_ADDRESS);
     } else if (pageNeedsOpen(0)) {
       openNextPage(
-        UpgradeAccountChooseDocPage.route,
+        Routes.UPGRADE_ACC_CHOOSE_DOC,
         fromMain: fromMain,
       );
     } else if (pageNeedsOpen(1)) {
       openNextPage(
-        UpgradeAccountDocPage.route,
+        Routes.UPGRADE_ACC_DOC,
         arguments: DocType.selfie,
         fromMain: fromMain,
       );
     } else if (pageNeedsOpen(2)) {
       openNextPage(
-        UpgradeAccountDocPage.route,
+        Routes.UPGRADE_ACC_DOC,
         arguments: DocType.proofOfAddress,
         fromMain: fromMain,
       );
     } else if (pageNeedsOpen(3)) {
       openNextPage(
-        UpgradeAccountDocPage.route,
+        Routes.UPGRADE_ACC_DOC,
         arguments: DocType.proofOfFunds,
         fromMain: fromMain,
       );
     } else if (pageNeedsOpen(4)) {
       openNextPage(
-        UpgradeAccountQuestPage.route,
+        Routes.UPGRADE_ACC_QUEST,
         fromMain: fromMain,
       );
     } else {
       openNextPage(
-        UpgradeAccountResultPage.route,
+        Routes.UPGRADE_ACC_RESULT,
         fromMain: fromMain,
       );
     }

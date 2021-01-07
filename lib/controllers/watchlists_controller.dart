@@ -1,23 +1,23 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/repository/watchists_repository.dart';
+import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
-import 'package:antares_wallet/ui/pages/markets/spot/watchlists/edit/edit_watchlist_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-class WatchlistsController extends GetxController {
-  static WatchlistsController get con => Get.find();
+class WatchListsController extends GetxController {
+  static WatchListsController get con => Get.find();
 
   final GetStorage storage;
   final MarketsController marketsCon;
-  WatchlistsController({
+  WatchListsController({
     @required this.storage,
     @required this.marketsCon,
   });
 
-  final watchlists = <Watchlist>[].obs;
+  final watchLists = <Watchlist>[].obs;
 
   final _selected = Watchlist().obs;
   get selected => this._selected.value;
@@ -29,14 +29,14 @@ class WatchlistsController extends GetxController {
 
   @override
   void onInit() async {
-    // load all watchlists
+    // load all watch-lists
     await getWatchlists();
 
     // set selected watchlist
     String id = storage.read(AppStorageKeys.watchlistId);
     if (id.isNullOrBlank) {
-      if (watchlists.isNotEmpty) {
-        selected = watchlists.first;
+      if (watchLists.isNotEmpty) {
+        selected = watchLists.first;
         await storage.write(AppStorageKeys.watchlistId, selected.id);
       } else {
         selected = Watchlist();
@@ -49,18 +49,18 @@ class WatchlistsController extends GetxController {
   }
 
   Future getWatchlists() async =>
-      watchlists.assignAll(await WatchlistsRepository.getWatchlists());
+      watchLists.assignAll(await WatchlistsRepository.getWatchlists());
 
   Future<void> select(String id) async {
     loading = true;
-    selected = watchlists.firstWhere((w) => w.id == id);
+    selected = watchLists.firstWhere((w) => w.id == id);
     await storage.write(AppStorageKeys.watchlistId, id);
     await marketsCon.rebuildWatchedMarkets();
     loading = false;
   }
 
   List<WatchlistOption> options(Watchlist wl) {
-    var watchlist = watchlists.firstWhere((i) => i.id == wl.id);
+    var watchlist = watchLists.firstWhere((i) => i.id == wl.id);
     if (watchlist == null) return null;
 
     var options = [WatchlistOption('Make a copy', () => _copy(watchlist))];
@@ -75,7 +75,7 @@ class WatchlistsController extends GetxController {
   }
 
   create() async {
-    await Get.toNamed(EditWatchlistPage.route);
+    await Get.toNamed(Routes.WATCH_LIST_EDIT);
   }
 
   _copy(Watchlist watchlist) async {
@@ -88,13 +88,13 @@ class WatchlistsController extends GetxController {
   }
 
   _edit(Watchlist watchlist) async {
-    await Get.toNamed(EditWatchlistPage.route, arguments: watchlist);
+    await Get.toNamed(Routes.WATCH_LIST_EDIT, arguments: watchlist);
     await getWatchlists();
   }
 
   _delete(Watchlist watchlist) async {
     await WatchlistsRepository.deleteWatchlist(watchlist.id);
-    if (watchlist.id == selected.id) select(watchlists.first.id);
+    if (watchlist.id == selected.id) select(watchLists.first.id);
     await getWatchlists();
   }
 }

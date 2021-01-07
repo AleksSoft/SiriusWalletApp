@@ -1,8 +1,8 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
+import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/ui/pages/select_asset/select_asset_controller.dart';
-import 'package:antares_wallet/ui/pages/select_asset/select_asset_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -55,7 +55,7 @@ class SettingsController extends GetxController {
   Future<void> updateBaseAsset() async {
     loading = true;
     final asset = await Get.toNamed(
-      SelectAssetPage.route,
+      Routes.SELECT_ASSET,
       arguments: SelectAssetArgs(
         title: 'select_asset'.tr,
         selectedAsset: baseAsset,

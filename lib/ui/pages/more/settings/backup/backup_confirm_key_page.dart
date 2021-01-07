@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BackUpConfirmKeyPage extends StatelessWidget {
-  static final String route = '/back-up-confirm-key';
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

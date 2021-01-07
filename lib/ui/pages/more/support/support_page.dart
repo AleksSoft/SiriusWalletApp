@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SupportPage extends StatelessWidget {
-  static final String route = '/support';
   @override
   Widget build(BuildContext context) {
     var textStyle = Get.textTheme.caption;

@@ -1,9 +1,7 @@
 import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:antares_wallet/controllers/more_controller.dart';
 import 'package:antares_wallet/ui/pages/dev_settings/dev_settings_page.dart';
-import 'package:antares_wallet/ui/pages/more/profile/profile_page.dart';
-import 'package:antares_wallet/ui/pages/more/settings/settings_page.dart';
-import 'package:antares_wallet/ui/pages/more/support/support_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,19 +24,19 @@ class MorePage extends StatelessWidget {
               MenuTile(
                 title: 'settings'.tr,
                 icon: Icons.settings_outlined,
-                onTap: () => Get.toNamed(SettingsPage.route),
+                onTap: () => Get.toNamed(Routes.SETTINGS),
                 trailing: Icon(Icons.chevron_right),
               ),
               MenuTile(
                 title: 'profile'.tr,
                 icon: Icons.account_circle_outlined,
-                onTap: () => Get.toNamed(ProfilePage.route),
+                onTap: () => Get.toNamed(Routes.PROFILE),
                 trailing: Icon(Icons.chevron_right),
               ),
               MenuTile(
                 title: 'support'.tr,
                 icon: Icons.headset_mic_outlined,
-                onTap: () => Get.toNamed(SupportPage.route),
+                onTap: () => Get.toNamed(Routes.SUPPORT),
                 trailing: Icon(Icons.chevron_right),
               ),
               MenuTile(

@@ -4,8 +4,8 @@ import 'package:antares_wallet/app/presentation/modules/login/login_binding.dart
 import 'package:antares_wallet/app/presentation/modules/login/login_page.dart';
 import 'package:antares_wallet/app/presentation/modules/register/register_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/register/register_page.dart';
+import 'package:antares_wallet/app/presentation/modules/root/root_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/root/root_page.dart';
-import 'package:antares_wallet/app/presentation/modules/root/support_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/splash/splash_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/splash/splash_page.dart';
 import 'package:antares_wallet/app/presentation/modules/start/start_binding.dart';
@@ -14,7 +14,7 @@ import 'package:antares_wallet/bindings/asset_info_binding.dart';
 import 'package:antares_wallet/bindings/dev_settings_binding.dart';
 import 'package:antares_wallet/bindings/disclaimers_binding.dart';
 import 'package:antares_wallet/bindings/order_details_binding.dart';
-import 'package:antares_wallet/bindings/root_binding.dart';
+import 'package:antares_wallet/bindings/support_binding.dart';
 import 'package:antares_wallet/bindings/trading_binding.dart';
 import 'package:antares_wallet/bindings/upgrade_account_quest_binding.dart';
 import 'package:antares_wallet/ui/pages/asset_info/asset_info_page.dart';
@@ -86,55 +86,55 @@ abstract class AppPages {
       binding: RootPageBinding(),
     ),
     GetPage(
-      name: SettingsPage.route,
+      name: Routes.SETTINGS,
       page: () => SettingsPage(),
     ),
     GetPage(
-      name: ProfilePage.route,
+      name: Routes.PROFILE,
       page: () => ProfilePage(),
     ),
     GetPage(
-      name: SupportPage.route,
+      name: Routes.SUPPORT,
       page: () => SupportPage(),
       binding: SupportBinding(),
     ),
     GetPage(
-      name: UpgradeAccountMainPage.route,
+      name: Routes.UPGRADE_ACC_MAIN,
       page: () => UpgradeAccountMainPage(),
       fullscreenDialog: true,
       transition: Transition.downToUp,
     ),
     GetPage(
-      name: UpgradeAccountAddress.route,
+      name: Routes.UPGRADE_ACC_ADDRESS,
       page: () => UpgradeAccountAddress(),
     ),
     GetPage(
-      name: UpgradeAccountChooseDocPage.route,
+      name: Routes.UPGRADE_ACC_CHOOSE_DOC,
       page: () => UpgradeAccountChooseDocPage(),
     ),
     GetPage(
-      name: UpgradeAccountDocPage.route,
+      name: Routes.UPGRADE_ACC_DOC,
       page: () => UpgradeAccountDocPage(),
     ),
     GetPage(
-      name: UpgradeAccountQuestPage.route,
+      name: Routes.UPGRADE_ACC_QUEST,
       page: () => UpgradeAccountQuestPage(),
       binding: UpgradeAccountQuestBinding(),
     ),
     GetPage(
-      name: UpgradeAccountResultPage.route,
+      name: Routes.UPGRADE_ACC_RESULT,
       page: () => UpgradeAccountResultPage(),
     ),
     GetPage(
-      name: SelectAssetPage.route,
+      name: Routes.SELECT_ASSET,
       page: () => SelectAssetPage(),
     ),
     GetPage(
-      name: BackUpConfirmKeyPage.route,
+      name: Routes.BACK_UP_CONFIRM,
       page: () => BackUpConfirmKeyPage(),
     ),
     GetPage(
-      name: BackUpCopyKeyPage.route,
+      name: Routes.BACK_UP_COPY,
       page: () => BackUpCopyKeyPage(),
     ),
     GetPage(
@@ -148,22 +148,22 @@ abstract class AppPages {
       binding: TradingBinding(),
     ),
     GetPage(
-      name: OrderDetailsPage.route,
+      name: Routes.ORDER_DETAILS,
       page: () => OrderDetailsPage(),
       binding: OrderDetailsBinding(),
     ),
     GetPage(
-      name: TransactionDetailsPage.route,
+      name: Routes.TRANSACTION_DETAILS,
       page: () => TransactionDetailsPage(),
     ),
     GetPage(
-      name: WatchlistsPage.route,
+      name: Routes.WATCH_LISTS,
       page: () => WatchlistsPage(),
       fullscreenDialog: true,
       transition: Transition.downToUp,
     ),
     GetPage(
-      name: EditWatchlistPage.route,
+      name: Routes.WATCH_LIST_EDIT,
       page: () => EditWatchlistPage(),
     ),
   ];

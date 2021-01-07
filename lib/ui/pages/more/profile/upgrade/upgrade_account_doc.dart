@@ -8,18 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-enum DocType {
-  passport,
-  nationalId,
-  drivingLicense,
-  selfie,
-  proofOfAddress,
-  proofOfFunds,
-}
-
 class UpgradeAccountDocPage extends StatefulWidget {
-  static final String route = '/upgrade-account-doc';
-
   final DocType docType = Get.arguments as DocType;
 
   @override

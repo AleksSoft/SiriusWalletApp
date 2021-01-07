@@ -1,6 +1,6 @@
 import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:antares_wallet/controllers/profile_controller.dart';
-import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,7 +9,6 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'upgrade/widgets/upgrade_request_view.dart';
 
 class ProfilePage extends StatelessWidget {
-  static final String route = '/profile';
   final c = ProfileController.con;
   @override
   Widget build(BuildContext context) {
@@ -65,7 +64,7 @@ class _AccountDataView extends StatelessWidget {
             () => Visibility(
               visible: !c.tierInfo.nextTier.tier.isNullOrBlank,
               child: OutlineButton(
-                onPressed: () => Get.toNamed(UpgradeAccountMainPage.route),
+                onPressed: () => Get.toNamed(Routes.UPGRADE_ACC_MAIN),
                 borderSide: BorderSide(color: AppColors.accent),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppSizes.extraSmall),

@@ -8,6 +8,7 @@ import 'package:antares_wallet/app/data/services/api/api_service.dart';
 import 'package:antares_wallet/app/data/services/session_service.dart';
 import 'package:antares_wallet/app/domain/repositories/local_auth_repository.dart';
 import 'package:antares_wallet/app/domain/repositories/session_repository.dart';
+import 'package:antares_wallet/app/presentation/modules/splash/splash_controller.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:logger/logger.dart';
@@ -49,7 +50,8 @@ class InitialBinding extends Bindings {
       fenix: true,
     );
     Get.lazyPut<SessionService>(
-      () => SessionService(repository: Get.find()),
+      () => SessionService(sessionRepo: Get.find()),
+      fenix: true,
     );
     // session -
 
@@ -66,5 +68,9 @@ class InitialBinding extends Bindings {
       fenix: true,
     );
     // local auth -
+
+    /// splash +
+    Get.put(SplashController(sessionService: Get.find()));
+    // splash -
   }
 }

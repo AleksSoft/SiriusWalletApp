@@ -1,12 +1,11 @@
 import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:antares_wallet/controllers/profile_controller.dart';
-import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_doc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class UpgradeAccountChooseDocPage extends StatelessWidget {
-  static final String route = '/upgrade-account-choose-doc';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +35,7 @@ class UpgradeAccountChooseDocPage extends StatelessWidget {
             title: Text('passport'.tr),
             trailing: Icon(Icons.arrow_forward_ios_outlined),
             onTap: () => Get.toNamed(
-              UpgradeAccountDocPage.route,
+              Routes.UPGRADE_ACC_DOC,
               arguments: DocType.passport,
             ),
           ),
@@ -49,7 +48,7 @@ class UpgradeAccountChooseDocPage extends StatelessWidget {
             title: Text('national_id'.tr),
             trailing: Icon(Icons.arrow_forward_ios_outlined),
             onTap: () => Get.toNamed(
-              UpgradeAccountDocPage.route,
+              Routes.UPGRADE_ACC_DOC,
               arguments: DocType.nationalId,
             ),
           ),
@@ -62,7 +61,7 @@ class UpgradeAccountChooseDocPage extends StatelessWidget {
             title: Text('driving_license'.tr),
             trailing: Icon(Icons.arrow_forward_ios_outlined),
             onTap: () => Get.toNamed(
-              UpgradeAccountDocPage.route,
+              Routes.UPGRADE_ACC_DOC,
               arguments: DocType.drivingLicense,
             ),
           ),

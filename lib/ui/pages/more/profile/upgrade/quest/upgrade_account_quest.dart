@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class UpgradeAccountQuestPage extends StatelessWidget {
-  static final String route = '/upgrade-account-quest';
   @override
   Widget build(BuildContext context) {
     return Scaffold(

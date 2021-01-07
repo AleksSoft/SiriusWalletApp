@@ -49,7 +49,7 @@ class EditWatchlistController extends GetxController {
         _checkedAssetPairs.map((chap) => chap.id).toList(),
       );
     }
-    WatchlistsController.con.getWatchlists().then((value) {
+    WatchListsController.con.getWatchlists().then((value) {
       Get.back();
       MarketsController.con.rebuildWatchedMarkets();
     });

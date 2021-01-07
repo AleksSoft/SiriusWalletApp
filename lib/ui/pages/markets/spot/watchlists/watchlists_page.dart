@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class WatchlistsPage extends StatelessWidget {
-  static final String route = '/watchlists';
-  final c = WatchlistsController.con;
+  final c = WatchListsController.con;
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +27,9 @@ class WatchlistsPage extends StatelessWidget {
             onRefresh: () => c.getWatchlists(),
             child: Obx(
               () => ListView.separated(
-                itemCount: c.watchlists.length,
+                itemCount: c.watchLists.length,
                 itemBuilder: (context, index) {
-                  var item = c.watchlists[index];
+                  var item = c.watchLists[index];
                   return ListTile(
                     onTap: () =>
                         c.select(item.id).whenComplete(() => Get.back()),
@@ -89,7 +88,7 @@ class WatchlistsPage extends StatelessWidget {
           ),
           body: Obx(
             () => ListView(
-              children: WatchlistsController.con
+              children: WatchListsController.con
                   .options(watchlist)
                   .map((e) => ListTile(
                         onTap: () {
