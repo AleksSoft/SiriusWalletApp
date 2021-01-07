@@ -11,7 +11,7 @@ import 'app/common/common.dart';
 import 'app/core/utils/utils.dart';
 import 'app/routes/app_pages.dart';
 import 'app/translations/app_translations.dart';
-import 'bindings/initial_binding.dart';
+import 'initial_binding.dart';
 
 Future<void> mainCommon(AppConfig appConfig) async {
   WidgetsFlutterBinding.ensureInitialized();
