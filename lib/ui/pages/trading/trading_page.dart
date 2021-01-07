@@ -18,7 +18,6 @@ import 'package:search_page/search_page.dart';
 import 'trading_controller.dart';
 
 class TradingPage extends StatelessWidget {
-  static final String route = '/trading';
   final c = TradingController.con;
 
   @override

@@ -4,6 +4,8 @@ import 'package:antares_wallet/app/presentation/modules/login/login_binding.dart
 import 'package:antares_wallet/app/presentation/modules/login/login_page.dart';
 import 'package:antares_wallet/app/presentation/modules/register/register_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/register/register_page.dart';
+import 'package:antares_wallet/app/presentation/modules/root/root_page.dart';
+import 'package:antares_wallet/app/presentation/modules/root/support_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/splash/splash_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/splash/splash_page.dart';
 import 'package:antares_wallet/app/presentation/modules/start/start_binding.dart';
@@ -13,7 +15,6 @@ import 'package:antares_wallet/bindings/dev_settings_binding.dart';
 import 'package:antares_wallet/bindings/disclaimers_binding.dart';
 import 'package:antares_wallet/bindings/order_details_binding.dart';
 import 'package:antares_wallet/bindings/root_binding.dart';
-import 'package:antares_wallet/bindings/support_binding.dart';
 import 'package:antares_wallet/bindings/trading_binding.dart';
 import 'package:antares_wallet/bindings/upgrade_account_quest_binding.dart';
 import 'package:antares_wallet/ui/pages/asset_info/asset_info_page.dart';
@@ -34,7 +35,6 @@ import 'package:antares_wallet/ui/pages/more/settings/settings_page.dart';
 import 'package:antares_wallet/ui/pages/more/support/support_page.dart';
 import 'package:antares_wallet/ui/pages/orders/order_details/order_details_page.dart';
 import 'package:antares_wallet/ui/pages/portfolio/transaction_details/transaction_details_page.dart';
-import 'package:antares_wallet/ui/pages/root/root_page.dart';
 import 'package:antares_wallet/ui/pages/select_asset/select_asset_page.dart';
 import 'package:antares_wallet/ui/pages/trading/trading_page.dart';
 import 'package:get/get.dart';
@@ -138,12 +138,12 @@ abstract class AppPages {
       page: () => BackUpCopyKeyPage(),
     ),
     GetPage(
-      name: AssetInfoPage.route,
+      name: Routes.ASSET_INFO,
       page: () => AssetInfoPage(),
       binding: AssetInfoBinding(),
     ),
     GetPage(
-      name: TradingPage.route,
+      name: Routes.TRADING,
       page: () => TradingPage(),
       binding: TradingBinding(),
     ),

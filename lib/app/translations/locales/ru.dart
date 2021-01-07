@@ -148,5 +148,7 @@ final Map<String, String> ruRU = {
   "sell": "Продажа",
   "msg_local_auth": "Пройтиде аутентификацию, чтобы продолжить",
   "msg_pin_wrong": "Неверный ПИН-код",
-  "msg_pin_create_fail": "Ошибка создания ПИН-кода"
+  "msg_pin_create_fail": "Ошибка создания ПИН-кода",
+  "show": "Показать",
+  "hide": "Скрыть"
 };

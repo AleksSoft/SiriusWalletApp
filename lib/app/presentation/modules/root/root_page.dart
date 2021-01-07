@@ -1,6 +1,5 @@
 import 'package:antares_wallet/app/common/common.dart';
-import 'package:antares_wallet/controllers/app_controller.dart';
-import 'package:antares_wallet/ui/pages/home/home_page.dart';
+import 'package:antares_wallet/app/presentation/modules/home/home_page.dart';
 import 'package:antares_wallet/ui/pages/markets/markets_page.dart';
 import 'package:antares_wallet/ui/pages/more/more_page.dart';
 import 'package:antares_wallet/ui/pages/orders/orders_page.dart';
@@ -9,10 +8,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'root_controller.dart';
+
 class RootPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return GetX<AppController>(
+    return GetX<RootController>(
       builder: (_) => AnimatedSwitcher(
         duration: Get.defaultTransitionDuration,
         child: !_.loading.value

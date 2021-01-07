@@ -1,10 +1,10 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
+import 'package:antares_wallet/app/presentation/modules/home/home_controller.dart';
 import 'package:antares_wallet/app/presentation/widgets/asset_icon.dart';
 import 'package:antares_wallet/app/presentation/widgets/asset_pair_rich_text.dart';
 import 'package:antares_wallet/app/presentation/widgets/default_card.dart';
-import 'package:antares_wallet/controllers/home_controller.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,8 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomePage extends StatelessWidget {
-  static final String route = '/home';
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -349,15 +347,15 @@ class _ExchangeView extends GetView<HomeController> {
 }
 
 class _ExchangePairView extends GetView<HomeController> {
-  _ExchangePairView(this.model, {Key key}) : super(key: key);
+  _ExchangePairView(this.market, {Key key}) : super(key: key);
 
-  final MarketModel model;
+  final MarketModel market;
   final textStyle = Get.textTheme.button;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => controller.trade(model),
+      onTap: () => controller.trade(market),
       child: Container(
         height: AppSizes.extraLarge * 2,
         padding: EdgeInsets.all(AppSizes.small),
@@ -376,14 +374,14 @@ class _ExchangePairView extends GetView<HomeController> {
               textBaseline: TextBaseline.ideographic,
               children: [
                 PairRichText(
-                  displayId1: model.pairBaseAsset.displayId,
-                  displayId2: model.pairQuotingAsset.displayId,
+                  displayId1: market.pairBaseAsset.displayId,
+                  displayId2: market.pairQuotingAsset.displayId,
                 ),
-                AssetIcon(model.pairBaseAsset.iconUrl, 20.0),
+                AssetIcon(market.pairBaseAsset.iconUrl, 20.0),
               ],
             ),
             Text(
-              model.pairBaseAsset.name,
+              market.pairBaseAsset.name,
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
               textAlign: TextAlign.start,
@@ -397,8 +395,8 @@ class _ExchangePairView extends GetView<HomeController> {
               children: [
                 Text(
                   Formatter.currency(
-                    model.price.toString(),
-                    fractionDigits: model.pairQuotingAsset.accuracy,
+                    market.price.toString(),
+                    fractionDigits: market.pairQuotingAsset.accuracy,
                   ),
                   style: textStyle.copyWith(
                     fontWeight: FontWeight.w600,
@@ -406,11 +404,11 @@ class _ExchangePairView extends GetView<HomeController> {
                   ),
                 ),
                 Text(
-                  '${Formatter.currency(model.change.toString(), fractionDigits: 2)}%',
+                  '${Formatter.currency(market.change.toString(), fractionDigits: 2)}%',
                   style: textStyle.copyWith(
                     fontWeight: FontWeight.w400,
                     fontSize: 12.0,
-                    color: _color(model.change),
+                    color: _color(market.change),
                   ),
                 ),
               ],

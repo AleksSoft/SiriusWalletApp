@@ -19,7 +19,6 @@ import 'package:get/get.dart';
 import 'package:search_page/search_page.dart';
 
 class AssetInfoPage extends StatelessWidget {
-  static final String route = '/asset-info';
   final c = AssetInfoController.con;
 
   final _tabBarContent = <Tab, GetView>{

@@ -1,7 +1,7 @@
 import 'package:antares_wallet/app/data/data_sources/assets_data_source.dart';
 import 'package:antares_wallet/app/data/repository/assets_repository.dart';
 import 'package:antares_wallet/app/domain/repositories/assets_repository.dart';
-import 'package:antares_wallet/controllers/app_controller.dart';
+import 'package:antares_wallet/app/presentation/modules/root/root_controller.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/controllers/deposit_controller.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
@@ -56,7 +56,7 @@ class RootPageBinding extends Bindings {
       assetsCon: Get.find(),
     ));
 
-    Get.put(AppController(
+    Get.put(RootController(
       assetsCon: Get.find(),
       sessionRepo: Get.find(),
       marketsCon: Get.find(),

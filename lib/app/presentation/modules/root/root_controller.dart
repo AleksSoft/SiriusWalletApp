@@ -6,15 +6,15 @@ import 'package:antares_wallet/app/domain/repositories/session_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'assets_controller.dart';
-import 'markets_controller.dart';
-import 'orders_controller.dart';
-import 'portfolio_controller.dart';
+import '../../../../controllers/assets_controller.dart';
+import '../../../../controllers/markets_controller.dart';
+import '../../../../controllers/orders_controller.dart';
+import '../../../../controllers/portfolio_controller.dart';
 
-class AppController extends GetxController with WidgetsBindingObserver {
-  static AppController get con => Get.find();
+class RootController extends GetxController with WidgetsBindingObserver {
+  static RootController get con => Get.find();
 
-  AppController({
+  RootController({
     @required this.sessionService,
     @required this.sessionRepo,
     @required this.assetsCon,
