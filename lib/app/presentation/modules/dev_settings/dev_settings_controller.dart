@@ -10,33 +10,38 @@ import 'package:share/share.dart';
 class DevSettingsController extends GetxController {
   static DevSettingsController get con => Get.find();
 
+  final ApiService apiService;
+  final GetStorage storage;
   DevSettingsController({
     @required this.apiService,
     @required this.storage,
   });
-  final ApiService apiService;
-  final GetStorage storage;
 
   final appVersion = ''.obs;
+  final selectedUrl = ''.obs;
+  final urlList = <String>[].obs;
 
   String _apiToken = '';
-  String get token => _apiToken;
+  String _fcmToken = '';
 
-  List<String> get urlList => apiService.apiUrls;
-
-  String get defaultUrl => apiService.defaultUrl;
+  String get apiToken => _apiToken;
+  String get fcmToken => _fcmToken;
 
   @override
   void onInit() {
     _apiToken = storage.read(AppStorageKeys.token) ?? '';
-    _getAppVersionString().then((String version) => appVersion.value = version);
+    _fcmToken = storage.read(AppStorageKeys.fcmToken) ?? '';
+    urlList(apiService.apiUrls);
+    _getAppVersionString().then(appVersion);
     super.onInit();
   }
 
   void updateBaseUrl(String url) =>
-      apiService.update(url: url).whenComplete(() => update());
+      apiService.update(url: url).whenComplete(() => selectedUrl(url));
 
-  void shareToken() => Share.share(token);
+  void shareApiToken() => Share.share(apiToken);
+
+  void shareFcmToken() => Share.share(fcmToken);
 
   void showLogs() => AppLog.showConsole();
 

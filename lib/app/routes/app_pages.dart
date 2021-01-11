@@ -1,3 +1,5 @@
+import 'package:antares_wallet/app/presentation/modules/dev_settings/dev_settings_binding.dart';
+import 'package:antares_wallet/app/presentation/modules/dev_settings/dev_settings_page.dart';
 import 'package:antares_wallet/app/presentation/modules/local_auth/local_auth_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/local_auth/local_auth_page.dart';
 import 'package:antares_wallet/app/presentation/modules/login/login_binding.dart';
@@ -11,14 +13,12 @@ import 'package:antares_wallet/app/presentation/modules/splash/splash_page.dart'
 import 'package:antares_wallet/app/presentation/modules/start/start_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/start/start_page.dart';
 import 'package:antares_wallet/bindings/asset_info_binding.dart';
-import 'package:antares_wallet/bindings/dev_settings_binding.dart';
 import 'package:antares_wallet/bindings/disclaimers_binding.dart';
 import 'package:antares_wallet/bindings/order_details_binding.dart';
 import 'package:antares_wallet/bindings/support_binding.dart';
 import 'package:antares_wallet/bindings/trading_binding.dart';
 import 'package:antares_wallet/bindings/upgrade_account_quest_binding.dart';
 import 'package:antares_wallet/ui/pages/asset_info/asset_info_page.dart';
-import 'package:antares_wallet/ui/pages/dev_settings/dev_settings_page.dart';
 import 'package:antares_wallet/ui/pages/disclaimer/disclaimer_page.dart';
 import 'package:antares_wallet/ui/pages/markets/spot/watchlists/edit/edit_watchlist_page.dart';
 import 'package:antares_wallet/ui/pages/markets/spot/watchlists/watchlists_page.dart';

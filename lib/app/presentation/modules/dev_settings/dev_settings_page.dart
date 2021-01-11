@@ -1,7 +1,8 @@
 import 'package:antares_wallet/app/common/common.dart';
-import 'package:antares_wallet/controllers/dev_settings/dev_settings_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'dev_settings_controller.dart';
 
 class DevSettingsPage extends GetView<DevSettingsController> {
   @override
@@ -31,7 +32,7 @@ class DevSettingsPage extends GetView<DevSettingsController> {
                     title: Text('Base url:'),
                     subtitle: DropdownButton<String>(
                       isExpanded: true,
-                      value: _.defaultUrl,
+                      value: _.selectedUrl.value,
                       items: _.urlList
                           .map((e) => DropdownMenuItem<String>(
                                 value: e,
@@ -43,17 +44,30 @@ class DevSettingsPage extends GetView<DevSettingsController> {
                                 ),
                               ))
                           .toList(),
-                      onChanged: (url) => _.updateBaseUrl(url),
+                      onChanged: _.updateBaseUrl,
                     ),
                   ),
                   Visibility(
-                    visible: !_.token.isNullOrBlank,
+                    visible: !_.apiToken.isNullOrBlank,
                     child: ListTile(
-                      title: Text('Api token:'),
-                      subtitle: SelectableText(_.token),
+                      title: Text('API token:'),
+                      subtitle: SelectableText(_.apiToken),
                       trailing: IconButton(
-                        onPressed: () => _.shareToken(),
+                        onPressed: () => _.shareApiToken(),
                         icon: Icon(Icons.ios_share),
+                        tooltip: 'Share API token',
+                      ),
+                    ),
+                  ),
+                  Visibility(
+                    visible: !_.fcmToken.isNullOrBlank,
+                    child: ListTile(
+                      title: Text('FCM token:'),
+                      subtitle: SelectableText(_.fcmToken),
+                      trailing: IconButton(
+                        onPressed: () => _.shareFcmToken(),
+                        icon: Icon(Icons.ios_share),
+                        tooltip: 'Share FCM token',
                       ),
                     ),
                   ),
