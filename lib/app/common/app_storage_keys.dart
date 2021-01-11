@@ -8,7 +8,8 @@ abstract class AppStorageKeys {
   static final String signOrders = 'key_sign_orders';
   static final String baseAsset = 'key_base_asset';
   static final String watchlistId = 'key_watchlist_id';
-  static final String errorList = 'key_errorlist';
-  static final String portrolioHistoryFilter = 'key_portfolio_history_filter';
+  static final String errorList = 'key_error_list';
+  static final String portfolioHistoryFilter = 'key_portfolio_history_filter';
   static final String ordersHistoryFilter = 'key_orders_history_filter';
+  static final String fcmToken = 'key_fcm_token';
 }

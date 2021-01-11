@@ -88,12 +88,12 @@ class PortfolioHistoryFilter {
 
     String filterJson = json.encode(filter.toJson());
 
-    await storage.write(AppStorageKeys.portrolioHistoryFilter, filterJson);
+    await storage.write(AppStorageKeys.portfolioHistoryFilter, filterJson);
   }
 
   static PortfolioHistoryFilter fromStorage() {
     String filterJson = GetStorage().read<String>(
-      AppStorageKeys.portrolioHistoryFilter,
+      AppStorageKeys.portfolioHistoryFilter,
     );
 
     if (GetUtils.isNullOrBlank(filterJson)) {
