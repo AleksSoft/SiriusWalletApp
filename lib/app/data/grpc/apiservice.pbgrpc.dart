@@ -189,6 +189,12 @@ class ApiServiceClient extends $grpc.Client {
           ($1.CancelOrderRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $1.CancelOrderResponse.fromBuffer(value));
+  static final _$editOrder =
+      $grpc.ClientMethod<$1.EditOrderRequest, $1.PlaceOrderResponse>(
+          '/antaresWallet.ApiService/EditOrder',
+          ($1.EditOrderRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $1.PlaceOrderResponse.fromBuffer(value));
   static final _$getTrades =
       $grpc.ClientMethod<$1.TradesRequest, $1.TradesResponse>(
           '/antaresWallet.ApiService/GetTrades',
@@ -609,6 +615,12 @@ class ApiServiceClient extends $grpc.Client {
       $1.CancelOrderRequest request,
       {$grpc.CallOptions options}) {
     return $createUnaryCall(_$cancelOrder, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$1.PlaceOrderResponse> editOrder(
+      $1.EditOrderRequest request,
+      {$grpc.CallOptions options}) {
+    return $createUnaryCall(_$editOrder, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.TradesResponse> getTrades($1.TradesRequest request,
@@ -1119,6 +1131,13 @@ abstract class ApiServiceBase extends $grpc.Service {
             ($core.List<$core.int> value) =>
                 $1.CancelOrderRequest.fromBuffer(value),
             ($1.CancelOrderResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.EditOrderRequest, $1.PlaceOrderResponse>(
+        'EditOrder',
+        editOrder_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $1.EditOrderRequest.fromBuffer(value),
+        ($1.PlaceOrderResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$1.TradesRequest, $1.TradesResponse>(
         'GetTrades',
         getTrades_Pre,
@@ -1621,6 +1640,11 @@ abstract class ApiServiceBase extends $grpc.Service {
     return cancelOrder(call, await request);
   }
 
+  $async.Future<$1.PlaceOrderResponse> editOrder_Pre($grpc.ServiceCall call,
+      $async.Future<$1.EditOrderRequest> request) async {
+    return editOrder(call, await request);
+  }
+
   $async.Future<$1.TradesResponse> getTrades_Pre(
       $grpc.ServiceCall call, $async.Future<$1.TradesRequest> request) async {
     return getTrades(call, await request);
@@ -1914,6 +1938,8 @@ abstract class ApiServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $1.CancelOrdersRequest request);
   $async.Future<$1.CancelOrderResponse> cancelOrder(
       $grpc.ServiceCall call, $1.CancelOrderRequest request);
+  $async.Future<$1.PlaceOrderResponse> editOrder(
+      $grpc.ServiceCall call, $1.EditOrderRequest request);
   $async.Future<$1.TradesResponse> getTrades(
       $grpc.ServiceCall call, $1.TradesRequest request);
   $async.Future<$1.AssetTradesResponse> getAssetTrades(

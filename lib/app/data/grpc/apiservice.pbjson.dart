@@ -261,6 +261,17 @@ const CancelOrderRequest$json = const {
   ],
 };
 
+const EditOrderRequest$json = const {
+  '1': 'EditOrderRequest',
+  '2': const [
+    const {'1': 'orderId', '3': 1, '4': 1, '5': 9, '10': 'orderId'},
+    const {'1': 'assetPairId', '3': 2, '4': 1, '5': 9, '10': 'assetPairId'},
+    const {'1': 'assetId', '3': 3, '4': 1, '5': 9, '10': 'assetId'},
+    const {'1': 'volume', '3': 4, '4': 1, '5': 1, '10': 'volume'},
+    const {'1': 'price', '3': 5, '4': 1, '5': 1, '10': 'price'},
+  ],
+};
+
 const TradesRequest$json = const {
   '1': 'TradesRequest',
   '2': const [

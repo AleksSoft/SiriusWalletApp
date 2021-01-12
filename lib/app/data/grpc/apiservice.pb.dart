@@ -1273,6 +1273,85 @@ class CancelOrderRequest extends $pb.GeneratedMessage {
   void clearOrderId() => clearField(1);
 }
 
+class EditOrderRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'EditOrderRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'antaresWallet'), createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'orderId', protoName: 'orderId')
+    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'assetPairId', protoName: 'assetPairId')
+    ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'assetId', protoName: 'assetId')
+    ..a<$core.double>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'volume', $pb.PbFieldType.OD)
+    ..a<$core.double>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'price', $pb.PbFieldType.OD)
+    ..hasRequiredFields = false
+  ;
+
+  EditOrderRequest._() : super();
+  factory EditOrderRequest() => create();
+  factory EditOrderRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory EditOrderRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  EditOrderRequest clone() => EditOrderRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  EditOrderRequest copyWith(void Function(EditOrderRequest) updates) => super.copyWith((message) => updates(message as EditOrderRequest)); // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static EditOrderRequest create() => EditOrderRequest._();
+  EditOrderRequest createEmptyInstance() => create();
+  static $pb.PbList<EditOrderRequest> createRepeated() => $pb.PbList<EditOrderRequest>();
+  @$core.pragma('dart2js:noInline')
+  static EditOrderRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<EditOrderRequest>(create);
+  static EditOrderRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get orderId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set orderId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasOrderId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearOrderId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get assetPairId => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set assetPairId($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasAssetPairId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearAssetPairId() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get assetId => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set assetId($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasAssetId() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearAssetId() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.double get volume => $_getN(3);
+  @$pb.TagNumber(4)
+  set volume($core.double v) { $_setDouble(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasVolume() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearVolume() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.double get price => $_getN(4);
+  @$pb.TagNumber(5)
+  set price($core.double v) { $_setDouble(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasPrice() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearPrice() => clearField(5);
+}
+
 enum TradesRequest_OptionalAssetPairId {
   assetPairId, 
   notSet
