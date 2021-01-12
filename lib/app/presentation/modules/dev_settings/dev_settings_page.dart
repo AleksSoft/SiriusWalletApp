@@ -24,7 +24,7 @@ class DevSettingsPage extends GetView<DevSettingsController> {
         child: Padding(
           padding: const EdgeInsets.all(AppSizes.medium),
           child: SingleChildScrollView(
-            child: GetBuilder<DevSettingsController>(
+            child: GetX<DevSettingsController>(
               builder: (_) => Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [

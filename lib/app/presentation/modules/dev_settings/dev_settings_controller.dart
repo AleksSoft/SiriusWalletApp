@@ -11,27 +11,22 @@ class DevSettingsController extends GetxController {
   static DevSettingsController get con => Get.find();
 
   final ApiService apiService;
-  final GetStorage storage;
-  DevSettingsController({
-    @required this.apiService,
-    @required this.storage,
-  });
+  DevSettingsController({@required this.apiService});
 
   final appVersion = ''.obs;
   final selectedUrl = ''.obs;
   final urlList = <String>[].obs;
 
-  String _apiToken = '';
-  String _fcmToken = '';
+  final _apiToken = ''.val(AppStorageKeys.token);
+  final _fcmToken = ''.val(AppStorageKeys.fcmToken);
 
-  String get apiToken => _apiToken;
-  String get fcmToken => _fcmToken;
+  String get apiToken => _apiToken.val;
+  String get fcmToken => _fcmToken.val;
 
   @override
   void onInit() {
-    _apiToken = storage.read(AppStorageKeys.token) ?? '';
-    _fcmToken = storage.read(AppStorageKeys.fcmToken) ?? '';
     urlList(apiService.apiUrls);
+    selectedUrl(apiService.defaultUrl);
     _getAppVersionString().then(appVersion);
     super.onInit();
   }
