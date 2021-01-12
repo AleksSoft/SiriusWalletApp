@@ -5,21 +5,12 @@ import 'package:logger_flutter/logger_flutter.dart';
 class AppLog {
   static Logger get logger => Logger(
         filter: _AppLogFilter(),
-        printer: PrettyPrinter(
-          methodCount: 2,
-          errorMethodCount: 8,
-          lineLength: 80,
-          printTime: true,
-        ),
+        printer: PrettyPrinter(),
       );
 
   static Logger get loggerNoStack => Logger(
         filter: _AppLogFilter(),
-        printer: PrettyPrinter(
-          methodCount: 0,
-          lineLength: 80,
-          printTime: true,
-        ),
+        printer: PrettyPrinter(methodCount: 0, errorMethodCount: 0),
       );
 
   static void showConsole() => Get.to(
@@ -37,10 +28,6 @@ class _AppLogFilter extends LogFilter {
   }
 }
 
-// Logger getLogger(String className) {
-//   return Logger(printer: CustomLogPrinter(className));
-// }
-//
 // class CustomLogPrinter extends LogPrinter {
 //   final String className;
 //
