@@ -1,77 +1,9 @@
 import 'package:antares_wallet/app/common/common.dart';
-import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
-import 'package:antares_wallet/controllers/disclaimers_controler.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class DisclaimersPage extends StatelessWidget {
-  final c = DisclaimersController.con;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Disclaimer')),
-      body: Stack(
-        children: [
-          Obx(
-            () => AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              child: c.loading
-                  ? Center(child: AppUiHelpers.circularProgress)
-                  : SizedBox.shrink(),
-            ),
-          ),
-          Obx(
-            () => PageView(
-              controller: c.pageController,
-              physics: NeverScrollableScrollPhysics(),
-              children: c.disclaimers.map((d) => _PageView(d)).toList(),
-            ),
-          ),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: _ButtonRow(
-              onCancel: () => c.decline(),
-              onSubmit: () => c.approve(),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _PageView extends StatelessWidget {
-  const _PageView(this.assetDisclaimer, {Key key}) : super(key: key);
-  final AssetDisclaimer assetDisclaimer;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      padding: const EdgeInsets.only(
-        left: AppSizes.medium,
-        top: 0,
-        right: AppSizes.medium,
-        bottom: AppSizes.extraLarge * 2 + AppSizes.medium,
-      ),
-      child: SingleChildScrollView(
-        child: Text(
-          assetDisclaimer.text,
-          softWrap: true,
-          textAlign: TextAlign.center,
-          style: Get.textTheme.headline6.copyWith(
-            fontSize: 18.0,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _ButtonRow extends StatelessWidget {
-  const _ButtonRow({
+class DisclaimersButtonRow extends StatelessWidget {
+  const DisclaimersButtonRow({
     Key key,
     @required this.onCancel,
     @required this.onSubmit,

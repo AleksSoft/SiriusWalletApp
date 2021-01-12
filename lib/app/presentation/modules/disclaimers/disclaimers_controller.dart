@@ -12,29 +12,34 @@ class DisclaimersController extends GetxController {
 
   final disclaimers = <AssetDisclaimer>[].obs;
 
-  final _loading = false.obs;
-  bool get loading => this._loading.value;
-  set loading(bool value) => this._loading.value = value;
+  final loading = false.obs;
 
   @override
-  void onInit() async {
-    loading = true;
-    disclaimers.assignAll(await DisclaimersRepository.getAssetDisclaimers());
-    loading = false;
-    super.onInit();
+  void onReady() {
+    loading(true);
+    DisclaimersRepository.getAssetDisclaimers()
+        .then(disclaimers)
+        .whenComplete(() => loading(false));
+    super.onReady();
+  }
+
+  @override
+  void onClose() {
+    loading(false);
+    super.onClose();
   }
 
   Future<void> decline() async {
-    loading = true;
+    loading(true);
     await DisclaimersRepository.declineAssetDisclaimer(
       disclaimerId: disclaimers[pageController.page.toInt()].id,
     );
+    loading(false);
     Get.back(result: false);
-    loading = false;
   }
 
   Future<void> approve() async {
-    loading = true;
+    loading(true);
     if (await DisclaimersRepository.approveAssetDisclaimer(
       disclaimerId: disclaimers[pageController.page.toInt()].id,
     )) {
@@ -47,7 +52,7 @@ class DisclaimersController extends GetxController {
         backgroundColor: AppColors.red,
       );
     }
-    loading = false;
+    loading(false);
   }
 
   _approveAgainOrSubmit() {
@@ -57,7 +62,7 @@ class DisclaimersController extends GetxController {
     } else {
       pageController.animateToPage(
         nextPage,
-        duration: const Duration(milliseconds: 300),
+        duration: Get.defaultTransitionDuration,
         curve: Curves.easeInCubic,
       );
     }
