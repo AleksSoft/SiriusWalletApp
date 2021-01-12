@@ -12,11 +12,15 @@ import 'package:protobuf/protobuf.dart' as $pb;
 class ErrorCode extends $pb.ProtobufEnum {
   static const ErrorCode Unknown = ErrorCode._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'Unknown');
   static const ErrorCode InvalidField = ErrorCode._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'InvalidField');
+  static const ErrorCode Unauthorized = ErrorCode._(401, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'Unauthorized');
+  static const ErrorCode NotFound = ErrorCode._(404, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'NotFound');
   static const ErrorCode Runtime = ErrorCode._(500, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'Runtime');
 
   static const $core.List<ErrorCode> values = <ErrorCode> [
     Unknown,
     InvalidField,
+    Unauthorized,
+    NotFound,
     Runtime,
   ];
 

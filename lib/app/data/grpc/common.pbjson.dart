@@ -10,6 +10,8 @@ const ErrorCode$json = const {
   '2': const [
     const {'1': 'Unknown', '2': 0},
     const {'1': 'InvalidField', '2': 1},
+    const {'1': 'Unauthorized', '2': 401},
+    const {'1': 'NotFound', '2': 404},
     const {'1': 'Runtime', '2': 500},
   ],
 };
