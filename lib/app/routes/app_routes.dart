@@ -5,7 +5,8 @@ abstract class Routes {
   static const String START = '/start';
   static const String LOGIN = '/login';
   static const String REGISTER = '/register';
-  static const String LOCAL_AUTH = '/localAuth';
+  static const String SAVED_ERRORS = '/saved-errors';
+  static const String LOCAL_AUTH = '/local-auth';
   static const String DISCLAIMERS = '/disclaimers';
   static const String DEV_SETTINGS = '/dev-settings';
   static const String ROOT = '/root';

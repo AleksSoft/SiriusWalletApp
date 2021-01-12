@@ -1,5 +1,7 @@
 import 'package:antares_wallet/app/presentation/modules/dev_settings/dev_settings_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/dev_settings/dev_settings_page.dart';
+import 'package:antares_wallet/app/presentation/modules/errors_log/errors_log_binding.dart';
+import 'package:antares_wallet/app/presentation/modules/errors_log/errors_log_page.dart';
 import 'package:antares_wallet/app/presentation/modules/local_auth/local_auth_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/local_auth/local_auth_page.dart';
 import 'package:antares_wallet/app/presentation/modules/login/login_binding.dart';
@@ -52,6 +54,12 @@ abstract class AppPages {
       name: Routes.START,
       page: () => StartPage(),
       binding: StartBinding(),
+    ),
+    GetPage(
+      name: Routes.SAVED_ERRORS,
+      page: () => ErrorsLogPage(),
+      binding: ErrorsLogBinding(),
+      fullscreenDialog: true,
     ),
     GetPage(
       name: Routes.LOCAL_AUTH,
