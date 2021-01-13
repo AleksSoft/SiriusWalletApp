@@ -243,33 +243,12 @@ class OrderDetailsController extends GetxController {
     double pr = double.tryParse(price) ?? 0.0;
 
     loading = true;
-
-    OrderModel response = await _placeOrder(assetPairId, assetId, vol, pr);
-
-    if (response == null) {
-      Get.snackbar(
-        null,
-        'Order failed',
-        colorText: AppColors.primary,
-        backgroundColor: AppColors.red,
-      );
-      loading = false;
+    if (isEdit && !_orderId.isNullOrBlank) {
+      await _editOrder(assetPairId, assetId, vol, pr);
     } else {
-      await OrdersController.con.getOrders();
-      loading = false;
-      Get.back();
-      Get.rawSnackbar(message: 'Order placed');
+      await _placeOrder(assetPairId, assetId, vol, pr);
     }
-  }
-
-  Future<void> modify() async {
-    if (!_orderId.isNullOrBlank) {
-      loading = true;
-      await OrdersController.con.cancelOrder(_orderId);
-      await perform();
-      loading = false;
-      Get.back();
-    }
+    loading = false;
   }
 
   void priceChanged(String s) {
@@ -371,12 +350,7 @@ class OrderDetailsController extends GetxController {
     _orderId = arguments.orderId;
   }
 
-  Future<OrderModel> _placeOrder(
-    String assetPairId,
-    String assetId,
-    double volume,
-    double price,
-  ) async {
+  Future<bool> _tryCheckOrderPin() async {
     // check pin if sign orders enabled
     if (_signOrders) {
       var pinChecked = await Get.toNamed(
@@ -384,31 +358,90 @@ class OrderDetailsController extends GetxController {
         arguments: PinMode.check,
       );
 
-      if (pinChecked ?? false) {
-      } else {
-        Get.rawSnackbar(
-          message: 'msg_pin_create_fail'.tr,
+      if (!(pinChecked ?? false)) {
+        Get.snackbar(
+          'Order failed',
+          'msg_pin_wrong'.tr,
+          colorText: AppColors.primary,
           backgroundColor: AppColors.red,
         );
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return true;
+    }
+  }
+
+  Future<void> _placeOrder(
+    String assetPairId,
+    String assetId,
+    double volume,
+    double price,
+  ) async {
+    // check pin before order placement
+    bool placeOrderAllowed = await _tryCheckOrderPin();
+
+    if (placeOrderAllowed) {
+      // place order
+      OrderModel response;
+      if (orderType.toLowerCase() == 'limit') {
+        response = await TradingRepository.placeLimitOrder(
+          assetPairId: assetPairId,
+          assetId: assetId,
+          volume: isBuy ? volume : volume * -1,
+          price: price,
+        );
+      } else if (orderType.toLowerCase() == 'market') {
+        response = await TradingRepository.placeMarketOrder(
+          assetPairId: assetPairId,
+          assetId: assetId,
+          volume: isBuy ? volume : volume * -1,
+        );
+      }
+
+      // check place order response
+      if (response == null) {
+        Get.snackbar(
+          'Order failed',
+          'Something went wrong',
+          colorText: AppColors.primary,
+          backgroundColor: AppColors.red,
+        );
+      } else {
+        await OrdersController.con.getOrders();
+        Get.back();
+        Get.snackbar('Success!', 'Order placed');
       }
     }
+  }
 
-    // place order
-    OrderModel response;
-    if (orderType.toLowerCase() == 'limit') {
-      response = await TradingRepository.placeLimitOrder(
-        assetPairId: assetPairId,
-        assetId: assetId,
-        volume: isBuy ? volume : volume * -1,
-        price: price,
+  Future<void> _editOrder(
+    String assetPairId,
+    String assetId,
+    double volume,
+    double price,
+  ) async {
+    final response = await TradingRepository.editOrder(
+      orderId: _orderId,
+      assetPairId: assetPairId,
+      assetId: assetId,
+      volume: volume,
+      price: price,
+    );
+
+    if (response == null) {
+      Get.snackbar(
+        'Order edit failed',
+        'Something went wrong',
+        colorText: AppColors.primary,
+        backgroundColor: AppColors.red,
       );
-    } else if (orderType.toLowerCase() == 'market') {
-      response = await TradingRepository.placeMarketOrder(
-        assetPairId: assetPairId,
-        assetId: assetId,
-        volume: isBuy ? volume : volume * -1,
-      );
+    } else {
+      await OrdersController.con.getOrders();
+      Get.back();
+      Get.snackbar('Success!', 'Order edited');
     }
-    return response;
   }
 }

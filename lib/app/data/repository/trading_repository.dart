@@ -143,4 +143,25 @@ class TradingRepository {
     );
     return response?.body;
   }
+
+  static Future<OrderModel> editOrder({
+    @required String orderId,
+    @required String assetPairId,
+    @required String assetId,
+    @required double volume,
+    @required double price,
+  }) async {
+    final response = await ErrorHandler.safeCall<PlaceOrderResponse>(
+      () => _api.clientSecure.editOrder(
+        EditOrderRequest()
+          ..orderId = orderId
+          ..assetPairId = assetPairId
+          ..assetId = assetId
+          ..volume = volume
+          ..price = price,
+      ),
+      method: 'editOrder',
+    );
+    return response?.body;
+  }
 }

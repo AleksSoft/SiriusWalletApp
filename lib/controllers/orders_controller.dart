@@ -78,16 +78,31 @@ class OrdersController extends GetxController {
     if (!silent) loading = false;
   }
 
-  Future<bool> cancelOrder(String id) async =>
-      await TradingRepository.cancelOrder(id).whenComplete(() => getOrders());
+  Future<OrderModel> editOrder(
+    String orderId,
+    String assetPairId,
+    String assetId,
+    double volume,
+    double price,
+  ) =>
+      TradingRepository.editOrder(
+        orderId: orderId,
+        assetPairId: assetPairId,
+        assetId: assetId,
+        volume: volume,
+        price: price,
+      );
+
+  Future<bool> cancelOrder(String id) =>
+      TradingRepository.cancelOrder(id).whenComplete(() => getOrders());
 
   Future<OrderModel> placeLimitOrder(
     String assetId,
     String assetPairId,
     double volume,
     double price,
-  ) async =>
-      await TradingRepository.placeLimitOrder(
+  ) =>
+      TradingRepository.placeLimitOrder(
         assetId: assetId,
         assetPairId: assetPairId,
         volume: volume,
@@ -98,8 +113,8 @@ class OrdersController extends GetxController {
     String assetId,
     String assetPairId,
     double volume,
-  ) async =>
-      await TradingRepository.placeMarketOrder(
+  ) =>
+      TradingRepository.placeMarketOrder(
         assetId: assetId,
         assetPairId: assetPairId,
         volume: volume,
