@@ -4,10 +4,12 @@ import 'package:antares_wallet/app/data/grpc/google/protobuf/timestamp.pb.dart';
 import 'package:antares_wallet/app/data/models/order_open_data.dart';
 import 'package:antares_wallet/app/data/models/orders_history_filter.dart';
 import 'package:antares_wallet/app/data/repository/trading_repository.dart';
+import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 
 import 'assets_controller.dart';
+import 'order_details_controller.dart';
 
 class OrdersController extends GetxController {
   static OrdersController get con => Get.find();
@@ -30,8 +32,12 @@ class OrdersController extends GetxController {
     reloadHistory(silent: true);
   }
 
-  Future<void> getOrders() => TradingRepository.getOrders().then(
-      (List<LimitOrderModel> orderList) => _generateOrderDataList(orderList));
+  Future<void> getOrders({bool silent = true}) async {
+    if (!silent) loading = true;
+    final orderList = await TradingRepository.getOrders();
+    _generateOrderDataList(orderList);
+    if (!silent) loading = false;
+  }
 
   Future<List<TradesResponse_TradeModel>> getTrades(
     int take,
@@ -147,6 +153,19 @@ class OrdersController extends GetxController {
           Get.back(result: true);
         },
         onCancel: () => Get.back(result: false),
+      );
+
+  void openEditOrderDetails(OrderOpenData order) => Get.toNamed(
+        Routes.ORDER_DETAILS,
+        arguments: OrderDetailsArguments(
+          order.orderModel.assetPair,
+          order.isSell,
+          isEdit: true,
+          amount: order.orderModel.volume,
+          price: order.orderModel.price,
+          total: order.orderModel.totalCost,
+          orderId: order.orderModel.id,
+        ),
       );
 
   void _generateOrderDataList(List<LimitOrderModel> limitOrders) {

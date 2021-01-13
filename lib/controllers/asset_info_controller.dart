@@ -131,7 +131,7 @@ class AssetInfoController extends GetxController {
     loading = false;
   }
 
-  openOrderDetails(bool isBuy) => Get.toNamed(
+  void openOrderDetails(bool isBuy) => Get.toNamed(
         Routes.ORDER_DETAILS,
         arguments: OrderDetailsArguments(
           selectedMarket.pairId,

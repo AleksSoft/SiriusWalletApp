@@ -51,7 +51,7 @@ class OpenedOrdersView extends GetView<OrdersController> {
                       confirmDismiss: (d) => controller.confirmDismiss(
                         order.orderModel.id,
                       ),
-                      onTap: () {},
+                      onTap: () => controller.openEditOrderDetails(order),
                     );
                   },
                 ),

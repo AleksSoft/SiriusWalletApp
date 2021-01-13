@@ -62,11 +62,9 @@ class OrderDetailsController extends GetxController {
   bool get signOrders => this._signOrders;
 
   final TextEditingController amountTextController = TextEditingController();
-  final _amount = '0.0'.obs;
-  String get amount => this._amount.value;
+  String get amount => amountTextController.text;
   set amount(String value) {
     amountTextController.text = value;
-    this._amount.value = amountTextController.text;
     _updateAllowed();
   }
 
@@ -257,11 +255,13 @@ class OrderDetailsController extends GetxController {
   }
 
   void amountChanged(String s) {
-    amount = _countTotal().toString();
+    total = _countTotal().toString();
+    _updateAllowed();
   }
 
   void totalChanged(String s) {
     amount = _countAmount().toString();
+    _updateAllowed();
   }
 
   double volumeAskPercent(int index) {
@@ -410,9 +410,12 @@ class OrderDetailsController extends GetxController {
           backgroundColor: AppColors.red,
         );
       } else {
-        await OrdersController.con.getOrders();
         Get.back();
         Get.snackbar('Success!', 'Order placed');
+        Future.delayed(
+          Duration(milliseconds: 500),
+          () => OrdersController.con.getOrders(silent: false),
+        );
       }
     }
   }
@@ -439,9 +442,12 @@ class OrderDetailsController extends GetxController {
         backgroundColor: AppColors.red,
       );
     } else {
-      await OrdersController.con.getOrders();
       Get.back();
       Get.snackbar('Success!', 'Order edited');
+      Future.delayed(
+        Duration(milliseconds: 500),
+        () => OrdersController.con.getOrders(silent: false),
+      );
     }
   }
 }
