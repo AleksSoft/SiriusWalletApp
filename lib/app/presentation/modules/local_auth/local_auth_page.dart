@@ -28,10 +28,7 @@ class LocalAuthPage extends GetView<LocalAuthController> {
               alignment: Alignment.center,
               child: AppUiHelpers.circularProgress,
             ),
-            child: Container(
-              alignment: Alignment.bottomCenter,
-              child: Numpad(),
-            ),
+            child: Numpad(),
           ),
         ),
       ),
@@ -42,91 +39,94 @@ class LocalAuthPage extends GetView<LocalAuthController> {
 class Numpad extends GetView<LocalAuthController> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Obx(
-            () => Preview(
-              text: controller.pinValue,
-              length: controller.fieldsCount,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Obx(
+          () => Preview(
+            text: controller.pinValue,
+            length: controller.fieldsCount,
+          ),
+        ),
+        Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                NumpadButton(
+                  text: '1',
+                  onPressed: () => controller.setValue('1'),
+                ),
+                NumpadButton(
+                  text: '2',
+                  onPressed: () => controller.setValue('2'),
+                ),
+                NumpadButton(
+                  text: '3',
+                  onPressed: () => controller.setValue('2'),
+                ),
+              ],
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              NumpadButton(
-                text: '1',
-                onPressed: () => controller.setValue('1'),
-              ),
-              NumpadButton(
-                text: '2',
-                onPressed: () => controller.setValue('2'),
-              ),
-              NumpadButton(
-                text: '3',
-                onPressed: () => controller.setValue('2'),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              NumpadButton(
-                text: '4',
-                onPressed: () => controller.setValue('4'),
-              ),
-              NumpadButton(
-                text: '5',
-                onPressed: () => controller.setValue('5'),
-              ),
-              NumpadButton(
-                text: '6',
-                onPressed: () => controller.setValue('6'),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              NumpadButton(
-                text: '7',
-                onPressed: () => controller.setValue('7'),
-              ),
-              NumpadButton(
-                text: '8',
-                onPressed: () => controller.setValue('8'),
-              ),
-              NumpadButton(
-                text: '9',
-                onPressed: () => controller.setValue('9'),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              NumpadButton(
-                haveBorder: false,
-                icon: controller.isFingerprint
-                    ? Icons.fingerprint
-                    : (controller.isFace ? Icons.face_unlock_outlined : null),
-                onPressed: controller.showLocalAuth
-                    ? () => controller.tryToggleLocalAuth()
-                    : null,
-              ),
-              NumpadButton(
-                text: '0',
-                onPressed: () => controller.setValue('0'),
-              ),
-              NumpadButton(
-                haveBorder: false,
-                icon: Icons.backspace,
-                onPressed: () => controller.backspace(),
-              ),
-            ],
-          )
-        ],
-      ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                NumpadButton(
+                  text: '4',
+                  onPressed: () => controller.setValue('4'),
+                ),
+                NumpadButton(
+                  text: '5',
+                  onPressed: () => controller.setValue('5'),
+                ),
+                NumpadButton(
+                  text: '6',
+                  onPressed: () => controller.setValue('6'),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                NumpadButton(
+                  text: '7',
+                  onPressed: () => controller.setValue('7'),
+                ),
+                NumpadButton(
+                  text: '8',
+                  onPressed: () => controller.setValue('8'),
+                ),
+                NumpadButton(
+                  text: '9',
+                  onPressed: () => controller.setValue('9'),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                NumpadButton(
+                  haveBorder: false,
+                  icon: controller.isFingerprint
+                      ? Icons.fingerprint
+                      : (controller.isFace ? Icons.face_unlock_outlined : null),
+                  onPressed: controller.showLocalAuth
+                      ? () => controller.tryToggleLocalAuth()
+                      : null,
+                ),
+                NumpadButton(
+                  text: '0',
+                  onPressed: () => controller.setValue('0'),
+                ),
+                NumpadButton(
+                  haveBorder: false,
+                  icon: Icons.backspace,
+                  onPressed: () => controller.backspace(),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
