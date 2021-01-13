@@ -24,12 +24,7 @@ class OrderDetailsPage extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Obx(
-                () => Text(
-                  c.assetPairHeader,
-                  style: TextStyle(fontSize: 16.0),
-                ),
-              ),
+              Obx(() => Text(c.assetPairHeader, style: Get.textTheme.button)),
               Visibility(
                 visible: !c.isEdit,
                 child: Padding(
@@ -58,18 +53,22 @@ class OrderDetailsPage extends StatelessWidget {
               height: c.defaultHeight,
               padding: const EdgeInsets.only(
                 left: AppSizes.medium,
-                right: AppSizes.small,
+                right: AppSizes.extraSmall,
               ),
-              child: _EditView(),
+              child: SingleChildScrollView(
+                child: _EditView(),
+              ),
             ),
-            Container(
-              width: Get.width / 2,
-              height: c.defaultHeight,
-              padding: const EdgeInsets.only(
-                left: AppSizes.small,
-                right: AppSizes.medium,
+            SingleChildScrollView(
+              child: Container(
+                width: Get.width / 2,
+                height: c.defaultHeight,
+                padding: const EdgeInsets.only(
+                  left: AppSizes.extraSmall,
+                  right: AppSizes.medium,
+                ),
+                child: _OrderbookView(),
               ),
-              child: _OrderbookView(),
             ),
           ],
         ),
@@ -184,12 +183,14 @@ class _EditView extends StatelessWidget {
                     '${c.marketModel.pairQuotingAsset.displayId} ${Formatter.currency(c.quotingBalance, fractionDigits: c.marketModel.pairQuotingAsset.accuracy)} available',
                     style: Get.textTheme.caption.copyWith(
                       color: c.locked ? AppColors.red : AppColors.secondary,
+                      fontSize: 10.0,
                     ),
                   )
                 : Text(
                     '${c.marketModel.pairBaseAsset.displayId} ${Formatter.currency(c.baseBalance, fractionDigits: c.marketModel.pairBaseAsset.accuracy)} available',
                     style: Get.textTheme.caption.copyWith(
                       color: c.locked ? AppColors.red : AppColors.secondary,
+                      fontSize: 10.0,
                     ),
                   ),
           ),
@@ -207,6 +208,7 @@ class _EditView extends StatelessWidget {
                 .map((e) => SizedBox(
                       height: AppSizes.extraLarge,
                       child: OutlineButton(
+                        padding: const EdgeInsets.all(0.0),
                         shape: RoundedRectangleBorder(
                           side: BorderSide(
                             color: AppColors.secondary,
@@ -273,14 +275,15 @@ class _ModifyButton extends StatelessWidget {
                     color: _.actionAllowed
                         ? AppColors.primary
                         : AppColors.secondary,
-                    fontSize: 18.0,
+                    fontSize: 16.0,
                     fontWeight: FontWeight.bold,
                   ),
                 )
               : Center(
                   child: CircularProgressIndicator(
-                  backgroundColor: AppColors.primary,
-                )),
+                    backgroundColor: AppColors.primary,
+                  ),
+                ),
         ),
       ),
     );
@@ -290,45 +293,49 @@ class _ModifyButton extends StatelessWidget {
 class _ActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return GetX<OrderDetailsController>(
-      builder: (_) => RaisedButton(
-        onPressed: _.actionAllowed && !_.loading ? () => _.perform() : null,
-        padding: const EdgeInsets.symmetric(vertical: AppSizes.small),
-        shape: RoundedRectangleBorder(
-          side: BorderSide(
-            color: _.actionAllowed ? AppColors.accent : AppColors.secondary,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSizes.medium),
+      child: GetX<OrderDetailsController>(
+        builder: (_) => RaisedButton(
+          onPressed: _.actionAllowed && !_.loading ? () => _.perform() : null,
+          padding: const EdgeInsets.symmetric(vertical: AppSizes.small),
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+              color: _.actionAllowed ? AppColors.accent : AppColors.secondary,
+            ),
+            borderRadius: BorderRadius.circular(AppSizes.small),
           ),
-          borderRadius: BorderRadius.circular(AppSizes.small),
-        ),
-        color: AppColors.accent,
-        disabledColor: AppColors.primary,
-        disabledTextColor: AppColors.secondary,
-        textColor: AppColors.primary,
-        splashColor: Colors.blue,
-        child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 300),
-          child: !_.loading
-              ? Column(
-                  children: <Widget>[
-                    Text(
-                      '${Formatter.currency(_.amount, fractionDigits: _.marketModel.pairQuotingAsset.accuracy)} ${_.marketModel.pairBaseAsset.displayId}',
-                    ),
-                    Text(
-                      _.isBuy ? 'Buy' : 'Sell',
-                      style: Get.textTheme.caption.copyWith(
-                        color: _.actionAllowed
-                            ? AppColors.primary
-                            : AppColors.secondary,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
+          color: AppColors.accent,
+          disabledColor: AppColors.primary,
+          disabledTextColor: AppColors.secondary,
+          textColor: AppColors.primary,
+          splashColor: Colors.blue,
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            child: !_.loading
+                ? Column(
+                    children: <Widget>[
+                      Text(
+                        '${Formatter.currency(_.amount, fractionDigits: _.marketModel.pairQuotingAsset.accuracy)} ${_.marketModel.pairBaseAsset.displayId}',
+                        style: TextStyle(fontSize: 14.0),
                       ),
-                    ),
-                  ],
-                )
-              : Center(
-                  child: CircularProgressIndicator(
-                  backgroundColor: AppColors.primary,
-                )),
+                      Text(
+                        _.isBuy ? 'Buy' : 'Sell',
+                        style: Get.textTheme.caption.copyWith(
+                          color: _.actionAllowed
+                              ? AppColors.primary
+                              : AppColors.secondary,
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  )
+                : Center(
+                    child: CircularProgressIndicator(
+                    backgroundColor: AppColors.primary,
+                  )),
+          ),
         ),
       ),
     );
@@ -391,12 +398,13 @@ class _BuySellHeaderView extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(AppSizes.extraLarge),
       ),
+      padding: const EdgeInsets.all(0.0),
       onPressed: onPressed,
       child: Text(
         text,
         style: Get.textTheme.button.copyWith(
           color: selected ? AppColors.primary : AppColors.secondary,
-          fontSize: 16.0,
+          fontSize: 14.0,
         ),
       ),
     );
@@ -407,7 +415,7 @@ class _OrderbookView extends StatelessWidget {
   final c = OrderDetailsController.con;
   final titleStyle = Get.textTheme.caption.copyWith(
     color: AppColors.secondary,
-    fontSize: 12.0,
+    fontSize: 10.0,
   );
 
   @override
@@ -480,13 +488,16 @@ class _OrderbookView extends StatelessWidget {
                   '${Formatter.currency(c.mid.toString(), fractionDigits: c.marketModel.pairQuotingAsset.accuracy)}',
                   style: Get.textTheme.headline6.copyWith(
                     fontWeight: FontWeight.w600,
+                    fontSize: 14.0,
                   ),
                 ),
               ),
               Obx(
                 () => Text(
                   '${Formatter.currency(c.midPercent.toString(), fractionDigits: 2)}%',
-                  style: Get.textTheme.caption,
+                  style: Get.textTheme.caption.copyWith(
+                    fontSize: 11.0,
+                  ),
                 ),
               ),
             ],

@@ -25,7 +25,7 @@ class VolumePriceTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final style = Get.textTheme.button.copyWith(
       fontWeight: FontWeight.w600,
-      fontSize: 12.0,
+      fontSize: 10.0,
     );
     return Container(
       height: AppSizes.extraLarge,
