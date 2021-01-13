@@ -1,8 +1,11 @@
 import 'package:decimal/decimal.dart';
-import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:get/utils.dart';
+import 'package:intl/intl.dart';
 
 class Formatter {
+  static const String THOUSAND_SEPARATOR = ',';
+  static const String DECIMAL_SEPARATOR = '.';
+
   static String currency(
     String s, {
     int fractionDigits,
@@ -12,33 +15,35 @@ class Formatter {
   }) {
     Decimal amount = Decimal.tryParse(s ?? '0.0') ?? Decimal.zero;
     if (amount.toDouble() == 0 && !orElse.isNullOrBlank) return orElse;
-    int currentFDLength = amount.scale;
+
+    var f = getNumberFormat(fractionDigits, amount.scale);
 
     String formattedPrefix = prefix == null ? '' : '$prefix ';
+    String formattedNumber = f.format(amount.toDouble());
     String formattedSuffix = suffix == null ? '' : ' $suffix';
 
-    var fmf = FlutterMoneyFormatter(amount: amount.toDouble());
+    return '$formattedPrefix$formattedNumber$formattedSuffix';
+  }
 
-    int extraZerosCount = 0;
+  /// generate currency format pattern
+  /// accordingly to fraction digits
+  /// and current amount of digits
+  static NumberFormat getNumberFormat(int fd, int currentFD) {
+    String pattern = '###,##0.0';
+    int extraZeros = 0;
     int resultFD = 0;
-    if (fractionDigits == null) {
-      resultFD = currentFDLength;
-    } else if (fractionDigits > currentFDLength) {
-      extraZerosCount = fractionDigits - currentFDLength;
-      resultFD = currentFDLength;
+
+    if (fd == null) {
+      resultFD = currentFD;
+    } else if (fd > currentFD) {
+      extraZeros = fd - currentFD;
+      resultFD = currentFD;
     } else {
-      resultFD = fractionDigits;
+      resultFD = fd;
     }
 
-    fmf = fmf.copyWith(fractionDigits: resultFD);
+    pattern = pattern.padRight(pattern.length - 1 + resultFD + extraZeros, '0');
 
-    String extraZeros = '';
-    for (int i = 0; i < extraZerosCount - 1; i++) extraZeros += '0';
-
-    String nonDigits = fmf.output.withoutFractionDigits.isEmpty
-        ? '0'
-        : fmf.output.withoutFractionDigits;
-
-    return '$formattedPrefix$nonDigits,${fmf.output.fractionDigitsOnly}$extraZeros$formattedSuffix';
+    return NumberFormat(pattern, "en_US");
   }
 }

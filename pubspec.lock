@@ -286,13 +286,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_money_formatter:
-    dependency: "direct main"
-    description:
-      name: flutter_money_formatter
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.8.3"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -414,7 +407,7 @@ packages:
       name: intl
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.8"
+    version: "0.16.1"
   isolate:
     dependency: transitive
     description:
@@ -562,6 +555,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.4+3"
+  pattern_formatter:
+    dependency: "direct main"
+    description:
+      name: pattern_formatter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   pedantic:
     dependency: transitive
     description:
@@ -734,14 +734,14 @@ packages:
       name: syncfusion_flutter_charts
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "18.4.33"
+    version: "18.4.34"
   syncfusion_flutter_core:
     dependency: transitive
     description:
       name: syncfusion_flutter_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "18.4.33"
+    version: "18.4.34"
   term_glyph:
     dependency: transitive
     description:
