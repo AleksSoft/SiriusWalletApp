@@ -5,19 +5,13 @@ import 'package:antares_wallet/ui/pages/orders/widgets/order_history_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'filters/orders_history_filters_view.dart';
-
 class OrdersHistoryView extends GetView<OrdersController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         heroTag: 'orders-history-filter-fab',
-        onPressed: () => Get.to(
-          OrdersHistoryFiltersView(),
-          fullscreenDialog: true,
-          transition: Transition.downToUp,
-        ),
+        onPressed: controller.openOrderHistoryFilter,
         child: Icon(Icons.filter_list),
       ),
       body: GetX<OrdersController>(

@@ -11,8 +11,6 @@ import 'package:antares_wallet/controllers/order_details_controller.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import 'candle_chart_page.dart';
-
 class TradingController extends GetxController {
   static TradingController get con => Get.find();
   static final _api = Get.find<ApiService>();
@@ -365,7 +363,7 @@ class TradingController extends GetxController {
 
   void toggleExpandChart() {
     if (Get.currentRoute == Routes.TRADING) {
-      Get.to(CandleChartPage(), transition: Transition.fade);
+      Get.toNamed(Routes.CANDLE_CHART);
     } else {
       Get.back();
     }

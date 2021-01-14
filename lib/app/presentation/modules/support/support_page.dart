@@ -2,9 +2,10 @@ import 'package:antares_wallet/app/presentation/widgets/menu_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-class SupportPage extends StatelessWidget {
+import 'support_controller.dart';
+
+class SupportPage extends GetView<SupportController> {
   @override
   Widget build(BuildContext context) {
     var textStyle = Get.textTheme.caption;
@@ -17,11 +18,11 @@ class SupportPage extends StatelessWidget {
           MenuTile(
             title: 'helpcenter'.tr,
             icon: Icons.info_outline,
-            onTap: () => launch('http://lykkex.zendesk.com'),
+            onTap: controller.openHelpCenter,
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text('lykkex.zendesk.com', style: textStyle),
+                Text(controller.shortHelpCenterUrl, style: textStyle),
                 Icon(Icons.chevron_right),
               ],
             ),
@@ -29,11 +30,11 @@ class SupportPage extends StatelessWidget {
           MenuTile(
             title: 'email_us'.tr,
             icon: Icons.mail_outline,
-            onTap: () => launch("mailto:support@lykke.com"),
+            onTap: controller.mailToSupport,
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text('support@lykke.com', style: textStyle),
+                Text(controller.supportEmail, style: textStyle),
                 Icon(Icons.chevron_right),
               ],
             ),
@@ -41,11 +42,11 @@ class SupportPage extends StatelessWidget {
           MenuTile(
             title: 'call'.tr,
             icon: Icons.phone,
-            onTap: () => launch("tel:+41435086379"),
+            onTap: controller.callSupport,
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text('+41 43 508 63 79', style: textStyle),
+                Text(controller.supportPhone, style: textStyle),
                 Icon(Icons.chevron_right),
               ],
             ),

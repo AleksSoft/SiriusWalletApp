@@ -4,10 +4,9 @@ import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/repository/wallet_repository.dart';
 import 'package:antares_wallet/app/domain/repositories/session_repository.dart';
 import 'package:antares_wallet/app/presentation/widgets/asset_list_tile.dart';
+import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:antares_wallet/controllers/portfolio_controller.dart';
-import 'package:antares_wallet/ui/pages/banking/withdrawal/blockchain_withdrawal_page.dart';
 import 'package:antares_wallet/ui/pages/banking/withdrawal/result_withdrawal_page.dart';
-import 'package:antares_wallet/ui/pages/banking/withdrawal/swift_withdrawal_page.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -272,7 +271,7 @@ class WithdrawalController extends GetxController {
   Future<void> _initWithMode() async {
     switch (_mode) {
       case WithdrawalMode.swift:
-        Get.to(SwiftWithdrawalPage());
+        Get.toNamed(Routes.WITHDRAW_SWIFT);
         loading = true;
         await getAssetBalance();
         await getCountry();
@@ -280,7 +279,7 @@ class WithdrawalController extends GetxController {
         loading = false;
         break;
       case WithdrawalMode.blockchain:
-        Get.to(BlockchainWithdrawalPage());
+        Get.toNamed(Routes.WITHDRAW_BLOCKCHAIN);
         loading = true;
         await getAssetBalance();
         await getWithdrawalCryptoInfo();

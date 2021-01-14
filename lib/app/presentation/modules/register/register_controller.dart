@@ -11,8 +11,6 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-import 'widgets/register_result_page.dart';
-
 class RegisterController extends GetxController {
   static RegisterController get con => Get.find();
 
@@ -299,7 +297,7 @@ class RegisterController extends GetxController {
       arguments: PinMode.create,
     );
     if (pinCreated ?? false) {
-      Get.to(RegisterResultPage(), fullscreenDialog: true);
+      Get.toNamed(Routes.REGISTER_RESULT);
     } else {
       Get.rawSnackbar(
         message: 'msg_pin_create_fail'.tr,

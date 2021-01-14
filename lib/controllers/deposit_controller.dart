@@ -7,10 +7,7 @@ import 'package:antares_wallet/app/data/repository/wallet_repository.dart';
 import 'package:antares_wallet/app/presentation/modules/root/root_controller.dart';
 import 'package:antares_wallet/app/presentation/widgets/asset_list_tile.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
-import 'package:antares_wallet/ui/pages/banking/deposit/blockchain_deposit_page.dart';
-import 'package:antares_wallet/ui/pages/banking/deposit/card_deposit_page.dart';
 import 'package:antares_wallet/ui/pages/banking/deposit/card_deposit_web_page.dart';
-import 'package:antares_wallet/ui/pages/banking/deposit/swift_deposit_page.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -235,16 +232,15 @@ class DepositController extends GetxController {
   Future<void> _initWithMode() async {
     switch (_mode) {
       case DepositMode.swift:
-        Get.to(SwiftDepositPage());
+        Get.toNamed(Routes.DEPOSIT_SWIFT);
         await getSwiftCredentials();
         break;
       case DepositMode.card:
-        // var cardPaymentDetails = await WalletRepository.getBankCardPaymentDetails();
-        Get.to(CardDepositPage());
+        Get.toNamed(Routes.DEPOSIT_CARD);
         await getCardsFee();
         break;
       case DepositMode.blockchain:
-        Get.to(BlockchainDepositPage());
+        Get.toNamed(Routes.DEPOSIT_BLOCKCHAIN);
         await getCryptoDepositAddress();
         break;
       default:

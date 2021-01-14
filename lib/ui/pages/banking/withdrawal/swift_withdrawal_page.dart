@@ -1,12 +1,11 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/presentation/widgets/empty_reloading_view.dart';
+import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:antares_wallet/controllers/withdrawal_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'swift_withdrawal_result_page.dart';
 
 class SwiftWithdrawalPage extends StatelessWidget {
   @override
@@ -213,7 +212,7 @@ class SwiftWithdrawalPage extends StatelessWidget {
                     child: CupertinoButton.filled(
                       disabledColor: AppColors.secondary.withOpacity(0.7),
                       onPressed: _.proceedAllowed
-                          ? () => Get.to(SwiftWithdrawalResultPage())
+                          ? () => Get.toNamed(Routes.WITHDRAW_SWIFT_RESULT)
                           : null,
                       child: Text('Proceed'),
                     ),

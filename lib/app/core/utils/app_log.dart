@@ -1,6 +1,6 @@
+import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
-import 'package:logger_flutter/logger_flutter.dart';
 
 class AppLog {
   static Logger get logger => Logger(
@@ -13,12 +13,7 @@ class AppLog {
         printer: PrettyPrinter(methodCount: 0, errorMethodCount: 0),
       );
 
-  static void showConsole() => Get.to(
-        LogConsole(
-          dark: Get.isPlatformDarkMode,
-          showCloseButton: true,
-        ),
-      );
+  static void showConsole() => Get.toNamed(Routes.LOG_CONSOLE);
 }
 
 class _AppLogFilter extends LogFilter {

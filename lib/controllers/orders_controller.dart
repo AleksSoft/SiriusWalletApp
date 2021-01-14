@@ -168,6 +168,8 @@ class OrdersController extends GetxController {
         ),
       );
 
+  void openOrderHistoryFilter() => Get.toNamed(Routes.ORDER_HISTORY_FILTER);
+
   void _generateOrderDataList(List<LimitOrderModel> limitOrders) {
     var list = <OrderOpenData>[];
     limitOrders?.forEach((order) {
