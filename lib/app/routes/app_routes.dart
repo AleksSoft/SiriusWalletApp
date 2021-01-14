@@ -22,8 +22,6 @@ abstract class Routes {
   static const String UPGRADE_ACC_QUEST = '/upgrade-account-quest';
   static const String UPGRADE_ACC_RESULT = '/upgrade-account-result';
   static const String SELECT_ASSET = '/select-asset';
-  static const String BACK_UP_CONFIRM = '/back-up-confirm-key';
-  static const String BACK_UP_COPY = '/back-up-copy-key';
   static const String ORDER_DETAILS = '/order-details';
   static const String TRANSACTION_DETAILS = '/transaction-details';
   static const String WATCH_LISTS = '/watch-lists';

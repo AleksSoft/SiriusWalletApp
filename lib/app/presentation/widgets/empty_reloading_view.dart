@@ -32,7 +32,7 @@ class EmptyReloadingView extends StatelessWidget {
       child: Stack(
         children: <Widget>[
           AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
+            duration: Get.defaultTransitionDuration,
             child: isEmpty ?? false
                 ? Center(
                     child: Column(
@@ -55,14 +55,17 @@ class EmptyReloadingView extends StatelessWidget {
                 : SizedBox.shrink(),
           ),
           child,
-          isLoading != null && isLoading
-              ? this.customLoader ??
-                  Container(
-                    color: AppColors.secondary.withOpacity(0.4),
-                    alignment: Alignment.center,
-                    child: AppUiHelpers.circularProgress,
-                  )
-              : SizedBox.shrink()
+          AnimatedSwitcher(
+            duration: Get.defaultTransitionDuration,
+            child: isLoading != null && isLoading
+                ? this.customLoader ??
+                    Container(
+                      color: AppColors.primary.withOpacity(0.4),
+                      alignment: Alignment.center,
+                      child: AppUiHelpers.circularProgress,
+                    )
+                : SizedBox.shrink(),
+          )
         ],
       ),
     );

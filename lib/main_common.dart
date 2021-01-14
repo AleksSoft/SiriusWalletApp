@@ -42,7 +42,6 @@ Future<void> mainCommon(AppConfig appConfig) async {
         initialRoute: Routes.INITIAL,
         getPages: AppPages.pages,
         translations: AppTranslations(),
-        supportedLocales: [Locale('ru'), Locale('en')],
         locale: Locale('en'),
         title: appConfig.appTitle,
         theme: AppThemes.light,

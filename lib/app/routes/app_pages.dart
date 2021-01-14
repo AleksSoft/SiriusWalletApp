@@ -12,6 +12,8 @@ import 'package:antares_wallet/app/presentation/modules/register/register_bindin
 import 'package:antares_wallet/app/presentation/modules/register/register_page.dart';
 import 'package:antares_wallet/app/presentation/modules/root/root_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/root/root_page.dart';
+import 'package:antares_wallet/app/presentation/modules/settings/settings_binding.dart';
+import 'package:antares_wallet/app/presentation/modules/settings/settings_page.dart';
 import 'package:antares_wallet/app/presentation/modules/splash/splash_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/splash/splash_page.dart';
 import 'package:antares_wallet/app/presentation/modules/start/start_binding.dart';
@@ -31,9 +33,6 @@ import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_cho
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_doc.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_main.dart';
 import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_result.dart';
-import 'package:antares_wallet/ui/pages/more/settings/backup/backup_confirm_key_page.dart';
-import 'package:antares_wallet/ui/pages/more/settings/backup/backup_copy_key_page.dart';
-import 'package:antares_wallet/ui/pages/more/settings/settings_page.dart';
 import 'package:antares_wallet/ui/pages/more/support/support_page.dart';
 import 'package:antares_wallet/ui/pages/orders/order_details/order_details_page.dart';
 import 'package:antares_wallet/ui/pages/portfolio/transaction_details/transaction_details_page.dart';
@@ -96,6 +95,7 @@ abstract class AppPages {
     GetPage(
       name: Routes.SETTINGS,
       page: () => SettingsPage(),
+      binding: SettingsBinding(),
     ),
     GetPage(
       name: Routes.PROFILE,
@@ -136,14 +136,6 @@ abstract class AppPages {
     GetPage(
       name: Routes.SELECT_ASSET,
       page: () => SelectAssetPage(),
-    ),
-    GetPage(
-      name: Routes.BACK_UP_CONFIRM,
-      page: () => BackUpConfirmKeyPage(),
-    ),
-    GetPage(
-      name: Routes.BACK_UP_COPY,
-      page: () => BackUpCopyKeyPage(),
     ),
     GetPage(
       name: Routes.ASSET_INFO,
