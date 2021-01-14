@@ -149,5 +149,17 @@ final Map<String, String> enUS = {
   "msg_pin_wrong": "Pin not verified",
   "msg_pin_create_fail": "PIN creation failed",
   "show": "Show",
-  "hide": "Hide"
+  "hide": "Hide",
+  "sign_in": "Sign in",
+  "sign_in_upper": "ВХОД",
+  "sign_in_subtitle": "Login using email and password",
+  "msg_wrong_email": "Email is wrong",
+  "password": "Password",
+  "msg_verify_phone_number": "Verify phone number",
+  "msg_verify_phone_number_subtitle":
+      "Please enter the verification code you received via sms",
+  "sms_code": "Sms code",
+  "proceed": "PROCEED",
+  "msg_no_verification_code": "Haven\'t received the code?",
+  "msg_request_code_args_date": "Request new code in %s"
 };

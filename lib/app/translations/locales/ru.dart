@@ -151,5 +151,17 @@ final Map<String, String> ruRU = {
   "msg_pin_wrong": "Неверный ПИН-код",
   "msg_pin_create_fail": "Ошибка создания ПИН-кода",
   "show": "Показать",
-  "hide": "Скрыть"
+  "hide": "Скрыть",
+  "sign_in": "Вход",
+  "sign_in_upper": "ВХОД",
+  "sign_in_subtitle": "Вход при помощи имейла и пароля",
+  "msg_wrong_email": "Неправильный имейл",
+  "password": "Пароль",
+  "msg_verify_phone_number": "Подтвердить номер телефона",
+  "msg_verify_phone_number_subtitle":
+      "Пожалуйста, введите код, полученный из СМС",
+  "sms_code": "Sms code",
+  "proceed": "PROCEED",
+  "msg_no_verification_code": "Не получили код?",
+  "msg_request_code_args_date": "Запросить новый код через %s"
 };
