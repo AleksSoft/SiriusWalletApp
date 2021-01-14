@@ -41,6 +41,7 @@ class InitialBinding extends Bindings {
     /// session +
     Get.lazyPut<ISessionDataSource>(
       () => SessionDataSource(api: Get.find()),
+      fenix: true,
     );
     Get.lazyPut<ISessionRepository>(
       () => SessionRepository(
