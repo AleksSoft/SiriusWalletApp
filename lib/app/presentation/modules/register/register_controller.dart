@@ -105,26 +105,32 @@ class RegisterController extends GetxController {
     switch (currentPage) {
       case 0:
         await proceedEmail();
+        loading = false;
         break;
       case 1:
         await _proceedEmailCode();
+        loading = false;
         break;
       case 2:
         await _proceedAdditionalData();
+        loading = false;
         return;
       case 3:
         await _proceedPhone();
+        loading = false;
         return;
       case 4:
         await _proceedPhoneSms();
+        loading = false;
         return;
       case 5:
         await _proceedPassword();
+        loading = false;
         break;
       default:
+        loading = false;
         break;
     }
-    loading = false;
   }
 
   Future<bool> back() async {
@@ -233,9 +239,8 @@ class RegisterController extends GetxController {
   }
 
   Future<void> _proceedPhone() async {
-    if (phoneValue.isNullOrBlank) {
-      return;
-    }
+    if (phoneValue.isNullOrBlank) return;
+
     if (!isSmsWaiting) {
       final response = await sessionRepo.sendVerificationSms(
         phone: phonePrefix + phoneValue,

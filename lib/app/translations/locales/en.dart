@@ -29,6 +29,7 @@ final Map<String, String> enUS = {
   "support": "Support",
   "tac": "Terms and conditions",
   "logout": "Logout",
+  "dev_settings": "Developer settings",
   "helpcenter": "Helpcenter",
   "email_us": "Email us",
   "call": "Call",

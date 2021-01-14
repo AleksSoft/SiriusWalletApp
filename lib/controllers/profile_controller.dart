@@ -36,8 +36,8 @@ class ProfileController extends GetxController {
 
   @override
   void onReady() async {
-    super.onReady();
     await reloadData();
+    super.onReady();
   }
 
   Future<void> reloadData() async {

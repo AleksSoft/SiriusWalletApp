@@ -28,7 +28,7 @@ class MenuTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () => onTap?.call(),
       child: Container(
         color: Colors.white,
         child: Column(

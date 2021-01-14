@@ -29,6 +29,7 @@ final Map<String, String> ruRU = {
   "support": "Поддержка",
   "tac": "Условия и положения",
   "logout": "Выйти",
+  "dev_settings": "Настройки разработки",
   "helpcenter": "Центр помощи",
   "email_us": "Напишите нам",
   "call": "Позвоните нам",
