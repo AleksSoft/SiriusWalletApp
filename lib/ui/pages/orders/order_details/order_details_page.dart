@@ -478,7 +478,7 @@ class _OrderbookView extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: AppSizes.extraLarge,
+          height: AppSizes.orderBookMidTileHeight,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,

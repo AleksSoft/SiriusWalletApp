@@ -28,7 +28,7 @@ class VolumePriceTile extends StatelessWidget {
       fontSize: 10.0,
     );
     return Container(
-      height: AppSizes.extraLarge,
+      height: AppSizes.volumePriceTileHeight,
       alignment: Alignment.center,
       child: Stack(
         fit: StackFit.expand,
