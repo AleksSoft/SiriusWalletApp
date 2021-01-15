@@ -323,8 +323,7 @@ class PushSettingsRequest extends $pb.GeneratedMessage {
 
 class RegisterPushRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'RegisterPushRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'antaresWallet'), createEmptyInstance: create)
-    ..e<MobileOsPlatform>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'platform', $pb.PbFieldType.OE, defaultOrMaker: MobileOsPlatform.Ios, valueOf: MobileOsPlatform.valueOf, enumValues: MobileOsPlatform.values)
-    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'pushChannel', protoName: 'pushChannel')
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'fcmToken', protoName: 'fcmToken')
     ..hasRequiredFields = false
   ;
 
@@ -352,22 +351,13 @@ class RegisterPushRequest extends $pb.GeneratedMessage {
   static RegisterPushRequest _defaultInstance;
 
   @$pb.TagNumber(1)
-  MobileOsPlatform get platform => $_getN(0);
+  $core.String get fcmToken => $_getSZ(0);
   @$pb.TagNumber(1)
-  set platform(MobileOsPlatform v) { setField(1, v); }
+  set fcmToken($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasPlatform() => $_has(0);
+  $core.bool hasFcmToken() => $_has(0);
   @$pb.TagNumber(1)
-  void clearPlatform() => clearField(1);
-
-  @$pb.TagNumber(2)
-  $core.String get pushChannel => $_getSZ(1);
-  @$pb.TagNumber(2)
-  set pushChannel($core.String v) { $_setString(1, v); }
-  @$pb.TagNumber(2)
-  $core.bool hasPushChannel() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearPushChannel() => clearField(2);
+  void clearFcmToken() => clearField(1);
 }
 
 class VerificationEmailRequest extends $pb.GeneratedMessage {
@@ -4228,113 +4218,6 @@ class PushSettingsResponse extends $pb.GeneratedMessage {
   void clearBody() => clearField(1);
   @$pb.TagNumber(1)
   PushSettingsResponse_Body ensureBody() => $_ensure(0);
-
-  @$pb.TagNumber(2)
-  $4.ErrorResponseBody get error => $_getN(1);
-  @$pb.TagNumber(2)
-  set error($4.ErrorResponseBody v) { setField(2, v); }
-  @$pb.TagNumber(2)
-  $core.bool hasError() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearError() => clearField(2);
-  @$pb.TagNumber(2)
-  $4.ErrorResponseBody ensureError() => $_ensure(1);
-}
-
-class RegisterPushResponse_Body extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'RegisterPushResponse.Body', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'antaresWallet'), createEmptyInstance: create)
-    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'installationId', protoName: 'installationId')
-    ..hasRequiredFields = false
-  ;
-
-  RegisterPushResponse_Body._() : super();
-  factory RegisterPushResponse_Body() => create();
-  factory RegisterPushResponse_Body.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory RegisterPushResponse_Body.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  RegisterPushResponse_Body clone() => RegisterPushResponse_Body()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  RegisterPushResponse_Body copyWith(void Function(RegisterPushResponse_Body) updates) => super.copyWith((message) => updates(message as RegisterPushResponse_Body)); // ignore: deprecated_member_use
-  $pb.BuilderInfo get info_ => _i;
-  @$core.pragma('dart2js:noInline')
-  static RegisterPushResponse_Body create() => RegisterPushResponse_Body._();
-  RegisterPushResponse_Body createEmptyInstance() => create();
-  static $pb.PbList<RegisterPushResponse_Body> createRepeated() => $pb.PbList<RegisterPushResponse_Body>();
-  @$core.pragma('dart2js:noInline')
-  static RegisterPushResponse_Body getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RegisterPushResponse_Body>(create);
-  static RegisterPushResponse_Body _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.String get installationId => $_getSZ(0);
-  @$pb.TagNumber(1)
-  set installationId($core.String v) { $_setString(0, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasInstallationId() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearInstallationId() => clearField(1);
-}
-
-enum RegisterPushResponse_Result {
-  body, 
-  error, 
-  notSet
-}
-
-class RegisterPushResponse extends $pb.GeneratedMessage {
-  static const $core.Map<$core.int, RegisterPushResponse_Result> _RegisterPushResponse_ResultByTag = {
-    1 : RegisterPushResponse_Result.body,
-    2 : RegisterPushResponse_Result.error,
-    0 : RegisterPushResponse_Result.notSet
-  };
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'RegisterPushResponse', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'antaresWallet'), createEmptyInstance: create)
-    ..oo(0, [1, 2])
-    ..aOM<RegisterPushResponse_Body>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'body', subBuilder: RegisterPushResponse_Body.create)
-    ..aOM<$4.ErrorResponseBody>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'error', subBuilder: $4.ErrorResponseBody.create)
-    ..hasRequiredFields = false
-  ;
-
-  RegisterPushResponse._() : super();
-  factory RegisterPushResponse() => create();
-  factory RegisterPushResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory RegisterPushResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  RegisterPushResponse clone() => RegisterPushResponse()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  RegisterPushResponse copyWith(void Function(RegisterPushResponse) updates) => super.copyWith((message) => updates(message as RegisterPushResponse)); // ignore: deprecated_member_use
-  $pb.BuilderInfo get info_ => _i;
-  @$core.pragma('dart2js:noInline')
-  static RegisterPushResponse create() => RegisterPushResponse._();
-  RegisterPushResponse createEmptyInstance() => create();
-  static $pb.PbList<RegisterPushResponse> createRepeated() => $pb.PbList<RegisterPushResponse>();
-  @$core.pragma('dart2js:noInline')
-  static RegisterPushResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RegisterPushResponse>(create);
-  static RegisterPushResponse _defaultInstance;
-
-  RegisterPushResponse_Result whichResult() => _RegisterPushResponse_ResultByTag[$_whichOneof(0)];
-  void clearResult() => clearField($_whichOneof(0));
-
-  @$pb.TagNumber(1)
-  RegisterPushResponse_Body get body => $_getN(0);
-  @$pb.TagNumber(1)
-  set body(RegisterPushResponse_Body v) { setField(1, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasBody() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearBody() => clearField(1);
-  @$pb.TagNumber(1)
-  RegisterPushResponse_Body ensureBody() => $_ensure(0);
 
   @$pb.TagNumber(2)
   $4.ErrorResponseBody get error => $_getN(1);

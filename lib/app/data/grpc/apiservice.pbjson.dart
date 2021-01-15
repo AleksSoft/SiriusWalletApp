@@ -5,14 +5,6 @@
 // @dart = 2.3
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
-const MobileOsPlatform$json = const {
-  '1': 'MobileOsPlatform',
-  '2': const [
-    const {'1': 'Ios', '2': 0},
-    const {'1': 'Android', '2': 1},
-  ],
-};
-
 const TierUpgrade$json = const {
   '1': 'TierUpgrade',
   '2': const [
@@ -111,8 +103,7 @@ const PushSettingsRequest$json = const {
 const RegisterPushRequest$json = const {
   '1': 'RegisterPushRequest',
   '2': const [
-    const {'1': 'platform', '3': 1, '4': 1, '5': 14, '6': '.antaresWallet.MobileOsPlatform', '10': 'platform'},
-    const {'1': 'pushChannel', '3': 2, '4': 1, '5': 9, '10': 'pushChannel'},
+    const {'1': 'fcmToken', '3': 1, '4': 1, '5': 9, '10': 'fcmToken'},
   ],
 };
 
@@ -748,25 +739,6 @@ const PushSettingsResponse_Body$json = const {
   '1': 'Body',
   '2': const [
     const {'1': 'enabled', '3': 1, '4': 1, '5': 8, '10': 'enabled'},
-  ],
-};
-
-const RegisterPushResponse$json = const {
-  '1': 'RegisterPushResponse',
-  '2': const [
-    const {'1': 'body', '3': 1, '4': 1, '5': 11, '6': '.antaresWallet.RegisterPushResponse.Body', '9': 0, '10': 'body'},
-    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorResponseBody', '9': 0, '10': 'error'},
-  ],
-  '3': const [RegisterPushResponse_Body$json],
-  '8': const [
-    const {'1': 'result'},
-  ],
-};
-
-const RegisterPushResponse_Body$json = const {
-  '1': 'Body',
-  '2': const [
-    const {'1': 'installationId', '3': 1, '4': 1, '5': 9, '10': 'installationId'},
   ],
 };
 

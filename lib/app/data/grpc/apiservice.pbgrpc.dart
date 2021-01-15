@@ -91,11 +91,10 @@ class ApiServiceClient extends $grpc.Client {
           ($1.PushSettingsRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $1.EmptyResponse.fromBuffer(value));
   static final _$registerPushNotifications =
-      $grpc.ClientMethod<$1.RegisterPushRequest, $1.RegisterPushResponse>(
+      $grpc.ClientMethod<$1.RegisterPushRequest, $1.EmptyResponse>(
           '/antaresWallet.ApiService/RegisterPushNotifications',
           ($1.RegisterPushRequest value) => value.writeToBuffer(),
-          ($core.List<$core.int> value) =>
-              $1.RegisterPushResponse.fromBuffer(value));
+          ($core.List<$core.int> value) => $1.EmptyResponse.fromBuffer(value));
   static final _$sendVerificationEmail = $grpc.ClientMethod<
           $1.VerificationEmailRequest, $1.VerificationEmailResponse>(
       '/antaresWallet.ApiService/SendVerificationEmail',
@@ -513,7 +512,7 @@ class ApiServiceClient extends $grpc.Client {
     return $createUnaryCall(_$setPushSettings, request, options: options);
   }
 
-  $grpc.ResponseFuture<$1.RegisterPushResponse> registerPushNotifications(
+  $grpc.ResponseFuture<$1.EmptyResponse> registerPushNotifications(
       $1.RegisterPushRequest request,
       {$grpc.CallOptions options}) {
     return $createUnaryCall(_$registerPushNotifications, request,
@@ -986,15 +985,14 @@ abstract class ApiServiceBase extends $grpc.Service {
         ($core.List<$core.int> value) =>
             $1.PushSettingsRequest.fromBuffer(value),
         ($1.EmptyResponse value) => value.writeToBuffer()));
-    $addMethod(
-        $grpc.ServiceMethod<$1.RegisterPushRequest, $1.RegisterPushResponse>(
-            'RegisterPushNotifications',
-            registerPushNotifications_Pre,
-            false,
-            false,
-            ($core.List<$core.int> value) =>
-                $1.RegisterPushRequest.fromBuffer(value),
-            ($1.RegisterPushResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.RegisterPushRequest, $1.EmptyResponse>(
+        'RegisterPushNotifications',
+        registerPushNotifications_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $1.RegisterPushRequest.fromBuffer(value),
+        ($1.EmptyResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$1.VerificationEmailRequest,
             $1.VerificationEmailResponse>(
         'SendVerificationEmail',
@@ -1542,7 +1540,7 @@ abstract class ApiServiceBase extends $grpc.Service {
     return setPushSettings(call, await request);
   }
 
-  $async.Future<$1.RegisterPushResponse> registerPushNotifications_Pre(
+  $async.Future<$1.EmptyResponse> registerPushNotifications_Pre(
       $grpc.ServiceCall call,
       $async.Future<$1.RegisterPushRequest> request) async {
     return registerPushNotifications(call, await request);
@@ -1902,7 +1900,7 @@ abstract class ApiServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $0.Empty request);
   $async.Future<$1.EmptyResponse> setPushSettings(
       $grpc.ServiceCall call, $1.PushSettingsRequest request);
-  $async.Future<$1.RegisterPushResponse> registerPushNotifications(
+  $async.Future<$1.EmptyResponse> registerPushNotifications(
       $grpc.ServiceCall call, $1.RegisterPushRequest request);
   $async.Future<$1.VerificationEmailResponse> sendVerificationEmail(
       $grpc.ServiceCall call, $1.VerificationEmailRequest request);

@@ -9,21 +9,6 @@
 import 'dart:core' as $core;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-class MobileOsPlatform extends $pb.ProtobufEnum {
-  static const MobileOsPlatform Ios = MobileOsPlatform._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'Ios');
-  static const MobileOsPlatform Android = MobileOsPlatform._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'Android');
-
-  static const $core.List<MobileOsPlatform> values = <MobileOsPlatform> [
-    Ios,
-    Android,
-  ];
-
-  static final $core.Map<$core.int, MobileOsPlatform> _byValue = $pb.ProtobufEnum.initByValue(values);
-  static MobileOsPlatform valueOf($core.int value) => _byValue[value];
-
-  const MobileOsPlatform._($core.int v, $core.String n) : super(v, n);
-}
-
 class TierUpgrade extends $pb.ProtobufEnum {
   static const TierUpgrade Advanced = TierUpgrade._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'Advanced');
   static const TierUpgrade ProIndividual = TierUpgrade._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'ProIndividual');
