@@ -18,3 +18,5 @@ enum DocType {
   proofOfAddress,
   proofOfFunds,
 }
+
+enum AssetInfoPeriod { h24, week, month, year }

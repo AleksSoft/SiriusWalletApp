@@ -5,16 +5,19 @@ import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/google/protobuf/timestamp.pb.dart';
 import 'package:antares_wallet/app/data/repository/trading_repository.dart';
 import 'package:antares_wallet/app/data/services/api/api_service.dart';
+import 'package:antares_wallet/app/domain/entities/order_details_arguments.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
-import 'package:antares_wallet/controllers/order_details_controller.dart';
 import 'package:get/get.dart';
+import 'package:meta/meta.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class TradingController extends GetxController {
   static TradingController get con => Get.find();
-  static final _api = Get.find<ApiService>();
   static final candleTypes = [CandleType.Mid, CandleType.Trades];
+
+  final ApiService apiService;
+  TradingController({@required this.apiService});
 
   StreamSubscription _tradesSubscr;
   StreamSubscription _orderbookSubscr;
@@ -241,7 +244,7 @@ class TradingController extends GetxController {
     await updateCandlesHistory();
     // subscribe to candle stream
     _candleSubscr?.cancel();
-    _candleSubscr = _api.clientSecure
+    _candleSubscr = apiService.clientSecure
         .getCandleUpdates(CandleUpdatesRequest()
           ..assetPairId = initialMarket.pairId
           ..type = selectedType
@@ -274,7 +277,7 @@ class TradingController extends GetxController {
     _updateOrderbookValues(orderbook);
     // subscribe to orderbook stream
     await _orderbookSubscr?.cancel();
-    _orderbookSubscr = _api.clientSecure
+    _orderbookSubscr = apiService.clientSecure
         .getOrderbookUpdates(
             OrderbookUpdatesRequest()..assetPairId = initialMarket.pairId)
         .map((event) {
@@ -295,7 +298,7 @@ class TradingController extends GetxController {
     await _tradesSubscr?.cancel();
     trades.clear();
     // subscribe to tades stream
-    _tradesSubscr = _api.clientSecure
+    _tradesSubscr = apiService.clientSecure
         .getPublicTradeUpdates(
             PublicTradesUpdatesRequest()..assetPairId = initialMarket.pairId)
         .listen(

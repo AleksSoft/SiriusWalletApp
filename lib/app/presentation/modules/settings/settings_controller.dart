@@ -1,9 +1,9 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
+import 'package:antares_wallet/app/domain/entities/select_asset_args.dart';
 import 'package:antares_wallet/app/presentation/modules/settings/widgets/choose_language_view.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
-import 'package:antares_wallet/ui/pages/select_asset/select_asset_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';

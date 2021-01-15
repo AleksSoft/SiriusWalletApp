@@ -5,6 +5,7 @@ import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/repository/trading_repository.dart';
 import 'package:antares_wallet/app/data/services/api/api_service.dart';
+import 'package:antares_wallet/app/domain/entities/order_details_arguments.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/controllers/orders_controller.dart';
@@ -13,38 +14,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-class OrderDetailsArguments {
-  final List<Orderbook_PriceVolume> bids;
-  final List<Orderbook_PriceVolume> asks;
-  final String price;
-  final String amount;
-  final String total;
-  final String pairId;
-  final String orderId;
-  final bool isBuy;
-  final bool isEdit;
-
-  OrderDetailsArguments(
-    this.pairId,
-    this.isBuy, {
-    this.isEdit,
-    this.orderId,
-    this.price,
-    this.amount,
-    this.total,
-    this.bids,
-    this.asks,
-  });
-}
-
 class OrderDetailsController extends GetxController {
   static OrderDetailsController get con => Get.find();
 
-  final _storage = GetStorage();
-
   static final orderTypes = ['Limit', 'Market'];
 
-  static final _api = Get.find<ApiService>();
+  final ApiService apiService;
+  OrderDetailsController({@required this.apiService});
 
   final _portfolioCon = PortfolioController.con;
 
@@ -58,8 +34,8 @@ class OrderDetailsController extends GetxController {
   String get total => totalTextController.text;
   set total(String value) => totalTextController.text = value;
 
-  bool _signOrders = false;
-  bool get signOrders => this._signOrders;
+  final _signOrders = false.val(AppStorageKeys.signOrders);
+  bool get signOrders => this._signOrders.val;
 
   final TextEditingController amountTextController = TextEditingController();
   String get amount => amountTextController.text;
@@ -112,9 +88,6 @@ class OrderDetailsController extends GetxController {
 
   @override
   void onInit() {
-    // initial data
-    _signOrders = _storage.read(AppStorageKeys.signOrders) ?? false;
-
     // init with arguments
     final arguments = Get.arguments as OrderDetailsArguments;
     _initWithArguments(arguments);
@@ -190,7 +163,7 @@ class OrderDetailsController extends GetxController {
 
     // subscribe to orderbook stream
     await _orderbookSubscr?.cancel();
-    _orderbookSubscr = _api.clientSecure
+    _orderbookSubscr = apiService.clientSecure
         .getOrderbookUpdates(OrderbookUpdatesRequest()..assetPairId = pairId)
         .map((event) {
       return OrderbookUtils.getMergedOrderbook(
@@ -352,7 +325,7 @@ class OrderDetailsController extends GetxController {
 
   Future<bool> _tryCheckOrderPin() async {
     // check pin if sign orders enabled
-    if (_signOrders) {
+    if (signOrders) {
       var pinChecked = await Get.toNamed(
         Routes.LOCAL_AUTH,
         arguments: PinMode.check,

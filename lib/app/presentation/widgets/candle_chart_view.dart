@@ -1,11 +1,12 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
-import 'package:antares_wallet/ui/pages/trading/trading_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+
+import '../modules/trading/trading_controller.dart';
 
 class CandleChartView extends StatelessWidget {
   CandleChartView({@required this.height, Key key}) : super(key: key);

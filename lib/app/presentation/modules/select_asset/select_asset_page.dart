@@ -8,35 +8,29 @@ import 'package:search_page/search_page.dart';
 
 import 'select_asset_controller.dart';
 
-class SelectAssetPage extends StatelessWidget {
+class SelectAssetPage extends GetView<SelectAssetController> {
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<SelectAssetController>(
-      init: SelectAssetController(),
-      builder: (_) {
-        return Scaffold(
-          appBar: AppBar(
-            leading: BackButton(
-              onPressed: () => _.back(),
-            ),
-            title: Text(_.title),
-            actions: [_SearchButton()],
-          ),
-          body: ListView.builder(
-            itemCount: _.assetList.length,
-            itemBuilder: (content, index) {
-              var asset = _.assetList[index];
-              return _AssetTile(asset, _.selectedAsset == asset);
-            },
-          ),
-        );
-      },
+    return Scaffold(
+      appBar: AppBar(
+        leading: BackButton(
+          onPressed: controller.back,
+        ),
+        title: Text(controller.title),
+        actions: [_SearchButton()],
+      ),
+      body: Obx(
+        () => ListView.builder(
+          itemCount: controller.assetList.length,
+          itemBuilder: (content, index) =>
+              _AssetTile(controller.assetList[index]),
+        ),
+      ),
     );
   }
 }
 
-class _SearchButton extends StatelessWidget {
-  final c = SelectAssetController.con;
+class _SearchButton extends GetView<SelectAssetController> {
   @override
   Widget build(context) {
     return IconButton(
@@ -45,23 +39,22 @@ class _SearchButton extends StatelessWidget {
         context: Get.context,
         delegate: SearchPage<Asset>(
           showItemsOnEmpty: true,
-          items: c.assetList,
-          searchLabel: c.title,
+          items: controller.assetList,
+          searchLabel: controller.title,
           filter: (asset) => [
             asset.name,
             asset.displayId,
           ],
-          builder: (asset) => _AssetTile(asset, c.selectedAsset.id == asset.id),
+          builder: (asset) => _AssetTile(asset),
         ),
       ),
     );
   }
 }
 
-class _AssetTile extends StatelessWidget {
-  const _AssetTile(this.asset, this.checked, {Key key}) : super(key: key);
+class _AssetTile extends GetView<SelectAssetController> {
+  const _AssetTile(this.asset, {Key key}) : super(key: key);
   final Asset asset;
-  final bool checked;
 
   @override
   Widget build(BuildContext context) {
@@ -70,10 +63,10 @@ class _AssetTile extends StatelessWidget {
       title: Text(asset.displayId),
       subtitle: Text(asset.name),
       trailing: Visibility(
-        visible: checked,
+        visible: controller.selectedAsset.value.id == asset.id,
         child: Icon(Icons.check, color: AppColors.accent),
       ),
-      onTap: () => SelectAssetController.con.select(asset),
+      onTap: () => controller.selectedAsset(asset),
     );
   }
 }

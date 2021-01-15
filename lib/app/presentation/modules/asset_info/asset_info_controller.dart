@@ -1,17 +1,15 @@
+import 'package:antares_wallet/app/common/app_enums.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/google/protobuf/timestamp.pb.dart';
 import 'package:antares_wallet/app/data/repository/portfolio_repository.dart';
 import 'package:antares_wallet/app/data/repository/trading_repository.dart';
+import 'package:antares_wallet/app/domain/entities/order_details_arguments.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:antares_wallet/controllers/assets_controller.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/ui/pages/orders/widgets/order_history_tile.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-
-import 'order_details_controller.dart';
-
-enum AssetInfoPeriod { h24, week, month, year }
 
 class AssetInfoController extends GetxController {
   static AssetInfoController get con => Get.find();

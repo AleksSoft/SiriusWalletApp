@@ -8,7 +8,6 @@ import 'package:antares_wallet/app/presentation/widgets/deposit_withdraw_button_
 import 'package:antares_wallet/app/presentation/widgets/empty_reloading_view.dart';
 import 'package:antares_wallet/app/presentation/widgets/transaction_tile.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
-import 'package:antares_wallet/controllers/asset_info_controller.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:antares_wallet/ui/pages/orders/widgets/order_history_tile.dart';
 import 'package:chips_choice/chips_choice.dart';
@@ -18,15 +17,14 @@ import 'package:flutter_sparkline/flutter_sparkline.dart';
 import 'package:get/get.dart';
 import 'package:search_page/search_page.dart';
 
-class AssetInfoPage extends StatelessWidget {
-  final c = AssetInfoController.con;
+import 'asset_info_controller.dart';
 
-  final _tabBarContent = <Tab, GetView>{
+class AssetInfoPage extends GetView<AssetInfoController> {
+  final _tabBarContent = <Tab, Widget>{
     Tab(text: 'details'.tr): _Details(),
     Tab(text: 'trades'.tr): _TradingHistory(),
     Tab(text: 'transfers'.tr): _TransfersHistory(),
   };
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

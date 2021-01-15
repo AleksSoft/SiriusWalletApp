@@ -1,4 +1,4 @@
-import 'package:antares_wallet/ui/pages/trading/widgets/candle_chart_view.dart';
+import 'package:antares_wallet/app/presentation/widgets/candle_chart_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';

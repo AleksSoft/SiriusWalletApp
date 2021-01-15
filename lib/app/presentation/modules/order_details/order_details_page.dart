@@ -5,11 +5,12 @@ import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/presentation/widgets/asset_pair_tile.dart';
 import 'package:antares_wallet/app/presentation/widgets/volume_price_tile.dart';
 import 'package:antares_wallet/controllers/markets_controller.dart';
-import 'package:antares_wallet/controllers/order_details_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:search_page/search_page.dart';
+
+import 'order_details_controller.dart';
 
 class OrderDetailsPage extends StatelessWidget {
   final c = OrderDetailsController.con;
