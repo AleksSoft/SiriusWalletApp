@@ -20,3 +20,17 @@ enum DocType {
 }
 
 enum AssetInfoPeriod { h24, week, month, year }
+
+enum PairSortType {
+  name_top,
+  name_bottom,
+  vol_top,
+  vol_bottom,
+  price_top,
+  price_bottom,
+  change_top,
+  change_bottom,
+  none,
+}
+
+enum WithdrawalMode { swift, blockchain }

@@ -2,12 +2,14 @@ import 'dart:math' as math;
 
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
+import 'package:antares_wallet/app/domain/entities/market_model.dart';
+import 'package:antares_wallet/app/presentation/modules/markets/markets_controller.dart';
 import 'package:antares_wallet/app/presentation/widgets/asset_pair_tile.dart';
 import 'package:antares_wallet/app/presentation/widgets/buy_sell_button_row.dart';
+import 'package:antares_wallet/app/presentation/widgets/candle_chart_view.dart';
 import 'package:antares_wallet/app/presentation/widgets/tradelog_tile.dart';
 import 'package:antares_wallet/app/presentation/widgets/volume_ask_tile.dart';
 import 'package:antares_wallet/app/presentation/widgets/volume_bid_tile.dart';
-import 'package:antares_wallet/controllers/markets_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,11 +17,8 @@ import 'package:intl/intl.dart';
 import 'package:search_page/search_page.dart';
 
 import 'trading_controller.dart';
-import '../../widgets/candle_chart_view.dart';
 
-class TradingPage extends StatelessWidget {
-  final c = TradingController.con;
-
+class TradingPage extends GetView<TradingController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +31,7 @@ class TradingPage extends StatelessWidget {
             children: [
               Obx(
                 () => Text(
-                  c.assetPairHeader,
+                  controller.assetPairHeader,
                   style: TextStyle(fontSize: 16.0),
                 ),
               ),
@@ -78,7 +77,7 @@ class TradingPage extends StatelessWidget {
                         ),
                         Expanded(
                           child: TabBarView(
-                            children: [_Orderbook(), _Tradelog()],
+                            children: [_OrderBook(), _TradeLog()],
                           ),
                         ),
                       ],
@@ -126,7 +125,7 @@ class TradingPage extends StatelessWidget {
             showTitle: true,
             onTap: () {
               Get.back();
-              c.updateWithMarket(model);
+              controller.updateWithMarket(model);
             },
           ),
         ),
@@ -135,12 +134,11 @@ class TradingPage extends StatelessWidget {
   }
 }
 
-class _HeaderView extends StatelessWidget {
-  final c = TradingController.con;
-
+class _HeaderView extends GetView<TradingController> {
   @override
   Widget build(BuildContext context) {
-    final change = double.tryParse(c.marketModel?.priceChange24H) ?? 0.0;
+    final change =
+        double.tryParse(controller.marketModel?.priceChange24H) ?? 0.0;
     final titleTheme = Get.textTheme.headline5.copyWith(
       fontWeight: FontWeight.w700,
     );
@@ -152,9 +150,10 @@ class _HeaderView extends StatelessWidget {
           Obx(
             () => Text(
               Formatter.currency(
-                c.marketModel.lastPrice,
-                fractionDigits: c.initialMarket.pairQuotingAsset.accuracy,
-                prefix: c.initialMarket.pairQuotingAsset.displayId,
+                controller.marketModel.lastPrice,
+                fractionDigits:
+                    controller.initialMarket.pairQuotingAsset.accuracy,
+                prefix: controller.initialMarket.pairQuotingAsset.displayId,
               ),
               style: titleTheme,
             ),
@@ -173,7 +172,7 @@ class _HeaderView extends StatelessWidget {
                     children: [
                       Obx(
                         () => Text(
-                          '${Formatter.currency(c.marketModel.priceChange24H, fractionDigits: 2)}%',
+                          '${Formatter.currency(controller.marketModel.priceChange24H, fractionDigits: 2)}%',
                           style: Get.textTheme.button.copyWith(
                             color: _color(change),
                           ),
@@ -191,7 +190,7 @@ class _HeaderView extends StatelessWidget {
                   AppUiHelpers.vSpaceExtraSmall,
                   Obx(
                     () => Text(
-                      'Vol ${Formatter.currency(c.marketModel.volume24H, orElse: '—')}',
+                      'Vol ${Formatter.currency(controller.marketModel.volume24H, orElse: '—')}',
                       style: Get.textTheme.caption,
                     ),
                   ),
@@ -203,14 +202,14 @@ class _HeaderView extends StatelessWidget {
                 children: [
                   Obx(
                     () => Text(
-                      'High ${Formatter.currency(c.marketModel.high, orElse: '—')}',
+                      'High ${Formatter.currency(controller.marketModel.high, orElse: '—')}',
                       style: Get.textTheme.caption,
                     ),
                   ),
                   AppUiHelpers.vSpaceExtraSmall,
                   Obx(
                     () => Text(
-                      'Low ${Formatter.currency(c.marketModel.low, orElse: '—')}',
+                      'Low ${Formatter.currency(controller.marketModel.low, orElse: '—')}',
                       style: Get.textTheme.caption,
                     ),
                   ),
@@ -233,8 +232,7 @@ class _HeaderView extends StatelessWidget {
   }
 }
 
-class _Orderbook extends StatelessWidget {
-  final c = TradingController.con;
+class _OrderBook extends GetView<TradingController> {
   @override
   Widget build(BuildContext context) {
     final width = Get.width / 2;
@@ -272,28 +270,30 @@ class _Orderbook extends StatelessWidget {
                 child: Obx(
                   () => ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: c.bids.length == 25 ? c.bids.length : 25,
+                    itemCount: controller.bids.length == 25
+                        ? controller.bids.length
+                        : 25,
                     itemBuilder: (context, i) {
-                      if (c.bids.length <= i) {
+                      if (controller.bids.length <= i) {
                         return VolumeBidTile(
                           volume: '—',
                           bid: '—',
                           percent: 0,
                         );
                       } else {
-                        var a = c.bids[i];
+                        var a = controller.bids[i];
                         return VolumeBidTile(
                           volume: Formatter.currency(
                             a.v,
                             fractionDigits:
-                                c.initialMarket.pairBaseAsset.accuracy,
+                                controller.initialMarket.pairBaseAsset.accuracy,
                           ),
                           bid: Formatter.currency(
                             a.p,
-                            fractionDigits:
-                                c.initialMarket.pairQuotingAsset.accuracy,
+                            fractionDigits: controller
+                                .initialMarket.pairQuotingAsset.accuracy,
                           ),
-                          percent: c.volumeBidPercent(i),
+                          percent: controller.volumeBidPercent(i),
                         );
                       }
                     },
@@ -331,24 +331,26 @@ class _Orderbook extends StatelessWidget {
                 child: Obx(
                   () => ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: c.asks.length == 25 ? c.asks.length : 25,
+                    itemCount: controller.asks.length == 25
+                        ? controller.asks.length
+                        : 25,
                     itemBuilder: (context, i) {
-                      if (c.asks.length <= i) {
+                      if (controller.asks.length <= i) {
                         return VolumeAskTile();
                       } else {
-                        var a = c.asks[i];
+                        var a = controller.asks[i];
                         return VolumeAskTile(
                           volume: Formatter.currency(
                             a.v,
                             fractionDigits:
-                                c.initialMarket.pairBaseAsset.accuracy,
+                                controller.initialMarket.pairBaseAsset.accuracy,
                           ),
                           ask: Formatter.currency(
                             a.p,
-                            fractionDigits:
-                                c.initialMarket.pairQuotingAsset.accuracy,
+                            fractionDigits: controller
+                                .initialMarket.pairQuotingAsset.accuracy,
                           ),
-                          percent: c.volumeAskPercent(i),
+                          percent: controller.volumeAskPercent(i),
                         );
                       }
                     },
@@ -363,8 +365,7 @@ class _Orderbook extends StatelessWidget {
   }
 }
 
-class _Tradelog extends StatelessWidget {
-  final c = TradingController.con;
+class _TradeLog extends GetView<TradingController> {
   @override
   Widget build(context) {
     final titleStyle = Get.textTheme.caption.copyWith(
@@ -385,7 +386,7 @@ class _Tradelog extends StatelessWidget {
                   fit: FlexFit.tight,
                   child: Obx(
                     () => Text(
-                      'Price (${c.initialMarket.pairQuotingAsset.displayId})',
+                      'Price (${controller.initialMarket.pairQuotingAsset.displayId})',
                       style: titleStyle,
                     ),
                   ),
@@ -395,7 +396,7 @@ class _Tradelog extends StatelessWidget {
                   fit: FlexFit.tight,
                   child: Obx(
                     () => Text(
-                      'Trade size (${c.initialMarket.pairBaseAsset.displayId})',
+                      'Trade size (${controller.initialMarket.pairBaseAsset.displayId})',
                       style: titleStyle,
                       textAlign: TextAlign.right,
                     ),
@@ -420,12 +421,14 @@ class _Tradelog extends StatelessWidget {
               () {
                 return ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: c.trades.length == 25 ? c.trades.length : 25,
+                  itemCount: controller.trades.length == 25
+                      ? controller.trades.length
+                      : 25,
                   itemBuilder: (context, i) {
-                    if (c.trades.length <= i) {
+                    if (controller.trades.length <= i) {
                       return TradelogTile();
                     } else {
-                      var a = c.trades[i];
+                      var a = controller.trades[i];
                       return TradelogTile(
                         price: Formatter.currency(a.price),
                         tradeSize: Formatter.currency(a.volume),

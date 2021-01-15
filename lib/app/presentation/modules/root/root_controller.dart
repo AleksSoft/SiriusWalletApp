@@ -3,13 +3,12 @@ import 'dart:async';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/services/session_service.dart';
 import 'package:antares_wallet/app/domain/repositories/session_repository.dart';
+import 'package:antares_wallet/app/presentation/modules/markets/markets_controller.dart';
+import 'package:antares_wallet/app/presentation/modules/orders/orders_controller.dart';
+import 'package:antares_wallet/app/presentation/modules/portfolio/assets/assets_controller.dart';
+import 'package:antares_wallet/app/presentation/modules/portfolio/portfolio_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../../controllers/assets_controller.dart';
-import '../../../../controllers/markets_controller.dart';
-import '../../../../controllers/orders_controller.dart';
-import '../../../../controllers/portfolio_controller.dart';
 
 class RootController extends GetxController with WidgetsBindingObserver {
   static RootController get con => Get.find();

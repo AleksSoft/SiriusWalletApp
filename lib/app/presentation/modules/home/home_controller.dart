@@ -1,14 +1,14 @@
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
+import 'package:antares_wallet/app/domain/entities/market_model.dart';
+import 'package:antares_wallet/app/presentation/modules/deposit/deposit_controller.dart';
+import 'package:antares_wallet/app/presentation/modules/markets/markets_controller.dart';
+import 'package:antares_wallet/app/presentation/modules/portfolio/assets/assets_controller.dart';
+import 'package:antares_wallet/app/presentation/modules/portfolio/portfolio_controller.dart';
 import 'package:antares_wallet/app/presentation/modules/root/root_controller.dart';
+import 'package:antares_wallet/app/presentation/modules/withdrawal/withdrawal_controller.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
-
-import '../../../../controllers/assets_controller.dart';
-import '../../../../controllers/deposit_controller.dart';
-import '../../../../controllers/markets_controller.dart';
-import '../../../../controllers/portfolio_controller.dart';
-import '../../../../controllers/withdrawal_controller.dart';
 
 class HomeController extends GetxController {
   static HomeController get con => Get.find();

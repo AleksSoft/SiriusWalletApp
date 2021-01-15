@@ -1,8 +1,8 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
-import 'package:antares_wallet/controllers/assets_controller.dart';
-import 'package:antares_wallet/controllers/portfolio_controller.dart';
+import 'package:antares_wallet/app/presentation/modules/portfolio/assets/assets_controller.dart';
+import 'package:antares_wallet/app/presentation/modules/portfolio/portfolio_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

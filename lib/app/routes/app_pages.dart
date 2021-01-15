@@ -1,4 +1,9 @@
+import 'package:antares_wallet/app/presentation/modules/asset_info/asset_info_binding.dart';
+import 'package:antares_wallet/app/presentation/modules/asset_info/asset_info_page.dart';
 import 'package:antares_wallet/app/presentation/modules/candle_chart/candle_chart_page.dart';
+import 'package:antares_wallet/app/presentation/modules/deposit/blockchain_deposit_page.dart';
+import 'package:antares_wallet/app/presentation/modules/deposit/card_deposit_page.dart';
+import 'package:antares_wallet/app/presentation/modules/deposit/swift_deposit_page.dart';
 import 'package:antares_wallet/app/presentation/modules/dev_settings/dev_settings_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/dev_settings/dev_settings_page.dart';
 import 'package:antares_wallet/app/presentation/modules/disclaimers/disclaimers_binding.dart';
@@ -9,8 +14,20 @@ import 'package:antares_wallet/app/presentation/modules/local_auth/local_auth_bi
 import 'package:antares_wallet/app/presentation/modules/local_auth/local_auth_page.dart';
 import 'package:antares_wallet/app/presentation/modules/login/login_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/login/login_page.dart';
+import 'package:antares_wallet/app/presentation/modules/markets/spot/watchlists/edit/edit_watchlist_page.dart';
+import 'package:antares_wallet/app/presentation/modules/markets/spot/watchlists/watchlists_page.dart';
 import 'package:antares_wallet/app/presentation/modules/order_details/order_details_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/order_details/order_details_page.dart';
+import 'package:antares_wallet/app/presentation/modules/orders/history/filters/orders_history_filters_view.dart';
+import 'package:antares_wallet/app/presentation/modules/portfolio/history/filters/portfolio_history_filters_view.dart';
+import 'package:antares_wallet/app/presentation/modules/profile/profile_page.dart';
+import 'package:antares_wallet/app/presentation/modules/profile/upgrade/quest/upgrade_account_quest.dart';
+import 'package:antares_wallet/app/presentation/modules/profile/upgrade/quest/upgrade_account_quest_binding.dart';
+import 'package:antares_wallet/app/presentation/modules/profile/upgrade/upgrade_account_address.dart';
+import 'package:antares_wallet/app/presentation/modules/profile/upgrade/upgrade_account_choose_doc.dart';
+import 'package:antares_wallet/app/presentation/modules/profile/upgrade/upgrade_account_doc.dart';
+import 'package:antares_wallet/app/presentation/modules/profile/upgrade/upgrade_account_main.dart';
+import 'package:antares_wallet/app/presentation/modules/profile/upgrade/upgrade_account_result.dart';
 import 'package:antares_wallet/app/presentation/modules/register/register_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/register/register_page.dart';
 import 'package:antares_wallet/app/presentation/modules/register/widgets/register_result_page.dart';
@@ -28,28 +45,11 @@ import 'package:antares_wallet/app/presentation/modules/support/support_binding.
 import 'package:antares_wallet/app/presentation/modules/support/support_page.dart';
 import 'package:antares_wallet/app/presentation/modules/trading/trading_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/trading/trading_page.dart';
-import 'file:///C:/Users/Xiaomi/Documents/work/swisschain/Sirius%20Wallet/SiriusWalletApp/lib/app/presentation/modules/asset_info/asset_info_binding.dart';
-import 'package:antares_wallet/bindings/upgrade_account_quest_binding.dart';
-import 'file:///C:/Users/Xiaomi/Documents/work/swisschain/Sirius%20Wallet/SiriusWalletApp/lib/app/presentation/modules/asset_info/asset_info_page.dart';
-import 'package:antares_wallet/ui/pages/banking/deposit/blockchain_deposit_page.dart';
-import 'package:antares_wallet/ui/pages/banking/deposit/card_deposit_page.dart';
-import 'package:antares_wallet/ui/pages/banking/deposit/swift_deposit_page.dart';
-import 'package:antares_wallet/ui/pages/banking/withdrawal/blockchain_withdrawal_details_page.dart';
-import 'package:antares_wallet/ui/pages/banking/withdrawal/blockchain_withdrawal_page.dart';
-import 'package:antares_wallet/ui/pages/banking/withdrawal/swift_withdrawal_page.dart';
-import 'package:antares_wallet/ui/pages/banking/withdrawal/swift_withdrawal_result_page.dart';
-import 'package:antares_wallet/ui/pages/markets/spot/watchlists/edit/edit_watchlist_page.dart';
-import 'package:antares_wallet/ui/pages/markets/spot/watchlists/watchlists_page.dart';
-import 'package:antares_wallet/ui/pages/more/profile/profile_page.dart';
-import 'package:antares_wallet/ui/pages/more/profile/upgrade/quest/upgrade_account_quest.dart';
-import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_address.dart';
-import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_choose_doc.dart';
-import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_doc.dart';
-import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_main.dart';
-import 'package:antares_wallet/ui/pages/more/profile/upgrade/upgrade_account_result.dart';
-import 'package:antares_wallet/ui/pages/orders/history/filters/orders_history_filters_view.dart';
-import 'package:antares_wallet/ui/pages/portfolio/history/filters/portfolio_history_filters_view.dart';
-import 'package:antares_wallet/ui/pages/portfolio/transaction_details/transaction_details_page.dart';
+import 'package:antares_wallet/app/presentation/modules/transaction_details/transaction_details_page.dart';
+import 'package:antares_wallet/app/presentation/modules/withdrawal/blockchain_withdrawal_details_page.dart';
+import 'package:antares_wallet/app/presentation/modules/withdrawal/blockchain_withdrawal_page.dart';
+import 'package:antares_wallet/app/presentation/modules/withdrawal/swift_withdrawal_page.dart';
+import 'package:antares_wallet/app/presentation/modules/withdrawal/swift_withdrawal_result_page.dart';
 import 'package:get/get.dart';
 import 'package:logger_flutter/logger_flutter.dart';
 
@@ -185,7 +185,7 @@ abstract class AppPages {
     ),
     GetPage(
       name: Routes.WATCH_LISTS,
-      page: () => WatchlistsPage(),
+      page: () => WatchListsPage(),
       fullscreenDialog: true,
       transition: Transition.downToUp,
     ),

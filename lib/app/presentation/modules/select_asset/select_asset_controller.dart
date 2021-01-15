@@ -1,6 +1,6 @@
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/domain/entities/select_asset_args.dart';
-import 'package:antares_wallet/controllers/assets_controller.dart';
+import 'package:antares_wallet/app/presentation/modules/portfolio/assets/assets_controller.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 
@@ -13,7 +13,7 @@ class SelectAssetController extends GetxController {
   SelectAssetController({
     @required this.args,
     @required this.assetsCon,
-  }) : assert(args == null || assetsCon == null);
+  }) : assert(args != null || assetsCon != null);
 
   @override
   void onInit() {

@@ -19,7 +19,7 @@ class SplashController extends GetxController {
 
   Future<void> checkPINAndStartApp() async {
     await Future.delayed(Duration(seconds: splashDelaySeconds));
-    bool result = await sessionService.verifySessionPIN();
+    bool result = await sessionService.verifySessionPIN(logOutOnError: true);
     Get.offNamed(result ? Routes.ROOT : Routes.START);
   }
 }

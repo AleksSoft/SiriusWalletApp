@@ -62,9 +62,11 @@ class _AssetTile extends GetView<SelectAssetController> {
       leading: AssetIcon(asset.iconUrl, AppSizes.extraLarge),
       title: Text(asset.displayId),
       subtitle: Text(asset.name),
-      trailing: Visibility(
-        visible: controller.selectedAsset.value.id == asset.id,
-        child: Icon(Icons.check, color: AppColors.accent),
+      trailing: Obx(
+        () => Visibility(
+          visible: controller.selectedAsset.value.id == asset.id,
+          child: Icon(Icons.check, color: AppColors.accent),
+        ),
       ),
       onTap: () => controller.selectedAsset(asset),
     );

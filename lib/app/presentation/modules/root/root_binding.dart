@@ -1,17 +1,17 @@
 import 'package:antares_wallet/app/data/data_sources/assets_data_source.dart';
 import 'package:antares_wallet/app/data/repository/assets_repository.dart';
 import 'package:antares_wallet/app/domain/repositories/assets_repository.dart';
+import 'package:antares_wallet/app/presentation/modules/deposit/deposit_controller.dart';
 import 'package:antares_wallet/app/presentation/modules/home/home_controller.dart';
+import 'package:antares_wallet/app/presentation/modules/markets/markets_controller.dart';
+import 'package:antares_wallet/app/presentation/modules/markets/spot/watchlists/watchlists_controller.dart';
 import 'package:antares_wallet/app/presentation/modules/more/more_controller.dart';
+import 'package:antares_wallet/app/presentation/modules/orders/orders_controller.dart';
+import 'package:antares_wallet/app/presentation/modules/portfolio/assets/assets_controller.dart';
+import 'package:antares_wallet/app/presentation/modules/portfolio/portfolio_controller.dart';
+import 'package:antares_wallet/app/presentation/modules/profile/profile_controller.dart';
 import 'package:antares_wallet/app/presentation/modules/root/root_controller.dart';
-import 'package:antares_wallet/controllers/assets_controller.dart';
-import 'package:antares_wallet/controllers/deposit_controller.dart';
-import 'package:antares_wallet/controllers/markets_controller.dart';
-import 'package:antares_wallet/controllers/orders_controller.dart';
-import 'package:antares_wallet/controllers/portfolio_controller.dart';
-import 'package:antares_wallet/controllers/profile_controller.dart';
-import 'package:antares_wallet/controllers/watchlists_controller.dart';
-import 'package:antares_wallet/controllers/withdrawal_controller.dart';
+import 'package:antares_wallet/app/presentation/modules/withdrawal/withdrawal_controller.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 

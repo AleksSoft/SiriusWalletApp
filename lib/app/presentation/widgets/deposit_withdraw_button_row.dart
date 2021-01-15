@@ -1,14 +1,13 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
-import 'package:antares_wallet/controllers/deposit_controller.dart';
-import 'package:antares_wallet/controllers/withdrawal_controller.dart';
+import 'package:antares_wallet/app/presentation/modules/deposit/deposit_controller.dart';
+import 'package:antares_wallet/app/presentation/modules/withdrawal/withdrawal_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DepositWithdrawalButtonRow extends StatelessWidget {
   final Asset asset;
-
-  const DepositWithdrawalButtonRow({Key key, this.asset}) : super(key: key);
+  const DepositWithdrawalButtonRow({this.asset, Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

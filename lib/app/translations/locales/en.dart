@@ -151,7 +151,7 @@ final Map<String, String> enUS = {
   "show": "Show",
   "hide": "Hide",
   "sign_in": "Sign in",
-  "sign_in_upper": "ВХОД",
+  "sign_in_upper": "SIGN IN",
   "sign_in_subtitle": "Login using email and password",
   "msg_wrong_email": "Email is wrong",
   "password": "Password",

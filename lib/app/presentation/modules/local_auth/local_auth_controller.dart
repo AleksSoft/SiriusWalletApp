@@ -122,6 +122,9 @@ class LocalAuthController extends GetxController {
         title: 'Error ${error.code}',
         message: error.message,
         backgroundColor: AppColors.red,
+        snackbarStatus: (status) {
+          if (status == SnackbarStatus.CLOSED) _navigateBack(false);
+        },
       );
     }, (result) {
       if (result) {

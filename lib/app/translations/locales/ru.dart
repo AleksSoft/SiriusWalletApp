@@ -160,8 +160,8 @@ final Map<String, String> ruRU = {
   "msg_verify_phone_number": "Подтвердить номер телефона",
   "msg_verify_phone_number_subtitle":
       "Пожалуйста, введите код, полученный из СМС",
-  "sms_code": "Sms code",
-  "proceed": "PROCEED",
+  "sms_code": "Смс код",
+  "proceed": "ПОДТВЕРДИТЬ",
   "msg_no_verification_code": "Не получили код?",
   "msg_request_code_args_date": "Запросить новый код через %s"
 };
