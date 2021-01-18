@@ -1,7 +1,6 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -24,9 +23,7 @@ Future<void> mainCommon(AppConfig appConfig) async {
   await GetStorage.init();
 
   // Initialize firebase services
-  final FirebaseApp firebaseApp = await Firebase.initializeApp();
-  final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
-  final FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics();
+  await Firebase.initializeApp();
 
   if (!appConfig.isProd) LogConsole.init();
 
@@ -48,63 +45,9 @@ Future<void> mainCommon(AppConfig appConfig) async {
         themeMode: ThemeMode.system,
         initialBinding: InitialBinding(appConfig),
         navigatorObservers: [
-          FirebaseAnalyticsObserver(analytics: firebaseAnalytics),
+          FirebaseAnalyticsObserver(analytics: FirebaseAnalytics()),
         ],
-        onInit: () {
-          final _storage = GetStorage();
-          String _appFcmToken = _storage.read(AppStorageKeys.fcmToken);
-
-          firebaseMessaging.configure(
-            onMessage: (Map<String, dynamic> message) async {
-              AppLog.loggerNoStack.i('FCM onMessage:\n$message');
-            },
-            onBackgroundMessage:
-                GetPlatform.isIOS ? null : backgroundMessageHandler,
-            onLaunch: (Map<String, dynamic> message) async {
-              AppLog.loggerNoStack.i('FCM onLaunch:\n$message');
-            },
-            onResume: (Map<String, dynamic> message) async {
-              AppLog.loggerNoStack.i('FCM onResume:\n$message');
-            },
-          );
-
-          firebaseMessaging.requestNotificationPermissions(
-            const IosNotificationSettings(
-              sound: true,
-              badge: true,
-              alert: true,
-              provisional: false,
-            ),
-          );
-
-          firebaseMessaging.getToken().then((String token) {
-            if (_appFcmToken != token) {
-              _appFcmToken = token;
-              _saveFcmToken(_storage, _appFcmToken);
-            }
-          });
-
-          firebaseMessaging.onTokenRefresh.listen((String token) {
-            if (_appFcmToken != token) {
-              _appFcmToken = token;
-              _saveFcmToken(_storage, _appFcmToken);
-            }
-          });
-        },
       ),
     ),
   );
-}
-
-/// method to save firebase cloud messages token
-void _saveFcmToken(GetStorage storage, String token) {
-  assert(token != null);
-  storage.write(AppStorageKeys.fcmToken, token).whenComplete(() {
-    AppLog.loggerNoStack.i('FCM token:\n$token');
-  });
-}
-
-/// method to handle firebase push notification messages in background
-Future<dynamic> backgroundMessageHandler(Map<String, dynamic> message) async {
-  AppLog.loggerNoStack.i('FCM onBackgroundMessage:\n$message');
 }

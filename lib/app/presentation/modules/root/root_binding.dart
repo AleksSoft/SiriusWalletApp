@@ -71,10 +71,10 @@ class RootPageBinding extends Bindings {
 
     Get.put(RootController(
       assetsCon: Get.find(),
-      sessionRepo: Get.find(),
       marketsCon: Get.find(),
       ordersCon: Get.find(),
       portfolioCon: Get.find(),
+      pushService: Get.find(),
       sessionService: Get.find(),
     ));
 

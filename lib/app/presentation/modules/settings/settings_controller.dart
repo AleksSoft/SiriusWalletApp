@@ -1,6 +1,7 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/domain/entities/select_asset_args.dart';
+import 'package:antares_wallet/app/domain/repositories/push_repository.dart';
 import 'package:antares_wallet/app/presentation/modules/portfolio/assets/assets_controller.dart';
 import 'package:antares_wallet/app/presentation/modules/settings/widgets/choose_language_view.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
@@ -13,23 +14,75 @@ class SettingsController extends GetxController {
   static SettingsController get con => Get.find();
 
   final AssetsController assetsCon;
-  SettingsController({@required this.assetsCon});
+  final IPushRepository pushRepo;
+  SettingsController({@required this.assetsCon, @required this.pushRepo});
 
   final _signOrdersBox = false.val(AppStorageKeys.signOrders);
 
-  final _signOrdersObs = false.obs;
+  final signOrders = false.obs;
+  final isPushEnabled = false.obs;
   final loading = false.obs;
+
   @override
   void onInit() {
-    _signOrdersObs.value = _signOrdersBox.val;
+    signOrders(_signOrdersBox.val);
+    ever(signOrders, (value) => _signOrdersBox.val = value);
+
+    getPushSettings();
+
     super.onInit();
   }
 
   Asset get baseAsset => assetsCon.baseAsset;
 
-  bool get signOrders => _signOrdersObs.value;
-
   Map<String, Map<String, String>> get translations => Get.translations;
+
+  Future<void> getPushSettings() async {
+    loading(true);
+    final response = await pushRepo.getPushSettings();
+    response.fold(
+      (error) {
+        isPushEnabled(false);
+        Get.snackbar(
+          'Push settings loading failed: ${error.code}',
+          error.message,
+          colorText: AppColors.primary,
+          backgroundColor: AppColors.red,
+          snackPosition: SnackPosition.TOP,
+        );
+        loading(false);
+      },
+      (result) {
+        isPushEnabled(result ?? false);
+        loading(false);
+      },
+    );
+  }
+
+  Future<void> setPushSettings(bool enabled) async {
+    final response = await pushRepo.setPushSettings(enabled: enabled);
+    response.fold(
+      (error) {
+        isPushEnabled(false);
+        Get.snackbar(
+          'Push settings update failed: ${error.code}',
+          error.message,
+          colorText: AppColors.primary,
+          backgroundColor: AppColors.red,
+          snackPosition: SnackPosition.TOP,
+        );
+      },
+      (result) {
+        bool isSign = result ?? false;
+        isPushEnabled(isSign);
+        Get.snackbar(
+          'Success!',
+          'Push settings ${isSign ? 'enabled' : 'disabled'}',
+          snackPosition: SnackPosition.TOP,
+        );
+      },
+    );
+  }
 
   void updateBaseAsset() {
     loading(true);
@@ -61,14 +114,18 @@ class SettingsController extends GetxController {
     );
   }
 
-  bool toggleSignOrderWithPin(bool value) =>
-      _signOrdersBox.val = _signOrdersObs.value = value;
-
   void selectLanguage() => Get.bottomSheet(ChooseLanguageView());
 
   void updateLocale(String langCode) {
     if (Get.locale != Locale(langCode)) {
       Get.updateLocale(Locale(langCode));
+    }
+  }
+
+  void togglePushEnabled(bool value) {
+    if (isPushEnabled.value != value) {
+      isPushEnabled(value);
+      setPushSettings(value);
     }
   }
 }

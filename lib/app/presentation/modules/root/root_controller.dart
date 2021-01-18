@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:antares_wallet/app/core/utils/utils.dart';
+import 'package:antares_wallet/app/data/services/push_service.dart';
 import 'package:antares_wallet/app/data/services/session_service.dart';
-import 'package:antares_wallet/app/domain/repositories/session_repository.dart';
 import 'package:antares_wallet/app/presentation/modules/markets/markets_controller.dart';
 import 'package:antares_wallet/app/presentation/modules/orders/orders_controller.dart';
 import 'package:antares_wallet/app/presentation/modules/portfolio/assets/assets_controller.dart';
@@ -13,20 +13,20 @@ import 'package:get/get.dart';
 class RootController extends GetxController with WidgetsBindingObserver {
   static RootController get con => Get.find();
 
+  final PushService pushService;
+  final SessionService sessionService;
+  final AssetsController assetsCon;
+  final MarketsController marketsCon;
+  final OrdersController ordersCon;
+  final PortfolioController portfolioCon;
   RootController({
+    @required this.pushService,
     @required this.sessionService,
-    @required this.sessionRepo,
     @required this.assetsCon,
     @required this.marketsCon,
     @required this.ordersCon,
     @required this.portfolioCon,
   });
-  final SessionService sessionService;
-  final ISessionRepository sessionRepo;
-  final AssetsController assetsCon;
-  final MarketsController marketsCon;
-  final OrdersController ordersCon;
-  final PortfolioController portfolioCon;
 
   final loading = false.obs;
 
@@ -39,7 +39,7 @@ class RootController extends GetxController with WidgetsBindingObserver {
   @override
   void onInit() {
     WidgetsBinding?.instance?.addObserver(this);
-    loading.value = true;
+    loading(true);
     ever(pageIndexObs, (int pageIndex) {
       switch (pageIndex) {
         case 1:
@@ -60,8 +60,8 @@ class RootController extends GetxController with WidgetsBindingObserver {
 
   @override
   void onReady() {
-    super.onReady();
     _initialize();
+    super.onReady();
   }
 
   @override
@@ -84,13 +84,16 @@ class RootController extends GetxController with WidgetsBindingObserver {
     }
   }
 
-  /// initialised app controllers
+  /// initialised app controllers and services
   Future<void> _initialize() async {
     await assetsCon.initialize();
     await marketsCon.initialize();
     await ordersCon.initialize();
     await portfolioCon.initialize();
-    loading.value = false;
+
+    pushService.tryRegisterFcm();
+
+    loading(false);
     _startTimer();
   }
 
@@ -108,7 +111,7 @@ class RootController extends GetxController with WidgetsBindingObserver {
   void _stopTimer() => _prolongSessionTimer?.cancel();
 
   Future<bool> _prolongSession() async {
-    final response = await sessionRepo.prolongateSession();
+    final response = await sessionService.sessionRepo.prolongateSession();
 
     bool isSuccess = false;
     response.fold(

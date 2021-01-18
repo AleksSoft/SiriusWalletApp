@@ -7,6 +7,7 @@ class SettingsBinding extends Bindings {
   void dependencies() {
     Get.put(SettingsController(
       assetsCon: Get.find(),
+      pushRepo: Get.find(),
     ));
   }
 }

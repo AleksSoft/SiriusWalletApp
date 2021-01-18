@@ -34,8 +34,8 @@ class SettingsPage extends GetView<SettingsController> {
                   color: Colors.transparent,
                   showDivider: false,
                   trailing: Switch(
-                    value: false,
-                    onChanged: (bool value) {},
+                    value: controller.isPushEnabled.value,
+                    onChanged: controller.togglePushEnabled,
                   ),
                 ),
                 MenuTile(
@@ -46,8 +46,8 @@ class SettingsPage extends GetView<SettingsController> {
                   color: Colors.transparent,
                   showDivider: false,
                   trailing: Switch(
-                    value: controller.signOrders,
-                    onChanged: controller.toggleSignOrderWithPin,
+                    value: controller.signOrders.value,
+                    onChanged: (value) => controller.signOrders(value),
                   ),
                 ),
                 // MenuTile(
