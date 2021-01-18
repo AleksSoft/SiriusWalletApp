@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:logger_flutter/logger_flutter.dart';
+import 'package:shake/shake.dart';
 
 import 'app/common/common.dart';
 import 'app/core/utils/utils.dart';
@@ -25,7 +26,14 @@ Future<void> mainCommon(AppConfig appConfig) async {
   // Initialize firebase services
   await Firebase.initializeApp();
 
-  if (!appConfig.isProd) LogConsole.init();
+  // Init log console
+  ShakeDetector shakeDetector;
+  if (!appConfig.isProd) {
+    LogConsole.init();
+    shakeDetector = ShakeDetector.waitForStart(
+      onPhoneShake: () => AppLog.showConsole(),
+    );
+  }
 
   // start app with all configurations done
   runApp(
@@ -47,6 +55,8 @@ Future<void> mainCommon(AppConfig appConfig) async {
         navigatorObservers: [
           FirebaseAnalyticsObserver(analytics: FirebaseAnalytics()),
         ],
+        onInit: () => shakeDetector?.startListening(),
+        onDispose: () => shakeDetector?.stopListening(),
       ),
     ),
   );
