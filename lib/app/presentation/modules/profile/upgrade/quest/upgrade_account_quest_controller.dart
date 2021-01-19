@@ -1,10 +1,14 @@
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
-import 'package:antares_wallet/app/data/repository/profile_repository.dart';
+import 'package:antares_wallet/app/domain/repositories/profile_repository.dart';
 import 'package:get/get.dart';
+import 'package:meta/meta.dart';
 
 class UpgradeAccountQuestController extends GetxController {
   static UpgradeAccountQuestController get con => Get.find();
+
+  final IProfileRepository profileRepo;
+  UpgradeAccountQuestController({@required this.profileRepo});
 
   List<QuestionnaireResponse_Question> questionnaire =
       <QuestionnaireResponse_Question>[];
@@ -12,10 +16,15 @@ class UpgradeAccountQuestController extends GetxController {
   List<AnswersRequest_Choice> answers = <AnswersRequest_Choice>[];
 
   @override
-  void onInit() async {
-    super.onInit();
-    questionnaire = await ProfileRepository.getQuestionnaire();
-    update();
+  void onReady() {
+    profileRepo.getQuestionnaire().then((response) => response.fold(
+          (error) {},
+          (newQuestionnaire) {
+            questionnaire = newQuestionnaire;
+            update();
+          },
+        ));
+    super.onReady();
   }
 
   bool get canSubmit =>
@@ -30,7 +39,7 @@ class UpgradeAccountQuestController extends GetxController {
     } else {
       answers.add(answer);
     }
-    AppLog.loggerNoStack.i(answers);
+    AppLog.logger.i(answers);
     update();
   }
 

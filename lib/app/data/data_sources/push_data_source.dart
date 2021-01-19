@@ -1,3 +1,4 @@
+import 'package:antares_wallet/app/core/error/error_handler.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/google/protobuf/empty.pb.dart';
 import 'package:antares_wallet/app/data/services/api/api_service.dart';
@@ -9,19 +10,26 @@ abstract class IPushDataSource {
   Future<EmptyResponse> registerPushNotifications(RegisterPushRequest r);
 }
 
-class PushDataSource implements IPushDataSource {
+class PushDataSource with ErrorHandler implements IPushDataSource {
   PushDataSource({@required this.api});
   final ApiService api;
 
   @override
-  Future<PushSettingsResponse> getPushSettings() =>
-      api.clientSecure.getPushSettings(Empty());
+  Future<PushSettingsResponse> getPushSettings() => safeCall(
+        () => api.clientSecure.getPushSettings(Empty()),
+        method: 'getPushSettings',
+      );
 
   @override
-  Future<EmptyResponse> setPushSettings(PushSettingsRequest r) =>
-      api.clientSecure.setPushSettings(r);
+  Future<EmptyResponse> setPushSettings(PushSettingsRequest r) => safeCall(
+        () => api.clientSecure.setPushSettings(r),
+        method: 'setPushSettings',
+      );
 
   @override
   Future<EmptyResponse> registerPushNotifications(RegisterPushRequest r) =>
-      api.clientSecure.registerPushNotifications(r);
+      safeCall(
+        () => api.clientSecure.registerPushNotifications(r),
+        method: 'registerPushNotifications',
+      );
 }

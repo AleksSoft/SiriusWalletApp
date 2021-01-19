@@ -35,7 +35,7 @@ class PortfolioAssetsTabView extends GetView<PortfolioController> {
                   Obx(
                     () => AnimatedSwitcher(
                       duration: const Duration(milliseconds: 300),
-                      child: controller.loading &&
+                      child: controller.loading.value &&
                               controller.categoryAssetsMap.isEmpty
                           ? Center(child: AppUiHelpers.circularProgress)
                           : Column(

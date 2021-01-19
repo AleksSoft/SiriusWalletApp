@@ -5,11 +5,6 @@ import 'package:logger/logger.dart';
 class AppLog {
   static Logger get logger => Logger(
         filter: _AppLogFilter(),
-        printer: PrettyPrinter(),
-      );
-
-  static Logger get loggerNoStack => Logger(
-        filter: _AppLogFilter(),
         printer: PrettyPrinter(methodCount: 0, errorMethodCount: 0),
       );
 

@@ -243,7 +243,7 @@ class _ChartView extends GetView<AssetInfoController> {
     return Obx(
       () => AnimatedSwitcher(
         duration: const Duration(milliseconds: 150),
-        child: !controller.loading
+        child: !controller.loading.value
             ? controller.candles.isNotEmpty
                 ? Obx(
                     () => Sparkline(

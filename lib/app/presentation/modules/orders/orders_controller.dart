@@ -3,8 +3,8 @@ import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/google/protobuf/timestamp.pb.dart';
 import 'package:antares_wallet/app/data/models/order_open_data.dart';
 import 'package:antares_wallet/app/data/models/orders_history_filter.dart';
-import 'package:antares_wallet/app/data/repository/trading_repository.dart';
 import 'package:antares_wallet/app/domain/entities/order_details_arguments.dart';
+import 'package:antares_wallet/app/domain/repositories/trading_repository.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
@@ -14,8 +14,12 @@ import '../portfolio/assets/assets_controller.dart';
 class OrdersController extends GetxController {
   static OrdersController get con => Get.find();
 
+  final ITradingRepository tradingRepo;
   final AssetsController assetsCon;
-  OrdersController({@required this.assetsCon});
+  OrdersController({
+    @required this.tradingRepo,
+    @required this.assetsCon,
+  });
 
   final orders = <OrderOpenData>[].obs;
 
@@ -34,8 +38,11 @@ class OrdersController extends GetxController {
 
   Future<void> getOrders({bool silent = true}) async {
     if (!silent) loading = true;
-    final orderList = await TradingRepository.getOrders();
-    _generateOrderDataList(orderList);
+    final response = await tradingRepo.getOrders();
+    response.fold(
+      (error) {},
+      (orderList) => _generateOrderDataList(orderList),
+    );
     if (!silent) loading = false;
   }
 
@@ -46,15 +53,20 @@ class OrdersController extends GetxController {
     String tradeType,
     Timestamp fromDate,
     Timestamp toDate,
-  }) async =>
-      await TradingRepository.getTrades(
-        take: take,
-        skip: skip,
-        assetPairId: assetPairId,
-        tradeType: tradeType,
-        fromDate: fromDate,
-        toDate: toDate,
-      );
+  }) async {
+    final response = await tradingRepo.getTrades(
+      take: take,
+      skip: skip,
+      assetPairId: assetPairId,
+      tradeType: tradeType,
+      fromDate: fromDate,
+      toDate: toDate,
+    );
+    response.fold(
+      (error) {},
+      (trades) {},
+    );
+  }
 
   Future<void> reloadHistory({
     bool silent = false,
@@ -84,48 +96,6 @@ class OrdersController extends GetxController {
     if (!silent) loading = false;
   }
 
-  Future<OrderModel> editOrder(
-    String orderId,
-    String assetPairId,
-    String assetId,
-    double volume,
-    double price,
-  ) =>
-      TradingRepository.editOrder(
-        orderId: orderId,
-        assetPairId: assetPairId,
-        assetId: assetId,
-        volume: volume,
-        price: price,
-      );
-
-  Future<bool> cancelOrder(String id) =>
-      TradingRepository.cancelOrder(id).whenComplete(() => getOrders());
-
-  Future<OrderModel> placeLimitOrder(
-    String assetId,
-    String assetPairId,
-    double volume,
-    double price,
-  ) =>
-      TradingRepository.placeLimitOrder(
-        assetId: assetId,
-        assetPairId: assetPairId,
-        volume: volume,
-        price: price,
-      );
-
-  Future<OrderModel> placeMarketOrder(
-    String assetId,
-    String assetPairId,
-    double volume,
-  ) =>
-      TradingRepository.placeMarketOrder(
-        assetId: assetId,
-        assetPairId: assetPairId,
-        volume: volume,
-      );
-
   void cancelAllOrders() => Get.defaultDialog(
         title: 'Cancel all orders',
         middleText: 'Are you sure?',
@@ -135,7 +105,7 @@ class OrdersController extends GetxController {
         onConfirm: () async {
           Get.back();
           loading = true;
-          await TradingRepository.cancelAllOrders();
+          await tradingRepo.cancelAllOrders();
           await getOrders();
           loading = false;
         },
@@ -148,10 +118,9 @@ class OrdersController extends GetxController {
         buttonColor: AppColors.dark,
         cancelTextColor: AppColors.dark,
         confirmTextColor: AppColors.primary,
-        onConfirm: () async {
-          await cancelOrder(id);
-          Get.back(result: true);
-        },
+        onConfirm: () => tradingRepo.cancelOrder(orderId: id).whenComplete(() {
+          getOrders().whenComplete(() => Get.back(result: true));
+        }),
         onCancel: () => Get.back(result: false),
       );
 

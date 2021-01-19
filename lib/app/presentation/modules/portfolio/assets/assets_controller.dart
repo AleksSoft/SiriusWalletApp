@@ -84,7 +84,7 @@ class AssetsController extends GetxController {
     if (differenceMinutes >= 5) {
       assetsDictionary = await repository.assetsDictionary();
       assetsDictionaryTimestamp = DateTime.now().millisecondsSinceEpoch;
-      AppLog.loggerNoStack.d('assets dictionary updated');
+      AppLog.logger.i('assets dictionary updated');
     }
   }
 

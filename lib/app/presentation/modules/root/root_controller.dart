@@ -75,11 +75,11 @@ class RootController extends GetxController with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.paused) {
-      AppLog.loggerNoStack.d('application backgrounded');
+      AppLog.logger.i('application backgrounded');
       _stopTimer();
     }
     if (state == AppLifecycleState.resumed) {
-      AppLog.loggerNoStack.d('application came back to foreground');
+      AppLog.logger.i('application came back to foreground');
       _startTimer();
     }
   }
@@ -119,7 +119,7 @@ class RootController extends GetxController with WidgetsBindingObserver {
       (result) => isSuccess = result,
     );
 
-    AppLog.loggerNoStack.d('session prolongation result = $isSuccess');
+    AppLog.logger.i('session prolongation result = $isSuccess');
 
     return isSuccess;
   }

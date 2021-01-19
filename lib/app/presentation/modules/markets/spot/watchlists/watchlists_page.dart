@@ -4,9 +4,7 @@ import 'package:antares_wallet/app/presentation/modules/markets/spot/watchlists/
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class WatchListsPage extends StatelessWidget {
-  final c = WatchListsController.con;
-
+class WatchListsPage extends GetView<WatchListsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +13,7 @@ class WatchListsPage extends StatelessWidget {
         title: Text('Watch lists'),
         actions: <Widget>[
           IconButton(
-            onPressed: () => c.create(),
+            onPressed: () => controller.create(),
             icon: Icon(Icons.add),
           ),
         ],
@@ -24,20 +22,21 @@ class WatchListsPage extends StatelessWidget {
         children: <Widget>[
           RefreshIndicator(
             color: AppColors.dark,
-            onRefresh: () => c.getWatchlists(),
+            onRefresh: () => controller.getWatchlists(),
             child: Obx(
               () => ListView.separated(
-                itemCount: c.watchLists.length,
+                itemCount: controller.watchLists.length,
                 itemBuilder: (context, index) {
-                  var item = c.watchLists[index];
+                  var item = controller.watchLists[index];
                   return ListTile(
-                    onTap: () =>
-                        c.select(item.id).whenComplete(() => Get.back()),
+                    onTap: () => controller
+                        .select(item.id)
+                        .whenComplete(() => Get.back()),
                     leading: Container(
                       width: AppSizes.extraLarge,
                       alignment: Alignment.center,
                       child: Visibility(
-                        visible: item.id == c.selected.id,
+                        visible: item.id == controller.selected.id,
                         child: Icon(Icons.check, color: AppColors.accent),
                       ),
                     ),
@@ -65,7 +64,7 @@ class WatchListsPage extends StatelessWidget {
           ),
           Obx(
             () => Visibility(
-              visible: c.loading,
+              visible: controller.loading.value,
               child: Container(
                 alignment: Alignment.center,
                 child: AppUiHelpers.circularProgress,

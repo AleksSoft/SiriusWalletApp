@@ -1,5 +1,5 @@
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
-import 'package:antares_wallet/app/data/repository/watchists_repository.dart';
+import 'package:antares_wallet/app/domain/repositories/watchlist_repository.dart';
 import 'package:antares_wallet/app/presentation/modules/markets/markets_controller.dart';
 import 'package:antares_wallet/app/presentation/modules/portfolio/assets/assets_controller.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,10 +11,17 @@ class EditWatchlistController extends GetxController {
   final _assetsController = Get.find<AssetsController>();
 
   final TextEditingController nameController = TextEditingController();
-
   final Watchlist _originalWatchlist = Get.arguments as Watchlist;
-
   final List<AssetPair> _checkedAssetPairs = [];
+
+  final IWatchlistRepository watchlistRepo;
+  final WatchListsController watchlistCon;
+  final MarketsController marketsCon;
+  EditWatchlistController({
+    @required this.watchlistRepo,
+    @required this.watchlistCon,
+    @required this.marketsCon,
+  });
 
   List<AssetPair> get selectedPairs => _checkedAssetPairs;
 
@@ -37,23 +44,21 @@ class EditWatchlistController extends GetxController {
 
   Future<void> perform() async {
     if (modeEdit) {
-      await WatchlistsRepository.updateWatchlist(
-        _originalWatchlist.id,
-        nameController.text,
-        _originalWatchlist.order,
-        _checkedAssetPairs.map((chap) => chap.id).toList(),
+      await watchlistRepo.updateWatchlist(
+        id: _originalWatchlist.id,
+        name: nameController.text,
+        order: _originalWatchlist.order,
+        assetIds: _checkedAssetPairs.map((chap) => chap.id).toList(),
       );
     } else {
-      await WatchlistsRepository.addWatchlist(
-        nameController.text,
-        2,
-        _checkedAssetPairs.map((chap) => chap.id).toList(),
+      await watchlistRepo.addWatchlist(
+        name: nameController.text,
+        order: 2,
+        assetIds: _checkedAssetPairs.map((chap) => chap.id).toList(),
       );
     }
-    WatchListsController.con.getWatchlists().then((value) {
-      Get.back();
-      MarketsController.con.rebuildWatchedMarkets();
-    });
+    Get.back();
+    marketsCon.rebuildWatchedMarkets();
   }
 
   void check(AssetPair assetPair) {

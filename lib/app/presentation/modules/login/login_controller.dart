@@ -9,8 +9,8 @@ import 'package:get/get.dart';
 class LoginController extends GetxController {
   static LoginController get con => Get.find();
 
-  final ISessionRepository repository;
-  LoginController({@required this.repository});
+  final ISessionRepository sessionRepo;
+  LoginController({@required this.sessionRepo});
 
   final pageViewController = PageController(initialPage: 0);
 
@@ -62,7 +62,7 @@ class LoginController extends GetxController {
 
     loading = true;
 
-    final response = await repository.login(
+    final response = await sessionRepo.login(
       email: emailValue,
       password: passwordValue,
       publicKey: '1111',
@@ -87,7 +87,7 @@ class LoginController extends GetxController {
       return;
     }
 
-    final response = await repository.sendLoginSms(sessionId: token);
+    final response = await sessionRepo.sendLoginSms(sessionId: token);
 
     response.fold((error) {
       Get.rawSnackbar(
@@ -107,7 +107,7 @@ class LoginController extends GetxController {
 
     loading = true;
 
-    final response = await repository.verifyLoginSms(
+    final response = await sessionRepo.verifyLoginSms(
       sessionId: token,
       code: smsCodeValue,
     );
@@ -128,7 +128,7 @@ class LoginController extends GetxController {
   }
 
   Future<void> _verifyPin(String token) async {
-    await repository.saveSessionId(token);
+    await sessionRepo.saveSessionId(token);
     var pinCorrect = await Get.toNamed(
       Routes.LOCAL_AUTH,
       arguments: PinMode.check,
@@ -136,7 +136,7 @@ class LoginController extends GetxController {
     if (pinCorrect ?? false) {
       Get.offAllNamed(Routes.ROOT);
     } else {
-      await repository.logout();
+      await sessionRepo.logout();
       Get.rawSnackbar(
         message: 'msg_pin_wrong'.tr,
         backgroundColor: AppColors.red,

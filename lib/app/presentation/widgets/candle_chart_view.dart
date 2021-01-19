@@ -23,7 +23,7 @@ class CandleChartView extends StatelessWidget {
             Obx(
               () => AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
-                child: c.loading
+                child: c.loading.value
                     ? Center(child: AppUiHelpers.circularProgress)
                     : c.noCandleData
                         ? Center(child: Text('No candle data available'))

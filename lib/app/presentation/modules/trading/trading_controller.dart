@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/google/protobuf/timestamp.pb.dart';
-import 'package:antares_wallet/app/data/repository/trading_repository.dart';
 import 'package:antares_wallet/app/data/services/api/api_service.dart';
 import 'package:antares_wallet/app/domain/entities/market_model.dart';
 import 'package:antares_wallet/app/domain/entities/order_details_arguments.dart';
-import 'package:antares_wallet/app/presentation/modules/markets/markets_controller.dart';
+import 'package:antares_wallet/app/domain/repositories/markets_repository.dart';
+import 'package:antares_wallet/app/domain/repositories/trading_repository.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
@@ -18,7 +18,13 @@ class TradingController extends GetxController {
   static final candleTypes = [CandleType.Mid, CandleType.Trades];
 
   final ApiService apiService;
-  TradingController({@required this.apiService});
+  final IMarketsRepository marketsRepo;
+  final ITradingRepository tradingRepo;
+  TradingController({
+    @required this.apiService,
+    @required this.marketsRepo,
+    @required this.tradingRepo,
+  });
 
   StreamSubscription _tradesSubscr;
   StreamSubscription _orderbookSubscr;
@@ -30,9 +36,7 @@ class TradingController extends GetxController {
 
   final List<Candle> candles = <Candle>[];
 
-  final _loading = false.obs;
-  get loading => this._loading.value;
-  set loading(value) => this._loading.value = value;
+  final loading = false.obs;
 
   final _initialMarket = MarketModel.empty().obs;
   MarketModel get initialMarket => this._initialMarket.value;
@@ -185,21 +189,25 @@ class TradingController extends GetxController {
   }
 
   Future<void> updateWithMarket(MarketModel data) async {
-    loading = true;
+    loading(true);
     noCandleData = false;
     // set initial market data
     initialMarket = data;
     // load market model data
-    marketModel = (await MarketsController.con
-            .getMarkets(assetPairId: initialMarket.pairId))
-        .first;
+    final response = await marketsRepo.getMarkets(
+      assetPairId: initialMarket.pairId,
+    );
+    response.fold(
+      (error) {},
+      (marketModelList) => marketModel = marketModelList.first,
+    );
 
     // init streams
     await reloadCandles();
     await _initOrders();
     await _initTrades();
 
-    loading = false;
+    loading(false);
   }
 
   Future<void> updateCandlesHistory() async {
@@ -211,27 +219,34 @@ class TradingController extends GetxController {
         to.seconds.toInt() * 1000,
       ).subtract(_getCandleUpdateTimeDelta()),
     );
-    await TradingRepository.getCandles(
-      assetPairId: initialMarket.pairId,
-      type: selectedType,
-      interval: selectedInterval,
-      from: from,
-      to: to,
-    ).then((newCandles) {
-      if (newCandles == null) {
-        noCandleData = true;
-        allCandlesLoaded = true;
-      } else if (newCandles.isNotEmpty) {
-        candles.insertAll(0, newCandles);
-        if (candleController != null) {
-          candleController.updateDataSource(
-            addedDataIndexes: <int>[newCandles.length],
-          );
-        }
-      } else {
-        allCandlesLoaded = true;
-      }
-    });
+    await tradingRepo
+        .getCandles(
+          assetPairId: initialMarket.pairId,
+          type: selectedType,
+          interval: selectedInterval,
+          from: from,
+          to: to,
+        )
+        .then(
+          (response) => response.fold(
+            (error) {
+              noCandleData = true;
+              allCandlesLoaded = true;
+            },
+            (newCandles) {
+              if (newCandles.isNotEmpty) {
+                candles.insertAll(0, newCandles);
+                if (candleController != null) {
+                  candleController.updateDataSource(
+                    addedDataIndexes: <int>[newCandles.length],
+                  );
+                }
+              } else {
+                allCandlesLoaded = true;
+              }
+            },
+          ),
+        );
   }
 
   Future<void> reloadCandles() async {
@@ -254,28 +269,37 @@ class TradingController extends GetxController {
   }
 
   Future<void> reloadChartInterval(CandleInterval i) async {
-    loading = true;
+    loading(true);
     selectedInterval = i;
     await reloadCandles();
-    loading = false;
+    loading(false);
   }
 
   Future<void> reloadChartType(CandleType t) async {
-    loading = true;
+    loading(true);
     selectedType = t;
     await reloadCandles();
-    loading = false;
+    loading(false);
   }
 
   Future<void> _initOrders() async {
     // reload orderbook and subscription
-    var orderbook = OrderbookUtils.getMergedOrderbook(
-      Orderbook()..bids.addAll(bids)..asks.addAll(asks),
-      await TradingRepository.getOrderbook(
-        assetPairId: initialMarket.pairId,
-      ),
-    );
-    _updateOrderbookValues(orderbook);
+    await tradingRepo
+        .getOrderbook(
+          assetPairId: initialMarket.pairId,
+        )
+        .then(
+          (response) => response.fold(
+            (error) {},
+            (newOrderBook) {
+              final orderBook = OrderbookUtils.getMergedOrderbook(
+                Orderbook()..bids.addAll(bids)..asks.addAll(asks),
+                newOrderBook,
+              );
+              _updateOrderbookValues(orderBook);
+            },
+          ),
+        );
     // subscribe to orderbook stream
     await _orderbookSubscr?.cancel();
     _orderbookSubscr = apiService.clientSecure

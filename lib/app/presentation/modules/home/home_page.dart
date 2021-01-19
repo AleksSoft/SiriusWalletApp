@@ -450,7 +450,7 @@ class _MyLykkeView extends GetView<HomeController> {
                 var list = _.assetsByCategoryName('Lykke');
                 return AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
-                  child: !_.loading
+                  child: !_.loading.value
                       ? ListView.separated(
                           shrinkWrap: true,
                           itemCount: 3 >= list.length || list.length < 3

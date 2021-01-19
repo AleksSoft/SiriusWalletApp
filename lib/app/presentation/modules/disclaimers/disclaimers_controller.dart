@@ -1,12 +1,15 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
-import 'package:antares_wallet/app/data/repository/disclaimers_repository.dart';
+import 'package:antares_wallet/app/domain/repositories/disclaimers_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 
 class DisclaimersController extends GetxController {
   static DisclaimersController get con => Get.find();
+
+  final IDisclaimersRepository disclaimersRepo;
+  DisclaimersController({@required this.disclaimersRepo});
 
   final pageController = PageController();
 
@@ -17,8 +20,19 @@ class DisclaimersController extends GetxController {
   @override
   void onReady() {
     loading(true);
-    DisclaimersRepository.getAssetDisclaimers()
-        .then(disclaimers)
+    disclaimersRepo
+        .getAssetDisclaimers()
+        .then((response) => response.fold(
+              (error) {
+                Get.snackbar(
+                  error.code.toString(),
+                  error.message,
+                  colorText: AppColors.primary,
+                  backgroundColor: AppColors.red,
+                );
+              },
+              (result) => disclaimers.assignAll(result),
+            ))
         .whenComplete(() => loading(false));
     super.onReady();
   }
@@ -31,7 +45,7 @@ class DisclaimersController extends GetxController {
 
   Future<void> decline() async {
     loading(true);
-    await DisclaimersRepository.declineAssetDisclaimer(
+    await disclaimersRepo.declineAssetDisclaimer(
       disclaimerId: disclaimers[pageController.page.toInt()].id,
     );
     loading(false);
@@ -40,22 +54,37 @@ class DisclaimersController extends GetxController {
 
   Future<void> approve() async {
     loading(true);
-    if (await DisclaimersRepository.approveAssetDisclaimer(
-      disclaimerId: disclaimers[pageController.page.toInt()].id,
-    )) {
-      _approveAgainOrSubmit();
-    } else {
-      Get.snackbar(
-        null,
-        'Disclaimer approve failed',
-        colorText: AppColors.primary,
-        backgroundColor: AppColors.red,
-      );
-    }
-    loading(false);
+
+    disclaimersRepo
+        .approveAssetDisclaimer(
+          disclaimerId: disclaimers[pageController.page.toInt()].id,
+        )
+        .then((response) => response.fold(
+              (error) {
+                Get.snackbar(
+                  error.code.toString(),
+                  error.message,
+                  colorText: AppColors.primary,
+                  backgroundColor: AppColors.red,
+                );
+              },
+              (result) {
+                if (result) {
+                  _approveAgainOrSubmit();
+                } else {
+                  Get.snackbar(
+                    null,
+                    'Disclaimer approve failed',
+                    colorText: AppColors.primary,
+                    backgroundColor: AppColors.red,
+                  );
+                }
+              },
+            ))
+        .whenComplete(() => loading(false));
   }
 
-  _approveAgainOrSubmit() {
+  void _approveAgainOrSubmit() {
     int nextPage = pageController.page.toInt() + 1;
     if (nextPage >= disclaimers.length) {
       Get.back(result: true);

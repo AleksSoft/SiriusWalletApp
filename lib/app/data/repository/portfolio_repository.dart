@@ -1,56 +1,64 @@
-import 'package:antares_wallet/app/core/utils/utils.dart';
+import 'package:antares_wallet/app/data/data_sources/portfolio_data_source.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
-import 'package:antares_wallet/app/data/grpc/google/protobuf/empty.pb.dart';
+import 'package:antares_wallet/app/data/grpc/common.pb.dart';
 import 'package:antares_wallet/app/data/grpc/google/protobuf/timestamp.pb.dart';
-import 'package:antares_wallet/app/data/services/api/api_service.dart';
+import 'package:antares_wallet/app/domain/repositories/portfolio_repository.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
 
-class PortfolioRepository {
-  static final _api = Get.find<ApiService>();
+class PortfolioRepository implements IPortfolioRepository {
+  PortfolioRepository({@required this.source});
+  final IPortfolioDataSource source;
 
-  static Future<List<Balance>> getBalances() async {
-    var response = await ErrorHandler.safeCall<BalancesResponse>(
-      () => _api.clientSecure.getBalances(Empty()),
-      method: 'getBalances',
-    );
-    return response?.body?.balances ?? [];
+  @override
+  Future<Either<ErrorResponseBody, List<Balance>>> getBalances() async {
+    final response = await source.getBalances();
+
+    if (response == null) return Right([]);
+    return response.hasError()
+        ? Left(response.error)
+        : Right(response?.body?.balances ?? []);
   }
 
-  static Future<List<FundsResponse_FundsModel>> getFunds({
+  @override
+  Future<Either<ErrorResponseBody, List<FundsResponse_FundsModel>>> getFunds({
     @required int take,
     @required int skip,
     String assetId,
     Timestamp fromDate,
     Timestamp toDate,
   }) async {
-    var request = FundsRequest();
-    request.take = take;
-    request.skip = skip;
+    final request = FundsRequest()
+      ..take = take
+      ..skip = skip;
     if (assetId != null) request.assetId = assetId;
     if (fromDate != null) request.from = fromDate;
     if (toDate != null) request.to = toDate;
 
-    final response = await ErrorHandler.safeCall<FundsResponse>(
-      () => _api.clientSecure.getFunds(request),
-      method: 'getFunds',
-    );
-    return response?.body?.funds ?? [];
+    final response = await source.getFunds(request);
+
+    if (response == null) return Right([]);
+    return response.hasError()
+        ? Left(response.error)
+        : Right(response?.body?.funds ?? []);
   }
 
-  static Future<List<ExplorerLinksResponse_ExplorerLinkModel>>
-      getExplorerLinks({
-    @required assetId,
-    @required transactionHash,
+  @override
+  Future<
+      Either<ErrorResponseBody,
+          List<ExplorerLinksResponse_ExplorerLinkModel>>> getExplorerLinks({
+    @required String assetId,
+    @required String transactionHash,
   }) async {
-    var response = await ErrorHandler.safeCall<ExplorerLinksResponse>(
-      () => _api.clientSecure.getExplorerLinks(
-        ExplorerLinksRequest()
-          ..assetId = assetId
-          ..transactionHash = transactionHash,
-      ),
-      method: 'getExplorerLinks',
-    );
-    return response?.body?.links ?? [];
+    final request = ExplorerLinksRequest()
+      ..assetId = assetId
+      ..transactionHash = transactionHash;
+
+    final response = await source.getExplorerLinks(request);
+
+    if (response == null) return Right([]);
+    return response.hasError()
+        ? Left(response.error)
+        : Right(response?.body?.links ?? []);
   }
 }

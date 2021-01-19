@@ -26,7 +26,7 @@ class ApiService {
   Future<ApiService> init(AppConfig appConfig) async {
     // init urls from config
     apiUrls = appConfig.apiUrls;
-    AppLog.loggerNoStack.i('API urls:\n$apiUrls');
+    AppLog.logger.i('API urls:\n$apiUrls');
 
     // update services
     await update();
@@ -39,7 +39,7 @@ class ApiService {
   Future<void> update({String url}) async {
     if (url.isNullOrBlank) url = defaultUrl;
     await _storage.write(AppStorageKeys.baseUrl, url);
-    AppLog.loggerNoStack.i('Base Url: $url');
+    AppLog.logger.i('Base Url: $url');
 
     final channel = ClientChannel(url, port: 443);
 

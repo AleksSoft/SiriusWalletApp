@@ -1,20 +1,25 @@
-import 'package:antares_wallet/app/core/utils/utils.dart';
+import 'package:antares_wallet/app/data/data_sources/markets_data_source.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
-import 'package:antares_wallet/app/data/services/api/api_service.dart';
-import 'package:get/get.dart';
+import 'package:antares_wallet/app/data/grpc/common.pb.dart';
+import 'package:antares_wallet/app/domain/repositories/markets_repository.dart';
+import 'package:dartz/dartz.dart';
+import 'package:meta/meta.dart';
 
-class MarketsRepository {
-  static final _api = Get.find<ApiService>();
+class MarketsRepository implements IMarketsRepository {
+  MarketsRepository({@required this.source});
+  final IMarketsDataSource source;
 
-  static Future<List<MarketsResponse_MarketModel>> getMarkets({
-    String assetPairId,
-  }) async {
-    var request = MarketsRequest();
+  @override
+  Future<Either<ErrorResponseBody, List<MarketsResponse_MarketModel>>>
+      getMarkets({String assetPairId}) async {
+    final request = MarketsRequest();
     if (assetPairId != null) request.assetPairId = assetPairId;
-    var response = await ErrorHandler.safeCall<MarketsResponse>(
-      () => _api.clientSecure.getMarkets(request),
-      method: 'getMarkets',
-    );
-    return response?.body?.markets ?? [];
+
+    final response = await source.getMarkets(request);
+
+    if (response == null) return Right([]);
+    return response.hasError()
+        ? Left(response.error)
+        : Right(response?.body?.markets ?? []);
   }
 }

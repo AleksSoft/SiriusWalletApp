@@ -25,7 +25,7 @@ class PortfolioHistoryView extends GetView<PortfolioController> {
             emptyHeader: 'No portfolio history yet',
             emptyMessage: '',
             isEmpty: _.historyItems.isEmpty,
-            isLoading: _.loading,
+            isLoading: _.loading.value,
             onRefresh: () => controller.reloadHistory(silent: true),
             child: ListView.builder(
               itemCount: _.historyItems.length,

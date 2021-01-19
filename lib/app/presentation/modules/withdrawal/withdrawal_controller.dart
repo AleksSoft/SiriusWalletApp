@@ -1,8 +1,8 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
-import 'package:antares_wallet/app/data/repository/wallet_repository.dart';
 import 'package:antares_wallet/app/domain/repositories/session_repository.dart';
+import 'package:antares_wallet/app/domain/repositories/wallet_repository.dart';
 import 'package:antares_wallet/app/presentation/modules/portfolio/assets/assets_controller.dart';
 import 'package:antares_wallet/app/presentation/modules/portfolio/portfolio_controller.dart';
 import 'package:antares_wallet/app/presentation/widgets/asset_list_tile.dart';
@@ -17,9 +17,11 @@ import 'result_withdrawal_page.dart';
 class WithdrawalController extends GetxController {
   static WithdrawalController get con => Get.find();
 
+  final IWalletRepository walletRepo;
   final ISessionRepository sessionRepo;
   final PortfolioController portfolioCon;
   WithdrawalController({
+    @required this.walletRepo,
     @required this.sessionRepo,
     @required this.portfolioCon,
   });
@@ -123,20 +125,25 @@ class WithdrawalController extends GetxController {
     super.onInit();
   }
 
-  Future<void> getWithdrawalCryptoInfo() async =>
-      withdrawalCryptoInfo = await WalletRepository.getWithdrawalCryptoInfo(
-        selectedAsset?.id,
-      );
+  Future<void> getWithdrawalCryptoInfo() async => await walletRepo
+      .getWithdrawalCryptoInfo(assetId: selectedAsset?.id)
+      .then((response) => response.fold(
+            (error) => AppLog.logger.e(error.toProto3Json()),
+            (result) => withdrawalCryptoInfo = result,
+          ));
 
-  Future<void> getWithdrawalSwiftInfo() async {
-    var info = await WalletRepository.getSwiftCashoutInfo();
-    swiftController.text = info.bic;
-    bankController.text = info.bankName;
-    ibanController.text = info.accNumber;
-    addressController.text = info.accHolderAddress;
-    cityController.text = info.accHolderCity;
-    zipController.text = info.accHolderZipCode;
-  }
+  Future<void> getWithdrawalSwiftInfo() async =>
+      await walletRepo.getSwiftCashoutInfo().then((response) => response.fold(
+            (error) => AppLog.logger.e(error.toProto3Json()),
+            (info) {
+              swiftController.text = info.bic;
+              bankController.text = info.bankName;
+              ibanController.text = info.accNumber;
+              addressController.text = info.accHolderAddress;
+              cityController.text = info.accHolderCity;
+              zipController.text = info.accHolderZipCode;
+            },
+          ));
 
   Future<void> getAssetBalance() async {
     if (portfolioCon.balances.isEmpty) {
@@ -150,46 +157,73 @@ class WithdrawalController extends GetxController {
     if (_countryCode.isNullOrBlank) {
       final response = await sessionRepo.getCountryPhoneCodes();
       response.fold(
-        (error) => AppLog.loggerNoStack.i(error.toProto3Json()),
+        (error) => AppLog.logger.e(error.toProto3Json()),
         (result) => _countryCode = result.current,
       );
     }
   }
 
   Future<void> validateAddress() async {
-    isAddressValid = await WalletRepository.isCryptoAddressValid(
+    final cryptoAddressResponse = await walletRepo.isCryptoAddressValid(
       assetId: selectedAsset?.id,
       address: addressController.text,
+    );
+    cryptoAddressResponse.fold(
+      (error) {
+        isAddressValid = false;
+        AppLog.logger.e(error.toProto3Json());
+      },
+      (result) => isAddressValid = result,
     );
     update();
   }
 
   Future<void> validateExtAddress() async {
-    isExtAddressValid = await WalletRepository.isCryptoAddressValid(
+    final response = await walletRepo.isCryptoAddressValid(
       assetId: selectedAsset?.id,
       addressExtension: extController.text,
+    );
+    response.fold(
+      (error) {
+        isExtAddressValid = false;
+        AppLog.logger.e(error.toProto3Json());
+      },
+      (result) => isExtAddressValid = result,
     );
     update();
   }
 
-  Future<void> confirmCryptoWithdrawal() async {
+  void confirmCryptoWithdrawal() {
     loading = true;
-    bool success = await WalletRepository.cryptoCashout(
-      assetId: selectedAsset?.id,
-      volume: amountController.text,
-      destinationAddress: addressController.text,
-      destinationAddressExtension:
-          withdrawalCryptoInfo.addressExtensionMandatory
-              ? extController.text
-              : '',
-    );
-    Get.off(ResultWithdrawalPage(success: success), fullscreenDialog: true);
-    loading = false;
+    walletRepo
+        .cryptoCashout(
+          assetId: selectedAsset?.id,
+          volume: amountController.text,
+          destinationAddress: addressController.text,
+          destinationAddressExtension:
+              withdrawalCryptoInfo.addressExtensionMandatory
+                  ? extController.text
+                  : '',
+        )
+        .then((value) => value.fold((error) {
+              AppLog.logger.e(error.toProto3Json());
+              loading = false;
+              Get.off(
+                ResultWithdrawalPage(success: false),
+                fullscreenDialog: true,
+              );
+            }, (result) {
+              loading = false;
+              Get.off(
+                ResultWithdrawalPage(success: result),
+                fullscreenDialog: true,
+              );
+            }));
   }
 
   Future<void> confirmSwiftWithdrawal() async {
     loading = true;
-    var result = await WalletRepository.swiftCashout(
+    final response = await walletRepo.swiftCashout(
       accHolderAddress: this.addressController.text,
       accHolderCity: this.cityController.text,
       accHolderCountry: this._countryCode,
@@ -201,11 +235,13 @@ class WithdrawalController extends GetxController {
       bankName: this.bankController.text,
       bic: this.swiftController.text,
     );
-    String transferId = result?.transferId;
-    Get.off(
-      ResultWithdrawalPage(success: !transferId.isNullOrBlank),
-      fullscreenDialog: true,
-    );
+    response.fold((error) => AppLog.logger.e(error.toProto3Json()), (result) {
+      String transferId = result?.transferId;
+      Get.off(
+        ResultWithdrawalPage(success: !transferId.isNullOrBlank),
+        fullscreenDialog: true,
+      );
+    });
     loading = false;
   }
 
@@ -214,13 +250,18 @@ class WithdrawalController extends GetxController {
   void checkSwiftCashoutFee() {
     if (this.swiftController.text.length >= 8) {
       String countryCode = this.swiftController.text.substring(4, 6);
-      WalletRepository.getSwiftCashoutFee(
-        assetId: this.selectedAsset.id,
-        countryCode: countryCode,
-      ).then((value) {
-        this.fee = double.tryParse(value?.size ?? '0.0') ?? 0.0;
-        update();
-      });
+      walletRepo
+          .getSwiftCashoutFee(
+            assetId: this.selectedAsset.id,
+            countryCode: countryCode,
+          )
+          .then((value) => value.fold(
+                (error) => AppLog.logger.e(error.toProto3Json()),
+                (result) {
+                  this.fee = double.tryParse(result?.size ?? '0.0') ?? 0.0;
+                  update();
+                },
+              ));
     }
   }
 

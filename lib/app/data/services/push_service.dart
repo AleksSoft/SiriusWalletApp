@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 
 class PushService extends GetxService {
-  final logger = AppLog.loggerNoStack;
+  final logger = AppLog.logger;
   final FirebaseMessaging fcm;
   final IPushRepository pushRepo;
   final ISessionRepository sessionRepo;
@@ -82,5 +82,5 @@ class PushService extends GetxService {
 }
 
 Future<void> _backgroundMessageHandler(Map<String, dynamic> message) async {
-  AppLog.loggerNoStack.i('FCM onBackgroundMessage:\n$message');
+  AppLog.logger.i('FCM onBackgroundMessage:\n$message');
 }

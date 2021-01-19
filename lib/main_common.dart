@@ -1,3 +1,4 @@
+import 'package:antares_wallet/app/data/services/api/api_service.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -22,6 +23,8 @@ Future<void> mainCommon(AppConfig appConfig) async {
 
   // init local storage
   await GetStorage.init();
+
+  final apiService = await ApiService().init(appConfig);
 
   // Initialize firebase services
   await Firebase.initializeApp();
@@ -51,7 +54,10 @@ Future<void> mainCommon(AppConfig appConfig) async {
         title: appConfig.appTitle,
         theme: AppThemes.light,
         themeMode: ThemeMode.system,
-        initialBinding: InitialBinding(appConfig),
+        initialBinding: InitialBinding(
+          appConfig: appConfig,
+          apiService: apiService,
+        ),
         navigatorObservers: [
           FirebaseAnalyticsObserver(analytics: FirebaseAnalytics()),
         ],

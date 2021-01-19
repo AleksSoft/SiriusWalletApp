@@ -1,9 +1,9 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
-import 'package:antares_wallet/app/data/repository/profile_repository.dart';
-import 'package:antares_wallet/app/data/repository/settings_repository.dart';
-import 'package:antares_wallet/app/data/repository/wallet_repository.dart';
+import 'package:antares_wallet/app/domain/repositories/profile_repository.dart';
+import 'package:antares_wallet/app/domain/repositories/settings_repository.dart';
+import 'package:antares_wallet/app/domain/repositories/wallet_repository.dart';
 import 'package:antares_wallet/app/presentation/modules/portfolio/assets/assets_controller.dart';
 import 'package:antares_wallet/app/presentation/modules/root/root_controller.dart';
 import 'package:antares_wallet/app/presentation/widgets/asset_list_tile.dart';
@@ -21,8 +21,18 @@ enum DepositMode { swift, card, blockchain }
 class DepositController extends GetxController {
   static DepositController get con => Get.find();
 
+  final IProfileRepository profileRepo;
+  final ISettingsRepository settingsRepo;
+  final IWalletRepository walletRepo;
   final AssetsController assetsCon;
-  DepositController({@required this.assetsCon});
+  final RootController rootCon;
+  DepositController({
+    @required this.profileRepo,
+    @required this.settingsRepo,
+    @required this.walletRepo,
+    @required this.assetsCon,
+    @required this.rootCon,
+  });
 
   var assetSwiftCreds = SwiftCredentialsResponse_Body();
   var depositCryptoAddress = CryptoDepositAddressResponse_Body();
@@ -70,54 +80,88 @@ class DepositController extends GetxController {
 
   Future<void> getSwiftCredentials() async {
     loading = true;
-    var result = await WalletRepository.getSwiftCredentials(
-      selectedAsset?.id,
+    final response = await walletRepo.getSwiftCredentials(
+      assetId: selectedAsset?.id,
     );
-    if (result == null) {
-      _showSnackbar('Error loading data', true);
-    } else {
-      assetSwiftCreds = result;
-    }
+
+    response.fold(
+      (error) => _showSnackbar('Error loading data', true),
+      (result) {
+        if (result == null) {
+          _showSnackbar('Error loading data', true);
+        } else {
+          assetSwiftCreds = result;
+        }
+      },
+    );
+
     loading = false;
   }
 
   Future<void> getCardsFee() async {
     loading = true;
-    var settings = await SettingsRepository.getAppSettings();
-    fee = settings?.feeSettings?.bankCardsFeeSizePercentage ?? 0.0;
+
+    final response = await settingsRepo.getAppSettings();
+    response.fold(
+      (error) {},
+      (appSettings) {
+        fee = appSettings?.feeSettings?.bankCardsFeeSizePercentage ?? 0.0;
+      },
+    );
+
     loading = false;
   }
 
   Future<void> getCryptoDepositAddress() async {
     loading = true;
-    if (await tierValid()) {
-      depositCryptoAddress = await WalletRepository.getCryptoDepositAddress(
-        selectedAsset?.id,
+    final isTierValid = await tierValid();
+    if (isTierValid) {
+      final response = await walletRepo.getCryptoDepositAddress(
+        assetId: selectedAsset?.id,
       );
-      Get.defaultDialog(
-        title: 'Attention!',
-        middleText:
-            'Please make sure that destination address and the tag are correct. If details are incorrect, funds will be lost.',
-        buttonColor: AppColors.dark,
-        confirmTextColor: AppColors.primary,
-        onConfirm: () => Get.back(),
+
+      response.fold(
+        (error) {},
+        (result) {
+          depositCryptoAddress = result;
+          Get.defaultDialog(
+            title: 'Attention!',
+            middleText:
+                'Please make sure that destination address and the tag are correct. If details are incorrect, funds will be lost.',
+            buttonColor: AppColors.dark,
+            confirmTextColor: AppColors.primary,
+            onConfirm: () => Get.back(),
+          );
+          loading = false;
+        },
       );
     } else {
-      RootController.con.pageIndexObs.value = 4;
+      rootCon.pageIndexObs.value = 4;
       Get.offNamed(Routes.UPGRADE_ACC_MAIN);
+      loading = false;
     }
-    loading = false;
   }
 
   Future<bool> tierValid() async {
-    var tierObj = await ProfileRepository.getTierInfo();
-    return !tierObj.currentTier.tier.isNullOrBlank &&
-        tierObj.currentTier.tier != 'Beginner';
+    final response = await profileRepo.getTierInfo();
+
+    bool isTierValid;
+    response.fold(
+      (error) {
+        isTierValid = false;
+      },
+      (tierPayload) {
+        isTierValid = !tierPayload.currentTier.tier.isNullOrBlank &&
+            tierPayload.currentTier.tier != 'Beginner';
+      },
+    );
+
+    return isTierValid;
   }
 
   Future<void> sendBankTransferRequest() async {
     loading = true;
-    final response = await WalletRepository.sendBankTransferRequest(
+    final response = await walletRepo.sendBankTransferRequest(
       assetId: selectedAsset?.id,
       balanceChange: double.tryParse(amountValue ?? '0') ?? 0.0,
     );
@@ -130,15 +174,15 @@ class DepositController extends GetxController {
   }
 
   Future<void> proceedCardDeposit() async {
-    var cardPaymentUrl = await WalletRepository.getBankCardPaymentUrl(
+    var response = await walletRepo.getBankCardPaymentUrl(
       amount: amountValue,
       assetId: selectedAsset.id,
     );
-    if (cardPaymentUrl != null) {
-      Get.off(CardDepositWebPage(cardPaymentUrl?.url));
-    } else {
-      _showSnackbar('Failure performing request', true);
-    }
+
+    response.fold(
+      (error) => _showSnackbar('Failure performing request', true),
+      (result) => Get.off(CardDepositWebPage(result?.url)),
+    );
   }
 
   void search() => showSearch(

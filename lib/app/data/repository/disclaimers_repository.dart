@@ -1,42 +1,44 @@
-import 'package:antares_wallet/app/core/utils/utils.dart';
+import 'package:antares_wallet/app/data/data_sources/disclaimers_data_source.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
-import 'package:antares_wallet/app/data/grpc/google/protobuf/empty.pb.dart';
-import 'package:antares_wallet/app/data/services/api/api_service.dart';
+import 'package:antares_wallet/app/data/grpc/common.pb.dart';
+import 'package:antares_wallet/app/domain/repositories/disclaimers_repository.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
 
-class DisclaimersRepository {
-  static final _api = Get.find<ApiService>();
+class DisclaimersRepository implements IDisclaimersRepository {
+  DisclaimersRepository({@required this.source});
+  final IDisclaimersDataSource source;
 
-  static Future<List<AssetDisclaimer>> getAssetDisclaimers() async {
-    final response = await ErrorHandler.safeCall<AssetDisclaimersResponse>(
-      () => _api.clientSecure.getAssetDisclaimers(Empty()),
-      method: 'getAssetDisclaimers',
-    );
-    return response?.body?.disclaimers ?? [];
+  @override
+  Future<Either<ErrorResponseBody, List<AssetDisclaimer>>>
+      getAssetDisclaimers() async {
+    final response = await source.getAssetDisclaimers();
+
+    if (response == null) return Right([]);
+    return response.hasError()
+        ? Left(response.error)
+        : Right(response?.body?.disclaimers ?? []);
   }
 
-  static Future<bool> approveAssetDisclaimer({
+  @override
+  Future<Either<ErrorResponseBody, bool>> approveAssetDisclaimer({
     @required String disclaimerId,
   }) async {
-    final response = await ErrorHandler.safeCall<EmptyResponse>(
-      () => _api.clientSecure.approveAssetDisclaimer(
-        AssetDisclaimerRequest()..disclaimerId = disclaimerId,
-      ),
-      method: 'approveAssetDisclaimer',
-    );
-    return response != null;
+    final request = AssetDisclaimerRequest()..disclaimerId = disclaimerId;
+    final response = await source.approveAssetDisclaimer(request);
+
+    if (response == null) return Right(false);
+    return response.hasError() ? Left(response.error) : Right(true);
   }
 
-  static Future<bool> declineAssetDisclaimer({
+  @override
+  Future<Either<ErrorResponseBody, bool>> declineAssetDisclaimer({
     @required String disclaimerId,
   }) async {
-    final response = await ErrorHandler.safeCall<EmptyResponse>(
-      () => _api.clientSecure.declineAssetDisclaimer(
-        AssetDisclaimerRequest()..disclaimerId = disclaimerId,
-      ),
-      method: 'declineAssetDisclaimer',
-    );
-    return response != null;
+    final request = AssetDisclaimerRequest()..disclaimerId = disclaimerId;
+    final response = await source.declineAssetDisclaimer(request);
+
+    if (response == null) return Right(false);
+    return response.hasError() ? Left(response.error) : Right(true);
   }
 }

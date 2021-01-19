@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
-import 'package:antares_wallet/app/data/repository/trading_repository.dart';
 import 'package:antares_wallet/app/data/services/api/api_service.dart';
 import 'package:antares_wallet/app/domain/entities/market_model.dart';
 import 'package:antares_wallet/app/domain/entities/order_details_arguments.dart';
+import 'package:antares_wallet/app/domain/repositories/trading_repository.dart';
 import 'package:antares_wallet/app/presentation/modules/markets/markets_controller.dart';
 import 'package:antares_wallet/app/presentation/modules/orders/orders_controller.dart';
 import 'package:antares_wallet/app/presentation/modules/portfolio/portfolio_controller.dart';
@@ -20,10 +20,18 @@ class OrderDetailsController extends GetxController {
 
   static final orderTypes = ['Limit', 'Market'];
 
+  final ITradingRepository tradingRepo;
   final ApiService apiService;
-  OrderDetailsController({@required this.apiService});
-
-  final _portfolioCon = PortfolioController.con;
+  final PortfolioController portfolioCon;
+  final MarketsController marketsCon;
+  final OrdersController ordersCon;
+  OrderDetailsController({
+    @required this.tradingRepo,
+    @required this.apiService,
+    @required this.portfolioCon,
+    @required this.marketsCon,
+    @required this.ordersCon,
+  });
 
   StreamSubscription _orderbookSubscr;
 
@@ -111,9 +119,9 @@ class OrderDetailsController extends GetxController {
       '${marketModel.pairBaseAsset.displayId}/${marketModel.pairQuotingAsset.displayId}';
 
   String get baseBalance =>
-      _portfolioCon.assetBalance(marketModel.pairBaseAsset.id)?.available;
+      portfolioCon.assetBalance(marketModel.pairBaseAsset.id)?.available;
   String get quotingBalance =>
-      _portfolioCon.assetBalance(marketModel.pairQuotingAsset.id)?.available;
+      portfolioCon.assetBalance(marketModel.pairQuotingAsset.id)?.available;
 
   double get defaultHeight => _defaultHeight;
   int get orderbookItemsCount =>
@@ -148,7 +156,7 @@ class OrderDetailsController extends GetxController {
   }
 
   Future<void> updateWithPairId(String pairId) async {
-    marketModel = MarketsController.con.marketModelByPairId(pairId);
+    marketModel = marketsCon.marketModelByPairId(pairId);
 
     if (isEdit) {
       final arguments = Get.arguments as OrderDetailsArguments;
@@ -160,7 +168,7 @@ class OrderDetailsController extends GetxController {
     }
 
     // load balances
-    await _portfolioCon.getBalances();
+    await portfolioCon.getBalances();
 
     // subscribe to orderbook stream
     await _orderbookSubscr?.cancel();
@@ -359,24 +367,26 @@ class OrderDetailsController extends GetxController {
 
     if (placeOrderAllowed) {
       // place order
-      OrderModel response;
+      OrderModel orderModel;
       if (orderType.toLowerCase() == 'limit') {
-        response = await TradingRepository.placeLimitOrder(
+        final response = await tradingRepo.placeLimitOrder(
           assetPairId: assetPairId,
           assetId: assetId,
           volume: isBuy ? volume : volume * -1,
           price: price,
         );
+        response.fold((error) {}, (result) => orderModel = result);
       } else if (orderType.toLowerCase() == 'market') {
-        response = await TradingRepository.placeMarketOrder(
+        final response = await tradingRepo.placeMarketOrder(
           assetPairId: assetPairId,
           assetId: assetId,
           volume: isBuy ? volume : volume * -1,
         );
+        response.fold((error) {}, (result) => orderModel = result);
       }
 
       // check place order response
-      if (response == null) {
+      if (orderModel == null) {
         Get.snackbar(
           'Order failed',
           'Something went wrong',
@@ -388,7 +398,7 @@ class OrderDetailsController extends GetxController {
         Get.snackbar('Success!', 'Order placed');
         Future.delayed(
           Duration(milliseconds: 500),
-          () => OrdersController.con.getOrders(silent: false),
+          () => ordersCon.getOrders(silent: false),
         );
       }
     }
@@ -400,7 +410,7 @@ class OrderDetailsController extends GetxController {
     double volume,
     double price,
   ) async {
-    final response = await TradingRepository.editOrder(
+    final response = await tradingRepo.editOrder(
       orderId: _orderId,
       assetPairId: assetPairId,
       assetId: assetId,
@@ -420,7 +430,7 @@ class OrderDetailsController extends GetxController {
       Get.snackbar('Success!', 'Order edited');
       Future.delayed(
         Duration(milliseconds: 500),
-        () => OrdersController.con.getOrders(silent: false),
+        () => ordersCon.getOrders(silent: false),
       );
     }
   }

@@ -15,25 +15,19 @@ import 'package:antares_wallet/app/presentation/modules/splash/splash_controller
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:logger/logger.dart';
+import 'package:meta/meta.dart';
 
 import 'app/data/repository/push_repository.dart';
 
 class InitialBinding extends Bindings {
   final AppConfig appConfig;
-  InitialBinding(this.appConfig);
+  final ApiService apiService;
+  InitialBinding({@required this.appConfig, @required this.apiService});
 
   @override
-  void dependencies() async {
+  void dependencies() {
     /// common +
-    Get.lazyPut<Logger>(
-      () => Logger(printer: PrettyPrinter()),
-      fenix: true,
-    );
-    await Get.putAsync<ApiService>(
-      () => ApiService().init(appConfig),
-      permanent: true,
-    );
+    Get.put<ApiService>(apiService);
     Get.lazyPut<AppConfig>(
       () => appConfig,
       fenix: true,

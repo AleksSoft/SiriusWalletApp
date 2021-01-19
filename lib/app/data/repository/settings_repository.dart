@@ -1,17 +1,21 @@
-import 'package:antares_wallet/app/core/utils/utils.dart';
+import 'package:antares_wallet/app/data/data_sources/settings_data_source.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
-import 'package:antares_wallet/app/data/grpc/google/protobuf/empty.pb.dart';
-import 'package:antares_wallet/app/data/services/api/api_service.dart';
-import 'package:get/get.dart';
+import 'package:antares_wallet/app/data/grpc/common.pb.dart';
+import 'package:antares_wallet/app/domain/repositories/settings_repository.dart';
+import 'package:dartz/dartz.dart';
+import 'package:meta/meta.dart';
 
-class SettingsRepository {
-  static final _api = Get.find<ApiService>();
+class SettingsRepository implements ISettingsRepository {
+  SettingsRepository({@required this.source});
+  final ISettingsDataSource source;
 
-  static Future<AppSettingsResponse_Body> getAppSettings() async {
-    final response = await ErrorHandler.safeCall<AppSettingsResponse>(
-      () => _api.clientSecure.getAppSettings(Empty()),
-      method: 'getAppSettings',
-    );
-    return response?.body ?? AppSettingsResponse_Body();
+  Future<Either<ErrorResponseBody, AppSettingsResponse_Body>>
+      getAppSettings() async {
+    final response = await source.getAppSettings();
+
+    if (response == null) return Right(AppSettingsResponse_Body());
+    return response.hasError()
+        ? Left(response.error)
+        : Right(response?.body ?? AppSettingsResponse_Body());
   }
 }

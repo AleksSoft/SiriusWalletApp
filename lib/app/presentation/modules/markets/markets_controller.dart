@@ -2,29 +2,30 @@ import 'dart:async';
 
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
-import 'package:antares_wallet/app/data/repository/markets_repository.dart';
-import 'package:antares_wallet/app/data/repository/watchists_repository.dart';
 import 'package:antares_wallet/app/data/services/api/api_service.dart';
 import 'package:antares_wallet/app/domain/entities/market_model.dart';
+import 'package:antares_wallet/app/domain/repositories/markets_repository.dart';
+import 'package:antares_wallet/app/domain/repositories/watchlist_repository.dart';
 import 'package:antares_wallet/app/presentation/modules/portfolio/assets/assets_controller.dart';
 import 'package:antares_wallet/app/presentation/widgets/asset_pair_tile.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:search_page/search_page.dart';
 
 class MarketsController extends GetxController {
   static MarketsController get con => Get.find();
 
   final ApiService api;
-  final GetStorage storage;
   final AssetsController assetsCon;
+  final IMarketsRepository marketsRepo;
+  final IWatchlistRepository watchlistRepo;
   MarketsController({
     @required this.api,
-    @required this.storage,
     @required this.assetsCon,
+    @required this.marketsRepo,
+    @required this.watchlistRepo,
   });
 
   final List<MarketModel> initialMarketList = <MarketModel>[];
@@ -112,49 +113,56 @@ class MarketsController extends GetxController {
             : end,
       );
 
-  Future<List<MarketsResponse_MarketModel>> getMarkets(
-          {String assetPairId}) async =>
-      await MarketsRepository.getMarkets(assetPairId: assetPairId);
-
   Future<void> rebuildWatchedMarkets() async {
-    String id = storage.read(AppStorageKeys.watchlistId);
+    String id = watchlistRepo.getWatchlistId();
     await _initMarketsListIfNeeded(force: true);
     if (!id.isNullOrBlank) {
-      List<MarketModel> result = [];
-      var watchlist = await WatchlistsRepository.getWatchlist(id);
-      if (watchlist != null) {
-        watchlist.assetIds.forEach((id) {
-          var market = initialMarketList.firstWhere(
-            (m) => m.pairId == id,
-            orElse: () => null,
-          );
-          if (market != null) {
-            result.add(market);
+      final response = await watchlistRepo.getWatchlist(id: id);
+      response.fold(
+        (error) {},
+        (watchlist) {
+          List<MarketModel> result = [];
+          if (watchlist != null) {
+            watchlist.assetIds.forEach((id) {
+              var market = initialMarketList.firstWhere(
+                (m) => m.pairId == id,
+                orElse: () => null,
+              );
+              if (market != null) {
+                result.add(market);
+              }
+            });
           }
-        });
-      }
-      _watchedMarkets = result;
+          _watchedMarkets = result;
+        },
+      );
     } else {
       _watchedMarkets = initialMarketList;
     }
     update();
   }
 
-  _initMarketsListIfNeeded({bool force = false}) async {
+  Future<void> _initMarketsListIfNeeded({bool force = false}) async {
     if (initialMarketList.isEmpty || force) {
-      (await getMarkets()).forEach((m) async {
-        var pair = assetsCon.assetPairById(m.assetPair);
-        // check if nothing is null
-        if (pair != null) {
-          var pairBaseAsset = assetsCon.assetById(pair.baseAssetId);
-          var pairQuotingAsset = assetsCon.assetById(pair.quotingAssetId);
-          if (pairBaseAsset != null && pairQuotingAsset != null) {
-            initialMarketList.add(
-              _buildMarketModel(m, pair, pairBaseAsset, pairQuotingAsset),
-            );
-          }
-        }
-      });
+      final response = await marketsRepo.getMarkets();
+      response.fold(
+        (error) {},
+        (markets) => markets.forEach(
+          (m) async {
+            var pair = assetsCon.assetPairById(m.assetPair);
+            // check if nothing is null
+            if (pair != null) {
+              var pairBaseAsset = assetsCon.assetById(pair.baseAssetId);
+              var pairQuotingAsset = assetsCon.assetById(pair.quotingAssetId);
+              if (pairBaseAsset != null && pairQuotingAsset != null) {
+                initialMarketList.add(
+                  _buildMarketModel(m, pair, pairBaseAsset, pairQuotingAsset),
+                );
+              }
+            }
+          },
+        ),
+      );
     }
   }
 

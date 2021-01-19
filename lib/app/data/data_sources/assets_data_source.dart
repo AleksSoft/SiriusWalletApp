@@ -1,4 +1,4 @@
-import 'package:antares_wallet/app/core/utils/utils.dart';
+import 'package:antares_wallet/app/core/error/error_handler.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/google/protobuf/empty.pb.dart';
 import 'package:antares_wallet/app/data/services/api/api_service.dart';
@@ -12,27 +12,24 @@ abstract class IAssetsDataSource {
   Future<AmountInBaseAssetResponse> getAmountInBaseAsset(String baseAssetId);
 }
 
-class AssetsDataSource implements IAssetsDataSource {
-  const AssetsDataSource({@required this.api});
+class AssetsDataSource with ErrorHandler implements IAssetsDataSource {
+  AssetsDataSource({@required this.api});
   final ApiService api;
 
   @override
-  Future<AssetsDictionaryResponse> assetsDictionary() =>
-      ErrorHandler.safeCall<AssetsDictionaryResponse>(
+  Future<AssetsDictionaryResponse> assetsDictionary() => safeCall(
         () => api.clientSecure.assetsDictionary(Empty()),
         method: 'assetsDictionary',
       );
 
   @override
-  Future<BaseAssetResponse> getBaseAsset() =>
-      ErrorHandler.safeCall<BaseAssetResponse>(
+  Future<BaseAssetResponse> getBaseAsset() => safeCall(
         () => api.clientSecure.getBaseAsset(Empty()),
         method: 'getBaseAsset',
       );
 
   @override
-  Future<EmptyResponse> setBaseAsset(String id) =>
-      ErrorHandler.safeCall<EmptyResponse>(
+  Future<EmptyResponse> setBaseAsset(String id) => safeCall(
         () => api.clientSecure.setBaseAsset(
           BaseAssetUpdateRequest()..baseAssetId = id,
         ),
@@ -40,15 +37,14 @@ class AssetsDataSource implements IAssetsDataSource {
       );
 
   @override
-  Future<AssetPairsResponse> getAssetPairs() =>
-      ErrorHandler.safeCall<AssetPairsResponse>(
+  Future<AssetPairsResponse> getAssetPairs() => safeCall(
         () => api.clientSecure.getAssetPairs(Empty()),
         method: 'getAssetPairs',
       );
 
   @override
   Future<AmountInBaseAssetResponse> getAmountInBaseAsset(String baseAssetId) =>
-      ErrorHandler.safeCall<AmountInBaseAssetResponse>(
+      safeCall(
         () => api.clientSecure.getAmountInBaseAsset(
           AmountInBaseRequest.create()..assetId = baseAssetId,
         ),

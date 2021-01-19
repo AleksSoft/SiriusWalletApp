@@ -1,14 +1,18 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
-import 'package:antares_wallet/app/data/repository/profile_repository.dart';
+import 'package:antares_wallet/app/domain/repositories/profile_repository.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:get/get.dart';
+import 'package:meta/meta.dart';
 
 class ProfileController extends GetxController {
   static ProfileController get con => Get.find();
 
   static final kycDocType = ['PoI', 'Selfie', 'PoA', 'PoF', 'Questions'];
+
+  final IProfileRepository profileRepo;
+  ProfileController({@required this.profileRepo});
 
   final _personalData = PersonalData().obs;
   PersonalData get personalData => this._personalData.value;
@@ -41,40 +45,63 @@ class ProfileController extends GetxController {
   }
 
   Future<void> reloadData() async {
-    personalData = await ProfileRepository.getPersonalData();
-    tierInfo = await ProfileRepository.getTierInfo();
-    documentsMap.addAll(await ProfileRepository.getKycDocuments());
+    final personalDataResponse = await profileRepo.getPersonalData();
+    personalDataResponse.fold((error) {}, (result) {
+      personalData = result;
+      AppLog.logger.i('PersonalData: ${personalData.toProto3Json()}');
+    });
 
-    AppLog.loggerNoStack.d('TierInfo: ${tierInfo.toProto3Json()}');
-    AppLog.loggerNoStack.d('PersonalData: ${personalData.toProto3Json()}');
-    AppLog.loggerNoStack.d('DocumentsMap: ${documentsMap.toString()}');
+    final tierResponse = await profileRepo.getTierInfo();
+    tierResponse.fold((error) {}, (result) {
+      tierInfo = result;
+      AppLog.logger.i('TierInfo: ${tierInfo.toProto3Json()}');
+    });
+
+    final documentsResponse = await profileRepo.getKycDocuments();
+    documentsResponse.fold((error) {}, (result) {
+      documentsMap.assignAll(result);
+      AppLog.logger.i('DocumentsMap: ${documentsMap.toString()}');
+    });
   }
 
-  Future<void> saveQuestionnaire(List<AnswersRequest_Choice> answers) async {
-    if (await ProfileRepository.saveQuestionnaire(answers: answers)) {
-      await reloadData();
-      Get.offAndToNamed(Routes.UPGRADE_ACC_RESULT);
-    }
-  }
+  void saveQuestionnaire(List<AnswersRequest_Choice> answers) => profileRepo
+      .saveQuestionnaire(answers: answers)
+      .then((response) => response.fold(
+            (error) {},
+            (result) async {
+              await reloadData();
+              Get.offAndToNamed(Routes.UPGRADE_ACC_RESULT);
+            },
+          ));
 
   Future<void> submitProfile() async {
     TierUpgrade tier = tierInfo.nextTier.tier.toLowerCase() == 'advanced'
         ? TierUpgrade.Advanced
         : TierUpgrade.ProIndividual;
-    if (await ProfileRepository.submitProfile(tier: tier)) {
-      await reloadData();
-      Get.back();
-    }
+    final response = await profileRepo.submitProfile(tier: tier);
+    response.fold(
+      (error) => Get.rawSnackbar(
+        title: error.code.toString(),
+        message: error.message,
+        backgroundColor: AppColors.red,
+      ),
+      (result) async {
+        if (result) {
+          await reloadData();
+          Get.back();
+        }
+      },
+    );
   }
 
   Future<void> submitAddress() async {
     if (validateAddress(addressValue) == null &&
         validateAddress(apartmentValue) == null &&
         validateAddress(zipCodeValue) == null) {
-      await ProfileRepository.setAddress(
+      await profileRepo.setAddress(
         address: '$addressValue $apartmentValue',
       );
-      await ProfileRepository.setZip(zip: zipCodeValue);
+      await profileRepo.setZip(zip: zipCodeValue);
       await reloadData();
       openNextUpgradePage();
     } else {
@@ -109,21 +136,30 @@ class ProfileController extends GetxController {
       default:
         break;
     }
-    final bool result = await ProfileRepository.uploadKycFile(
+    final response = await profileRepo.uploadKycFile(
       documentType: documentType,
       filename: 'photo',
       file: fileIntList,
     );
-    if (result) {
-      await reloadData();
-      openNextUpgradePage();
-    } else {
-      Get.rawSnackbar(
-        title: '',
-        message: 'Something went wrong!',
+    response.fold(
+      (error) => Get.rawSnackbar(
+        title: error.code.toString(),
+        message: error.message,
         backgroundColor: AppColors.red,
-      );
-    }
+      ),
+      (result) async {
+        if (result) {
+          await reloadData();
+          openNextUpgradePage();
+        } else {
+          Get.rawSnackbar(
+            title: '',
+            message: 'Something went wrong!',
+            backgroundColor: AppColors.red,
+          );
+        }
+      },
+    );
   }
 
   openNextUpgradePage({bool fromMain = false}) {

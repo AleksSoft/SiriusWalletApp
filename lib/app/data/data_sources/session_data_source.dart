@@ -1,3 +1,4 @@
+import 'package:antares_wallet/app/core/error/error_handler.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/google/protobuf/empty.pb.dart';
 import 'package:antares_wallet/app/data/services/api/api_service.dart';
@@ -23,60 +24,92 @@ abstract class ISessionDataSource {
   Future<VerifyResponse> verifyPhone(VerifyPhoneRequest r);
 }
 
-class SessionDataSource implements ISessionDataSource {
+class SessionDataSource with ErrorHandler implements ISessionDataSource {
   SessionDataSource({@required this.api});
   final ApiService api;
 
   @override
-  Future<CheckPinResponse> checkPin(CheckPinRequest r) =>
-      api.client.checkPin(r);
+  Future<CheckPinResponse> checkPin(CheckPinRequest r) => safeCall(
+        () => api.client.checkPin(r),
+        method: 'checkPin',
+      );
 
   @override
-  Future<CountryPhoneCodesResponse> getCountryPhoneCodes() =>
-      api.client.getCountryPhoneCodes(Empty());
+  Future<CountryPhoneCodesResponse> getCountryPhoneCodes() => safeCall(
+        () => api.client.getCountryPhoneCodes(Empty()),
+        method: 'getCountryPhoneCodes',
+      );
 
   @override
   Future<CheckSessionResponse> isSessionExpired(CheckSessionRequest r) =>
-      api.client.isSessionExpired(r);
+      safeCall(
+        () => api.client.isSessionExpired(r),
+        method: 'isSessionExpired',
+      );
 
   @override
-  Future<EmptyResponse> prolongateSession() =>
-      api.clientSecure.prolongateSession(Empty());
+  Future<EmptyResponse> prolongateSession() => safeCall(
+        () => api.clientSecure.prolongateSession(Empty()),
+        method: 'prolongateSession',
+      );
 
   @override
-  Future<LoginResponse> login(LoginRequest r) => api.client.login(r);
+  Future<LoginResponse> login(LoginRequest r) => safeCall(
+        () => api.client.login(r),
+        method: 'login',
+      );
 
   @override
-  Future<EmptyResponse> sendLoginSms(LoginSmsRequest r) =>
-      api.client.sendLoginSms(r);
+  Future<EmptyResponse> sendLoginSms(LoginSmsRequest r) => safeCall(
+        () => api.client.sendLoginSms(r),
+        method: 'sendLoginSms',
+      );
 
   @override
   Future<VerifyLoginSmsResponse> verifyLoginSms(VerifyLoginSmsRequest r) =>
-      api.client.verifyLoginSms(r);
+      safeCall(
+        () => api.client.verifyLoginSms(r),
+        method: 'verifyLoginSms',
+      );
 
   @override
-  Future<EmptyResponse> logout() => api.clientSecure.logout(Empty());
+  Future<EmptyResponse> logout() => safeCall(
+        () => api.clientSecure.logout(Empty()),
+        method: 'logout',
+      );
 
   @override
-  Future<RegisterResponse> register(RegisterRequest r) =>
-      api.client.register(r);
+  Future<RegisterResponse> register(RegisterRequest r) => safeCall(
+        () => api.client.register(r),
+        method: 'register',
+      );
 
   @override
   Future<VerificationEmailResponse> sendVerificationEmail(
           VerificationEmailRequest r) =>
-      api.client.sendVerificationEmail(r);
+      safeCall(
+        () => api.client.sendVerificationEmail(r),
+        method: 'sendVerificationEmail',
+      );
 
   @override
   Future<EmptyResponse> sendVerificationSms(VerificationSmsRequest r) =>
-      api.client.sendVerificationSms(r);
+      safeCall(
+        () => api.client.sendVerificationSms(r),
+        method: 'sendVerificationSms',
+      );
 
   @override
-  Future<VerifyResponse> verifyEmail(VerifyEmailRequest r) =>
-      api.client.verifyEmail(r);
+  Future<VerifyResponse> verifyEmail(VerifyEmailRequest r) => safeCall(
+        () => api.client.verifyEmail(r),
+        method: 'verifyEmail',
+      );
 
   @override
-  Future<VerifyResponse> verifyPhone(VerifyPhoneRequest r) =>
-      api.client.verifyPhone(r);
+  Future<VerifyResponse> verifyPhone(VerifyPhoneRequest r) => safeCall(
+        () => api.client.verifyPhone(r),
+        method: 'verifyPhone',
+      );
 
   @override
   Future<void> updateApiSession({String url}) => api.update(url: url);

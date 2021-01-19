@@ -5,6 +5,6 @@ import 'login_controller.dart';
 class LoginBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put(LoginController(repository: Get.find()));
+    Get.put(LoginController(sessionRepo: Get.find()));
   }
 }

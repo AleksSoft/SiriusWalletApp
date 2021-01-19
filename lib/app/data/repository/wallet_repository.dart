@@ -1,146 +1,154 @@
-import 'package:antares_wallet/app/core/utils/utils.dart';
+import 'package:antares_wallet/app/data/data_sources/wallet_data_source.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
-import 'package:antares_wallet/app/data/grpc/google/protobuf/empty.pb.dart';
-import 'package:antares_wallet/app/data/services/api/api_service.dart';
+import 'package:antares_wallet/app/data/grpc/common.pb.dart';
+import 'package:antares_wallet/app/domain/repositories/wallet_repository.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
 
-class WalletRepository {
-  static final _api = Get.find<ApiService>();
+class WalletRepository implements IWalletRepository {
+  WalletRepository({@required this.source});
+  final IWalletDataSource source;
 
-  static Future<bool> isCryptoAddressValid({
+  @override
+  Future<Either<ErrorResponseBody, bool>> isCryptoAddressValid({
     @required String assetId,
     String address,
     String addressExtension,
   }) async {
-    final response = await ErrorHandler.safeCall<CheckCryptoAddressResponse>(
-      () => _api.clientSecure.isCryptoAddressValid(
-        CheckCryptoAddressRequest()
-          ..assetId = assetId
-          ..address = address ?? ''
-          ..addressExtension = addressExtension ?? '',
-      ),
-      method: 'isCryptoAddressValid',
-    );
-    return response?.body?.isValid ?? false;
+    final request = CheckCryptoAddressRequest()
+      ..assetId = assetId
+      ..address = address ?? ''
+      ..addressExtension = addressExtension ?? '';
+
+    final response = await source.isCryptoAddressValid(request);
+
+    if (response == null) return Right(false);
+    return response.hasError()
+        ? Left(response.error)
+        : Right(response?.body?.isValid ?? false);
   }
 
-  static Future<SwiftCredentialsResponse_Body> getSwiftCredentials(
-      String assetId) async {
-    final response = await ErrorHandler.safeCall<SwiftCredentialsResponse>(
-      () => _api.clientSecure.getSwiftCredentials(
-        SwiftCredentialsRequest()..assetId = assetId,
-      ),
-      method: 'getSwiftCredentials',
-    );
-    return response?.body;
+  Future<Either<ErrorResponseBody, SwiftCredentialsResponse_Body>>
+      getSwiftCredentials({@required String assetId}) async {
+    final request = SwiftCredentialsRequest()..assetId = assetId;
+
+    final response = await source.getSwiftCredentials(request);
+
+    if (response == null) return Right(null);
+    return response.hasError() ? Left(response.error) : Right(response?.body);
   }
 
-  static Future<SwiftCashoutInfoResponse_Body> getSwiftCashoutInfo() async {
-    final response = await ErrorHandler.safeCall<SwiftCashoutInfoResponse>(
-      () => _api.clientSecure.getSwiftCashoutInfo(Empty()),
-      method: 'getSwiftCashoutInfo',
-    );
-    return response?.body ?? SwiftCashoutInfoResponse_Body();
+  Future<Either<ErrorResponseBody, SwiftCashoutInfoResponse_Body>>
+      getSwiftCashoutInfo() async {
+    final response = await source.getSwiftCashoutInfo();
+
+    if (response == null) return Right(SwiftCashoutInfoResponse_Body());
+    return response.hasError()
+        ? Left(response.error)
+        : Right(response?.body ?? SwiftCashoutInfoResponse_Body());
   }
 
-  static Future<SwiftCashoutFeeResponse_Body> getSwiftCashoutFee({
+  Future<Either<ErrorResponseBody, SwiftCashoutFeeResponse_Body>>
+      getSwiftCashoutFee({
     @required String assetId,
     @required String countryCode,
   }) async {
-    final response = await ErrorHandler.safeCall<SwiftCashoutFeeResponse>(
-      () => _api.clientSecure.getSwiftCashoutFee(
-        SwiftCashoutFeeRequest()
-          ..assetId = assetId
-          ..countryCode = countryCode,
-      ),
-      method: 'getSwiftCashoutFee',
-    );
-    return response?.body ?? SwiftCashoutFeeResponse_Body();
+    final request = SwiftCashoutFeeRequest()
+      ..assetId = assetId
+      ..countryCode = countryCode;
+
+    final response = await source.getSwiftCashoutFee(request);
+
+    if (response == null) return Right(SwiftCashoutFeeResponse_Body());
+    return response.hasError()
+        ? Left(response.error)
+        : Right(response?.body ?? SwiftCashoutFeeResponse_Body());
   }
 
-  static Future<BankCardPaymentDetailsResponse_Body>
+  Future<Either<ErrorResponseBody, BankCardPaymentDetailsResponse_Body>>
       getBankCardPaymentDetails() async {
-    final response =
-        await ErrorHandler.safeCall<BankCardPaymentDetailsResponse>(
-      () => _api.clientSecure.getBankCardPaymentDetails(Empty()),
-      method: 'getBankCardPaymentDetails',
-    );
-    return response?.body ?? BankCardPaymentDetailsResponse_Body();
+    final response = await source.getBankCardPaymentDetails();
+
+    if (response == null) return Right(BankCardPaymentDetailsResponse_Body());
+    return response.hasError()
+        ? Left(response.error)
+        : Right(response?.body ?? BankCardPaymentDetailsResponse_Body());
   }
 
-  static Future<CryptoDepositAddressResponse_Body> getCryptoDepositAddress(
-      String assetId) async {
-    final response = await ErrorHandler.safeCall<CryptoDepositAddressResponse>(
-      () => _api.clientSecure.getCryptoDepositAddress(
-        CryptoDepositAddressRequest()..assetId = assetId,
-      ),
-      method: 'getCryptoDepositAddress',
-    );
-    return response?.body ?? CryptoDepositAddressResponse_Body();
+  Future<Either<ErrorResponseBody, CryptoDepositAddressResponse_Body>>
+      getCryptoDepositAddress({@required String assetId}) async {
+    final request = CryptoDepositAddressRequest()..assetId = assetId;
+
+    final response = await source.getCryptoDepositAddress(request);
+
+    if (response == null) return Right(CryptoDepositAddressResponse_Body());
+    return response.hasError()
+        ? Left(response.error)
+        : Right(response?.body ?? CryptoDepositAddressResponse_Body());
   }
 
-  static Future<WithdrawalCryptoInfoResponse_Body> getWithdrawalCryptoInfo(
-      String assetId) async {
-    final response = await ErrorHandler.safeCall<WithdrawalCryptoInfoResponse>(
-      () => _api.clientSecure.getWithdrawalCryptoInfo(
-        WithdrawalCryptoInfoRequest()..assetId = assetId,
-      ),
-      method: 'getWithdrawalCryptoInfo',
-    );
-    return response?.body ?? WithdrawalCryptoInfoResponse_Body();
+  Future<Either<ErrorResponseBody, WithdrawalCryptoInfoResponse_Body>>
+      getWithdrawalCryptoInfo({@required String assetId}) async {
+    final request = WithdrawalCryptoInfoRequest()..assetId = assetId;
+
+    final response = await source.getWithdrawalCryptoInfo(request);
+
+    if (response == null) return Right(WithdrawalCryptoInfoResponse_Body());
+    return response.hasError()
+        ? Left(response.error)
+        : Right(response?.body ?? WithdrawalCryptoInfoResponse_Body());
   }
 
-  static Future<bool> sendBankTransferRequest({
+  Future<Either<ErrorResponseBody, bool>> sendBankTransferRequest({
     @required String assetId,
     @required double balanceChange,
   }) async {
-    final response = await ErrorHandler.safeCall<EmptyResponse>(
-      () => _api.clientSecure.sendBankTransferRequest(
-        BankTransferRequest()
-          ..assetId = assetId
-          ..balanceChange = balanceChange,
-      ),
-      method: 'sendBankTransferRequest',
-    );
-    return response != null;
+    final request = BankTransferRequest()
+      ..assetId = assetId
+      ..balanceChange = balanceChange;
+
+    final response = await source.sendBankTransferRequest(request);
+
+    if (response == null) return Right(false);
+    return response.hasError() ? Left(response.error) : Right(true);
   }
 
-  static Future<BankCardPaymentUrlResponse_Body> getBankCardPaymentUrl({
+  Future<Either<ErrorResponseBody, BankCardPaymentUrlResponse_Body>>
+      getBankCardPaymentUrl({
     @required String amount,
     @required String assetId,
   }) async {
-    final response = await ErrorHandler.safeCall<BankCardPaymentUrlResponse>(
-      () => _api.clientSecure.getBankCardPaymentUrl(
-        BankCardPaymentUrlRequest()
-          ..amount = amount
-          ..assetId = assetId,
-      ),
-      method: 'getBankCardPaymentUrl',
-    );
-    return response?.body ?? BankCardPaymentUrlResponse_Body();
+    final request = BankCardPaymentUrlRequest()
+      ..amount = amount
+      ..assetId = assetId;
+
+    final response = await source.getBankCardPaymentUrl(request);
+
+    if (response == null) return Right(BankCardPaymentUrlResponse_Body());
+    return response.hasError()
+        ? Left(response.error)
+        : Right(response?.body ?? BankCardPaymentUrlResponse_Body());
   }
 
-  static Future<bool> cryptoCashout({
+  Future<Either<ErrorResponseBody, bool>> cryptoCashout({
     @required String assetId,
     @required String volume,
     @required String destinationAddress,
     @required String destinationAddressExtension,
   }) async {
-    final response = await ErrorHandler.safeCall<EmptyResponse>(
-      () => _api.clientSecure.cryptoCashout(
-        CryptoCashoutRequest()
-          ..assetId = assetId
-          ..volume = volume
-          ..destinationAddress = destinationAddress
-          ..destinationAddressExtension = destinationAddressExtension,
-      ),
-      method: 'cryptoCashout',
-    );
-    return response != null;
+    final request = CryptoCashoutRequest()
+      ..assetId = assetId
+      ..volume = volume
+      ..destinationAddress = destinationAddress
+      ..destinationAddressExtension = destinationAddressExtension;
+
+    final response = await source.cryptoCashout(request);
+
+    if (response == null) return Right(false);
+    return response.hasError() ? Left(response.error) : Right(true);
   }
 
-  static Future<SwiftCashoutResponse_Body> swiftCashout({
+  Future<Either<ErrorResponseBody, SwiftCashoutResponse_Body>> swiftCashout({
     @required String amount,
     @required String asset,
     @required String bic,
@@ -152,22 +160,23 @@ class WalletRepository {
     @required String accHolderZipCode,
     @required String accHolderCity,
   }) async {
-    final response = await ErrorHandler.safeCall<SwiftCashoutResponse>(
-      () => _api.clientSecure.swiftCashout(
-        SwiftCashoutRequest()
-          ..amount = amount
-          ..asset = asset
-          ..bic = bic
-          ..accNumber = accNumber
-          ..accName = accName
-          ..accHolderAddress = accHolderAddress
-          ..bankName = bankName
-          ..accHolderCountry = accHolderCountry
-          ..accHolderZipCode = accHolderZipCode
-          ..accHolderCity = accHolderCity,
-      ),
-      method: 'swiftCashout',
-    );
-    return response?.body ?? SwiftCashoutResponse_Body();
+    final request = SwiftCashoutRequest()
+      ..amount = amount
+      ..asset = asset
+      ..bic = bic
+      ..accNumber = accNumber
+      ..accName = accName
+      ..accHolderAddress = accHolderAddress
+      ..bankName = bankName
+      ..accHolderCountry = accHolderCountry
+      ..accHolderZipCode = accHolderZipCode
+      ..accHolderCity = accHolderCity;
+
+    final response = await source.swiftCashout(request);
+
+    if (response == null) return Right(SwiftCashoutResponse_Body());
+    return response.hasError()
+        ? Left(response.error)
+        : Right(response?.body ?? SwiftCashoutResponse_Body());
   }
 }

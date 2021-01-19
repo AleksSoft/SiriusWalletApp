@@ -1,19 +1,17 @@
-import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
-import 'package:antares_wallet/app/data/repository/watchists_repository.dart';
+import 'package:antares_wallet/app/domain/repositories/watchlist_repository.dart';
 import 'package:antares_wallet/app/presentation/modules/markets/markets_controller.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 class WatchListsController extends GetxController {
   static WatchListsController get con => Get.find();
 
-  final GetStorage storage;
+  final IWatchlistRepository watchlistRepo;
   final MarketsController marketsCon;
   WatchListsController({
-    @required this.storage,
+    @required this.watchlistRepo,
     @required this.marketsCon,
   });
 
@@ -23,40 +21,52 @@ class WatchListsController extends GetxController {
   get selected => this._selected.value;
   set selected(value) => this._selected.value = value;
 
-  final _loading = false.obs;
-  get loading => this._loading.value;
-  set loading(value) => this._loading.value = value;
+  final loading = false.obs;
 
   @override
-  void onInit() async {
-    // load all watch-lists
-    await getWatchlists();
+  void onReady() {
+    getWatchlists();
+    super.onReady();
+  }
 
-    // set selected watchlist
-    String id = storage.read(AppStorageKeys.watchlistId);
+  Future<void> getWatchlists() async {
+    loading(true);
+    watchlistRepo
+        .getWatchlists()
+        .then((response) => response.fold(
+              (error) {},
+              (list) {
+                watchLists.assignAll(list);
+                prepareSelected();
+              },
+            ))
+        .whenComplete(() => loading(false));
+  }
+
+  /// set selected watchlist
+  void prepareSelected() {
+    String id = watchlistRepo.getWatchlistId();
     if (id.isNullOrBlank) {
       if (watchLists.isNotEmpty) {
         selected = watchLists.first;
-        await storage.write(AppStorageKeys.watchlistId, selected.id);
+        watchlistRepo.setWatchlistId(selected.id);
       } else {
         selected = Watchlist();
       }
     } else {
-      selected = await WatchlistsRepository.getWatchlist(id);
+      watchlistRepo.getWatchlist(id: id).then((response) => response.fold(
+            (error) {},
+            (result) => selected = result,
+          ));
     }
-
-    super.onInit();
   }
 
-  Future getWatchlists() async =>
-      watchLists.assignAll(await WatchlistsRepository.getWatchlists());
-
   Future<void> select(String id) async {
-    loading = true;
+    loading(true);
     selected = watchLists.firstWhere((w) => w.id == id);
-    await storage.write(AppStorageKeys.watchlistId, id);
+    await watchlistRepo.setWatchlistId(selected.id);
     await marketsCon.rebuildWatchedMarkets();
-    loading = false;
+    loading(false);
   }
 
   List<WatchlistOption> options(Watchlist wl) {
@@ -74,28 +84,26 @@ class WatchListsController extends GetxController {
     return options;
   }
 
-  create() async {
-    await Get.toNamed(Routes.WATCH_LIST_EDIT);
-  }
+  void create() => Get.toNamed(Routes.WATCH_LIST_EDIT);
 
-  _copy(Watchlist watchlist) async {
-    await WatchlistsRepository.addWatchlist(
-      '${watchlist.name} Copy',
-      2,
-      watchlist.assetIds,
+  Future<void> _copy(Watchlist watchlist) async {
+    await watchlistRepo.addWatchlist(
+      name: '${watchlist.name} Copy',
+      order: watchlist.order + 1,
+      assetIds: watchlist.assetIds,
     );
-    await getWatchlists();
+    getWatchlists();
   }
 
-  _edit(Watchlist watchlist) async {
+  Future<void> _edit(Watchlist watchlist) async {
     await Get.toNamed(Routes.WATCH_LIST_EDIT, arguments: watchlist);
-    await getWatchlists();
+    getWatchlists();
   }
 
-  _delete(Watchlist watchlist) async {
-    await WatchlistsRepository.deleteWatchlist(watchlist.id);
+  Future<void> _delete(Watchlist watchlist) async {
+    await watchlistRepo.deleteWatchlist(id: watchlist.id);
     if (watchlist.id == selected.id) select(watchLists.first.id);
-    await getWatchlists();
+    getWatchlists();
   }
 }
 
