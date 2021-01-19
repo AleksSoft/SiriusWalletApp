@@ -14,6 +14,7 @@ import 'package:antares_wallet/app/presentation/modules/local_auth/local_auth_bi
 import 'package:antares_wallet/app/presentation/modules/local_auth/local_auth_page.dart';
 import 'package:antares_wallet/app/presentation/modules/login/login_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/login/login_page.dart';
+import 'package:antares_wallet/app/presentation/modules/markets/spot/watchlists/edit/edit_watchlist_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/markets/spot/watchlists/edit/edit_watchlist_page.dart';
 import 'package:antares_wallet/app/presentation/modules/markets/spot/watchlists/watchlists_page.dart';
 import 'package:antares_wallet/app/presentation/modules/order_details/order_details_binding.dart';
@@ -37,7 +38,6 @@ import 'package:antares_wallet/app/presentation/modules/select_asset/select_asse
 import 'package:antares_wallet/app/presentation/modules/select_asset/select_asset_page.dart';
 import 'package:antares_wallet/app/presentation/modules/settings/settings_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/settings/settings_page.dart';
-import 'package:antares_wallet/app/presentation/modules/splash/splash_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/splash/splash_page.dart';
 import 'package:antares_wallet/app/presentation/modules/start/start_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/start/start_page.dart';
@@ -46,6 +46,7 @@ import 'package:antares_wallet/app/presentation/modules/support/support_page.dar
 import 'package:antares_wallet/app/presentation/modules/trading/trading_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/trading/trading_page.dart';
 import 'package:antares_wallet/app/presentation/modules/transaction_details/transaction_details_page.dart';
+import 'package:antares_wallet/app/presentation/modules/transaction_details/transactoin_details_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/withdrawal/blockchain_withdrawal_details_page.dart';
 import 'package:antares_wallet/app/presentation/modules/withdrawal/blockchain_withdrawal_page.dart';
 import 'package:antares_wallet/app/presentation/modules/withdrawal/swift_withdrawal_page.dart';
@@ -60,7 +61,6 @@ abstract class AppPages {
     GetPage(
       name: Routes.INITIAL,
       page: () => SplashPage(),
-      binding: SplashBinding(),
     ),
     GetPage(
       name: Routes.START,
@@ -182,6 +182,7 @@ abstract class AppPages {
     GetPage(
       name: Routes.TRANSACTION_DETAILS,
       page: () => TransactionDetailsPage(),
+      binding: TransactionDetailsBinding(),
     ),
     GetPage(
       name: Routes.WATCH_LISTS,
@@ -192,6 +193,7 @@ abstract class AppPages {
     GetPage(
       name: Routes.WATCH_LIST_EDIT,
       page: () => EditWatchlistPage(),
+      binding: EditWatchlistBinding(),
     ),
     GetPage(
       name: Routes.WITHDRAW_SWIFT,

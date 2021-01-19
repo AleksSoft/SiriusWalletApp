@@ -21,12 +21,6 @@ class ProfileDataSource with ErrorHandler implements IProfileDataSource {
   final ApiService api;
 
   @override
-  Future<AssetDisclaimersResponse> getAssetDisclaimers() => safeCall(
-        () => api.clientSecure.getAssetDisclaimers(Empty()),
-        method: 'getAssetDisclaimers',
-      );
-
-  @override
   Future<TierInfoResponse> getTierInfo() => safeCall(
         () => api.clientSecure.getTierInfo(Empty()),
         method: 'getTierInfo',

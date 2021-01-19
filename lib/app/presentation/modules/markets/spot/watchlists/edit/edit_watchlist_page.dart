@@ -8,7 +8,6 @@ class EditWatchlistPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<EditWatchlistController>(
-      init: EditWatchlistController(),
       builder: (_) {
         return Scaffold(
           resizeToAvoidBottomInset: true,

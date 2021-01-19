@@ -6,6 +6,8 @@ class TradingBinding extends Bindings {
   @override
   void dependencies() {
     Get.put(TradingController(
+      tradingRepo: Get.find(),
+      marketsRepo: Get.find(),
       apiService: Get.find(),
     ));
   }

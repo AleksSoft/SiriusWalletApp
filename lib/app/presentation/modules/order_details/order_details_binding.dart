@@ -6,6 +6,10 @@ class OrderDetailsBinding extends Bindings {
   @override
   void dependencies() {
     Get.put(OrderDetailsController(
+      tradingRepo: Get.find(),
+      marketsCon: Get.find(),
+      ordersCon: Get.find(),
+      portfolioCon: Get.find(),
       apiService: Get.find(),
     ));
   }

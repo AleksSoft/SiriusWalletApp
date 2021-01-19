@@ -1,15 +1,15 @@
 import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/core/utils/app_log.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/google/protobuf/timestamp.pb.dart';
 import 'package:antares_wallet/app/data/models/order_open_data.dart';
 import 'package:antares_wallet/app/data/models/orders_history_filter.dart';
 import 'package:antares_wallet/app/domain/entities/order_details_arguments.dart';
 import 'package:antares_wallet/app/domain/repositories/trading_repository.dart';
+import 'package:antares_wallet/app/presentation/modules/portfolio/assets/assets_controller.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
-
-import '../portfolio/assets/assets_controller.dart';
 
 class OrdersController extends GetxController {
   static OrdersController get con => Get.find();
@@ -62,10 +62,12 @@ class OrdersController extends GetxController {
       fromDate: fromDate,
       toDate: toDate,
     );
+    var trades = <TradesResponse_TradeModel>[];
     response.fold(
-      (error) {},
-      (trades) {},
+      (error) => AppLog.logger.d(error.toProto3Json()),
+      (newTrades) => trades = newTrades,
     );
+    return trades;
   }
 
   Future<void> reloadHistory({

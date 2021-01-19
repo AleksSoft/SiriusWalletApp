@@ -9,7 +9,7 @@ class SessionService extends GetxService {
   SessionService({@required this.sessionRepo});
 
   Future<bool> verifySessionPIN({bool logOutOnError = false}) async {
-    if (sessionRepo.getSessionId().isNullOrBlank) return false;
+    if (sessionRepo.getSessionId().isNullOrBlank) completeLogout();
 
     final result = await Get.toNamed(
       Routes.LOCAL_AUTH,
@@ -18,10 +18,14 @@ class SessionService extends GetxService {
 
     bool pinCorrect = result ?? false;
     if (!pinCorrect && logOutOnError) {
-      await sessionRepo.logout();
-      Get.offAllNamed(Routes.START);
+      completeLogout();
     }
 
     return pinCorrect;
+  }
+
+  Future<void> completeLogout() async {
+    await sessionRepo.logout();
+    Get.offAllNamed(Routes.START);
   }
 }

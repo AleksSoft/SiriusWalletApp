@@ -37,7 +37,7 @@ class ProfileRepository implements IProfileRepository {
     if (response == null) return Right(Map<String, KycDocument>());
     return response.hasError()
         ? Left(response.error)
-        : Right(response?.body ?? Map<String, KycDocument>());
+        : Right(response?.body?.result ?? Map<String, KycDocument>());
   }
 
   @override

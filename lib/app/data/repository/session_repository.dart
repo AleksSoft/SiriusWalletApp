@@ -63,7 +63,7 @@ class SessionRepository implements ISessionRepository {
   @override
   Future<void> logout() async {
     try {
-      if (!GetUtils.isNullOrBlank(getSessionId())) await source.logout();
+      if (!getSessionId().isNullOrBlank) await source.logout();
     } catch (e) {}
     await storage.erase();
   }

@@ -5,8 +5,6 @@ import 'package:antares_wallet/app/presentation/modules/portfolio/assets/assets_
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-import '../watchlists_controller.dart';
-
 class EditWatchlistController extends GetxController {
   final _assetsController = Get.find<AssetsController>();
 
@@ -15,11 +13,9 @@ class EditWatchlistController extends GetxController {
   final List<AssetPair> _checkedAssetPairs = [];
 
   final IWatchlistRepository watchlistRepo;
-  final WatchListsController watchlistCon;
   final MarketsController marketsCon;
   EditWatchlistController({
     @required this.watchlistRepo,
-    @required this.watchlistCon,
     @required this.marketsCon,
   });
 

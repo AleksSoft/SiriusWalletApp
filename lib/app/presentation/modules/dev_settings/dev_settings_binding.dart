@@ -5,8 +5,12 @@ import 'dev_settings_controller.dart';
 class DevSettingsBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<DevSettingsController>(() => DevSettingsController(
-          apiService: Get.find(),
-        ));
+    Get.lazyPut<DevSettingsController>(
+      () => DevSettingsController(
+        apiService: Get.find(),
+        pushRepo: Get.find(),
+        sessionRepo: Get.find(),
+      ),
+    );
   }
 }

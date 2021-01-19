@@ -6,7 +6,6 @@ import 'package:grpc/grpc.dart';
 
 abstract class ErrorHandler {
   final dialogManager = Get.find<DialogManager>();
-  final sessionService = Get.find<SessionService>();
 
   Future<T> safeCall<T>(
     Future<T> Function() future, {
@@ -25,15 +24,22 @@ abstract class ErrorHandler {
   }
 
   void _handleGrpcError(GrpcError e, String method) async {
-    if (e.code == StatusCode.unauthenticated) {
-      sessionService.verifySessionPIN(logOutOnError: true);
-    }
     logError(
       code: e.code.toString(),
       message: e.message,
       method: method,
     );
-    _defaultErrorDialog();
+    if (e.code == StatusCode.unauthenticated) {
+      dialogManager.error(ErrorContent(
+        title: 'Unauthenticated',
+        message: 'Session lost. Logging out..',
+        action: () => Get.find<SessionService>().verifySessionPIN(
+          logOutOnError: true,
+        ),
+      ));
+    } else {
+      _defaultErrorDialog();
+    }
   }
 
   void _handleError(dynamic e, String method) {

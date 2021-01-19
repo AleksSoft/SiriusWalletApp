@@ -220,11 +220,6 @@ class RegisterController extends GetxController {
         await _animateToPage(2);
       },
     );
-
-    if (true) {
-    } else {
-      Get.rawSnackbar(message: 'Code not verified');
-    }
   }
 
   Future<void> _proceedAdditionalData() async {

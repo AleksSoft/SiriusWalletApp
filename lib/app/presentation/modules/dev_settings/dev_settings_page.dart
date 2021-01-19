@@ -47,27 +47,31 @@ class DevSettingsPage extends GetView<DevSettingsController> {
                       onChanged: _.updateBaseUrl,
                     ),
                   ),
-                  Visibility(
-                    visible: !_.apiToken.isNullOrBlank,
-                    child: ListTile(
-                      title: Text('API token:'),
-                      subtitle: SelectableText(_.apiToken),
-                      trailing: IconButton(
-                        onPressed: () => _.shareApiToken(),
-                        icon: Icon(Icons.ios_share),
-                        tooltip: 'Share API token',
+                  Obx(
+                    () => Visibility(
+                      visible: !_.apiToken.value.isNullOrBlank,
+                      child: ListTile(
+                        title: Text('API token:'),
+                        subtitle: SelectableText(_.apiToken.value ?? ''),
+                        trailing: IconButton(
+                          onPressed: () => _.shareApiToken(),
+                          icon: Icon(Icons.ios_share),
+                          tooltip: 'Share API token',
+                        ),
                       ),
                     ),
                   ),
-                  Visibility(
-                    visible: !_.fcmToken.isNullOrBlank,
-                    child: ListTile(
-                      title: Text('FCM token:'),
-                      subtitle: SelectableText(_.fcmToken),
-                      trailing: IconButton(
-                        onPressed: () => _.shareFcmToken(),
-                        icon: Icon(Icons.ios_share),
-                        tooltip: 'Share FCM token',
+                  Obx(
+                    () => Visibility(
+                      visible: !_.fcmToken.value.isNullOrBlank,
+                      child: ListTile(
+                        title: Text('FCM token:'),
+                        subtitle: SelectableText(_.fcmToken.value ?? ''),
+                        trailing: IconButton(
+                          onPressed: () => _.shareFcmToken(),
+                          icon: Icon(Icons.ios_share),
+                          tooltip: 'Share FCM token',
+                        ),
                       ),
                     ),
                   ),

@@ -15,89 +15,89 @@ class TransactionDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetX<TransactionDetailsController>(
-        init: TransactionDetailsController(),
-        builder: (_) {
-          return Scaffold(
-            appBar: AppBar(
-              title: _buildTitleByOperation(_.details.operation),
-            ),
-            body: Column(
-              children: [
-                Flexible(
-                  flex: 1,
-                  child: Center(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        AssetIcon(_.asset.iconUrl, 56.0),
-                        AppUiHelpers.hSpaceSmall,
-                        Text(
-                          _.asset.displayId,
-                          style: Get.textTheme.headline6.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
+      builder: (_) {
+        return Scaffold(
+          appBar: AppBar(
+            title: _buildTitleByOperation(_.details.operation),
+          ),
+          body: Column(
+            children: [
+              Flexible(
+                flex: 1,
+                child: Center(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      AssetIcon(_.asset.iconUrl, 56.0),
+                      AppUiHelpers.hSpaceSmall,
+                      Text(
+                        _.asset.displayId,
+                        style: Get.textTheme.headline6.copyWith(
+                          fontWeight: FontWeight.w600,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-                Flexible(
-                  flex: 5,
-                  child: Padding(
-                    padding: const EdgeInsets.all(AppSizes.medium),
-                    child: Column(
-                      children: [
-                        _buildTile(
-                          'amount'.tr,
-                          Formatter.currency(_.details.volume),
+              ),
+              Flexible(
+                flex: 5,
+                child: Padding(
+                  padding: const EdgeInsets.all(AppSizes.medium),
+                  child: Column(
+                    children: [
+                      _buildTile(
+                        'amount'.tr,
+                        Formatter.currency(_.details.volume),
+                      ),
+                      _buildTile('status'.tr, _.details.status),
+                      Divider(height: AppSizes.extraLarge),
+                      Visibility(
+                        visible: !_.details.blockchainHash.isNullOrBlank,
+                        child: _buildTile(
+                          'trans_hash'.tr,
+                          _.details.blockchainHash,
+                          selectable: true,
                         ),
-                        _buildTile('status'.tr, _.details.status),
-                        Divider(height: AppSizes.extraLarge),
-                        Visibility(
-                          visible: !_.details.blockchainHash.isNullOrBlank,
-                          child: _buildTile(
-                            'trans_hash'.tr,
-                            _.details.blockchainHash,
-                            selectable: true,
-                          ),
-                        ),
-                        _buildTile(
-                            'date'.tr,
-                            DateFormat().addPattern('dd.MM.yy HH:mm:ss').format(
-                                  DateTime.fromMillisecondsSinceEpoch(
-                                    _.details.timestamp.seconds.toInt() * 1000,
-                                  ),
-                                )),
-                        Spacer(),
-                        ButtonBar(
-                          children: [
-                            Visibility(
-                              visible: !_.details.blockchainHash.isNullOrBlank,
-                              child: CupertinoButton(
-                                onPressed: () => _copyHash(
-                                  _.details.blockchainHash,
+                      ),
+                      _buildTile(
+                          'date'.tr,
+                          DateFormat().addPattern('dd.MM.yy HH:mm:ss').format(
+                                DateTime.fromMillisecondsSinceEpoch(
+                                  _.details.timestamp.seconds.toInt() * 1000,
                                 ),
-                                child: Text('copy_hash'.tr),
+                              )),
+                      Spacer(),
+                      ButtonBar(
+                        children: [
+                          Visibility(
+                            visible: !_.details.blockchainHash.isNullOrBlank,
+                            child: CupertinoButton(
+                              onPressed: () => _copyHash(
+                                _.details.blockchainHash,
                               ),
+                              child: Text('copy_hash'.tr),
                             ),
-                            Visibility(
-                              visible: _.explorerLinks.isNotEmpty,
-                              child: CupertinoButton(
-                                onPressed: () => _viewExplorer(_.explorerLinks),
-                                child: Text('open_explorer'.tr),
-                              ),
+                          ),
+                          Visibility(
+                            visible: _.explorerLinks.isNotEmpty,
+                            child: CupertinoButton(
+                              onPressed: () => _viewExplorer(_.explorerLinks),
+                              child: Text('open_explorer'.tr),
                             ),
-                          ],
-                        )
-                      ],
-                    ),
+                          ),
+                        ],
+                      )
+                    ],
                   ),
                 ),
-              ],
-            ),
-          );
-        });
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Widget _buildTile(String title, String subtitle, {bool selectable = false}) {

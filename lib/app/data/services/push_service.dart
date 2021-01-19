@@ -72,7 +72,8 @@ class PushService extends GetxService {
 
   void _saveFcmToken(String newToken) {
     final token = pushRepo.getPushToken();
-    if (!token.isNullOrBlank && !newToken.isNullOrBlank && token != newToken) {
+    if ((!token.isNullOrBlank || !newToken.isNullOrBlank) &&
+        token != newToken) {
       pushRepo.setPushToken(newToken).whenComplete(() {
         tryRegisterFcm(fcmToken: newToken);
         logger.i('FCM token:\n$newToken');

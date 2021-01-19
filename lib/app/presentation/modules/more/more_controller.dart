@@ -1,5 +1,5 @@
 import 'package:antares_wallet/app/common/common.dart';
-import 'package:antares_wallet/app/domain/repositories/session_repository.dart';
+import 'package:antares_wallet/app/data/services/session_service.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
@@ -9,8 +9,8 @@ class MoreController extends GetxController {
   static MoreController get con => Get.find();
 
   final AppConfig appConfig;
-  final ISessionRepository sessionRepo;
-  MoreController({@required this.appConfig, @required this.sessionRepo});
+  final SessionService sessionService;
+  MoreController({@required this.appConfig, @required this.sessionService});
 
   bool get isDevSettingsVisible => !appConfig.isProd;
 
@@ -27,7 +27,7 @@ class MoreController extends GetxController {
         middleText: 'Are you sure to logout?',
         buttonColor: AppColors.dark,
         confirmTextColor: AppColors.primary,
-        onConfirm: () => sessionRepo.logout(),
+        onConfirm: () => sessionService.completeLogout(),
       );
 
   void openDevSettings() => Get.toNamed(Routes.DEV_SETTINGS);

@@ -2,6 +2,7 @@ import 'package:antares_wallet/app/data/data_sources/assets_data_source.dart';
 import 'package:antares_wallet/app/data/data_sources/markets_data_source.dart';
 import 'package:antares_wallet/app/data/data_sources/portfolio_data_source.dart';
 import 'package:antares_wallet/app/data/data_sources/profile_data_source.dart';
+import 'package:antares_wallet/app/data/data_sources/settings_data_source.dart';
 import 'package:antares_wallet/app/data/data_sources/trading_data_source.dart';
 import 'package:antares_wallet/app/data/data_sources/wallet_data_source.dart';
 import 'package:antares_wallet/app/data/data_sources/watchlist_data_source.dart';
@@ -9,6 +10,7 @@ import 'package:antares_wallet/app/data/repository/assets_repository.dart';
 import 'package:antares_wallet/app/data/repository/markets_repository.dart';
 import 'package:antares_wallet/app/data/repository/portfolio_repository.dart';
 import 'package:antares_wallet/app/data/repository/profile_repository.dart';
+import 'package:antares_wallet/app/data/repository/settings_repository.dart';
 import 'package:antares_wallet/app/data/repository/trading_repository.dart';
 import 'package:antares_wallet/app/data/repository/wallet_repository.dart';
 import 'package:antares_wallet/app/data/repository/watchist_repository.dart';
@@ -16,6 +18,7 @@ import 'package:antares_wallet/app/domain/repositories/assets_repository.dart';
 import 'package:antares_wallet/app/domain/repositories/markets_repository.dart';
 import 'package:antares_wallet/app/domain/repositories/portfolio_repository.dart';
 import 'package:antares_wallet/app/domain/repositories/profile_repository.dart';
+import 'package:antares_wallet/app/domain/repositories/settings_repository.dart';
 import 'package:antares_wallet/app/domain/repositories/trading_repository.dart';
 import 'package:antares_wallet/app/domain/repositories/wallet_repository.dart';
 import 'package:antares_wallet/app/domain/repositories/watchlist_repository.dart';
@@ -65,6 +68,10 @@ class RootPageBinding extends Bindings {
       () => WalletDataSource(api: Get.find()),
       fenix: true,
     );
+    Get.lazyPut<ISettingsDataSource>(
+      () => SettingsDataSource(api: Get.find()),
+      fenix: true,
+    );
     // sources -
 
     /// repositories +
@@ -96,6 +103,10 @@ class RootPageBinding extends Bindings {
       () => WalletRepository(source: Get.find()),
       fenix: true,
     );
+    Get.lazyPut<ISettingsRepository>(
+      () => SettingsRepository(source: Get.find()),
+      fenix: true,
+    );
     // repositories -
 
     /// controllers +
@@ -124,7 +135,7 @@ class RootPageBinding extends Bindings {
       watchlistRepo: Get.find(),
     ));
     Get.put(MoreController(
-      sessionRepo: Get.find(),
+      sessionService: Get.find(),
       appConfig: Get.find(),
     ));
     Get.put(RootController(

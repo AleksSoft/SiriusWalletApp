@@ -87,8 +87,6 @@ class WatchlistRepository implements IWatchlistRepository {
   String getWatchlistId() => storage.read(AppStorageKeys.watchlistId);
 
   @override
-  Future<void> setWatchlistId(String id) {
-    // TODO: implement setWatchlistId
-    throw UnimplementedError();
-  }
+  Future<void> setWatchlistId(String id) =>
+      storage.write(AppStorageKeys.watchlistId, id);
 }

@@ -242,7 +242,7 @@ class _ChartView extends GetView<AssetInfoController> {
   Widget build(BuildContext context) {
     return Obx(
       () => AnimatedSwitcher(
-        duration: const Duration(milliseconds: 150),
+        duration: Get.defaultTransitionDuration,
         child: !controller.loading.value
             ? controller.candles.isNotEmpty
                 ? Obx(
