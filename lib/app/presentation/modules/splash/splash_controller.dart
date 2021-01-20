@@ -30,7 +30,7 @@ class SplashController extends GetxController {
       );
 
       if (result ?? false)
-        Get.offAndToNamed(Routes.START);
+        Get.offAndToNamed(Routes.ROOT);
       else
         _logout();
     }

@@ -112,5 +112,6 @@ class SessionDataSource with ErrorHandler implements ISessionDataSource {
       );
 
   @override
-  Future<void> updateApiSession({String url}) => api.update(url: url);
+  Future<void> updateApiSession({String url}) async =>
+      await api.update(url: url);
 }

@@ -80,9 +80,9 @@ class ProfileController extends GetxController {
         : TierUpgrade.ProIndividual;
     final response = await profileRepo.submitProfile(tier: tier);
     response.fold(
-      (error) => Get.rawSnackbar(
-        title: error.code.toString(),
-        message: error.message,
+      (error) => Get.snackbar(
+        error.code.toString(),
+        error.message,
         backgroundColor: AppColors.red,
       ),
       (result) async {
@@ -105,8 +105,9 @@ class ProfileController extends GetxController {
       await reloadData();
       openNextUpgradePage();
     } else {
-      Get.rawSnackbar(
-        message: 'Fields are empty or too short!',
+      Get.snackbar(
+        null,
+        'Fields are empty or too short!',
         backgroundColor: AppColors.red,
       );
     }
@@ -142,9 +143,9 @@ class ProfileController extends GetxController {
       file: fileIntList,
     );
     response.fold(
-      (error) => Get.rawSnackbar(
-        title: error.code.toString(),
-        message: error.message,
+      (error) => Get.snackbar(
+        'Error (${error.code})',
+        error.message,
         backgroundColor: AppColors.red,
       ),
       (result) async {
@@ -152,9 +153,9 @@ class ProfileController extends GetxController {
           await reloadData();
           openNextUpgradePage();
         } else {
-          Get.rawSnackbar(
-            title: '',
-            message: 'Something went wrong!',
+          Get.snackbar(
+            'Oops',
+            'Something went wrong!',
             backgroundColor: AppColors.red,
           );
         }

@@ -258,7 +258,7 @@ class DepositController extends GetxController {
 
   void copy(String value) =>
       ClipboardManager.copyToClipBoard(value).then((result) {
-        Get.rawSnackbar(message: 'msg_copied'.tr);
+        Get.snackbar(null, 'msg_copied'.tr);
       });
 
   void shareBlockchain() {

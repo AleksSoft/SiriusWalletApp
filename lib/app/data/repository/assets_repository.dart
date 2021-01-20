@@ -9,7 +9,9 @@ class AssetsRepository implements IAssetsRepository {
 
   @override
   Future<AssetsDictionaryResponse_Body> assetsDictionary() async {
-    return (await source.assetsDictionary()).body;
+    final response = await source.assetsDictionary();
+
+    return response.body;
   }
 
   @override

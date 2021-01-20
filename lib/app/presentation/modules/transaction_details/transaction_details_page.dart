@@ -187,7 +187,7 @@ class TransactionDetailsPage extends StatelessWidget {
   _copyHash(String hash) {
     ClipboardManager.copyToClipBoard(hash).then((result) {
       final String message = 'msg_hash_copied'.tr;
-      Get.rawSnackbar(message: message);
+      Get.snackbar(null, message);
     });
   }
 }

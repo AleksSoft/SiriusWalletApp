@@ -20,31 +20,44 @@ class SessionRepository implements ISessionRepository {
   Future<Either<ErrorResponseBody, bool>> checkPin({
     @required String pin,
   }) async {
-    var request = CheckPinRequest()
+    final request = CheckPinRequest()
       ..sessionId = getSessionId()
       ..pin = pin;
-    var result = await source.checkPin(request);
-    return result.hasError() ? Left(result.error) : Right(result.body.passed);
+    final response = await source.checkPin(request);
+
+    if (response == null) return Right(false);
+    return response.hasError()
+        ? Left(response.error)
+        : Right(response.body?.passed ?? false);
   }
 
   @override
   Future<Either<ErrorResponseBody, CountryPhoneCodesResponse_Body>>
       getCountryPhoneCodes() async {
-    var result = await source.getCountryPhoneCodes();
-    return result.hasError() ? Left(result.error) : Right(result.body);
+    final response = await source.getCountryPhoneCodes();
+
+    if (response == null) return Right(response.body);
+    return response.hasError() ? Left(response.error) : Right(response.body);
   }
 
   @override
   Future<Either<ErrorResponseBody, bool>> isSessionExpired() async {
-    var request = CheckSessionRequest()..sessionId = getSessionId();
-    var result = await source.isSessionExpired(request);
-    return result.hasError() ? Left(result.error) : Right(result.body.expired);
+    final request = CheckSessionRequest()..sessionId = getSessionId();
+
+    final response = await source.isSessionExpired(request);
+
+    if (response == null) return Right(false);
+    return response.hasError()
+        ? Left(response.error)
+        : Right(response.body?.expired ?? false);
   }
 
   @override
   Future<Either<ErrorResponseBody, bool>> prolongateSession() async {
-    var result = await source.prolongateSession();
-    return result.hasError() ? Left(result.error) : Right(true);
+    final response = await source.prolongateSession();
+
+    if (response == null) return Right(false);
+    return response.hasError() ? Left(response.error) : Right(true);
   }
 
   @override
@@ -53,12 +66,15 @@ class SessionRepository implements ISessionRepository {
     @required String password,
     @required String publicKey,
   }) async {
-    var request = LoginRequest()
+    final request = LoginRequest()
       ..email = email
       ..password = password
       ..publicKey = publicKey;
-    var result = await source.login(request);
-    return result.hasError() ? Left(result.error) : Right(result.body);
+
+    final response = await source.login(request);
+
+    if (response == null) return Right(null);
+    return response.hasError() ? Left(response.error) : Right(response.body);
   }
 
   @override
@@ -84,7 +100,7 @@ class SessionRepository implements ISessionRepository {
     @required String token,
     @required String publicKey,
   }) async {
-    var request = RegisterRequest()
+    final request = RegisterRequest()
       ..fullName = fullName
       ..email = email
       ..phone = phone
@@ -95,34 +111,44 @@ class SessionRepository implements ISessionRepository {
       ..pin = pin
       ..token = token
       ..publicKey = publicKey;
-    var result = await source.register(request);
+    final response = await source.register(request);
 
-    if (result.hasError()) {
+    if (response == null) return Right(null);
+
+    if (response.hasError()) {
       await logout();
-      return Left(result.error);
+      return Left(response.error);
     }
 
-    await saveSessionId(result.body.sessionId);
+    await saveSessionId(response.body.sessionId);
 
-    return Right(result.body);
+    return Right(response.body);
   }
 
   @override
   Future<Either<ErrorResponseBody, bool>> sendLoginSms({
     @required String sessionId,
   }) async {
-    var request = LoginSmsRequest()..sessionId = sessionId;
-    var result = await source.sendLoginSms(request);
-    return result.hasError() ? Left(result.error) : Right(true);
+    final request = LoginSmsRequest()..sessionId = sessionId;
+
+    final response = await source.sendLoginSms(request);
+
+    if (response == null) Right(false);
+    return response.hasError() ? Left(response.error) : Right(true);
   }
 
   @override
   Future<Either<ErrorResponseBody, String>> sendVerificationEmail({
     @required String email,
   }) async {
-    var request = VerificationEmailRequest()..email = email;
-    var result = await source.sendVerificationEmail(request);
-    return result.hasError() ? Left(result.error) : Right(result.body.token);
+    final request = VerificationEmailRequest()..email = email;
+
+    final response = await source.sendVerificationEmail(request);
+
+    if (response == null) Right(null);
+    return response.hasError()
+        ? Left(response.error)
+        : Right(response.body?.token);
   }
 
   @override
@@ -130,11 +156,14 @@ class SessionRepository implements ISessionRepository {
     @required String phone,
     @required String token,
   }) async {
-    var request = VerificationSmsRequest()
+    final request = VerificationSmsRequest()
       ..phone = phone
       ..token = token;
-    var result = await source.sendVerificationSms(request);
-    return result.hasError() ? Left(result.error) : Right(true);
+
+    final response = await source.sendVerificationSms(request);
+
+    if (response == null) Right(false);
+    return response.hasError() ? Left(response.error) : Right(true);
   }
 
   @override
@@ -143,12 +172,17 @@ class SessionRepository implements ISessionRepository {
     @required String code,
     @required String token,
   }) async {
-    var request = VerifyEmailRequest()
+    final request = VerifyEmailRequest()
       ..email = email
       ..code = code
       ..token = token;
-    var result = await source.verifyEmail(request);
-    return result.hasError() ? Left(result.error) : Right(result.body.passed);
+
+    final response = await source.verifyEmail(request);
+
+    if (response == null) Right(false);
+    return response.hasError()
+        ? Left(response.error)
+        : Right(response.body?.passed ?? false);
   }
 
   @override
@@ -156,14 +190,17 @@ class SessionRepository implements ISessionRepository {
     @required String sessionId,
     @required String code,
   }) async {
-    var request = VerifyLoginSmsRequest()
+    final request = VerifyLoginSmsRequest()
       ..sessionId = sessionId
       ..code = code;
-    var result = await source.verifyLoginSms(request);
-    if (result.hasError()) {
-      return Left(result.error);
+
+    final response = await source.verifyLoginSms(request);
+
+    if (response == null) return Right(false);
+    if (response.hasError()) {
+      return Left(response.error);
     } else {
-      bool passed = result.body?.passed ?? false;
+      bool passed = response.body?.passed ?? false;
       if (passed) await saveSessionId(sessionId);
       return Right(passed);
     }
@@ -175,12 +212,17 @@ class SessionRepository implements ISessionRepository {
     @required String code,
     @required String token,
   }) async {
-    var request = VerifyPhoneRequest()
+    final request = VerifyPhoneRequest()
       ..phone = phone
       ..code = code
       ..token = token;
-    var result = await source.verifyPhone(request);
-    return result.hasError() ? Left(result.error) : Right(result.body.passed);
+
+    final response = await source.verifyPhone(request);
+
+    if (response == null) return Right(false);
+    return response.hasError()
+        ? Left(response.error)
+        : Right(response.body?.passed ?? false);
   }
 
   @override
@@ -193,6 +235,6 @@ class SessionRepository implements ISessionRepository {
   }
 
   @override
-  Future<void> updateApiSession({String url}) =>
-      source.updateApiSession(url: url);
+  Future<void> updateApiSession({String url}) async =>
+      await source.updateApiSession(url: url);
 }

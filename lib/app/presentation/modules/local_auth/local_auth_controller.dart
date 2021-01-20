@@ -123,9 +123,9 @@ class LocalAuthController extends GetxController {
 
     response.fold((error) {
       AppLog.logger.e(error.toProto3Json());
-      Get.rawSnackbar(
-        title: 'Error ${error.code}',
-        message: error.message,
+      Get.snackbar(
+        'Error ${error.code}',
+        error.message,
         backgroundColor: AppColors.red,
         snackbarStatus: (status) {
           if (status == SnackbarStatus.CLOSING) _navigateBack(false);
@@ -135,9 +135,9 @@ class LocalAuthController extends GetxController {
       if (result ?? false) {
         _navigateBack(true);
       } else {
-        Get.rawSnackbar(
-          title: 'Wrong PIN',
-          message: 'Try again',
+        Get.snackbar(
+          'Wrong PIN',
+          'Try again',
           backgroundColor: AppColors.red,
         );
         _state(LocalAuthState.checkPIN);
@@ -152,9 +152,9 @@ class LocalAuthController extends GetxController {
     if (_prevPIN == pinValue) {
       localAuthRepo.savePIN(pinValue).whenComplete(() => _navigateBack(true));
     } else {
-      Get.rawSnackbar(
-        title: 'PIN\'s are not equal',
-        message: 'Try again',
+      Get.snackbar(
+        'PIN\'s are not equal',
+        'Try again',
         backgroundColor: AppColors.red,
       );
       _state(LocalAuthState.createPIN);

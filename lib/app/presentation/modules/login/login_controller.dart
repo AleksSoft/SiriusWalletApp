@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/core/utils/app_log.dart';
 import 'package:antares_wallet/app/domain/repositories/session_repository.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
@@ -69,13 +70,24 @@ class LoginController extends GetxController {
     );
 
     response.fold((error) {
-      Get.rawSnackbar(
-        message: 'Login failed',
+      AppLog.logger.e(error.toProto3Json());
+      Get.snackbar(
+        error.code.toString(),
+        error.message,
+        colorText: AppColors.primary,
         backgroundColor: AppColors.red,
       );
     }, (result) async {
-      token = result.sessionId;
-      await requestSmsVerification();
+      if (result != null) {
+        token = result.sessionId;
+        await requestSmsVerification();
+      } else {
+        Get.snackbar(
+          null,
+          'Login failed',
+          backgroundColor: AppColors.red,
+        );
+      }
     });
 
     loading = false;
@@ -90,13 +102,14 @@ class LoginController extends GetxController {
     final response = await sessionRepo.sendLoginSms(sessionId: token);
 
     response.fold((error) {
-      Get.rawSnackbar(
-        title: 'SMS sending failed',
-        message: error.message,
+      AppLog.logger.e(error.toProto3Json());
+      Get.snackbar(
+        error.code.toString(),
+        error.message,
         backgroundColor: AppColors.red,
       );
     }, (result) {
-      Get.rawSnackbar(message: 'SMS sent');
+      Get.snackbar(null, 'SMS sent');
       _animateToPage(1);
       _startTimer();
     });
@@ -113,36 +126,38 @@ class LoginController extends GetxController {
     );
 
     response.fold((error) {
-      Get.rawSnackbar(
-        title: 'SMS not verified',
-        message: error.message,
+      AppLog.logger.e(error.toProto3Json());
+      Get.snackbar(
+        error.code.toString(),
+        error.message,
         backgroundColor: AppColors.red,
       );
     }, (result) async {
-      Get.rawSnackbar(message: 'SMS verified');
+      Get.snackbar(null, 'SMS verified', backgroundColor: AppColors.green);
       _stopTimer();
-      await _verifyPin(token);
+      _verifyPin(token);
     });
 
     loading = false;
   }
 
-  Future<void> _verifyPin(String token) async {
-    await sessionRepo.saveSessionId(token);
-    var pinCorrect = await Get.toNamed(
-      Routes.LOCAL_AUTH,
-      arguments: PinMode.check,
-    );
-    if (pinCorrect ?? false) {
-      Get.offAllNamed(Routes.ROOT);
-    } else {
-      await sessionRepo.logout();
-      Get.rawSnackbar(
-        message: 'msg_pin_wrong'.tr,
-        backgroundColor: AppColors.red,
-      );
-    }
-  }
+  void _verifyPin(String token) =>
+      sessionRepo.saveSessionId(token).whenComplete(() async {
+        var pinCorrect = await Get.toNamed(
+          Routes.LOCAL_AUTH,
+          arguments: PinMode.check,
+        );
+        if (pinCorrect ?? false) {
+          Get.offAllNamed(Routes.ROOT);
+        } else {
+          await sessionRepo.logout();
+          Get.snackbar(
+            null,
+            'msg_pin_wrong'.tr,
+            backgroundColor: AppColors.red,
+          );
+        }
+      });
 
   _animateToPage(int page) {
     WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();

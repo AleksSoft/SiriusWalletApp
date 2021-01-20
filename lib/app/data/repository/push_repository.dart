@@ -15,19 +15,24 @@ class PushRepository implements IPushRepository {
 
   @override
   Future<Either<ErrorResponseBody, bool>> getPushSettings() async {
-    var result = await source.getPushSettings();
-    return result.hasError()
-        ? Left(result.error)
-        : Right(result.body?.enabled ?? false);
+    final response = await source.getPushSettings();
+
+    if (response == null) return Right(false);
+    return response.hasError()
+        ? Left(response.error)
+        : Right(response.body?.enabled ?? false);
   }
 
   @override
   Future<Either<ErrorResponseBody, bool>> setPushSettings({
     @required bool enabled,
   }) async {
-    var request = PushSettingsRequest()..enabled = enabled;
-    var result = await source.setPushSettings(request);
-    return result.hasError() ? Left(result.error) : Right(enabled);
+    final request = PushSettingsRequest()..enabled = enabled;
+
+    final response = await source.setPushSettings(request);
+
+    if (response == null) return Right(false);
+    return response.hasError() ? Left(response.error) : Right(enabled);
   }
 
   @override
@@ -35,9 +40,12 @@ class PushRepository implements IPushRepository {
     @required String fcmToken,
   }) async {
     if (!fcmToken.isNullOrBlank) {
-      var request = RegisterPushRequest()..fcmToken = fcmToken;
-      var result = await source.registerPushNotifications(request);
-      return result.hasError() ? Left(result.error) : Right(true);
+      final request = RegisterPushRequest()..fcmToken = fcmToken;
+
+      final response = await source.registerPushNotifications(request);
+
+      if (response == null) return Right(false);
+      return response.hasError() ? Left(response.error) : Right(true);
     } else {
       return Right(false);
     }

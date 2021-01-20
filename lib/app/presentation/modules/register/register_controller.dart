@@ -158,18 +158,20 @@ class RegisterController extends GetxController {
       );
       response.fold((error) {
         AppLog.logger.e(error.toProto3Json());
-        Get.rawSnackbar(
-          title: 'Email not verified',
-          message: error.toProto3Json(),
+        Get.snackbar(
+          error.code.toString(),
+          error.message,
           backgroundColor: AppColors.red,
         );
         _stopTimer();
       }, (result) async {
-        token = result;
-        Get.rawSnackbar(message: 'Code sent');
-        await _animateToPage(1);
-        isEmailCodeWaiting = true;
-        _startTimer();
+        if (result != null) {
+          token = result;
+          Get.snackbar(null, 'Code sent');
+          await _animateToPage(1);
+          isEmailCodeWaiting = true;
+          _startTimer();
+        }
       });
     } else {
       await _animateToPage(1);
@@ -183,9 +185,9 @@ class RegisterController extends GetxController {
     response.fold(
       (error) {
         AppLog.logger.e(error.toProto3Json());
-        Get.rawSnackbar(
-          title: 'Email not verified',
-          message: error.toProto3Json(),
+        Get.snackbar(
+          error.code.toString(),
+          error.message,
           backgroundColor: AppColors.red,
         );
       },
@@ -208,16 +210,22 @@ class RegisterController extends GetxController {
     response.fold(
       (error) {
         AppLog.logger.e(error.toProto3Json());
-        Get.rawSnackbar(
-          title: 'Code not verified',
-          message: error.toProto3Json(),
+        Get.snackbar(
+          'Code not verified',
+          error.toProto3Json(),
           backgroundColor: AppColors.red,
         );
       },
       (result) async {
-        Get.rawSnackbar(message: 'Code verified');
-        _stopTimer();
-        await _animateToPage(2);
+        if (result) {
+          Get.snackbar(
+            'Success!',
+            'Code verified',
+            backgroundColor: AppColors.green,
+          );
+          _stopTimer();
+          await _animateToPage(2);
+        }
       },
     );
   }
@@ -242,18 +250,20 @@ class RegisterController extends GetxController {
       response.fold(
         (error) {
           AppLog.logger.e(error.toProto3Json());
-          Get.rawSnackbar(
-            title: 'Phone not accepted',
-            message: error.toProto3Json(),
+          Get.snackbar(
+            'Phone not accepted',
+            error.toProto3Json(),
             backgroundColor: AppColors.red,
           );
           _stopTimer();
         },
         (result) async {
-          Get.rawSnackbar(message: 'Sms sent');
-          await _animateToPage(4);
-          isSmsWaiting = true;
-          _startTimer();
+          if (result) {
+            Get.snackbar(null, 'Sms sent');
+            await _animateToPage(4);
+            isSmsWaiting = true;
+            _startTimer();
+          }
         },
       );
     } else {
@@ -272,16 +282,18 @@ class RegisterController extends GetxController {
     response.fold(
       (error) {
         AppLog.logger.e(error.toProto3Json());
-        Get.rawSnackbar(
-          title: 'Sms not verified',
-          message: error.toProto3Json(),
+        Get.snackbar(
+          'Sms not verified',
+          error.toProto3Json(),
           backgroundColor: AppColors.red,
         );
       },
       (result) async {
-        Get.rawSnackbar(message: 'Sms verified');
-        _stopTimer();
-        await _animateToPage(5);
+        if (result) {
+          Get.snackbar(null, 'Sms verified', backgroundColor: AppColors.green);
+          _stopTimer();
+          await _animateToPage(5);
+        }
       },
     );
   }
@@ -294,8 +306,9 @@ class RegisterController extends GetxController {
     if (pinCreated ?? false) {
       Get.toNamed(Routes.REGISTER_RESULT);
     } else {
-      Get.rawSnackbar(
-        message: 'msg_pin_create_fail'.tr,
+      Get.snackbar(
+        null,
+        'msg_pin_create_fail'.tr,
         backgroundColor: AppColors.red,
       );
     }
@@ -321,14 +334,25 @@ class RegisterController extends GetxController {
     response.fold(
       (error) {
         AppLog.logger.e(error.toProto3Json());
-        Get.rawSnackbar(
-          title: 'Registration failed',
-          message: error.toProto3Json(),
+        Get.snackbar(
+          'Registration failed',
+          error.toProto3Json(),
           backgroundColor: AppColors.red,
         );
         Get.back();
       },
-      (result) => Get.offAllNamed(Routes.ROOT),
+      (result) {
+        if (result != null) {
+          Get.offAllNamed(Routes.ROOT);
+        } else {
+          Get.snackbar(
+            null,
+            'Registration failed',
+            backgroundColor: AppColors.red,
+          );
+          Get.back();
+        }
+      },
     );
   }
 
