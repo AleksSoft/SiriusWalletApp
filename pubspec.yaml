@@ -35,7 +35,7 @@ dependencies:
   url_launcher: ^5.5.3
   clipboard_manager: ^0.0.4
   collection: ^1.14.13
-  local_auth: ^0.6.3+1
+  local_auth: ^0.6.3+4
   package_info: ^0.4.3
   share: ^0.6.5
   qr_flutter: ^3.2.0

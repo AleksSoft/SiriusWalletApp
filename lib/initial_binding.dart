@@ -15,6 +15,7 @@ import 'package:antares_wallet/app/presentation/modules/splash/splash_controller
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:meta/meta.dart';
 
 import 'app/data/repository/push_repository.dart';
@@ -77,7 +78,7 @@ class InitialBinding extends Bindings {
 
     /// local auth +
     Get.lazyPut<ILocalAuthDataSource>(
-      () => LocalAuthDataSource(),
+      () => LocalAuthDataSource(localAuth: LocalAuthentication()),
       fenix: true,
     );
     Get.lazyPut<ILocalAuthRepository>(

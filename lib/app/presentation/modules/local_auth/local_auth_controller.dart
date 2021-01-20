@@ -1,4 +1,5 @@
 import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/core/utils/app_log.dart';
 import 'package:antares_wallet/app/domain/repositories/local_auth_repository.dart';
 import 'package:antares_wallet/app/domain/repositories/session_repository.dart';
 import 'package:get/get.dart';
@@ -121,16 +122,17 @@ class LocalAuthController extends GetxController {
     final response = await sessionRepo.checkPin(pin: pinValue);
 
     response.fold((error) {
+      AppLog.logger.e(error.toProto3Json());
       Get.rawSnackbar(
         title: 'Error ${error.code}',
         message: error.message,
         backgroundColor: AppColors.red,
         snackbarStatus: (status) {
-          if (status == SnackbarStatus.CLOSED) _navigateBack(false);
+          if (status == SnackbarStatus.CLOSING) _navigateBack(false);
         },
       );
     }, (result) {
-      if (result) {
+      if (result ?? false) {
         _navigateBack(true);
       } else {
         Get.rawSnackbar(
@@ -172,5 +174,8 @@ class LocalAuthController extends GetxController {
     }
   }
 
-  void _navigateBack(bool result) => Get.back<bool>(result: result);
+  void _navigateBack(bool result) => Get.back<bool>(
+        result: result,
+        closeOverlays: true,
+      );
 }

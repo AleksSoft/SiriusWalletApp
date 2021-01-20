@@ -1,4 +1,5 @@
 import 'package:local_auth/local_auth.dart';
+import 'package:meta/meta.dart';
 
 abstract class ILocalAuthDataSource {
   Future<bool> authenticate(String reason);
@@ -6,18 +7,22 @@ abstract class ILocalAuthDataSource {
   Future<List<BiometricType>> getAvailableTypes();
 }
 
-class LocalAuthDataSource extends LocalAuthentication
-    implements ILocalAuthDataSource {
+class LocalAuthDataSource implements ILocalAuthDataSource {
+  final LocalAuthentication localAuth;
+  LocalAuthDataSource({@required this.localAuth});
+
   @override
-  Future<bool> authenticate(String reason) => authenticateWithBiometrics(
+  Future<bool> authenticate(String reason) =>
+      localAuth.authenticateWithBiometrics(
         localizedReason: reason,
         useErrorDialogs: true,
         stickyAuth: true,
       );
 
   @override
-  Future<bool> isBiometricsAvailable() => canCheckBiometrics;
+  Future<bool> isBiometricsAvailable() => localAuth.canCheckBiometrics;
 
   @override
-  Future<List<BiometricType>> getAvailableTypes() => getAvailableBiometrics();
+  Future<List<BiometricType>> getAvailableTypes() =>
+      localAuth.getAvailableBiometrics();
 }

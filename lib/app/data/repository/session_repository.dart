@@ -164,7 +164,7 @@ class SessionRepository implements ISessionRepository {
       return Left(result.error);
     } else {
       bool passed = result.body?.passed ?? false;
-      if (passed) saveSessionId(sessionId);
+      if (passed) await saveSessionId(sessionId);
       return Right(passed);
     }
   }

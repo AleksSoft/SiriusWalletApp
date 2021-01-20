@@ -30,13 +30,7 @@ abstract class ErrorHandler {
       method: method,
     );
     if (e.code == StatusCode.unauthenticated) {
-      dialogManager.error(ErrorContent(
-        title: 'Unauthenticated',
-        message: 'Session lost. Logging out..',
-        action: () => Get.find<SessionService>().verifySessionPIN(
-          logOutOnError: true,
-        ),
-      ));
+      Get.find<SessionService>().verifySessionPIN(logOutOnError: true);
     } else {
       _defaultErrorDialog();
     }
