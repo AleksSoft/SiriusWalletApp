@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:antares_wallet/app/common/app_enums.dart';
 import 'package:antares_wallet/app/core/utils/app_log.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/services/push_service.dart';
@@ -125,10 +124,7 @@ class RootController extends GetxController with WidgetsBindingObserver {
         if (sessionRepo.getSessionId().isNullOrBlank) {
           _logout();
         } else {
-          Get.toNamed(
-            Routes.LOCAL_AUTH,
-            arguments: PinMode.check,
-          ).then((result) {
+          Get.toNamed(Routes.LOCAL_AUTH).then((result) {
             if (!(result ?? false)) _logout();
           });
         }

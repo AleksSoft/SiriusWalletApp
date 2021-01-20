@@ -1,4 +1,3 @@
-import 'package:antares_wallet/app/common/app_enums.dart';
 import 'package:antares_wallet/app/domain/repositories/session_repository.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:get/get.dart';
@@ -24,10 +23,7 @@ class SplashController extends GetxController {
     if (sessionRepo.getSessionId().isNullOrBlank) {
       _logout();
     } else {
-      final result = await Get.toNamed(
-        Routes.LOCAL_AUTH,
-        arguments: PinMode.check_initial,
-      );
+      final result = await Get.toNamed(Routes.LOCAL_AUTH);
 
       if (result ?? false)
         Get.offAndToNamed(Routes.ROOT);

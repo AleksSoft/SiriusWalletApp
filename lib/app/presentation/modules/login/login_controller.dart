@@ -145,7 +145,7 @@ class LoginController extends GetxController {
       sessionRepo.saveSessionId(token).whenComplete(() async {
         var pinCorrect = await Get.toNamed(
           Routes.LOCAL_AUTH,
-          arguments: PinMode.check,
+          arguments: PinMode.check_initial,
         );
         if (pinCorrect ?? false) {
           Get.offAllNamed(Routes.ROOT);

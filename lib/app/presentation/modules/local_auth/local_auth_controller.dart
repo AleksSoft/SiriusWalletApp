@@ -29,8 +29,7 @@ class LocalAuthController extends GetxController {
   String get header => _getViewTitle();
   String get pinValue => _pinValue.value;
   bool get showLocalAuth =>
-      localAuthType.value != LocalAuthType.none &&
-      mode != PinMode.check_initial;
+      localAuthType.value != LocalAuthType.none && mode == PinMode.check;
   bool get isFingerprint => localAuthType.value == LocalAuthType.fingerprint;
   bool get isFace => localAuthType.value == LocalAuthType.face;
 

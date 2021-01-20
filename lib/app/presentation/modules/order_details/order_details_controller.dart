@@ -335,10 +335,7 @@ class OrderDetailsController extends GetxController {
   Future<bool> _tryCheckOrderPin() async {
     // check pin if sign orders enabled
     if (signOrders) {
-      var pinChecked = await Get.toNamed(
-        Routes.LOCAL_AUTH,
-        arguments: PinMode.check,
-      );
+      var pinChecked = await Get.toNamed(Routes.LOCAL_AUTH);
 
       if (!(pinChecked ?? false)) {
         Get.snackbar(

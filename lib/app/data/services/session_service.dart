@@ -11,10 +11,7 @@ class SessionService extends GetxService {
   Future<bool> verifySessionPIN({bool logOutOnError = false}) async {
     if (sessionRepo.getSessionId().isNullOrBlank) completeLogout();
 
-    final result = await Get.toNamed(
-      Routes.LOCAL_AUTH,
-      arguments: PinMode.check,
-    );
+    final result = await Get.toNamed(Routes.LOCAL_AUTH);
 
     bool pinCorrect = result ?? false;
     if (!pinCorrect && logOutOnError) {
