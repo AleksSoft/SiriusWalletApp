@@ -14,7 +14,20 @@ message ErrorResponseBody {
 enum ErrorCode {
     Unknown = 0; //unknown error
     InvalidField = 1; //validation error
+    MaintenanceMode = 2; //api is on maintenance mode
+    AssetUnavailable = 3; //asset not available (for example disabled)
+    PendingDialog = 4; //pending client dialog
+    KycRequired = 5; //KYC must be passed
+    NoData = 6; //data is not available for the user
+    LimitationCheckFailed = 7; //some limit reached, for example for swift cashout
+    AmountIsBiggerThanLimit = 8; //for card deposit, deposited amount is bigger than current deposit limit
+    AmountIsBiggerThanLimitAndUpgrade = 9; //for card deposit, deposited amount is bigger than current deposit limit and there is an upgrade to the next tier
+    InconsistentData = 10; //inconsistent state, like kyc required, deposit blocked, etc.
+    MinVolume = 11; //amount is less than allowed (for place limit order)
+    InvalidCashoutAddress = 12; // invalid address for cashout
+    NotEnoughFunds = 13; //not enough funds for cashout
+    BadRequest = 400; //bad request
     Unauthorized = 401; //unauthorized (invalid/expired token)
-    NotFound = 404;
+    NotFound = 404; //not found error
     Runtime = 500; //internal server error
 }
