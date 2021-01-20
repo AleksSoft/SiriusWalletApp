@@ -7,26 +7,29 @@ import 'package:meta/meta.dart';
 class LocalAuthController extends GetxController {
   static LocalAuthController get con => Get.find();
 
-  final ILocalAuthRepository localAuthRepo;
-  final ISessionRepository sessionRepo;
-  LocalAuthController({
-    @required this.localAuthRepo,
-    @required this.sessionRepo,
-  });
-
   final showBack = false.obs;
   final loading = false.obs;
   final localAuthType = LocalAuthType.none.obs;
   final _state = LocalAuthState.checkPIN.obs;
   final _pinValue = ''.obs;
 
-  PinMode _mode = PinMode.check;
+  final ILocalAuthRepository localAuthRepo;
+  final ISessionRepository sessionRepo;
+  final PinMode mode;
+  LocalAuthController({
+    @required this.localAuthRepo,
+    @required this.sessionRepo,
+    this.mode = PinMode.check,
+  });
+
   String _prevPIN = '';
 
   int get fieldsCount => 4;
   String get header => _getViewTitle();
   String get pinValue => _pinValue.value;
-  bool get showLocalAuth => localAuthType.value != LocalAuthType.none;
+  bool get showLocalAuth =>
+      localAuthType.value != LocalAuthType.none &&
+      mode != PinMode.check_initial;
   bool get isFingerprint => localAuthType.value == LocalAuthType.fingerprint;
   bool get isFace => localAuthType.value == LocalAuthType.face;
 
@@ -40,15 +43,14 @@ class LocalAuthController extends GetxController {
 
   @override
   void onReady() {
-    initWithMode(Get.arguments as PinMode);
+    initWithMode();
     super.onReady();
   }
 
-  void initWithMode(PinMode mode) {
-    _mode = mode ?? PinMode.check;
-    showBack(_mode != PinMode.check);
+  void initWithMode() {
+    showBack(mode != PinMode.check || mode != PinMode.check_initial);
 
-    switch (_mode) {
+    switch (mode) {
       case PinMode.create:
         _state(LocalAuthState.createPIN);
         break;
@@ -56,6 +58,7 @@ class LocalAuthController extends GetxController {
         _state(LocalAuthState.updatePIN);
         break;
       case PinMode.check:
+      case PinMode.check_initial:
       default:
         _state(LocalAuthState.checkPIN);
         break;
@@ -63,7 +66,7 @@ class LocalAuthController extends GetxController {
 
     localAuthRepo
         .getLocalAuthType()
-        .then(localAuthType)
+        .then((type) => localAuthType(type))
         .whenComplete(() => tryToggleLocalAuth());
   }
 

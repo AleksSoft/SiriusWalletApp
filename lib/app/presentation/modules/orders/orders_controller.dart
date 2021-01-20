@@ -64,7 +64,7 @@ class OrdersController extends GetxController {
     );
     var trades = <TradesResponse_TradeModel>[];
     response.fold(
-      (error) => AppLog.logger.d(error.toProto3Json()),
+      (error) => AppLog.logger.e(error.toProto3Json()),
       (newTrades) => trades = newTrades,
     );
     return trades;

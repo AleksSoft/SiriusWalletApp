@@ -144,7 +144,7 @@ class RootPageBinding extends Bindings {
       ordersCon: Get.find(),
       portfolioCon: Get.find(),
       pushService: Get.find(),
-      sessionService: Get.find(),
+      sessionRepo: Get.find(),
     ));
     Get.put(WithdrawalController(
       portfolioCon: Get.find(),

@@ -1,4 +1,4 @@
-enum PinMode { check, create, update }
+enum PinMode { check_initial, check, create, update }
 
 enum LocalAuthState { checkPIN, createPIN, updatePIN }
 

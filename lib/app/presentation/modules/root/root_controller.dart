@@ -1,12 +1,16 @@
 import 'dart:async';
 
+import 'package:antares_wallet/app/common/app_enums.dart';
+import 'package:antares_wallet/app/core/utils/app_log.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/services/push_service.dart';
 import 'package:antares_wallet/app/data/services/session_service.dart';
+import 'package:antares_wallet/app/domain/repositories/session_repository.dart';
 import 'package:antares_wallet/app/presentation/modules/markets/markets_controller.dart';
 import 'package:antares_wallet/app/presentation/modules/orders/orders_controller.dart';
 import 'package:antares_wallet/app/presentation/modules/portfolio/assets/assets_controller.dart';
 import 'package:antares_wallet/app/presentation/modules/portfolio/portfolio_controller.dart';
+import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,14 +18,14 @@ class RootController extends GetxController with WidgetsBindingObserver {
   static RootController get con => Get.find();
 
   final PushService pushService;
-  final SessionService sessionService;
+  final ISessionRepository sessionRepo;
   final AssetsController assetsCon;
   final MarketsController marketsCon;
   final OrdersController ordersCon;
   final PortfolioController portfolioCon;
   RootController({
     @required this.pushService,
-    @required this.sessionService,
+    @required this.sessionRepo,
     @required this.assetsCon,
     @required this.marketsCon,
     @required this.ordersCon,
@@ -86,12 +90,12 @@ class RootController extends GetxController with WidgetsBindingObserver {
 
   /// initialised app controllers and services
   Future<void> _initialize() async {
+    pushService.tryRegisterFcm();
+
     await assetsCon.initialize();
     await marketsCon.initialize();
     await ordersCon.initialize();
     await portfolioCon.initialize();
-
-    pushService.tryRegisterFcm();
 
     loading(false);
     _startTimer();
@@ -111,11 +115,24 @@ class RootController extends GetxController with WidgetsBindingObserver {
   void _stopTimer() => _prolongSessionTimer?.cancel();
 
   Future<bool> _prolongSession() async {
-    final response = await sessionService.sessionRepo.prolongateSession();
+    final response = await sessionRepo.prolongateSession();
 
     bool isSuccess = false;
     response.fold(
-      (error) => sessionService.verifySessionPIN(logOutOnError: true),
+      (error) {
+        AppLog.logger.e(error.toProto3Json());
+
+        if (sessionRepo.getSessionId().isNullOrBlank) {
+          _logout();
+        } else {
+          Get.toNamed(
+            Routes.LOCAL_AUTH,
+            arguments: PinMode.check,
+          ).then((result) {
+            if (!(result ?? false)) _logout();
+          });
+        }
+      },
       (result) => isSuccess = result,
     );
 
@@ -123,4 +140,12 @@ class RootController extends GetxController with WidgetsBindingObserver {
 
     return isSuccess;
   }
+
+  void _logout() => Get.find<DialogManager>().error(ErrorContent(
+        title: 'Unauthenticated',
+        message: 'Session lost. Logging out..',
+        action: () => Get.find<SessionService>().verifySessionPIN(
+          logOutOnError: true,
+        ),
+      ));
 }

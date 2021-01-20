@@ -90,7 +90,7 @@ class InitialBinding extends Bindings {
     // local auth -
 
     /// splash +
-    Get.put(SplashController(sessionService: Get.find()));
+    Get.put(SplashController(sessionRepo: Get.find()));
     // splash -
   }
 }

@@ -137,7 +137,7 @@ class DepositController extends GetxController {
       );
     } else {
       rootCon.pageIndexObs.value = 4;
-      Get.offNamed(Routes.UPGRADE_ACC_MAIN);
+      Get.offAndToNamed(Routes.UPGRADE_ACC_MAIN);
       loading = false;
     }
   }

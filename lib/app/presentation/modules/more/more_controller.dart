@@ -10,7 +10,10 @@ class MoreController extends GetxController {
 
   final AppConfig appConfig;
   final SessionService sessionService;
-  MoreController({@required this.appConfig, @required this.sessionService});
+  MoreController({
+    @required this.appConfig,
+    @required this.sessionService,
+  });
 
   bool get isDevSettingsVisible => !appConfig.isProd;
 

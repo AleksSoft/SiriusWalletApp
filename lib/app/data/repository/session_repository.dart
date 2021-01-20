@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/core/utils/app_log.dart';
 import 'package:antares_wallet/app/data/data_sources/session_data_source.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/common.pb.dart';
@@ -64,7 +65,9 @@ class SessionRepository implements ISessionRepository {
   Future<void> logout() async {
     try {
       if (!getSessionId().isNullOrBlank) await source.logout();
-    } catch (e) {}
+    } catch (e) {
+      AppLog.logger.e(e.toString());
+    }
     await storage.erase();
   }
 

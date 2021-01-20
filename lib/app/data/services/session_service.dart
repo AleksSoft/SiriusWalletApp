@@ -24,8 +24,6 @@ class SessionService extends GetxService {
     return pinCorrect;
   }
 
-  Future<void> completeLogout() async {
-    await sessionRepo.logout();
-    Get.offAllNamed(Routes.START);
-  }
+  void completeLogout() =>
+      sessionRepo.logout().whenComplete(() => Get.offAllNamed(Routes.START));
 }
