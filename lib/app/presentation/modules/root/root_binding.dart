@@ -30,7 +30,6 @@ import 'package:antares_wallet/app/presentation/modules/more/more_controller.dar
 import 'package:antares_wallet/app/presentation/modules/orders/orders_controller.dart';
 import 'package:antares_wallet/app/presentation/modules/portfolio/assets/assets_controller.dart';
 import 'package:antares_wallet/app/presentation/modules/portfolio/portfolio_controller.dart';
-import 'package:antares_wallet/app/presentation/modules/profile/profile_controller.dart';
 import 'package:antares_wallet/app/presentation/modules/root/root_controller.dart';
 import 'package:antares_wallet/app/presentation/modules/withdrawal/withdrawal_controller.dart';
 import 'package:get/get.dart';
@@ -110,9 +109,6 @@ class RootPageBinding extends Bindings {
     // repositories -
 
     /// controllers +
-    Get.put(ProfileController(
-      profileRepo: Get.find(),
-    ));
     Get.put(AssetsController(
       repository: Get.find(),
     ));

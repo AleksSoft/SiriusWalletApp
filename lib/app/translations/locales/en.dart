@@ -161,5 +161,8 @@ final Map<String, String> enUS = {
   "sms_code": "Sms code",
   "proceed": "PROCEED",
   "msg_no_verification_code": "Haven\'t received the code?",
-  "msg_request_code_args_date": "Request new code in %s"
+  "msg_request_code_args_date": "Request new code in %s",
+  "zip_code": "Zip code",
+  "apt": "Apt.",
+  "address": "Address"
 };

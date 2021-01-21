@@ -41,7 +41,7 @@ class UpgradeRequestView extends GetView<ProfileController> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                controller.tierInfo?.upgradeRequest?.tier ?? '',
+                controller.tierInfo.value.upgradeRequest.tier,
                 style: Get.textTheme.subtitle1.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
@@ -50,11 +50,7 @@ class UpgradeRequestView extends GetView<ProfileController> {
             ],
           ),
           Spacer(),
-          Text(
-            'h_left'.trArgs([
-              '${DateTime.fromMillisecondsSinceEpoch(upgradeRequest.submitDate.seconds.toInt() * 1000).difference(DateTime.now()).inDays}',
-            ]),
-          ),
+          Text('h_left'.trArgs([controller.hoursLeft(this.upgradeRequest)])),
         ],
       ),
     );

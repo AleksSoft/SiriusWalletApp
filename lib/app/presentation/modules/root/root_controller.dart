@@ -118,21 +118,21 @@ class RootController extends GetxController with WidgetsBindingObserver {
 
     bool isSuccess = false;
     response.fold(
-      (error) {
-        AppLog.logger.e(error.toProto3Json());
-
-        if (sessionRepo.getSessionId().isNullOrBlank) {
-          _logout();
-        } else {
-          Get.toNamed(Routes.LOCAL_AUTH).then((result) {
-            if (!(result ?? false)) _logout();
-          });
-        }
-      },
+      (error) => AppLog.logger.e(error.toProto3Json()),
       (result) => isSuccess = result,
     );
 
     AppLog.logger.i('session prolongation result = $isSuccess');
+
+    if (!isSuccess) {
+      if (sessionRepo.getSessionId().isNullOrBlank) {
+        _logout();
+      } else {
+        Get.toNamed(Routes.LOCAL_AUTH).then((result) {
+          if (!(result ?? false)) _logout();
+        });
+      }
+    }
 
     return isSuccess;
   }

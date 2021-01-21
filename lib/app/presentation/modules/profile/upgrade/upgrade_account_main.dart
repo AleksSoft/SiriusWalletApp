@@ -63,7 +63,7 @@ class _LevelCard extends StatelessWidget {
           AppUiHelpers.vSpaceExtraSmall,
           Obx(
             () => Text(
-              c.tierInfo.currentTier.tier,
+              c.tierInfo.value.currentTier.tier,
               style: Get.textTheme.headline6.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -95,7 +95,7 @@ class _LevelHeaderView extends StatelessWidget {
         AppUiHelpers.vSpaceExtraSmall,
         Obx(
           () => Text(
-            c.tierInfo.nextTier.tier,
+            c.tierInfo.value.nextTier.tier,
             style: Get.textTheme.headline6.copyWith(
               fontWeight: FontWeight.w700,
               color: AppColors.accent,
@@ -105,9 +105,10 @@ class _LevelHeaderView extends StatelessWidget {
         AppUiHelpers.vSpaceSmall,
         Obx(
           () => Visibility(
-            visible: c.tierInfo.nextTier.maxLimit != '0',
+            visible: c.tierInfo.value.nextTier.maxLimit != '0',
             child: Text(
-              'msg_upgrade_deposit_to'.trArgs([c.tierInfo.nextTier.maxLimit]),
+              'msg_upgrade_deposit_to'
+                  .trArgs([c.tierInfo.value.nextTier.maxLimit]),
               textAlign: TextAlign.center,
               softWrap: true,
             ),
@@ -129,7 +130,7 @@ class _ListView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Visibility(
-              visible: _.personalData.address.isNullOrBlank,
+              visible: _.personalData.value.address.isNullOrBlank,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: AppSizes.small),
                 child: Row(
@@ -150,7 +151,8 @@ class _ListView extends StatelessWidget {
                 ),
               ),
             ),
-            for (var doc in _.tierInfo.nextTier.documents) _buildRow(doc, _)
+            for (var doc in _.tierInfo.value.nextTier.documents)
+              _buildRow(doc, _)
           ],
         ),
       ),

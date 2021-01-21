@@ -5,8 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class UpgradeAccountAddress extends StatelessWidget {
-  final c = ProfileController.con;
+class UpgradeAccountAddress extends GetView<ProfileController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,7 +13,7 @@ class UpgradeAccountAddress extends StatelessWidget {
         title: Obx(
           () => Text(
             'upgrade_to'.trArgs(
-              ['${ProfileController.con.tierInfo.nextTier.tier}'],
+              ['${controller.tierInfo.value.nextTier.tier}'],
             ),
           ),
         ),
@@ -29,12 +28,12 @@ class UpgradeAccountAddress extends StatelessWidget {
             padding: const EdgeInsets.all(AppSizes.medium),
             children: <Widget>[
               TextFormField(
-                onChanged: (String s) => c.addressValue = s,
-                initialValue: c.addressValue,
+                onChanged: (String s) => controller.addressValue = s,
+                initialValue: controller.addressValue,
                 keyboardType: TextInputType.streetAddress,
-                validator: (String value) => c.validateAddress(value),
+                validator: (String value) => controller.validateAddress(value),
                 decoration: InputDecoration(
-                  labelText: 'Address',
+                  labelText: 'address'.tr,
                 ),
               ),
               AppUiHelpers.vSpaceSmall,
@@ -42,25 +41,25 @@ class UpgradeAccountAddress extends StatelessWidget {
                 children: [
                   Flexible(
                     child: TextFormField(
-                      onChanged: (String s) => c.apartmentValue = s,
-                      initialValue: c.apartmentValue,
+                      onChanged: (String s) => controller.apartmentValue = s,
+                      initialValue: controller.apartmentValue,
                       keyboardType: TextInputType.streetAddress,
-                      validator: (String value) => c.validateAddress(value),
+                      validator: (String value) =>
+                          controller.validateAddress(value),
                       decoration: InputDecoration(
-                        labelText: 'Apt.',
+                        labelText: 'apt'.tr,
                       ),
                     ),
                   ),
                   AppUiHelpers.hSpaceLarge,
                   Flexible(
                     child: TextFormField(
-                      onChanged: (String s) => c.zipCodeValue = s,
-                      initialValue: c.zipCodeValue,
+                      onChanged: (String s) => controller.zipCodeValue = s,
+                      initialValue: controller.zipCodeValue,
                       keyboardType: TextInputType.number,
-                      validator: (String value) => c.validateAddress(value),
-                      decoration: InputDecoration(
-                        labelText: 'Zip code',
-                      ),
+                      validator: (String value) =>
+                          controller.validateAddress(value),
+                      decoration: InputDecoration(labelText: 'zip_code'.tr),
                     ),
                   ),
                 ],
@@ -72,7 +71,7 @@ class UpgradeAccountAddress extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(AppSizes.small)),
                 child: CupertinoButton.filled(
                   child: Text('upgrade_account'.tr),
-                  onPressed: () => c.submitAddress(),
+                  onPressed: () => controller.submitAddress(),
                 ),
               ),
             ],

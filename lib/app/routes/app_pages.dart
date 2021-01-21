@@ -21,6 +21,7 @@ import 'package:antares_wallet/app/presentation/modules/order_details/order_deta
 import 'package:antares_wallet/app/presentation/modules/order_details/order_details_page.dart';
 import 'package:antares_wallet/app/presentation/modules/orders/history/filters/orders_history_filters_view.dart';
 import 'package:antares_wallet/app/presentation/modules/portfolio/history/filters/portfolio_history_filters_view.dart';
+import 'package:antares_wallet/app/presentation/modules/profile/profile_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/profile/profile_page.dart';
 import 'package:antares_wallet/app/presentation/modules/profile/upgrade/quest/upgrade_account_quest.dart';
 import 'package:antares_wallet/app/presentation/modules/profile/upgrade/quest/upgrade_account_quest_binding.dart';
@@ -126,6 +127,7 @@ abstract class AppPages {
     GetPage(
       name: Routes.PROFILE,
       page: () => ProfilePage(),
+      binding: ProfileBinding(),
     ),
     GetPage(
       name: Routes.SUPPORT,

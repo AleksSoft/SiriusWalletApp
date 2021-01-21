@@ -11,57 +11,76 @@ class ProfileController extends GetxController {
 
   static final kycDocType = ['PoI', 'Selfie', 'PoA', 'PoF', 'Questions'];
 
-  final IProfileRepository profileRepo;
-  ProfileController({@required this.profileRepo});
-
-  final _personalData = PersonalData().obs;
-  PersonalData get personalData => this._personalData.value;
-  set personalData(PersonalData value) => this._personalData.value = value;
-
-  final _tierInfo = TierInfoPayload().obs;
-  TierInfoPayload get tierInfo => this._tierInfo.value;
-  set tierInfo(TierInfoPayload value) => this._tierInfo.value = value;
-
+  final personalData = PersonalData().obs;
+  final tierInfo = TierInfoPayload().obs;
   final documentsMap = Map<String, KycDocument>().obs;
 
-  double get limitPercent => doubleCurrent / doubleMax;
-
-  double get doubleCurrent =>
-      double.tryParse(tierInfo?.currentTier?.current ?? '0') ?? 0.0;
-
-  double get doubleMax =>
-      double.tryParse(tierInfo?.currentTier?.maxLimit ?? '0') ?? 1.0;
-
-  bool get hasAccountInfo => !personalData.address.isNullOrBlank;
+  final IProfileRepository profileRepo;
+  ProfileController({@required this.profileRepo});
 
   String addressValue;
   String apartmentValue;
   String zipCodeValue;
 
   @override
-  void onReady() async {
-    await reloadData();
+  void onReady() {
+    reloadData();
     super.onReady();
   }
 
+  double get limitPercent => doubleCurrent / doubleMax;
+
+  double get doubleCurrent =>
+      double.tryParse(tierInfo.value.currentTier.current ?? '0') ?? 0.0;
+
+  double get doubleMax =>
+      double.tryParse(tierInfo.value.currentTier.maxLimit ?? '0') ?? 1.0;
+
+  bool get hasAccountInfo => !personalData.value.address.isBlank;
+
+  String get currentTierCurrent => Formatter.currency(
+        tierInfo.value.currentTier.current,
+        suffix: tierInfo.value.currentTier.asset,
+        fractionDigits: 2,
+      );
+
+  String get currentTierMax => Formatter.currency(
+        tierInfo.value.currentTier.maxLimit,
+        suffix: tierInfo.value.currentTier.asset,
+        fractionDigits: 2,
+      );
+
+  String hoursLeft(UpgradeRequest r) => DateTime.fromMillisecondsSinceEpoch(
+        r.submitDate.seconds.toInt() * 1000,
+      ).difference(DateTime.now()).inHours.toString();
+
   Future<void> reloadData() async {
     final personalDataResponse = await profileRepo.getPersonalData();
-    personalDataResponse.fold((error) {}, (result) {
-      personalData = result;
-      AppLog.logger.i('PersonalData: ${personalData.toProto3Json()}');
-    });
+    personalDataResponse.fold(
+      (error) => AppLog.logger.e(error.toProto3Json()),
+      (result) {
+        AppLog.logger.i('PersonalData: ${result.toProto3Json()}');
+        personalData(result);
+      },
+    );
 
     final tierResponse = await profileRepo.getTierInfo();
-    tierResponse.fold((error) {}, (result) {
-      tierInfo = result;
-      AppLog.logger.i('TierInfo: ${tierInfo.toProto3Json()}');
-    });
+    tierResponse.fold(
+      (error) => AppLog.logger.e(error.toProto3Json()),
+      (result) {
+        AppLog.logger.i('TierInfo: ${result.toProto3Json()}');
+        tierInfo(result);
+      },
+    );
 
     final documentsResponse = await profileRepo.getKycDocuments();
-    documentsResponse.fold((error) {}, (result) {
-      documentsMap.assignAll(result);
-      AppLog.logger.i('DocumentsMap: ${documentsMap.toString()}');
-    });
+    documentsResponse.fold(
+      (error) => AppLog.logger.e(error.toProto3Json()),
+      (result) {
+        AppLog.logger.i('DocumentsMap: $result');
+        documentsMap.assignAll(result);
+      },
+    );
   }
 
   void saveQuestionnaire(List<AnswersRequest_Choice> answers) => profileRepo
@@ -75,7 +94,7 @@ class ProfileController extends GetxController {
           ));
 
   Future<void> submitProfile() async {
-    TierUpgrade tier = tierInfo.nextTier.tier.toLowerCase() == 'advanced'
+    TierUpgrade tier = tierInfo.value.nextTier.tier.toLowerCase() == 'advanced'
         ? TierUpgrade.Advanced
         : TierUpgrade.ProIndividual;
     final response = await profileRepo.submitProfile(tier: tier);
@@ -164,7 +183,7 @@ class ProfileController extends GetxController {
   }
 
   openNextUpgradePage({bool fromMain = false}) {
-    if (personalData.address.isNullOrBlank) {
+    if (personalData.value.address.isNullOrBlank) {
       Get.toNamed(Routes.UPGRADE_ACC_ADDRESS);
     } else if (pageNeedsOpen(0)) {
       openNextPage(
@@ -205,7 +224,7 @@ class ProfileController extends GetxController {
   bool pageNeedsOpen(int id) {
     try {
       return documentsMap[kycDocType[0]] == null &&
-          tierInfo.nextTier.documents.contains(kycDocType[0]);
+          tierInfo.value.nextTier.documents.contains(kycDocType[0]);
     } catch (e) {
       return false;
     }

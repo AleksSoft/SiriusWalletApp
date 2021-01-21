@@ -14,7 +14,7 @@ class UpgradeAccountChooseDocPage extends StatelessWidget {
         title: Obx(
           () => Text(
             'upgrade_to'.trArgs(
-              ['${ProfileController.con.tierInfo.nextTier.tier}'],
+              ['${ProfileController.con.tierInfo.value.nextTier.tier}'],
             ),
           ),
         ),

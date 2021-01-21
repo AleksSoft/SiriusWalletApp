@@ -8,8 +8,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import 'upgrade/widgets/upgrade_request_view.dart';
 
-class ProfilePage extends StatelessWidget {
-  final c = ProfileController.con;
+class ProfilePage extends GetView<ProfileController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,10 +20,12 @@ class ProfilePage extends StatelessWidget {
           children: <Widget>[
             Obx(
               () => Visibility(
-                visible: c.tierInfo.upgradeRequest.hasTier(),
+                visible: controller.tierInfo.value.upgradeRequest.hasTier(),
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: AppSizes.medium),
-                  child: UpgradeRequestView(c.tierInfo?.upgradeRequest),
+                  child: UpgradeRequestView(
+                    controller.tierInfo.value.upgradeRequest,
+                  ),
                 ),
               ),
             ),
@@ -39,8 +40,7 @@ class ProfilePage extends StatelessWidget {
   }
 }
 
-class _AccountDataView extends StatelessWidget {
-  final c = ProfileController.con;
+class _AccountDataView extends GetView<ProfileController> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -58,11 +58,11 @@ class _AccountDataView extends StatelessWidget {
             color: AppColors.accent,
             size: 40.0,
           ),
-          title: Obx(() => Text(c.tierInfo.currentTier.tier)),
+          title: Obx(() => Text(controller.tierInfo.value.currentTier.tier)),
           subtitle: Text('verified'.tr),
           trailing: Obx(
             () => Visibility(
-              visible: !c.tierInfo.nextTier.tier.isNullOrBlank,
+              visible: !controller.tierInfo.value.nextTier.tier.isBlank,
               child: OutlineButton(
                 onPressed: () => Get.toNamed(Routes.UPGRADE_ACC_MAIN),
                 borderSide: BorderSide(color: AppColors.accent),
@@ -80,14 +80,13 @@ class _AccountDataView extends StatelessWidget {
   }
 }
 
-class _DepositLimitsView extends StatelessWidget {
-  final c = ProfileController.con;
+class _DepositLimitsView extends GetView<ProfileController> {
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
-        child: c.doubleMax > 1
+        child: controller.doubleMax > 1
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.min,
@@ -105,7 +104,7 @@ class _DepositLimitsView extends StatelessWidget {
                   LinearPercentIndicator(
                     lineHeight: AppSizes.extraSmall,
                     padding: const EdgeInsets.all(0.0),
-                    percent: c.limitPercent,
+                    percent: controller.limitPercent,
                     backgroundColor: AppColors.secondary.withOpacity(0.1),
                     progressColor: AppColors.accent,
                   ),
@@ -115,13 +114,13 @@ class _DepositLimitsView extends StatelessWidget {
                     children: <Widget>[
                       Obx(
                         () => Text(
-                          '${c.tierInfo.currentTier.current} ${c.tierInfo.currentTier.asset}',
+                          controller.currentTierCurrent,
                           style: Get.textTheme.caption,
                         ),
                       ),
                       Obx(
                         () => Text(
-                          '${c.tierInfo.currentTier.maxLimit} ${c.tierInfo.currentTier.asset}',
+                          controller.currentTierMax,
                           style: Get.textTheme.caption,
                         ),
                       ),
@@ -135,8 +134,7 @@ class _DepositLimitsView extends StatelessWidget {
   }
 }
 
-class _PersonalDataView extends StatelessWidget {
-  final c = ProfileController.con;
+class _PersonalDataView extends GetView<ProfileController> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -150,25 +148,25 @@ class _PersonalDataView extends StatelessWidget {
         ListTile(
           contentPadding: const EdgeInsets.all(0.0),
           title: Text('full_name'.tr),
-          subtitle: Obx(() => Text(c.personalData.fullName)),
+          subtitle: Obx(() => Text(controller.personalData.value.fullName)),
         ),
         Divider(height: 1.0),
         ListTile(
           contentPadding: const EdgeInsets.all(0.0),
           title: Text('email'.tr),
-          subtitle: Obx(() => Text(c.personalData.email)),
+          subtitle: Obx(() => Text(controller.personalData.value.email)),
         ),
         Divider(height: 1.0),
         ListTile(
           contentPadding: const EdgeInsets.all(0.0),
           title: Text('contact_phone'.tr),
-          subtitle: Obx(() => Text(c.personalData.phone)),
+          subtitle: Obx(() => Text(controller.personalData.value.phone)),
         ),
         Divider(height: 1.0),
         ListTile(
           contentPadding: const EdgeInsets.all(0.0),
           title: Text('country'.tr),
-          subtitle: Obx(() => Text(c.personalData.country)),
+          subtitle: Obx(() => Text(controller.personalData.value.country)),
         ),
         Divider(height: 1.0),
       ],

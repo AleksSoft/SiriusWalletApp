@@ -35,8 +35,8 @@ class UpgradeAccountResultPage extends StatelessWidget {
                       AppUiHelpers.vSpaceLarge,
                       Obx(
                         () => Visibility(
-                          visible: c.tierInfo.upgradeRequest.hasTier(),
-                          child: UpgradeRequestView(c.tierInfo.upgradeRequest),
+                          visible: c.tierInfo.value.upgradeRequest.hasTier(),
+                          child: UpgradeRequestView(c.tierInfo.value.upgradeRequest),
                         ),
                       ),
                       AppUiHelpers.vSpaceLarge,
@@ -47,7 +47,7 @@ class UpgradeAccountResultPage extends StatelessWidget {
                       AppUiHelpers.vSpaceMedium,
                       Text(
                         'msg_upgrade_to_s_account'.trArgs(
-                          [c.tierInfo?.nextTier?.tier ?? ''],
+                          [c.tierInfo.value.nextTier.tier],
                         ),
                         textAlign: TextAlign.center,
                       )
