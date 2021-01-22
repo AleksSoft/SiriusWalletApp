@@ -58,7 +58,7 @@ abstract class ISessionRepository {
     @required String publicKey,
   });
 
-  String getSessionId();
-  Future<void> saveSessionId(String token);
+  Future<String> getSessionId();
+  Future<void> setSessionId(String token);
   Future<void> updateApiSession({String url});
 }

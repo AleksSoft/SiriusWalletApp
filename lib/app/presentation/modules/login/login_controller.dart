@@ -142,8 +142,8 @@ class LoginController extends GetxController {
   }
 
   void _verifyPin(String token) =>
-      sessionRepo.saveSessionId(token).whenComplete(() async {
-        var pinCorrect = await Get.toNamed(
+      sessionRepo.setSessionId(token).whenComplete(() async {
+        final pinCorrect = await Get.toNamed(
           Routes.LOCAL_AUTH,
           arguments: PinMode.check_initial,
         );

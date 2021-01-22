@@ -13,8 +13,8 @@ import 'package:antares_wallet/app/domain/repositories/push_repository.dart';
 import 'package:antares_wallet/app/domain/repositories/session_repository.dart';
 import 'package:antares_wallet/app/presentation/modules/splash/splash_controller.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:meta/meta.dart';
 
@@ -23,11 +23,17 @@ import 'app/data/repository/push_repository.dart';
 class InitialBinding extends Bindings {
   final AppConfig appConfig;
   final ApiService apiService;
-  InitialBinding({@required this.appConfig, @required this.apiService});
+  final FlutterSecureStorage storage;
+  InitialBinding({
+    @required this.appConfig,
+    @required this.apiService,
+    @required this.storage,
+  });
 
   @override
   void dependencies() {
     /// common +
+    Get.put<FlutterSecureStorage>(storage);
     Get.put<ApiService>(apiService);
     Get.lazyPut<AppConfig>(
       () => appConfig,
@@ -47,7 +53,7 @@ class InitialBinding extends Bindings {
     Get.lazyPut<ISessionRepository>(
       () => SessionRepository(
         source: Get.find(),
-        storage: GetStorage(),
+        storage: Get.find(),
       ),
       fenix: true,
     );
@@ -65,7 +71,7 @@ class InitialBinding extends Bindings {
     Get.lazyPut<IPushRepository>(
       () => PushRepository(
         source: Get.find(),
-        storage: GetStorage(),
+        storage: Get.find(),
       ),
       fenix: true,
     );
@@ -83,7 +89,7 @@ class InitialBinding extends Bindings {
     );
     Get.lazyPut<ILocalAuthRepository>(
       () => LocalAuthRepository(
-        storage: GetStorage(),
+        storage: Get.find(),
         source: Get.find(),
       ),
       fenix: true,

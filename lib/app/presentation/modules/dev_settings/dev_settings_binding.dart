@@ -8,7 +8,7 @@ class DevSettingsBinding extends Bindings {
     Get.lazyPut<DevSettingsController>(
       () => DevSettingsController(
         apiService: Get.find(),
-        pushRepo: Get.find(),
+        pushService: Get.find(),
         sessionRepo: Get.find(),
       ),
     );

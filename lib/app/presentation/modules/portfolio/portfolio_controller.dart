@@ -98,7 +98,7 @@ class PortfolioController extends GetxController {
     if (newFilter != null) {
       _filter = newFilter;
     } else if (_filter == null) {
-      _filter = PortfolioHistoryFilter.fromStorage();
+      _filter = await PortfolioHistoryFilter.fromStorage();
     }
     final fundsResponse = await portfolioRepo.getFunds(
       take: 25,

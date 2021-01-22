@@ -315,7 +315,7 @@ class RegisterController extends GetxController {
 
     List<int> utf8Password = utf8.encode(passwordValue);
     String shaPassword = sha256.convert(utf8Password).toString();
-    String pinCode = localAuthRepo.getPIN();
+    String pinCode = await localAuthRepo.getPIN();
     String phone = phonePrefix + phoneValue;
     String countryIso3code = countryValue.id;
 

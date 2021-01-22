@@ -20,7 +20,8 @@ class SplashController extends GetxController {
   Future<void> checkPINAndStartApp() async {
     await Future.delayed(Duration(seconds: splashDelaySeconds));
 
-    if (sessionRepo.getSessionId().isNullOrBlank) {
+    final sessionId = await sessionRepo.getSessionId();
+    if (sessionId == null || sessionId.isBlank) {
       _logout();
     } else {
       final result = await Get.toNamed(Routes.LOCAL_AUTH);

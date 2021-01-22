@@ -1,6 +1,6 @@
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/services/api/api_service.dart';
-import 'package:antares_wallet/app/domain/repositories/push_repository.dart';
+import 'package:antares_wallet/app/data/services/push_service.dart';
 import 'package:antares_wallet/app/domain/repositories/session_repository.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
@@ -11,11 +11,11 @@ class DevSettingsController extends GetxController {
   static DevSettingsController get con => Get.find();
 
   final ApiService apiService;
-  final IPushRepository pushRepo;
+  final PushService pushService;
   final ISessionRepository sessionRepo;
   DevSettingsController({
     @required this.apiService,
-    @required this.pushRepo,
+    @required this.pushService,
     @required this.sessionRepo,
   });
 
@@ -27,13 +27,15 @@ class DevSettingsController extends GetxController {
 
   @override
   void onInit() {
-    urlList(apiService.apiUrls);
-    selectedUrl(apiService.defaultUrl);
+    apiService.getDefaultUrl().then((value) {
+      selectedUrl(value);
+      urlList(apiService.apiUrls);
+    });
+
+    sessionRepo.getSessionId().then(apiToken);
+    fcmToken(pushService.fcmToken);
 
     _getAppVersionString().then(appVersion);
-
-    apiToken(sessionRepo.getSessionId());
-    fcmToken(pushRepo.getPushToken());
 
     super.onInit();
   }

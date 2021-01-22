@@ -1,16 +1,18 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pbgrpc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:grpc/grpc.dart';
+import 'package:meta/meta.dart';
 
 class ApiService {
   static final timeoutDuration = const Duration(seconds: 30);
 
   List<String> apiUrls = [];
 
-  final _storage = GetStorage();
+  final FlutterSecureStorage storage;
+  ApiService({@required this.storage});
 
   ApiServiceClient _clientSecure;
   ApiServiceClient _client;
@@ -18,9 +20,9 @@ class ApiService {
   ApiServiceClient get clientSecure => this._clientSecure;
   ApiServiceClient get client => this._client;
 
-  String get defaultUrl {
-    String url = _storage.read(AppStorageKeys.baseUrl);
-    return url.isNullOrBlank ? apiUrls[0] : url;
+  Future<String> getDefaultUrl() async {
+    String url = await storage.read(key: AppStorageKeys.baseUrl);
+    return url == null || url.isBlank ? apiUrls[0] : url;
   }
 
   Future<ApiService> init(AppConfig appConfig) async {
@@ -37,18 +39,18 @@ class ApiService {
   ///
   /// If [url] is null the stored value is used
   Future<void> update({String url}) async {
-    if (url.isNullOrBlank) url = defaultUrl;
-    await _storage.write(AppStorageKeys.baseUrl, url);
+    if (url == null || url.isBlank) url = await getDefaultUrl();
+    await storage.write(key: AppStorageKeys.baseUrl, value: url);
     AppLog.logger.i('Base Url: $url');
 
     final channel = ClientChannel(url, port: 443);
 
-    String authToken = 'Bearer ${_storage.read(AppStorageKeys.token)}';
+    final token = await storage.read(key: AppStorageKeys.token);
 
     _clientSecure = ApiServiceClient(
       channel,
       options: CallOptions(
-        metadata: {'Authorization': authToken},
+        metadata: {'Authorization': 'Bearer $token'},
         timeout: timeoutDuration,
       ),
     );

@@ -7,22 +7,24 @@ import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/common.pb.dart';
 import 'package:antares_wallet/app/domain/repositories/session_repository.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get_utils/get_utils.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:meta/meta.dart';
 
 class SessionRepository implements ISessionRepository {
   final ISessionDataSource source;
-  final GetStorage storage;
+  final FlutterSecureStorage storage;
   SessionRepository({@required this.source, @required this.storage});
 
   @override
   Future<Either<ErrorResponseBody, bool>> checkPin({
     @required String pin,
   }) async {
+    final sessionId = await getSessionId();
     final request = CheckPinRequest()
-      ..sessionId = getSessionId()
+      ..sessionId = sessionId
       ..pin = pin;
+
     final response = await source.checkPin(request);
 
     if (response == null) return Right(false);
@@ -42,7 +44,7 @@ class SessionRepository implements ISessionRepository {
 
   @override
   Future<Either<ErrorResponseBody, bool>> isSessionExpired() async {
-    final request = CheckSessionRequest()..sessionId = getSessionId();
+    final request = CheckSessionRequest()..sessionId = await getSessionId();
 
     final response = await source.isSessionExpired(request);
 
@@ -80,11 +82,12 @@ class SessionRepository implements ISessionRepository {
   @override
   Future<void> logout() async {
     try {
-      if (!getSessionId().isNullOrBlank) await source.logout();
+      final sessionId = await getSessionId();
+      if (sessionId != null && !sessionId.isBlank) await source.logout();
     } catch (e) {
       AppLog.logger.e(e.toString());
     }
-    await storage.erase();
+    await storage.deleteAll();
   }
 
   @override
@@ -120,7 +123,7 @@ class SessionRepository implements ISessionRepository {
       return Left(response.error);
     }
 
-    await saveSessionId(response.body.sessionId);
+    await setSessionId(response.body.sessionId);
 
     return Right(response.body);
   }
@@ -201,7 +204,7 @@ class SessionRepository implements ISessionRepository {
       return Left(response.error);
     } else {
       bool passed = response.body?.passed ?? false;
-      if (passed) await saveSessionId(sessionId);
+      if (passed) await setSessionId(sessionId);
       return Right(passed);
     }
   }
@@ -226,11 +229,12 @@ class SessionRepository implements ISessionRepository {
   }
 
   @override
-  String getSessionId() => storage.read(AppStorageKeys.token);
+  Future<String> getSessionId() async =>
+      await storage.read(key: AppStorageKeys.token);
 
   @override
-  Future<void> saveSessionId(String s) async {
-    await storage.write(AppStorageKeys.token, s);
+  Future<void> setSessionId(String s) async {
+    await storage.write(key: AppStorageKeys.token, value: s);
     await updateApiSession();
   }
 

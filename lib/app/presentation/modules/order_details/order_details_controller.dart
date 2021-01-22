@@ -12,8 +12,8 @@ import 'package:antares_wallet/app/presentation/modules/orders/orders_controller
 import 'package:antares_wallet/app/presentation/modules/portfolio/portfolio_controller.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 class OrderDetailsController extends GetxController {
   static OrderDetailsController get con => Get.find();
@@ -25,12 +25,14 @@ class OrderDetailsController extends GetxController {
   final PortfolioController portfolioCon;
   final MarketsController marketsCon;
   final OrdersController ordersCon;
+  final FlutterSecureStorage storage;
   OrderDetailsController({
     @required this.tradingRepo,
     @required this.apiService,
     @required this.portfolioCon,
     @required this.marketsCon,
     @required this.ordersCon,
+    @required this.storage,
   });
 
   StreamSubscription _orderbookSubscr;
@@ -42,9 +44,6 @@ class OrderDetailsController extends GetxController {
   final totalTextController = TextEditingController();
   String get total => totalTextController.text;
   set total(String value) => totalTextController.text = value;
-
-  final _signOrders = false.val(AppStorageKeys.signOrders);
-  bool get signOrders => this._signOrders.val;
 
   final TextEditingController amountTextController = TextEditingController();
   String get amount => amountTextController.text;
@@ -334,7 +333,8 @@ class OrderDetailsController extends GetxController {
 
   Future<bool> _tryCheckOrderPin() async {
     // check pin if sign orders enabled
-    if (signOrders) {
+    final signOrders = await storage.read(key: AppStorageKeys.signOrders);
+    if (signOrders.asBool()) {
       var pinChecked = await Get.toNamed(Routes.LOCAL_AUTH);
 
       if (!(pinChecked ?? false)) {

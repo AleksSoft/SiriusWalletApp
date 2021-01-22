@@ -56,7 +56,10 @@ class PortfolioHistoryFiltersController extends GetxController {
 
   @override
   void onInit() {
-    _filter = PortfolioHistoryFilter.fromStorage();
+    PortfolioHistoryFilter.fromStorage().then((value) {
+      _filter = value;
+      update();
+    });
     super.onInit();
   }
 

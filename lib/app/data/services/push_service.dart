@@ -20,8 +20,10 @@ class PushService extends GetxService {
 
   StreamSubscription fcmTokenRefreshSubscription;
 
+  String fcmToken = '';
+
   @override
-  void onInit() {
+  void onInit() async {
     fcm.configure(
       onMessage: _onMessage,
       onLaunch: _onLaunch,
@@ -29,14 +31,16 @@ class PushService extends GetxService {
       onBackgroundMessage: GetPlatform.isIOS ? null : _backgroundMessageHandler,
     );
 
-    fcm.requestNotificationPermissions(
-      const IosNotificationSettings(
-        sound: true,
-        badge: true,
-        alert: true,
-        provisional: false,
-      ),
-    );
+    if (GetPlatform.isIOS || GetPlatform.isMacOS) {
+      await fcm.requestNotificationPermissions(
+        const IosNotificationSettings(
+          sound: true,
+          badge: true,
+          alert: true,
+          provisional: false,
+        ),
+      );
+    }
 
     fcm.getToken().then(_saveFcmToken);
     fcmTokenRefreshSubscription = fcm.onTokenRefresh.listen(_saveFcmToken);
@@ -50,12 +54,11 @@ class PushService extends GetxService {
     super.onClose();
   }
 
-  void tryRegisterFcm({String fcmToken}) {
-    if (sessionRepo.getSessionId().isNullOrBlank) return;
+  Future<void> tryRegisterFcm({String newToken}) async {
+    final sessionId = await sessionRepo.getSessionId();
+    if (sessionId == null || sessionId.isBlank) return;
 
-    pushRepo.registerPushNotifications(
-      fcmToken: fcmToken ?? pushRepo.getPushToken(),
-    );
+    await pushRepo.registerPushNotifications(fcmToken: newToken ?? fcmToken);
   }
 
   Future<void> _onMessage(Map<String, dynamic> message) async {
@@ -70,14 +73,14 @@ class PushService extends GetxService {
     logger.i('FCM onResume:\n$message');
   }
 
-  void _saveFcmToken(String newToken) {
-    final token = pushRepo.getPushToken();
-    if ((!token.isNullOrBlank || !newToken.isNullOrBlank) &&
-        token != newToken) {
-      pushRepo.setPushToken(newToken).whenComplete(() {
-        tryRegisterFcm(fcmToken: newToken);
-        logger.i('FCM token:\n$newToken');
-      });
+  Future<void> _saveFcmToken(String newToken) async {
+    final tokenNeedsUpdate = ((fcmToken != null && !fcmToken.isBlank) ||
+            (newToken != null && !newToken.isBlank)) &&
+        fcmToken != newToken;
+    if (tokenNeedsUpdate) {
+      fcmToken = newToken;
+      await tryRegisterFcm(newToken: fcmToken);
+      logger.i('FCM token:\n$fcmToken');
     }
   }
 }

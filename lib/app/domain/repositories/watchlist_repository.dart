@@ -24,6 +24,6 @@ abstract class IWatchlistRepository {
   Future<Either<ErrorResponseBody, bool>> deleteWatchlist({
     @required String id,
   });
-  String getWatchlistId();
+  Future<String> getWatchlistId();
   Future<void> setWatchlistId(String id);
 }

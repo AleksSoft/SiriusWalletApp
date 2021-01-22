@@ -14,7 +14,10 @@ dependencies:
 
   # getX state management
   get: ^3.24.0
-  get_storage: ^1.4.0
+
+  # storage
+  flutter_secure_storage: ^3.3.5
+  shared_preferences: ^0.5.12+4
 
   # grpc
   grpc: ^2.8.0

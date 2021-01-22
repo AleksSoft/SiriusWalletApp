@@ -113,6 +113,8 @@ abstract class AppPages {
       name: Routes.DEV_SETTINGS,
       page: () => DevSettingsPage(),
       binding: DevSettingsBinding(),
+      fullscreenDialog: true,
+      transition: Transition.downToUp,
     ),
     GetPage(
       name: Routes.ROOT,

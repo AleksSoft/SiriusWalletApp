@@ -75,8 +75,10 @@ class LocalAuthController extends GetxController {
       loading(true);
       localAuthRepo.authenticate('msg_local_auth'.tr).then((authorized) {
         if (authorized) {
-          _pinValue(localAuthRepo.getPIN());
-          _submitPIN();
+          localAuthRepo.getPIN().then((value) {
+            _pinValue(value);
+            _submitPIN();
+          });
         }
       }).whenComplete(() => loading(false));
     }

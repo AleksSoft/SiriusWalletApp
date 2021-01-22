@@ -3,8 +3,9 @@ import 'dart:convert';
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/data/grpc/google/protobuf/timestamp.pb.dart';
 import 'package:enum_to_string/enum_to_string.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get/get.dart';
 import 'package:get/get_utils/get_utils.dart';
-import 'package:get_storage/get_storage.dart';
 
 import 'history_filter.dart';
 
@@ -71,7 +72,7 @@ class OrdersHistoryFilter {
   }
 
   Future<void> save() async {
-    final storage = GetStorage();
+    final storage = Get.find<FlutterSecureStorage>();
 
     HistoryFilter filter = HistoryFilter(
       period: EnumToString.convertToString(period ?? OrdersPeriod.all),
@@ -85,12 +86,15 @@ class OrdersHistoryFilter {
 
     String filterJson = json.encode(filter.toJson());
 
-    await storage.write(AppStorageKeys.ordersHistoryFilter, filterJson);
+    await storage.write(
+      key: AppStorageKeys.ordersHistoryFilter,
+      value: filterJson,
+    );
   }
 
-  static OrdersHistoryFilter fromStorage() {
-    String filterJson = GetStorage().read<String>(
-      AppStorageKeys.ordersHistoryFilter,
+  static Future<OrdersHistoryFilter> fromStorage() async {
+    String filterJson = await Get.find<FlutterSecureStorage>().read(
+      key: AppStorageKeys.ordersHistoryFilter,
     );
 
     if (GetUtils.isNullOrBlank(filterJson)) {

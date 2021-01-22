@@ -11,6 +11,7 @@ class OrderDetailsBinding extends Bindings {
       ordersCon: Get.find(),
       portfolioCon: Get.find(),
       apiService: Get.find(),
+      storage: Get.find(),
     ));
   }
 }

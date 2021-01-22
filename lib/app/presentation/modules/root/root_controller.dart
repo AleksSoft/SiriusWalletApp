@@ -89,7 +89,7 @@ class RootController extends GetxController with WidgetsBindingObserver {
 
   /// initialised app controllers and services
   Future<void> _initialize() async {
-    pushService.tryRegisterFcm();
+    await pushService.tryRegisterFcm();
 
     await assetsCon.initialize();
     await marketsCon.initialize();
@@ -125,7 +125,8 @@ class RootController extends GetxController with WidgetsBindingObserver {
     AppLog.logger.i('session prolongation result = $isSuccess');
 
     if (!isSuccess) {
-      if (sessionRepo.getSessionId().isNullOrBlank) {
+      final sessionId = await sessionRepo.getSessionId();
+      if (sessionId == null || sessionId.isBlank) {
         _logout();
       } else {
         Get.toNamed(Routes.LOCAL_AUTH).then((result) {

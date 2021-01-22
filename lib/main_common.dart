@@ -4,10 +4,11 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:logger_flutter/logger_flutter.dart';
 import 'package:shake/shake.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app/common/common.dart';
 import 'app/core/utils/utils.dart';
@@ -22,9 +23,15 @@ Future<void> mainCommon(AppConfig appConfig) async {
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   // init local storage
-  await GetStorage.init();
+  final storage = FlutterSecureStorage();
+  final prefs = await SharedPreferences.getInstance();
 
-  final apiService = await ApiService().init(appConfig);
+  if (prefs.getBool(AppStorageKeys.firstRun) ?? true) {
+    await storage.deleteAll();
+    prefs.setBool(AppStorageKeys.firstRun, false);
+  }
+
+  final apiService = await ApiService(storage: storage).init(appConfig);
 
   // Initialize firebase services
   await Firebase.initializeApp();
@@ -57,6 +64,7 @@ Future<void> mainCommon(AppConfig appConfig) async {
         initialBinding: InitialBinding(
           appConfig: appConfig,
           apiService: apiService,
+          storage: storage,
         ),
         navigatorObservers: [
           FirebaseAnalyticsObserver(analytics: FirebaseAnalytics()),

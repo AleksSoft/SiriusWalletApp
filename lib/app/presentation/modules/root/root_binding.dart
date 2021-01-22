@@ -33,7 +33,6 @@ import 'package:antares_wallet/app/presentation/modules/portfolio/portfolio_cont
 import 'package:antares_wallet/app/presentation/modules/root/root_controller.dart';
 import 'package:antares_wallet/app/presentation/modules/withdrawal/withdrawal_controller.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 class RootPageBinding extends Bindings {
   @override
@@ -95,7 +94,7 @@ class RootPageBinding extends Bindings {
       fenix: true,
     );
     Get.lazyPut<IWatchlistRepository>(
-      () => WatchlistRepository(storage: GetStorage(), source: Get.find()),
+      () => WatchlistRepository(storage: Get.find(), source: Get.find()),
       fenix: true,
     );
     Get.lazyPut<IWalletRepository>(

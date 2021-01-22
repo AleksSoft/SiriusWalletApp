@@ -1,16 +1,15 @@
-import 'package:antares_wallet/app/common/app_storage_keys.dart';
 import 'package:antares_wallet/app/data/data_sources/push_data_source.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/common.pb.dart';
 import 'package:antares_wallet/app/domain/repositories/push_repository.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:meta/meta.dart';
 
 class PushRepository implements IPushRepository {
   final IPushDataSource source;
-  final GetStorage storage;
+  final FlutterSecureStorage storage;
   PushRepository({@required this.source, @required this.storage});
 
   @override
@@ -50,11 +49,4 @@ class PushRepository implements IPushRepository {
       return Right(false);
     }
   }
-
-  @override
-  String getPushToken() => storage.read(AppStorageKeys.fcmToken);
-
-  @override
-  Future<void> setPushToken(String newToken) =>
-      storage.write(AppStorageKeys.fcmToken, newToken);
 }

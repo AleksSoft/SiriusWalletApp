@@ -114,7 +114,7 @@ class MarketsController extends GetxController {
       );
 
   Future<void> rebuildWatchedMarkets() async {
-    String id = watchlistRepo.getWatchlistId();
+    String id = await watchlistRepo.getWatchlistId();
     await _initMarketsListIfNeeded(force: true);
     if (!id.isNullOrBlank) {
       final response = await watchlistRepo.getWatchlist(id: id);

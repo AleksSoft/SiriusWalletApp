@@ -61,7 +61,10 @@ class OrdersHistoryFiltersController extends GetxController {
 
   @override
   void onInit() {
-    _filter = OrdersHistoryFilter.fromStorage();
+    OrdersHistoryFilter.fromStorage().then((value) {
+      _filter = value;
+      update();
+    });
     super.onInit();
   }
 

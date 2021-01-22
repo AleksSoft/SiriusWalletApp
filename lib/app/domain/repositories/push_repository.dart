@@ -10,6 +10,4 @@ abstract class IPushRepository {
   Future<Either<ErrorResponseBody, bool>> registerPushNotifications({
     @required String fcmToken,
   });
-  String getPushToken();
-  Future<void> setPushToken(String token);
 }

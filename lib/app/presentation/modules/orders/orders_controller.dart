@@ -78,7 +78,7 @@ class OrdersController extends GetxController {
     if (newFilter != null) {
       _filter = newFilter;
     } else if (_filter == null) {
-      _filter = OrdersHistoryFilter.fromStorage();
+      _filter = await OrdersHistoryFilter.fromStorage();
     }
     var list = await getTrades(
       25,

@@ -5,5 +5,5 @@ abstract class ILocalAuthRepository {
   Future<bool> isBiometricsAvailable();
   Future<LocalAuthType> getLocalAuthType();
   Future<void> savePIN(String pin);
-  String getPIN();
+  Future<String> getPIN();
 }

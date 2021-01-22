@@ -44,8 +44,8 @@ class WatchListsController extends GetxController {
   }
 
   /// set selected watchlist
-  void prepareSelected() {
-    String id = watchlistRepo.getWatchlistId();
+  void prepareSelected() async {
+    String id = await watchlistRepo.getWatchlistId();
     if (id.isNullOrBlank) {
       if (watchLists.isNotEmpty) {
         selected = watchLists.first;

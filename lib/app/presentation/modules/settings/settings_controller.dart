@@ -6,8 +6,8 @@ import 'package:antares_wallet/app/presentation/modules/portfolio/assets/assets_
 import 'package:antares_wallet/app/presentation/modules/settings/widgets/choose_language_view.dart';
 import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:package_info/package_info.dart';
 
 class SettingsController extends GetxController {
@@ -15,18 +15,28 @@ class SettingsController extends GetxController {
 
   final AssetsController assetsCon;
   final IPushRepository pushRepo;
-  SettingsController({@required this.assetsCon, @required this.pushRepo});
-
-  final _signOrdersBox = false.val(AppStorageKeys.signOrders);
+  final FlutterSecureStorage storage;
+  SettingsController({
+    @required this.assetsCon,
+    @required this.pushRepo,
+    @required this.storage,
+  });
 
   final signOrders = false.obs;
   final isPushEnabled = false.obs;
   final loading = false.obs;
 
   @override
-  void onInit() {
-    signOrders(_signOrdersBox.val);
-    ever(signOrders, (value) => _signOrdersBox.val = value);
+  void onInit() async {
+    final isSignOrders = await storage.read(key: AppStorageKeys.signOrders);
+    signOrders(isSignOrders.asBool());
+    ever(
+      signOrders,
+      (value) async => await storage.write(
+        key: AppStorageKeys.signOrders,
+        value: value.toString(),
+      ),
+    );
 
     getPushSettings();
 

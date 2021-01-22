@@ -2,14 +2,14 @@ import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/data_sources/local_auth_data_source.dart';
 import 'package:antares_wallet/app/domain/repositories/local_auth_repository.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get_utils/get_utils.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:meta/meta.dart';
 
 class LocalAuthRepository implements ILocalAuthRepository {
   final ILocalAuthDataSource source;
-  final GetStorage storage;
+  final FlutterSecureStorage storage;
   LocalAuthRepository({@required this.source, @required this.storage});
 
   @override
@@ -42,8 +42,8 @@ class LocalAuthRepository implements ILocalAuthRepository {
 
   @override
   Future<void> savePIN(String pin) =>
-      storage.write(AppStorageKeys.pinCode, pin);
+      storage.write(key: AppStorageKeys.pinCode, value: pin);
 
   @override
-  String getPIN() => storage.read<String>(AppStorageKeys.pinCode);
+  Future<String> getPIN() => storage.read(key: AppStorageKeys.pinCode);
 }

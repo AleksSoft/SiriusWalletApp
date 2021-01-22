@@ -4,8 +4,9 @@ import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/data/grpc/google/protobuf/timestamp.pb.dart';
 import 'package:antares_wallet/app/data/models/history_filter.dart';
 import 'package:enum_to_string/enum_to_string.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get/get.dart';
 import 'package:get/get_utils/get_utils.dart';
-import 'package:get_storage/get_storage.dart';
 
 enum PortfolioPeriod { all, day, week, custom }
 
@@ -74,7 +75,7 @@ class PortfolioHistoryFilter {
   }
 
   Future<void> save() async {
-    final storage = GetStorage();
+    final storage = Get.find<FlutterSecureStorage>();
 
     HistoryFilter filter = HistoryFilter(
       period: EnumToString.convertToString(period ?? PortfolioPeriod.all),
@@ -88,12 +89,15 @@ class PortfolioHistoryFilter {
 
     String filterJson = json.encode(filter.toJson());
 
-    await storage.write(AppStorageKeys.portfolioHistoryFilter, filterJson);
+    await storage.write(
+      key: AppStorageKeys.portfolioHistoryFilter,
+      value: filterJson,
+    );
   }
 
-  static PortfolioHistoryFilter fromStorage() {
-    String filterJson = GetStorage().read<String>(
-      AppStorageKeys.portfolioHistoryFilter,
+  static Future<PortfolioHistoryFilter> fromStorage() async {
+    String filterJson = await Get.find<FlutterSecureStorage>().read(
+      key: AppStorageKeys.portfolioHistoryFilter,
     );
 
     if (GetUtils.isNullOrBlank(filterJson)) {
