@@ -19,6 +19,8 @@ enum DocType {
   proofOfFunds,
 }
 
+enum UpgradeAccountDocMode { one_side, two_side }
+
 enum AssetInfoPeriod { h24, week, month, year }
 
 enum PairSortType {

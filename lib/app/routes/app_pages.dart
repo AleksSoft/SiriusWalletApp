@@ -23,11 +23,11 @@ import 'package:antares_wallet/app/presentation/modules/orders/history/filters/o
 import 'package:antares_wallet/app/presentation/modules/portfolio/history/filters/portfolio_history_filters_view.dart';
 import 'package:antares_wallet/app/presentation/modules/profile/profile_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/profile/profile_page.dart';
+import 'package:antares_wallet/app/presentation/modules/profile/upgrade/doc/upgrade_account_doc_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/profile/upgrade/quest/upgrade_account_quest.dart';
 import 'package:antares_wallet/app/presentation/modules/profile/upgrade/quest/upgrade_account_quest_binding.dart';
 import 'package:antares_wallet/app/presentation/modules/profile/upgrade/upgrade_account_address.dart';
 import 'package:antares_wallet/app/presentation/modules/profile/upgrade/upgrade_account_choose_doc.dart';
-import 'package:antares_wallet/app/presentation/modules/profile/upgrade/upgrade_account_doc.dart';
 import 'package:antares_wallet/app/presentation/modules/profile/upgrade/upgrade_account_main.dart';
 import 'package:antares_wallet/app/presentation/modules/profile/upgrade/upgrade_account_result.dart';
 import 'package:antares_wallet/app/presentation/modules/register/register_binding.dart';
@@ -54,6 +54,8 @@ import 'package:antares_wallet/app/presentation/modules/withdrawal/swift_withdra
 import 'package:antares_wallet/app/presentation/modules/withdrawal/swift_withdrawal_result_page.dart';
 import 'package:get/get.dart';
 import 'package:logger_flutter/logger_flutter.dart';
+
+import 'file:///C:/Users/Xiaomi/Documents/work/swisschain/Sirius%20Wallet/SiriusWalletApp/lib/app/presentation/modules/profile/upgrade/doc/upgrade_account_doc_page.dart';
 
 part './app_routes.dart';
 
@@ -153,6 +155,7 @@ abstract class AppPages {
     GetPage(
       name: Routes.UPGRADE_ACC_DOC,
       page: () => UpgradeAccountDocPage(),
+      binding: UpgradeAccountDocBinding(),
     ),
     GetPage(
       name: Routes.UPGRADE_ACC_QUEST,

@@ -164,5 +164,7 @@ final Map<String, String> enUS = {
   "msg_request_code_args_date": "Request new code in %s",
   "zip_code": "Zip code",
   "apt": "Apt.",
-  "address": "Address"
+  "address": "Address",
+  "front_side": "Front side",
+  "back_side": "Back side"
 };

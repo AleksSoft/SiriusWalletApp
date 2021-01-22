@@ -1,4 +1,5 @@
 import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/presentation/widgets/default_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -130,7 +131,7 @@ class _ListView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Visibility(
-              visible: _.personalData.value.address.isNullOrBlank,
+              visible: _.nextTier != TierUpgrade.ProIndividual,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: AppSizes.small),
                 child: Row(
@@ -138,8 +139,8 @@ class _ListView extends StatelessWidget {
                   children: [
                     Icon(
                       _.hasAccountInfo
-                          ? Icons.check_circle_outline_outlined
-                          : Icons.circle,
+                          ? Icons.check_box_outlined
+                          : Icons.check_box_outline_blank_outlined,
                       color: _.hasAccountInfo
                           ? AppColors.accent
                           : AppColors.secondary,
@@ -152,23 +153,30 @@ class _ListView extends StatelessWidget {
               ),
             ),
             for (var doc in _.tierInfo.value.nextTier.documents)
-              _buildRow(doc, _)
+              _DocumentTile(doc)
           ],
         ),
       ),
     );
   }
+}
 
-  Widget _buildRow(String docType, ProfileController c) {
-    final String title = c.docTitle(docType);
-    final bool checked = c.documentsMap[docType] != null;
+class _DocumentTile extends GetView<ProfileController> {
+  final String docType;
+  const _DocumentTile(this.docType);
+  @override
+  Widget build(BuildContext context) {
+    final String title = controller.docTitle(docType);
+    final bool checked = controller.documentsMap[docType] != null;
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSizes.small),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
-            checked ? Icons.check_circle_outline_outlined : Icons.circle,
+            checked
+                ? Icons.check_box_outlined
+                : Icons.check_box_outline_blank_outlined,
             color: checked ? AppColors.accent : AppColors.secondary,
             size: 22.0,
           ),

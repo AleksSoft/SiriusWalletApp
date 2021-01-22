@@ -36,7 +36,8 @@ class ProfileController extends GetxController {
   double get doubleMax =>
       double.tryParse(tierInfo.value.currentTier.maxLimit ?? '0') ?? 1.0;
 
-  bool get hasAccountInfo => !personalData.value.address.isBlank;
+  bool get hasAccountInfo =>
+      personalData.value.hasAddress() && !personalData.value.address.isBlank;
 
   String get currentTierCurrent => Formatter.currency(
         tierInfo.value.currentTier.current,
@@ -50,9 +51,18 @@ class ProfileController extends GetxController {
         fractionDigits: 2,
       );
 
-  String hoursLeft(UpgradeRequest r) => DateTime.fromMillisecondsSinceEpoch(
-        r.submitDate.seconds.toInt() * 1000,
-      ).difference(DateTime.now()).inHours.toString();
+  TierUpgrade get nextTier =>
+      tierInfo.value.nextTier.tier.toLowerCase() == 'advanced'
+          ? TierUpgrade.Advanced
+          : TierUpgrade.ProIndividual;
+
+  String hoursLeft(UpgradeRequest r) {
+    final hours = DateTime.now()
+        .difference(DateTime.fromMillisecondsSinceEpoch(
+            r.submitDate.seconds.toInt() * 1000))
+        .inHours;
+    return hours < 1 ? 1.toString() : hours.toString();
+  }
 
   Future<void> reloadData() async {
     final personalDataResponse = await profileRepo.getPersonalData();
@@ -94,10 +104,7 @@ class ProfileController extends GetxController {
           ));
 
   Future<void> submitProfile() async {
-    TierUpgrade tier = tierInfo.value.nextTier.tier.toLowerCase() == 'advanced'
-        ? TierUpgrade.Advanced
-        : TierUpgrade.ProIndividual;
-    final response = await profileRepo.submitProfile(tier: tier);
+    final response = await profileRepo.submitProfile(tier: nextTier);
     response.fold(
       (error) => Get.snackbar(
         error.code.toString(),
@@ -250,7 +257,7 @@ class ProfileController extends GetxController {
   }
 
   String validateAddress(String value) {
-    if (value.isNotEmpty && value.length >= 3) {
+    if (value != null && value.isNotEmpty && value.length >= 3) {
       return null;
     } else {
       return 'Too short';

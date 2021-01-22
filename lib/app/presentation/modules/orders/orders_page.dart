@@ -6,8 +6,6 @@ import 'history/orders_history_view.dart';
 import 'opened/opened_orders_view.dart';
 
 class OrdersPage extends StatelessWidget {
-  static final String route = '/orders';
-
   final _tabBarContent = <Tab, GetView>{
     Tab(text: 'opened'.tr): OpenedOrdersView(),
     Tab(text: 'history'.tr): OrdersHistoryView(),

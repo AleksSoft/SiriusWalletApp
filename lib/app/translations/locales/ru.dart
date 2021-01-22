@@ -166,5 +166,7 @@ final Map<String, String> ruRU = {
   "msg_request_code_args_date": "Запросить новый код через %s",
   "zip_code": "Индекс",
   "apt": "Апартаменыт",
-  "address": "Адрес"
+  "address": "Адрес",
+  "front_side": "Лицевая сторона",
+  "back_side": "Тыльная сторона"
 };
