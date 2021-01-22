@@ -1,4 +1,3 @@
-import 'package:antares_wallet/app/data/services/api/api_service.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -19,21 +18,18 @@ import 'initial_binding.dart';
 Future<void> mainCommon(AppConfig appConfig) async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // set only portrait orientation for device
+  // Set only portrait orientation for device
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  // init local storage
+  // Init local storage
   final storage = FlutterSecureStorage();
   final prefs = await SharedPreferences.getInstance();
-
   if (prefs.getBool(AppStorageKeys.firstRun) ?? true) {
     await storage.deleteAll();
     prefs.setBool(AppStorageKeys.firstRun, false);
   }
 
-  final apiService = await ApiService(storage: storage).init(appConfig);
-
-  // Initialize firebase services
+  // Init firebase services
   await Firebase.initializeApp();
 
   // Init log console
@@ -45,7 +41,7 @@ Future<void> mainCommon(AppConfig appConfig) async {
     );
   }
 
-  // start app with all configurations done
+  // Start app with all configurations done
   runApp(
     GestureDetector(
       onTap: () => GestureUtils.unfocus(),
@@ -63,8 +59,7 @@ Future<void> mainCommon(AppConfig appConfig) async {
         themeMode: ThemeMode.system,
         initialBinding: InitialBinding(
           appConfig: appConfig,
-          apiService: apiService,
-          storage: storage,
+          secureStorage: storage,
         ),
         navigatorObservers: [
           FirebaseAnalyticsObserver(analytics: FirebaseAnalytics()),

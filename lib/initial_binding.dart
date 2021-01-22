@@ -1,5 +1,6 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
+import 'package:antares_wallet/app/data/data_sources/app_storage.dart';
 import 'package:antares_wallet/app/data/data_sources/local_auth_data_source.dart';
 import 'package:antares_wallet/app/data/data_sources/push_data_source.dart';
 import 'package:antares_wallet/app/data/data_sources/session_data_source.dart';
@@ -22,19 +23,20 @@ import 'app/data/repository/push_repository.dart';
 
 class InitialBinding extends Bindings {
   final AppConfig appConfig;
-  final ApiService apiService;
-  final FlutterSecureStorage storage;
-  InitialBinding({
-    @required this.appConfig,
-    @required this.apiService,
-    @required this.storage,
-  });
+  final FlutterSecureStorage secureStorage;
+  InitialBinding({@required this.appConfig, @required this.secureStorage});
 
   @override
-  void dependencies() {
+  void dependencies() async {
     /// common +
-    Get.put<FlutterSecureStorage>(storage);
-    Get.put<ApiService>(apiService);
+    Get.lazyPut<IAppStorage>(
+      () => AppStorage(secureStorage: secureStorage),
+      fenix: true,
+    );
+    await Get.putAsync(
+      () => ApiService(storage: Get.find()).init(appConfig),
+      permanent: true,
+    );
     Get.lazyPut<AppConfig>(
       () => appConfig,
       fenix: true,

@@ -1,19 +1,16 @@
 import 'package:antares_wallet/app/common/app_storage_keys.dart';
+import 'package:antares_wallet/app/data/data_sources/app_storage.dart';
 import 'package:antares_wallet/app/data/data_sources/watchlist_data_source.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/common.pb.dart';
 import 'package:antares_wallet/app/domain/repositories/watchlist_repository.dart';
 import 'package:dartz/dartz.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:meta/meta.dart';
 
 class WatchlistRepository implements IWatchlistRepository {
-  WatchlistRepository({
-    @required this.source,
-    @required this.storage,
-  });
   final IWatchlistDataSource source;
-  final FlutterSecureStorage storage;
+  final IAppStorage storage;
+  WatchlistRepository({@required this.source, @required this.storage});
 
   @override
   Future<Either<ErrorResponseBody, List<Watchlist>>> getWatchlists() async {
@@ -85,9 +82,9 @@ class WatchlistRepository implements IWatchlistRepository {
 
   @override
   Future<String> getWatchlistId() =>
-      storage.read(key: AppStorageKeys.watchlistId);
+      storage.getString(AppStorageKeys.watchlistId);
 
   @override
   Future<void> setWatchlistId(String id) =>
-      storage.write(key: AppStorageKeys.watchlistId, value: id);
+      storage.setString(AppStorageKeys.watchlistId, id);
 }

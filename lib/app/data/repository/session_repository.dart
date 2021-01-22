@@ -2,18 +2,18 @@ import 'dart:async';
 
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/core/utils/app_log.dart';
+import 'package:antares_wallet/app/data/data_sources/app_storage.dart';
 import 'package:antares_wallet/app/data/data_sources/session_data_source.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/common.pb.dart';
 import 'package:antares_wallet/app/domain/repositories/session_repository.dart';
 import 'package:dartz/dartz.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get_utils/get_utils.dart';
 import 'package:meta/meta.dart';
 
 class SessionRepository implements ISessionRepository {
   final ISessionDataSource source;
-  final FlutterSecureStorage storage;
+  final IAppStorage storage;
   SessionRepository({@required this.source, @required this.storage});
 
   @override
@@ -229,16 +229,15 @@ class SessionRepository implements ISessionRepository {
   }
 
   @override
-  Future<String> getSessionId() async =>
-      await storage.read(key: AppStorageKeys.token);
+  Future<String> getSessionId() => storage.getString(AppStorageKeys.token);
 
   @override
   Future<void> setSessionId(String s) async {
-    await storage.write(key: AppStorageKeys.token, value: s);
+    await storage.setString(AppStorageKeys.token, s);
     await updateApiSession();
   }
 
   @override
-  Future<void> updateApiSession({String url}) async =>
-      await source.updateApiSession(url: url);
+  Future<void> updateApiSession({String url}) =>
+      source.updateApiSession(url: url);
 }
