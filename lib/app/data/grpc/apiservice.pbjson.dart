@@ -195,6 +195,13 @@ const CheckSessionRequest$json = const {
   ],
 };
 
+const OperationRequest$json = const {
+  '1': 'OperationRequest',
+  '2': const [
+    const {'1': 'operationId', '3': 1, '4': 1, '5': 9, '10': 'operationId'},
+  ],
+};
+
 const MarketsRequest$json = const {
   '1': 'MarketsRequest',
   '2': const [
@@ -376,6 +383,7 @@ const KycFileRequest$json = const {
     const {'1': 'documentType', '3': 1, '4': 1, '5': 9, '10': 'documentType'},
     const {'1': 'filename', '3': 2, '4': 1, '5': 9, '10': 'filename'},
     const {'1': 'file', '3': 3, '4': 1, '5': 12, '10': 'file'},
+    const {'1': 'fileType', '3': 4, '4': 1, '5': 9, '10': 'fileType'},
   ],
 };
 
@@ -878,6 +886,40 @@ const CheckSessionResponse_Body$json = const {
   '1': 'Body',
   '2': const [
     const {'1': 'expired', '3': 1, '4': 1, '5': 8, '10': 'expired'},
+  ],
+};
+
+const OperationResponse$json = const {
+  '1': 'OperationResponse',
+  '2': const [
+    const {'1': 'body', '3': 1, '4': 1, '5': 11, '6': '.antaresWallet.OperationResponse.Body', '9': 0, '10': 'body'},
+    const {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.antaresWallet.ErrorResponseBody', '9': 0, '10': 'error'},
+  ],
+  '3': const [OperationResponse_Body$json, OperationResponse_Transfer$json],
+  '8': const [
+    const {'1': 'result'},
+  ],
+};
+
+const OperationResponse_Body$json = const {
+  '1': 'Body',
+  '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'created', '3': 2, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'created'},
+    const {'1': 'type', '3': 3, '4': 1, '5': 9, '10': 'type'},
+    const {'1': 'status', '3': 4, '4': 1, '5': 9, '10': 'status'},
+    const {'1': 'transfer', '3': 5, '4': 1, '5': 11, '6': '.antaresWallet.OperationResponse.Transfer', '10': 'transfer'},
+  ],
+};
+
+const OperationResponse_Transfer$json = const {
+  '1': 'Transfer',
+  '2': const [
+    const {'1': 'assetId', '3': 1, '4': 1, '5': 9, '10': 'assetId'},
+    const {'1': 'amount', '3': 2, '4': 1, '5': 9, '10': 'amount'},
+    const {'1': 'sourceWalletId', '3': 3, '4': 1, '5': 9, '10': 'sourceWalletId'},
+    const {'1': 'walletId', '3': 4, '4': 1, '5': 9, '10': 'walletId'},
+    const {'1': 'transferType', '3': 5, '4': 1, '5': 9, '10': 'transferType'},
   ],
 };
 

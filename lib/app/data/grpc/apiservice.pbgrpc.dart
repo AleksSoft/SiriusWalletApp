@@ -158,6 +158,32 @@ class ApiServiceClient extends $grpc.Client {
       '/antaresWallet.ApiService/Logout',
       ($0.Empty value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $1.EmptyResponse.fromBuffer(value));
+  static final _$confirmTradingSession =
+      $grpc.ClientMethod<$0.Empty, $1.EmptyResponse>(
+          '/antaresWallet.ApiService/ConfirmTradingSession',
+          ($0.Empty value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $1.EmptyResponse.fromBuffer(value));
+  static final _$cancelTradingSession =
+      $grpc.ClientMethod<$0.Empty, $1.EmptyResponse>(
+          '/antaresWallet.ApiService/CancelTradingSession',
+          ($0.Empty value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $1.EmptyResponse.fromBuffer(value));
+  static final _$getOperation =
+      $grpc.ClientMethod<$1.OperationRequest, $1.OperationResponse>(
+          '/antaresWallet.ApiService/GetOperation',
+          ($1.OperationRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $1.OperationResponse.fromBuffer(value));
+  static final _$cancelOperation =
+      $grpc.ClientMethod<$1.OperationRequest, $1.EmptyResponse>(
+          '/antaresWallet.ApiService/CancelOperation',
+          ($1.OperationRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $1.EmptyResponse.fromBuffer(value));
+  static final _$transfer =
+      $grpc.ClientMethod<$1.OperationRequest, $1.EmptyResponse>(
+          '/antaresWallet.ApiService/Transfer',
+          ($1.OperationRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $1.EmptyResponse.fromBuffer(value));
   static final _$getOrders =
       $grpc.ClientMethod<$1.LimitOrdersRequest, $1.LimitOrdersResponse>(
           '/antaresWallet.ApiService/GetOrders',
@@ -584,6 +610,33 @@ class ApiServiceClient extends $grpc.Client {
   $grpc.ResponseFuture<$1.EmptyResponse> logout($0.Empty request,
       {$grpc.CallOptions options}) {
     return $createUnaryCall(_$logout, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$1.EmptyResponse> confirmTradingSession($0.Empty request,
+      {$grpc.CallOptions options}) {
+    return $createUnaryCall(_$confirmTradingSession, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$1.EmptyResponse> cancelTradingSession($0.Empty request,
+      {$grpc.CallOptions options}) {
+    return $createUnaryCall(_$cancelTradingSession, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$1.OperationResponse> getOperation(
+      $1.OperationRequest request,
+      {$grpc.CallOptions options}) {
+    return $createUnaryCall(_$getOperation, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$1.EmptyResponse> cancelOperation(
+      $1.OperationRequest request,
+      {$grpc.CallOptions options}) {
+    return $createUnaryCall(_$cancelOperation, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$1.EmptyResponse> transfer($1.OperationRequest request,
+      {$grpc.CallOptions options}) {
+    return $createUnaryCall(_$transfer, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.LimitOrdersResponse> getOrders(
@@ -1085,6 +1138,41 @@ abstract class ApiServiceBase extends $grpc.Service {
         false,
         false,
         ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
+        ($1.EmptyResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.Empty, $1.EmptyResponse>(
+        'ConfirmTradingSession',
+        confirmTradingSession_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
+        ($1.EmptyResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.Empty, $1.EmptyResponse>(
+        'CancelTradingSession',
+        cancelTradingSession_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
+        ($1.EmptyResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.OperationRequest, $1.OperationResponse>(
+        'GetOperation',
+        getOperation_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $1.OperationRequest.fromBuffer(value),
+        ($1.OperationResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.OperationRequest, $1.EmptyResponse>(
+        'CancelOperation',
+        cancelOperation_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $1.OperationRequest.fromBuffer(value),
+        ($1.EmptyResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.OperationRequest, $1.EmptyResponse>(
+        'Transfer',
+        transfer_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $1.OperationRequest.fromBuffer(value),
         ($1.EmptyResponse value) => value.writeToBuffer()));
     $addMethod(
         $grpc.ServiceMethod<$1.LimitOrdersRequest, $1.LimitOrdersResponse>(
@@ -1610,6 +1698,31 @@ abstract class ApiServiceBase extends $grpc.Service {
     return logout(call, await request);
   }
 
+  $async.Future<$1.EmptyResponse> confirmTradingSession_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.Empty> request) async {
+    return confirmTradingSession(call, await request);
+  }
+
+  $async.Future<$1.EmptyResponse> cancelTradingSession_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.Empty> request) async {
+    return cancelTradingSession(call, await request);
+  }
+
+  $async.Future<$1.OperationResponse> getOperation_Pre($grpc.ServiceCall call,
+      $async.Future<$1.OperationRequest> request) async {
+    return getOperation(call, await request);
+  }
+
+  $async.Future<$1.EmptyResponse> cancelOperation_Pre($grpc.ServiceCall call,
+      $async.Future<$1.OperationRequest> request) async {
+    return cancelOperation(call, await request);
+  }
+
+  $async.Future<$1.EmptyResponse> transfer_Pre($grpc.ServiceCall call,
+      $async.Future<$1.OperationRequest> request) async {
+    return transfer(call, await request);
+  }
+
   $async.Future<$1.LimitOrdersResponse> getOrders_Pre($grpc.ServiceCall call,
       $async.Future<$1.LimitOrdersRequest> request) async {
     return getOrders(call, await request);
@@ -1926,6 +2039,16 @@ abstract class ApiServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $0.Empty request);
   $async.Future<$1.EmptyResponse> logout(
       $grpc.ServiceCall call, $0.Empty request);
+  $async.Future<$1.EmptyResponse> confirmTradingSession(
+      $grpc.ServiceCall call, $0.Empty request);
+  $async.Future<$1.EmptyResponse> cancelTradingSession(
+      $grpc.ServiceCall call, $0.Empty request);
+  $async.Future<$1.OperationResponse> getOperation(
+      $grpc.ServiceCall call, $1.OperationRequest request);
+  $async.Future<$1.EmptyResponse> cancelOperation(
+      $grpc.ServiceCall call, $1.OperationRequest request);
+  $async.Future<$1.EmptyResponse> transfer(
+      $grpc.ServiceCall call, $1.OperationRequest request);
   $async.Future<$1.LimitOrdersResponse> getOrders(
       $grpc.ServiceCall call, $1.LimitOrdersRequest request);
   $async.Future<$1.PlaceOrderResponse> placeLimitOrder(

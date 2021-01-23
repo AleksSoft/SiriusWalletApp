@@ -930,6 +930,45 @@ class CheckSessionRequest extends $pb.GeneratedMessage {
   void clearSessionId() => clearField(1);
 }
 
+class OperationRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'OperationRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'antaresWallet'), createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'operationId', protoName: 'operationId')
+    ..hasRequiredFields = false
+  ;
+
+  OperationRequest._() : super();
+  factory OperationRequest() => create();
+  factory OperationRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory OperationRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  OperationRequest clone() => OperationRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  OperationRequest copyWith(void Function(OperationRequest) updates) => super.copyWith((message) => updates(message as OperationRequest)); // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static OperationRequest create() => OperationRequest._();
+  OperationRequest createEmptyInstance() => create();
+  static $pb.PbList<OperationRequest> createRepeated() => $pb.PbList<OperationRequest>();
+  @$core.pragma('dart2js:noInline')
+  static OperationRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<OperationRequest>(create);
+  static OperationRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get operationId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set operationId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasOperationId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearOperationId() => clearField(1);
+}
+
 enum MarketsRequest_OptionalAssetPairId {
   assetPairId, 
   notSet
@@ -2053,6 +2092,7 @@ class KycFileRequest extends $pb.GeneratedMessage {
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'documentType', protoName: 'documentType')
     ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'filename')
     ..a<$core.List<$core.int>>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'file', $pb.PbFieldType.OY)
+    ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'fileType', protoName: 'fileType')
     ..hasRequiredFields = false
   ;
 
@@ -2105,6 +2145,15 @@ class KycFileRequest extends $pb.GeneratedMessage {
   $core.bool hasFile() => $_has(2);
   @$pb.TagNumber(3)
   void clearFile() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.String get fileType => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set fileType($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasFileType() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearFileType() => clearField(4);
 }
 
 class AnswersRequest_Choice extends $pb.GeneratedMessage {
@@ -5029,6 +5078,236 @@ class CheckSessionResponse extends $pb.GeneratedMessage {
   void clearBody() => clearField(1);
   @$pb.TagNumber(1)
   CheckSessionResponse_Body ensureBody() => $_ensure(0);
+
+  @$pb.TagNumber(2)
+  $4.ErrorResponseBody get error => $_getN(1);
+  @$pb.TagNumber(2)
+  set error($4.ErrorResponseBody v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasError() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearError() => clearField(2);
+  @$pb.TagNumber(2)
+  $4.ErrorResponseBody ensureError() => $_ensure(1);
+}
+
+class OperationResponse_Body extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'OperationResponse.Body', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'antaresWallet'), createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id')
+    ..aOM<$3.Timestamp>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'created', subBuilder: $3.Timestamp.create)
+    ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'type')
+    ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'status')
+    ..aOM<OperationResponse_Transfer>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'transfer', subBuilder: OperationResponse_Transfer.create)
+    ..hasRequiredFields = false
+  ;
+
+  OperationResponse_Body._() : super();
+  factory OperationResponse_Body() => create();
+  factory OperationResponse_Body.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory OperationResponse_Body.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  OperationResponse_Body clone() => OperationResponse_Body()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  OperationResponse_Body copyWith(void Function(OperationResponse_Body) updates) => super.copyWith((message) => updates(message as OperationResponse_Body)); // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static OperationResponse_Body create() => OperationResponse_Body._();
+  OperationResponse_Body createEmptyInstance() => create();
+  static $pb.PbList<OperationResponse_Body> createRepeated() => $pb.PbList<OperationResponse_Body>();
+  @$core.pragma('dart2js:noInline')
+  static OperationResponse_Body getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<OperationResponse_Body>(create);
+  static OperationResponse_Body _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get id => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set id($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $3.Timestamp get created => $_getN(1);
+  @$pb.TagNumber(2)
+  set created($3.Timestamp v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasCreated() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearCreated() => clearField(2);
+  @$pb.TagNumber(2)
+  $3.Timestamp ensureCreated() => $_ensure(1);
+
+  @$pb.TagNumber(3)
+  $core.String get type => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set type($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasType() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearType() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.String get status => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set status($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasStatus() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearStatus() => clearField(4);
+
+  @$pb.TagNumber(5)
+  OperationResponse_Transfer get transfer => $_getN(4);
+  @$pb.TagNumber(5)
+  set transfer(OperationResponse_Transfer v) { setField(5, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasTransfer() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearTransfer() => clearField(5);
+  @$pb.TagNumber(5)
+  OperationResponse_Transfer ensureTransfer() => $_ensure(4);
+}
+
+class OperationResponse_Transfer extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'OperationResponse.Transfer', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'antaresWallet'), createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'assetId', protoName: 'assetId')
+    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'amount')
+    ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'sourceWalletId', protoName: 'sourceWalletId')
+    ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'walletId', protoName: 'walletId')
+    ..aOS(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'transferType', protoName: 'transferType')
+    ..hasRequiredFields = false
+  ;
+
+  OperationResponse_Transfer._() : super();
+  factory OperationResponse_Transfer() => create();
+  factory OperationResponse_Transfer.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory OperationResponse_Transfer.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  OperationResponse_Transfer clone() => OperationResponse_Transfer()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  OperationResponse_Transfer copyWith(void Function(OperationResponse_Transfer) updates) => super.copyWith((message) => updates(message as OperationResponse_Transfer)); // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static OperationResponse_Transfer create() => OperationResponse_Transfer._();
+  OperationResponse_Transfer createEmptyInstance() => create();
+  static $pb.PbList<OperationResponse_Transfer> createRepeated() => $pb.PbList<OperationResponse_Transfer>();
+  @$core.pragma('dart2js:noInline')
+  static OperationResponse_Transfer getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<OperationResponse_Transfer>(create);
+  static OperationResponse_Transfer _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get assetId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set assetId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasAssetId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearAssetId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get amount => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set amount($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasAmount() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearAmount() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get sourceWalletId => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set sourceWalletId($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasSourceWalletId() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearSourceWalletId() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.String get walletId => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set walletId($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasWalletId() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearWalletId() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.String get transferType => $_getSZ(4);
+  @$pb.TagNumber(5)
+  set transferType($core.String v) { $_setString(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasTransferType() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearTransferType() => clearField(5);
+}
+
+enum OperationResponse_Result {
+  body, 
+  error, 
+  notSet
+}
+
+class OperationResponse extends $pb.GeneratedMessage {
+  static const $core.Map<$core.int, OperationResponse_Result> _OperationResponse_ResultByTag = {
+    1 : OperationResponse_Result.body,
+    2 : OperationResponse_Result.error,
+    0 : OperationResponse_Result.notSet
+  };
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'OperationResponse', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'antaresWallet'), createEmptyInstance: create)
+    ..oo(0, [1, 2])
+    ..aOM<OperationResponse_Body>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'body', subBuilder: OperationResponse_Body.create)
+    ..aOM<$4.ErrorResponseBody>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'error', subBuilder: $4.ErrorResponseBody.create)
+    ..hasRequiredFields = false
+  ;
+
+  OperationResponse._() : super();
+  factory OperationResponse() => create();
+  factory OperationResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory OperationResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  OperationResponse clone() => OperationResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  OperationResponse copyWith(void Function(OperationResponse) updates) => super.copyWith((message) => updates(message as OperationResponse)); // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static OperationResponse create() => OperationResponse._();
+  OperationResponse createEmptyInstance() => create();
+  static $pb.PbList<OperationResponse> createRepeated() => $pb.PbList<OperationResponse>();
+  @$core.pragma('dart2js:noInline')
+  static OperationResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<OperationResponse>(create);
+  static OperationResponse _defaultInstance;
+
+  OperationResponse_Result whichResult() => _OperationResponse_ResultByTag[$_whichOneof(0)];
+  void clearResult() => clearField($_whichOneof(0));
+
+  @$pb.TagNumber(1)
+  OperationResponse_Body get body => $_getN(0);
+  @$pb.TagNumber(1)
+  set body(OperationResponse_Body v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasBody() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearBody() => clearField(1);
+  @$pb.TagNumber(1)
+  OperationResponse_Body ensureBody() => $_ensure(0);
 
   @$pb.TagNumber(2)
   $4.ErrorResponseBody get error => $_getN(1);
