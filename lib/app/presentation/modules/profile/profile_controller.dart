@@ -189,7 +189,7 @@ class ProfileController extends GetxController {
     );
   }
 
-  openNextUpgradePage({bool fromMain = false}) {
+  void openNextUpgradePage({bool fromMain = false}) {
     if (personalData.value.address.isNullOrBlank) {
       Get.toNamed(Routes.UPGRADE_ACC_ADDRESS);
     } else if (pageNeedsOpen(0)) {
@@ -237,7 +237,7 @@ class ProfileController extends GetxController {
     }
   }
 
-  openNextPage(String route, {Object arguments, bool fromMain = true}) =>
+  void openNextPage(String route, {Object arguments, bool fromMain = true}) =>
       fromMain
           ? Get.toNamed(route, arguments: arguments)
           : Get.offAndToNamed(route, arguments: arguments);

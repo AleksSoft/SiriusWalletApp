@@ -8,6 +8,7 @@ abstract class AppColors {
   static const Color scaffoldBkg = Colors.white;
   static const Color green = Colors.green;
   static const Color red = Colors.red;
+  static const Color orange = Colors.orangeAccent;
   static const Color dark = Colors.black87;
   static const Color progressColor = Colors.black87;
 }

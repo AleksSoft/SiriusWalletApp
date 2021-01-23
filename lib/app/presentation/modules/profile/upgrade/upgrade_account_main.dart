@@ -139,11 +139,11 @@ class _ListView extends StatelessWidget {
                   children: [
                     Icon(
                       _.hasAccountInfo
-                          ? Icons.check_box_outlined
-                          : Icons.check_box_outline_blank_outlined,
+                          ? Icons.check_circle_outline_outlined
+                          : Icons.circle,
                       color: _.hasAccountInfo
                           ? AppColors.accent
-                          : AppColors.secondary,
+                          : AppColors.secondary.withOpacity(0.5),
                       size: 22.0,
                     ),
                     AppUiHelpers.hSpaceMedium,
@@ -167,17 +167,16 @@ class _DocumentTile extends GetView<ProfileController> {
   @override
   Widget build(BuildContext context) {
     final String title = controller.docTitle(docType);
-    final bool checked = controller.documentsMap[docType] != null;
+    final String status = controller.documentsMap[docType]?.status;
+
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSizes.small),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
-            checked
-                ? Icons.check_box_outlined
-                : Icons.check_box_outline_blank_outlined,
-            color: checked ? AppColors.accent : AppColors.secondary,
+            getIconByStatus(status),
+            color: getColorByStatus(status),
             size: 22.0,
           ),
           AppUiHelpers.hSpaceMedium,
@@ -185,5 +184,33 @@ class _DocumentTile extends GetView<ProfileController> {
         ],
       ),
     );
+  }
+
+  IconData getIconByStatus(String status) {
+    if (status == null) return Icons.circle;
+    switch (status.toLowerCase()) {
+      case 'submitted':
+        return Icons.check_circle_outline_outlined;
+      case 'pending':
+        return Icons.access_time_outlined;
+      case 'declined':
+        return Icons.cancel_outlined;
+      default:
+        return Icons.circle;
+    }
+  }
+
+  Color getColorByStatus(String status) {
+    if (status == null) return AppColors.secondary.withOpacity(0.5);
+    switch (status.toLowerCase()) {
+      case 'submitted':
+        return AppColors.green;
+      case 'pending':
+        return AppColors.orange;
+      case 'declined':
+        return AppColors.red;
+      default:
+        return AppColors.secondary.withOpacity(0.5);
+    }
   }
 }
