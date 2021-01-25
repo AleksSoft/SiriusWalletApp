@@ -46,9 +46,7 @@ class UpgradeAccountQuestController extends GetxController {
   }
 
   bool get canSubmit =>
-      answers != null &&
-      answers.isNotEmpty &&
-      answers.length == questionnaire.length;
+      answers != null && answers.isNotEmpty && questionnaire.isNotEmpty;
 
   void updateAnswer(AnswersRequest_Choice answer) {
     int answerIndex = answers.indexWhere(
@@ -59,13 +57,33 @@ class UpgradeAccountQuestController extends GetxController {
     } else {
       answers.add(answer);
     }
-    AppLog.logger.i(answers);
     update();
+  }
+
+  void selectAnswer(
+    int index,
+    AnswersRequest_Choice answer,
+    QuestionnaireResponse_Question question,
+  ) {
+    final selectedList = selectedAnswerIds(question.id);
+
+    answer.questionId = question.id;
+    List<String> mergedAnswers = [];
+    if (!selectedList.contains(index))
+      mergedAnswers.add(question.answers[index].id);
+    selectedList.forEach((id) {
+      if (id != index) mergedAnswers.add(question.answers[id].id);
+    });
+    answer.answerIds
+      ..clear()
+      ..addAll(mergedAnswers);
+    answer.other = '';
+    updateAnswer(answer);
   }
 
   AnswersRequest_Choice answerById(String questionId) => answers.firstWhere(
         (a) => a.questionId == questionId,
-        orElse: () => AnswersRequest_Choice(),
+        orElse: () => null,
       );
 
   List<int> selectedAnswerIds(String questionId) {

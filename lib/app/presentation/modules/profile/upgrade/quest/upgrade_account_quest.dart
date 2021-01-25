@@ -42,13 +42,12 @@ class UpgradeAccountQuestPage extends StatelessWidget {
   }
 }
 
-class _SingleQuestion extends StatelessWidget {
+class _SingleQuestion extends GetView<UpgradeAccountQuestController> {
   _SingleQuestion(this.question, {Key key}) : super(key: key);
   final QuestionnaireResponse_Question question;
-  final c = UpgradeAccountQuestController.con;
   @override
   Widget build(BuildContext context) {
-    final selectedList = c.selectedAnswerIds(question.id);
+    final selectedList = controller.selectedAnswerIds(question.id);
     return Container(
       margin: const EdgeInsets.symmetric(vertical: AppSizes.small),
       padding: const EdgeInsets.all(AppSizes.medium),
@@ -71,7 +70,7 @@ class _SingleQuestion extends StatelessWidget {
           CupertinoSegmentedControl<int>(
             padding: const EdgeInsets.all(0.0),
             groupValue: selectedList.isNotEmpty ? selectedList[0] ?? 0 : 0,
-            onValueChanged: (index) => c.updateAnswer(
+            onValueChanged: (index) => controller.updateAnswer(
               AnswersRequest_Choice()
                 ..questionId = question.id
                 ..answerIds.add(question.answers[index].id),
@@ -87,14 +86,13 @@ class _SingleQuestion extends StatelessWidget {
   }
 }
 
-class _MultipleQuestion extends StatelessWidget {
+class _MultipleQuestion extends GetView<UpgradeAccountQuestController> {
   _MultipleQuestion(this.question, {Key key}) : super(key: key);
   final QuestionnaireResponse_Question question;
-  final c = UpgradeAccountQuestController.con;
   @override
   Widget build(BuildContext context) {
-    final answer = c.answerById(question.id);
-    final selectedList = c.selectedAnswerIds(question.id);
+    final answer =
+        controller.answerById(question.id) ?? AnswersRequest_Choice();
     return Container(
       margin: const EdgeInsets.symmetric(vertical: AppSizes.small),
       padding: const EdgeInsets.all(AppSizes.medium),
@@ -120,27 +118,11 @@ class _MultipleQuestion extends StatelessWidget {
             itemBuilder: (_, i) => ListTile(
               visualDensity: VisualDensity.compact,
               contentPadding: const EdgeInsets.all(0.0),
-              onTap: () {
-                answer.questionId = question.id;
-                List<String> mergedAnswers = [];
-                if (!selectedList.contains(i))
-                  mergedAnswers.add(question.answers[i].id);
-                selectedList.forEach((id) {
-                  if (id != i) mergedAnswers.add(question.answers[id].id);
-                });
-                answer.answerIds
-                  ..clear()
-                  ..addAll(mergedAnswers);
-                answer.other = '';
-                c.updateAnswer(answer);
-              },
+              onTap: () => controller.selectAnswer(i, answer, question),
               title: Text(question.answers[i].text),
               trailing: Visibility(
-                visible: selectedList.contains(i),
-                child: Icon(
-                  Icons.check,
-                  color: AppColors.accent,
-                ),
+                visible: controller.selectedAnswerIds(question.id).contains(i),
+                child: Icon(Icons.check, color: AppColors.accent),
               ),
             ),
             separatorBuilder: (_, i) => const Divider(height: 1.0),
@@ -158,7 +140,7 @@ class _MultipleQuestion extends StatelessWidget {
               child: Theme(
                 data: Get.theme.copyWith(primaryColor: AppColors.accent),
                 child: TextFormField(
-                  onChanged: (String value) => c.updateAnswer(
+                  onChanged: (String value) => controller.updateAnswer(
                     answer
                       ..questionId = question.id
                       ..answerIds.clear()
@@ -178,13 +160,11 @@ class _MultipleQuestion extends StatelessWidget {
   }
 }
 
-class _TextQuestion extends StatelessWidget {
+class _TextQuestion extends GetView<UpgradeAccountQuestController> {
   _TextQuestion(this.question, {Key key}) : super(key: key);
   final QuestionnaireResponse_Question question;
-  final c = UpgradeAccountQuestController.con;
   @override
   Widget build(BuildContext context) {
-    final answer = c.answerById(question.id);
     return Container(
       margin: const EdgeInsets.symmetric(vertical: AppSizes.small),
       padding: const EdgeInsets.all(AppSizes.medium),
@@ -211,12 +191,12 @@ class _TextQuestion extends StatelessWidget {
               primaryColor: AppColors.accent,
             ),
             child: TextFormField(
-              onChanged: (String value) => c.updateAnswer(
+              onChanged: (String value) => controller.updateAnswer(
                 AnswersRequest_Choice()
                   ..questionId = question.id
                   ..other = value,
               ),
-              initialValue: answer?.other ?? '',
+              initialValue: controller.answerById(question.id)?.other ?? '',
               decoration: InputDecoration.collapsed(
                 hintText: 'Current question type...',
               ),
@@ -234,11 +214,9 @@ class _SubmitButton extends GetView<UpgradeAccountQuestController> {
     return Padding(
       padding: const EdgeInsets.only(top: AppSizes.medium),
       child: DefaultCard(
-        blurRadius: 10,
+        blurRadius: controller.canSubmit ? 10 : 0,
         margin: const EdgeInsets.all(0.0),
-        shadowColor: controller.canSubmit
-            ? AppColors.accent.withOpacity(0.5)
-            : AppColors.secondary.withOpacity(0.5),
+        shadowColor: AppColors.accent.withOpacity(0.5),
         borderRadius: BorderRadius.all(Radius.circular(AppSizes.small)),
         child: CupertinoButton.filled(
           disabledColor: Colors.grey.withOpacity(0.7),
