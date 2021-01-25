@@ -56,6 +56,8 @@ class ProfileController extends GetxController {
           ? TierUpgrade.Advanced
           : TierUpgrade.ProIndividual;
 
+  List<String> get nextTierDocList => tierInfo.value.nextTier?.documents ?? [];
+
   String hoursLeft(UpgradeRequest r) {
     final hours = DateTime.now()
         .difference(DateTime.fromMillisecondsSinceEpoch(
@@ -139,45 +141,25 @@ class ProfileController extends GetxController {
     }
   }
 
-  Future<void> submitDoc(DocType docType, List<int> fileIntList) async {
-    String documentType;
-    switch (docType) {
-      case DocType.drivingLicense:
-        documentType = 'ProofOfFunds';
-        break;
-      case DocType.nationalId:
-        documentType = 'IdCard';
-        break;
-      case DocType.passport:
-        documentType = 'Passport';
-        break;
-      case DocType.selfie:
-        documentType = 'Selfie';
-        break;
-      case DocType.proofOfAddress:
-        documentType = 'ProofOfAddress';
-        break;
-      case DocType.proofOfFunds:
-        documentType = 'ProofOfFunds';
-        break;
-      default:
-        break;
-    }
+  Future<void> submitDoc(
+    DocType docType,
+    List<int> fileIntList, {
+    bool isFront = true,
+    bool openNext = true,
+  }) async {
     final response = await profileRepo.uploadKycFile(
-      documentType: documentType,
-      filename: 'photo',
+      docType: docType,
       file: fileIntList,
+      isFront: isFront,
     );
     response.fold(
-      (error) => Get.snackbar(
-        'Error (${error.code})',
-        error.message,
-        backgroundColor: AppColors.red,
-      ),
+      (error) => AppLog.logger.e(error.toProto3Json()),
       (result) async {
         if (result) {
-          await reloadData();
-          openNextUpgradePage();
+          if (openNext) {
+            await reloadData();
+            openNextUpgradePage();
+          }
         } else {
           Get.snackbar(
             'Oops',
@@ -229,12 +211,16 @@ class ProfileController extends GetxController {
   }
 
   bool pageNeedsOpen(int id) {
-    try {
-      return documentsMap[kycDocType[0]] == null &&
-          tierInfo.value.nextTier.documents.contains(kycDocType[0]);
-    } catch (e) {
-      return false;
+    KycDocument kycDocument = documentsMap[kycDocType[id]];
+    bool isNeeded = nextTierDocList.contains(kycDocType[id]);
+
+    if (kycDocument == null) {
+      return isNeeded;
+    } else if (kycDocument.status.toLowerCase() == 'declined') {
+      return true;
     }
+
+    return false;
   }
 
   void openNextPage(String route, {Object arguments, bool fromMain = true}) =>

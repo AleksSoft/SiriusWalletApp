@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:antares_wallet/app/common/app_enums.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/common.pb.dart';
 import 'package:dartz/dartz.dart';
@@ -16,9 +17,9 @@ abstract class IProfileRepository {
     @required String zip,
   });
   Future<Either<ErrorResponseBody, bool>> uploadKycFile({
-    @required String documentType,
-    @required String filename,
+    @required DocType docType,
     @required List<int> file,
+    bool isFront,
   });
   Future<Either<ErrorResponseBody, List<QuestionnaireResponse_Question>>>
       getQuestionnaire();

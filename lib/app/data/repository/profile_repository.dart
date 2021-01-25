@@ -1,3 +1,4 @@
+import 'package:antares_wallet/app/common/app_enums.dart';
 import 'package:antares_wallet/app/data/data_sources/profile_data_source.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/common.pb.dart';
@@ -64,14 +65,55 @@ class ProfileRepository implements IProfileRepository {
 
   @override
   Future<Either<ErrorResponseBody, bool>> uploadKycFile({
-    @required String documentType,
-    @required String filename,
+    @required DocType docType,
     @required List<int> file,
+    bool isFront,
   }) async {
+    String documentType;
+    String fileType;
+    String fileName;
+    switch (docType) {
+      case DocType.drivingLicense:
+        documentType = 'ProofOfFunds';
+        fileName = 'DrivingLicenseFront';
+        if (isFront) {
+          fileType = 'BackSide';
+          fileName = 'DrivingLicenseBack';
+        }
+        break;
+      case DocType.nationalId:
+        documentType = 'IdCard';
+        fileName = 'IdCardFront';
+        if (isFront) {
+          fileType = 'BackSide';
+          fileName = 'IdCardBack';
+        }
+        break;
+      case DocType.passport:
+        documentType = 'Passport';
+        fileName = 'Passport';
+        break;
+      case DocType.selfie:
+        documentType = 'Selfie';
+        fileName = 'Selfie';
+        break;
+      case DocType.proofOfAddress:
+        documentType = 'ProofOfAddress';
+        fileName = 'ProofOfAddress';
+        break;
+      case DocType.proofOfFunds:
+        documentType = 'ProofOfFunds';
+        fileName = 'ProofOfFunds';
+        break;
+      default:
+        break;
+    }
+
     final request = KycFileRequest()
       ..documentType = documentType
-      ..filename = filename
+      ..filename = fileName
       ..file = file;
+    if (fileType != null && fileType.isNotEmpty) request.fileType = fileType;
 
     final response = await source.uploadKycFile(request);
 

@@ -152,8 +152,7 @@ class _ListView extends StatelessWidget {
                 ),
               ),
             ),
-            for (var doc in _.tierInfo.value.nextTier.documents)
-              _DocumentTile(doc)
+            for (var doc in _.nextTierDocList) _DocumentTile(doc)
           ],
         ),
       ),
@@ -191,7 +190,7 @@ class _DocumentTile extends GetView<ProfileController> {
     switch (status.toLowerCase()) {
       case 'submitted':
         return Icons.check_circle_outline_outlined;
-      case 'pending':
+      case 'draft':
         return Icons.access_time_outlined;
       case 'declined':
         return Icons.cancel_outlined;
@@ -205,7 +204,7 @@ class _DocumentTile extends GetView<ProfileController> {
     switch (status.toLowerCase()) {
       case 'submitted':
         return AppColors.green;
-      case 'pending':
+      case 'draft':
         return AppColors.orange;
       case 'declined':
         return AppColors.red;

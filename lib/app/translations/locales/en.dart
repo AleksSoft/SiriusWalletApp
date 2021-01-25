@@ -60,8 +60,12 @@ final Map<String, String> enUS = {
       "Upload a clear and legible picture of the main page of your passport",
   "msg_upgrade_national_id":
       "Upload a clear and legible picture of the main page of your national id",
+  "msg_upgrade_national_id_back":
+      "Upload a clear and legible picture of the back side of your national id",
   "msg_upgrade_driving_license":
       "Upload a clear and legible picture of the main page of your driver license",
+  "msg_upgrade_driving_license_back":
+      "Upload a clear and legible picture of the back side of your driver license",
   "msg_upgrade_selfie": "Your selfie should be well lit and in focus",
   "msg_upgrade_proof_of_address":
       "Please use Bank/Card Statement or Gas/Electricity/Water Bill or Official Governmental Documents\n\nThe document should display Name, Surname, Street address (Non-P.O Box), Date, Issuer name\n\nThe document you provide should not be older than 3 months and should be different from your ID document\n\nPlease note that review might take up to 48 hours",

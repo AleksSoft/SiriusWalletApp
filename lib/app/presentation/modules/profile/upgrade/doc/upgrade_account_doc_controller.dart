@@ -23,9 +23,18 @@ class UpgradeAccountDocController extends GetxController {
     }
   }
 
-  UpgradeAccountDocMode docMode = UpgradeAccountDocMode.two_side;
-  File image1;
-  File image2;
+  UpgradeAccountDocMode docMode = UpgradeAccountDocMode.one_side;
+  File frontImage;
+  File backImage;
+
+  bool _loading = false;
+  bool get loading => _loading;
+  set loading(bool value) {
+    if (value != _loading) {
+      _loading = value;
+      update();
+    }
+  }
 
   String get tierName => profileCon.tierInfo.value.nextTier.tier;
 
@@ -48,14 +57,18 @@ class UpgradeAccountDocController extends GetxController {
     }
   }
 
-  String get photoHeader {
+  String getPhotoHeader({bool isFront = true}) {
     switch (docType) {
       case DocType.passport:
         return 'msg_upgrade_passport'.tr;
       case DocType.nationalId:
-        return 'msg_upgrade_national_id'.tr;
+        return isFront
+            ? 'msg_upgrade_national_id'.tr
+            : 'msg_upgrade_national_id_back'.tr;
       case DocType.drivingLicense:
-        return 'msg_upgrade_driving_license'.tr;
+        return isFront
+            ? 'msg_upgrade_driving_license'.tr
+            : 'msg_upgrade_driving_license_back'.tr;
       case DocType.selfie:
         return 'msg_upgrade_selfie'.tr;
       case DocType.proofOfAddress:
@@ -68,12 +81,31 @@ class UpgradeAccountDocController extends GetxController {
 
   bool get isOneSide => docMode == UpgradeAccountDocMode.one_side;
 
-  void getImage() => picker.getImage(source: ImageSource.camera).then((value) {
-        image1 = File(value.path);
+  bool get allowed =>
+      isOneSide ? frontImage != null : frontImage != null && backImage != null;
+
+  void makePhotoImage(bool isFront) =>
+      picker.getImage(source: ImageSource.camera).then((value) {
+        isFront ? frontImage = File(value.path) : backImage = File(value.path);
         update();
       });
 
-  void submit() {
-    profileCon.submitDoc(docType, image1.readAsBytesSync().toList());
+  void submit() async {
+    loading = true;
+    await profileCon.submitDoc(
+      docType,
+      frontImage.readAsBytesSync().toList(),
+      isFront: true,
+      openNext: isOneSide,
+    );
+    if (!isOneSide) {
+      await profileCon.submitDoc(
+        docType,
+        backImage.readAsBytesSync().toList(),
+        isFront: false,
+        openNext: true,
+      );
+    }
+    loading = false;
   }
 }
