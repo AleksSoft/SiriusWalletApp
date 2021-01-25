@@ -95,15 +95,16 @@ class ProfileController extends GetxController {
     );
   }
 
-  void saveQuestionnaire(List<AnswersRequest_Choice> answers) => profileRepo
-      .saveQuestionnaire(answers: answers)
-      .then((response) => response.fold(
-            (error) {},
-            (result) async {
-              await reloadData();
-              Get.offAndToNamed(Routes.UPGRADE_ACC_RESULT);
-            },
-          ));
+  Future<void> saveQuestionnaire(List<AnswersRequest_Choice> answers) async {
+    final response = await profileRepo.saveQuestionnaire(answers: answers);
+    response.fold(
+      (error) => AppLog.logger.e(error.toProto3Json()),
+      (result) async {
+        await reloadData();
+        Get.offAndToNamed(Routes.UPGRADE_ACC_RESULT);
+      },
+    );
+  }
 
   Future<void> submitProfile() async {
     final response = await profileRepo.submitProfile(tier: nextTier);

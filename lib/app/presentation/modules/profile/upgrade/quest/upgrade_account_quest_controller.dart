@@ -1,6 +1,7 @@
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/domain/repositories/profile_repository.dart';
+import 'package:antares_wallet/app/presentation/modules/profile/profile_controller.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 
@@ -8,27 +9,46 @@ class UpgradeAccountQuestController extends GetxController {
   static UpgradeAccountQuestController get con => Get.find();
 
   final IProfileRepository profileRepo;
-  UpgradeAccountQuestController({@required this.profileRepo});
+  final ProfileController profileCon;
+  UpgradeAccountQuestController({
+    @required this.profileRepo,
+    @required this.profileCon,
+  });
 
   List<QuestionnaireResponse_Question> questionnaire =
       <QuestionnaireResponse_Question>[];
 
   List<AnswersRequest_Choice> answers = <AnswersRequest_Choice>[];
 
+  bool _loading = false;
+  bool get loading => _loading;
+  set loading(bool value) {
+    if (_loading != value) {
+      _loading = value;
+      update();
+    }
+  }
+
   @override
   void onReady() {
+    loading = true;
     profileRepo.getQuestionnaire().then((response) => response.fold(
-          (error) {},
+          (error) {
+            AppLog.logger.e(error.toProto3Json());
+            loading = false;
+          },
           (newQuestionnaire) {
             questionnaire = newQuestionnaire;
-            update();
+            loading = false;
           },
         ));
     super.onReady();
   }
 
   bool get canSubmit =>
-      answers.length == questionnaire.length && answers.length > 0;
+      answers != null &&
+      answers.isNotEmpty &&
+      answers.length == questionnaire.length;
 
   void updateAnswer(AnswersRequest_Choice answer) {
     int answerIndex = answers.indexWhere(
@@ -45,7 +65,7 @@ class UpgradeAccountQuestController extends GetxController {
 
   AnswersRequest_Choice answerById(String questionId) => answers.firstWhere(
         (a) => a.questionId == questionId,
-        orElse: () => null,
+        orElse: () => AnswersRequest_Choice(),
       );
 
   List<int> selectedAnswerIds(String questionId) {
@@ -64,5 +84,10 @@ class UpgradeAccountQuestController extends GetxController {
       }
     }
     return resultList;
+  }
+
+  void saveQuestionnaire() {
+    loading = true;
+    profileCon.saveQuestionnaire(answers).whenComplete(() => loading = false);
   }
 }

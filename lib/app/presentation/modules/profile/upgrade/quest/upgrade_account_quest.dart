@@ -1,7 +1,7 @@
 import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
-import 'package:antares_wallet/app/presentation/modules/profile/profile_controller.dart';
 import 'package:antares_wallet/app/presentation/widgets/default_card.dart';
+import 'package:antares_wallet/app/presentation/widgets/empty_reloading_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,32 +13,32 @@ class UpgradeAccountQuestPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      appBar: AppBar(
-        title: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('questionnaire'.tr),
-          ],
-        ),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: Text('questionnaire'.tr), centerTitle: true),
       body: GetBuilder<UpgradeAccountQuestController>(
-        builder: (_) => ListView(
-          padding: const EdgeInsets.all(AppSizes.medium),
-          shrinkWrap: true,
-          children: _.questionnaire.map((q) {
-            if (q.type.toLowerCase() == 'single') {
-              return _SingleQuestion(q);
-            } else if (q.type.toLowerCase() == 'multiple') {
-              return _MultipleQuestion(q);
-            } else {
-              return _TextQuestion(q);
-            }
-          }).toList()
-            ..add(_SubmitButton()),
+        builder: (_) => EmptyReloadingView(
+          isLoading: _.loading,
+          child: ListView(
+            padding: const EdgeInsets.all(AppSizes.medium),
+            shrinkWrap: true,
+            children: getListWidgets(_.questionnaire),
+          ),
         ),
       ),
     );
+  }
+
+  List<Widget> getListWidgets(List<QuestionnaireResponse_Question> list) {
+    if (list.isEmpty) return [];
+    return list.map((q) {
+      if (q.type.toLowerCase() == 'single') {
+        return _SingleQuestion(q);
+      } else if (q.type.toLowerCase() == 'multiple') {
+        return _MultipleQuestion(q);
+      } else {
+        return _TextQuestion(q);
+      }
+    }).toList()
+      ..add(_SubmitButton());
   }
 }
 
@@ -93,7 +93,7 @@ class _MultipleQuestion extends StatelessWidget {
   final c = UpgradeAccountQuestController.con;
   @override
   Widget build(BuildContext context) {
-    final answer = c.answerById(question.id) ?? AnswersRequest_Choice();
+    final answer = c.answerById(question.id);
     final selectedList = c.selectedAnswerIds(question.id);
     return Container(
       margin: const EdgeInsets.symmetric(vertical: AppSizes.small),
@@ -228,27 +228,22 @@ class _TextQuestion extends StatelessWidget {
   }
 }
 
-class _SubmitButton extends StatelessWidget {
-  _SubmitButton({Key key}) : super(key: key);
-  final c = UpgradeAccountQuestController.con;
+class _SubmitButton extends GetView<UpgradeAccountQuestController> {
   @override
   Widget build(BuildContext context) {
-    final bool canSubmit = c.canSubmit;
     return Padding(
       padding: const EdgeInsets.only(top: AppSizes.medium),
       child: DefaultCard(
         blurRadius: 10,
         margin: const EdgeInsets.all(0.0),
-        shadowColor: canSubmit
+        shadowColor: controller.canSubmit
             ? AppColors.accent.withOpacity(0.5)
             : AppColors.secondary.withOpacity(0.5),
         borderRadius: BorderRadius.all(Radius.circular(AppSizes.small)),
         child: CupertinoButton.filled(
           disabledColor: Colors.grey.withOpacity(0.7),
           child: Text('submit'.tr),
-          onPressed: canSubmit
-              ? () => ProfileController.con.saveQuestionnaire(c.answers)
-              : null,
+          onPressed: controller.canSubmit ? controller.saveQuestionnaire : null,
         ),
       ),
     );
