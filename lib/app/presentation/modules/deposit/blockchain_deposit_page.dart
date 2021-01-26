@@ -23,13 +23,13 @@ class BlockchainDepositPage extends StatelessWidget {
         child: GetBuilder<DepositController>(
           builder: (_) {
             var qrItems = <Widget>[];
-            if (!_.depositCryptoAddress.address.isNullOrBlank) {
+            if (!_.depositCryptoAddress.address.nullOrEmpty) {
               qrItems.add(_QrBox(
                 qrData: _.depositCryptoAddress.address,
                 title: 'Address',
               ));
             }
-            if (!_.depositCryptoAddress.tag.isNullOrBlank) {
+            if (!_.depositCryptoAddress.tag.nullOrEmpty) {
               qrItems.add(_QrBox(
                 qrData: _.depositCryptoAddress.tag,
                 title: 'Memo (text)',
@@ -72,7 +72,7 @@ class BlockchainDepositPage extends StatelessWidget {
                             ),
                           ),
                           Visibility(
-                            visible: !_.depositCryptoAddress.tag.isNullOrBlank,
+                            visible: !_.depositCryptoAddress.tag.nullOrEmpty,
                             child: ListTile(
                               title: Text(_.depositCryptoAddress.tag),
                               subtitle: Text('Deposit Memo (text)'),

@@ -151,7 +151,7 @@ class DepositController extends GetxController {
         isTierValid = false;
       },
       (tierPayload) {
-        isTierValid = !tierPayload.currentTier.tier.isNullOrBlank &&
+        isTierValid = !tierPayload.currentTier.tier.nullOrEmpty &&
             tierPayload.currentTier.tier != 'Beginner';
       },
     );
@@ -264,7 +264,7 @@ class DepositController extends GetxController {
   void shareBlockchain() {
     final RenderBox box = Get.context.findRenderObject();
     String forSharing = depositCryptoAddress?.address;
-    if (!forSharing.isNullOrBlank) {
+    if (!forSharing.nullOrEmpty) {
       Share.share(
         forSharing,
         subject: forSharing,

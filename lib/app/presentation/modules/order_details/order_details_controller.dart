@@ -222,7 +222,7 @@ class OrderDetailsController extends GetxController {
     double pr = double.tryParse(price) ?? 0.0;
 
     loading = true;
-    if (isEdit && !_orderId.isNullOrBlank) {
+    if (isEdit && !_orderId.nullOrEmpty) {
       await _editOrder(assetPairId, assetId, vol, pr);
     } else {
       await _placeOrder(assetPairId, assetId, vol, pr);

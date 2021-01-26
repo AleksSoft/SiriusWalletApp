@@ -82,7 +82,7 @@ class WithdrawalController extends GetxController {
 
   bool get proceedAllowed {
     bool isAmountZero = (double.tryParse(amountController.text) ?? 0) == 0;
-    bool addressEmpty = addressController.text.isNullOrBlank;
+    bool addressEmpty = addressController.text.nullOrEmpty;
     if (_mode == WithdrawalMode.blockchain) {
       bool checkExt = withdrawalCryptoInfo.addressExtensionMandatory
           ? isExtAddressValid
@@ -93,12 +93,12 @@ class WithdrawalController extends GetxController {
           isAddressValid &&
           checkExt;
     } else {
-      bool swiftEmpty = swiftController.text.isNullOrBlank;
-      bool bankEmpty = bankController.text.isNullOrBlank;
-      bool ibanEmpty = ibanController.text.isNullOrBlank;
-      bool fullNameEmpty = fullNameController.text.isNullOrBlank;
-      bool cityEmpty = cityController.text.isNullOrBlank;
-      bool zipEmpty = zipController.text.isNullOrBlank;
+      bool swiftEmpty = swiftController.text.nullOrEmpty;
+      bool bankEmpty = bankController.text.nullOrEmpty;
+      bool ibanEmpty = ibanController.text.nullOrEmpty;
+      bool fullNameEmpty = fullNameController.text.nullOrEmpty;
+      bool cityEmpty = cityController.text.nullOrEmpty;
+      bool zipEmpty = zipController.text.nullOrEmpty;
       return !isAmountZero &&
           !addressEmpty &&
           !swiftEmpty &&
@@ -154,7 +154,7 @@ class WithdrawalController extends GetxController {
   }
 
   Future<void> getCountry() async {
-    if (_countryCode.isNullOrBlank) {
+    if (_countryCode.nullOrEmpty) {
       final response = await sessionRepo.getCountryPhoneCodes();
       response.fold(
         (error) => AppLog.logger.e(error.toProto3Json()),
@@ -238,7 +238,7 @@ class WithdrawalController extends GetxController {
     response.fold((error) => AppLog.logger.e(error.toProto3Json()), (result) {
       String transferId = result?.transferId;
       Get.off(
-        ResultWithdrawalPage(success: !transferId.isNullOrBlank),
+        ResultWithdrawalPage(success: !transferId.nullOrEmpty),
         fullscreenDialog: true,
       );
     });

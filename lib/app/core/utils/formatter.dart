@@ -1,5 +1,5 @@
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:decimal/decimal.dart';
-import 'package:get/utils.dart';
 import 'package:intl/intl.dart';
 
 class Formatter {
@@ -14,7 +14,7 @@ class Formatter {
     String orElse,
   }) {
     Decimal amount = Decimal.tryParse(s ?? '0.0') ?? Decimal.zero;
-    if (amount.toDouble() == 0 && !orElse.isNullOrBlank) return orElse;
+    if (amount.toDouble() == 0 && !orElse.nullOrEmpty) return orElse;
 
     var f = getNumberFormat(fractionDigits, amount.scale);
 

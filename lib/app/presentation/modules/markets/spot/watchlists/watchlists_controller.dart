@@ -1,3 +1,4 @@
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/domain/repositories/watchlist_repository.dart';
 import 'package:antares_wallet/app/presentation/modules/markets/markets_controller.dart';
@@ -46,7 +47,7 @@ class WatchListsController extends GetxController {
   /// set selected watchlist
   void prepareSelected() async {
     String id = await watchlistRepo.getWatchlistId();
-    if (id.isNullOrBlank) {
+    if (id.nullOrEmpty) {
       if (watchLists.isNotEmpty) {
         selected = watchLists.first;
         watchlistRepo.setWatchlistId(selected.id);

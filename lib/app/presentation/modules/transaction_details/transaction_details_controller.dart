@@ -1,3 +1,4 @@
+import 'package:antares_wallet/app/common/common.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/domain/repositories/portfolio_repository.dart';
 import 'package:antares_wallet/app/presentation/modules/portfolio/assets/assets_controller.dart';
@@ -21,7 +22,7 @@ class TransactionDetailsController extends GetxController {
   @override
   void onReady() {
     asset = AssetsController.con.assetById(details.assetId);
-    if (!details.blockchainHash.isNullOrBlank) {
+    if (!details.blockchainHash.nullOrEmpty) {
       portfolioRepo
           .getExplorerLinks(
             assetId: details.assetId,

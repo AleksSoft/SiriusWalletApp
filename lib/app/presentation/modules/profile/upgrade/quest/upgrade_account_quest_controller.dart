@@ -1,3 +1,4 @@
+import 'package:antares_wallet/app/common/app_colors.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/domain/repositories/profile_repository.dart';
@@ -106,6 +107,47 @@ class UpgradeAccountQuestController extends GetxController {
 
   void saveQuestionnaire() {
     loading = true;
-    profileCon.saveQuestionnaire(answers).whenComplete(() => loading = false);
+    bool canSave = _checkQuestAnswered();
+    if (canSave) {
+      Get.defaultDialog(
+        title: 'Submit',
+        middleText: 'Are you sure to submit questionnaire?',
+        buttonColor: AppColors.dark,
+        confirmTextColor: AppColors.primary,
+        cancelTextColor: AppColors.dark,
+        onCancel: () => loading = false,
+        barrierDismissible: false,
+        onConfirm: () {
+          Get.back();
+          profileCon
+              .saveQuestionnaire(answers)
+              .whenComplete(() => loading = false);
+        },
+      );
+    } else {
+      Get.snackbar(
+        'Oops..',
+        'Please, answer all questions before submit',
+        colorText: AppColors.primary,
+        backgroundColor: AppColors.red,
+        snackPosition: SnackPosition.TOP,
+      );
+      loading = false;
+    }
+  }
+
+  bool _checkQuestAnswered() {
+    for (int i = 0; i < questionnaire.length; i++) {
+      final q = questionnaire[i];
+      int answerIndex = answers.indexWhere((a) => a.questionId == q.id);
+      if (q.type.toLowerCase() == 'single') {
+        if (answerIndex < 0) {
+          answers.add(AnswersRequest_Choice()
+            ..questionId = q.id
+            ..answerIds.add(q.answers[0].id));
+        }
+      } else if (answerIndex < 0) return false;
+    }
+    return true;
   }
 }

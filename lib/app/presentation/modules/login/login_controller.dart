@@ -55,7 +55,7 @@ class LoginController extends GetxController {
   }
 
   Future<void> signIn() async {
-    if (emailValue.isNullOrBlank ||
+    if (emailValue.nullOrEmpty ||
         !emailValue.isEmail ||
         passwordValue.isEmpty) {
       return;
@@ -107,6 +107,7 @@ class LoginController extends GetxController {
         error.code.toString(),
         error.message,
         backgroundColor: AppColors.red,
+        colorText: AppColors.primary,
       );
     }, (result) {
       Get.snackbar(null, 'SMS sent');
@@ -116,7 +117,7 @@ class LoginController extends GetxController {
   }
 
   Future<void> verifySms() async {
-    if (smsCodeValue.isNullOrBlank) return;
+    if (smsCodeValue.nullOrEmpty) return;
 
     loading = true;
 
@@ -131,6 +132,7 @@ class LoginController extends GetxController {
         error.code.toString(),
         error.message,
         backgroundColor: AppColors.red,
+        colorText: AppColors.primary,
       );
     }, (result) async {
       Get.snackbar(null, 'SMS verified', backgroundColor: AppColors.green);
@@ -155,6 +157,7 @@ class LoginController extends GetxController {
             null,
             'msg_pin_wrong'.tr,
             backgroundColor: AppColors.red,
+            colorText: AppColors.primary,
           );
         }
       });

@@ -150,7 +150,7 @@ class RegisterController extends GetxController {
   }
 
   Future<void> proceedEmail() async {
-    if (emailValue.isNullOrBlank || !emailValue.isEmail) return;
+    if (emailValue.nullOrEmpty || !emailValue.isEmail) return;
 
     if (!isEmailCodeWaiting) {
       final response = await sessionRepo.sendVerificationEmail(
@@ -162,6 +162,7 @@ class RegisterController extends GetxController {
           error.code.toString(),
           error.message,
           backgroundColor: AppColors.red,
+          colorText: AppColors.primary,
         );
         _stopTimer();
       }, (result) async {
@@ -189,6 +190,7 @@ class RegisterController extends GetxController {
           error.code.toString(),
           error.message,
           backgroundColor: AppColors.red,
+          colorText: AppColors.primary,
         );
       },
       (result) => countries.assignAll(result.countriesList),
@@ -198,7 +200,7 @@ class RegisterController extends GetxController {
   }
 
   Future<void> _proceedEmailCode() async {
-    if (emailCodeValue.isNullOrBlank) {
+    if (emailCodeValue.nullOrEmpty) {
       return;
     }
 
@@ -214,6 +216,7 @@ class RegisterController extends GetxController {
           'Code not verified',
           error.toProto3Json(),
           backgroundColor: AppColors.red,
+          colorText: AppColors.primary,
         );
       },
       (result) async {
@@ -231,16 +234,16 @@ class RegisterController extends GetxController {
   }
 
   Future<void> _proceedAdditionalData() async {
-    if (fullNameValue.isNullOrBlank ||
+    if (fullNameValue.nullOrEmpty ||
         fullNameValue.length < 4 ||
-        countryController.text.isNullOrBlank) {
+        countryController.text.nullOrEmpty) {
       return;
     }
     await _animateToPage(3);
   }
 
   Future<void> _proceedPhone() async {
-    if (phoneValue.isNullOrBlank) return;
+    if (phoneValue.nullOrEmpty) return;
 
     if (!isSmsWaiting) {
       final response = await sessionRepo.sendVerificationSms(
@@ -254,6 +257,7 @@ class RegisterController extends GetxController {
             'Phone not accepted',
             error.toProto3Json(),
             backgroundColor: AppColors.red,
+            colorText: AppColors.primary,
           );
           _stopTimer();
         },
@@ -272,7 +276,7 @@ class RegisterController extends GetxController {
   }
 
   Future<void> _proceedPhoneSms() async {
-    if (smsCode.isNullOrBlank) return;
+    if (smsCode.nullOrEmpty) return;
 
     final response = await sessionRepo.verifyPhone(
       phone: phonePrefix + phoneValue,
@@ -286,6 +290,7 @@ class RegisterController extends GetxController {
           'Sms not verified',
           error.toProto3Json(),
           backgroundColor: AppColors.red,
+          colorText: AppColors.primary,
         );
       },
       (result) async {
@@ -310,6 +315,7 @@ class RegisterController extends GetxController {
         null,
         'msg_pin_create_fail'.tr,
         backgroundColor: AppColors.red,
+        colorText: AppColors.primary,
       );
     }
 
@@ -338,6 +344,7 @@ class RegisterController extends GetxController {
           'Registration failed',
           error.toProto3Json(),
           backgroundColor: AppColors.red,
+          colorText: AppColors.primary,
         );
         Get.back();
       },
@@ -349,6 +356,7 @@ class RegisterController extends GetxController {
             null,
             'Registration failed',
             backgroundColor: AppColors.red,
+            colorText: AppColors.primary,
           );
           Get.back();
         }

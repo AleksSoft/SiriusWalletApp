@@ -128,6 +128,7 @@ class LocalAuthController extends GetxController {
         'Error ${error.code}',
         error.message,
         backgroundColor: AppColors.red,
+        colorText: AppColors.primary,
         snackbarStatus: (status) {
           if (status == SnackbarStatus.CLOSING) _navigateBack(false);
         },
@@ -140,6 +141,7 @@ class LocalAuthController extends GetxController {
           'Wrong PIN',
           'Try again',
           backgroundColor: AppColors.red,
+          colorText: AppColors.primary,
         );
         _state(LocalAuthState.checkPIN);
         _pinValue('');
@@ -157,6 +159,7 @@ class LocalAuthController extends GetxController {
         'PIN\'s are not equal',
         'Try again',
         backgroundColor: AppColors.red,
+        colorText: AppColors.primary,
       );
       _state(LocalAuthState.createPIN);
       _pinValue('');

@@ -22,7 +22,7 @@ class ErrorsLogController extends GetxController {
 
   Future<void> fetchSavedErrors() async {
     String jsonStr = await storage.getString(AppStorageKeys.errorList);
-    savedErrorsModel = jsonStr.isNullOrBlank
+    savedErrorsModel = jsonStr.nullOrEmpty
         ? SavedErrorsModel()
         : SavedErrorsModel().fromJson(json.decode(jsonStr));
     update();

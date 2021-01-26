@@ -54,7 +54,8 @@ class UpgradeAccountDocPage extends StatelessWidget {
                     child: controller.loading
                         ? Container(
                             alignment: Alignment.center,
-                            height: AppSizes.medium,
+                            height: 20.0,
+                            width: 20.0,
                             child: CircularProgressIndicator(
                               valueColor: AlwaysStoppedAnimation<Color>(
                                 AppColors.primary,

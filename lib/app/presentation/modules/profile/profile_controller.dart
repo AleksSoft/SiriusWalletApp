@@ -113,6 +113,7 @@ class ProfileController extends GetxController {
         error.code.toString(),
         error.message,
         backgroundColor: AppColors.red,
+        colorText: AppColors.primary,
       ),
       (result) async {
         if (result) {
@@ -138,6 +139,7 @@ class ProfileController extends GetxController {
         null,
         'Fields are empty or too short!',
         backgroundColor: AppColors.red,
+        colorText: AppColors.primary,
       );
     }
   }
@@ -166,6 +168,7 @@ class ProfileController extends GetxController {
             'Oops',
             'Something went wrong!',
             backgroundColor: AppColors.red,
+            colorText: AppColors.primary,
           );
         }
       },
@@ -173,7 +176,7 @@ class ProfileController extends GetxController {
   }
 
   void openNextUpgradePage({bool fromMain = false}) {
-    if (personalData.value.address.isNullOrBlank) {
+    if (personalData.value.address.nullOrEmpty) {
       Get.toNamed(Routes.UPGRADE_ACC_ADDRESS);
     } else if (pageNeedsOpen(0)) {
       openNextPage(
@@ -215,13 +218,8 @@ class ProfileController extends GetxController {
     KycDocument kycDocument = documentsMap[kycDocType[id]];
     bool isNeeded = nextTierDocList.contains(kycDocType[id]);
 
-    if (kycDocument == null) {
-      return isNeeded;
-    } else if (kycDocument.status.toLowerCase() == 'declined') {
-      return true;
-    }
-
-    return false;
+    if (kycDocument == null) return isNeeded;
+    return kycDocument.status.toLowerCase() == 'declined';
   }
 
   void openNextPage(String route, {Object arguments, bool fromMain = true}) =>

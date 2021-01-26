@@ -6,7 +6,6 @@ import 'package:antares_wallet/app/data/grpc/google/protobuf/timestamp.pb.dart';
 import 'package:antares_wallet/app/data/models/history_filter.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:get/get.dart';
-import 'package:get/get_utils/get_utils.dart';
 
 enum PortfolioPeriod { all, day, week, custom }
 
@@ -97,7 +96,7 @@ class PortfolioHistoryFilter {
       AppStorageKeys.portfolioHistoryFilter,
     );
 
-    if (GetUtils.isNullOrBlank(filterJson)) {
+    if (filterJson.nullOrEmpty) {
       return PortfolioHistoryFilter();
     } else {
       final historyFilter = HistoryFilter.fromJson(json.decode(filterJson));
@@ -110,9 +109,7 @@ class PortfolioHistoryFilter {
           PortfolioTransactionType.values,
           historyFilter.transactionType,
         )
-        ..assetId = GetUtils.isNullOrBlank(historyFilter.asset)
-            ? null
-            : historyFilter.asset
+        ..assetId = historyFilter.asset.nullOrEmpty ? null : historyFilter.asset
         ..timeFrom = historyFilter.timeFrom
         ..timeTo = historyFilter.timeTo;
     }

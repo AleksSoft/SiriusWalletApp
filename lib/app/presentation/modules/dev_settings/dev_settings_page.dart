@@ -50,7 +50,7 @@ class DevSettingsPage extends GetView<DevSettingsController> {
                 ),
                 Obx(
                   () => Visibility(
-                    visible: !controller.apiToken.value.isNullOrBlank,
+                    visible: !controller.apiToken.value.nullOrEmpty,
                     child: ListTile(
                       title: Text('API token:'),
                       subtitle: SelectableText(controller.apiToken.value ?? ''),
@@ -64,7 +64,7 @@ class DevSettingsPage extends GetView<DevSettingsController> {
                 ),
                 Obx(
                   () => Visibility(
-                    visible: !controller.fcmToken.value.isNullOrBlank,
+                    visible: !controller.fcmToken.value.nullOrEmpty,
                     child: ListTile(
                       title: Text('FCM token:'),
                       subtitle: SelectableText(controller.fcmToken.value ?? ''),
