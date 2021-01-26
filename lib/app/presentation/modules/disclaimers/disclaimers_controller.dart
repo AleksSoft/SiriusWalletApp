@@ -1,11 +1,12 @@
 import 'package:antares_wallet/app/core/common/common.dart';
+import 'package:antares_wallet/app/core/error/app_error_handler.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/domain/repositories/disclaimers_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 
-class DisclaimersController extends GetxController {
+class DisclaimersController extends GetxController with AppErrorHandler {
   static DisclaimersController get con => Get.find();
 
   final IDisclaimersRepository disclaimersRepo;
@@ -23,14 +24,7 @@ class DisclaimersController extends GetxController {
     disclaimersRepo
         .getAssetDisclaimers()
         .then((response) => response.fold(
-              (error) {
-                Get.snackbar(
-                  error.code.toString(),
-                  error.message,
-                  colorText: AppColors.primary,
-                  backgroundColor: AppColors.red,
-                );
-              },
+              defaultError,
               (result) => disclaimers.assignAll(result),
             ))
         .whenComplete(() => loading(false));
@@ -60,14 +54,7 @@ class DisclaimersController extends GetxController {
           disclaimerId: disclaimers[pageController.page.toInt()].id,
         )
         .then((response) => response.fold(
-              (error) {
-                Get.snackbar(
-                  error.code.toString(),
-                  error.message,
-                  colorText: AppColors.primary,
-                  backgroundColor: AppColors.red,
-                );
-              },
+              defaultError,
               (result) {
                 if (result) {
                   _approveAgainOrSubmit();

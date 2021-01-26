@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:antares_wallet/app/core/common/common.dart';
+import 'package:antares_wallet/app/core/error/app_error_handler.dart';
 import 'package:antares_wallet/app/core/routes/app_pages.dart';
-import 'package:antares_wallet/app/core/utils/app_log.dart';
 import 'package:antares_wallet/app/domain/repositories/session_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class LoginController extends GetxController {
+class LoginController extends GetxController with AppErrorHandler {
   static LoginController get con => Get.find();
 
   final ISessionRepository sessionRepo;
@@ -69,26 +69,21 @@ class LoginController extends GetxController {
       publicKey: '1111',
     );
 
-    response.fold((error) {
-      AppLog.logger.e(error.toProto3Json());
-      Get.snackbar(
-        error.code.toString(),
-        error.message,
-        colorText: AppColors.primary,
-        backgroundColor: AppColors.red,
-      );
-    }, (result) async {
-      if (result != null) {
-        token = result.sessionId;
-        await requestSmsVerification();
-      } else {
-        Get.snackbar(
-          null,
-          'Login failed',
-          backgroundColor: AppColors.red,
-        );
-      }
-    });
+    response.fold(
+      defaultError,
+      (result) async {
+        if (result != null) {
+          token = result.sessionId;
+          await requestSmsVerification();
+        } else {
+          Get.snackbar(
+            null,
+            'Login failed',
+            backgroundColor: AppColors.red,
+          );
+        }
+      },
+    );
 
     loading = false;
   }
@@ -101,19 +96,14 @@ class LoginController extends GetxController {
 
     final response = await sessionRepo.sendLoginSms(sessionId: token);
 
-    response.fold((error) {
-      AppLog.logger.e(error.toProto3Json());
-      Get.snackbar(
-        error.code.toString(),
-        error.message,
-        backgroundColor: AppColors.red,
-        colorText: AppColors.primary,
-      );
-    }, (result) {
-      Get.snackbar(null, 'SMS sent');
-      _animateToPage(1);
-      _startTimer();
-    });
+    response.fold(
+      defaultError,
+      (result) {
+        Get.snackbar(null, 'SMS sent');
+        _animateToPage(1);
+        _startTimer();
+      },
+    );
   }
 
   Future<void> verifySms() async {
@@ -126,19 +116,14 @@ class LoginController extends GetxController {
       code: smsCodeValue,
     );
 
-    response.fold((error) {
-      AppLog.logger.e(error.toProto3Json());
-      Get.snackbar(
-        error.code.toString(),
-        error.message,
-        backgroundColor: AppColors.red,
-        colorText: AppColors.primary,
-      );
-    }, (result) async {
-      Get.snackbar(null, 'SMS verified', backgroundColor: AppColors.green);
-      _stopTimer();
-      _verifyPin(token);
-    });
+    response.fold(
+      defaultError,
+      (result) async {
+        Get.snackbar(null, 'SMS verified', backgroundColor: AppColors.green);
+        _stopTimer();
+        _verifyPin(token);
+      },
+    );
 
     loading = false;
   }

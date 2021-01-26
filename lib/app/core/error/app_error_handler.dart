@@ -4,20 +4,13 @@ import 'package:antares_wallet/app/data/grpc/common.pb.dart';
 import 'package:antares_wallet/app/data/services/session_service.dart';
 import 'package:get/get.dart';
 
-mixin ErrorHandler {
+mixin AppErrorHandler {
   final _dialogManager = Get.find<DialogManager>();
   final _sessionService = Get.find<SessionService>();
 
-  void handle(ErrorResponseBody error) {
+  void defaultError(ErrorResponseBody error) {
+    AppLog.logger.e(error.toProto3Json());
     switch (error.code) {
-      case ErrorCode.Unknown:
-      case ErrorCode.NoData:
-      case ErrorCode.InconsistentData:
-      case ErrorCode.NotFound:
-      case ErrorCode.Runtime:
-        AppLog.logger.e(error.toProto3Json());
-        _dialogManager.defaultError();
-        break;
       case ErrorCode.AssetUnavailable:
         _dialogManager.error(
           title: 'Asset is unavailable',
@@ -61,7 +54,13 @@ mixin ErrorHandler {
           action: () => _sessionService.completeLogout(),
         );
         break;
+      case ErrorCode.Unknown:
+      case ErrorCode.NoData:
+      case ErrorCode.InconsistentData:
+      case ErrorCode.NotFound:
+      case ErrorCode.Runtime:
       default:
+        _dialogManager.defaultError();
         break;
     }
   }

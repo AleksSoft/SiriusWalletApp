@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:antares_wallet/app/core/error/app_error_handler.dart';
 import 'package:antares_wallet/app/core/routes/app_pages.dart';
 import 'package:antares_wallet/app/core/utils/app_log.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
@@ -12,7 +13,8 @@ import 'package:antares_wallet/app/presentation/modules/portfolio/portfolio_cont
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class RootController extends GetxController with WidgetsBindingObserver {
+class RootController extends GetxController
+    with WidgetsBindingObserver, AppErrorHandler {
   static RootController get con => Get.find();
 
   final DialogManager dialogManager;
@@ -119,7 +121,7 @@ class RootController extends GetxController with WidgetsBindingObserver {
 
     bool isSuccess = false;
     response.fold(
-      (error) => AppLog.logger.e(error.toProto3Json()),
+      defaultError,
       (result) => isSuccess = result,
     );
 

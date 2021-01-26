@@ -1,4 +1,5 @@
 import 'package:antares_wallet/app/core/common/common.dart';
+import 'package:antares_wallet/app/core/error/app_error_handler.dart';
 import 'package:antares_wallet/app/core/routes/app_pages.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/domain/repositories/watchlist_repository.dart';
@@ -6,7 +7,7 @@ import 'package:antares_wallet/app/presentation/modules/markets/markets_controll
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
-class WatchListsController extends GetxController {
+class WatchListsController extends GetxController with AppErrorHandler {
   static WatchListsController get con => Get.find();
 
   final IWatchlistRepository watchlistRepo;
@@ -35,7 +36,7 @@ class WatchListsController extends GetxController {
     watchlistRepo
         .getWatchlists()
         .then((response) => response.fold(
-              (error) {},
+              defaultError,
               (list) {
                 watchLists.assignAll(list);
                 prepareSelected();
@@ -55,10 +56,12 @@ class WatchListsController extends GetxController {
         selected = Watchlist();
       }
     } else {
-      watchlistRepo.getWatchlist(id: id).then((response) => response.fold(
-            (error) {},
-            (result) => selected = result,
-          ));
+      watchlistRepo.getWatchlist(id: id).then(
+            (response) => response.fold(
+              defaultError,
+              (result) => selected = result,
+            ),
+          );
     }
   }
 

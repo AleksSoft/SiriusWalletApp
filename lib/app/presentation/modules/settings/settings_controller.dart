@@ -1,4 +1,5 @@
 import 'package:antares_wallet/app/core/common/common.dart';
+import 'package:antares_wallet/app/core/error/app_error_handler.dart';
 import 'package:antares_wallet/app/core/routes/app_pages.dart';
 import 'package:antares_wallet/app/data/data_sources/app_storage.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
@@ -10,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:package_info/package_info.dart';
 
-class SettingsController extends GetxController {
+class SettingsController extends GetxController with AppErrorHandler {
   static SettingsController get con => Get.find();
 
   final AssetsController assetsCon;
@@ -49,13 +50,7 @@ class SettingsController extends GetxController {
     response.fold(
       (error) {
         isPushEnabled(false);
-        Get.snackbar(
-          'Push settings loading failed: ${error.code}',
-          error.message,
-          colorText: AppColors.primary,
-          backgroundColor: AppColors.red,
-          snackPosition: SnackPosition.TOP,
-        );
+        defaultError(error);
         loading(false);
       },
       (result) {
@@ -70,13 +65,7 @@ class SettingsController extends GetxController {
     response.fold(
       (error) {
         isPushEnabled(false);
-        Get.snackbar(
-          'Push settings update failed: ${error.code}',
-          error.message,
-          colorText: AppColors.primary,
-          backgroundColor: AppColors.red,
-          snackPosition: SnackPosition.TOP,
-        );
+        defaultError(error);
       },
       (result) {
         bool isSign = result ?? false;

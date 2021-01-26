@@ -1,4 +1,5 @@
 import 'package:antares_wallet/app/core/common/common.dart';
+import 'package:antares_wallet/app/core/error/app_error_handler.dart';
 import 'package:antares_wallet/app/core/routes/app_pages.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
@@ -18,7 +19,7 @@ import 'card_deposit_web_page.dart';
 
 enum DepositMode { swift, card, blockchain }
 
-class DepositController extends GetxController {
+class DepositController extends GetxController with AppErrorHandler {
   static DepositController get con => Get.find();
 
   final IProfileRepository profileRepo;
@@ -85,7 +86,7 @@ class DepositController extends GetxController {
     );
 
     response.fold(
-      (error) => _showSnackbar('Error loading data', true),
+      defaultError,
       (result) {
         if (result == null) {
           _showSnackbar('Error loading data', true);
@@ -103,7 +104,7 @@ class DepositController extends GetxController {
 
     final response = await settingsRepo.getAppSettings();
     response.fold(
-      (error) {},
+      defaultError,
       (appSettings) {
         fee = appSettings?.feeSettings?.bankCardsFeeSizePercentage ?? 0.0;
       },
@@ -121,7 +122,7 @@ class DepositController extends GetxController {
       );
 
       response.fold(
-        (error) {},
+        defaultError,
         (result) {
           depositCryptoAddress = result;
           Get.defaultDialog(
@@ -148,6 +149,7 @@ class DepositController extends GetxController {
     bool isTierValid;
     response.fold(
       (error) {
+        defaultError(error);
         isTierValid = false;
       },
       (tierPayload) {
@@ -180,7 +182,7 @@ class DepositController extends GetxController {
     );
 
     response.fold(
-      (error) => _showSnackbar('Failure performing request', true),
+      defaultError,
       (result) => Get.off(CardDepositWebPage(result?.url)),
     );
   }

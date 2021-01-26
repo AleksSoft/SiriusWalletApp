@@ -1,4 +1,5 @@
 import 'package:antares_wallet/app/core/common/common.dart';
+import 'package:antares_wallet/app/core/error/app_error_handler.dart';
 import 'package:antares_wallet/app/core/routes/app_pages.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
@@ -6,7 +7,7 @@ import 'package:antares_wallet/app/domain/repositories/profile_repository.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 
-class ProfileController extends GetxController {
+class ProfileController extends GetxController with AppErrorHandler {
   static ProfileController get con => Get.find();
 
   static final kycDocType = ['PoI', 'Selfie', 'PoA', 'PoF', 'Questions'];
@@ -69,7 +70,7 @@ class ProfileController extends GetxController {
   Future<void> reloadData() async {
     final personalDataResponse = await profileRepo.getPersonalData();
     personalDataResponse.fold(
-      (error) => AppLog.logger.e(error.toProto3Json()),
+      defaultError,
       (result) {
         AppLog.logger.i('PersonalData: ${result.toProto3Json()}');
         personalData(result);
@@ -78,7 +79,7 @@ class ProfileController extends GetxController {
 
     final tierResponse = await profileRepo.getTierInfo();
     tierResponse.fold(
-      (error) => AppLog.logger.e(error.toProto3Json()),
+      defaultError,
       (result) {
         AppLog.logger.i('TierInfo: ${result.toProto3Json()}');
         tierInfo(result);
@@ -87,7 +88,7 @@ class ProfileController extends GetxController {
 
     final documentsResponse = await profileRepo.getKycDocuments();
     documentsResponse.fold(
-      (error) => AppLog.logger.e(error.toProto3Json()),
+      defaultError,
       (result) {
         AppLog.logger.i('DocumentsMap: $result');
         documentsMap.assignAll(result);
@@ -98,7 +99,7 @@ class ProfileController extends GetxController {
   Future<void> saveQuestionnaire(List<AnswersRequest_Choice> answers) async {
     final response = await profileRepo.saveQuestionnaire(answers: answers);
     response.fold(
-      (error) => AppLog.logger.e(error.toProto3Json()),
+      defaultError,
       (result) async {
         await reloadData();
         Get.offAndToNamed(Routes.UPGRADE_ACC_RESULT);
@@ -109,12 +110,7 @@ class ProfileController extends GetxController {
   Future<void> submitProfile() async {
     final response = await profileRepo.submitProfile(tier: nextTier);
     response.fold(
-      (error) => Get.snackbar(
-        error.code.toString(),
-        error.message,
-        backgroundColor: AppColors.red,
-        colorText: AppColors.primary,
-      ),
+      defaultError,
       (result) async {
         if (result) {
           await reloadData();
@@ -156,7 +152,7 @@ class ProfileController extends GetxController {
       isFront: isFront,
     );
     response.fold(
-      (error) => AppLog.logger.e(error.toProto3Json()),
+      defaultError,
       (result) async {
         if (result) {
           if (openNext) {

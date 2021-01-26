@@ -1,12 +1,13 @@
 import 'package:antares_wallet/app/core/common/app_colors.dart';
-import 'package:antares_wallet/app/core/utils/utils.dart';
+import 'package:antares_wallet/app/core/error/app_error_handler.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/domain/repositories/profile_repository.dart';
 import 'package:antares_wallet/app/presentation/modules/profile/profile_controller.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 
-class UpgradeAccountQuestController extends GetxController {
+class UpgradeAccountQuestController extends GetxController
+    with AppErrorHandler {
   static UpgradeAccountQuestController get con => Get.find();
 
   final IProfileRepository profileRepo;
@@ -33,16 +34,13 @@ class UpgradeAccountQuestController extends GetxController {
   @override
   void onReady() {
     loading = true;
-    profileRepo.getQuestionnaire().then((response) => response.fold(
-          (error) {
-            AppLog.logger.e(error.toProto3Json());
-            loading = false;
-          },
-          (newQuestionnaire) {
-            questionnaire = newQuestionnaire;
-            loading = false;
-          },
-        ));
+    profileRepo
+        .getQuestionnaire()
+        .then((response) => response.fold(
+              defaultError,
+              (list) => questionnaire = list,
+            ))
+        .whenComplete(() => loading = false);
     super.onReady();
   }
 

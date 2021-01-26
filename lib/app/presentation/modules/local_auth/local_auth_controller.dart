@@ -1,11 +1,11 @@
 import 'package:antares_wallet/app/core/common/common.dart';
-import 'package:antares_wallet/app/core/utils/app_log.dart';
+import 'package:antares_wallet/app/core/error/app_error_handler.dart';
 import 'package:antares_wallet/app/domain/repositories/local_auth_repository.dart';
 import 'package:antares_wallet/app/domain/repositories/session_repository.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 
-class LocalAuthController extends GetxController {
+class LocalAuthController extends GetxController with AppErrorHandler {
   static LocalAuthController get con => Get.find();
 
   final showBack = false.obs;
@@ -123,16 +123,9 @@ class LocalAuthController extends GetxController {
     final response = await sessionRepo.checkPin(pin: pinValue);
 
     response.fold((error) {
-      AppLog.logger.e(error.toProto3Json());
-      Get.snackbar(
-        'Error ${error.code}',
-        error.message,
-        backgroundColor: AppColors.red,
-        colorText: AppColors.primary,
-        snackbarStatus: (status) {
-          if (status == SnackbarStatus.CLOSING) _navigateBack(false);
-        },
-      );
+      defaultError(error);
+      Future.delayed(Duration(milliseconds: 500))
+          .whenComplete(() => _navigateBack(false));
     }, (result) {
       if (result ?? false) {
         _navigateBack(true);

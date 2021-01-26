@@ -1,4 +1,5 @@
 import 'package:antares_wallet/app/core/common/common.dart';
+import 'package:antares_wallet/app/core/error/app_error_handler.dart';
 import 'package:antares_wallet/app/core/routes/app_pages.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
@@ -14,7 +15,7 @@ import 'package:search_page/search_page.dart';
 
 import 'result_withdrawal_page.dart';
 
-class WithdrawalController extends GetxController {
+class WithdrawalController extends GetxController with AppErrorHandler {
   static WithdrawalController get con => Get.find();
 
   final IWalletRepository walletRepo;
@@ -128,13 +129,13 @@ class WithdrawalController extends GetxController {
   Future<void> getWithdrawalCryptoInfo() async => await walletRepo
       .getWithdrawalCryptoInfo(assetId: selectedAsset?.id)
       .then((response) => response.fold(
-            (error) => AppLog.logger.e(error.toProto3Json()),
+            defaultError,
             (result) => withdrawalCryptoInfo = result,
           ));
 
   Future<void> getWithdrawalSwiftInfo() async =>
       await walletRepo.getSwiftCashoutInfo().then((response) => response.fold(
-            (error) => AppLog.logger.e(error.toProto3Json()),
+            defaultError,
             (info) {
               swiftController.text = info.bic;
               bankController.text = info.bankName;
@@ -157,7 +158,7 @@ class WithdrawalController extends GetxController {
     if (_countryCode.nullOrEmpty) {
       final response = await sessionRepo.getCountryPhoneCodes();
       response.fold(
-        (error) => AppLog.logger.e(error.toProto3Json()),
+        defaultError,
         (result) => _countryCode = result.current,
       );
     }
@@ -170,8 +171,8 @@ class WithdrawalController extends GetxController {
     );
     cryptoAddressResponse.fold(
       (error) {
+        defaultError(error);
         isAddressValid = false;
-        AppLog.logger.e(error.toProto3Json());
       },
       (result) => isAddressValid = result,
     );
@@ -185,8 +186,8 @@ class WithdrawalController extends GetxController {
     );
     response.fold(
       (error) {
+        defaultError(error);
         isExtAddressValid = false;
-        AppLog.logger.e(error.toProto3Json());
       },
       (result) => isExtAddressValid = result,
     );
@@ -206,7 +207,7 @@ class WithdrawalController extends GetxController {
                   : '',
         )
         .then((value) => value.fold((error) {
-              AppLog.logger.e(error.toProto3Json());
+              defaultError(error);
               loading = false;
               Get.off(
                 ResultWithdrawalPage(success: false),
@@ -235,7 +236,7 @@ class WithdrawalController extends GetxController {
       bankName: this.bankController.text,
       bic: this.swiftController.text,
     );
-    response.fold((error) => AppLog.logger.e(error.toProto3Json()), (result) {
+    response.fold(defaultError, (result) {
       String transferId = result?.transferId;
       Get.off(
         ResultWithdrawalPage(success: !transferId.nullOrEmpty),
@@ -256,7 +257,7 @@ class WithdrawalController extends GetxController {
             countryCode: countryCode,
           )
           .then((value) => value.fold(
-                (error) => AppLog.logger.e(error.toProto3Json()),
+                defaultError,
                 (result) {
                   this.fee = double.tryParse(result?.size ?? '0.0') ?? 0.0;
                   update();

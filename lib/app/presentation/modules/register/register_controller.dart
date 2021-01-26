@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:antares_wallet/app/core/common/common.dart';
+import 'package:antares_wallet/app/core/error/app_error_handler.dart';
 import 'package:antares_wallet/app/core/routes/app_pages.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
@@ -11,7 +12,7 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-class RegisterController extends GetxController {
+class RegisterController extends GetxController with AppErrorHandler {
   static RegisterController get con => Get.find();
 
   final ISessionRepository sessionRepo;
@@ -157,13 +158,7 @@ class RegisterController extends GetxController {
         email: emailValue,
       );
       response.fold((error) {
-        AppLog.logger.e(error.toProto3Json());
-        Get.snackbar(
-          error.code.toString(),
-          error.message,
-          backgroundColor: AppColors.red,
-          colorText: AppColors.primary,
-        );
+        defaultError(error);
         _stopTimer();
       }, (result) async {
         if (result != null) {
@@ -184,15 +179,7 @@ class RegisterController extends GetxController {
 
     final response = await sessionRepo.getCountryPhoneCodes();
     response.fold(
-      (error) {
-        AppLog.logger.e(error.toProto3Json());
-        Get.snackbar(
-          error.code.toString(),
-          error.message,
-          backgroundColor: AppColors.red,
-          colorText: AppColors.primary,
-        );
-      },
+      defaultError,
       (result) => countries.assignAll(result.countriesList),
     );
 
@@ -210,15 +197,7 @@ class RegisterController extends GetxController {
       token: token,
     );
     response.fold(
-      (error) {
-        AppLog.logger.e(error.toProto3Json());
-        Get.snackbar(
-          'Code not verified',
-          error.toProto3Json(),
-          backgroundColor: AppColors.red,
-          colorText: AppColors.primary,
-        );
-      },
+      defaultError,
       (result) async {
         if (result) {
           Get.snackbar(
@@ -252,13 +231,7 @@ class RegisterController extends GetxController {
       );
       response.fold(
         (error) {
-          AppLog.logger.e(error.toProto3Json());
-          Get.snackbar(
-            'Phone not accepted',
-            error.toProto3Json(),
-            backgroundColor: AppColors.red,
-            colorText: AppColors.primary,
-          );
+          defaultError(error);
           _stopTimer();
         },
         (result) async {
@@ -284,15 +257,7 @@ class RegisterController extends GetxController {
       token: token,
     );
     response.fold(
-      (error) {
-        AppLog.logger.e(error.toProto3Json());
-        Get.snackbar(
-          'Sms not verified',
-          error.toProto3Json(),
-          backgroundColor: AppColors.red,
-          colorText: AppColors.primary,
-        );
-      },
+      defaultError,
       (result) async {
         if (result) {
           Get.snackbar(null, 'Sms verified', backgroundColor: AppColors.green);
@@ -339,13 +304,7 @@ class RegisterController extends GetxController {
     );
     response.fold(
       (error) {
-        AppLog.logger.e(error.toProto3Json());
-        Get.snackbar(
-          'Registration failed',
-          error.toProto3Json(),
-          backgroundColor: AppColors.red,
-          colorText: AppColors.primary,
-        );
+        defaultError(error);
         Get.back();
       },
       (result) {

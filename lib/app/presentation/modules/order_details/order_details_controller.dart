@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:antares_wallet/app/core/common/common.dart';
+import 'package:antares_wallet/app/core/error/app_error_handler.dart';
 import 'package:antares_wallet/app/core/routes/app_pages.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/data_sources/app_storage.dart';
@@ -15,7 +16,7 @@ import 'package:antares_wallet/app/presentation/modules/portfolio/portfolio_cont
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class OrderDetailsController extends GetxController {
+class OrderDetailsController extends GetxController with AppErrorHandler {
   static OrderDetailsController get con => Get.find();
 
   static final orderTypes = ['Limit', 'Market'];
@@ -372,14 +373,14 @@ class OrderDetailsController extends GetxController {
           volume: isBuy ? volume : volume * -1,
           price: price,
         );
-        response.fold((error) {}, (result) => orderModel = result);
+        response.fold(defaultError, (result) => orderModel = result);
       } else if (orderType.toLowerCase() == 'market') {
         final response = await tradingRepo.placeMarketOrder(
           assetPairId: assetPairId,
           assetId: assetId,
           volume: isBuy ? volume : volume * -1,
         );
-        response.fold((error) {}, (result) => orderModel = result);
+        response.fold(defaultError, (result) => orderModel = result);
       }
 
       // check place order response

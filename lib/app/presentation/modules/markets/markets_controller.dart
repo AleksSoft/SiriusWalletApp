@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:antares_wallet/app/core/common/common.dart';
+import 'package:antares_wallet/app/core/error/app_error_handler.dart';
 import 'package:antares_wallet/app/core/routes/app_pages.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/services/api/api_service.dart';
@@ -14,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:search_page/search_page.dart';
 
-class MarketsController extends GetxController {
+class MarketsController extends GetxController with AppErrorHandler {
   static MarketsController get con => Get.find();
 
   final ApiService api;
@@ -119,7 +120,7 @@ class MarketsController extends GetxController {
     if (!id.nullOrEmpty) {
       final response = await watchlistRepo.getWatchlist(id: id);
       response.fold(
-        (error) {},
+        defaultError,
         (watchlist) {
           List<MarketModel> result = [];
           if (watchlist != null) {
@@ -146,7 +147,7 @@ class MarketsController extends GetxController {
     if (initialMarketList.isEmpty || force) {
       final response = await marketsRepo.getMarkets();
       response.fold(
-        (error) {},
+        defaultError,
         (markets) => markets.forEach(
           (m) async {
             var pair = assetsCon.assetPairById(m.assetPair);

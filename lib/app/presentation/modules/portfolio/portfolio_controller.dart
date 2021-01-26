@@ -1,3 +1,4 @@
+import 'package:antares_wallet/app/core/error/app_error_handler.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/models/portfolio_history_filter.dart';
 import 'package:antares_wallet/app/domain/repositories/portfolio_repository.dart';
@@ -6,7 +7,7 @@ import 'package:meta/meta.dart';
 
 import 'assets/assets_controller.dart';
 
-class PortfolioController extends GetxController {
+class PortfolioController extends GetxController with AppErrorHandler {
   static PortfolioController get con => Get.find();
 
   final IPortfolioRepository portfolioRepo;
@@ -85,7 +86,7 @@ class PortfolioController extends GetxController {
   Future<void> getBalances() async {
     final balancesResponse = await portfolioRepo.getBalances();
     balancesResponse.fold(
-      (error) {},
+      defaultError,
       (newBalances) => balances.assignAll(newBalances),
     );
   }
@@ -108,7 +109,7 @@ class PortfolioController extends GetxController {
       toDate: _filter.toDate,
     );
     fundsResponse.fold(
-      (error) {},
+      defaultError,
       (funds) {
         if (_filter.transactionType != PortfolioTransactionType.all) {
           String operation =

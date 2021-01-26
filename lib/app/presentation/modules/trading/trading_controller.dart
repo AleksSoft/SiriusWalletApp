@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:antares_wallet/app/core/error/app_error_handler.dart';
 import 'package:antares_wallet/app/core/routes/app_pages.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
@@ -13,7 +14,7 @@ import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class TradingController extends GetxController {
+class TradingController extends GetxController with AppErrorHandler {
   static TradingController get con => Get.find();
   static final candleTypes = [CandleType.Mid, CandleType.Trades];
 
@@ -198,7 +199,7 @@ class TradingController extends GetxController {
       assetPairId: initialMarket.pairId,
     );
     response.fold(
-      (error) {},
+      defaultError,
       (marketModelList) => marketModel = marketModelList.first,
     );
 
@@ -230,6 +231,7 @@ class TradingController extends GetxController {
         .then(
           (response) => response.fold(
             (error) {
+              defaultError(error);
               noCandleData = true;
               allCandlesLoaded = true;
             },
@@ -290,7 +292,7 @@ class TradingController extends GetxController {
         )
         .then(
           (response) => response.fold(
-            (error) {},
+            defaultError,
             (newOrderBook) {
               final orderBook = OrderbookUtils.getMergedOrderbook(
                 Orderbook()..bids.addAll(bids)..asks.addAll(asks),

@@ -1,4 +1,5 @@
 import 'package:antares_wallet/app/core/common/app_enums.dart';
+import 'package:antares_wallet/app/core/error/app_error_handler.dart';
 import 'package:antares_wallet/app/core/routes/app_pages.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/google/protobuf/timestamp.pb.dart';
@@ -13,7 +14,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 
-class AssetInfoController extends GetxController {
+class AssetInfoController extends GetxController with AppErrorHandler {
   static AssetInfoController get con => Get.find();
 
   final AssetsController assetsCon;
@@ -89,7 +90,7 @@ class AssetInfoController extends GetxController {
     );
 
     response.fold(
-      (error) {},
+      defaultError,
       (assetTrades) {
         var resultList = <OrderHistoryData>[];
         if (assetTrades != null && assetTrades.isNotEmpty) {
@@ -132,7 +133,7 @@ class AssetInfoController extends GetxController {
     );
 
     response.fold(
-      (error) {},
+      defaultError,
       (fundList) => funds.assignAll(fundList),
     );
   }
@@ -149,13 +150,8 @@ class AssetInfoController extends GetxController {
       to: Timestamp.fromDateTime(DateTime.now()),
     );
 
-    response.fold(
-      (error) => loading(false),
-      (candleList) {
-        candles.assignAll(candleList);
-        loading(false);
-      },
-    );
+    response.fold(defaultError, (list) => candles.assignAll(list));
+    loading(false);
   }
 
   void openOrderDetails(bool isBuy) => Get.toNamed(
