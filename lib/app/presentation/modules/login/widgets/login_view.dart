@@ -1,4 +1,4 @@
-import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/core/common/common.dart';
 import 'package:antares_wallet/app/presentation/widgets/gradient_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

@@ -1,4 +1,4 @@
-import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/core/common/common.dart';
 import 'package:antares_wallet/app/data/models/portfolio_history_filter.dart';
 import 'package:antares_wallet/app/presentation/modules/portfolio/history/filters/portfolio_history_filters_controller.dart';
 import 'package:chips_choice/chips_choice.dart';

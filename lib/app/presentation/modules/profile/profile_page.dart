@@ -1,6 +1,6 @@
-import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/core/common/common.dart';
+import 'package:antares_wallet/app/core/routes/app_pages.dart';
 import 'package:antares_wallet/app/presentation/modules/profile/profile_controller.dart';
-import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

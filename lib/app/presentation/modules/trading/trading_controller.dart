@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:antares_wallet/app/core/routes/app_pages.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/google/protobuf/timestamp.pb.dart';
@@ -8,7 +9,6 @@ import 'package:antares_wallet/app/domain/entities/market_model.dart';
 import 'package:antares_wallet/app/domain/entities/order_details_arguments.dart';
 import 'package:antares_wallet/app/domain/repositories/markets_repository.dart';
 import 'package:antares_wallet/app/domain/repositories/trading_repository.dart';
-import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';

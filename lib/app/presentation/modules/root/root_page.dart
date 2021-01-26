@@ -1,4 +1,4 @@
-import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/core/common/common.dart';
 import 'package:antares_wallet/app/presentation/modules/home/home_page.dart';
 import 'package:antares_wallet/app/presentation/modules/markets/markets_page.dart';
 import 'package:antares_wallet/app/presentation/modules/more/more_page.dart';

@@ -1,7 +1,7 @@
-import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/core/common/common.dart';
+import 'package:antares_wallet/app/core/routes/app_pages.dart';
 import 'package:antares_wallet/app/presentation/widgets/asset_pair_sort_tile/asset_pair_sort_tile.dart';
 import 'package:antares_wallet/app/presentation/widgets/asset_pair_tile.dart';
-import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

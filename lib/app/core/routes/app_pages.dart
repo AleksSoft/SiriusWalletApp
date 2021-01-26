@@ -56,7 +56,7 @@ import 'package:antares_wallet/app/presentation/modules/withdrawal/swift_withdra
 import 'package:get/get.dart';
 import 'package:logger_flutter/logger_flutter.dart';
 
-part './app_routes.dart';
+part 'app_routes.dart';
 
 abstract class AppPages {
   static final pages = [

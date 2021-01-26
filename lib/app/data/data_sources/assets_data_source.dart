@@ -1,4 +1,4 @@
-import 'package:antares_wallet/app/core/error/error_handler.dart';
+import 'package:antares_wallet/app/core/error/safe_call_handler.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/google/protobuf/empty.pb.dart';
 import 'package:antares_wallet/app/data/services/api/api_service.dart';
@@ -12,7 +12,7 @@ abstract class IAssetsDataSource {
   Future<AmountInBaseAssetResponse> getAmountInBaseAsset(String baseAssetId);
 }
 
-class AssetsDataSource with ErrorHandler implements IAssetsDataSource {
+class AssetsDataSource with SafeCallHandler implements IAssetsDataSource {
   AssetsDataSource({@required this.api});
   final ApiService api;
 

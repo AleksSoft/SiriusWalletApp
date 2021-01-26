@@ -1,8 +1,8 @@
-import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/core/common/common.dart';
+import 'package:antares_wallet/app/core/routes/app_pages.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/domain/repositories/watchlist_repository.dart';
 import 'package:antares_wallet/app/presentation/modules/markets/markets_controller.dart';
-import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 

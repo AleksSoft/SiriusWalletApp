@@ -170,5 +170,7 @@ final Map<String, String> enUS = {
   "apt": "Apt.",
   "address": "Address",
   "front_side": "Front side",
-  "back_side": "Back side"
+  "back_side": "Back side",
+  "error_default_title": "Oops..",
+  "error_default_message": "Something went wrong. Please try again later."
 };

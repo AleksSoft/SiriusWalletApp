@@ -1,4 +1,4 @@
-import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/core/common/common.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/presentation/modules/deposit/deposit_controller.dart';
 import 'package:antares_wallet/app/presentation/modules/withdrawal/withdrawal_controller.dart';

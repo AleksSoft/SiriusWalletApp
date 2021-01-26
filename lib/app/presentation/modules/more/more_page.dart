@@ -1,4 +1,4 @@
-import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/core/common/common.dart';
 import 'package:antares_wallet/app/presentation/widgets/menu_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

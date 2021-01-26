@@ -1,4 +1,5 @@
-import 'package:antares_wallet/app/common/app_enums.dart';
+import 'package:antares_wallet/app/core/common/app_enums.dart';
+import 'package:antares_wallet/app/core/routes/app_pages.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/google/protobuf/timestamp.pb.dart';
 import 'package:antares_wallet/app/domain/entities/market_model.dart';
@@ -8,7 +9,6 @@ import 'package:antares_wallet/app/domain/repositories/trading_repository.dart';
 import 'package:antares_wallet/app/presentation/modules/markets/markets_controller.dart';
 import 'package:antares_wallet/app/presentation/modules/orders/widgets/order_history_tile.dart';
 import 'package:antares_wallet/app/presentation/modules/portfolio/assets/assets_controller.dart';
-import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';

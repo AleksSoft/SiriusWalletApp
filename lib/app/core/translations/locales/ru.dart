@@ -172,5 +172,7 @@ final Map<String, String> ruRU = {
   "apt": "Апартаменыт",
   "address": "Адрес",
   "front_side": "Лицевая сторона",
-  "back_side": "Тыльная сторона"
+  "back_side": "Тыльная сторона",
+  "error_default_title": "Ой..",
+  "error_default_message": "Что-то пошло не так. Попробуйте позже."
 };

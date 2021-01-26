@@ -1,3 +1,6 @@
+import 'package:antares_wallet/app/core/common/common.dart';
+import 'package:antares_wallet/app/core/routes/app_pages.dart';
+import 'package:antares_wallet/app/core/translations/app_translations.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -9,10 +12,7 @@ import 'package:logger_flutter/logger_flutter.dart';
 import 'package:shake/shake.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'app/common/common.dart';
 import 'app/core/utils/utils.dart';
-import 'app/routes/app_pages.dart';
-import 'app/translations/app_translations.dart';
 import 'initial_binding.dart';
 
 Future<void> mainCommon(AppConfig appConfig) async {

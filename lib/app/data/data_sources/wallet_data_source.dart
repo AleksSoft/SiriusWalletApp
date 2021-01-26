@@ -1,4 +1,4 @@
-import 'package:antares_wallet/app/core/error/error_handler.dart';
+import 'package:antares_wallet/app/core/error/safe_call_handler.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/google/protobuf/empty.pb.dart';
 import 'package:antares_wallet/app/data/services/api/api_service.dart';
@@ -23,7 +23,7 @@ abstract class IWalletDataSource {
   Future<SwiftCashoutResponse> swiftCashout(SwiftCashoutRequest r);
 }
 
-class WalletDataSource with ErrorHandler implements IWalletDataSource {
+class WalletDataSource with SafeCallHandler implements IWalletDataSource {
   WalletDataSource({@required this.api});
   final ApiService api;
 

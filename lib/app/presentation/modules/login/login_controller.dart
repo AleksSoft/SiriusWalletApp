@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/core/common/common.dart';
+import 'package:antares_wallet/app/core/routes/app_pages.dart';
 import 'package:antares_wallet/app/core/utils/app_log.dart';
 import 'package:antares_wallet/app/domain/repositories/session_repository.dart';
-import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

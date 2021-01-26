@@ -1,3 +1,4 @@
+import 'package:antares_wallet/app/core/routes/app_pages.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/domain/entities/market_model.dart';
 import 'package:antares_wallet/app/presentation/modules/deposit/deposit_controller.dart';
@@ -6,7 +7,6 @@ import 'package:antares_wallet/app/presentation/modules/portfolio/assets/assets_
 import 'package:antares_wallet/app/presentation/modules/portfolio/portfolio_controller.dart';
 import 'package:antares_wallet/app/presentation/modules/root/root_controller.dart';
 import 'package:antares_wallet/app/presentation/modules/withdrawal/withdrawal_controller.dart';
-import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 

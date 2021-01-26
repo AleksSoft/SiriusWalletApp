@@ -1,4 +1,4 @@
-import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/core/common/common.dart';
 import 'package:antares_wallet/app/presentation/widgets/default_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +36,8 @@ class UpgradeAccountResultPage extends StatelessWidget {
                       Obx(
                         () => Visibility(
                           visible: c.tierInfo.value.upgradeRequest.hasTier(),
-                          child: UpgradeRequestView(c.tierInfo.value.upgradeRequest),
+                          child: UpgradeRequestView(
+                              c.tierInfo.value.upgradeRequest),
                         ),
                       ),
                       AppUiHelpers.vSpaceLarge,

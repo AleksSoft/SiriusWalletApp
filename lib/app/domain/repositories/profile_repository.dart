@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:antares_wallet/app/common/app_enums.dart';
+import 'package:antares_wallet/app/core/common/app_enums.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/common.pb.dart';
 import 'package:dartz/dartz.dart';

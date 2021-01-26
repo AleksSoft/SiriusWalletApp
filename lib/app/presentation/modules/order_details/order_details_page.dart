@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/core/common/common.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/domain/entities/market_model.dart';
 import 'package:antares_wallet/app/presentation/modules/markets/markets_controller.dart';

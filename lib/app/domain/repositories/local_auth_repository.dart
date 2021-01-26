@@ -1,4 +1,4 @@
-import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/core/common/common.dart';
 
 abstract class ILocalAuthRepository {
   Future<bool> authenticate(String reason);

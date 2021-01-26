@@ -1,4 +1,5 @@
-import 'package:antares_wallet/app/common/common.dart';
+import 'package:antares_wallet/app/core/common/common.dart';
+import 'package:antares_wallet/app/core/routes/app_pages.dart';
 import 'package:antares_wallet/app/core/utils/utils.dart';
 import 'package:antares_wallet/app/domain/entities/market_model.dart';
 import 'package:antares_wallet/app/presentation/modules/orders/widgets/order_history_tile.dart';
@@ -9,7 +10,6 @@ import 'package:antares_wallet/app/presentation/widgets/buy_sell_button_row.dart
 import 'package:antares_wallet/app/presentation/widgets/deposit_withdraw_button_row.dart';
 import 'package:antares_wallet/app/presentation/widgets/empty_reloading_view.dart';
 import 'package:antares_wallet/app/presentation/widgets/transaction_tile.dart';
-import 'package:antares_wallet/app/routes/app_pages.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

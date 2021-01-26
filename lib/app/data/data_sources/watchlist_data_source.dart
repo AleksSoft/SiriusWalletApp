@@ -1,4 +1,4 @@
-import 'package:antares_wallet/app/core/error/error_handler.dart';
+import 'package:antares_wallet/app/core/error/safe_call_handler.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';
 import 'package:antares_wallet/app/data/grpc/google/protobuf/empty.pb.dart';
 import 'package:antares_wallet/app/data/services/api/api_service.dart';
@@ -12,7 +12,7 @@ abstract class IWatchlistDataSource {
   Future<EmptyResponse> deleteWatchlist(DeleteWatchlistRequest r);
 }
 
-class WatchlistDataSource with ErrorHandler implements IWatchlistDataSource {
+class WatchlistDataSource with SafeCallHandler implements IWatchlistDataSource {
   WatchlistDataSource({@required this.api});
   final ApiService api;
 

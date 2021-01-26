@@ -1,29 +1,42 @@
 import 'dart:collection';
+import 'dart:ui';
 
-import 'package:antares_wallet/app/common/common.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
+import 'package:antares_wallet/app/core/common/common.dart';
+import 'package:antares_wallet/app/domain/entities/error_content.dart';
 import 'package:get/get.dart';
+import 'package:meta/meta.dart';
 
 import 'app_log.dart';
 
 class DialogManager {
   ListQueue<ErrorContent> _errorsQueue = ListQueue<ErrorContent>();
 
-  error(ErrorContent content) {
-    if (content != null) {
-      ErrorContent existingContent = _errorsQueue.firstWhere(
-        (e) => e == content,
-        orElse: () => null,
-      );
-      if (existingContent == null) {
-        _errorsQueue.add(content);
-        _checkNext();
-      }
+  void error({
+    @required String message,
+    String title,
+    VoidCallback action,
+  }) {
+    final content = ErrorContent(
+      message: message,
+      title: title,
+      action: action,
+    );
+    ErrorContent existingContent = _errorsQueue.firstWhere(
+      (e) => e == content,
+      orElse: () => null,
+    );
+    if (existingContent == null) {
+      _errorsQueue.add(content);
+      _checkNext();
     }
   }
 
-  _checkNext() async {
+  void defaultError() => error(
+        title: 'error_default_title'.tr,
+        message: 'error_default_message'.tr,
+      );
+
+  Future<void> _checkNext() async {
     try {
       ErrorContent content = _errorsQueue.first;
       Get.defaultDialog(
@@ -42,19 +55,4 @@ class DialogManager {
       AppLog.logger.e(e);
     }
   }
-}
-
-class ErrorContent with EquatableMixin {
-  String title;
-  String message;
-  VoidCallback action;
-
-  ErrorContent({
-    this.title,
-    @required this.message,
-    this.action,
-  });
-
-  @override
-  List<Object> get props => [title, message];
 }

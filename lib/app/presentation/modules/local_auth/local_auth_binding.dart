@@ -1,4 +1,4 @@
-import 'package:antares_wallet/app/common/app_enums.dart';
+import 'package:antares_wallet/app/core/common/app_enums.dart';
 import 'package:get/get.dart';
 
 import 'local_auth_controller.dart';

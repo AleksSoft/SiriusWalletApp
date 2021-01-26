@@ -1,4 +1,4 @@
-import 'package:antares_wallet/app/common/app_storage_keys.dart';
+import 'package:antares_wallet/app/core/common/app_storage_keys.dart';
 import 'package:antares_wallet/app/data/data_sources/app_storage.dart';
 import 'package:antares_wallet/app/data/data_sources/watchlist_data_source.dart';
 import 'package:antares_wallet/app/data/grpc/apiservice.pb.dart';

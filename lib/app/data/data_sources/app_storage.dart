@@ -1,4 +1,4 @@
-import 'package:antares_wallet/app/common/app_extensions.dart';
+import 'package:antares_wallet/app/core/common/app_extensions.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:meta/meta.dart';
 
